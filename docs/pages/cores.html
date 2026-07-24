@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cores & Gradients - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .color-row {
+            display: flex;
+            align-items: center;
+            gap: 1.6rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .color-row:last-child {
+            border-bottom: none;
+        }
+
+        .color-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            font-family: var(--sw-f-mon);
+            min-width: 14rem;
+            flex-shrink: 0;
+        }
+
+        .color-box {
+            width: 4rem;
+            height: 4rem;
+            border-radius: var(--sw-r-p);
+            border: 1px solid var(--sw-bor);
+            flex-shrink: 0;
+        }
+
+        .color-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            height: 4rem;
+            /* Alinhando com color-box */
+            display: flex;
+            align-items: center;
+        }
+
+        /* Swatches style for the generated grid */
+        .swatch-group {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+
+        .swatch-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .opa-scale {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+
+        .opa-item {
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .grad-strip {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Cards da galeria cromática — responsivo */
+        #chromatic-gallery > div { min-width: 0; }
+
+        @media (max-width: 768px) {
+            h1.t-xxg { font-size: 3.2rem !important; }
+            .color-label { min-width: 10rem; }
+            .swatch-item, .opa-item { font-size: 0; } /* só cor, sem texto */
+        }
+    </style>
+
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Cores & Gradient</span>
+            </nav>
+
+            <section class="">
+                <span class="doc-tag">Foundation</span>
+                <h1 class="t-xxg f-bd mb-2">Cores & <span class="TprinD">Gradients</span></h1>
+                <p class="t-g t-mut mb-8">Matriz semântica, escala cromática completa e parte de padronizações para
+                    fundos, textos e bordas.</p>
+
+                <!-- 1. PADRONIZAÇÃO SEMÂNTICA -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">1. Padronização Semântica</h3>
+                    <p class="t-mut t-p mb-g">Classes utilitárias curtas e práticas para as cores de estado do SW.</p>
+
+                    <div class="l gap-4">
+                        <div class="co4-g">
+                            <h4 class="t-p f-bd mb-p">Fundos (.B...)</h4>
+                            <div class="color-row">
+                                <span class="color-label">.Bprin</span>
+                                <div class="color-box Bprin"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Bsecu</span>
+                                <div class="color-box Bsecu"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Bsuce</span>
+                                <div class="color-box Bsuce"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Bperi</span>
+                                <div class="color-box Bperi"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Binfo</span>
+                                <div class="color-box Binfo"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Baler</span>
+                                <div class="color-box Baler"></div>
+                            </div>
+                        </div>
+
+                        <div class="co4-g">
+                            <h4 class="t-p f-bd mb-p">Textos (.T...)</h4>
+                            <div class="color-row">
+                                <span class="color-label">.Tprin</span>
+                                <span class="color-text Tprin">Texto</span>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Tsecu</span>
+                                <span class="color-text Tsecu">Texto</span>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Tsuce</span>
+                                <span class="color-text Tsuce">Texto</span>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Tperi</span>
+                                <span class="color-text Tperi">Texto</span>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Tinfo</span>
+                                <span class="color-text Tinfo">Texto</span>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Taler</span>
+                                <span class="color-text Taler">Texto</span>
+                            </div>
+                        </div>
+
+                        <div class="co4-g">
+                            <h4 class="t-p f-bd mb-p">Bordas (.L...)</h4>
+                            <div class="color-row">
+                                <span class="color-label">.Lprin</span>
+                                <div class="color-box Lprin" style="background:transparent;"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Lsecu</span>
+                                <div class="color-box Lsecu" style="background:transparent;"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Lsuce</span>
+                                <div class="color-box Lsuce" style="background:transparent;"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Lperi</span>
+                                <div class="color-box Lperi" style="background:transparent;"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Linfo</span>
+                                <div class="color-box Linfo" style="background:transparent;"></div>
+                            </div>
+                            <div class="color-row">
+                                <span class="color-label">.Laler</span>
+                                <div class="color-box Laler" style="background:transparent;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- Fundo com cor base e texto contrastante automático -->
+<div class="Bprin p-g">Fundo Primário</div>
+
+<!-- Apenas a cor da fonte (útil para títulos e spans) -->
+<p class="Taler">Mensagem de alerta</p>
+
+<!-- Apenas a cor da borda (ideal para cards vazados) -->
+<div class="Lsuce p-m" style="border-width: 2px">Card Sucesso</div>
+</script></pre>
+                </div>
+
+                <!-- 2. GALERIA CROMTICA COMPLETA -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">2. Galeria Cromtica Completa</h3>
+                    <p class="t-mut t-p mb-g">Todas as famílias de cores com seus 7 níveis de intensidade, opacidades
+                        (1-4) e degradês.</p>
+
+                    <div class="l gap-4" id="chromatic-gallery">
+                        <!-- Gerado via JS -->
+                    </div>
+                    <pre swcode="html"><script type="text/plain">
+<!-- Escala de intensidade (1 = mais claro / 6 ou 12 = mais escuro) -->
+<div class="Bprin1 p-m">Fundo primário (nível 1)</div>
+<div class="Bprin6 p-m">Fundo primário (nível 6 - base)</div>
+
+<!-- Opacidades (1 a 4, ideal usar com texto na própria cor) -->
+<div class="Bprin-opa1 Tprin p-m">Fundo opaco + Texto colorido</div>
+
+<!-- Fundo com degradê nativo da família -->
+<div class="BprinD p-m">Background em gradiente</div>
+
+<!-- Exemplo família Azul (Cromática) -->
+<div class="Bazul1 p-s">Azul 1</div>
+<div class="Bazul4 p-s">Azul 4 (Base)</div>
+<div class="Bazul7 p-s">Azul 7</div>
+</script></pre>
+                </div>
+
+                <!-- 3. DEGRADÊS PUROS (DG) -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">3. Degradês Puros (Sistema .dgX)</h3>
+                    <p class="t-mut t-p mb-g">20 camadas de gradiente que podem ser combinadas com qualquer cor.</p>
+
+                    <div class="l gap-2" id="dg-gallery">
+                        <!-- Gerado via JS -->
+                    </div>
+                    <pre swcode="html"><script type="text/plain">
+<!-- 20 estilos de degradê (sobreposições transparentes para escuro) -->
+<!-- Devem ser combinados com outra cor de fundo para fazer feito -->
+
+<div class="Bperi dg3 p-g Tbran">Fundo Perigo + Gradiente linear 90°</div>
+<div class="Bsuce dg10 p-g Tbran">Fundo Sucesso + Gradiente radial</div>
+</script></pre>
+                </div>
+
+                <!-- 4. TEXT GRADIENTS -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">4. Tipografia Cromática (Text Gradients)</h3>
+                    <p class="t-mut t-p mb-g">Aplique gradientes diretamente nos textos usando <code>.T{cor}D</code>.
+                    </p>
+
+                    <div class="l gap-4">
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TambaD">Âmbar</h4>
+                            <small class="t-mut f-mon">.TambaD</small>
+                        </div>
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TesmeD">Esmeralda</h4>
+                            <small class="t-mut f-mon">.TesmeD</small>
+                        </div>
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TaguaD">Água</h4>
+                            <small class="t-mon t-mut">.TaguaD</small>
+                        </div>
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TceuD">Céu</h4>
+                            <small class="t-mut f-mon">.TceuD</small>
+                        </div>
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TfuchD">Fúcsia</h4>
+                            <small class="t-mut f-mon">.TfuchD</small>
+                        </div>
+                        <div class="co6-pp co4-g t-ct p-g"
+                            style="border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m);">
+                            <h4 class="t-xxg f-bd TviolD">Violeta</h4>
+                            <small class="t-mut f-mon">.TviolD</small>
+                        </div>
+                    </div>
+                    <pre swcode="html"><script type="text/plain">
+<!-- A classe recorta o background transformando o texto em gradiente -->
+<h1 class="TazulD">Título com tipografia degradê</h1>
+<span class="TgoldD f-bd">Destaque Premium</span>
+</script></pre>
+                </div>
+
+                <!-- 5. PADRONIZAÇÃO YDDAY / YDNIGHT -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">5. Padronização Day/Night Mode</h3>
+
+                    <div class="l">
+                        <div class="co6-g">
+                            <p class="t-mut t-p mb-g">Segue base de cores e esquema para o SWDay.</p>
+
+                            <style>
+                                .colors1 ul {
+                                    margin-bottom: 2.4rem;
+                                    list-style: none;
+                                }
+
+                                .colors1 ul .titulo {
+                                    font-weight: bold;
+                                    margin-bottom: 0.8rem;
+                                    font-size: 1.4rem;
+                                    color: var(--sw-txt-mut);
+                                }
+
+                                .colors1 ul li {
+                                    padding: 0.8rem 1.2rem;
+                                    margin-bottom: 0.4rem;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    border: 1px solid var(--sw-bor);
+                                    font-family: var(--sw-f-mon) !important;
+                                    font-size: 1.4rem;
+                                }
+
+                                .colors1 ul li small {
+                                    opacity: 0.6;
+                                }
+
+                                .colors1 ul li a {
+                                    color: var(--aa);
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    width: 100%;
+                                    transition: 0.2s;
+                                }
+
+                                .colors1 ul li a:hover {
+                                    color: var(--bb);
+                                }
+
+                                .wbloc,
+                                .wblo {
+                                    background: var(--sw-bg-sur);
+                                    color: var(--sw-txt-mut);
+                                    width: 100px;
+                                    height: 70px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-family: var(--sw-f-mon);
+                                    font-size: 1.2rem;
+                                    margin-bottom: 0.8rem;
+                                    border-radius: var(--sw-r-m);
+                                }
+
+                                .wbloc {
+                                    box-shadow: var(--cc);
+                                    border: 1px solid var(--sw-bor);
+                                }
+
+                                .wblo {
+                                    border: 5px solid var(--dd);
+                                }
+                            </style>
+
+                            <div class="colors1 bloco p-0 border-0 shadow-none bg-transparent">
+                                <ul>
+                                    <div class="titulo">BG <small>[.sw-bg / .Bsw-bg...]</small></div>
+                                    <li class="sw-bg">.sw-bg<small>--sw-bg</small></li>
+                                    <li class="sw-bg-">.sw-bg-<small>--sw-bg-</small></li>
+                                    <li class="sw-bg--">.sw-bg--<small>--sw-bg--</small></li>
+                                    <li class="sw-bg---">.sw-bg---<small>--sw-bg---</small></li>
+                                    <li class="sw-bg_">.sw-bg_<small>--sw-bg_</small></li>
+                                    <li class="sw-bg__">.sw-bg__<small>--sw-bg__</small></li>
+                                    <li class="sw-bg___">.sw-bg___<small>--sw-bg___</small></li>
+                                </ul>
+
+                                <ul>
+                                    <div class="titulo">BL <small>[.sw-bl / .Bsw-bl...]</small></div>
+                                    <li class="sw-bl">.sw-bl<small>--sw-bl</small></li>
+                                    <li class="sw-bl-">.sw-bl-<small>--sw-bl-</small></li>
+                                    <li class="sw-bl--">.sw-bl--<small>--sw-bl--</small></li>
+                                    <li class="sw-bl---">.sw-bl---<small>--sw-bl---</small></li>
+                                    <li class="sw-bl_">.sw-bl_<small>--sw-bl_</small></li>
+                                    <li class="sw-bl__">.sw-bl__<small>--sw-bl__</small></li>
+                                    <li class="sw-bl___">.sw-bl___<small>--sw-bl___</small></li>
+                                </ul>
+
+                                <ul>
+                                    <div class="titulo">COLOR <small>[.Tsw-color...]</small></div>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color);">
+                                        <b>.Tsw-color<small>--sw-color</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color-);">
+                                        <b>.Tsw-color-<small>--sw-color-</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color--);">
+                                        <b>.Tsw-color--<small>--sw-color--</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color---);">
+                                        <b>.Tsw-color---<small>--sw-color---</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color_);">
+                                        <b>.Tsw-color_<small>--sw-color_</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color__);">
+                                        <b>.Tsw-color__<small>--sw-color__</small></b>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color___);">
+                                        <b>.Tsw-color___<small>--sw-color___</small></b>
+                                    </li>
+                                </ul>
+
+                                <ul>
+                                    <div class="titulo">LINK e HOVER <small>[.Tsw-link e .Tsw-hover]</small></div>
+                                    <li style="background:var(--sw-bg-sur)"><a
+                                            style="--aa: var(--sw-link); --bb: var(--sw-hover);"><b>.Tsw-link<small>--sw-link</small></b></a>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur)"><a
+                                            style="--aa: var(--sw-link-); --bb: var(--sw-hover-);"><b>.Tsw-link-<small>--sw-link-</small></b></a>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur)"><a
+                                            style="--aa: var(--sw-link--); --bb: var(--sw-hover--);"><b>.Tsw-link--<small>--sw-link--</small></b></a>
+                                    </li>
+                                    <li style="background:var(--sw-bg-sur)"><a
+                                            style="--aa: var(--sw-link_); --bb: var(--sw-hover_);"><b>.Tsw-link_<small>--sw-link_</small></b></a>
+                                    </li>
+                                </ul>
+
+                                <div class="titulo">SHADOW <small>[.sw-shadow...]</small></div>
+                                <ul style="display:flex; gap:1.6rem; flex-wrap:wrap; margin-bottom:2.4rem;">
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wbloc m-0" style="--cc: var(--sw-shadow);"><small>.sw-shadow</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wbloc m-0" style="--cc: var(--sw-shadow-);">
+                                            <small>.sw-shadow-</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wbloc m-0" style="--cc: var(--sw-shadow--);">
+                                            <small>.sw-shadow--</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wbloc m-0" style="--cc: var(--sw-shadow---);">
+                                            <small>.sw-shadow---</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wbloc m-0" style="--cc: var(--sw-shadow_);">
+                                            <small>.sw-shadow_</small>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="titulo">BORDER <small>[.sw-border...]</small></div>
+                                <ul style="display:flex; gap:1.6rem; flex-wrap:wrap; margin-bottom:2.4rem;">
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wblo m-0" style="--dd: var(--sw-border);"><small>.sw-border</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wblo m-0" style="--dd: var(--sw-border-);">
+                                            <small>.sw-border-</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wblo m-0" style="--dd: var(--sw-border--);">
+                                            <small>.sw-border--</small>
+                                        </div>
+                                    </li>
+                                    <li style="border:none; padding:0; margin:0; background:transparent;">
+                                        <div class="wblo m-0" style="--dd: var(--sw-border_);">
+                                            <small>.sw-border_</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="co6-g">
+                            <pre swcode="css">
+<script type="text/plain">
+/* --- Light Theme Overrides --- */
+html[y2day-theme="light"] {
+    --sw-bg:        var(--sw-neu-1);
+    --sw-bg-:       var(--bran);
+    --sw-bg--:      var(--sw-neu-3);
+    --sw-bg---:     var(--sw-neu-4);
+    --sw-bg_:       var(--sw-neu-11);
+
+    --sw-border:    var(--sw-neu-4);
+    --sw-border-:   var(--sw-neu-6);
+    --sw-border--:  var(--sw-neu-8);
+    --sw-border_:   var(--sw-neu-12);
+}
+
+/* --- Dark Theme Overrides --- */
+html[y2day-theme="dark"] {
+    --sw-bg:        var(--sw-neu-12);
+    --sw-bg-:       var(--sw-neu-11);
+    --sw-bg--:      var(--sw-neu-10);
+    --sw-bg---:     var(--sw-neu-9);
+    --sw-bg_:       var(--sw-neu-2);
+
+    --sw-border:    var(--sw-neu-10);
+    --sw-border-:   var(--sw-neu-8);
+    --sw-border--:  var(--sw-neu-6);
+    --sw-border_:   var(--sw-neu-1);
+}
+</script>
+</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REFERÊNCIA COMPLETA -->
+                <div class="doc-card mt-g">
+                    <h3 class="t-m f-bd mb-2">Referência Completa</h3>
+                    <p class="t-mut t-p mb-g">Padrões de classes utilitárias e variáveis CSS disponíveis para cada
+                        família cromática.</p>
+
+                    <h4 class="t-p f-bd mb-p">Classes Utilitárias por Família</h4>
+                    <div style="overflow-x:auto;" class="mb-g">
+                        <table class="ref-table" style="min-width:680px;">
+                            <thead>
+                                <tr>
+                                    <th>Famlia</th>
+                                    <th>Cor semântica</th>
+                                    <th>Texto <code>.T{fam}</code></th>
+                                    <th>Texto grad. <code>.T{fam}D</code></th>
+                                    <th>Background <code>.B{fam}</code></th>
+                                    <th>Variável CSS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="Tprin f-bd">prin</span></td>
+                                    <td class="t-mut">Primária</td>
+                                    <td><code>.Tprin</code></td>
+                                    <td><span class="TprinD f-bd">.TprinD</span></td>
+                                    <td><span class="Bprin box px-2 py-pp t-pp">.Bprin</span></td>
+                                    <td><code>--prin / --sw-pri</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tsecu f-bd">secu</span></td>
+                                    <td class="t-mut">Secundária</td>
+                                    <td><code>.Tsecu</code></td>
+                                    <td><span class="TsecuD f-bd">.TsecuD</span></td>
+                                    <td><span class="Bsecu box px-2 py-pp t-pp">.Bsecu</span></td>
+                                    <td><code>--secu / --sw-sec</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tsuce f-bd">suce</span></td>
+                                    <td class="t-mut">Sucesso</td>
+                                    <td><code>.Tsuce</code></td>
+                                    <td><span class="TsuceD f-bd">.TsuceD</span></td>
+                                    <td><span class="Bsuce box px-2 py-pp t-pp">.Bsuce</span></td>
+                                    <td><code>--suce / --sw-suc</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Taler f-bd">aler</span></td>
+                                    <td class="t-mut">Alerta</td>
+                                    <td><code>.Taler</code></td>
+                                    <td><span class="TalerD f-bd">.TalerD</span></td>
+                                    <td><span class="Baler box px-2 py-pp t-pp">.Baler</span></td>
+                                    <td><code>--aler / --sw-ale</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tinfo f-bd">info</span></td>
+                                    <td class="t-mut">Informação</td>
+                                    <td><code>.Tinfo</code></td>
+                                    <td><span class="TinfoD f-bd">.TinfoD</span></td>
+                                    <td><span class="Binfo box px-2 py-pp t-pp">.Binfo</span></td>
+                                    <td><code>--info / --sw-inf</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tperi f-bd">peri</span></td>
+                                    <td class="t-mut">Perigo</td>
+                                    <td><code>.Tperi</code></td>
+                                    <td><span class="TperiD f-bd">.TperiD</span></td>
+                                    <td><span class="Bperi box px-2 py-pp t-pp">.Bperi</span></td>
+                                    <td><code>--peri / --sw-per</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tverm f-bd">verm</span></td>
+                                    <td class="t-mut">Vermelho (0°)</td>
+                                    <td><code>.Tverm</code></td>
+                                    <td><span class="TvermD f-bd">.TvermD</span></td>
+                                    <td><span class="Bverm box px-2 py-pp t-pp">.Bverm</span></td>
+                                    <td><code>--verm</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tlara f-bd">lara</span></td>
+                                    <td class="t-mut">Laranja (20°)</td>
+                                    <td><code>.Tlara</code></td>
+                                    <td><span class="TlaraD f-bd">.TlaraD</span></td>
+                                    <td><span class="Blara box px-2 py-pp t-pp">.Blara</span></td>
+                                    <td><code>--lara</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tamba f-bd">amba</span></td>
+                                    <td class="t-mut">Âmbar (40°)</td>
+                                    <td><code>.Tamba</code></td>
+                                    <td><span class="TambaD f-bd">.TambaD</span></td>
+                                    <td><span class="Bamba box px-2 py-pp t-pp">.Bamba</span></td>
+                                    <td><code>--amba</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tamar f-bd">amar</span></td>
+                                    <td class="t-mut">Amarelo (60°)</td>
+                                    <td><code>.Tamar</code></td>
+                                    <td><span class="TamarD f-bd">.TamarD</span></td>
+                                    <td><span class="Bamar box px-2 py-pp t-pp">.Bamar</span></td>
+                                    <td><code>--amar</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tlima f-bd">lima</span></td>
+                                    <td class="t-mut">Lima (80°)</td>
+                                    <td><code>.Tlima</code></td>
+                                    <td><span class="TlimaD f-bd">.TlimaD</span></td>
+                                    <td><span class="Blima box px-2 py-pp t-pp">.Blima</span></td>
+                                    <td><code>--lima</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tverd f-bd">verd</span></td>
+                                    <td class="t-mut">Verde (100°)</td>
+                                    <td><code>.Tverd</code></td>
+                                    <td><span class="TverdD f-bd">.TverdD</span></td>
+                                    <td><span class="Bverd box px-2 py-pp t-pp">.Bverd</span></td>
+                                    <td><code>--verd</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tesme f-bd">esme</span></td>
+                                    <td class="t-mut">Esmeralda (160°)</td>
+                                    <td><code>.Tesme</code></td>
+                                    <td><span class="TesmeD f-bd">.TesmeD</span></td>
+                                    <td><span class="Besme box px-2 py-pp t-pp">.Besme</span></td>
+                                    <td><code>--esme</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tcian f-bd">cian</span></td>
+                                    <td class="t-mut">Ciano (180°)</td>
+                                    <td><code>.Tcian</code></td>
+                                    <td><span class="TcianD f-bd">.TcianD</span></td>
+                                    <td><span class="Bcian box px-2 py-pp t-pp">.Bcian</span></td>
+                                    <td><code>--cian</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tagua f-bd">agua</span></td>
+                                    <td class="t-mut">Água (200°)</td>
+                                    <td><code>.Tagua</code></td>
+                                    <td><span class="TaguaD f-bd">.TaguaD</span></td>
+                                    <td><span class="Bagua box px-2 py-pp t-pp">.Bagua</span></td>
+                                    <td><code>--agua</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tazul f-bd">azul</span></td>
+                                    <td class="t-mut">Azul (220°)</td>
+                                    <td><code>.Tazul</code></td>
+                                    <td><span class="TazulD f-bd">.TazulD</span></td>
+                                    <td><span class="Bazul box px-2 py-pp t-pp">.Bazul</span></td>
+                                    <td><code>--azul</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tceu f-bd">ceu</span></td>
+                                    <td class="t-mut">Céu (240°)</td>
+                                    <td><code>.Tceu</code></td>
+                                    <td><span class="TceuD f-bd">.TceuD</span></td>
+                                    <td><span class="Bceu box px-2 py-pp t-pp">.Bceu</span></td>
+                                    <td><code>--ceu</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tindi f-bd">indi</span></td>
+                                    <td class="t-mut">Índigo (260°)</td>
+                                    <td><code>.Tindi</code></td>
+                                    <td><span class="TindiD f-bd">.TindiD</span></td>
+                                    <td><span class="Bindi box px-2 py-pp t-pp">.Bindi</span></td>
+                                    <td><code>--indi</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tviol f-bd">viol</span></td>
+                                    <td class="t-mut">Violeta (280°)</td>
+                                    <td><code>.Tviol</code></td>
+                                    <td><span class="TviolD f-bd">.TviolD</span></td>
+                                    <td><span class="Bviol box px-2 py-pp t-pp">.Bviol</span></td>
+                                    <td><code>--viol</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Troxo f-bd">roxo</span></td>
+                                    <td class="t-mut">Roxo (300°)</td>
+                                    <td><code>.Troxo</code></td>
+                                    <td><span class="TroxoD f-bd">.TroxoD</span></td>
+                                    <td><span class="Broxo box px-2 py-pp t-pp">.Broxo</span></td>
+                                    <td><code>--roxo</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tfuch f-bd">fuch</span></td>
+                                    <td class="t-mut">Fúcsia (320°)</td>
+                                    <td><code>.Tfuch</code></td>
+                                    <td><span class="TfuchD f-bd">.TfuchD</span></td>
+                                    <td><span class="Bfuch box px-2 py-pp t-pp">.Bfuch</span></td>
+                                    <td><code>--fuch</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Trosa f-bd">rosa</span></td>
+                                    <td class="t-mut">Rosa (330°)</td>
+                                    <td><code>.Trosa</code></td>
+                                    <td><span class="TrosaD f-bd">.TrosaD</span></td>
+                                    <td><span class="Brosa box px-2 py-pp t-pp">.Brosa</span></td>
+                                    <td><code>--rosa</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Trose f-bd">rose</span></td>
+                                    <td class="t-mut">Rose (340°)</td>
+                                    <td><code>.Trose</code></td>
+                                    <td><span class="TroseD f-bd">.TroseD</span></td>
+                                    <td><span class="Brose box px-2 py-pp t-pp">.Brose</span></td>
+                                    <td><code>--rose</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tbg f-bd">bg</span></td>
+                                    <td class="t-mut">Fundo UI</td>
+                                    <td><code>.Tbg</code></td>
+                                    <td><span class="TbgD f-bd">.TbgD</span></td>
+                                    <td><span class="Bbg box px-2 py-pp t-pp">.Bbg</span></td>
+                                    <td><code>--bg</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Ttexto f-bd">texto</span></td>
+                                    <td class="t-mut">Texto UI</td>
+                                    <td><code>.Ttexto</code></td>
+                                    <td><span class="TtextoD f-bd">.TtextoD</span></td>
+                                    <td><span class="Btexto box px-2 py-pp t-pp">.Btexto</span></td>
+                                    <td><code>--texto</code></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="Tlinhas f-bd">linhas</span></td>
+                                    <td class="t-mut">Linhas UI</td>
+                                    <td><code>.Tlinhas</code></td>
+                                    <td><span class="TlinhasD f-bd">.TlinhasD</span></td>
+                                    <td><span class="Blinhas box px-2 py-pp t-pp">.Blinhas</span></td>
+                                    <td><code>--linhas</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="t-p f-bd mb-p">Tokens por Família (escala de tom)</h4>
+                    <div style="overflow-x:auto;" class="mb-g">
+                        <table class="ref-table" style="min-width:560px;">
+                            <thead>
+                                <tr>
+                                    <th>Token</th>
+                                    <th>Var CSS</th>
+                                    <th>Uso típico</th>
+                                    <th>Classe texto</th>
+                                    <th>Classe bg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>--{fam}</code></td>
+                                    <td>tom base</td>
+                                    <td>Botões, badges</td>
+                                    <td><code>.T{fam}</code></td>
+                                    <td><code>.B{fam}</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}-</code></td>
+                                    <td>tom claro 1</td>
+                                    <td>Hover claro</td>
+                                    <td><code>.T{fam}-</code></td>
+                                    <td><code>.B{fam}-</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}--</code></td>
+                                    <td>tom claro 2</td>
+                                    <td>-</td>
+                                    <td><code>.T{fam}--</code></td>
+                                    <td><code>.B{fam}--</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}---</code></td>
+                                    <td>tom claro 3</td>
+                                    <td>-</td>
+                                    <td><code>.T{fam}---</code></td>
+                                    <td><code>.B{fam}---</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}_</code></td>
+                                    <td>tom escuro 1</td>
+                                    <td>Hover escuro</td>
+                                    <td><code>.T{fam}_</code></td>
+                                    <td><code>.B{fam}_</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}__</code></td>
+                                    <td>tom escuro 2</td>
+                                    <td>-</td>
+                                    <td><code>.T{fam}__</code></td>
+                                    <td><code>.B{fam}__</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}___</code></td>
+                                    <td>tom escuro 3</td>
+                                    <td>-</td>
+                                    <td><code>.T{fam}___</code></td>
+                                    <td><code>.B{fam}___</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}13</code></td>
+                                    <td>10% opacidade</td>
+                                    <td>Fundos suaves, badges</td>
+                                    <td>-</td>
+                                    <td><code>.B{fam}13</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>--{fam}14</code></td>
+                                    <td>20% opacidade</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><code>.B{fam}14</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="t-p f-bd mb-p">Gradientes Decorativos</h4>
+                    <div style="overflow-x:auto;">
+                        <table class="ref-table" style="min-width:420px;">
+                            <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>Tipo</th>
+                                    <th>Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>.DG1</code> - <code>.DG20</code></td>
+                                    <td>background gradiente</td>
+                                    <td>
+                                        <div class="flx gap-p f-wr" style="margin-top:0.4rem"><span
+                                                class="DG1 box px-3 py-pp t-pp"
+                                                style="color:white;border-radius:4px">DG1</span><span
+                                                class="DG5 box px-3 py-pp t-pp"
+                                                style="color:white;border-radius:4px">DG5</span><span
+                                                class="DG10 box px-3 py-pp t-pp"
+                                                style="color:white;border-radius:4px">DG10</span><span
+                                                class="DG15 box px-3 py-pp t-pp"
+                                                style="color:white;border-radius:4px">DG15</span><span
+                                                class="DG20 box px-3 py-pp t-pp"
+                                                style="color:white;border-radius:4px">DG20</span></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>.T[família]D</code></td>
+                                    <td>texto com gradiente</td>
+                                    <td><span class="TprinD f-bd">Texto gradiente primário</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const families = [
+            'prin', 'secu', 'suce', 'aler', 'info', 'peri',
+            'verm', 'lara', 'amba', 'amar', 'lima', 'verd', 'esme', 'cian', 'agua', 'azul', 'ceu', 'indi', 'viol', 'roxo', 'fuch', 'rosa', 'rose',
+            'pedr', 'cinz', 'neut', 'pret', 'bran'
+        ];
+
+        const gallery = document.getElementById('chromatic-gallery');
+
+        // Famílias que precisam de borda para ser visíveis (branco/preto somem no fundo)
+        const needsBorder = ['bran', 'pret'];
+
+        families.forEach(fam => {
+            const wrap = document.createElement('div');
+            wrap.className = 'co6-pp co4-g mb-g';
+            const border = needsBorder.includes(fam) ? 'outline: 1px solid var(--sw-bor);' : '';
+
+            let html = `
+                <div class="box p-g h-full flx f-cl" style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor);">
+                    <div class="flx j-sb ai-c mb-m">
+                        <p class="t-p f-bd t-upp">${fam}</p>
+                        <span class="t-pp f-mon t-mut">--${fam}</span>
+                    </div>
+
+                    <div class="swatch-group" style="${needsBorder.includes(fam) ? 'background:repeating-conic-gradient(#ccc 0% 25%, #eee 0% 50%) 0 0/12px 12px;gap:3px;' : ''}">
+            `;
+
+            // Intensidades 1-12
+            for (let i = 1; i <= 12; i++) {
+                html += `<div class="swatch-item B${fam}${i}" title=".B${fam}${i}" style="${border}">.B${fam}${i}</div>`;
+            }
+            html += `</div>`;
+
+            // Opacidades 13-16
+            html += `<div class="opa-scale" style="${needsBorder.includes(fam) ? 'background:repeating-conic-gradient(#ccc 0% 25%, #eee 0% 50%) 0 0/12px 12px;gap:3px;' : ''}">`;
+            for (let i = 13; i <= 16; i++) {
+                html += `<div class="opa-item B${fam}${i}" title=".B${fam}${i}" style="${border}">.B${fam}${i}</div>`;
+            }
+            html += `</div>`;
+
+            // Gradient Strip
+            html += `<div class="grad-strip B${fam}D t-upp t-pp" style="${needsBorder.includes(fam) ? 'outline:1px solid var(--sw-bor);' : ''}">DEGRADÊ D</div>`;
+
+            // Text Preview
+            html += `
+                    <div class="flx f-cl gap-2 mt-auto pt-p" style="border-top: 1px dashed var(--sw-bor);">
+                        <span class="T${fam} f-bd t-p">Texto .T${fam}</span>
+                        <span class="T${fam}D f-bd t-m">Gradient .T${fam}D</span>
+                    </div>
+                </div>
+            `;
+
+            wrap.innerHTML = html;
+            gallery.appendChild(wrap);
+        });
+
+        // DG Gallery
+        const dgGallery = document.getElementById('dg-gallery');
+        for (let i = 1; i <= 20; i++) {
+            const div = document.createElement('div');
+            div.className = 'co3-m co2-g';
+            div.innerHTML = `<div class="box p-2 Bprin DG${i} flx alc jc f-bd Tbran" style="height:60px; border-radius: var(--sw-r-p)">DG${i}</div>`;
+            dgGallery.appendChild(div);
+        }
+    </script>
+</body>
+
+</html>

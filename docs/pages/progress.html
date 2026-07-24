@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Progress - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Progress Bar [y2progr]</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">CSS Element</span>
+                <h1 class="t-xxg f-bd mb-2">Progress Bar <span class="TprinD">[y2progr]</span></h1>
+                <p class="t-g t-mut">Barras de progresso com cores, tamanhos, animação striped e valores dinâmicos via
+                    CSS variable.</p>
+            </div>
+
+            <!-- BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Básico</h3>
+                <div class="demo-wrap">
+                    <div y2progr>
+                        <div class="y2progr-bar" style="--prg-v:70%"></div>
+                    </div>
+                    <div y2progr>
+                        <div class="y2progr-bar is-pri" style="--prg-v:45%"></div>
+                    </div>
+                    <div y2progr>
+                        <div class="y2progr-bar is-suc" style="--prg-v:90%"></div>
+                    </div>
+                    <div y2progr>
+                        <div class="y2progr-bar is-ale" style="--prg-v:30%"></div>
+                    </div>
+                    <div y2progr>
+                        <div class="y2progr-bar is-err" style="--prg-v:15%"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2progr>
+  <div class="y2progr-bar" style="--prg-v:70%"></div>
+</div>
+
+<div y2progr>
+  <div class="y2progr-bar is-pri" style="--prg-v:45%"></div>
+</div>
+
+<div y2progr>
+  <div class="y2progr-bar is-suc" style="--prg-v:90%"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- TAMANHOS -->
+            <div class="doc-card sec mb-6" id="tamanhos">
+                <h3 class="t-m f-bd mb-4">2. Tamanhos</h3>
+                <div class="demo-wrap">
+                    <div>
+                        <p class="t-pp t-mut mb-1">PP (2px)</p>
+                        <div y2progr class="is-pp">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">P (4px)</p>
+                        <div y2progr class="is-p">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">M (Normal - 8px)</p>
+                        <div y2progr class="is-m">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">G (16px)</p>
+                        <div y2progr class="is-g">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">GG (24px)</p>
+                        <div y2progr class="is-gg">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">XG (32px)</p>
+                        <div y2progr class="is-xg">
+                            <div class="y2progr-bar is-pri" style="--prg-v:60%"></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2progr class="is-pp">...</div>
+<div y2progr class="is-p">...</div>
+<div y2progr class="is-m">...</div>
+<div y2progr class="is-g">...</div>
+<div y2progr class="is-gg">...</div>
+<div y2progr class="is-xg">...</div>
+</script></pre>
+            </div>
+
+            <!-- COM LABEL -->
+            <div class="doc-card sec mb-6" id="label">
+                <h3 class="t-m f-bd mb-4">3. Com Label / Valor</h3>
+                <div class="demo-wrap">
+                    <div>
+                        <div class="flx j-sb mb-1">
+                            <span class="t-pp f-bd">Upload</span>
+                            <span class="t-pp t-mut">73%</span>
+                        </div>
+                        <div y2progr>
+                            <div class="y2progr-bar is-pri" style="--prg-v:73%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flx j-sb mb-1">
+                            <span class="t-pp f-bd">HTML</span>
+                            <span class="t-pp t-mut">95%</span>
+                        </div>
+                        <div y2progr>
+                            <div class="y2progr-bar is-suc" style="--prg-v:95%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flx j-sb mb-1">
+                            <span class="t-pp f-bd">React</span>
+                            <span class="t-pp t-mut">62%</span>
+                        </div>
+                        <div y2progr>
+                            <div class="y2progr-bar is-inf" style="--prg-v:62%"></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div>
+  <div class="flx j-sb mb-1">
+    <span class="t-pp f-bd">Upload</span>
+    <span class="t-pp t-mut">73%</span>
+  </div>
+  <div y2progr>
+    <div class="y2progr-bar is-pri" style="--prg-v:73%"></div>
+  </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- STRIPED / ANIMADO -->
+            <div class="doc-card sec mb-6" id="animado">
+                <h3 class="t-m f-bd mb-4">4. Striped & Animado</h3>
+                <div class="demo-wrap">
+                    <div>
+                        <p class="t-pp t-mut mb-1">Striped</p>
+                        <div y2progr class="is-lg">
+                            <div class="y2progr-bar is-pri is-str" style="--prg-v:65%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">Striped + Animado</p>
+                        <div y2progr class="is-lg">
+                            <div class="y2progr-bar is-suc is-str is-ani" style="--prg-v:80%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-1">Indeterminado</p>
+                        <div y2progr class="is-lg">
+                            <div class="y2progr-bar is-ale is-ind"></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Striped -->
+<div y2progr class="is-lg">
+  <div class="y2progr-bar is-pri is-str" style="--prg-v:65%"></div>
+</div>
+
+<!-- Striped animado -->
+<div y2progr class="is-lg">
+  <div class="y2progr-bar is-suc is-str is-ani" style="--prg-v:80%"></div>
+</div>
+
+<!-- Indeterminado (sem valor fixo) -->
+<div y2progr class="is-lg">
+  <div class="y2progr-bar is-ale is-ind"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MULTI-BAR -->
+            <div class="doc-card sec mb-6" id="multi">
+                <h3 class="t-m f-bd mb-4">5. Multi-barra</h3>
+                <div class="demo-wrap">
+                    <div y2progr class="is-lg">
+                        <div class="y2progr-bar is-pri" style="--prg-v:40%"></div>
+                        <div class="y2progr-bar is-suc" style="--prg-v:25%"></div>
+                        <div class="y2progr-bar is-ale" style="--prg-v:20%"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- M�ltiplas barras no mesmo container -->
+<div y2progr class="is-lg">
+  <div class="y2progr-bar is-pri" style="--prg-v:40%"></div>
+  <div class="y2progr-bar is-suc" style="--prg-v:25%"></div>
+  <div class="y2progr-bar is-ale" style="--prg-v:20%"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- PILL / ARREDONDADO -->
+            <div class="doc-card sec mb-6" id="pill">
+                <h3 class="t-m f-bd mb-4">6. Pill (bordas totalmente arredondadas)</h3>
+                <div class="demo-wrap">
+                    <div y2progr class="is-pil">
+                        <div class="y2progr-bar is-pri" style="--prg-v:55%"></div>
+                    </div>
+                    <div y2progr class="is-pil is-lg">
+                        <div class="y2progr-bar is-suc" style="--prg-v:75%"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2progr class="is-pil">
+  <div class="y2progr-bar is-pri" style="--prg-v:55%"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- JS DINÂMICO -->
+            <div class="doc-card sec mb-6" id="js">
+                <h3 class="t-m f-bd mb-4">7. Atualizar via JavaScript</h3>
+                <div class="demo-wrap">
+                    <div>
+                        <div class="flx j-sb mb-1">
+                            <span class="t-pp f-bd">Progresso</span>
+                            <span class="t-pp t-mut" id="prg-val">0%</span>
+                        </div>
+                        <div y2progr class="is-lg">
+                            <div class="y2progr-bar is-pri is-str is-ani" id="prg-demo" style="--prg-v:0%"></div>
+                        </div>
+                        <div class="flx gap-2 mt-3">
+                            <button y2btn class="y2btn-pp y2btn-pri" onclick="setProgress(25)">25%</button>
+                            <button y2btn class="y2btn-pp y2btn-pri" onclick="setProgress(50)">50%</button>
+                            <button y2btn class="y2btn-pp y2btn-pri" onclick="setProgress(75)">75%</button>
+                            <button y2btn class="y2btn-pp y2btn-suc" onclick="setProgress(100)">100%</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function setProgress(v) {
+                        var bar = document.getElementById('prg-demo');
+                        var lbl = document.getElementById('prg-val');
+                        if (bar) bar.style.setProperty('--prg-v', v + '%');
+                        if (lbl) lbl.textContent = v + '%';
+                    }
+                </script>
+                <pre swcode="js">
+function setProgress(value) {
+  const bar = document.querySelector('.y2progr-bar');
+  bar.style.setProperty('--prg-v', value + '%');
+}
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Atributo/Classe</th>
+                                <th>Aplica em</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>[y2progr]</code></td>
+                                <td>Container</td>
+                                <td>Atributo do container da barra de progresso.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2progr-bar</code></td>
+                                <td>Barra</td>
+                                <td>Elemento de preenchimento interno.</td>
+                            </tr>
+                            <tr>
+                                <td><code>--prg-v</code></td>
+                                <td>Barra</td>
+                                <td>CSS variable com o percentual de preenchimento (ex:
+                                    <code>style="--prg-v:70%"</code>).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-pri, .is-sec, .is-suc, .is-ale, .is-err, .is-inf</code></td>
+                                <td>Barra</td>
+                                <td>Variantes de cor.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-pp, .is-p, .is-m, .is-g, .is-gg, .is-xg</code></td>
+                                <td>Container</td>
+                                <td>Espessura da trilha: PP (2px) ? XG (32px). Padrão = 8px.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-pil</code></td>
+                                <td>Container</td>
+                                <td>Bordas totalmente arredondadas no container e na barra.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-str</code></td>
+                                <td>Barra</td>
+                                <td>Padrão striped (listras diagonais).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-ani</code></td>
+                                <td>Barra</td>
+                                <td>Anima as stripes - requer <code>.is-str</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-ind</code></td>
+                                <td>Barra</td>
+                                <td>Indeterminado - animação de varredura sem valor fixo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

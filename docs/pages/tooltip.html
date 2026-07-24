@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tooltip - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Tooltip SWTool</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Tooltip <span class="TprinD">SWTool</span></h2>
+                <p class="t-g t-mut">Dicas flutuantes com HTML rico, posicionamento automático, delay e cores - ativadas
+                    por hover ou foco.</p>
+            </div>
+
+            <!-- BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Básico - Passe o mouse</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri" y2tool="Dica padrão acima">Cima (padrão)</button>
+                    <button y2btn y2tool="Tooltip abaixo" y2tool-pos="bot">Baixo</button>
+                    <button y2btn y2tool="Tooltip à esquerda" y2tool-pos="lft">Esquerda</button>
+                    <button y2btn y2tool="Tooltip à direita" y2tool-pos="rgt">Direita</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Cima (padrão) -->
+<button y2tool="Dica aqui">Hover em mim</button>
+
+<!-- Baixo -->
+<button y2tool="Tooltip abaixo" y2tool-pos="bot">...</button>
+
+<!-- Esquerda -->
+<button y2tool="à esquerda" y2tool-pos="lft">...</button>
+
+<!-- Direita -->
+<button y2tool="à direita" y2tool-pos="rgt">...</button>
+</script></pre>
+            </div>
+
+            <!-- CORES -->
+            <div class="doc-card sec mb-6" id="cores">
+                <h3 class="t-m f-bd mb-4">2. Cores</h3>
+                <div class="demo-wrap">
+                    <button y2btn y2tool="Tooltip padrão (dark)">Padrão</button>
+                    <button y2btn class="y2btn-pri" y2tool="Tooltip primário" y2tool-clr="pri">Primário</button>
+                    <button y2btn class="y2btn-suc" y2tool="Tudo certo!" y2tool-clr="suc">Sucesso</button>
+                    <button y2btn class="y2btn-ale" y2tool="Atenção!" y2tool-clr="ale">Alerta</button>
+                    <button y2btn class="y2btn-err" y2tool="Erro detectado" y2tool-clr="err">Erro</button>
+                    <button y2btn style="background:var(--sw-bg-ele)" y2tool="Tooltip claro"
+                        y2tool-clr="lgt">Light</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<button y2tool="Texto" y2tool-clr="pri">Primário</button>
+<button y2tool="Texto" y2tool-clr="suc">Sucesso</button>
+<button y2tool="Texto" y2tool-clr="ale">Alerta</button>
+<button y2tool="Texto" y2tool-clr="err">Erro</button>
+<button y2tool="Texto" y2tool-clr="lgt">Light</button>
+</script></pre>
+            </div>
+
+            <!-- HTML RICO -->
+            <div class="doc-card sec mb-6" id="html">
+                <h3 class="t-m f-bd mb-4">3. HTML Rico</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri"
+                        y2tool='<strong>SW Framework</strong><br><span style="color:#aaa;font-size:1.2rem">v2.0 - CSS + JS</span>'
+                        y2tool-html="true">
+                        Com HTML
+                    </button>
+                    <span y2tool='&#11088; <strong>4.9/5</strong> - 127 avaliações' y2tool-html="true"
+                        style="cursor:help;border-bottom:1px dashed var(--sw-bor)">
+                        SW Framework
+                    </span>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Habilitar HTML no tooltip -->
+<button
+  y2tool="<strong>Título</strong><br>Descrição"
+  y2tool-html="true">
+  Hover
+</button>
+</script></pre>
+            </div>
+
+            <!-- DELAY -->
+            <div class="doc-card sec mb-6" id="delay">
+                <h3 class="t-m f-bd mb-4">4. Delay</h3>
+                <div class="demo-wrap">
+                    <button y2btn y2tool="Aparece imediatamente" y2tool-delay="0">Sem delay</button>
+                    <button y2btn y2tool="Aparece após 500ms" y2tool-delay="500">Delay 500ms</button>
+                    <button y2btn y2tool="Aparece após 1 segundo" y2tool-delay="1000">Delay 1s</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<button y2tool="Texto" y2tool-delay="0">Sem delay</button>
+<button y2tool="Texto" y2tool-delay="500">500ms</button>
+<button y2tool="Texto" y2tool-delay="1000">1 segundo</button>
+</script></pre>
+            </div>
+
+            <!-- SEGUIR MOUSE -->
+            <div class="doc-card sec mb-6" id="follow">
+                <h3 class="t-m f-bd mb-4">5. Seguir o Mouse</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri" y2tool="Estou seguindo você!" y2tool-follow="true">Passe o mouse</button>
+                    <button y2btn y2tool="Seguindo + cor de erro" y2tool-clr="err" y2tool-follow="true">Seguir + cor</button>
+                    <button y2btn class="y2btn-out" y2tool="Sem delay, seguindo" y2tool-follow="true" y2tool-delay="0">Sem delay</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<button y2tool="Estou seguindo você!" y2tool-follow="true">
+  Passe o mouse
+</button>
+</script></pre>
+            </div>
+
+            <!-- API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">6. API JavaScript</h3>
+                <pre swcode="js">
+// Criar tooltip dinamicamente
+SWTool.create(elemento, {
+  text:    'Meu tooltip',
+  pos:     'top',   // top | bot | lft | rgt
+  color:   'pri',   // pri | suc | ale | err | lgt
+  html:    false,
+  delay:   200      // ms
+});
+
+// Destruir tooltip
+SWTool.destroy(elemento);
+
+// Atualizar texto
+SWTool.update(elemento, 'Novo texto');
+</pre>
+            </div>
+
+            <!-- FOCO / ACESSIBILIDADE -->
+            <div class="doc-card sec mb-6" id="acessibilidade">
+                <h3 class="t-m f-bd mb-4">7. Acessibilidade (Foco)</h3>
+                <div class="demo-wrap">
+                    <button y2btn y2tool="Visível também no foco (Tab)" tabindex="0">
+                        Pressione Tab para focar
+                    </button>
+                </div>
+                <p class="t-g t-mut mt-3">SWTool exibe o tooltip tanto no hover quanto no foco do teclado, garantindo
+                    acessibilidade completa. O atributo <code>aria-describedby</code> é adicionado automaticamente.</p>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2tool="texto"</code></td>
+                            <td>-</td>
+                            <td>Ativa tooltip com esse texto</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2tool-pos</code></td>
+                            <td><code>top</code></td>
+                            <td>Posição: top | bot | lft | rgt</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2tool-clr</code></td>
+                            <td>dark</td>
+                            <td>Cor: pri | suc | ale | err | lgt</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2tool-html</code></td>
+                            <td><code>false</code></td>
+                            <td>Permitir HTML no conteúdo</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2tool-delay</code></td>
+                            <td><code>200</code></td>
+                            <td>Delay em ms antes de aparecer</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2tool-follow</code></td>
+                            <td><code>false</code></td>
+                            <td>Tooltip segue o cursor do mouse</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWTool.create(el, opts)</code></td>
+                            <td>-</td>
+                            <td>Criar tooltip via JS</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWTool.destroy(el)</code></td>
+                            <td>-</td>
+                            <td>Remover tooltip</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWTool.update(el, texto)</code></td>
+                            <td>-</td>
+                            <td>Atualizar texto dinamicamente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

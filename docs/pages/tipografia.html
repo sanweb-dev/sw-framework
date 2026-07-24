@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tipografia & Icones - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+    <style>
+        .tipo-row {
+            display: flex;
+            align-items: baseline;
+            gap: 1.6rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .tipo-row:last-child {
+            border-bottom: none;
+        }
+
+        .tipo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            font-family: var(--sw-f-mon);
+            min-width: 14rem;
+            flex-shrink: 0;
+        }
+
+        .tipo-val {
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            min-width: 10rem;
+            flex-shrink: 0;
+        }
+
+        .tipo-demo {
+            flex: 1;
+        }
+
+        .weight-row {
+            display: flex;
+            align-items: center;
+            gap: 1.6rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .weight-row:last-child {
+            border-bottom: none;
+        }
+
+        .sample-box {
+            flex: 1;
+            font-size: 2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lh-demo {
+            background: var(--sw-bg-sec);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem 1.6rem;
+            flex: 1;
+            font-size: 1.4rem;
+        }
+
+        .ls-demo {
+            padding: 1.2rem 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .deco-row {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+            flex-wrap: wrap;
+        }
+
+        .deco-row:last-child {
+            border-bottom: none;
+        }
+
+        .mono-demo {
+            background: var(--sw-bg-sec);
+            border-radius: var(--sw-r-m);
+            padding: 1.6rem 2rem;
+            font-family: var(--sw-f-mon);
+            font-size: 1.5rem;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 576px) {
+            h1.t-xxg {
+                font-size: 3.2rem !important;
+            }
+
+            .tipo-row {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
+            .tipo-label {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .tipo-val {
+                min-width: auto;
+            }
+
+            .tipo-demo.t-xg,
+            .tipo-demo.t-xxg {
+                font-size: 3.2rem !important;
+            }
+        }
+    </style>
+
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Tipografia & Icones</span>
+            </nav>
+
+            <section class="">
+                <span class="doc-tag">Foundation</span>
+                <h1 class="t-xxg f-bd mb-2">Tipografia & <span class="TprinD">Icones</span></h1>
+                <p class="t-g t-mut mb-8">Sistema tipografico completo - familias, escala de tamanhos, pesos,
+                    line-height, espaçamento e decoracao.</p>
+
+                <!-- FAMLIAS DE FONTES (SW Matrix) -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">Famlias de Fontes (Matriz SW)</h3>
+                    <p class="t-mut t-p mb-g">As 6 familias principais integradas para oferecer maxima flexibilidade e
+                        elegancia ao framework.</p>
+                    <div class="l gap-4">
+                        <!-- Poppins -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font1 - Poppins</p>
+                                    <span class="box p-1 t-pp f-bd Tprin"
+                                        style="background: var(--prin13);">100-900</span>
+                                </div>
+                                <p class="font1 font1b mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font1 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Base UI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Roboto -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font2 - Roboto</p>
+                                    <span class="box p-1 t-pp f-bd Tceu"
+                                        style="background: var(--ceu13);">100-900</span>
+                                </div>
+                                <p class="font2 font2b mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font2 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Secondary</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Alumni Sans -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font3 - Alumni</p>
+                                    <span class="box p-1 t-pp f-bd Taler"
+                                        style="background: var(--aler13);">Narrow</span>
+                                </div>
+                                <p class="font3 font3b mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font3 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Display</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Meow Script -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font4 - Meow</p>
+                                    <span class="box p-1 t-pp f-bd Trosa"
+                                        style="background: var(--rosa13);">Script</span>
+                                </div>
+                                <p class="font4 mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font4 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Decorative</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dancing Script -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font5 - Dancing</p>
+                                    <span class="box p-1 t-pp f-bd Tment"
+                                        style="background: var(--ment13);">Script</span>
+                                </div>
+                                <p class="font5 mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font5 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Elegant</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Playwrite -->
+                        <div class="co6-pp co4-g">
+                            <div class="box p-g h-full reveal-up"
+                                style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor); transition: all 0.3s ease;">
+                                <div class="flx j-sb ai-c mb-m">
+                                    <p class="t-pp f-bd t-mut ls-widest t-upp">.font6 - Playwrite</p>
+                                    <span class="box p-1 t-pp f-bd Tfuch" style="background: var(--fuch13);">Hand</span>
+                                </div>
+                                <p class="font6 mb-p" style="font-size:3.2rem; line-height:1.1;">Aa</p>
+                                <p class="font6 t-g mb-g">The quick brown fox jumps over the lazy dog.</p>
+                                <div class="flx gap-2 t-mut t-pp f-mon">
+                                    <span>Modern Script</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UTILITRIOS DE ATALHO (SW Native) -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">Utilitarios de Atalho (Nativos)</h3>
+                    <p class="t-mut t-p mb-g">O SW oferece atalhos rapidos para alinhamento, pesos e transformaes,
+                        otimizando o fluxo de desenvolvimento.</p>
+
+                    <div class="l gap-4">
+                        <div class="co6-g">
+                            <h4 class="t-p f-bd mb-p">Alinhamento & Transformao</h4>
+                            <div class="tipo-row">
+                                <span class="tipo-label">.C / .D / .E / .J</span>
+                                <div class="box w-full p-2 mb-p"
+                                    style="background: var(--sw-bg-sur); border: 1px dashed var(--sw-bor);">
+                                    <p class="C t-pri f-bd">Padrao SW de Alinhamento (Centralizado .C)</p>
+                                </div>
+                            </div>
+                            <div class="tipo-row">
+                                <span class="tipo-label">.U / .W / .P</span>
+                                <span class="tipo-demo U t-mut">uppercase (.U) / lowercase (.W) / capitalize (.P)</span>
+                            </div>
+                        </div>
+                        <div class="co6-g">
+                            <h4 class="t-p f-bd mb-p">Pesos Numéricos</h4>
+                            <div class="tipo-row">
+                                <span class="tipo-label">.fw1 até .fw9</span>
+                                <span class="tipo-demo fw7 t-g">Exemplo .fw7 (Bold)</span>
+                            </div>
+                            <div class="tipo-row">
+                                <span class="tipo-label">.fwb / .fwn</span>
+                                <span class="tipo-demo fwb t-g">Exemplo .fwb (Bold)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESCALA DE TAMANHOS -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">Escala de Tamanhos</h3>
+                    <p class="t-mut t-p mb-g">Escala PP→XXG (1rem = 10px). Use <code>.t-{tamanho}</code>.</p>
+
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-pp</span>
+                        <span class="tipo-val">1.2rem = 12px</span>
+                        <span class="tipo-demo t-pp">O rato roeu a roupa do rei de Roma - Extra Pequeno</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-p</span>
+                        <span class="tipo-val">1.4rem = 14px</span>
+                        <span class="tipo-demo t-p">O rato roeu a roupa do rei de Roma - Pequeno</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-m</span>
+                        <span class="tipo-val">1.6rem = 16px</span>
+                        <span class="tipo-demo t-m">O rato roeu a roupa do rei de Roma - Base</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-g</span>
+                        <span class="tipo-val">2.0rem = 20px</span>
+                        <span class="tipo-demo t-g">O rato roeu a roupa - Grande</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-gg</span>
+                        <span class="tipo-val">3.2rem = 32px</span>
+                        <span class="tipo-demo t-gg lh-tight">Muito Grande</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-xg</span>
+                        <span class="tipo-val">4.8rem = 48px</span>
+                        <span class="tipo-demo t-xg lh-tight">Extra Grande</span>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">.t-xxg</span>
+                        <span class="tipo-val">6.4rem = 64px</span>
+                        <span class="tipo-demo t-xxg lh-tight TprinD">Display</span>
+                    </div>
+                </div>
+
+                <!-- HEADINGS H1-H6 -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">Headings H1-H6</h3>
+                    <p class="t-mut t-p mb-g">Todos os headings s�o fluidos com <code>calc(rem + vw)</code>. Use
+                        <code>.t-h{n}</code> para aplicar o tamanho em qualquer elemento.
+                    </p>
+
+                    <div class="tipo-row">
+                        <span class="tipo-label">h1 / .t-h1</span>
+                        <span class="tipo-val">2.2r + 1.5vw</span>
+                        <h1 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h1);">Heading Um</h1>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">h2 / .t-h2</span>
+                        <span class="tipo-val">2.2r + 0.9vw</span>
+                        <h2 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h2);">Heading Dois</h2>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">h3 / .t-h3</span>
+                        <span class="tipo-val">2.0r + 0.6vw</span>
+                        <h3 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h3);">Heading Três</h3>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">h4 / .t-h4</span>
+                        <span class="tipo-val">2.0r + 0.3vw</span>
+                        <h4 class="tipo-demo" style="font-size: var(--sw-f-h4);">Heading Quatro</h4>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">h5 / .t-h5</span>
+                        <span class="tipo-val">2.0rem = 20px</span>
+                        <h5 class="tipo-demo" style="font-size: var(--sw-f-h5);">Heading Cinco</h5>
+                    </div>
+                    <div class="tipo-row">
+                        <span class="tipo-label">h6 / .t-h6</span>
+                        <span class="tipo-val">1.6rem = 16px</span>
+                        <h6 class="tipo-demo" style="font-size: var(--sw-f-h6);">Heading Seis</h6>
+                    </div>
+                </div>
+
+                <!-- MONOSPACE -->
+                <div class="doc-card mb-g">
+                    <h3 class="t-m f-bd mb-2">Fonte Mono <code>.f-mon</code></h3>
+                    <p class="t-mut t-p mb-g">JetBrains Mono - ideal para código, tokens, labels técnicos.</p>
+                    <div class="mono-demo">
+                        <span class="Tprin">const</span> framework = <span class="Tsuce">'y2'</span>;<br>
+                        <span class="Tprin">const</span> version = <span class="Tsuce">'1.2.0-Framework'</span>;<br>
+                        <span class="Tprin">const</span> colors = <span class="Taler">24</span>; <span class="t-mut">//
+                            famílias cromáticas</span><br>
+                        <br>
+                        <span class="Tinfo">console</span>.log(<span class="Tsuce">`${framework} v${version}`</span>);
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+
+</html>

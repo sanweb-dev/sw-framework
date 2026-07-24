@@ -1,0 +1,111 @@
+/* ==========================================================================
+   SW FRAMEWORK — 01-TOKENS.CSS (DEEP SEA PALETTE & DESIGN TOKENS HSL)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+:root {
+  /* --- 🌐 DEEP SEA PALETTE HUES & SATURATIONS --- */
+  --sw-h-pri: 212;  /* Hue Primária (Slate Sky Blue - Swatch 4) */
+  --sw-s-pri: 28%;
+  --sw-l-pri: 58%;
+
+  --sw-h-sec: 215;  /* Deep Ocean Navy (Swatch 2) */
+  --sw-h-acc: 211;  /* Muted Steel (Swatch 3) */
+
+  /* --- 🎨 CORES SEMÂNTICAS PRINCIPAIS --- */
+  --sw-pri:        hsl(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri));
+  --sw-pri-glow:   hsla(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri), 0.25);
+  --sw-sec:        hsl(215, 35%, 16%);
+  --sw-acc:        hsl(211, 29%, 34%);
+  
+  --sw-suc:        hsl(145, 65%, 42%);  /* Sucesso */
+  --sw-err:        hsl(355, 75%, 55%);  /* Erro/Perigo */
+  --sw-ale:        hsl(40, 85%, 52%);   /* Alerta */
+  --sw-inf:        hsl(205, 75%, 52%);  /* Informação */
+
+  /* --- 🌙 TEMA ESCURO / DARK MODE (DEEP SEA NIGHT - 60/30/10) --- */
+  --sw-bg:         #0d131d; /* 60% Swatch 1 - Darkest Night Navy */
+  --sw-sur:        #1a2636; /* 30% Swatch 2 - Deep Ocean Slate */
+  --sw-sur-hover:  #243347;
+  --sw-bor:        #3e5771; /* Swatch 3 - Muted Steel */
+  --sw-bor-glow:   rgba(120, 147, 176, 0.35);
+  --sw-txt:        #f3efdf; /* Swatch 5 - Warm Cream Off-White */
+  --sw-txt-mut:    #9fb2c7;
+  --sw-gls-bg:     rgba(13, 19, 29, 0.75);
+  --sw-gls-bor:    rgba(62, 87, 113, 0.3);
+
+  /* --- 🔠 TIPOGRAFIA E ESCALAS --- */
+  --sw-f-san: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+  --sw-f-hd:  'Outfit', var(--sw-f-san);
+  --sw-f-mon: 'JetBrains Mono', monospace;
+
+  --sw-scale: 62.5%; /* 1rem = 10px */
+  --sw-f-base: 1.6rem;
+
+  /* --- 📏 ESPAÇAMENTO Padrão (PP-XXG) --- */
+  --sw-s-pp:  0.4rem;
+  --sw-s-p:   0.8rem;
+  --sw-s-m:   1.6rem;
+  --sw-s-g:   2.4rem;
+  --sw-s-gg:  4.8rem;
+  --sw-s-xg:  8.0rem;
+
+  /* --- 📐 ARONDAMENTO (BORDER RADIUS) --- */
+  --sw-r-p:   0.4rem;
+  --sw-r-m:   0.8rem;
+  --sw-r-g:   1.2rem;
+  --sw-r-gg:  1.8rem;
+  --sw-r-fl:  9999px;
+  --sw-r:     var(--sw-r-m);
+
+  /* --- 🌌 SOMBRAS E ELEVAÇÕES --- */
+  --sw-sha-p: 0 2px 8px rgba(13, 19, 29, 0.3);
+  --sw-sha:   0 8px 24px rgba(13, 19, 29, 0.4);
+  --sw-sha-g: 0 20px 50px rgba(13, 19, 29, 0.6);
+
+  /* --- 🎨 MATRIZ COMPLETA DAS CORES DO SW --- */
+  --sw-c-verm: hsl(355, 75%, 55%);
+  --sw-c-lara: hsl(25, 85%, 52%);
+  --sw-c-amar: hsl(45, 85%, 50%);
+  --sw-c-gold: hsl(42, 75%, 52%);
+  --sw-c-verd: hsl(145, 65%, 42%);
+  --sw-c-lima: hsl(85, 70%, 45%);
+  --sw-c-turq: hsl(165, 70%, 45%);
+  --sw-c-cian: hsl(185, 75%, 48%);
+  --sw-c-ceu:  hsl(198, 75%, 52%);
+  --sw-c-azul: hsl(212, 45%, 55%);
+  --sw-c-indi: hsl(230, 45%, 60%);
+  --sw-c-viol: hsl(250, 45%, 62%);
+  --sw-c-roxo: hsl(270, 45%, 58%);
+  --sw-c-fuch: hsl(310, 55%, 58%);
+  --sw-c-rosa: hsl(335, 65%, 60%);
+  --sw-c-rose: hsl(345, 65%, 62%);
+  --sw-c-pedr: hsl(211, 20%, 45%);
+  --sw-c-cinz: hsl(212, 15%, 50%);
+}
+
+/* ==========================================================================
+   ☀️ TEMA CLARO / LIGHT MODE (DEEP SEA DAY - 60/30/10)
+   ========================================================================== */
+html[sw-theme="light"] {
+  --sw-h-pri: 215;
+  --sw-s-pri: 35%;
+  --sw-l-pri: 20%;
+
+  --sw-pri:        #1a2636; /* Swatch 2 - Deep Ocean Navy em destaque no claro */
+  --sw-pri-glow:   rgba(26, 38, 54, 0.15);
+
+  --sw-bg:         #f3efdf; /* 60% Swatch 5 - Warm Off-White Cream */
+  --sw-sur:        #e6e1cf; /* 30% Soft Warm Surface */
+  --sw-sur-hover:  #dcd7c4;
+  --sw-bor:        #b8c5d3; /* Soft Steel Border */
+  --sw-bor-glow:   rgba(26, 38, 54, 0.2);
+  --sw-txt:        #0d131d; /* Swatch 1 - Darkest Night Navy */
+  --sw-txt-mut:    #3e5771; /* Swatch 3 - Muted Steel */
+  --sw-gls-bg:     rgba(243, 239, 223, 0.85);
+  --sw-gls-bor:    rgba(26, 38, 54, 0.15);
+
+  --sw-sha-p:      0 2px 6px rgba(13, 19, 29, 0.08);
+  --sw-sha:        0 10px 25px rgba(13, 19, 29, 0.1);
+  --sw-sha-g:      0 25px 60px rgba(13, 19, 29, 0.15);
+}

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>y2.config.css - Personalização | SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+
+        /* ── Hue Picker ── */
+        .hue-strip {
+            height: 1.6rem;
+            border-radius: var(--sw-r-fl);
+            background: linear-gradient(to right,
+                hsl(0,100%,50%), hsl(30,100%,50%), hsl(60,100%,50%),
+                hsl(90,100%,50%), hsl(120,100%,50%), hsl(150,100%,50%),
+                hsl(180,100%,50%), hsl(210,100%,50%), hsl(240,100%,50%),
+                hsl(270,100%,50%), hsl(300,100%,50%), hsl(330,100%,50%),
+                hsl(360,100%,50%));
+            margin-bottom: .8rem;
+        }
+
+        input[type="range"].hue-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 1.6rem;
+            border-radius: var(--sw-r-fl);
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+        }
+        input[type="range"].hue-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid rgba(0,0,0,.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,.3);
+            cursor: grab;
+            margin-top: -6px;
+        }
+        input[type="range"].hue-slider::-webkit-slider-runnable-track {
+            height: 1.6rem;
+            border-radius: var(--sw-r-fl);
+            background: linear-gradient(to right,
+                hsl(0,100%,50%), hsl(30,100%,50%), hsl(60,100%,50%),
+                hsl(90,100%,50%), hsl(120,100%,50%), hsl(150,100%,50%),
+                hsl(180,100%,50%), hsl(210,100%,50%), hsl(240,100%,50%),
+                hsl(270,100%,50%), hsl(300,100%,50%), hsl(330,100%,50%),
+                hsl(360,100%,50%));
+        }
+
+        /* ── Radius Demo ── */
+        .radius-preview {
+            background: color-mix(in srgb, var(--sw-pri) 15%, transparent);
+            border: 2px solid var(--sw-pri);
+            width: 7.2rem;
+            height: 7.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-pri);
+            transition: border-radius .35s cubic-bezier(.34,1.6,.64,1);
+        }
+
+        /* ── Config Block ── */
+        .cfg-block {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-left: 3px solid var(--sw-pri);
+            border-radius: 0 var(--sw-r-g) var(--sw-r-g) 0;
+            padding: 1.6rem 2rem;
+            font-family: var(--sw-f-mon);
+            font-size: 1.4rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            color: var(--sw-txt-bas);
+        }
+
+        .cfg-comment { color: var(--sw-txt-mut); }
+        .cfg-key     { color: #79c0ff; }
+        .cfg-value   { color: #ffa657; }
+        .cfg-sel     { color: #7ee787; }
+        .cfg-section { color: #d2a8ff; font-style: italic; }
+
+        /* ── Preset Cards ── */
+        .preset-card {
+            cursor: pointer;
+            border: 2px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 1.6rem;
+            text-align: center;
+            transition: all .25s cubic-bezier(.34,1.2,.64,1);
+            user-select: none;
+        }
+        .preset-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--sw-pri);
+            box-shadow: var(--sw-sha);
+        }
+        .preset-card.is-act {
+            border-color: var(--sw-pri);
+            background: color-mix(in srgb, var(--sw-pri) 8%, transparent);
+        }
+        .preset-swatch {
+            height: 4.8rem;
+            border-radius: var(--sw-r-m);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Steps ── */
+        .step-num {
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 50%;
+            background: linear-gradient(195deg, var(--prin-), var(--prin__));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px color-mix(in srgb, var(--sw-pri) 40%, transparent);
+        }
+
+        /* ── Token Table ── */
+        .token-table { width: 100%; border-collapse: collapse; }
+        .token-table th {
+            text-align: left;
+            padding: .8rem 1.2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--sw-txt-mut);
+            border-bottom: 1px solid var(--sw-bor);
+        }
+        .token-table td {
+            padding: 1rem 1.2rem;
+            font-size: 1.4rem;
+            border-bottom: 1px solid color-mix(in srgb, var(--sw-bor) 50%, transparent);
+            vertical-align: middle;
+        }
+        .token-table tr:last-child td { border-bottom: none; }
+        .token-name {
+            font-family: var(--sw-f-mon);
+            font-size: 1.3rem;
+            color: #79c0ff;
+        }
+        .token-default {
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+
+            <!-- BREADCRUMB -->
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">y2.config.css</span>
+            </nav>
+
+            <!-- HERO -->
+            <section class="mb-10">
+                <span class="doc-tag">Instalação & Configuração</span>
+                <h1 class="t-xxg f-bd mb-2">Instalação <span class="TprinD">SW Framework</span></h1>
+                <p class="t-g t-mut mb-6">
+                    Integre o SW em segundos via CDN ou faça o download dos arquivos de distribuição.
+                    Zero dependências, zero build tools.
+                </p>
+
+                <!-- Dois bundles -->
+                <div class="l gap-g mb-6">
+                    <div class="co6">
+                        <div class="p-g h-fl" style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-g);background:var(--sw-bg-sur)">
+                            <div class="flx alc gap-m mb-m">
+                                <span y2badge class="y2badge-pri y2badge-pp" style="font-weight:800">CORE</span>
+                                <span class="f-bd t-p">Base do framework</span>
+                            </div>
+                            <p class="t-mut" style="font-size:var(--sw-f-sm);margin-bottom:1.2rem">~408kb · Layout, componentes, plugins JS, animações, forms. Congelado e estável.</p>
+                            <div class="flx gap-m f-wr">
+                                <a href="https://y2.sanweb.com.br../dist/sw.min.css" y2btn class="y2btn-pri y2btn-sm" download><i class="sw-download mr-s"></i>y2.min.css</a>
+                                <a href="https://y2.sanweb.com.br../dist/sw.min.js" y2btn class="y2btn-pri y2btn-sm" download><i class="sw-download mr-s"></i>y2.min.js</a>
+                                <a href="https://y2.sanweb.com.br/fonts/wficons.woff2" y2btn class="y2btn-out y2btn-sm" download><i class="sw-download mr-s"></i>fonts/</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co6">
+                        <div class="p-g h-fl" style="border:2px solid var(--sw-suc);border-radius:var(--sw-r-g);background:color-mix(in srgb,var(--sw-suc) 5%,transparent)">
+                            <div class="flx alc gap-m mb-m">
+                                <span y2badge class="y2badge-suc y2badge-pp" style="font-weight:800">COMPL</span>
+                                <span class="f-bd t-p">Módulos avançados</span>
+                            </div>
+                            <p class="t-mut" style="font-size:var(--sw-f-sm);margin-bottom:1.2rem">~12kb · Table AJAX, SWEditor, Cotação, Instagram, Infinite Scroll, File Upload. Em evolução contínua.</p>
+                            <div class="flx gap-m f-wr">
+                                <a href="https://y2.sanweb.com.br../dist/sw.min.css" y2btn class="y2btn-suc y2btn-sm" download><i class="sw-download mr-s"></i>sw-compl.min.css</a>
+                                <a href="https://y2.sanweb.com.br../dist/sw.min.js" y2btn class="y2btn-suc y2btn-sm" download><i class="sw-download mr-s"></i>sw-compl.min.js</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INSTALAÇÃO CDN -->
+            <section class="doc-card sec mb-8" id="instalacao">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Via CDN (recomendado)</h3>
+                        <p class="t-pp t-mut">Cole no <code>&lt;head&gt;</code> do seu HTML. Sem instalação, sem npm, sem build.</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <p class="t-p t-mut mb-3"><strong>Apenas Core</strong> — uso geral:</p>
+                    <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
+<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
+<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script></script></pre>
+
+                    <p class="t-p t-mut mb-3 mt-5"><strong>Core + Compl</strong> — com módulos avançados (Table AJAX, Editor, Instagram…):</p>
+                    <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
+<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
+<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script>
+
+<!-- SW Compl (opcional) -->
+<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
+<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script></script></pre>
+                    <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-inf) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-inf) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-info-circle" style="color:var(--sw-inf);font-size:2rem;flex-shrink:0"></i>
+                        <p class="t-p mb-0">O Compl detecta o Core automaticamente e registra os módulos via <code>SW.use()</code>. Carregue sempre o Core primeiro.</p>
+                    </div>
+                </div>
+
+                <div class="p-6 border-top border-dashed">
+                    <h4 class="t-p f-bd mb-3">Via Download (self-hosted)</h4>
+                    <p class="t-p t-mut mb-4">Baixe os arquivos, coloque a pasta <code>fonts/</code> no mesmo nível do CSS e hospede no seu servidor.</p>
+                    <div class="cfg-block mb-4">
+<span class="cfg-comment">meu-projeto/</span>
+├── <span class="cfg-value">y2.min.css</span>
+├── <span class="cfg-value">y2.min.js</span>
+├── <span class="cfg-value">sw-compl.min.css</span>   <span class="cfg-comment">← opcional</span>
+├── <span class="cfg-value">sw-compl.min.js</span>    <span class="cfg-comment">← opcional</span>
+├── <span class="cfg-value">fonts/</span>              <span class="cfg-comment">← obrigatório para os ícones</span>
+│   ├── wficons.woff2
+│   ├── wficons.woff
+│   └── wficons.ttf
+└── index.html</div>
+                    <pre swcode="html"><script type="text/plain"><!-- CSS local -->
+<link rel="stylesheet" href="/y2.min.css">
+<link rel="stylesheet" href="/sw-compl.min.css"> <!-- se usar compl -->
+
+<!-- JS local -->
+<script src="/y2.min.js" defer><\/script>
+<script src="/sw-compl.min.js" defer><\/script> <!-- se usar compl --></script></pre>
+                    <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-shape-triangle" style="color:var(--sw-ale);font-size:2rem;flex-shrink:0"></i>
+                        <p class="t-p mb-0">A pasta <code>fonts/</code> deve estar no mesmo diretório que o <code>y2.min.css?v=32</code>. Os ícones não carregam sem ela.</p>
+                    </div>
+                </div>
+
+                <div class="p-6 border-top border-dashed">
+                    <h4 class="t-p f-bd mb-3">Compatibilidade</h4>
+                    <div class="l gap-m">
+                        <div class="co6-pp co3-g">
+                            <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                                <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                                <span class="t-p f-m">HTML Puro</span>
+                            </div>
+                        </div>
+                        <div class="co6-pp co3-g">
+                            <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                                <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                                <span class="t-p f-m">Laravel / PHP</span>
+                            </div>
+                        </div>
+                        <div class="co6-pp co3-g">
+                            <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                                <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                                <span class="t-p f-m">React / Vue / Svelte</span>
+                            </div>
+                        </div>
+                        <div class="co6-pp co3-g">
+                            <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                                <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                                <span class="t-p f-m">WordPress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CONFIG CSS -->
+            <section class="mb-6">
+                <span class="doc-tag">Personalização</span>
+                <h2 class="t-xg f-bd mb-2"><span class="TprinD">y2.config.css</span></h2>
+                <p class="t-g t-mut mb-4">
+                    Personalize cores, fontes e bordas sem tocar no código-fonte do SW.
+                    100% compatível com o <strong>SWDay</strong> (dark / light).
+                </p>
+                <div class="flx gap-3 f-wr">
+                    <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                        <span class="t-p f-m">Zero modificação no framework</span>
+                    </div>
+                    <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                        <span class="t-p f-m">Cascata automática em todas as shades</span>
+                    </div>
+                    <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-suc) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-check-circle" style="color:var(--sw-suc);font-size:2rem"></i>
+                        <span class="t-p f-m">SWDay dark / light respeitado</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. COMO USAR CONFIG -->
+            <section class="doc-card sec mb-8" id="como-usar">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Criar e carregar o arquivo</h3>
+                        <p class="t-pp t-mut">Crie o <code>y2.config.css</code> na raiz do seu projeto e carregue <strong>depois</strong> do SW.</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <p class="t-p t-mut mb-4">Estrutura de arquivos recomendada:</p>
+                    <div class="cfg-block mb-4">
+<span class="cfg-comment">meu-projeto/</span>
+├── <span class="cfg-value">y2.config.css</span>   <span class="cfg-comment">← crie aqui</span>
+├── index.html
+└── assets/</div>
+
+                    <p class="t-p t-mut mb-4">No HTML, a ordem importa:</p>
+                    <pre swcode="html"><script type="text/plain"><!-- 1. SW Core -->
+<link rel="stylesheet" href="/dist/y2.min.css">
+<script src="/dist/y2.min.js" defer><\/script>
+
+<!-- 2. SW Compl (opcional) -->
+<link rel="stylesheet" href="/dist/sw-compl.min.css">
+<script src="/dist/sw-compl.min.js" defer><\/script>
+
+<!-- 3. Sua configuração (sempre por último) -->
+<link rel="stylesheet" href="/y2.config.css"></script></pre>
+
+                    <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">
+                        <i class="sw-shape-triangle" style="color:var(--sw-ale);font-size:2rem;flex-shrink:0"></i>
+                        <p class="t-p mb-0">O <code>y2.config.css</code> deve ser carregado <strong>depois de todos os bundles SW</strong> para que a cascata funcione corretamente — Core, Compl e só então Config.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CORES / HUES — DEMO INTERATIVA -->
+            <section class="doc-card sec mb-8" id="cores">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Cores — Personalização Total</h3>
+                        <p class="t-pp t-mut">O SW oferece três caminhos para mudar sua identidade visual.</p>
+                    </div>
+                </div>
+
+                <!-- Caminho A: Sobrescrita Direta -->
+                <div class="p-6 border-bottom border-dashed">
+                    <h4 class="t-p f-bd mb-2">A. Sobrescrita Direta (HEX / RGB)</h4>
+                    <p class="t-p t-mut mb-4">Se você já tem uma cor exata em HEX ou RGB, pode forçá-la diretamente. Útil para marcas com manuais de identidade rigorosos.</p>
+                    <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+:root {
+  --sw-pri: #ff3e00; /* Sua cor primária exata */
+  --sw-sec: #40b3ff; /* Sua cor secundária exata */
+}
+
+/* Opcional: ajuste as variantes de opacidade */
+:root {
+  --sw-pri-opa1: color-mix(in srgb, var(--sw-pri) 10%, transparent);
+}</script></pre>
+                </div>
+
+                <!-- Caminho B: Sistema de Hues -->
+                <div class="p-6 border-bottom border-dashed">
+                    <h4 class="t-p f-bd mb-2">B. Sistema Inteligente (Hues)</h4>
+                    <p class="t-p t-mut mb-4">Recomendado. Altera apenas o <strong>ângulo da matiz (Hue)</strong> e o framework gera automaticamente 7 tons harmoniosos, além de estados de hover e focus.</p>
+
+                    <div class="demo-wrap" id="demo-cores">
+                        <p class="t-pp t-mut mb-3"><i class="sw-info-circle"></i> Arraste o slider para ver a cascata em tempo real:</p>
+
+                        <div class="mb-4">
+                            <div class="flx j-sb alc mb-2">
+                                <label class="t-p f-m">Cor primária — <code>--sw-h-pri</code></label>
+                                <span class="t-p f-bd" id="hue-pri-val" style="color:hsl(210,100%,55%)">210°</span>
+                            </div>
+                            <input type="range" class="hue-slider" id="hue-pri" min="0" max="360" value="210">
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flx j-sb alc mb-2">
+                                <label class="t-p f-m">Cor secundária — <code>--sw-h-sec</code></label>
+                                <span class="t-p f-bd" id="hue-sec-val" style="color:hsl(275,100%,55%)">275°</span>
+                            </div>
+                            <input type="range" class="hue-slider" id="hue-sec" min="0" max="360" value="275">
+                        </div>
+
+                        <p class="t-pp t-mut mb-2">Shades derivados automaticamente:</p>
+                        <div class="flx gap-1 mb-4 f-wr" id="shade-preview">
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin---)" title="--prin---"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin--)" title="--prin--"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin-)" title="--prin-"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin)" title="--prin"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin_)" title="--prin_"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin__)" title="--prin__"></div>
+                            <div style="flex:1;min-width:3.2rem;height:3.2rem;border-radius:var(--sw-r-p);background:var(--prin___)" title="--prin___"></div>
+                        </div>
+
+                        <div class="flx gap-3 f-wr alc mb-4">
+                            <button y2btn class="y2btn-grd y2btn-pri">Salvar</button>
+                            <button y2btn class="y2btn-pri y2btn-out">Cancelar</button>
+                            <button y2btn class="y2btn-grd y2btn-sec y2btn-pil">Secundário</button>
+                            <span class="bdg" style="background:color-mix(in srgb,var(--sw-pri) 15%,transparent);color:var(--sw-pri);border:1px solid color-mix(in srgb,var(--sw-pri) 30%,transparent);border-radius:var(--sw-r-fl);padding:.2rem .8rem;font-size:1.2rem;font-weight:700">Badge</span>
+                        </div>
+
+                        <p class="t-pp t-mut mb-2">Código gerado no seu <code>y2.config.css</code>:</p>
+                        <div class="cfg-block">
+<span class="cfg-sel">:root</span> {
+  <span class="cfg-key">--sw-h-pri</span>: <span class="cfg-value" id="code-pri">210</span><span class="cfg-comment">; /* azul */</span>
+  <span class="cfg-key">--sw-h-sec</span>: <span class="cfg-value" id="code-sec">275</span><span class="cfg-comment">; /* roxo */</span>
+}</div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h4 class="t-p f-bd mb-3">Referência de ângulos de matiz</h4>
+                        <div class="flx gap-2 f-wr" id="hue-swatches"></div>
+                    </div>
+                </div>
+
+                <!-- Caminho C: Navbar Premium -->
+                <div class="p-6">
+                    <h4 class="t-p f-bd mb-2">C. Cores do Navbar Premium</h4>
+                    <p class="t-p t-mut mb-4">O componente <code>.y2nav-prm</code> possui tokens próprios para controle fino do Glassmorphism e do estado sólido ao scrollar.</p>
+                    <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+:root {
+  --sw-prm-nav-bg:  rgba(20, 20, 30, 0.5);   /* Fundo flutuante (glass) */
+  --sw-prm-nav-sol: rgba(10, 10, 15, 0.98);  /* Fundo ao scrollar (sólido) */
+  --sw-prm-nav-bor: rgba(255, 255, 255, 0.1); /* Borda sutil */
+  --sw-prm-nav-blu: 25px;                    /* Intensidade do Blur */
+}</script></pre>
+                </div>
+            </section>
+
+            <!-- 3. TIPOGRAFIA -->
+            <section class="doc-card sec mb-8" id="tipografia">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Tipografia</h3>
+                        <p class="t-pp t-mut">Troque a fonte principal ou mono sem alterar nenhum componente.</p>
+                    </div>
+                </div>
+                <div class="demo-wrap p-6">
+                    <div class="l-2 gap-6">
+                        <div>
+                            <p class="t-pp t-mut mb-1">Fonte atual do framework:</p>
+                            <p class="t-gg f-bd" style="font-family:var(--sw-f-san)">Aa Bb Cc — Outfit</p>
+                            <p class="t-m" style="font-family:var(--sw-f-san)">O rato roeu a roupa do rei de Roma</p>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-1">Fonte mono (código):</p>
+                            <p class="t-gg" style="font-family:var(--sw-f-mon)">Aa Bb Cc — Mono</p>
+                            <p class="t-m" style="font-family:var(--sw-f-mon)">const x = "y2";</p>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+
+/* 1. Importe a fonte desejada */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+/* 2. Sobrescreva os tokens de fonte */
+:root {
+    --sw-f-san: 'Inter', system-ui, sans-serif;
+    --sw-f-mon: 'Fira Code', monospace;
+    --sw-f-base: 1.6rem; /* tamanho base = 16px */
+}</script></pre>
+            </section>
+
+            <!-- 4. BORDER RADIUS -->
+            <section class="doc-card sec mb-8" id="radius">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Arredondamento</h3>
+                        <p class="t-pp t-mut">Defina a personalidade visual: sharp, suave ou ultra-arredondado.</p>
+                    </div>
+                </div>
+                <div class="demo-wrap p-6">
+                    <p class="t-pp t-mut mb-3">Escolha um preset para visualizar:</p>
+
+                    <div class="flx gap-3 f-wr mb-6" id="radius-presets">
+                        <button class="preset-card is-act" data-r-p="0" data-r-m="0.2rem" data-r-g="0.4rem" data-r-gg="0.4rem">
+                            <div class="preset-swatch" style="background:var(--sw-bor);border-radius:0"></div>
+                            <span class="t-p f-bd">Sharp</span><br>
+                            <span class="t-pp t-mut">sem curvas</span>
+                        </button>
+                        <button class="preset-card" data-r-p="0.4rem" data-r-m="0.8rem" data-r-g="1.2rem" data-r-gg="1.6rem">
+                            <div class="preset-swatch" style="background:var(--sw-bor);border-radius:1.2rem"></div>
+                            <span class="t-p f-bd">Material</span><br>
+                            <span class="t-pp t-mut">padrão SW</span>
+                        </button>
+                        <button class="preset-card" data-r-p="0.8rem" data-r-m="1.4rem" data-r-g="2.0rem" data-r-gg="2.8rem">
+                            <div class="preset-swatch" style="background:var(--sw-bor);border-radius:2rem"></div>
+                            <span class="t-p f-bd">Soft</span><br>
+                            <span class="t-pp t-mut">ultra suave</span>
+                        </button>
+                        <button class="preset-card" data-r-p="9999px" data-r-m="9999px" data-r-g="9999px" data-r-gg="9999px">
+                            <div class="preset-swatch" style="background:var(--sw-bor);border-radius:9999px"></div>
+                            <span class="t-p f-bd">Pill</span><br>
+                            <span class="t-pp t-mut">tudo redondo</span>
+                        </button>
+                    </div>
+
+                    <div class="flx gap-4 alc f-wr">
+                        <div class="radius-preview" id="r-preview-btn" style="width:12rem;height:4.4rem;border-radius:var(--sw-r-m)">
+                            Button
+                        </div>
+                        <div class="radius-preview" id="r-preview-card" style="width:12rem;height:8rem;border-radius:var(--sw-r-g)">
+                            Card
+                        </div>
+                        <div class="radius-preview" id="r-preview-modal" style="width:16rem;height:10rem;border-radius:var(--sw-r-gg)">
+                            Modal
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css — Preset: Material (padrão SW) */
+:root {
+    --sw-r-p:  0.4rem;  /* 4px  — chips, badges           */
+    --sw-r-m:  0.8rem;  /* 8px  — botões, inputs          */
+    --sw-r-g:  1.2rem;  /* 12px — cards, dropdowns        */
+    --sw-r-gg: 1.6rem;  /* 16px — modais, containers      */
+    --sw-r-xl: 2.4rem;  /* 24px — hero sections           */
+}</script></pre>
+            </section>
+
+            <!-- 5. YDDAY — TEMA CLARO / ESCURO -->
+            <section class="doc-card sec mb-8" id="y2day">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">5</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">SWDay — Temas Claro & Escuro</h3>
+                        <p class="t-pp t-mut">Defina valores diferentes para cada tema sem conflito.</p>
+                    </div>
+                </div>
+                <div class="demo-wrap p-6">
+                    <div class="l-2 gap-4">
+                        <!-- Dark preview -->
+                        <div style="background:#0d0d14;border:1px solid #2a2a38;border-radius:var(--sw-r-g);padding:2rem">
+                            <div class="flx gap-2 alc mb-3">
+                                <i class="sw-moon" style="color:#7c7cff;font-size:2rem"></i>
+                                <span class="t-p f-bd" style="color:#f0f0f5">Tema Escuro</span>
+                            </div>
+                            <div style="background:#12121a;border:1px solid #2a2a38;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
+                                <span style="color:#8888a0;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-bas: #0d0d14</span>
+                            </div>
+                            <div style="background:#12121a;border:1px solid #2a2a38;border-radius:var(--sw-r-m);padding:1.2rem">
+                                <span style="color:#8888a0;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-sur: #12121a</span>
+                            </div>
+                        </div>
+                        <!-- Light preview -->
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:var(--sw-r-g);padding:2rem">
+                            <div class="flx gap-2 alc mb-3">
+                                <i class="sw-sun" style="color:#f59e0b;font-size:2rem"></i>
+                                <span class="t-p f-bd" style="color:#0f172a">Tema Claro</span>
+                            </div>
+                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
+                                <span style="color:#64748b;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-bas: #f8fafc</span>
+                            </div>
+                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--sw-r-m);padding:1.2rem">
+                                <span style="color:#64748b;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-sur: #ffffff</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+
+/* Valores globais (ambos os temas) */
+:root {
+    --sw-h-pri: 250;           /* índigo */
+    --sw-f-san: 'Inter', sans-serif;
+}
+
+/* Somente no tema ESCURO */
+html[sw-theme="dark"] {
+    --sw-bg-bas: #0d0d14;
+    --sw-bg-sur: #12121a;
+    --sw-bor:    #2a2a38;
+    --sw-txt-bas: #f0f0f5;
+    --sw-pri: hsl(250, 100%, 62%); /* mais brilhante no dark */
+}
+
+/* Somente no tema CLARO */
+html[sw-theme="light"] {
+    --sw-bg-bas: #f8fafc;
+    --sw-bg-sur: #ffffff;
+    --sw-bor:    #e2e8f0;
+    --sw-txt-bas: #0f172a;
+    --sw-pri: hsl(250, 100%, 40%); /* mais escuro no light */
+}</script></pre>
+            </section>
+
+            <!-- 6. REFERÊNCIA COMPLETA DOS TOKENS -->
+            <section class="doc-card sec mb-8" id="tokens">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">6</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Referência de Tokens</h3>
+                        <p class="t-pp t-mut">Todos os tokens que podem ser sobrescritos no config.</p>
+                    </div>
+                </div>
+                <div class="p-0" style="overflow:auto">
+                    <table class="token-table">
+                        <thead>
+                            <tr>
+                                <th>Token</th>
+                                <th>Padrão</th>
+                                <th>Descrição</th>
+                                <th>Afeta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">CORES</td></tr>
+                            <tr>
+                                <td><code class="token-name">--sw-h-pri</code></td>
+                                <td><code class="token-default">210</code></td>
+                                <td class="t-pp">Matiz da cor primária (0–360)</td>
+                                <td class="t-pp t-mut">Botões, links, acentos, sombras</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-h-sec</code></td>
+                                <td><code class="token-default">275</code></td>
+                                <td class="t-pp">Matiz da cor secundária</td>
+                                <td class="t-pp t-mut">Badges, variantes secundárias</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-h-suc</code></td>
+                                <td><code class="token-default">140</code></td>
+                                <td class="t-pp">Matiz da cor de sucesso</td>
+                                <td class="t-pp t-mut">Alertas ok, validação positiva</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-h-per</code></td>
+                                <td><code class="token-default">0</code></td>
+                                <td class="t-pp">Matiz de perigo / erro</td>
+                                <td class="t-pp t-mut">Alertas err, validação negativa</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-h-ale</code></td>
+                                <td><code class="token-default">45</code></td>
+                                <td class="t-pp">Matiz de alerta</td>
+                                <td class="t-pp t-mut">Alertas ale, warnings</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-pri</code></td>
+                                <td><code class="token-default">hsl(210, 100%, 40%)</code></td>
+                                <td class="t-pp">Cor primária direta (override total)</td>
+                                <td class="t-pp t-mut">Tudo que usa var(--sw-pri)</td>
+                            </tr>
+
+                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">TIPOGRAFIA</td></tr>
+                            <tr>
+                                <td><code class="token-name">--sw-f-san</code></td>
+                                <td><code class="token-default">'Outfit', 'Poppins', …</code></td>
+                                <td class="t-pp">Fonte principal sans-serif</td>
+                                <td class="t-pp t-mut">Todo o texto do framework</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-f-mon</code></td>
+                                <td><code class="token-default">'JetBrains Mono'</code></td>
+                                <td class="t-pp">Fonte monospace</td>
+                                <td class="t-pp t-mut">Código, SWCode, tokens</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-f-base</code></td>
+                                <td><code class="token-default">1.6rem (16px)</code></td>
+                                <td class="t-pp">Tamanho base do texto</td>
+                                <td class="t-pp t-mut">Parágrafos, body</td>
+                            </tr>
+
+                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">ARREDONDAMENTO</td></tr>
+                            <tr>
+                                <td><code class="token-name">--sw-r-m</code></td>
+                                <td><code class="token-default">0.8rem</code></td>
+                                <td class="t-pp">Radius médio — botões, inputs</td>
+                                <td class="t-pp t-mut">Componentes interativos</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-r-g</code></td>
+                                <td><code class="token-default">1.2rem</code></td>
+                                <td class="t-pp">Radius grande — cards</td>
+                                <td class="t-pp t-mut">Cards, dropdowns, painéis</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-r-gg</code></td>
+                                <td><code class="token-default">1.6rem</code></td>
+                                <td class="t-pp">Radius extra — modais</td>
+                                <td class="t-pp t-mut">Modais, overlays</td>
+                            </tr>
+
+                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">TEMA (YDDAY)</td></tr>
+                            <tr>
+                                <td><code class="token-name">--sw-bg-bas</code></td>
+                                <td><code class="token-default">dark/light automático</code></td>
+                                <td class="t-pp">Fundo da página</td>
+                                <td class="t-pp t-mut">Background do body</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-bg-sur</code></td>
+                                <td><code class="token-default">dark/light automático</code></td>
+                                <td class="t-pp">Superfícies (cards, sidebar)</td>
+                                <td class="t-pp t-mut">Cards, modais, sidebar</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-txt-bas</code></td>
+                                <td><code class="token-default">dark/light automático</code></td>
+                                <td class="t-pp">Cor principal do texto</td>
+                                <td class="t-pp t-mut">Headings, parágrafos</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-bor</code></td>
+                                <td><code class="token-default">dark/light automático</code></td>
+                                <td class="t-pp">Cor das bordas</td>
+                                <td class="t-pp t-mut">Cards, inputs, dividers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 7. TEMPLATE COMPLETO -->
+            <section class="doc-card sec mb-8" id="template">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc j-sb">
+                    <div class="flx gap-3 alc">
+                        <div class="step-num">7</div>
+                        <div>
+                            <h3 class="t-m f-bd mb-0">Template Completo</h3>
+                            <p class="t-pp t-mut">Copie, cole no seu projeto e personalize.</p>
+                        </div>
+                    </div>
+                    <button y2btn class="y2btn-grd y2btn-pri y2btn-p" id="btn-copy-cfg">
+                        <i class="sw-copy"></i> Copiar
+                    </button>
+                </div>
+
+                <pre swcode="css" id="cfg-template" class="m-0"><script type="text/plain">/**
+ * ╔══════════════════════════════════════════════╗
+ * ║        YDRA CONFIG — Meu Projeto             ║
+ * ╚══════════════════════════════════════════════╝
+ * Carregue DEPOIS do y2.min.css?v=32:
+ * <link rel="stylesheet" href="y2.config.css">
+ */
+
+/* ── HUES (altere o número, todas as shades atualizam) ── */
+:root {
+    --sw-h-pri: 210;    /* azul   */
+    --sw-h-sec: 275;    /* roxo   */
+    --sw-h-suc: 140;    /* verde  */
+    --sw-h-per: 0;      /* vermelho */
+    --sw-h-ale: 45;     /* âmbar  */
+}
+
+/* ── TIPOGRAFIA ── */
+:root {
+    /* --sw-f-san: 'Inter', system-ui, sans-serif; */
+    /* --sw-f-mon: 'Fira Code', monospace;         */
+}
+
+/* ── ARREDONDAMENTO ── */
+:root {
+    --sw-r-p:  0.4rem;
+    --sw-r-m:  0.8rem;
+    --sw-r-g:  1.2rem;
+    --sw-r-gg: 1.6rem;
+    --sw-r-xl: 2.4rem;
+}
+
+/* ── TEMA ESCURO (SWDay dark) ── */
+html[sw-theme="dark"] {
+    /* --sw-bg-bas: #0d0d14; */
+    /* --sw-bg-sur: #12121a; */
+    /* --sw-bor:    #2a2a38; */
+}
+
+/* ── TEMA CLARO (SWDay light) ── */
+html[sw-theme="light"] {
+    /* --sw-bg-bas: #f8fafc; */
+    /* --sw-bg-sur: #ffffff; */
+    /* --sw-bor:    #e2e8f0; */
+}</script></pre>
+            </section>
+
+            <!-- 8. PRESETS -->
+            <section class="doc-card sec mb-8" id="presets">
+                <div class="p-6 border-bottom border-dashed flx gap-3 alc">
+                    <div class="step-num">8</div>
+                    <div>
+                        <h3 class="t-m f-bd mb-0">Presets Prontos</h3>
+                        <p class="t-pp t-mut">Clique para aplicar e ver ao vivo. Copie o código abaixo.</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="l-4 gap-4 mb-6" id="preset-gallery">
+
+                        <button class="preset-card" data-preset="roxo"
+                            data-pri="275" data-sec="305" data-r-m="1.2rem" data-r-g="1.8rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(275,100%,55%),hsl(305,100%,45%))"></div>
+                            <span class="t-p f-bd">Roxo Neon</span><br>
+                            <span class="t-pp t-mut">hue 275</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="emerald"
+                            data-pri="155" data-sec="190" data-r-m="0.6rem" data-r-g="1.0rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(155,100%,38%),hsl(190,100%,40%))"></div>
+                            <span class="t-p f-bd">Emerald</span><br>
+                            <span class="t-pp t-mut">hue 155</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="rose"
+                            data-pri="340" data-sec="30" data-r-m="1.0rem" data-r-g="1.6rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(340,100%,55%),hsl(30,100%,55%))"></div>
+                            <span class="t-p f-bd">Rose Gold</span><br>
+                            <span class="t-pp t-mut">hue 340</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="sharp"
+                            data-pri="210" data-sec="275" data-r-m="0.2rem" data-r-g="0.4rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(210,100%,40%),hsl(210,100%,20%));border-radius:0"></div>
+                            <span class="t-p f-bd">Sharp</span><br>
+                            <span class="t-pp t-mut">sem curvas</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="ocean"
+                            data-pri="195" data-sec="225" data-r-m="0.8rem" data-r-g="1.4rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(195,100%,45%),hsl(225,100%,40%))"></div>
+                            <span class="t-p f-bd">Ocean</span><br>
+                            <span class="t-pp t-mut">hue 195</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="sunset"
+                            data-pri="25" data-sec="0" data-r-m="0.8rem" data-r-g="1.2rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(25,100%,55%),hsl(0,100%,50%))"></div>
+                            <span class="t-p f-bd">Sunset</span><br>
+                            <span class="t-pp t-mut">hue 25</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="indigo"
+                            data-pri="240" data-sec="275" data-r-m="0.8rem" data-r-g="1.2rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(240,100%,58%),hsl(275,100%,50%))"></div>
+                            <span class="t-p f-bd">Indigo</span><br>
+                            <span class="t-pp t-mut">hue 240</span>
+                        </button>
+
+                        <button class="preset-card" data-preset="sage"
+                            data-pri="120" data-sec="160" data-r-m="0.6rem" data-r-g="1.0rem">
+                            <div class="preset-swatch" style="background:linear-gradient(135deg,hsl(120,60%,40%),hsl(160,70%,35%))"></div>
+                            <span class="t-p f-bd">Sage</span><br>
+                            <span class="t-pp t-mut">hue 120</span>
+                        </button>
+
+                    </div>
+
+                    <!-- Código do preset selecionado -->
+                    <div id="preset-code-wrap" style="display:none">
+                        <p class="t-pp t-mut mb-2">Código do preset:</p>
+                        <div class="cfg-block" id="preset-code-display"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+    /* ═══════════════════════════════════════════════════════
+       Config Page — Demos Interativas
+    ═══════════════════════════════════════════════════════ */
+
+    // ── Hue Sliders ──────────────────────────────────────
+    const root = document.documentElement;
+
+    const priSlider = document.getElementById('hue-pri');
+    const secSlider = document.getElementById('hue-sec');
+    const priVal    = document.getElementById('hue-pri-val');
+    const secVal    = document.getElementById('hue-sec-val');
+    const codePri   = document.getElementById('code-pri');
+    const codeSec   = document.getElementById('code-sec');
+
+    function applyHue(hPri, hSec) {
+        root.style.setProperty('--sw-h-pri', hPri);
+        root.style.setProperty('--sw-h-sec', hSec);
+        // Recalcula --sw-pri e derivados
+        root.style.setProperty('--sw-pri', `hsl(${hPri}, 100%, 40%)`);
+        root.style.setProperty('--prin',   `hsl(${hPri}, 100%, 40%)`);
+        root.style.setProperty('--prin-',  `hsl(${hPri}, 100%, 45%)`);
+        root.style.setProperty('--prin--', `hsl(${hPri}, 100%, 55%)`);
+        root.style.setProperty('--prin---',`hsl(${hPri}, 100%, 65%)`);
+        root.style.setProperty('--prin_',  `hsl(${hPri}, 100%, 35%)`);
+        root.style.setProperty('--prin__', `hsl(${hPri}, 100%, 25%)`);
+        root.style.setProperty('--prin___',`hsl(${hPri}, 100%, 15%)`);
+        root.style.setProperty('--sw-sec', `hsl(${hSec}, 100%, 50%)`);
+        root.style.setProperty('--secu',   `hsl(${hSec}, 100%, 50%)`);
+        root.style.setProperty('--secu-',  `hsl(${hSec}, 100%, 55%)`);
+        root.style.setProperty('--secu__', `hsl(${hSec}, 100%, 35%)`);
+    }
+
+    priSlider.addEventListener('input', () => {
+        const h = priSlider.value;
+        priVal.textContent = h + '°';
+        priVal.style.color = `hsl(${h},100%,55%)`;
+        codePri.textContent = h;
+        applyHue(h, secSlider.value);
+    });
+
+    secSlider.addEventListener('input', () => {
+        const h = secSlider.value;
+        secVal.textContent = h + '°';
+        secVal.style.color = `hsl(${h},100%,55%)`;
+        codeSec.textContent = h;
+        applyHue(priSlider.value, h);
+    });
+
+    // ── Hue Reference Swatches ────────────────────────────
+    const swatchContainer = document.getElementById('hue-swatches');
+    const hueNames = [
+        [0,'Vermelho'],[30,'Laranja'],[45,'Âmbar'],[60,'Amarelo'],
+        [90,'Lima'],[120,'Verde'],[150,'Esmeralda'],[180,'Ciano'],
+        [195,'Água'],[210,'Azul'],[225,'Céu'],[240,'Índigo'],
+        [265,'Violeta'],[275,'Roxo'],[305,'Fúcsia'],[330,'Rosa'],[340,'Rose']
+    ];
+    hueNames.forEach(([h, name]) => {
+        const s = document.createElement('div');
+        s.style.cssText = `
+            flex:0 0 auto; cursor:pointer; text-align:center;
+            padding:.6rem .8rem; border-radius:var(--sw-r-m);
+            transition:all .2s; min-width:6.4rem;
+        `;
+        s.innerHTML = `
+            <div style="width:100%;height:2.8rem;border-radius:var(--sw-r-m);background:hsl(${h},100%,45%);margin-bottom:.4rem"></div>
+            <span style="font-size:1.1rem;color:var(--sw-txt-mut)">${h}°</span><br>
+            <span style="font-size:1.2rem;font-weight:700;color:var(--sw-txt-bas)">${name}</span>
+        `;
+        s.title = `Aplicar hue ${h}° (${name})`;
+        s.addEventListener('click', () => {
+            priSlider.value = h;
+            priVal.textContent = h + '°';
+            priVal.style.color = `hsl(${h},100%,55%)`;
+            codePri.textContent = h;
+            applyHue(h, secSlider.value);
+        });
+        swatchContainer.appendChild(s);
+    });
+
+    // ── Radius Presets ────────────────────────────────────
+    document.getElementById('radius-presets').addEventListener('click', e => {
+        const btn = e.target.closest('[data-r-g]');
+        if (!btn) return;
+        document.querySelectorAll('#radius-presets .preset-card').forEach(b => b.classList.remove('is-act'));
+        btn.classList.add('is-act');
+        const rM  = btn.dataset.rM  || '0.8rem';
+        const rG  = btn.dataset.rG  || '1.2rem';
+        const rGg = btn.dataset.rGg || '1.6rem';
+        root.style.setProperty('--sw-r-m',  rM);
+        root.style.setProperty('--sw-r-g',  rG);
+        root.style.setProperty('--sw-r-gg', rGg);
+        document.getElementById('r-preview-btn').style.borderRadius   = rM;
+        document.getElementById('r-preview-card').style.borderRadius  = rG;
+        document.getElementById('r-preview-modal').style.borderRadius = rGg;
+    });
+
+    // ── Preset Gallery ────────────────────────────────────
+    const presetCodes = {
+        roxo:    `:root {\n    --sw-h-pri: 275;  /* roxo */\n    --sw-h-sec: 305;  /* fúcsia */\n    --sw-r-m:  1.2rem;\n    --sw-r-g:  1.8rem;\n}`,
+        emerald: `:root {\n    --sw-h-pri: 155;  /* esmeralda */\n    --sw-h-sec: 190;  /* água */\n    --sw-r-m:  0.6rem;\n    --sw-r-g:  1.0rem;\n}\nhtml[sw-theme="light"] {\n    --sw-bg-bas: #f0fdf4;\n    --sw-bor: #bbf7d0;\n}`,
+        rose:    `:root {\n    --sw-h-pri: 340;  /* rose */\n    --sw-h-sec: 30;   /* laranja */\n    --sw-r-m:  1.0rem;\n    --sw-r-g:  1.6rem;\n}`,
+        sharp:   `:root {\n    --sw-h-pri: 210;\n    --sw-r-p:  0;\n    --sw-r-m:  0.2rem;\n    --sw-r-g:  0.4rem;\n    --sw-r-gg: 0.4rem;\n    --sw-r-xl: 0.4rem;\n}`,
+        ocean:   `:root {\n    --sw-h-pri: 195;  /* ciano */\n    --sw-h-sec: 225;  /* azul */\n    --sw-r-m:  0.8rem;\n    --sw-r-g:  1.4rem;\n}`,
+        sunset:  `:root {\n    --sw-h-pri: 25;   /* laranja */\n    --sw-h-sec: 0;    /* vermelho */\n    --sw-r-m:  0.8rem;\n    --sw-r-g:  1.2rem;\n}`,
+        indigo:  `:root {\n    --sw-h-pri: 240;  /* índigo */\n    --sw-h-sec: 275;  /* roxo */\n}`,
+        sage:    `:root {\n    --sw-h-pri: 120;  /* verde sage */\n    --sw-h-sec: 160;  /* esmeralda */\n    --sw-r-m:  0.6rem;\n    --sw-r-g:  1.0rem;\n}`,
+    };
+
+    document.getElementById('preset-gallery').addEventListener('click', e => {
+        const btn = e.target.closest('[data-preset]');
+        if (!btn) return;
+        document.querySelectorAll('#preset-gallery .preset-card').forEach(b => b.classList.remove('is-act'));
+        btn.classList.add('is-act');
+
+        const pri = btn.dataset.pri;
+        const sec = btn.dataset.sec;
+        const rM  = btn.dataset.rM  || '0.8rem';
+        const rG  = btn.dataset.rG  || '1.2rem';
+
+        priSlider.value = pri; secSlider.value = sec;
+        priVal.textContent = pri + '°'; priVal.style.color = `hsl(${pri},100%,55%)`;
+        secVal.textContent = sec + '°'; secVal.style.color = `hsl(${sec},100%,55%)`;
+        codePri.textContent = pri; codeSec.textContent = sec;
+        applyHue(pri, sec);
+        root.style.setProperty('--sw-r-m', rM);
+        root.style.setProperty('--sw-r-g', rG);
+
+        const codeWrap = document.getElementById('preset-code-wrap');
+        const codeDisplay = document.getElementById('preset-code-display');
+        codeWrap.style.display = 'block';
+        codeDisplay.textContent = presetCodes[btn.dataset.preset] || '';
+    });
+
+    // ── Copy Config Template ──────────────────────────────
+    document.getElementById('btn-copy-cfg').addEventListener('click', function() {
+        const tmpl = document.querySelector('#cfg-template code')?.textContent
+                  || document.getElementById('cfg-template')?.textContent || '';
+        navigator.clipboard.writeText(tmpl.trim()).then(() => {
+            SWAlert.ok('Template copiado!', 2500, 'br');
+        }).catch(() => {
+            SWAlert.ale('Copie manualmente o bloco de código.', 3000, 'br');
+        });
+    });
+    </script>
+</body>
+</html>

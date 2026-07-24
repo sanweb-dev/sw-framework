@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Page Transition - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div y2pre>
+        <div class="y2pre-spn"></div>
+    </div>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">Page Transition SWTransi</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Page Transition <span class="TprinD">SWTransi</span></h2>
+                <p class="t-g t-mut">Transições animadas entre páginas - slide, fade, zoom - com overlay que suaviza a
+                    navegação.</p>
+            </div>
+
+            <!-- DEMO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo - Clique num link abaixo</h3>
+                <div class="demo-wrap" style="flex-direction:column;gap:1.6rem">
+                    <div>
+                        <p class="t-pp t-mut mb-3">Cada botão navega para outra página com um efeito diferente:</p>
+                        <div class="flx gap-3 flw">
+                            <a href="pagetransition.html" y2transi y2transi-effect="slide" y2btn class="y2btn-pri">
+                                <i class="yd sw-chevron-right"></i> Slide
+                            </a>
+                            <a href="pagetransition.html" y2transi y2transi-effect="up" y2btn class="y2btn-pri"
+                                style="background:var(--sw-sec,#7c3aed);border-color:var(--sw-sec,#7c3aed)">
+                                <i class="yd sw-chevron-up"></i> Up
+                            </a>
+                            <a href="pagetransition.html" y2transi y2transi-effect="down" y2btn class="y2btn-pri"
+                                style="background:#0891b2;border-color:#0891b2">
+                                <i class="yd sw-chevron-down"></i> Down
+                            </a>
+                            <a href="pagetransition.html" y2transi y2transi-effect="fade" y2btn class="y2btn-suc">
+                                <i class="yd sw-eye"></i> Fade
+                            </a>
+                            <a href="pagetransition.html" y2transi y2transi-effect="zoom" y2btn class="y2btn-pri"
+                                style="background:#f59e0b;border-color:#f59e0b">
+                                <i class="yd sw-zoom-in"></i> Zoom
+                            </a>
+                            <a href="pagetransition.html" y2transi y2transi-effect="circle" y2btn class="y2btn-pri"
+                                style="background:#ef4444;border-color:#ef4444">
+                                <i class="yd sw-circle"></i> Circle
+                            </a>
+                        </div>
+                    </div>
+                    <p class="t-pp t-mut">O overlay cobre a tela ao sair e desaparece ao entrar na nova página.</p>
+                </div>
+            </div>
+
+            <!-- COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">2. Como Funciona</h3>
+                <p class="t-g t-mut mb-4">SWTransi intercepta cliques em links com o atributo <code>y2transi</code> e
+                    aplica uma animação de saída antes de navegar. Ao carregar a nova página, uma animação de entrada
+                    complementa a transição. O overlay é criado automaticamente pelo JS.</p>
+                <div style="background:var(--sw-bg-alt);border-radius:var(--sw-r-g);padding:2rem;font-size:1.4rem">
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">1</span>
+                        <span>Usuário clica em um link <code>[y2transi]</code></span>
+                    </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">2</span>
+                        <span>SWTransi salva o efeito no <code>sessionStorage</code></span>
+                    </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">3</span>
+                        <span>Overlay de entrada é animado (ex: slide de baixo para cima)</span>
+                    </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">4</span>
+                        <span>Após a animação, o navegador vai para a nova URL</span>
+                    </div>
+                    <div class="flx alc gap-3">
+                        <span class="bdg is-suc is-sm">5</span>
+                        <span>Na nova página, o overlay sai com animação reversa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONFIGURAÇÃO -->
+            <div class="doc-card sec mb-6" id="config">
+                <h3 class="t-m f-bd mb-4">3. Uso Básico</h3>
+                <p class="t-g t-mut mb-4">Adicione <code>y2transi</code> em qualquer link interno. O overlay é criado
+                    automaticamente - não é necessário nenhum elemento HTML extra.</p>
+                <pre swcode="html"><script type="text/plain">
+<!-- Efeito padrão (slide) -->
+<a href="/sobre" y2transi>Sobre</a>
+
+<!-- Com efeito específico -->
+<a href="/portfolio" y2transi y2transi-effect="fade">Portfolio</a>
+
+<!-- Com duração customizada (ms) -->
+<a href="/contato" y2transi y2transi-effect="zoom" y2transi-dur="600">Contato</a>
+
+<!-- Com cor do overlay -->
+<a href="/home" y2transi y2transi-color="#6366f1">Home</a>
+</script></pre>
+            </div>
+
+            <!-- EFEITOS -->
+            <div class="doc-card sec mb-6" id="efeitos">
+                <h3 class="t-m f-bd mb-4">4. Efeitos Disponíveis</h3>
+                <div class="demo-wrap">
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">slide</p>
+                        <p class="t-pp t-mut mb-3">Overlay desliza da esquerda para a direita. Efeito padrão.</p>
+                        <code class="t-pri">y2transi-effect="slide"</code>
+                    </div>
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">up</p>
+                        <p class="t-pp t-mut mb-3">Overlay sobe de baixo para cima. Sensação de avanço.</p>
+                        <code class="t-pri">y2transi-effect="up"</code>
+                    </div>
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">down</p>
+                        <p class="t-pp t-mut mb-3">Overlay desce de cima para baixo. Sensação de retorno.</p>
+                        <code class="t-pri">y2transi-effect="down"</code>
+                    </div>
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">fade</p>
+                        <p class="t-pp t-mut mb-3">Overlay aparece com opacidade. Simples e discreto.</p>
+                        <code class="t-pri">y2transi-effect="fade"</code>
+                    </div>
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">zoom</p>
+                        <p class="t-pp t-mut mb-3">Overlay expande do centro da tela. Impactante para landing pages.</p>
+                        <code class="t-pri">y2transi-effect="zoom"</code>
+                    </div>
+                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">circle</p>
+                        <p class="t-pp t-mut mb-3">Revelar circular do centro com clip-path. Criativo e fluido.</p>
+                        <code class="t-pri">y2transi-effect="circle"</code>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<a href="/p1" y2transi y2transi-effect="slide">Slide</a>
+<a href="/p2" y2transi y2transi-effect="up">Up</a>
+<a href="/p3" y2transi y2transi-effect="down">Down</a>
+<a href="/p4" y2transi y2transi-effect="fade">Fade</a>
+<a href="/p5" y2transi y2transi-effect="zoom">Zoom</a>
+<a href="/p6" y2transi y2transi-effect="circle">Circle</a>
+</script></pre>
+            </div>
+
+            <!-- EXCLUIR LINKS -->
+            <div class="doc-card sec mb-6" id="excluir">
+                <h3 class="t-m f-bd mb-4">5. Links sem Transição</h3>
+                <p class="t-g t-mut mb-4">Links externos (<code>target="_blank"</code>), âncoras (<code>href="#"</code>)
+                    e links sem <code>y2transi</code> são ignorados automaticamente.</p>
+                <pre swcode="html"><script type="text/plain">
+<!-- Estes NÃO ativam transição -->
+<a href="https://externo.com" target="_blank">Externo</a>
+<a href="#ancora">Âncora</a>
+<a href="/pagina">Link normal (sem y2transi)</a>
+
+<!-- Apenas estes ativam -->
+<a href="/pagina" y2transi>Com transição</a>
+</script></pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2transi</code></td>
+                            <td>a</td>
+                            <td>Ativa a transição no link</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2transi-effect</code></td>
+                            <td>a</td>
+                            <td>Efeito: <code>slide</code> (padrão) - <code>up</code> - <code>down</code> -
+                                <code>fade</code> - <code>zoom</code> - <code>circle</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>y2transi-dur</code></td>
+                            <td>a</td>
+                            <td>Duração da animação em ms (padrão: 400)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2transi-color</code></td>
+                            <td>a</td>
+                            <td>Cor do overlay (padrão: var(--sw-pri))</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

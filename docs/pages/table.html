@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SWTable - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">SWTable</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">SWTable <span class="TprinD">DataTables-like</span></h2>
+                <p class="t-g t-mut">Tabelas interativas com paginação, busca, ordenação, exportação, visibilidade de colunas e modo server-side AJAX — tudo via atributos HTML, zero dependências. Funciona com HTML estático ou com <code>foreach</code> PHP.</p>
+            </div>
+
+            <!-- ?.═══?.? 1. DEMO COMPLETO ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-1">1. Demo completo</h3>
+                <p class="t-mut t-pp mb-4">Todos os recursos ativos: busca, ordenação, paginação, exportação CSV/Copiar e visibilidade de colunas.</p>
+
+                <div class="demo-wrap">
+                    <table y2table
+                           y2table-per="5"
+                           y2table-per-opts="5,10,25"
+                           y2table-export="csv,copy"
+                           y2table-colvis>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>Departamento</th>
+                                <th>Cidade</th>
+                                <th>Salário</th>
+                                <th y2table-nosort>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ana Carolina Silva</td>
+                                <td>UX Designer</td>
+                                <td>Criativo</td>
+                                <td>São Paulo</td>
+                                <td>R$ 8.500</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Bruno Henrique Santos</td>
+                                <td>Dev Frontend</td>
+                                <td>TI</td>
+                                <td>Curitiba</td>
+                                <td>R$ 11.200</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Carla Mendes Oliveira</td>
+                                <td>Product Manager</td>
+                                <td>Produto</td>
+                                <td>São Paulo</td>
+                                <td>R$ 15.800</td>
+                                <td><span class="bdg is-ale is-sm">Férias</span></td>
+                            </tr>
+                            <tr>
+                                <td>Diego Costa Ferreira</td>
+                                <td>Dev Backend</td>
+                                <td>TI</td>
+                                <td>Belo Horizonte</td>
+                                <td>R$ 12.400</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Elena Rodrigues Lima</td>
+                                <td>QA Engineer</td>
+                                <td>TI</td>
+                                <td>Porto Alegre</td>
+                                <td>R$ 9.300</td>
+                                <td><span class="bdg is-err is-sm">Inativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Felipe Araújo Lima</td>
+                                <td>DevOps Engineer</td>
+                                <td>TI</td>
+                                <td>Recife</td>
+                                <td>R$ 13.700</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Gabriela Ferraz Duarte</td>
+                                <td>UX Writer</td>
+                                <td>Criativo</td>
+                                <td>São Paulo</td>
+                                <td>R$ 7.900</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Hugo Almeida Prado</td>
+                                <td>Analista Financeiro</td>
+                                <td>Financeiro</td>
+                                <td>Brasília</td>
+                                <td>R$ 10.100</td>
+                                <td><span class="bdg is-ale is-sm">Férias</span></td>
+                            </tr>
+                            <tr>
+                                <td>Isabela Nunes Carvalho</td>
+                                <td>Dev Full Stack</td>
+                                <td>TI</td>
+                                <td>Florianópolis</td>
+                                <td>R$ 14.200</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>João Vitor Nascimento</td>
+                                <td>CEO</td>
+                                <td>Diretoria</td>
+                                <td>São Paulo</td>
+                                <td>R$ 42.000</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Karen Duarte Moreira</td>
+                                <td>Gestora de RH</td>
+                                <td>Pessoas</td>
+                                <td>Campinas</td>
+                                <td>R$ 11.500</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Lucas Prado Batista</td>
+                                <td>Dev Mobile</td>
+                                <td>TI</td>
+                                <td>Manaus</td>
+                                <td>R$ 10.800</td>
+                                <td><span class="bdg is-err is-sm">Inativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mariana Torres Gomes</td>
+                                <td>Data Analyst</td>
+                                <td>Dados</td>
+                                <td>São Paulo</td>
+                                <td>R$ 13.000</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nicolas Souza Ribeiro</td>
+                                <td>Scrum Master</td>
+                                <td>Produto</td>
+                                <td>Curitiba</td>
+                                <td>R$ 12.900</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Olivia Castro Pereira</td>
+                                <td>Marketing Lead</td>
+                                <td>Marketing</td>
+                                <td>Rio de Janeiro</td>
+                                <td>R$ 11.100</td>
+                                <td><span class="bdg is-ale is-sm">Férias</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pedro Henrique Luz</td>
+                                <td>Infra Engineer</td>
+                                <td>TI</td>
+                                <td>Goiânia</td>
+                                <td>R$ 10.400</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Rafaela Netto Viana</td>
+                                <td>Business Analyst</td>
+                                <td>Produto</td>
+                                <td>São Paulo</td>
+                                <td>R$ 12.200</td>
+                                <td><span class="bdg is-suc is-sm">Ativo</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre swcode="html"><script type="text/plain"><table y2table
+       y2table-per="5"
+       y2table-per-opts="5,10,25"
+       y2table-export="csv,copy"
+       y2table-colvis>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Cargo</th>
+      <th y2table-nosort>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ana Carolina Silva</td>
+      <td>UX Designer</td>
+      <td><span class="bdg is-suc is-sm">Ativo</span></td>
+    </tr>
+  </tbody>
+</table></script></pre>
+            </div>
+
+            <!-- ?.═══?.? 2. USO BÁSICO ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-1">2. Uso básico</h3>
+                <p class="t-mut t-pp mb-4">Adicione <code>y2table</code> em qualquer <code>&lt;table&gt;</code> existente. Busca, sort e paginação são ativados por padrão.</p>
+
+                <pre swcode="html"><script type="text/plain"><table y2table y2table-per="10">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Cargo</th>
+      <th>Departamento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ana Silva</td>
+      <td>Designer</td>
+      <td>Criativo</td>
+    </tr>
+    <!-- mais linhas... -->
+  </tbody>
+</table></script></pre>
+
+                <div class="crd mt-4 p-4" style="background:var(--sw-bg-sec)">
+                    <p class="t-pp t-mut mb-2"><strong>Desativar recursos individuais:</strong></p>
+                    <pre swcode="html"><script type="text/plain"><!-- Sem busca -->
+<table y2table y2table-search="false">
+
+<!-- Sem ordenação -->
+<table y2table y2table-sort="false">
+
+<!-- Sem zebra (stripe) -->
+<table y2table y2table-stripe="false">
+
+<!-- Coluna sem ordenação -->
+<th y2table-nosort>Ações</th></script></pre>
+                </div>
+            </div>
+
+            <!-- ?.═══?.? 3. ORDENAÇÃO E BUSCA ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="sort-search">
+                <h3 class="t-m f-bd mb-1">3. Ordenação e Busca</h3>
+                <p class="t-mut t-pp mb-4">Ordenação — automática em todas as colunas. Números são ordenados numericamente. Use <code>y2table-nosort</code> no <code>&lt;th&gt;</code> para desabilitar uma coluna específica. A busca filtra por todas as colunas simultaneamente com debounce de 300ms.</p>
+
+                <pre swcode="html"><script type="text/plain"><!-- Desabilitar sort em colunas específicas -->
+<thead>
+  <tr>
+    <th>Nome</th>           <!-- sortável -->
+    <th>Salário</th>        <!-- sortável (numérico) -->
+    <th y2table-nosort>Ações</th>  <!-- não sortável -->
+  </tr>
+</thead></script></pre>
+
+                <pre swcode="js">// Busca programática
+const tabela = document.querySelector('#minha-tabela');
+SWTable.search(tabela, 'São Paulo');
+
+// Escutar evento de busca
+tabela.addEventListener('yd:table:search', e => {
+    console.log('Query:', e.detail.query);
+});
+
+// Escutar evento de sort
+tabela.addEventListener('yd:table:sort', e => {
+    console.log('Coluna:', e.detail.col, 'Direção:', e.detail.dir);
+});</pre>
+            </div>
+
+            <!-- ?.═══?.? 4. EXPORTAÇÃO ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="export">
+                <h3 class="t-m f-bd mb-1">4. Exportação</h3>
+                <p class="t-mut t-pp mb-4">O atributo <code>y2table-export</code> aceita <code>csv</code> e <code>copy</code> separados por vírgula. A exportação respeita o filtro de busca atual e as colunas visíveis.</p>
+
+                <pre swcode="html"><script type="text/plain"><!-- Botões CSV e Copiar -->
+<table y2table y2table-export="csv,copy">
+
+<!-- Apenas CSV -->
+<table y2table y2table-export="csv">
+
+<!-- Apenas Copiar -->
+<table y2table y2table-export="copy"></script></pre>
+
+                <pre swcode="js">// Exportar programaticamente
+const tabela = document.querySelector('#minha-tabela');
+
+SWTable.export(tabela, 'csv');   // baixa arquivo tabela.csv
+SWTable.export(tabela, 'copy');  // copia para clipboard</pre>
+
+                <div class="crd mt-4 p-4" style="background:var(--sw-bg-sec)">
+                    <p class="t-pp t-mut"><strong>Nota:</strong> O CSV — gerado com BOM UTF-8 para compatibilidade com Excel. O Copiar usa tab como separador (compatível com Excel/Sheets).</p>
+                </div>
+            </div>
+
+            <!-- ?.═══?.? 5. SELEÇÃO DE LINHAS ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="select">
+                <h3 class="t-m f-bd mb-1">5. Seleção de linhas</h3>
+                <p class="t-mut t-pp mb-4">O atributo <code>y2table-select</code> adiciona uma coluna de checkboxes com "Selecionar tudo". O evento <code>yd:table:select</code> dispara ao mudar a seleção.</p>
+
+                <pre swcode="html"><script type="text/plain"><table y2table y2table-select>
+  <!-- ... -->
+</table></script></pre>
+
+                <pre swcode="js">const tabela = document.querySelector('#minha-tabela');
+
+tabela.addEventListener('yd:table:select', e => {
+    const selecionados = e.detail.selected; // array de índices
+    console.log(`${selecionados.length} linha(s) selecionada(s)`);
+    console.log('índices:', selecionados);
+});</pre>
+            </div>
+
+            <!-- ?.═══?.? 6. VISIBILIDADE DE COLUNAS ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="colvis">
+                <h3 class="t-m f-bd mb-1">6. Visibilidade de colunas</h3>
+                <p class="t-mut t-pp mb-4">O atributo <code>y2table-colvis</code> adiciona um botão "Colunas" que permite mostrar/ocultar colunas. Use <code>y2table-novis</code> no <code>&lt;th&gt;</code> para impedir que uma coluna seja ocultada.</p>
+
+                <pre swcode="html"><script type="text/plain"><table y2table y2table-colvis>
+  <thead>
+    <tr>
+      <th y2table-novis>ID</th>    <!-- não pode ocultar -->
+      <th>Nome</th>
+      <th>Salário</th>
+    </tr>
+  </thead>
+  <!-- ... -->
+</table></script></pre>
+
+                <div class="crd mt-4 p-4" style="background:var(--sw-bg-sec)">
+                    <p class="t-pp t-mut"><strong>Persistência:</strong> Combine com <code>y2table-state</code> para salvar as colunas visíveis no <code>localStorage</code>.</p>
+                    <pre swcode="html" class="mt-2"><script type="text/plain"><table y2table y2table-colvis y2table-state id="tabela-funcionarios">
+  <!-- o estado persiste entre recarregamentos -->
+</table></script></pre>
+                </div>
+            </div>
+
+            <!-- ?.═══?.? 7. SERVER-SIDE AJAX ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="ajax">
+                <h3 class="t-m f-bd mb-1">7. Server-side AJAX</h3>
+                <p class="t-mut t-pp mb-4">Use <code>y2table-url</code> para buscar dados do servidor. Paginação, busca e ordenação são delegadas ao servidor. O <code>thead</code> pode ser definido no HTML ou auto-gerado a partir de <code>y2table-cols</code>.</p>
+
+                <pre swcode="html"><script type="text/plain"><!-- Com thead no HTML -->
+<table y2table
+       y2table-url="/api/funcionarios"
+       y2table-per="10"
+       y2table-cols='[
+         {"label":"Nome","field":"nome"},
+         {"label":"Cargo","field":"cargo"},
+         {"label":"Cidade","field":"cidade"}
+       ]'>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Cargo</th>
+      <th>Cidade</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Sem thead — gerado automaticamente de y2table-cols -->
+<table y2table
+       y2table-url="/api/funcionarios"
+       y2table-cols='[{"label":"Nome","field":"nome"},{"label":"Cargo","field":"cargo"}]'>
+</table></script></pre>
+
+                <p class="t-mut t-pp mt-4 mb-2"><strong>Request enviado ao servidor:</strong></p>
+                <pre swcode="js">// GET /api/funcionarios?page=1&per=10&search=ana&sort=nome&dir=asc</pre>
+
+                <p class="t-mut t-pp mt-4 mb-2"><strong>Response esperado do servidor:</strong></p>
+                <pre swcode="js">// Mínimo — array simples (sem paginação)
+["dado1", "dado2"]
+
+// Completo — com total e filtrado
+{
+  "data": [
+    { "nome": "Ana Silva", "cargo": "Designer", "cidade": "São Paulo" },
+    { "nome": "Bruno Santos", "cargo": "Dev Frontend", "cidade": "Curitiba" }
+  ],
+  "total": 150,      // total de registros sem filtro
+  "filtered": 23     // total após filtro de busca
+}</pre>
+
+                <p class="t-mut t-pp mt-4 mb-2"><strong>Exemplo em PHP (Laravel):</strong></p>
+                <pre swcode="js">// Route::get('/api/funcionarios', function(Request $r) {
+//     $q = Funcionario::query();
+//     if ($r->search) $q->where('nome', 'like', "%{$r->search}%");
+//     $total    = $q->count();
+//     if ($r->sort) $q->orderBy($r->sort, $r->dir ?? 'asc');
+//     $filtered = $q->count();
+//     $data     = $q->skip(($r->page - 1) * $r->per)->take($r->per)->get();
+//     return response()->json(compact('data', 'total', 'filtered'));
+// });</pre>
+            </div>
+
+            <!-- ?.═══?.? 8. API JAVASCRIPT ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-1">8. API JavaScript</h3>
+                <p class="t-mut t-pp mb-4">Métodos estáticos disponíveis em <code>SWTable</code> para controle e população programática.</p>
+
+                <!-- fromData -->
+                <p class="t-mut t-pp mb-2"><strong>SWTable.fromData() — popular com dados JS</strong></p>
+                <p class="t-mut t-pp mb-3">Cria ou re-popula uma tabela a partir de arrays JS puros. HTML nas células — permitido. Chamadas subsequentes atualizam os dados sem recriar a UI.</p>
+
+                <pre swcode="js">// ?"—? 1. Arrays posicionais — mais simples
+SWTable.fromData('#tabela',
+    ['Nome', 'Cargo', 'Cidade'],
+    [
+        ['Ana Silva',    'Designer',  'São Paulo'],
+        ['Bruno Santos', 'Dev Front', 'Curitiba'],
+        ['Carla Mendes', 'PM',        'São Paulo'],
+    ]
+);
+
+// ?"—? 2. Objetos com field mapping
+SWTable.fromData('#tabela',
+    [
+        { label: 'Nome',  field: 'nome'  },
+        { label: 'Cargo', field: 'cargo' },
+        { label: 'Status', field: 'status', nosort: true },
+    ],
+    [
+        { nome: 'Ana Silva',    cargo: 'Designer',  status: '&lt;span class="bdg is-suc is-sm"&gt;Ativo&lt;/span&gt;' },
+        { nome: 'Bruno Santos', cargo: 'Dev Front', status: '&lt;span class="bdg is-err is-sm"&gt;Inativo&lt;/span&gt;' },
+    ]
+);
+
+// ?"—? 3. Com fetch() — carrega JSON e popula
+fetch('/api/produtos')
+    .then(r => r.json())
+    .then(data => {
+        SWTable.fromData('#tabela',
+            [
+                { label: 'Produto', field: 'nome' },
+                { label: 'Preço',   field: 'preco' },
+                { label: 'Estoque', field: 'qtd' },
+            ],
+            data
+        );
+    });
+
+// ?"—? 4. Re-popular tabela existente (atualiza sem recriar a UI)
+// A segunda chamada reutiliza busca, paginação e colunas já configuradas
+SWTable.fromData('#tabela', cols, novosDados);
+
+// ?"—? 5. Opções na primeira chamada (opts ignorados em chamadas seguintes)
+SWTable.fromData('#tabela', cols, rows, {
+    per:    10,
+    export: 'csv,copy',
+    colvis: true,
+    stripe: true,
+    state:  true,   // salva estado no localStorage (requer id na tabela)
+});</pre>
+
+                <div style="background:var(--sw-bg-sec);border-radius:var(--sw-r-g);padding:1.4rem 1.6rem;margin-top:1rem">
+                    <p class="t-pp t-mut mb-2"><strong>HTML nas células</strong></p>
+                    <p class="t-pp t-mut mb-0">Badges, links e botões funcionam normalmente. O sort e a busca usam o <code>textContent</code> visível — marque colunas de ação com <code>nosort: true</code> para evitar ordenação por HTML.</p>
+                </div>
+
+                <p class="t-mut t-pp mt-5 mb-2"><strong>Outros métodos</strong></p>
+                <pre swcode="js">const tabela = document.querySelector('#tabela');
+
+SWTable.reload(tabela);           // recarrega (útil após mutação externa)
+SWTable.search(tabela, 'SP');     // busca programática (atualiza o campo)
+SWTable.export(tabela, 'csv');    // baixa tabela.csv
+SWTable.export(tabela, 'copy');   // copia para clipboard
+
+// Acesso direto — instância
+const inst = tabela._y2TabInst;
+console.log(inst.cur);      // página atual
+console.log(inst._hidden);  // Set de índices de colunas ocultas</pre>
+
+                <p class="t-mut t-pp mt-4 mb-2"><strong>Eventos</strong></p>
+                <pre swcode="js">tabela.addEventListener('yd:table:page',   e => console.log('Página:', e.detail.page));
+tabela.addEventListener('yd:table:sort',   e => console.log('Sort:', e.detail.col, e.detail.dir));
+tabela.addEventListener('yd:table:search', e => console.log('Busca:', e.detail.query));</pre>
+            </div>
+
+            <!-- ?.═══?.? 9. PHP FOREACH ?.═══?.? -->
+            <div class="doc-card sec mb-6" id="php">
+                <h3 class="t-m f-bd mb-1">9. PHP — foreach com HTML</h3>
+                <p class="t-mut t-pp mb-4">
+                    O SWTable lê o conteúdo de cada <code>&lt;td&gt;</code> preservando o HTML interno.
+                    Badges, botões de ação, links e qualquer elemento renderizado pelo PHP funcionam normalmente —
+                    inclusive no sort e na busca (que usa o texto visível, não o HTML).
+                </p>
+
+                <p class="t-mut t-pp mb-2"><strong>Básico — foreach simples:</strong></p>
+                <pre swcode="html"><script type="text/plain"><table y2table y2table-per="10" y2table-export="csv,copy">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Cargo</th>
+      <th>Departamento</th>
+      <th y2table-nosort>Status</th>
+      <th y2table-nosort>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($funcionarios as $f): ?>
+    <tr>
+      <td><?= htmlspecialchars($f['nome']) ?></td>
+      <td><?= htmlspecialchars($f['cargo']) ?></td>
+      <td><?= htmlspecialchars($f['depto']) ?></td>
+      <td>
+        <?php if ($f['status'] === 'ativo'): ?>
+          <span class="bdg is-suc is-sm">Ativo</span>
+        <?php elseif ($f['status'] === 'ferias'): ?>
+          <span class="bdg is-ale is-sm">Férias</span>
+        <?php else: ?>
+          <span class="bdg is-err is-sm">Inativo</span>
+        <?php endif ?>
+      </td>
+      <td>
+        <a href="/editar/<?= $f['id'] ?>" class="tbl-act-btn" title="Editar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </a>
+        <a href="/excluir/<?= $f['id'] ?>" class="tbl-act-btn is-del" title="Excluir"
+           onclick="return confirm('Excluir?')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </a>
+      </td>
+    </tr>
+    <?php endforeach ?>
+  </tbody>
+</table></script></pre>
+
+                <p class="t-mut t-pp mt-5 mb-2"><strong>Com busca e sort respeitando os botões:</strong></p>
+                <p class="t-mut t-pp mb-4">
+                    Colunas com HTML (badges, botões) devem ter <code>y2table-nosort</code> — o sort usa o
+                    <code>textContent</code> visível, que pode ser vazio em colunas só com ícones.
+                    A busca global ignora essas colunas automaticamente se não houver texto visível.
+                </p>
+
+                <pre swcode="html"><script type="text/plain"><!-- Coluna de ações: desabilita sort -->
+<th y2table-nosort y2table-novis>Ações</th>
+
+<!-- Coluna de status: sort pelo texto do badge (Ativo/Inativo) -->
+<th>Status</th>  <!-- funciona porque o badge tem texto visível -->
+
+<!-- Busca ignora colunas sem texto: botões com apenas ícone SVG não poluem o filtro --></script></pre>
+
+                <p class="t-mut t-pp mt-5 mb-2"><strong>Estilo para botões de ação nas células:</strong></p>
+                <pre swcode="html"><script type="text/plain"><style>
+.tbl-act-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: var(--sw-r-sm);
+    color: var(--sw-txt-mut);
+    background: var(--sw-bg-sec);
+    border: 1px solid var(--sw-bor);
+    transition: all .15s;
+}
+.tbl-act-btn:hover          { color: var(--sw-pri); border-color: var(--sw-pri); }
+.tbl-act-btn.is-del:hover   { color: var(--sw-err); border-color: var(--sw-err); }
+</style></script></pre>
+            </div>
+
+            <!-- ?.═══?.? 10. QUICK REFERENCE ?.═══?.? -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">10. Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2table</code></td>
+                            <td>—</td>
+                            <td>Ativa o SWTable no elemento <code>&lt;table&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-per="N"</code></td>
+                            <td><code>10</code></td>
+                            <td>Linhas por página</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-per-opts="5,10,25"</code></td>
+                            <td><code>10,25,50,100</code></td>
+                            <td>Opções do seletor de linhas por página</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-search="false"</code></td>
+                            <td><code>true</code></td>
+                            <td>Desativa o campo de busca</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-sort="false"</code></td>
+                            <td><code>true</code></td>
+                            <td>Desativa a ordenação por colunas</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-stripe="false"</code></td>
+                            <td><code>true</code></td>
+                            <td>Desativa linhas alternadas (zebra)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-export="csv,copy"</code></td>
+                            <td>—</td>
+                            <td>Habilita botões de exportação (CSV e/ou Copiar)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-select</code></td>
+                            <td>—</td>
+                            <td>Adiciona coluna de checkboxes para seleção de linhas</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-colvis</code></td>
+                            <td>—</td>
+                            <td>Adiciona botão para mostrar/ocultar colunas</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-state</code></td>
+                            <td>—</td>
+                            <td>Salva estado (per, sort, busca, colunas ocultas) no <code>localStorage</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-url="/api/..."</code></td>
+                            <td>—</td>
+                            <td>Endpoint para modo server-side AJAX</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-cols='[...]'</code></td>
+                            <td>—</td>
+                            <td>Definição de colunas JSON para modo AJAX <code>[{"label":"Nome","field":"nome"}]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-nosort</code> (no <code>&lt;th&gt;</code>)</td>
+                            <td>—</td>
+                            <td>Desabilita ordenação nesta coluna específica</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2table-novis</code> (no <code>&lt;th&gt;</code>)</td>
+                            <td>—</td>
+                            <td>Impede que esta coluna seja ocultada pelo colvis</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:table:page</code></td>
+                            <td>—</td>
+                            <td>Evento ao mudar de página — <code>detail: { page }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:table:sort</code></td>
+                            <td>—</td>
+                            <td>Evento ao ordenar — <code>detail: { col, dir }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:table:search</code></td>
+                            <td>—</td>
+                            <td>Evento ao buscar — <code>detail: { query }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:table:select</code></td>
+                            <td>—</td>
+                            <td>Evento ao selecionar linhas — <code>detail: { selected }</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

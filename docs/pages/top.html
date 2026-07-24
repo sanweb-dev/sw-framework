@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Back to Top — SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec { scroll-margin-top: 10rem }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-end
+        }
+
+        /* botão de preview — mesma aparência do [y2top] mas sempre visível */
+        .top-demo {
+            width: 4.4rem;
+            height: 4.4rem;
+            border-radius: 50%;
+            border: none;
+            background: var(--sw-bg-ele);
+            color: var(--sw-txt);
+            cursor: pointer;
+            font-size: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            box-shadow: var(--sw-sha-m);
+        }
+        .top-demo.is-pri { background: var(--sw-pri); color: #fff; }
+        .top-demo.is-suc { background: var(--sw-suc); color: #fff; }
+        .top-demo.is-sec { background: transparent; color: var(--sw-pri); border: 2px solid var(--sw-pri); }
+        .top-demo.is-drk { background: #111; color: #fff; }
+        .top-demo.is-sq  { border-radius: var(--sw-r-m); }
+        .top-demo.is-pil { border-radius: 10rem; width: auto; padding: 0 1.6rem; font-size: 1.5rem; }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">Back to Top SWTop</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Back to Top <span class="TprinD">SWTop</span></h2>
+                <p class="t-g t-mut">Botão flutuante "voltar ao topo" — aparece após 300px de scroll, com variações de
+                    estilo, cor e posição.</p>
+            </div>
+
+            <!-- DEMO ESTILOS -->
+            <div class="doc-card sec mb-6" id="estilos">
+                <h3 class="t-m f-bd mb-4">1. Estilos</h3>
+                <p class="t-g t-mut mb-4">Role esta página para ver o botão real aparecer no canto inferior direito.</p>
+                <div class="demo-wrap">
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">Padrão</span>
+                        <button class="top-demo"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-pri</span>
+                        <button class="top-demo is-pri"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-suc</span>
+                        <button class="top-demo is-suc"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-sec</span>
+                        <button class="top-demo is-sec"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-drk</span>
+                        <button class="top-demo is-drk"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-sq</span>
+                        <button class="top-demo is-pri is-sq"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-pil</span>
+                        <button class="top-demo is-pri is-pil"><i class="yd sw-chevron-up"></i> Topo</button>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Padrão (círculo, canto inferior direito) -->
+<button y2top aria-label="Voltar ao topo">
+  <i class="yd sw-chevron-up"></i>
+</button>
+
+<!-- Cores -->
+<button y2top class="is-pri"><i class="yd sw-chevron-up"></i></button>
+<button y2top class="is-suc"><i class="yd sw-chevron-up"></i></button>
+<button y2top class="is-sec"><i class="yd sw-chevron-up"></i></button>
+<button y2top class="is-drk"><i class="yd sw-chevron-up"></i></button>
+
+<!-- Formas -->
+<button y2top class="is-pri is-sq"><i class="yd sw-chevron-up"></i></button>
+<button y2top class="is-pri is-pil"><i class="yd sw-chevron-up"></i> Topo</button>
+</script></pre>
+            </div>
+
+            <!-- POSIÇÃO?.ES -->
+            <div class="doc-card sec mb-6" id="posicoes">
+                <h3 class="t-m f-bd mb-4">2. Posições</h3>
+                <p class="t-g t-mut mb-4">Quatro cantos disponíveis — padrão — inferior direito.</p>
+                <div class="demo-wrap">
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">Padrão (br)</span>
+                        <button class="top-demo is-pri"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-bl</span>
+                        <button class="top-demo is-pri"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-tr</span>
+                        <button class="top-demo is-pri"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                    <div class="flx fdc alc gap-2">
+                        <span class="t-pp t-mut">is-tl</span>
+                        <button class="top-demo is-pri"><i class="yd sw-chevron-up"></i></button>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Canto inferior direito (padrão) -->
+<button y2top class="is-pri"><i class="yd sw-chevron-up"></i></button>
+
+<!-- Canto inferior esquerdo -->
+<button y2top class="is-pri is-bl"><i class="yd sw-chevron-up"></i></button>
+
+<!-- Canto superior direito -->
+<button y2top class="is-pri is-tr"><i class="yd sw-chevron-up"></i></button>
+
+<!-- Canto superior esquerdo -->
+<button y2top class="is-pri is-tl"><i class="yd sw-chevron-up"></i></button>
+</script></pre>
+            </div>
+
+            <!-- COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">3. Como Funciona</h3>
+                <p class="t-g t-mut mb-4">SWTop monitora o scroll da página. Após <strong>300px</strong> de scroll,
+                    adiciona a classe <code>.is-vis</code> que torna o botão visível. O clique executa scroll suave ao topo.</p>
+                <pre swcode="js">
+// Sem scroll  → botão oculto (opacity: 0)
+// Após 300px  → .is-vis adicionado → opacity: 1, pointer-events: auto
+// Clique      → window.scrollTo({ top: 0, behavior: 'smooth' })
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2top</code></td>
+                            <td>button</td>
+                            <td>Ativa o back-to-top (fixed, oculto por padrão)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-vis</code></td>
+                            <td>button</td>
+                            <td>Adicionado automaticamente após 300px de scroll</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-pri — .is-suc — .is-sec — .is-drk</code></td>
+                            <td>button</td>
+                            <td>Variações de cor</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-sq</code></td>
+                            <td>button</td>
+                            <td>Forma quadrada</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-pil</code></td>
+                            <td>button</td>
+                            <td>Forma pill — aceita texto ao lado do ícone</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-bl — .is-tr — .is-tl</code></td>
+                            <td>button</td>
+                            <td>Posição: bottom-left — top-right — top-left (padrão: bottom-right)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Botão real — aparece ao rolar 300px -->
+    <button y2top class="is-pri" aria-label="Voltar ao topo">
+        <i class="yd sw-chevron-up"></i>
+    </button>
+</body>
+
+</html>

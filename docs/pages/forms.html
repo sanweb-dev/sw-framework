@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forms Framework - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .t-pri {
+            color: var(--sw-pri) !important;
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: 0.8rem;
+            padding: 2.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .sec {
+            scroll-margin-top: 10rem;
+        }
+
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.8rem;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.4rem;
+        }
+
+        .ref-table th {
+            background: var(--sw-bg-sec);
+            color: var(--sw-txt-bas);
+            padding: 1rem 1.2rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            border-bottom: 2px solid var(--sw-bor);
+        }
+
+        .ref-table td {
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid var(--sw-bor);
+            vertical-align: top;
+        }
+
+        .ref-table td:first-child {
+            font-family: var(--sw-f-mon);
+            color: var(--sw-pri);
+            white-space: nowrap;
+        }
+
+        .ref-table td:nth-child(2) {
+            color: var(--sw-txt-mut);
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+
+            .g2,
+            .g3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .badge-new {
+            display: inline-block;
+            padding: 0.1rem 0.6rem;
+            background: var(--sw-pri);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 2rem;
+            vertical-align: middle;
+            margin-left: 0.4rem;
+        }
+
+        .sec {
+            scroll-margin-top: 10rem;
+        }
+
+        /* range demo JS */
+        .live-val {
+            font-family: var(--sw-f-mon);
+            font-weight: 700;
+            color: var(--sw-pri);
+        }
+
+        /* inline code */
+        .cod {
+            font-family: var(--sw-f-mon);
+        }
+
+        /* settings list */
+        .cfg-it {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.4rem 1.6rem;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .cfg-it:last-child {
+            border-bottom: none;
+        }
+
+        .cfg-ttl {
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        .cfg-sub {
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Elementos</span>
+                <span class="brc-it is-cur" aria-current="page">Forms</span>
+            </nav>
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">Components</span>
+                <h2 class="t-xxg f-bd mb-2">Forms <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    O sistema de formulário mais completo do SW. Input, select, textarea, checkbox, radio,
+                    switch, range, file upload, segmented control, floating label, input groups - com estados,
+                    tamanhos, variantes de cor e layout responsivo.
+                </p>
+            </div>
+
+            <!-- =========================================
+                 1. INPUTS
+                 ========================================= -->
+            <div class="doc-card sec" id="inputs">
+                <h3 class="t-m f-bd mb-1">1. Input</h3>
+                <p class="t-mut t-p mb-6">A classe <code class="cod Tpri">.inp</code> funciona em qualquer <code
+                        class="cod">input</code> de texto.</p>
+
+                <!-- Base -->
+                <p class="demo-label">Base</p>
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Nome completo</label>
+                            <input class="inp" type="text" placeholder="Ex: João Silva">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl is-req">E-mail</label>
+                            <input class="inp" type="email" placeholder="voce@empresa.com">
+                            <span class="fld-hlp">Nunca compartilharemos seu e-mail.</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Senha</label>
+                            <input class="inp" type="password" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Número</label>
+                            <input class="inp" type="number" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estados -->
+                <p class="demo-label">Estados</p>
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Erro</label>
+                            <input class="inp is-err" type="text" value="joao@">
+                            <span class="fld-err">E-mail inválido</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Sucesso</label>
+                            <input class="inp is-suc" type="text" value="gabriel@y2.dev">
+                            <span class="fld-ok">E-mail válido e disponível</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Alerta</label>
+                            <input class="inp is-ale" type="text" value="senha123">
+                            <span class="fld-hlp Tale">Senha fraca - adicione símbolos</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl" style="opacity:0.45">Desabilitado</label>
+                            <input class="inp" type="text" value="Campo bloqueado" disabled>
+                        </div>
+                    </div>
+                    <div class="frm-row mt-4">
+                        <div class="fld">
+                            <label class="fld-lbl">Somente leitura</label>
+                            <input class="inp" type="text" value="Valor fixo - readonly" readonly>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Loading</label>
+                            <input class="inp is-ldg" type="text" value="Verificando..." readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Estados semânticos -->
+<input class="inp is-err" type="text">
+<span class="fld-err">Mensagem de erro</span>
+
+<input class="inp is-suc" type="text">
+<span class="fld-ok">Mensagem de sucesso</span>
+
+<input class="inp is-ale" type="text">
+
+<!-- Desabilitado / Readonly / Loading -->
+<input class="inp" type="text" disabled>
+<input class="inp" type="text" readonly>
+<input class="inp is-ldg" type="text" readonly>
+</script></pre>
+
+                <!-- Tamanhos -->
+                <p class="demo-label">Tamanhos</p>
+                <div class="demo-wrap">
+                    <div class="flx f-cl gap-4" style="max-width: 40rem;">
+                        <div class="fld">
+                            <label class="fld-lbl">is-p</label>
+                            <input class="inp is-p" type="text" placeholder="Pequeno - 3.4rem altura">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Base (padrão)</label>
+                            <input class="inp" type="text" placeholder="Base - 4.4rem altura">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">is-g</label>
+                            <input class="inp is-g" type="text" placeholder="Grande - 5.4rem altura">
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Tamanhos: .is-p | padrão | .is-g -->
+<input class="inp is-p" type="text" placeholder="Pequeno">
+<input class="inp" type="text" placeholder="Base (padrão)">
+<input class="inp is-g" type="text" placeholder="Grande">
+</script></pre>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Estrutura completa de campo -->
+<div class="fld">
+  <label class="fld-lbl is-req">E-mail</label>
+  <input class="inp" type="email" placeholder="voce@email.com">
+  <span class="fld-hlp">Texto de ajuda</span>
+  <span class="fld-err">Mensagem de erro</span>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 2. INPUT GROUPS
+                 ========================================= -->
+            <div class="doc-card sec" id="groups">
+                <h3 class="t-m f-bd mb-1">2. Input Groups - Prefixos, Sufixos e Addons</h3>
+                <p class="t-mut t-p mb-6">Combine ícones, texto e botões colados ao campo.</p>
+
+                <p class="demo-label">Ícones</p>
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Busca</label>
+                            <div class="fld-grp has-ico-l">
+                                <i class="sw-search fld-ico-l"></i>
+                                <input class="inp" type="text" placeholder="Buscar...">
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Senha com toggle</label>
+                            <div class="fld-grp has-ico-r">
+                                <input class="inp" type="password" placeholder="........" id="pass-demo">
+                                <i class="sw-eye fld-ico-r is-btn"
+                                    onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'; this.classList.toggle('sw-eye'); this.classList.toggle('sw-eye-off');"></i>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">E-mail com ícone</label>
+                            <div class="fld-grp has-ico-l has-ico-r">
+                                <i class="sw-mail fld-ico-l"></i>
+                                <input class="inp is-suc" type="email" value="gabriel@y2.dev">
+                                <i class="sw-check fld-ico-r Tsuc"></i>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Usuário</label>
+                            <div class="fld-grp has-ico-l">
+                                <i class="sw-user fld-ico-l"></i>
+                                <input class="inp" type="text" placeholder="@username">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="demo-label">Addons - texto e botão colado</p>
+                <div class="demo-wrap">
+                    <div class="flx f-cl gap-4" style="max-width: 50rem;">
+                        <div class="fld">
+                            <label class="fld-lbl">URL do site</label>
+                            <div class="fld-grp">
+                                <span class="fld-adn">https://</span>
+                                <input class="inp" type="text" placeholder="meusite.com.br">
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Preço</label>
+                            <div class="fld-grp">
+                                <span class="fld-adn">R$</span>
+                                <input class="inp" type="number" placeholder="0,00">
+                                <span class="fld-adn">BRL</span>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Inscrição na newsletter</label>
+                            <div class="fld-grp">
+                                <input class="inp" type="email" placeholder="seu@email.com">
+                                <span class="fld-adn is-btn">Inscrever</span>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Código de desconto</label>
+                            <div class="fld-grp has-ico-l">
+                                <i class="sw-tag fld-ico-l"></i>
+                                <input class="inp" type="text" placeholder="PROMO2026">
+                                <span class="fld-adn is-btn">Aplicar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Ícone absoluto -->
+<div class="fld-grp has-ico-l">
+  <i class="sw-search fld-ico-l"></i>
+  <input class="inp" type="text">
+</div>
+
+<!-- Addon colado + botão -->
+<div class="fld-grp">
+  <span class="fld-adn">R$</span>
+  <input class="inp" type="number">
+  <span class="fld-adn is-btn">Confirmar</span>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 3. FLOATING LABEL
+                 ========================================= -->
+            <div class="doc-card sec" id="floating">
+                <h3 class="t-m f-bd mb-1">3. Floating Label <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">
+                    Label que flutua para cima ao focar ou preencher. CSS puro via
+                    <code class="cod">:not(:placeholder-shown)</code>.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <div class="fld-flt">
+                                <input class="inp" type="text" placeholder=" " id="flt1">
+                                <label class="flt-lbl" for="flt1">Nome completo</label>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <div class="fld-flt">
+                                <input class="inp" type="email" placeholder=" " id="flt2">
+                                <label class="flt-lbl" for="flt2">Endereço de e-mail</label>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <div class="fld-flt">
+                                <input class="inp is-err" type="text" value="123" placeholder=" " id="flt3">
+                                <label class="flt-lbl" for="flt3">CPF ou CNPJ</label>
+                            </div>
+                            <span class="fld-err">Documento inválido</span>
+                        </div>
+                        <div class="fld">
+                            <div class="fld-flt">
+                                <textarea class="txr" placeholder=" " id="flt4" style="height:8rem"></textarea>
+                                <label class="flt-lbl" for="flt4">Mensagem</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<div class="fld-flt">
+  <input class="inp" type="text" placeholder=" " id="campo">
+  <label class="flt-lbl" for="campo">Label flutuante</label>
+</div>
+<!-- placeholder=" " (espaço) é obrigatório para :not(:placeholder-shown) funcionar -->
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 EXT. ESTILOS MODERNOS (SW 2.0)
+                 ========================================= -->
+            <div class="doc-card sec" id="styles">
+                <div class="flx f-bet f-cnt mb-4">
+                    <div>
+                        <h3 class="t-m f-bd mb-1">Modern Visual Styles <span class="badge-new">The Tentacles</span></h3>
+                        <p class="t-mut t-p">4 variantes estéticas premium que podem ser aplicadas a qualquer componente
+                            de formulário (Input, Select, Textarea, Checkbox, Radio, Switch).</p>
+                    </div>
+                </div>
+
+                <div class="g2">
+                    <!-- 1. Soft Depth -->
+                    <div class="fld">
+                        <p class="t-pp t-mut mb-2"><strong>Soft Depth (.is-soft)</strong>: Baseado em Neumorphism sutil,
+                            usa sombras internas e externas para um visual tátil e limpo.</p>
+                        <div class="demo-wrap flx f-cl gap-4">
+                            <input class="inp is-soft" type="text" placeholder="Input Soft Depth">
+                            <div class="flx gap-4">
+                                <label class="chk is-soft"><input type="checkbox" checked><span
+                                        class="chk-box"></span><span class="chk-lbl">Checkbox</span></label>
+                                <label class="swt is-soft"><input type="checkbox" checked><span
+                                        class="swt-trk"></span><span class="chk-lbl">Switch</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Glassmorphism -->
+                    <div class="fld">
+                        <p class="t-pp t-mut mb-2"><strong>Glassmorphism (.is-gls)</strong>: Efeito de vidro foscado com
+                            blur de fundo e bordas translúcidas. Indispensável para temas escuros modernos.</p>
+                        <div class="demo-wrap flx f-cl gap-4"
+                            style="background: linear-gradient(135deg, #1a1a2e, #16213e); border:none; border-radius: 1.2rem;">
+                            <input class="inp is-gls" type="text" placeholder="Input Glassmorphism">
+                            <div class="flx gap-4">
+                                <label class="chk is-gls"><input type="checkbox" checked><span
+                                        class="chk-box"></span><span class="chk-lbl"
+                                        style="color:#eee">Checkbox</span></label>
+                                <label class="swt is-gls"><input type="checkbox" checked><span
+                                        class="swt-trk"></span><span class="chk-lbl"
+                                        style="color:#eee">Switch</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Minimalist -->
+                    <div class="fld">
+                        <p class="t-pp t-mut mb-2"><strong>Minimalist (.is-min)</strong>: Estilo "Underline" inspirado
+                            em design mobile e Apple. Foca totalmente no conteúdo com bordas laterais removidas.</p>
+                        <div class="demo-wrap flx f-cl gap-4">
+                            <input class="inp is-min" type="text" placeholder="Apenas a linha inferior...">
+                            <div class="flx gap-4">
+                                <label class="chk is-min"><input type="checkbox" checked><span
+                                        class="chk-box"></span><span class="chk-lbl">Thin Style</span></label>
+                                <label class="rdo is-min"><input type="radio" checked><span class="rdo-dot"></span><span
+                                        class="chk-lbl">Radio Line</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Solid Filled -->
+                    <div class="fld">
+                        <p class="t-pp t-mut mb-2"><strong>Solid Filled (.is-fld)</strong>: Fundos coloridos neutros
+                            ideais para zonas de busca ou componentes com alta ênfase visual.</p>
+                        <div class="demo-wrap flx f-cl gap-4">
+                            <input class="inp is-fld" type="text" placeholder="Fundo preenchido...">
+                            <div class="flx gap-4">
+                                <label class="chk is-fld"><input type="checkbox" checked><span
+                                        class="chk-box"></span><span class="chk-lbl">Filled Box</span></label>
+                                <label class="swt is-fld"><input type="checkbox" checked><span
+                                        class="swt-trk"></span><span class="chk-lbl">Filled Track</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Soft Depth -->
+<input class="inp is-soft">
+
+<!-- Glassmorphism -->
+<input class="inp is-gls">
+
+<!-- Minimalist -->
+<input class="inp is-min">
+
+<!-- Solid Filled -->
+<input class="inp is-fld">
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 4. SELECT
+                 ========================================= -->
+            <div class="doc-card sec" id="select">
+                <h3 class="t-m f-bd mb-1">4. Select</h3>
+                <p class="t-mut t-p mb-6">Dropdown nativo estilizado com chevron SVG customizado.</p>
+
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Estado</label>
+                            <select class="sel">
+                                <option value="">Selecione um estado</option>
+                                <option>São Paulo</option>
+                                <option>Rio de Janeiro</option>
+                                <option>Minas Gerais</option>
+                                <option>Bahia</option>
+                                <option>Rio Grande do Sul</option>
+                            </select>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl is-req">Categoria</label>
+                            <select class="sel">
+                                <option>Hardware</option>
+                                <option selected>Software</option>
+                                <option>Serviços</option>
+                            </select>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Erro</label>
+                            <select class="sel is-err">
+                                <option>- selecione -</option>
+                            </select>
+                            <span class="fld-err">Campo obrigatório</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl" style="opacity:0.45">Desabilitado</label>
+                            <select class="sel" disabled>
+                                <option>Bloqueado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="frm-row mt-4">
+                        <div class="fld">
+                            <label class="fld-lbl">is-p</label>
+                            <select class="sel is-p">
+                                <option>Compacto</option>
+                                <option>Opção 2</option>
+                            </select>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">is-g</label>
+                            <select class="sel is-g">
+                                <option>Grande</option>
+                                <option>Opção 2</option>
+                            </select>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Multi-select</label>
+                            <select class="sel" multiple style="height:10rem">
+                                <option>JavaScript</option>
+                                <option selected>TypeScript</option>
+                                <option selected>CSS</option>
+                                <option>Python</option>
+                                <option>Go</option>
+                            </select>
+                            <span class="fld-hlp">Ctrl+Click para múltiplos</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Use a classe <code class="cod">.sel</code> para dropdowns nativos
+                    estilizados. Suporta os modificadores <code class="cod">.is-err</code>, <code
+                        class="cod">.is-p</code> e <code class="cod">.is-g</code>, além do atributo <code
+                        class="cod">multiple</code> para multiplas escolhas.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<select class="sel">
+  <option value="">Selecione...</option>
+  <option>Opção 1</option>
+</select>
+
+<!-- Estados: .is-err | disabled -->
+<select class="sel is-err">...</select>
+<select class="sel" disabled>...</select>
+
+<!-- Tamanhos: .is-p | .is-g -->
+<select class="sel is-p">...</select>
+
+<!-- Múltiplo -->
+<select class="sel" multiple>...</select>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 5. TEXTAREA
+                 ========================================= -->
+            <div class="doc-card sec" id="textarea">
+                <h3 class="t-m f-bd mb-1">5. Textarea</h3>
+                <p class="t-mut t-p mb-6">Área de texto redimensionável com contagem de caracteres.</p>
+
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl is-req">Descrição do produto</label>
+                            <textarea class="txr" placeholder="Descreva seu produto em detalhes..." id="txr-demo"
+                                oninput="document.getElementById('cnt-demo').textContent = this.value.length + ' / 500'; document.getElementById('cnt-demo').className = 'fld-cnt' + (this.value.length > 450 ? ' is-ale' : '') + (this.value.length > 490 ? ' is-per' : '')"></textarea>
+                            <span class="fld-cnt" id="cnt-demo">0 / 500</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Comentário (erro)</label>
+                            <textarea class="txr is-err" placeholder="Texto muito curto...">Ok</textarea>
+                            <span class="fld-err">Mínimo de 20 caracteres</span>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Notas (fixo)</label>
+                            <textarea class="txr is-fix is-p" placeholder="Notas internas..."
+                                style="height:8rem"></textarea>
+                            <span class="fld-hlp">Resize desabilitado com .is-fix</span>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<textarea class="txr" placeholder="Descreva..."></textarea>
+<span class="fld-cnt">0 / 500</span>
+
+<!-- .is-fix desabilita resize | .is-auto = resize horizontal | .is-g = maior -->
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 6. CHECKBOX
+                 ========================================= -->
+            <div class="doc-card sec" id="checkbox">
+                <h3 class="t-m f-bd mb-1">6. Checkbox</h3>
+                <p class="t-mut t-p mb-6">Checkbox customizado com checkmark CSS. Suporta indeterminate, card e
+                    variantes de cor.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Base</p>
+                        <div class="demo-wrap">
+                            <div class="chk-grp">
+                                <label class="chk">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">Aceito os termos de uso</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox">
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">Receber newsletter</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox" id="indet" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">Indeterminate</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox" disabled>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl" style="opacity:0.45">Desabilitado</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox" checked disabled>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl" style="opacity:0.45">Marcado desabilitado</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Variantes de cor</p>
+                        <div class="demo-wrap">
+                            <div class="chk-grp">
+                                <label class="chk">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">Primário (padrão)</span>
+                                </label>
+                                <label class="chk is-suc">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">is-suc - sucesso</span>
+                                </label>
+                                <label class="chk is-per">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">is-per - perigo</span>
+                                </label>
+                                <label class="chk is-acc">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">is-acc - accent</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Card variant - .chk.is-crd</p>
+                        <div class="demo-wrap">
+                            <div class="chk-grp">
+                                <label class="chk is-crd">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">
+                                        <strong>Plano Pro</strong>
+                                        <br><small class="t-mut">R$ 99/mês - Recursos
+                                            ilimitados</small>
+                                    </span>
+                                </label>
+                                <label class="chk is-crd">
+                                    <input type="checkbox">
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">
+                                        <strong>Backup automático</strong>
+                                        <br><small class="t-mut">Diário às 3h - +R$ 19/mês</small>
+                                    </span>
+                                </label>
+                                <label class="chk is-crd">
+                                    <input type="checkbox">
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">
+                                        <strong>Suporte prioritário</strong>
+                                        <br><small class="t-mut">Resposta em até 1h - +R$ 49/mês</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Horizontal - .chk-grp.is-row</p>
+                        <div class="demo-wrap">
+                            <div class="chk-grp is-row">
+                                <label class="chk">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">HTML</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox" checked>
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">CSS</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox">
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">JS</span>
+                                </label>
+                                <label class="chk">
+                                    <input type="checkbox">
+                                    <span class="chk-box"></span>
+                                    <span class="chk-lbl">PHP</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Checkboxes customizados com suporte a variantes de cores semânticas (<code
+                        class="cod">.is-suc</code>, <code class="cod">.is-per</code>, etc), modo card (<code
+                        class="cod">.is-crd</code>) e alinhamento horizontal.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Base -->
+<label class="chk">
+  <input type="checkbox">
+  <span class="chk-box"></span>
+  <span class="chk-lbl">Label</span>
+</label>
+
+<!-- Card Variant -->
+<label class="chk is-crd">
+  <input type="checkbox">
+  <span class="chk-box"></span>
+  <span class="chk-lbl">
+    <strong>Título</strong><br>
+    <small>Descrição...</small>
+  </span>
+</label>
+
+<!-- Grupo Horizontal -->
+<div class="chk-grp is-row">...</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 7. RADIO
+                 ========================================= -->
+            <div class="doc-card sec" id="radio">
+                <h3 class="t-m f-bd mb-1">7. Radio</h3>
+                <p class="t-mut t-p mb-6">Radio customizado com dot animado por spring. Suporta card variant.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Base</p>
+                        <div class="demo-wrap">
+                            <div class="rdo-grp">
+                                <label class="rdo">
+                                    <input type="radio" name="plano" checked>
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">Starter - Grátis</span>
+                                </label>
+                                <label class="rdo">
+                                    <input type="radio" name="plano">
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">Pro - R$ 99/mês</span>
+                                </label>
+                                <label class="rdo">
+                                    <input type="radio" name="plano">
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">Enterprise - Sob consulta</span>
+                                </label>
+                                <label class="rdo">
+                                    <input type="radio" name="plano" disabled>
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl" style="opacity:0.45">Legacy (indisponível)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Card variant - .rdo.is-crd</p>
+                        <div class="demo-wrap">
+                            <div class="rdo-grp">
+                                <label class="rdo is-crd">
+                                    <input type="radio" name="pay" checked>
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">
+                                        <strong>Cartão de crédito</strong>
+                                        <br><small class="t-mut">Visa, Master, Elo, Amex</small>
+                                    </span>
+                                </label>
+                                <label class="rdo is-crd">
+                                    <input type="radio" name="pay">
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">
+                                        <strong>PIX</strong>
+                                        <br><small class="t-mut">Aprovação instantânea</small>
+                                    </span>
+                                </label>
+                                <label class="rdo is-crd">
+                                    <input type="radio" name="pay">
+                                    <span class="rdo-dot"></span>
+                                    <span class="rdo-lbl">
+                                        <strong>Boleto bancário</strong>
+                                        <br><small class="t-mut">Vence em 3 dias úteis</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Radios customizados com animação suave e suporte a modo card (<code
+                        class="cod">.is-crd</code>). Agrupe-os em uma <code class="cod">.rdo-grp</code> para espaçamento
+                    automático.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<label class="rdo">
+  <input type="radio" name="grupo">
+  <span class="rdo-dot"></span>
+  <span class="rdo-lbl">Opção</span>
+</label>
+
+<!-- Card -->
+<label class="rdo is-crd">
+  <input type="radio" name="grupo">
+  <span class="rdo-dot"></span>
+  <span class="rdo-lbl">...</span>
+</label>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 8. SWITCH
+                 ========================================= -->
+            <div class="doc-card sec" id="switch">
+                <h3 class="t-m f-bd mb-1">8. Switch / Toggle</h3>
+                <p class="t-mut t-p mb-6">Toggle com animação spring no thumb. Tamanhos sm/base/lg e variantes de cor.
+                </p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Tamanhos</p>
+                        <div class="demo-wrap">
+                            <div class="flx f-cl gap-5">
+                                <label class="swt is-p">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-p - pequeno</span>
+                                </label>
+                                <label class="swt">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">Base (padrão)</span>
+                                </label>
+                                <label class="swt is-g">
+                                    <input type="checkbox">
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-g - grande</span>
+                                </label>
+                                <label class="swt">
+                                    <input type="checkbox" disabled>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl" style="opacity:0.45">Desabilitado</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Variantes de cor</p>
+                        <div class="demo-wrap">
+                            <div class="flx f-cl gap-5">
+                                <label class="swt">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">Primário (padrão)</span>
+                                </label>
+                                <label class="swt is-suc">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-suc - sucesso</span>
+                                </label>
+                                <label class="swt is-per">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-per - perigo</span>
+                                </label>
+                                <label class="swt is-ale">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-ale - alerta</span>
+                                </label>
+                                <label class="swt is-acc">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-lbl">is-acc - accent</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Com label on/off dinâmica</p>
+                        <div class="demo-wrap">
+                            <div class="flx f-cl gap-5">
+                                <label class="swt">
+                                    <input type="checkbox">
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-off">Notificações desativadas</span>
+                                    <span class="swt-on">Notificações ativas</span>
+                                </label>
+                                <label class="swt is-suc">
+                                    <input type="checkbox" checked>
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-off">Modo offline</span>
+                                    <span class="swt-on">Online</span>
+                                </label>
+                                <label class="swt is-per">
+                                    <input type="checkbox">
+                                    <span class="swt-trk"></span>
+                                    <span class="swt-off">2FA desativado</span>
+                                    <span class="swt-on">2FA ativo</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Em lista de configurações</p>
+                        <div class="demo-wrap" style="padding:0;overflow:hidden;">
+                            <div>
+                                <div class="cfg-it">
+                                    <div>
+                                        <div class="cfg-ttl">Notificações por e-mail</div>
+                                        <div class="cfg-sub">Receba atualizações no seu e-mail</div>
+                                    </div>
+                                    <label class="swt"><input type="checkbox" checked><span
+                                            class="swt-trk"></span></label>
+                                </div>
+                                <div class="cfg-it">
+                                    <div>
+                                        <div class="cfg-ttl">Push notifications</div>
+                                        <div class="cfg-sub">No navegador e mobile</div>
+                                    </div>
+                                    <label class="swt"><input type="checkbox"><span class="swt-trk"></span></label>
+                                </div>
+                                <div class="cfg-it">
+                                    <div>
+                                        <div class="cfg-ttl">Modo escuro</div>
+                                        <div class="cfg-sub">Tema aplicado em toda a interface</div>
+                                    </div>
+                                    <label class="swt"><input type="checkbox" checked><span
+                                            class="swt-trk"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Toggles modernos com suporte a labels dinâmicas (<code
+                        class="cod">.swt-off</code> e <code class="cod">.swt-on</code>) e variantes de cores semânticas.
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<label class="swt">
+  <input type="checkbox">
+  <span class="swt-trk"></span>
+  <span class="swt-lbl">Label fixa</span>
+</label>
+
+<!-- Com Labels Dinâmicas (On/Off) -->
+<label class="swt">
+  <input type="checkbox">
+  <span class="swt-trk"></span>
+  <span class="swt-off">Desativado</span>
+  <span class="swt-on">Ativado</span>
+</label>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 9. RANGE
+                 ========================================= -->
+            <div class="doc-card sec" id="range">
+                <h3 class="t-m f-bd mb-1">9. Range Slider <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">Track colorido progressivo, thumb com spring hover e variantes de cor.</p>
+
+                <div class="demo-wrap">
+                    <div class="flx f-cl gap-6">
+                        <div class="fld">
+                            <label class="fld-lbl">Volume - <span class="live-val" id="vol-val">70</span>%</label>
+                            <input class="rng" type="range" min="0" max="100" value="70" id="rng-vol"
+                                style="--rng-pct: 70%"
+                                oninput="this.style.setProperty('--rng-pct', this.value + '%'); document.getElementById('vol-val').textContent = this.value">
+                            <div class="rng-lbl"><span>0%</span><span>100%</span></div>
+                        </div>
+
+                        <div class="fld">
+                            <label class="fld-lbl">Prioridade - <span class="live-val" id="pri-val">3</span></label>
+                            <div class="rng-row">
+                                <input class="rng is-suc" type="range" min="1" max="5" value="3" id="rng-pri"
+                                    style="--rng-pct: 50%"
+                                    oninput="this.style.setProperty('--rng-pct', ((this.value-1)/4*100) + '%'); document.getElementById('pri-val').textContent = this.value">
+                                <span class="rng-val" id="pri-val2" style="display:none"></span>
+                            </div>
+                            <div class="rng-lbl"><span>Baixa</span><span>Alta</span></div>
+                        </div>
+
+                        <div class="fld">
+                            <label class="fld-lbl">Orçamento - R$ <span class="live-val"
+                                    id="bud-val">2500</span></label>
+                            <input class="rng is-ale is-g" type="range" min="500" max="10000" step="500" value="2500"
+                                id="rng-bud" style="--rng-pct: 22.2%"
+                                oninput="this.style.setProperty('--rng-pct', ((this.value-500)/9500*100) + '%'); document.getElementById('bud-val').textContent = parseInt(this.value).toLocaleString('pt-BR')">
+                            <div class="rng-lbl"><span>R$ 500</span><span>R$ 10.000</span></div>
+                        </div>
+
+                        <div class="fld">
+                            <label class="fld-lbl">Risco - <span class="live-val" id="risk-val"
+                                    class="Tper">75</span>%</label>
+                            <input class="rng is-per" type="range" min="0" max="100" value="75" style="--rng-pct: 75%"
+                                oninput="this.style.setProperty('--rng-pct', this.value + '%'); document.getElementById('risk-val').textContent = this.value">
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<input class="rng" type="range" min="0" max="100" value="70"
+       style="--rng-pct: 70%"
+       oninput="this.style.setProperty('--rng-pct', this.value + '%')">
+<!-- --rng-pct precisa ser atualizado via JS para o fill progressivo -->
+<!-- variantes: .is-suc .is-per .is-ale .is-acc .is-sec | tamanho: .is-g -->
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 10. FILE UPLOAD
+                 ========================================= -->
+            <div class="doc-card sec" id="file">
+                <h3 class="t-m f-bd mb-1">10. File Upload <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">Drop zone com hover, estado ativo e versão compacta.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Drop zone completa</p>
+                        <div class="demo-wrap" style="padding:0.8rem">
+                            <div class="fle">
+                                <input type="file" multiple accept="image/*,.pdf,.doc">
+                                <i class="sw-upload fle-ico"></i>
+                                <div class="fle-ttl">Arraste arquivos aqui</div>
+                                <div class="fle-sub">ou clique para selecionar<br>PNG, JPG, PDF até 10MB</div>
+                                <span class="fle-btn"><i class="sw-folder"></i> Selecionar arquivos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Compacto - .fle.is-p</p>
+                        <div class="demo-wrap">
+                            <div class="fld">
+                                <label class="fld-lbl">Foto de perfil</label>
+                                <div class="fle is-p">
+                                    <input type="file" accept="image/*">
+                                    <i class="sw-image fle-ico"></i>
+                                    <div>
+                                        <div class="fle-ttl" style="font-size:1.4rem">Clique para enviar imagem</div>
+                                        <div class="fle-sub">PNG, JPG até 2MB</div>
+                                    </div>
+                                </div>
+                                <span class="fld-hlp">Proporção recomendada: 1:1</span>
+                            </div>
+
+                            <div class="fld mt-4">
+                                <label class="fld-lbl">Anexar documento</label>
+                                <div class="fle is-p">
+                                    <input type="file" accept=".pdf,.doc,.docx">
+                                    <i class="sw-file fle-ico"></i>
+                                    <div>
+                                        <div class="fle-ttl" style="font-size:1.4rem">Selecionar documento</div>
+                                        <div class="fle-sub">PDF ou DOCX até 20MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Drop zone completa com suporte a múltiplos arquivos e drag and drop. Use
+                    <code class="cod">.is-p</code> para uma versão compacta de upload de fotos
+                    ou documentos únicos.
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="fle">
+  <input type="file" multiple>
+  <i class="sw-upload fle-ico"></i>
+  <div class="fle-ttl">Arraste arquivos aqui</div>
+  <span class="fle-btn">Selecionar</span>
+</div>
+
+<!-- Compacto -->
+<div class="fle is-p">
+  <input type="file">
+  <i class="sw-image fle-ico"></i>
+  <div class="fle-ttl">Enviar foto</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 11. SEGMENTED CONTROL
+                 ========================================= -->
+            <div class="doc-card sec" id="segmented">
+                <h3 class="t-m f-bd mb-1">11. Segmented Control <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">Alternativa ao grupo de radios - visual de botão integrado. HTML puro ou
+                    JavaScript.</p>
+
+                <div class="demo-wrap">
+                    <div class="flx f-cl gap-6">
+                        <div>
+                            <p class="demo-label mb-2">Tamanho base</p>
+                            <div class="seg">
+                                <input type="radio" name="view" id="v1" checked>
+                                <label for="v1"><i class="sw-grid"></i> Grade</label>
+                                <input type="radio" name="view" id="v2">
+                                <label for="v2"><i class="sw-list"></i> Lista</label>
+                                <input type="radio" name="view" id="v3">
+                                <label for="v3"><i class="sw-map"></i> Mapa</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="demo-label mb-2">is-p</p>
+                            <div class="seg is-p">
+                                <input type="radio" name="per" id="p1" checked>
+                                <label for="p1">Diário</label>
+                                <input type="radio" name="per" id="p2">
+                                <label for="p2">Semanal</label>
+                                <input type="radio" name="per" id="p3">
+                                <label for="p3">Mensal</label>
+                                <input type="radio" name="per" id="p4">
+                                <label for="p4">Anual</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="demo-label mb-2">is-g</p>
+                            <div class="seg is-g">
+                                <input type="radio" name="pla" id="pl1" checked>
+                                <label for="pl1">Starter</label>
+                                <input type="radio" name="pla" id="pl2">
+                                <label for="pl2">Pro</label>
+                                <input type="radio" name="pla" id="pl3">
+                                <label for="pl3">Scale</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="demo-label mb-2">is-fl - largura total</p>
+                            <div class="seg is-fl">
+                                <input type="radio" name="tab" id="t1" checked>
+                                <label for="t1">Visão Geral</label>
+                                <input type="radio" name="tab" id="t2">
+                                <label for="t2">Análise</label>
+                                <input type="radio" name="tab" id="t3">
+                                <label for="t3">Relatórios</label>
+                                <input type="radio" name="tab" id="t4">
+                                <label for="t4">Configurações</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="demo-label mb-2">is-gst - ghost</p>
+                            <div class="seg is-gst">
+                                <input type="radio" name="gst" id="g1" checked>
+                                <label for="g1">Todos</label>
+                                <input type="radio" name="gst" id="g2">
+                                <label for="g2">Ativos</label>
+                                <input type="radio" name="gst" id="g3">
+                                <label for="g3">Pausados</label>
+                                <input type="radio" name="gst" id="g4">
+                                <label for="g4">Finalizados</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Controle segmentado ideal para alternar vistas ou filtros rápidos. Suporta
+                    múltiplos tamanhos e a variante <code class="cod">.is-gst</code> (ghost).
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="seg">
+  <input type="radio" name="view" id="v1" checked>
+  <label for="v1">Grade</label>
+  <input type="radio" name="view" id="v2">
+  <label for="v2">Lista</label>
+</div>
+<!-- Variantes: .is-p .is-g .is-fl .is-gst -->
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 12. NMERO COM STEPPERS
+                 ========================================= -->
+            <div class="doc-card sec" id="number">
+                <h3 class="t-m f-bd mb-1">12. Input Number com Steppers</h3>
+                <p class="t-mut t-p mb-6">Botões - e + integrados ao campo. JS mínimo para incremento/decremento.</p>
+
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Quantidade</label>
+                            <div class="fld-num">
+                                <button class="num-btn is-dec"
+                                    onclick="var i=this.nextElementSibling; i.value=Math.max(0,+i.value-1)">-</button>
+                                <input class="inp" type="number" value="1" min="0" max="99">
+                                <button class="num-btn is-inc"
+                                    onclick="var i=this.previousElementSibling; i.value=Math.min(99,+i.value+1)">+</button>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Parcelas</label>
+                            <div class="fld-num">
+                                <button class="num-btn is-dec"
+                                    onclick="var i=this.nextElementSibling; i.value=Math.max(1,+i.value-1)">-</button>
+                                <input class="inp" type="number" value="3" min="1" max="12">
+                                <button class="num-btn is-inc"
+                                    onclick="var i=this.previousElementSibling; i.value=Math.min(12,+i.value+1)">+</button>
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Passageiros</label>
+                            <div class="fld-num">
+                                <button class="num-btn is-dec"
+                                    onclick="var i=this.nextElementSibling; i.value=Math.max(1,+i.value-1)">-</button>
+                                <input class="inp" type="number" value="2" min="1" max="9">
+                                <button class="num-btn is-inc"
+                                    onclick="var i=this.previousElementSibling; i.value=Math.min(9,+i.value+1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Campos numéricos com incremento e decremento via botões. Utilize a estrutura
+                    <code class="cod">.fld-num</code> para alinhar os controles.
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="fld-num">
+  <button class="num-btn is-dec" onclick="...">-</button>
+  <input class="inp" type="number" value="1">
+  <button class="num-btn is-inc" onclick="...">+</button>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 13. SEARCH + COLOR
+                 ========================================= -->
+            <div class="doc-card sec" id="special">
+                <h3 class="t-m f-bd mb-1">13. Inputs Especiais</h3>
+                <p class="t-mut t-p mb-6">Search com ícone embutido e color picker estilizado.</p>
+
+                <div class="demo-wrap">
+                    <div class="frm-row">
+                        <div class="fld">
+                            <label class="fld-lbl">Busca global</label>
+                            <input class="inp inp-srh" type="search"
+                                placeholder="Buscar produtos, pedidos, clientes...">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Busca com valor</label>
+                            <input class="inp inp-srh" type="search" value="y2 framework" placeholder="Pesquisar...">
+                        </div>
+                        <div class="fld">
+                            <label class="fld-lbl">Cor principal da marca</label>
+                            <div class="flx gap-3 alc">
+                                <input class="inp-cor" type="color" value="#0066ff" id="cor-demo">
+                                <input class="inp cod" type="text" value="#0066ff" style="max-width:12rem"
+                                    oninput="document.getElementById('cor-demo').value=this.value">
+                                <span class="fld-hlp mb-0">Formato HEX</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Estilos específicos para busca (<code class="cod">.inp-srh</code>) com ícone
+                    interno e seletor de cores (<code class="cod">.inp-cor</code>) customizado.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Busca -->
+<input class="inp inp-srh" type="search" placeholder="Pesquisar...">
+
+<!-- Cor -->
+<input class="inp-cor" type="color" value="#0066ff">
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 14. FORM LAYOUT
+                 ========================================= -->
+            <div class="doc-card sec" id="layout">
+                <h3 class="t-m f-bd mb-1">14. Form Layout</h3>
+                <p class="t-mut t-p mb-6">Exemplo completo usando <code class="cod">.frm</code>,
+                    <code class="cod">.frm-row</code>, <code class="cod">.frm-fst</code>, <code
+                        class="cod">.frm-div</code> e <code class="cod">.frm-act</code>.
+                </p>
+
+                <div class="demo-wrap">
+                    <form class="frm" onsubmit="return false">
+
+                        <fieldset class="frm-fst">
+                            <legend class="frm-leg">Dados pessoais</legend>
+
+                            <div class="frm-row">
+                                <div class="fld">
+                                    <label class="fld-lbl is-req">Nome</label>
+                                    <div class="fld-flt">
+                                        <input class="inp" type="text" placeholder=" " id="nm">
+                                        <label class="flt-lbl" for="nm">Nome completo</label>
+                                    </div>
+                                </div>
+                                <div class="fld">
+                                    <label class="fld-lbl is-req">Sobrenome</label>
+                                    <div class="fld-flt">
+                                        <input class="inp" type="text" placeholder=" " id="sn">
+                                        <label class="flt-lbl" for="sn">Sobrenome</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="frm-row frm-1-2">
+                                <div class="fld">
+                                    <label class="fld-lbl">CPF</label>
+                                    <input class="inp" type="text" placeholder="000.000.000-00">
+                                </div>
+                                <div class="fld">
+                                    <label class="fld-lbl is-req">E-mail</label>
+                                    <div class="fld-grp has-ico-l">
+                                        <i class="sw-mail fld-ico-l"></i>
+                                        <input class="inp" type="email" placeholder="voce@empresa.com">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="frm-div">Endereço</div>
+
+                        <div class="frm-row frm-2-1">
+                            <div class="fld">
+                                <label class="fld-lbl is-req">Rua / Logradouro</label>
+                                <input class="inp" type="text" placeholder="Rua das Flores">
+                            </div>
+                            <div class="fld">
+                                <label class="fld-lbl is-req">CEP</label>
+                                <div class="fld-grp">
+                                    <input class="inp" type="text" placeholder="00000-000">
+                                    <span class="fld-adn is-btn">Buscar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="frm-row frm-3">
+                            <div class="fld">
+                                <label class="fld-lbl">Cidade</label>
+                                <input class="inp" type="text" placeholder="S�o Paulo">
+                            </div>
+                            <div class="fld">
+                                <label class="fld-lbl is-req">Estado</label>
+                                <select class="sel">
+                                    <option>SP</option>
+                                    <option>RJ</option>
+                                    <option>MG</option>
+                                </select>
+                            </div>
+                            <div class="fld">
+                                <label class="fld-lbl">Complemento</label>
+                                <input class="inp" type="text" placeholder="Apto 42">
+                            </div>
+                        </div>
+
+                        <div class="frm-div">Preferências</div>
+
+                        <div class="frm-row">
+                            <div class="fld">
+                                <label class="fld-lbl">Plano</label>
+                                <div class="seg is-fl">
+                                    <input type="radio" name="fp" id="fp1" checked>
+                                    <label for="fp1">Starter</label>
+                                    <input type="radio" name="fp" id="fp2">
+                                    <label for="fp2">Pro</label>
+                                    <input type="radio" name="fp" id="fp3">
+                                    <label for="fp3">Scale</label>
+                                </div>
+                            </div>
+                            <div class="fld">
+                                <label class="fld-lbl">Notificações</label>
+                                <div class="flx gap-5 mt-1">
+                                    <label class="swt">
+                                        <input type="checkbox" checked>
+                                        <span class="swt-trk"></span>
+                                        <span class="swt-lbl">E-mail</span>
+                                    </label>
+                                    <label class="swt">
+                                        <input type="checkbox">
+                                        <span class="swt-trk"></span>
+                                        <span class="swt-lbl">SMS</span>
+                                    </label>
+                                    <label class="swt is-suc">
+                                        <input type="checkbox" checked>
+                                        <span class="swt-trk"></span>
+                                        <span class="swt-lbl">Push</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fld">
+                            <label class="fld-lbl">Observações</label>
+                            <textarea class="txr is-fix" placeholder="Informações adicionais..."
+                                style="height:8rem"></textarea>
+                        </div>
+
+                        <div class="fld">
+                            <label class="chk">
+                                <input type="checkbox">
+                                <span class="chk-box"></span>
+                                <span class="chk-lbl">Li e aceito os <a href="#" class="Tpri">termos de
+                                        uso</a> e a <a href="#" class="Tpri">política de
+                                        privacidade</a>.</span>
+                            </label>
+                        </div>
+
+                        <div class="frm-act">
+                            <button y2btn class="y2btn-out" type="reset">Cancelar</button>
+                            <button y2btn class="y2btn-pri" type="submit">Salvar cadastro</button>
+                        </div>
+
+                    </form>
+                </div>
+                <pre swcode="html" lines><script type="text/plain">
+<form class="frm">
+
+  <fieldset class="frm-fst">
+    <legend class="frm-leg">Dados pessoais</legend>
+
+    <div class="frm-row">
+      <div class="fld">
+        <label class="fld-lbl is-req">Nome</label>
+        <div class="fld-flt">
+          <input class="inp" type="text" placeholder=" " id="nm">
+          <label class="flt-lbl" for="nm">Nome completo</label>
+        </div>
+      </div>
+      <div class="fld">
+        <label class="fld-lbl is-req">Sobrenome</label>
+        <div class="fld-flt">
+          <input class="inp" type="text" placeholder=" " id="sn">
+          <label class="flt-lbl" for="sn">Sobrenome</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="frm-row frm-1-2">
+      <div class="fld">
+        <label class="fld-lbl">CPF</label>
+        <input class="inp" type="text" placeholder="000.000.000-00">
+      </div>
+      <div class="fld">
+        <label class="fld-lbl is-req">E-mail</label>
+        <div class="fld-grp has-ico-l">
+          <i class="sw-mail fld-ico-l"></i>
+          <input class="inp" type="email" placeholder="voce@empresa.com">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="frm-div">Endereço</div>
+
+  <div class="frm-row frm-2-1">
+    <div class="fld">
+      <label class="fld-lbl is-req">Rua / Logradouro</label>
+      <input class="inp" type="text" placeholder="Rua das Flores">
+    </div>
+    <div class="fld">
+      <label class="fld-lbl is-req">CEP</label>
+      <div class="fld-grp">
+        <input class="inp" type="text" placeholder="00000-000">
+        <span class="fld-adn is-btn">Buscar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="frm-row frm-3">
+    <div class="fld">
+      <label class="fld-lbl">Cidade</label>
+      <input class="inp" type="text" placeholder="São Paulo">
+    </div>
+    <div class="fld">
+      <label class="fld-lbl is-req">Estado</label>
+      <select class="sel">
+        <option>SP</option>
+        <option>RJ</option>
+        <option>MG</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label class="fld-lbl">Complemento</label>
+      <input class="inp" type="text" placeholder="Apto 42">
+    </div>
+  </div>
+
+  <div class="frm-div">Preferências</div>
+
+  <div class="frm-row">
+    <div class="fld">
+      <label class="fld-lbl">Plano</label>
+      <div class="seg is-fl">
+        <input type="radio" name="fp" id="fp1" checked>
+        <label for="fp1">Starter</label>
+        <input type="radio" name="fp" id="fp2">
+        <label for="fp2">Pro</label>
+        <input type="radio" name="fp" id="fp3">
+        <label for="fp3">Scale</label>
+      </div>
+    </div>
+    <div class="fld">
+      <label class="fld-lbl">Notificações</label>
+      <div class="flx gap-5 mt-1">
+        <label class="swt">
+          <input type="checkbox" checked>
+          <span class="swt-trk"></span>
+          <span class="swt-lbl">E-mail</span>
+        </label>
+        <label class="swt">
+          <input type="checkbox">
+          <span class="swt-trk"></span>
+          <span class="swt-lbl">SMS</span>
+        </label>
+        <label class="swt is-suc">
+          <input type="checkbox" checked>
+          <span class="swt-trk"></span>
+          <span class="swt-lbl">Push</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="fld">
+    <label class="fld-lbl">Observações</label>
+    <textarea class="txr is-fix" placeholder="Informações adicionais..." style="height:8rem"></textarea>
+  </div>
+
+  <div class="fld">
+    <label class="chk">
+      <input type="checkbox">
+      <span class="chk-box"></span>
+      <span class="chk-lbl">Li e aceito os <a href="#">termos de uso</a> e a <a href="#">política de privacidade</a>.</span>
+    </label>
+  </div>
+
+  <div class="frm-act">
+    <button y2btn class="y2btn-out" type="reset">Cancelar</button>
+    <button y2btn class="y2btn-pri" type="submit">Salvar cadastro</button>
+  </div>
+
+</form>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 QUICK REFERENCE
+                 ========================================= -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+                    <div>
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>Componente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>.fld</td>
+                                    <td>Wrapper do campo</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-lbl</td>
+                                    <td>Label</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-lbl.is-req</td>
+                                    <td>Label com asterisco obrigatório</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-hlp</td>
+                                    <td>Texto de ajuda</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-err</td>
+                                    <td>Mensagem de erro (ícone / auto)</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-ok</td>
+                                    <td>Mensagem de sucesso</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-cnt</td>
+                                    <td>Contador de caracteres</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-grp</td>
+                                    <td>Grupo com ícone/addon</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-ico-l / .fld-ico-r</td>
+                                    <td>Ícone absoluto</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-adn</td>
+                                    <td>Addon colado (.is-btn = botão)</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-flt</td>
+                                    <td>Floating label wrapper</td>
+                                </tr>
+                                <tr>
+                                    <td>.fld-num</td>
+                                    <td>Number + steppers</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp</td>
+                                    <td>Input base</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp.is-err/suc/ale</td>
+                                    <td>Estados semânticos</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp.is-p / .is-g</td>
+                                    <td>Tamanhos</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp.is-ldg</td>
+                                    <td>Loading spinner inline</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp-srh</td>
+                                    <td>Input search com lupa</td>
+                                </tr>
+                                <tr>
+                                    <td>.inp-cor</td>
+                                    <td>Color picker</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>Componente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>.sel</td>
+                                    <td>Select nativo estilizado</td>
+                                </tr>
+                                <tr>
+                                    <td>.txr</td>
+                                    <td>Textarea</td>
+                                </tr>
+                                <tr>
+                                    <td>.txr.is-fix/auto</td>
+                                    <td>Resize control</td>
+                                </tr>
+                                <tr>
+                                    <td>.chk</td>
+                                    <td>Checkbox custom</td>
+                                </tr>
+                                <tr>
+                                    <td>.chk.is-crd</td>
+                                    <td>Checkbox card variant</td>
+                                </tr>
+                                <tr>
+                                    <td>.chk-grp</td>
+                                    <td>Grupo vertical</td>
+                                </tr>
+                                <tr>
+                                    <td>.chk-grp.is-row</td>
+                                    <td>Grupo horizontal</td>
+                                </tr>
+                                <tr>
+                                    <td>.rdo</td>
+                                    <td>Radio custom</td>
+                                </tr>
+                                <tr>
+                                    <td>.rdo.is-crd</td>
+                                    <td>Radio card variant</td>
+                                </tr>
+                                <tr>
+                                    <td>.swt</td>
+                                    <td>Switch/Toggle</td>
+                                </tr>
+                                <tr>
+                                    <td>.swt.is-p / .is-g</td>
+                                    <td>Tamanhos do switch</td>
+                                </tr>
+                                <tr>
+                                    <td>.swt-off / .swt-on</td>
+                                    <td>Labels dinâmicas</td>
+                                </tr>
+                                <tr>
+                                    <td>.rng</td>
+                                    <td>Range slider</td>
+                                </tr>
+                                <tr>
+                                    <td>.fle</td>
+                                    <td>File upload drop zone</td>
+                                </tr>
+                                <tr>
+                                    <td>.fle.is-p</td>
+                                    <td>File upload compacto</td>
+                                </tr>
+                                <tr>
+                                    <td>.seg</td>
+                                    <td>Segmented control</td>
+                                </tr>
+                                <tr>
+                                    <td>.seg.is-fl / .is-gst / .is-p / .is-g</td>
+                                    <td>Variantes do seg</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-soft</td>
+                                    <td>Estilo Neumórfico suave</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-gls</td>
+                                    <td>Estilo Glassmorphism (blur)</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-min</td>
+                                    <td>Estilo Minimalista (underline)</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-fld</td>
+                                    <td>Estilo Solid Filled</td>
+                                </tr>
+                                <tr>
+                                    <td>.frm-row .frm-fst .frm-act</td>
+                                    <td>Layout helpers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../dist/sw.min.js"></script>
+    <script>
+        // Indeterminate demo
+        var indet = document.getElementById('indet');
+        if (indet) indet.indeterminate = true;
+
+        // Cor demo sync
+        var corDemo = document.getElementById('cor-demo');
+        if (corDemo) {
+            corDemo.addEventListener('input', function () {
+                this.nextElementSibling.value = this.value;
+            });
+        }
+    </script>
+</body>
+
+</html>

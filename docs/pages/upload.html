@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload — SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec { scroll-margin-top: 10rem }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem
+        }
+
+        @media(max-width:900px) { .g3 { grid-template-columns: 1fr 1fr } }
+        @media(max-width:600px) { .g2, .g3 { grid-template-columns: 1fr } }
+
+        .evt-log {
+            background: var(--sw-bg-alt);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem 1.6rem;
+            font-family: monospace;
+            font-size: 1.35rem;
+            color: var(--sw-txt-mut);
+            margin-top: 1.2rem;
+            min-height: 4rem;
+            display: flex;
+            align-items: center
+        }
+
+        .evt-log .key { color: var(--sw-pri); font-weight: 600 }
+        .evt-log .val { color: var(--sw-suc) }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">File Upload SWUpload</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">File Upload <span class="TprinD">SWUpload</span></h2>
+                <p class="t-g t-mut">Drag & drop com preview de imagens, múltiplos arquivos, limite de tamanho e
+                    validação de tipo — sem dependências externas.</p>
+            </div>
+
+            <!-- VARIAÇÃO.ES -->
+            <div class="doc-card sec mb-6" id="variacoes">
+                <h3 class="t-m f-bd mb-4">1. Variações</h3>
+                <p class="t-g t-mut mb-4">Arraste arquivos ou clique para selecionar. Preview automático para imagens,
+                    nome do arquivo para outros tipos.</p>
+                <div class="demo-wrap">
+                    <div class="g3" style="width:100%">
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Galeria de Imagens</p>
+                            <p class="t-pp t-mut mb-2">Até 4 imagens — qualquer tamanho</p>
+                            <div y2upload
+                                 y2upload-accept="image/*"
+                                 y2upload-max="4"
+                                 y2upload-txt="Arraste imagens ou &lt;strong&gt;clique&lt;/strong&gt;">
+                                <input type="file" name="galeria[]" accept="image/*" multiple>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Documento (PDF)</p>
+                            <p class="t-pp t-mut mb-2">1 arquivo — máx 5 MB</p>
+                            <div y2upload
+                                 y2upload-accept=".pdf,.doc,.docx"
+                                 y2upload-max="1"
+                                 y2upload-size="5242880"
+                                 y2upload-txt="Solte o documento aqui">
+                                <input type="file" name="documento" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Qualquer Arquivo</p>
+                            <p class="t-pp t-mut mb-2">Vários — máx 2 MB cada</p>
+                            <div y2upload
+                                 y2upload-size="2097152"
+                                 y2upload-txt="Arraste ou &lt;strong&gt;clique aqui&lt;/strong&gt;">
+                                <input type="file" name="arquivos[]" multiple>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Galeria de imagens (máx 4) -->
+<div y2upload
+     y2upload-accept="image/*"
+     y2upload-max="4"
+     y2upload-txt="Arraste imagens ou <strong>clique</strong>">
+  <input type="file" name="galeria[]" accept="image/*" multiple>
+</div>
+
+<!-- Documento único (máx 5 MB) -->
+<div y2upload
+     y2upload-accept=".pdf,.doc,.docx"
+     y2upload-max="1"
+     y2upload-size="5242880">
+  <input type="file" name="documento" accept=".pdf,.doc,.docx">
+</div>
+
+<!-- Qualquer arquivo (máx 2 MB cada) -->
+<div y2upload y2upload-size="2097152">
+  <input type="file" name="arquivos[]" multiple>
+</div>
+</script></pre>
+            </div>
+
+            <!-- EVENTO AO VIVO -->
+            <div class="doc-card sec mb-6" id="evento">
+                <h3 class="t-m f-bd mb-4">2. Evento em Tempo Real</h3>
+                <p class="t-g t-mut mb-4">Cada arquivo adicionado ou removido dispara um evento no wrapper com os
+                    dados do arquivo.</p>
+                <div class="demo-wrap">
+                    <div style="max-width:480px">
+                        <div y2upload
+                             y2upload-accept="image/*"
+                             y2upload-max="3"
+                             y2upload-txt="Selecione até 3 imagens"
+                             id="upl-evt">
+                            <input type="file" name="imgs[]" accept="image/*" multiple>
+                        </div>
+                        <div class="evt-log" id="log-evt">
+                            <span class="t-mut">Selecione um arquivo para ver o evento...</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var upl = document.getElementById('upl-evt');
+                        var log = document.getElementById('log-evt');
+                        if (!upl || !log) return;
+                        upl.addEventListener('yd:upload:add', function (e) {
+                            var f = e.detail.files[e.detail.files.length - 1];
+                            log.innerHTML = '<span class="key">yd:upload:add</span> &nbsp; ' +
+                                '<span class="key">name:</span> <span class="val">"' + f.name + '"</span> &nbsp; ' +
+                                '<span class="key">size:</span> <span class="val">' + (f.size / 1024).toFixed(1) + ' KB</span>';
+                        });
+                        upl.addEventListener('yd:upload:remove', function (e) {
+                            log.innerHTML = '<span class="key">yd:upload:remove</span> &nbsp; ' +
+                                '<span class="key">index:</span> <span class="val">' + e.detail.index + '</span>';
+                        });
+                    });
+                </script>
+                <pre swcode="js">
+const upl = document.querySelector('[y2upload]');
+
+upl.addEventListener('yd:upload:add', e => {
+  const files = e.detail.files; // todos os arquivos no momento
+  console.log('?sltimo adicionado:', files[files.length - 1].name);
+});
+
+upl.addEventListener('yd:upload:remove', e => {
+  console.log('índice removido:', e.detail.index);
+});
+</pre>
+            </div>
+
+            <!-- ENVIO -->
+            <div class="doc-card sec mb-6" id="envio">
+                <h3 class="t-m f-bd mb-4">3. Envio via FormData</h3>
+                <p class="t-g t-mut mb-4">Use <code>SWUpload.getFiles(el)</code> para recuperar os arquivos e montar
+                    um <code>FormData</code> para envio via <code>fetch</code>.</p>
+                <pre swcode="js">
+const upl = document.querySelector('[y2upload]');
+
+document.querySelector('#btn-enviar').addEventListener('click', () => {
+  const files = SWUpload.getFiles(upl);
+
+  if (!files.length) {
+    alert('Selecione ao menos um arquivo.');
+    return;
+  }
+
+  const form = new FormData();
+  files.forEach(f => form.append('files[]', f));
+
+  fetch('/upload', { method: 'POST', body: form })
+    .then(r => r.json())
+    .then(data => console.log('Enviado:', data));
+});
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / API</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2upload</code></td>
+                            <td>—</td>
+                            <td>Ativa o upload no wrapper</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2upload-accept</code></td>
+                            <td><code>*</code></td>
+                            <td>Tipos aceitos — ex: <code>image/*</code>, <code>.pdf</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>y2upload-max</code></td>
+                            <td><code>0</code> (ilimitado)</td>
+                            <td>Número máximo de arquivos</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2upload-size</code></td>
+                            <td><code>10485760</code> (10 MB)</td>
+                            <td>Tamanho máximo por arquivo em bytes</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2upload-txt</code></td>
+                            <td>texto padrão</td>
+                            <td>Texto HTML exibido na zona de drop</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWUpload.getFiles(el)</code></td>
+                            <td>—</td>
+                            <td>Retorna <code>Array&lt;File&gt;</code> dos arquivos selecionados</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:upload:add</code></td>
+                            <td>—</td>
+                            <td>Disparado ao adicionar — <code>detail.files</code> (array completo)</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:upload:remove</code></td>
+                            <td>—</td>
+                            <td>Disparado ao remover — <code>detail.index</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

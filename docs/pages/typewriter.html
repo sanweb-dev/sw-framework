@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Typewriter — SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">Typewriter SWTypew</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Typewriter <span class="TprinD">SWTypew</span></h2>
+                <p class="t-g t-mut">Efeito de digitação que cicla por uma lista de palavras — velocidade, delay, cursor
+                    e loop configuráveis.</p>
+            </div>
+
+            <!-- DEMO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo ao Vivo</h3>
+                <div class="demo-wrap">
+                    <p class="t-xg f-bd">Somos uma equipe de <span y2typew
+                            y2typew-words='["Desenvolvedores","Designers","Criadores","Inovadores"]'
+                            style="color:var(--sw-pri)"></span></p>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<p>Somos uma equipe de
+  <span y2typew
+    y2typew-words='["Devs","Designers","Criadores"]'>
+  </span>
+</p>
+</script></pre>
+            </div>
+
+            <!-- CONFIGURAÇÕES -->
+            <div class="doc-card sec mb-6" id="config">
+                <h3 class="t-m f-bd mb-4">2. Configurações</h3>
+                <div class="demo-wrap">
+                    <p class="t-xg">Rápido: <span y2typew y2typew-words='["HTML","CSS","JS"]' y2typew-speed="40"
+                            y2typew-back="20" y2typew-delay="800" style="color:var(--sw-suc)"></span></p>
+                    <p class="t-xg mt-4">Lento: <span y2typew y2typew-words='["Frontend","Backend","Fullstack"]'
+                            y2typew-speed="180" y2typew-delay="2500" style="color:var(--sw-ale)"></span></p>
+                    <p class="t-xg mt-4">Sem loop: <span y2typew y2typew-words='["SW Framework"]'
+                            y2typew-loop="false" style="color:var(--sw-per)"></span></p>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<span y2typew
+  y2typew-words='["Palavra1","Palavra2"]'
+  y2typew-speed="100"
+  y2typew-back="50"
+  y2typew-delay="1500"
+  y2typew-loop="true"
+  y2typew-cur="|">
+</span>
+</script></pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2typew</code></td>
+                            <td>—</td>
+                            <td>Ativa o efeito typewriter no elemento</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-words</code></td>
+                            <td>texto do elemento</td>
+                            <td>JSON array ou "palavra1,palavra2"</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-speed</code></td>
+                            <td><code>100</code></td>
+                            <td>ms por caractere ao digitar</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-back</code></td>
+                            <td><code>50</code></td>
+                            <td>ms por caractere ao apagar</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-delay</code></td>
+                            <td><code>1500</code></td>
+                            <td>ms de pausa antes de apagar</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-loop</code></td>
+                            <td><code>true</code></td>
+                            <td>Cicla indefinidamente pelas palavras</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2typew-cur</code></td>
+                            <td><code>|</code></td>
+                            <td>Caractere do cursor piscante</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

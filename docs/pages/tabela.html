@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela Framework - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .t-pri {
+            color: var(--sw-pri) !important;
+        }
+
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.8rem;
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: 0.8rem;
+            padding: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-anchor {
+            scroll-margin-top: 10rem;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.4rem;
+        }
+
+        .ref-table th {
+            background: var(--sw-bg-sec);
+            padding: 0.8rem 1.2rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--sw-txt-bas);
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .ref-table td {
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid var(--sw-bor);
+            vertical-align: top;
+        }
+
+        .ref-table td:first-child {
+            font-family: var(--sw-f-mon);
+            color: var(--sw-pri);
+            white-space: nowrap;
+        }
+
+        .ref-table td:nth-child(2) {
+            color: var(--sw-txt-mut);
+        }
+
+        .badge-new {
+            display: inline-block;
+            padding: 0.1rem 0.6rem;
+            background: var(--sw-pri);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 2rem;
+            vertical-align: middle;
+            margin-left: 0.4rem;
+        }
+
+        .badge-tip {
+            display: inline-block;
+            padding: 0.1rem 0.6rem;
+            background: var(--verd9);
+            color: var(--verd3);
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 2rem;
+            vertical-align: middle;
+            margin-left: 0.4rem;
+        }
+
+        .grid-demos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.4rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid-demos {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-anchor {
+            scroll-margin-top: 10rem;
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Tabela</span>
+            </nav>
+
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">Components</span>
+                <h2 class="t-xxg f-bd mb-2">Tabela <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    O sistema de tabela mais completo do mercado. Scroll com shadow indicator, sticky triple (header +
+                    col + last),
+                    skeleton loading, auto-counter CSS, row/cell status, density, glass, gradient - tudo sem uma linha
+                    de JS extra.
+                </p>
+            </div>
+
+            <!-- =========================================
+                 1. ESTRUTURA BASE
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="base">
+                <h3 class="t-m f-bd mb-1">1. Estrutura Base</h3>
+                <p class="t-mut t-p mb-6">
+                    O wrapper <code style="font-family:var(--sw-f-mon);color:var(--sw-pri)">.tbl</code> é um <code
+                        style="font-family:var(--sw-f-mon)">div</code>
+                    que gerencia scroll, shadow indicator e todos os modificadores. A <code
+                        style="font-family:var(--sw-f-mon)">&lt;table&gt;</code> fica dentro dele.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="tbl">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Estoque</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monitor Ultra 4K</td>
+                                    <td>Hardware</td>
+                                    <td class="is-num">R$ 2.899,00</td>
+                                    <td class="is-num">14</td>
+                                    <td>Ativo</td>
+                                </tr>
+                                <tr>
+                                    <td>Teclado Mecânico</td>
+                                    <td>Periférico</td>
+                                    <td class="is-num">R$ 549,90</td>
+                                    <td class="is-num">38</td>
+                                    <td>Ativo</td>
+                                </tr>
+                                <tr>
+                                    <td>Webcam HD Pro</td>
+                                    <td>Periférico</td>
+                                    <td class="is-num">R$ 289,00</td>
+                                    <td class="is-num">0</td>
+                                    <td>Sem estoque</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2">Total em estoque</td>
+                                    <td class="is-num">R$ 3.738,90</td>
+                                    <td class="is-num">52</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Estrutura fundamental com wrapper <code>.tbl</code>. Ativa o scroll
+                    horizontal automático e o indicador de sombra.</p>
+                <button y2btn class="y2btn-pp y2btn-sec mb-2" onclick="copyCode(this)">Copiar Código</button>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="tbl">
+  <table>
+    <thead><tr><th>Produto</th>...</tr></thead>
+    <tbody><tr><td>...</td></tr></tbody>
+    <tfoot><tr><td>Total</td></tr></tfoot>
+  </table>
+</div>
+</script></pre>
+
+                <p class="t-pp t-mut mb-0">
+                    ? <code style="font-family:var(--sw-f-mon)">tfoot</code> recebe estilo de totais automaticamente.
+                    ? <code style="font-family:var(--sw-f-mon)">td.is-num</code> alinha à direita com fonte mono
+                    tabular.
+                </p>
+            </div>
+
+            <!-- =========================================
+                 2. SKIN DE BORDAS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="skin">
+                <h3 class="t-m f-bd mb-1">2. Skin de Bordas</h3>
+                <p class="t-mut t-p mb-6">Controla quais bordas aparecem.</p>
+
+                <div class="grid-demos">
+
+                    <div>
+                        <p class="demo-label">.tbl (padrão - horizontal)</p>
+                        <div class="demo-wrap">
+                            <div class="tbl">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alpha</td>
+                                            <td class="is-num">1.200</td>
+                                            <td>Mar 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beta</td>
+                                            <td class="is-num">890</td>
+                                            <td>Fev 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gamma</td>
+                                            <td class="is-num">3.410</td>
+                                            <td>Jan 2026</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Padrão do framework - separadores horizontais entre linhas.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl">
+  <table>...</table>
+</div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.tbl.is-bor - bordas completas</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-bor">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alpha</td>
+                                            <td class="is-num">1.200</td>
+                                            <td>Mar 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beta</td>
+                                            <td class="is-num">890</td>
+                                            <td>Fev 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gamma</td>
+                                            <td class="is-num">3.410</td>
+                                            <td>Jan 2026</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Aplica bordas completas em todas as células (estilo grade).</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-bor"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.tbl.is-col - apenas colunas</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-col">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alpha</td>
+                                            <td class="is-num">1.200</td>
+                                            <td>Mar 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beta</td>
+                                            <td class="is-num">890</td>
+                                            <td>Fev 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gamma</td>
+                                            <td class="is-num">3.410</td>
+                                            <td>Jan 2026</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Bordas apenas entre as colunas, criando um visual mais limpo.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-col"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.tbl.is-cln - sem bordas</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-cln">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alpha</td>
+                                            <td class="is-num">1.200</td>
+                                            <td>Mar 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beta</td>
+                                            <td class="is-num">890</td>
+                                            <td>Fev 2026</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gamma</td>
+                                            <td class="is-num">3.410</td>
+                                            <td>Jan 2026</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Remove todas as bordas internas, mantendo apenas o recuo de linha.
+                        </p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-cln"></div>
+</script></pre>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- =========================================
+                 3. DENSIDADE
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="density">
+                <h3 class="t-m f-bd mb-1">3. Densidade</h3>
+                <p class="t-mut t-p mb-6">Controla o espaço interno (padding) e o tamanho da fonte via tokens CSS
+                    internos.</p>
+
+                <div style="display:flex;flex-direction:column;gap:2rem;">
+
+                    <div>
+                        <p class="demo-label">.tbl.is-pp - compacto</p>
+                        <div class="demo-wrap" style="padding:1rem">
+                            <div class="tbl is-pp is-bor">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Usuário</th>
+                                            <th>Ação</th>
+                                            <th>IP</th>
+                                            <th>Timestamp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="is-num">9821</td>
+                                            <td>gabriel@email.com</td>
+                                            <td>login</td>
+                                            <td>192.168.1.44</td>
+                                            <td>2026-03-16 14:32:01</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="is-num">9822</td>
+                                            <td>admin@y2.dev</td>
+                                            <td>delete</td>
+                                            <td>10.0.0.1</td>
+                                            <td>2026-03-16 14:33:45</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="is-num">9823</td>
+                                            <td>user@empresa.br</td>
+                                            <td>export</td>
+                                            <td>177.42.8.11</td>
+                                            <td>2026-03-16 14:35:22</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Modo compacto com fontes reduzidas e padding mínimo, ideal para
+                            dashboards densos.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-pp is-bor"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.tbl - padrão (base)</p>
+                        <div class="demo-wrap" style="padding:1rem">
+                            <div class="tbl is-str">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Cargo</th>
+                                            <th>Departamento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Fernanda Lima</td>
+                                            <td>Diretora de Arte</td>
+                                            <td>Design</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Carlos Andrade</td>
+                                            <td>Dev Senior</td>
+                                            <td>Engenharia</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Julia Santos</td>
+                                            <td>Product Manager</td>
+                                            <td>Produto</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Tamanho padrão (default) do framework, equilibrado para leitura
+                            geral.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.tbl.is-g - espaçoso</p>
+                        <div class="demo-wrap" style="padding:1rem">
+                            <div class="tbl is-g">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Plano</th>
+                                            <th>Usuários</th>
+                                            <th>Preço mensal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Starter</td>
+                                            <td class="is-num">1-5</td>
+                                            <td class="is-num">R$ 99</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Growth</td>
+                                            <td class="is-num">6-25</td>
+                                            <td class="is-num">R$ 349</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Scale</td>
+                                            <td class="is-num">Ilimitado</td>
+                                            <td class="is-num">R$ 999</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Modo espaçoso com padding generoso, ideal para tabelas de
+                            apresentação e interfaces leves.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-g"></div>
+</script></pre>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- =========================================
+                 4. STYLE VARIANTS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="styles">
+                <h3 class="t-m f-bd mb-1">4. Style Variants</h3>
+                <p class="t-mut t-p mb-6">Combinações visuais prontas. Podem ser combinadas livremente.</p>
+
+                <div class="grid-demos">
+
+                    <div>
+                        <p class="demo-label">.is-str - striped</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-str">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Cidade</th>
+                                            <th>Estado</th>
+                                            <th>Pop.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>São Paulo</td>
+                                            <td>SP</td>
+                                            <td class="is-num">12,3M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rio de Janeiro</td>
+                                            <td>RJ</td>
+                                            <td class="is-num">6,7M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brasília</td>
+                                            <td>DF</td>
+                                            <td class="is-num">3,0M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Salvador</td>
+                                            <td>BA</td>
+                                            <td class="is-num">2,9M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Aplica cores alternadas (zebrado) nas linhas para guiar o olhar
+                            horizontalmente.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-str"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.is-hvr - hover highlight</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-hvr">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Cidade</th>
+                                            <th>Estado</th>
+                                            <th>Pop.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>São Paulo</td>
+                                            <td>SP</td>
+                                            <td class="is-num">12,3M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rio de Janeiro</td>
+                                            <td>RJ</td>
+                                            <td class="is-num">6,7M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brasília</td>
+                                            <td>DF</td>
+                                            <td class="is-num">3,0M</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Salvador</td>
+                                            <td>BA</td>
+                                            <td class="is-num">2,9M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Destaca a linha sob o cursor do mouse com feedback visual dinâmico.
+                        </p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-hvr"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.is-rnd - rounded</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-rnd is-str">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Pts</th>
+                                            <th>Posição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Flamengo</td>
+                                            <td class="is-num">78</td>
+                                            <td class="is-num">1°</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Palmeiras</td>
+                                            <td class="is-num">72</td>
+                                            <td class="is-num">2°</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Grêmio</td>
+                                            <td class="is-num">68</td>
+                                            <td class="is-num">3°</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Bordas externas arredondadas aplicadas diretamente no wrapper da
+                            tabela.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-rnd is-str"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.is-gls - glass morphism</p>
+                        <div class="demo-wrap"
+                            style="background: linear-gradient(135deg, var(--azul9), var(--viol9)); border-radius:0.8rem;">
+                            <div class="tbl is-gls">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Crypto</th>
+                                            <th>Preço</th>
+                                            <th>24h</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Bitcoin</td>
+                                            <td class="is-num">$ 87.420</td>
+                                            <td class="is-num is-suc">+4.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ethereum</td>
+                                            <td class="is-num">$ 3.210</td>
+                                            <td class="is-num is-per">-1.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Solana</td>
+                                            <td class="is-num">$ 142</td>
+                                            <td class="is-num is-suc">+9.1%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Visual de vidro translúcido. Requer fundo com cor ou imagem para o
+                            efeito de blur disparar.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-gls"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">.is-grd - gradient header</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-grd is-hvr is-rnd">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Métrica</th>
+                                            <th>Atual</th>
+                                            <th>Meta</th>
+                                            <th>Delta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>MRR</td>
+                                            <td class="is-num">R$ 48.200</td>
+                                            <td class="is-num">R$ 50.000</td>
+                                            <td class="is-num is-ale">96%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Churn</td>
+                                            <td class="is-num">2.1%</td>
+                                            <td class="is-num">&#8804; 2.5%</td>
+                                            <td class="is-num is-suc">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NPS</td>
+                                            <td class="is-num">72</td>
+                                            <td class="is-num">70</td>
+                                            <td class="is-num is-suc">+2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Cabeçalho com gradiente da marca e tipografia branca de alto
+                            contraste.</p>
+                        <pre swcode="html"><script type="text/plain">
+<div class="tbl is-grd is-hvr is-rnd"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">thead.is-drk - header dark</p>
+                        <div class="demo-wrap">
+                            <div class="tbl is-hvr is-str">
+                                <table>
+                                    <thead class="is-drk">
+                                        <tr>
+                                            <th>Servidor</th>
+                                            <th>CPU</th>
+                                            <th>RAM</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>web-01</td>
+                                            <td class="is-num">12%</td>
+                                            <td class="is-num">4.2 GB</td>
+                                            <td class="is-suc">Online</td>
+                                        </tr>
+                                        <tr>
+                                            <td>db-primary</td>
+                                            <td class="is-num">68%</td>
+                                            <td class="is-num">18.1 GB</td>
+                                            <td class="is-ale">Alta carga</td>
+                                        </tr>
+                                        <tr>
+                                            <td>cache-01</td>
+                                            <td class="is-num">3%</td>
+                                            <td class="is-num">1.1 GB</td>
+                                            <td class="is-suc">Online</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="t-pp t-mut mb-2">Inverte o cabeçalho para fundo escuro, ideal para destacar títulos em
+                            listas longas.</p>
+                        <pre swcode="html"><script type="text/plain">
+<!-- Estilos de header: aplicar classe em <thead> -->
+<thead class="is-pri">...</thead>   <!-- fundo primário -->
+<thead class="is-sec">...</thead>   <!-- fundo secundário -->
+<thead class="is-drk">...</thead>   <!-- fundo escuro -->
+<thead class="is-lgt">...</thead>   <!-- fundo claro -->
+</script></pre>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- =========================================
+                 5. STICKY
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="sticky">
+                <h3 class="t-m f-bd mb-1">5. Sticky <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-4">
+                    Três eixos de sticky com z-index correto. A interseção header + primeira coluna recebe
+                    <code style="font-family:var(--sw-f-mon)">z-index: 4</code> automaticamente.
+                </p>
+
+                <p class="demo-label">Header + primeira coluna fixos - scroll horizontal e vertical</p>
+                <div class="demo-wrap" style="padding:0">
+                    <div class="tbl is-stk-hdr is-stk-col is-str is-hvr" style="max-height: 26rem; overflow-y: auto;">
+                        <table>
+                            <colgroup>
+                                <col class="col-m">
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Colaborador</th>
+                                    <th class="is-num">Jan</th>
+                                    <th class="is-num">Fev</th>
+                                    <th class="is-num">Mar</th>
+                                    <th class="is-num">Abr</th>
+                                    <th class="is-num">Mai</th>
+                                    <th class="is-num">Jun</th>
+                                    <th class="is-num">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ana Lima</td>
+                                    <td class="is-num">R$ 8.200</td>
+                                    <td class="is-num">R$ 8.200</td>
+                                    <td class="is-num">R$ 8.500</td>
+                                    <td class="is-num">R$ 8.500</td>
+                                    <td class="is-num">R$ 9.000</td>
+                                    <td class="is-num">R$ 9.000</td>
+                                    <td class="is-num">R$ 51.400</td>
+                                </tr>
+                                <tr>
+                                    <td>Bruno Costa</td>
+                                    <td class="is-num">R$ 6.800</td>
+                                    <td class="is-num">R$ 6.800</td>
+                                    <td class="is-num">R$ 7.200</td>
+                                    <td class="is-num">R$ 7.200</td>
+                                    <td class="is-num">R$ 7.200</td>
+                                    <td class="is-num">R$ 7.200</td>
+                                    <td class="is-num">R$ 42.400</td>
+                                </tr>
+                                <tr>
+                                    <td>Carla Melo</td>
+                                    <td class="is-num">R$ 12.000</td>
+                                    <td class="is-num">R$ 12.000</td>
+                                    <td class="is-num">R$ 12.000</td>
+                                    <td class="is-num">R$ 13.500</td>
+                                    <td class="is-num">R$ 13.500</td>
+                                    <td class="is-num">R$ 13.500</td>
+                                    <td class="is-num">R$ 76.500</td>
+                                </tr>
+                                <tr>
+                                    <td>Daniel Faria</td>
+                                    <td class="is-num">R$ 5.400</td>
+                                    <td class="is-num">R$ 5.400</td>
+                                    <td class="is-num">R$ 5.400</td>
+                                    <td class="is-num">R$ 5.400</td>
+                                    <td class="is-num">R$ 5.800</td>
+                                    <td class="is-num">R$ 5.800</td>
+                                    <td class="is-num">R$ 33.200</td>
+                                </tr>
+                                <tr>
+                                    <td>Eduarda Neves</td>
+                                    <td class="is-num">R$ 9.600</td>
+                                    <td class="is-num">R$ 9.600</td>
+                                    <td class="is-num">R$ 9.600</td>
+                                    <td class="is-num">R$ 9.600</td>
+                                    <td class="is-num">R$ 9.600</td>
+                                    <td class="is-num">R$ 10.200</td>
+                                    <td class="is-num">R$ 58.200</td>
+                                </tr>
+                                <tr>
+                                    <td>Felipe Torres</td>
+                                    <td class="is-num">R$ 7.100</td>
+                                    <td class="is-num">R$ 7.100</td>
+                                    <td class="is-num">R$ 7.100</td>
+                                    <td class="is-num">R$ 7.100</td>
+                                    <td class="is-num">R$ 7.100</td>
+                                    <td class="is-num">R$ 7.800</td>
+                                    <td class="is-num">R$ 43.300</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total geral</td>
+                                    <td class="is-num">R$ 49.100</td>
+                                    <td class="is-num">R$ 49.100</td>
+                                    <td class="is-num">R$ 49.800</td>
+                                    <td class="is-num">R$ 51.300</td>
+                                    <td class="is-num">R$ 52.200</td>
+                                    <td class="is-num">R$ 53.500</td>
+                                    <td class="is-num">R$ 305.000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Combinação de cabeçalho e coluna fixos. Mantém o contexto de IDs e títulos
+                    durante o scroll horizontal e vertical.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<!-- is-stk-hdr: header fixo no scroll vertical -->
+<!-- is-stk-col: 1ª coluna fixa no scroll horizontal -->
+<!-- is-stk-lst: última coluna fixa no scroll horizontal -->
+<!-- A interseção header + 1ª coluna recebe z-index: 4 automaticamente -->
+<div class="tbl is-stk-hdr is-stk-col is-str is-hvr" style="max-height: 26rem; overflow-y: auto;">
+  <table>
+    <colgroup>
+      <col class="col-m">  <!-- 1ª coluna: largura fixa -->
+      <col>
+      <col>
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Colaborador</th>
+        <th class="is-num">Jan</th>
+        <th class="is-num">Fev</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Ana Lima</td><td class="is-num">R$ 8.200</td><td class="is-num">R$ 8.200</td></tr>
+    </tbody>
+  </table>
+</div>
+</script></pre>
+
+                <table class="ref-table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Modificador</th>
+                            <th>Efeito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.is-stk-hdr</td>
+                            <td>thead sticky no topo</td>
+                        </tr>
+                        <tr>
+                            <td>.is-stk-col</td>
+                            <td>primeira coluna sticky à esquerda</td>
+                        </tr>
+                        <tr>
+                            <td>.is-stk-lst</td>
+                            <td>última coluna sticky à direita (botoes de ação)</td>
+                        </tr>
+                        <tr>
+                            <td>.is-stk-hdr + .is-stk-col</td>
+                            <td>interseção recebe z-index: 4 automaticamente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- =========================================
+                 6. ROW STATUS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="row-status">
+                <h3 class="t-m f-bd mb-1">6. Row Status</h3>
+                <p class="t-mut t-p mb-6">
+                    Classes de status aplicadas no <code style="font-family:var(--sw-f-mon)">&lt;tr&gt;</code>.
+                    Usam <code style="font-family:var(--sw-f-mon)">color-mix()</code> para overlay suave sem
+                    sobrescrever a cor de background da linha.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="tbl is-bor">
+                        <table>
+                            <thead class="is-drk">
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                    <th>tr class</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="is-act">
+                                    <td>#10401</td>
+                                    <td>Maria Santos</td>
+                                    <td class="is-num">R$ 1.240,00</td>
+                                    <td>Selecionado</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-act</code></td>
+                                </tr>
+                                <tr class="is-suc">
+                                    <td>#10402</td>
+                                    <td>João Ferreira</td>
+                                    <td class="is-num">R$ 890,00</td>
+                                    <td>Aprovado</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-suc</code></td>
+                                </tr>
+                                <tr class="is-per">
+                                    <td>#10403</td>
+                                    <td>Ana Rocha</td>
+                                    <td class="is-num">R$ 3.200,00</td>
+                                    <td>Cancelado</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-per</code></td>
+                                </tr>
+                                <tr class="is-ale">
+                                    <td>#10404</td>
+                                    <td>Carlos Lima</td>
+                                    <td class="is-num">R$ 445,00</td>
+                                    <td>Pendente pgto</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-ale</code></td>
+                                </tr>
+                                <tr class="is-inf">
+                                    <td>#10405</td>
+                                    <td>Paula Costa</td>
+                                    <td class="is-num">R$ 2.100,00</td>
+                                    <td>Em trânsito</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-inf</code></td>
+                                </tr>
+                                <tr class="is-pnd">
+                                    <td>#10406</td>
+                                    <td>Rafa Moura</td>
+                                    <td class="is-num">R$ 760,00</td>
+                                    <td>Aguardando NF</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-pnd</code></td>
+                                </tr>
+                                <tr class="is-new">
+                                    <td>#10407</td>
+                                    <td>Luana Dias</td>
+                                    <td class="is-num">R$ 1.890,00</td>
+                                    <td>Novo pedido</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-new</code></td>
+                                </tr>
+                                <tr class="is-mut">
+                                    <td>#10408</td>
+                                    <td>Marcos Silva</td>
+                                    <td class="is-num">R$ 320,00</td>
+                                    <td>Desativado</td>
+                                    <td><code style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-mut</code></td>
+                                </tr>
+                                <tr class="is-grp">
+                                    <td colspan="5">Pedidos do mês anterior</td>
+                                </tr>
+                                <tr>
+                                    <td>#9998</td>
+                                    <td>Sofia Alves</td>
+                                    <td class="is-num">R$ 588,00</td>
+                                    <td>Entregue</td>
+                                    <td><code
+                                            style="font-family:var(--sw-f-mon);font-size:1.2rem">tr.is-grp (sep.)</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Classes de status aplicadas diretamente na tag <code>&lt;tr&gt;</code>. O
+                    framework aplica um overlay de cor suave.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="tbl is-bor">
+  <table>
+    <thead><tr><th>Pedido</th><th>Cliente</th><th>Valor</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr class="is-act">  <td>#10401</td><td>Maria Santos</td><td class="is-num">R$ 1.240</td><td>Selecionado</td></tr>
+      <tr class="is-suc">  <td>#10402</td><td>João Ferreira</td><td class="is-num">R$ 890</td><td>Aprovado</td></tr>
+      <tr class="is-per">  <td>#10403</td><td>Ana Rocha</td><td class="is-num">R$ 3.200</td><td>Cancelado</td></tr>
+      <tr class="is-ale">  <td>#10404</td><td>Carlos Lima</td><td class="is-num">R$ 445</td><td>Pendente</td></tr>
+      <tr class="is-inf">  <td>#10405</td><td>Paula Costa</td><td class="is-num">R$ 2.100</td><td>Em trânsito</td></tr>
+      <tr class="is-pnd">  <td>#10406</td><td>Rafa Moura</td><td class="is-num">R$ 760</td><td>Aguardando NF</td></tr>
+      <tr class="is-new">  <td>#10407</td><td>Luana Dias</td><td class="is-num">R$ 1.890</td><td>Novo pedido</td></tr>
+      <tr class="is-mut">  <td>#10408</td><td>Marcos Silva</td><td class="is-num">R$ 320</td><td>Desativado</td></tr>
+      <tr class="is-grp">  <td colspan="4">Pedidos do mês anterior</td></tr>
+    </tbody>
+  </table>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 7. CELL HELPERS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="cells">
+                <h3 class="t-m f-bd mb-1">7. Cell Helpers</h3>
+                <p class="t-mut t-p mb-6">Classes aplicadas em <code
+                        style="font-family:var(--sw-f-mon)">&lt;td&gt;</code> ou <code
+                        style="font-family:var(--sw-f-mon)">&lt;th&gt;</code> individualmente.</p>
+
+                <div class="demo-wrap">
+                    <div class="tbl is-hvr is-str">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ativo</th>
+                                    <th data-sort="asc">Preço</th>
+                                    <th data-sort>Variação</th>
+                                    <th class="is-ctr">Volume</th>
+                                    <th class="is-rgt">Mkt Cap</th>
+                                    <th class="is-ctr">Sinal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AAPL</td>
+                                    <td class="is-num is-srt">$ 189.42</td>
+                                    <td class="is-suc">+2.4%</td>
+                                    <td class="is-ctr is-num">48.2M</td>
+                                    <td class="is-rgt is-num">$ 2.91T</td>
+                                    <td class="is-ctr"><span y2badge class="y2badge-pri"
+                                            style="font-size:1.1rem">COMPRA</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>GOOGL</td>
+                                    <td class="is-num is-srt">$ 178.84</td>
+                                    <td class="is-per">-0.8%</td>
+                                    <td class="is-ctr is-num">22.1M</td>
+                                    <td class="is-rgt is-num">$ 2.22T</td>
+                                    <td class="is-ctr"><span y2badge style="font-size:1.1rem">NEUTRO</span></td>
+                                </tr>
+                                <tr>
+                                    <td>MSFT</td>
+                                    <td class="is-num is-srt">$ 420.10</td>
+                                    <td class="is-ale">+0.1%</td>
+                                    <td class="is-ctr is-num">18.7M</td>
+                                    <td class="is-rgt is-num">$ 3.12T</td>
+                                    <td class="is-ctr"><span y2badge class="y2badge-pri"
+                                            style="font-size:1.1rem">COMPRA</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="is-mut">NVDA</td>
+                                    <td class="is-num is-srt is-mut">-</td>
+                                    <td class="is-mut">Indisponível</td>
+                                    <td class="is-ctr is-mut">-</td>
+                                    <td class="is-rgt is-mut">-</td>
+                                    <td class="is-ctr is-mut">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Modificadores de alinhamento e status aplicados individualmente em
+                    <code>&lt;td&gt;</code> ou <code>&lt;th&gt;</code>.
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<table>
+  <thead>
+    <tr>
+      <th data-sort="asc">Preço</th>   <!-- sort ativo asc ? ? -->
+      <th data-sort>Variação</th>          <!-- sort ativo desc ? ? | neutro ? ? -->
+      <th class="is-ctr">Volume</th>     <!-- alinhado ao centro -->
+      <th class="is-rgt">Mkt Cap</th>    <!-- alinhado à direita (sem mono) -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="is-num is-srt">$ 189.42</td>  <!-- is-srt: coluna ordenada (fundo suave) -->
+      <td class="is-suc">+2.4%</td>              <!-- cor semântica verde + bold -->
+      <td class="is-per">-0.8%</td>              <!-- cor semântica vermelha -->
+      <td class="is-ale">+0.1%</td>              <!-- cor semântica amarela -->
+      <td class="is-mut">-</td>                  <!-- indisponível: opacidade 40% -->
+      <td class="is-ctr is-num">48.2M</td>
+    </tr>
+  </tbody>
+</table>
+</script></pre>
+
+                <table class="ref-table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Classe (td/th)</th>
+                            <th>Efeito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.is-num</td>
+                            <td>Alinha à direita + fonte mono tabular</td>
+                        </tr>
+                        <tr>
+                            <td>.is-ctr</td>
+                            <td>Alinha ao centro</td>
+                        </tr>
+                        <tr>
+                            <td>.is-rgt</td>
+                            <td>Alinha à direita (sem mono)</td>
+                        </tr>
+                        <tr>
+                            <td>.is-suc .is-per .is-ale .is-inf</td>
+                            <td>Cor semântica + bold</td>
+                        </tr>
+                        <tr>
+                            <td>.is-mut</td>
+                            <td>Opacidade 40% (valor ausente/inativo)</td>
+                        </tr>
+                        <tr>
+                            <td>.is-srt</td>
+                            <td>Coluna ativa de ordenação - fundo suave</td>
+                        </tr>
+                        <tr>
+                            <td>th[data-sort]</td>
+                            <td>Ícone ? automático; "asc" ? ?; "desc" ? ?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- =========================================
+                 8. SKELETON LOADING
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="skeleton">
+                <h3 class="t-m f-bd mb-1">8. Skeleton Loading <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">
+                    Adicione <code style="font-family:var(--sw-f-mon)">tr.is-ldg</code> nas linhas enquanto o dado
+                    carrega.
+                    Animação shimmer automática. Zero JS.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="tbl is-bor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>E-mail</th>
+                                    <th>Plano</th>
+                                    <th>MRR</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Empresa Alpha Ltda</td>
+                                    <td>contato@alpha.com.br</td>
+                                    <td>Pro</td>
+                                    <td class="is-num">R$ 499</td>
+                                    <td class="is-suc">Ativo</td>
+                                </tr>
+                                <tr class="is-ldg">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="is-ldg">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="is-ldg">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Placeholder animado (shimmer) para indicar carregamento assíncrono de dados.
+                </p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="tbl is-bor">
+  <table>
+    <thead><tr><th>Cliente</th><th>E-mail</th><th>Plano</th><th>Status</th></tr></thead>
+    <tbody>
+      <!-- Linha real já carregada -->
+      <tr>
+        <td>Empresa Alpha</td><td>contato@alpha.com</td><td>Pro</td>
+        <td class="is-suc">Ativo</td>
+      </tr>
+      <!-- Linhas com shimmer enquanto carrega - tr.is-ldg -->
+      <tr class="is-ldg"><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+      <tr class="is-ldg"><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+    </tbody>
+  </table>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 9. AUTO COUNTER
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="counter">
+                <h3 class="t-m f-bd mb-1">9. Auto Counter CSS <span class="badge-new">Framework</span></h3>
+                <p class="t-mut t-p mb-6">
+                    Adicione <code style="font-family:var(--sw-f-mon)">.is-cnt</code> no wrapper para numerar
+                    as linhas automaticamente via CSS <code style="font-family:var(--sw-f-mon)">counter()</code>.
+                    Zero JS, zero coluna extra no HTML.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="tbl is-cnt is-str is-hvr">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ranking</th>
+                                    <th>Desenvolvedora</th>
+                                    <th>App</th>
+                                    <th>Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>App Store</td>
+                                    <td>Meta</td>
+                                    <td>Instagram</td>
+                                    <td class="is-num">2.1B</td>
+                                </tr>
+                                <tr>
+                                    <td>App Store</td>
+                                    <td>TikTok Ltd</td>
+                                    <td>TikTok</td>
+                                    <td class="is-num">1.8B</td>
+                                </tr>
+                                <tr>
+                                    <td>App Store</td>
+                                    <td>WhatsApp LLC</td>
+                                    <td>WhatsApp</td>
+                                    <td class="is-num">1.7B</td>
+                                </tr>
+                                <tr>
+                                    <td>App Store</td>
+                                    <td>Google</td>
+                                    <td>YouTube</td>
+                                    <td class="is-num">1.5B</td>
+                                </tr>
+                                <tr>
+                                    <td>App Store</td>
+                                    <td>Telegram</td>
+                                    <td>Telegram</td>
+                                    <td class="is-num">900M</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Numeração automática de linhas via CSS <code>counter</code>, sem necessidade
+                    de coluna de índice no HTML.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<!-- is-cnt: numera linhas automaticamente via CSS counter() - sem coluna extra no HTML -->
+<div class="tbl is-cnt is-str is-hvr">
+  <table>
+    <thead>
+      <tr>
+        <th>Ranking</th>  <!-- receives the counter via ::before automatically -->
+        <th>Desenvolvedor</th>
+        <th>App</th>
+        <th class="is-num">Downloads</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>App Store</td><td>Meta</td><td>Instagram</td><td class="is-num">2.1B</td></tr>
+      <tr><td>App Store</td><td>TikTok Ltd</td><td>TikTok</td><td class="is-num">1.8B</td></tr>
+    </tbody>
+  </table>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 10. COLUNA WIDTHS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="columns">
+                <h3 class="t-m f-bd mb-1">10. Larguras de Coluna</h3>
+                <p class="t-mut t-p mb-6">
+                    Use no elemento <code style="font-family:var(--sw-f-mon)">&lt;col&gt;</code> dentro de
+                    <code style="font-family:var(--sw-f-mon)">&lt;colgroup&gt;</code> ou direto no <code
+                        style="font-family:var(--sw-f-mon)">&lt;th&gt;</code>.
+                </p>
+
+                <div class="demo-wrap">
+                    <div class="tbl is-bor">
+                        <table>
+                            <colgroup>
+                                <col class="col-fit"><!-- ID: ajusta ao conteúdo -->
+                                <col class="col-fl"> <!-- Nome: ocupa o máximo -->
+                                <col class="col-m"> <!-- Cargo: 14rem fixo -->
+                                <col class="col-p"> <!-- Valor: 8rem -->
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome completo</th>
+                                    <th>Cargo</th>
+                                    <th class="is-num">Salário</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="is-num">001</td>
+                                    <td>Gabriela Monteiro de Albuquerque</td>
+                                    <td>CTO</td>
+                                    <td class="is-num">R$ 28.000</td>
+                                </tr>
+                                <tr>
+                                    <td class="is-num">002</td>
+                                    <td>Pedro Henrique Costa Silva</td>
+                                    <td>Dev Sênior</td>
+                                    <td class="is-num">R$ 18.000</td>
+                                </tr>
+                                <tr>
+                                    <td class="is-num">003</td>
+                                    <td>Laura Beatriz Fonseca</td>
+                                    <td>Designer</td>
+                                    <td class="is-num">R$ 12.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Controle preciso de larguras usando a tag <code>&lt;col&gt;</code> para
+                    performance e organização das colunas.</p>
+                <pre swcode="html"><script type="text/plain">
+<colgroup>
+  <col class="col-fit">
+  <col class="col-m">
+</colgroup>
+</script></pre>
+
+                <table class="ref-table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>Largura</th>
+                            <th>Uso típico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.col-fit</td>
+                            <td>1% + nowrap</td>
+                            <td>IDs, checkboxes, ícones</td>
+                        </tr>
+                        <tr>
+                            <td>.col-pp</td>
+                            <td>4rem</td>
+                            <td>N. pequenos</td>
+                        </tr>
+                        <tr>
+                            <td>.col-p</td>
+                            <td>8rem</td>
+                            <td>Preço, data</td>
+                        </tr>
+                        <tr>
+                            <td>.col-m</td>
+                            <td>14rem</td>
+                            <td>Cargo, tipo, tag</td>
+                        </tr>
+                        <tr>
+                            <td>.col-g</td>
+                            <td>20rem</td>
+                            <td>Nome curto</td>
+                        </tr>
+                        <tr>
+                            <td>.col-gg</td>
+                            <td>28rem</td>
+                            <td>Nome longo, endereço</td>
+                        </tr>
+                        <tr>
+                            <td>.col-fl</td>
+                            <td>100%</td>
+                            <td>Coluna que ocupa o espaço restante</td>
+                        </tr>
+                        <tr>
+                            <td>.col-hide-m</td>
+                            <td>display:none @768px</td>
+                            <td>Ocultar no mobile</td>
+                        </tr>
+                        <tr>
+                            <td>.col-hide-p</td>
+                            <td>display:none @576px</td>
+                            <td>Ocultar em telas muito pequenas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- =========================================
+                 11. COMBINAÇÕES REAIS
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="combos">
+                <h3 class="t-m f-bd mb-1">11. Combinações Reais</h3>
+                <p class="t-mut t-p mb-6">Exemplos de tabelas prontas para produção combinando múltiplos modificadores.
+                </p>
+
+                <!-- Dashboard financeiro -->
+                <p class="demo-label">Dashboard financeiro - is-cnt + is-stk-hdr + is-hvr + is-bor + is-str</p>
+                <div class="demo-wrap" style="padding:0">
+                    <div class="tbl is-cnt is-stk-hdr is-hvr is-bor is-str is-rnd">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="col-fit">#</th>
+                                    <th>Empresa</th>
+                                    <th class="is-ctr">Setor</th>
+                                    <th data-sort="desc" class="is-num">Receita</th>
+                                    <th data-sort class="is-num">Crescim.</th>
+                                    <th class="is-ctr">Risk</th>
+                                    <th class="is-ctr col-hide-m">Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="is-act">
+                                    <td>-</td>
+                                    <td><strong>Nubank</strong></td>
+                                    <td class="is-ctr">Fintech</td>
+                                    <td class="is-num is-srt">R$ 11.8B</td>
+                                    <td class="is-num is-suc is-srt">+62%</td>
+                                    <td class="is-ctr"><span y2badge
+                                            style="background:var(--verd9);color:var(--verd4);font-size:1.1rem">Baixo</span>
+                                    </td>
+                                    <td class="is-ctr col-hide-m">★★★★★</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>TOTVS</td>
+                                    <td class="is-ctr">SaaS</td>
+                                    <td class="is-num is-srt">R$ 4.2B</td>
+                                    <td class="is-num is-suc is-srt">+24%</td>
+                                    <td class="is-ctr"><span y2badge
+                                            style="background:var(--verd9);color:var(--verd4);font-size:1.1rem">Baixo</span>
+                                    </td>
+                                    <td class="is-ctr col-hide-m">★★★★</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>Méliuz</td>
+                                    <td class="is-ctr">Fintech</td>
+                                    <td class="is-num is-srt">R$ 620M</td>
+                                    <td class="is-num is-ale is-srt">+4%</td>
+                                    <td class="is-ctr"><span y2badge
+                                            style="background:var(--amar10);color:var(--amar4);font-size:1.1rem">Médio</span>
+                                    </td>
+                                    <td class="is-ctr col-hide-m">★★★</td>
+                                </tr>
+                                <tr class="is-per">
+                                    <td>-</td>
+                                    <td>GetNinjas</td>
+                                    <td class="is-ctr">Marketplace</td>
+                                    <td class="is-num is-srt">R$ 78M</td>
+                                    <td class="is-num is-per is-srt">-18%</td>
+                                    <td class="is-ctr"><span y2badge
+                                            style="background:var(--verm10);color:var(--verm4);font-size:1.1rem">Alto</span>
+                                    </td>
+                                    <td class="is-ctr col-hide-m">—</td>
+                                </tr>
+                                <tr class="is-ldg">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>-</td>
+                                    <td colspan="2">Total portfólio</td>
+                                    <td class="is-num">R$ 16.7B</td>
+                                    <td class="is-num is-suc">+36% média</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Demonstração de mix de utilitários: Sticky + Counter + Hover + Striped +
+                    Rounded.</p>
+                <pre swcode="html"><script type="text/plain">
+<div class="tbl is-cnt is-stk-hdr is-hvr is-bor is-str is-rnd"></div>
+</script></pre>
+
+                <!-- Logs sistema -->
+                <p class="demo-label mt-6">Log de sistema - is-pp + is-str + is-cnt + is-bor</p>
+                <div class="demo-wrap" style="padding:0">
+                    <div class="tbl is-pp is-str is-cnt is-bor" style="max-height: 20rem; overflow-y:auto;">
+                        <table>
+                            <thead class="is-drk">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Timestamp</th>
+                                    <th>Level</th>
+                                    <th class="col-fl">Mensagem</th>
+                                    <th>Serviço</th>
+                                    <th class="col-hide-p">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="is-suc">
+                                    <td>-</td>
+                                    <td>14:38:01.024</td>
+                                    <td class="is-suc">INFO</td>
+                                    <td>Request completed successfully</td>
+                                    <td>api-gateway</td>
+                                    <td class="is-num col-hide-p">42ms</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>14:38:01.188</td>
+                                    <td class="is-inf">DEBUG</td>
+                                    <td>Cache hit for key user:8821</td>
+                                    <td>cache-svc</td>
+                                    <td class="is-num col-hide-p">2ms</td>
+                                </tr>
+                                <tr class="is-ale">
+                                    <td>-</td>
+                                    <td>14:38:02.340</td>
+                                    <td class="is-ale">WARN</td>
+                                    <td>Slow query detected: SELECT * FROM orders WHERE...</td>
+                                    <td>db-pool</td>
+                                    <td class="is-num col-hide-p">1.84s</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>14:38:03.001</td>
+                                    <td class="is-inf">DEBUG</td>
+                                    <td>JWT token verified for user 8821</td>
+                                    <td>auth-svc</td>
+                                    <td class="is-num col-hide-p">8ms</td>
+                                </tr>
+                                <tr class="is-per">
+                                    <td>-</td>
+                                    <td>14:38:04.512</td>
+                                    <td class="is-per">ERROR</td>
+                                    <td>Connection refused: redis://cache:6379</td>
+                                    <td>cache-svc</td>
+                                    <td class="is-num col-hide-p">-</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>14:38:04.900</td>
+                                    <td class="is-inf">DEBUG</td>
+                                    <td>Retry attempt 1/3 for cache connection</td>
+                                    <td>cache-svc</td>
+                                    <td class="is-num col-hide-p">-</td>
+                                </tr>
+                                <tr class="is-suc">
+                                    <td>-</td>
+                                    <td>14:38:05.211</td>
+                                    <td class="is-suc">INFO</td>
+                                    <td>Cache reconnected successfully</td>
+                                    <td>cache-svc</td>
+                                    <td class="is-num col-hide-p">311ms</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>14:38:06.044</td>
+                                    <td class="is-inf">DEBUG</td>
+                                    <td>Webhook delivered to endpoint /hooks/stripe</td>
+                                    <td>webhook-svc</td>
+                                    <td class="is-num col-hide-p">120ms</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="t-pp t-mut mb-2">Tabela de logs ultra-compacta com cabeçalho dark e colunas auto-ajustáveis.
+                </p>
+                <pre swcode="html"><script type="text/plain">
+<div class="tbl is-pp is-str is-cnt is-bor">
+  <thead class="is-drk">...</thead>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 8. TABLE CARD MODE (PREMIUM)
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="card-mode">
+                <h3 class="t-m f-bd mb-2"
+                    style="background: linear-gradient(to right, var(--sw-pri), var(--sw-sec)); background-clip: text; -webkit-background-clip: text; color: transparent; display: inline-block;">
+                    12. Table Card Mode (Premium)</h3>
+                <p class="t-mut t-p mb-6">
+                    A variante <code style="font-family:var(--sw-f-mon)">.is-crd</code> transforma a tabela em um painel
+                    auto-contido.
+                    Ela dispensa o <code style="font-family:var(--sw-f-mon)">.demo-wrap</code> e aplica bordas, radius e
+                    uma sombra (drop-shadow) macia nativamente na tabela, sendo a escolha perfeita para Dashboards
+                    Enterprise de alto padrão.
+                </p>
+
+                <div class="tbl is-crd is-str is-hvr mb-6" style="margin-top: 2rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-sort>Fatura</th>
+                                <th data-sort="asc">Emissão</th>
+                                <th>Cliente</th>
+                                <th class="is-num is-rgt">Valor (R$)</th>
+                                <th>Status</th>
+                                <th class="is-ctr">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#80249</td>
+                                <td>18 Nov 2026</td>
+                                <td>Tech Innovators Ltda</td>
+                                <td class="is-num is-rgt">14.500,00</td>
+                                <td class="is-suc">Pago</td>
+                                <td class="is-ctr"><button y2btn class="y2btn-pp y2btn-nul"><i
+                                            class="sw-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>#80250</td>
+                                <td>19 Nov 2026</td>
+                                <td>Creative Studios</td>
+                                <td class="is-num is-rgt">3.240,00</td>
+                                <td class="is-ale">A Vencer</td>
+                                <td class="is-ctr"><button y2btn class="y2btn-pp y2btn-nul"><i
+                                            class="sw-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>#80251</td>
+                                <td>20 Nov 2026</td>
+                                <td>Global Trading Corp</td>
+                                <td class="is-num is-rgt">89.100,00</td>
+                                <td class="is-per">Atrasado</td>
+                                <td class="is-ctr"><button y2btn class="y2btn-pp y2btn-nul"><i
+                                            class="sw-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>#80252</td>
+                                <td>21 Nov 2026</td>
+                                <td>Boutique Moderna</td>
+                                <td class="is-num is-rgt">950,00</td>
+                                <td class="is-inf">Processando</td>
+                                <td class="is-ctr"><button y2btn class="y2btn-pp y2btn-nul"><i
+                                            class="sw-eye"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="t-pp t-mut mb-2">O modo Card transforma a tabela em um painel auto-contido com bordas, radius
+                    e drop-shadow nativos.</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="tbl is-crd is-str is-hvr">
+    <table>
+        ...
+        <td class="is-suc">Pago</td>
+        ...
+    </table>
+</div>
+</script></pre>
+            </div>
+
+            <!-- =========================================
+                 12. QUICK REFERENCE
+                 ========================================= -->
+            <div class="doc-card section-anchor" id="ref">
+                <h3 class="t-m f-bd mb-4">13. Quick Reference</h3>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2.4rem;">
+
+                    <div>
+                        <p class="demo-label">Wrapper .tbl</p>
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>O que faz</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>.tbl</td>
+                                    <td>Base + scroll + shadow</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-row</td>
+                                    <td>Linhas horizontais (padrão)</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-bor</td>
+                                    <td>Todas as bordas</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-col</td>
+                                    <td>Só colunas</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-cln</td>
+                                    <td>Sem bordas</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-pp</td>
+                                    <td>Compacto</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-p</td>
+                                    <td>Pequeno</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-g</td>
+                                    <td>Espaçoso</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-str</td>
+                                    <td>Striped</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-hvr</td>
+                                    <td>Hover highlight</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-rnd</td>
+                                    <td>Rounded corners</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-crd</td>
+                                    <td>Card mode (sem wrapper)</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-gls</td>
+                                    <td>Glass morphism</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-grd</td>
+                                    <td>Gradient header</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-stk-hdr</td>
+                                    <td>Sticky header</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-stk-col</td>
+                                    <td>Sticky 1ª coluna</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-stk-lst</td>
+                                    <td>Sticky última coluna</td>
+                                </tr>
+                                <tr>
+                                    <td>.is-cnt</td>
+                                    <td>Auto-counter CSS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">thead / tr / td</p>
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>Aplica em</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>thead.is-pri</td>
+                                    <td>Header primário</td>
+                                </tr>
+                                <tr>
+                                    <td>thead.is-sec</td>
+                                    <td>Header secundário</td>
+                                </tr>
+                                <tr>
+                                    <td>thead.is-drk</td>
+                                    <td>Header escuro</td>
+                                </tr>
+                                <tr>
+                                    <td>thead.is-lgt</td>
+                                    <td>Header claro</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-act</td>
+                                    <td>Linha selecionada</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-suc</td>
+                                    <td>Aprovado / sucesso</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-per</td>
+                                    <td>Erro / cancelado</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-ale</td>
+                                    <td>Alerta / pendente</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-inf</td>
+                                    <td>Info / em trânsito</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-pnd</td>
+                                    <td>Aguardando</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-new</td>
+                                    <td>Novo registro</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-mut</td>
+                                    <td>Desativado</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-grp</td>
+                                    <td>Separador de grupo</td>
+                                </tr>
+                                <tr>
+                                    <td>tr.is-ldg</td>
+                                    <td>Skeleton loading</td>
+                                </tr>
+                                <tr>
+                                    <td>td.is-num</td>
+                                    <td>Número tabular mono</td>
+                                </tr>
+                                <tr>
+                                    <td>td.is-srt</td>
+                                    <td>Coluna ordenada</td>
+                                </tr>
+                                <tr>
+                                    <td>th[data-sort]</td>
+                                    <td>Ícone sort automático</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../dist/sw.min.js"></script>
+</body>
+
+</html>

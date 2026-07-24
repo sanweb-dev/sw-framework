@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Layout & Grid - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        /* Demos visuais */
+        .d-col {
+            background: var(--sw-pri-opa1);
+            border: 2px solid var(--sw-pri);
+            border-radius: var(--sw-r-m);
+            padding: 1rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--sw-pri);
+            text-align: center;
+            font-family: var(--sw-f-mon);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .d-col.is-secu {
+            background: var(--secu13);
+            border-color: var(--secu);
+            color: var(--secu7);
+        }
+
+        .d-col.is-gold {
+            background: var(--gold14);
+            border-color: var(--gold);
+            color: var(--gold7);
+        }
+
+        .d-col.is-verd {
+            background: var(--verd14);
+            border-color: var(--verd);
+            color: var(--verd7);
+        }
+
+        /* bp-badge agora � nativo do framework (components.css) */
+
+        .flx-demo {
+            background: var(--sw-bg-sec);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem;
+            min-height: 10rem;
+            display: flex;
+            transition: all .3s ease;
+        }
+
+        .flx-item {
+            background: var(--sw-pri);
+            border-radius: var(--sw-r-p);
+            padding: 0.8rem 1.6rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--sw-pri-opa2);
+        }
+
+        .axis-box {
+            flex: 1;
+            min-width: 28rem;
+            padding: 2.4rem;
+            border-radius: var(--sw-r-g);
+            border: 2px solid transparent;
+            transition: transform .2s;
+        }
+
+        .axis-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .axis-hor {
+            background: var(--prin13);
+            border-color: var(--prin);
+        }
+
+        .axis-ver {
+            background: var(--secu13);
+            border-color: var(--secu);
+        }
+
+        .cont-bar {
+            height: 4.8rem;
+            background: var(--sw-bg-sur);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            display: flex;
+            align-items: center;
+            padding: 0 1.6rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--sw-txt-bas);
+            font-family: var(--sw-f-mon);
+            margin-bottom: 0.8rem;
+            transition: all .2s;
+        }
+
+        .cont-bar:hover {
+            border-color: var(--sw-pri);
+            background: var(--sw-pri-opa1);
+            color: var(--sw-pri);
+        }
+
+        .ref-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+            font-size: 1.4rem;
+        }
+
+        .ref-row:last-child {
+            border-bottom: none;
+        }
+
+        .ref-cls {
+            font-family: var(--sw-f-mon);
+            font-weight: 700;
+            color: var(--prin);
+            min-width: 12rem;
+            flex-shrink: 0;
+        }
+
+        .ref-val {
+            color: var(--sw-txt-mut);
+            min-width: 10rem;
+            flex-shrink: 0;
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Layout & Grid</span>
+            </nav>
+
+            <section class="">
+                <span class="doc-tag">Foundation</span>
+                <h1 class="t-xxg f-bd mb-2">Layout & <span class="TprinD">Grid</span></h1>
+                <p class="t-g t-mut mb-8">Sistema híbrido CSS Grid + Flexbox com nomenclatura atômica de 3 letras. Grid
+                    de 12 colunas com 6 breakpoints responsivos.</p>
+
+                <!-- ================================================ -->
+                <!-- 1. CONTAINERS -->
+                <!-- ================================================ -->
+                <div class="doc-card">
+                    <h3 class="t-g f-bd mb-2"><i class="sw-layout mr-2 t-pri"></i> 1. Containers <code>.g-*</code></h3>
+                    <p class="t-mut mb-6">Centralizam o conteúdo com largura máxima. Baseados nos breakpoints do sistema
+                        PP→XXG.</p>
+
+                    <div style="margin-bottom: 2rem;">
+                        <div class="cont-bar" style="max-width: 100%;">
+                            <span style="flex:1">.g &nbsp;<span style="font-weight:400; opacity:.6">- fluid (sem
+                                    max-width)</span></span>
+                        </div>
+                        <div class="cont-bar" style="max-width: 380px;">
+                            <span style="flex:1">.g-pp</span><span style="opacity:.6">380px</span>
+                        </div>
+                        <div class="cont-bar" style="max-width: 576px;">
+                            <span style="flex:1">.g-p</span><span style="opacity:.6">576px</span>
+                        </div>
+                        <div class="cont-bar" style="max-width: 768px;">
+                            <span style="flex:1">.g-m</span><span style="opacity:.6">768px</span>
+                        </div>
+                        <div class="cont-bar" style="max-width: 992px;">
+                            <span style="flex:1">.g-g</span><span style="opacity:.6">992px</span>
+                        </div>
+                        <div class="cont-bar"
+                            style="max-width: 1200px; border-color: var(--gold); background: var(--gold14); color: var(--gold7);">
+                            <span style="flex:1">.g-gg &nbsp;<span style="font-weight:400; opacity:.7">- padrão
+                                    desktop</span></span><span style="opacity:.6">1200px</span>
+                        </div>
+                        <div class="cont-bar" style="max-width: 1400px;">
+                            <span style="flex:1">.g-xg</span><span style="opacity:.6">1400px</span>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- Grid Container de 1200px -->
+<div class="g-gg">
+  <!-- conteúdo centralizado -->
+</div>
+
+<!-- Largura total com padding -->
+<div class="g-fl"></div>
+
+<!-- Sem padding e sem max-width -->
+<div class="g0"></div>
+</script></pre>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- 2. GRID 12 COLUNAS -->
+                <!-- ================================================ -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-g f-bd mb-2"><i class="sw-columns mr-2 t-pri"></i> 2. Grid 12 Colunas <code>.l</code> +
+                        <code>.co</code>
+                    </h3>
+                    <p class="t-mut mb-6">O wrapper <code>.l</code> cria um grid de 12 colunas. As classes
+                        <code>.coN</code> definem quantas colunas o elemento ocupa.
+                    </p>
+
+                    <!-- Visualização das 12 colunas -->
+                    <p class="t-p f-bd t-mut mb-3">12 colunas individuais</p>
+                    <div class="l l0 mb-6" style="gap: 3px;">
+                        <div class="co1 d-col">1</div>
+                        <div class="co1 d-col is-secu">2</div>
+                        <div class="co1 d-col">3</div>
+                        <div class="co1 d-col is-secu">4</div>
+                        <div class="co1 d-col">5</div>
+                        <div class="co1 d-col is-secu">6</div>
+                        <div class="co1 d-col">7</div>
+                        <div class="co1 d-col is-secu">8</div>
+                        <div class="co1 d-col">9</div>
+                        <div class="co1 d-col is-secu">10</div>
+                        <div class="co1 d-col">11</div>
+                        <div class="co1 d-col is-secu">12</div>
+                    </div>
+
+                    <!-- Exemplos de combinaes -->
+                    <p class="t-p f-bd t-mut mb-3">Combinaes comuns</p>
+                    <div class="l mb-2" style="gap: 4px;">
+                        <div class="co6 d-col">.co6 (50%)</div>
+                        <div class="co6 d-col is-secu">.co6 (50%)</div>
+                    </div>
+                    <div class="l mb-2" style="gap: 4px;">
+                        <div class="co4 d-col">.co4 (33%)</div>
+                        <div class="co4 d-col is-secu">.co4 (33%)</div>
+                        <div class="co4 d-col is-gold">.co4 (33%)</div>
+                    </div>
+                    <div class="l mb-2" style="gap: 4px;">
+                        <div class="co3 d-col">.co3 (25%)</div>
+                        <div class="co3 d-col is-secu">.co3 (25%)</div>
+                        <div class="co3 d-col is-gold">.co3 (25%)</div>
+                        <div class="co3 d-col is-verd">.co3 (25%)</div>
+                    </div>
+                    <div class="l mb-6" style="gap: 4px;">
+                        <div class="co8 d-col">.co8 (66%)</div>
+                        <div class="co4 d-col is-secu">.co4 (33%)</div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- Grid de 2 colunas 50% / 50% -->
+<div class="l gap-4">
+  <div class="co6">Metade</div>
+  <div class="co6">Metade</div>
+</div>
+
+<!-- Grid de 3 colunas 33% / 33% / 33% -->
+<div class="l gap-4">
+  <div class="co4">Terço</div>
+  <div class="co4">Terço</div>
+  <div class="co4">Terço</div>
+</div>
+
+<!-- Grid sem espaçamento -->
+<div class="l l0"></div>
+</script></pre>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- 3. GRID TEMPLATES (SHORTCUTS) - NEW! -->
+                <!-- ================================================ -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-g f-bd mb-2"><i class="sw-layout-grid mr-2 t-pri"></i> 3. Grid Templates
+                        <code>.l-N</code>
+                    </h3>
+                    <p class="t-mut mb-6">Atalhos para criar grids rápidos com colunas iguais ou proporções fixas, sem
+                        precisar aplicar classes nos itens filhos.</p>
+
+                    <!-- Colunas Iguais -->
+                    <p class="t-p f-bd t-mut mb-3">Colunas Iguais (.l-2, .l-3, .l-4...)</p>
+                    <div class="l l-2 gap-3 mb-4">
+                        <div class="d-col">.l-2 (1fr 1fr)</div>
+                        <div class="d-col is-secu">.l-2</div>
+                    </div>
+                    <div class="l l-3 gap-3 mb-6">
+                        <div class="d-col">.l-3</div>
+                        <div class="d-col is-secu">.l-3</div>
+                        <div class="d-col is-gold">.l-3</div>
+                    </div>
+
+                    <!-- Proporções -->
+                    <p class="t-p f-bd t-mut mb-3">Proporções (1-2, 2-1, 1-3...)</p>
+                    <div class="l l-1-2 gap-3 mb-4">
+                        <div class="d-col">.l-1-2 (1fr)</div>
+                        <div class="d-col is-secu">.l-1-2 (2fr)</div>
+                    </div>
+                    <div class="l l-3-1 gap-3 mb-6">
+                        <div class="d-col">.l-3-1 (3fr)</div>
+                        <div class="d-col is-secu">.l-3-1 (1fr)</div>
+                    </div>
+
+                    <!-- Responsivo -->
+                    <p class="t-p f-bd t-mut mb-3">Templates Responsivos</p>
+                    <div class="l l-1 l-2-m l-4-g gap-3 mb-6">
+                        <div class="d-col">Item 1</div>
+                        <div class="d-col is-secu">Item 2</div>
+                        <div class="d-col is-gold">Item 3</div>
+                        <div class="d-col is-verd">Item 4</div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- Grid de 3 colunas automáticas -->
+<div class="l l-3 gap-4">
+  <div>Item 1</div> <div>Item 2</div> <div>Item 3</div>
+</div>
+
+<!-- Proporção 1/3 (Sidebar/Main) -->
+<div class="l l-1-3 gap-4">
+  <aside>Sidebar</aside>
+  <main>Conteúdo que ocupa 3x mais</main>
+</div>
+
+<!-- 1 col mobile ? 2 cols tablet ? 4 cols desktop -->
+<div class="l l-1 l-2-m l-4-g gap-4">...</div>
+</script></pre>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- 4. BREAKPOINTS RESPONSIVOS -->
+                <!-- ================================================ -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-g f-bd mb-2"><i class="sw-mobile mr-2 t-pri"></i> 4. Breakpoints Responsivos
+                        <code>.coN-bp</code>
+                    </h3>
+                    <p class="t-mut mb-4">Sufixos de breakpoint definem o tamanho mínimo de tela para ativar a coluna.
+                        Sem sufixo = sempre ativo (mobile-first padrão = 12 colunas).</p>
+
+                    <div style="overflow-x:auto; margin-bottom: 2rem;">
+                        <table style="width:100%; border-collapse: collapse; font-size: 1.3rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--sw-bor);">
+                                    <th
+                                        style="text-align:left; padding: 0.8rem 1rem; color: var(--sw-txt-mut); font-weight:700;">
+                                        Sufixo</th>
+                                    <th
+                                        style="text-align:left; padding: 0.8rem 1rem; color: var(--sw-txt-mut); font-weight:700;">
+                                        Min-Width</th>
+                                    <th
+                                        style="text-align:left; padding: 0.8rem 1rem; color: var(--sw-txt-mut); font-weight:700;">
+                                        Exemplo</th>
+                                    <th
+                                        style="text-align:left; padding: 0.8rem 1rem; color: var(--sw-txt-mut); font-weight:700;">
+                                        Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge pp">sem sufixo</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        sempre</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co6</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">50% em todos os tamanhos
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge pp">-pp</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 380px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co6-pp</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">50% a partir de 380px
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge p">-p</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 576px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co4-p</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">33% a partir de 576px
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge m">-m</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 768px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co6-m</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">50% a partir de 768px
+                                        (tablet)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge g">-g</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 992px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co4-g</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">33% a partir de 992px
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--sw-bor);">
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge gg">-gg</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 1200px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co3-gg</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">25% a partir de 1200px
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.8rem 1rem;"><span class="bp-badge xg">-xg</span></td>
+                                    <td
+                                        style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--sw-txt-mut);">
+                                        = 1400px</td>
+                                    <td style="padding: 0.8rem 1rem; font-family: var(--sw-f-mon); color: var(--prin);">
+                                        .co2-xg</td>
+                                    <td style="padding: 0.8rem 1rem; color: var(--sw-txt-mut);">16% a partir de 1400px
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Exemplo responsivo visual -->
+                    <p class="t-p f-bd t-mut mb-3">Exemplo: cards que se adaptam ao tamanho da tela</p>
+                    <div class="l gap-4 mb-6">
+                        <div class="co12 co6-m co4-g co3-gg d-col">Card A</div>
+                        <div class="co12 co6-m co4-g co3-gg d-col is-secu">Card B</div>
+                        <div class="co12 co6-m co4-g co3-gg d-col is-gold">Card C</div>
+                        <div class="co12 co6-m co4-g co3-gg d-col is-verd">Card D</div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- 1 col mobile - 2 cols tablet - 3 cols desktop - 4 cols wide -->
+<div class="l gap-4">
+  <div class="co12 co6-m co4-g co3-gg">Card A</div>
+  <div class="co12 co6-m co4-g co3-gg">Card B</div>
+  <div class="co12 co6-m co4-g co3-gg">Card C</div>
+  <div class="co12 co6-m co4-g co3-gg">Card D</div>
+</div>
+</script></pre>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- 5. FLEXBOX -->
+                <!-- ================================================ -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-g f-bd mb-2"><i class="sw-layout mr-2 t-pri"></i> 5. Flexbox Engine</h3>
+                    <p class="t-mut mb-8">Baseado em dois eixos (Eixo Principal e Eixo Cruzado), o Flexbox permite
+                        alinhar e distribuir itens com total controle.</p>
+
+                    <!-- CONCEITO: eixo principal vs cruzado -->
+                    <div class="flx gap-6 mb-10 f-wr">
+                        <div class="axis-box axis-hor">
+                            <p class="t-m f-bd mb-3" style="color:var(--prin);">Eixo Principal (Horizontal)</p>
+                            <p class="t-p t-mut">Controla como os itens se distribuem. Classes prefixadas com
+                                <code>.j-</code> (Justify).
+                            </p>
+                        </div>
+                        <div class="axis-box axis-ver">
+                            <p class="t-m f-bd mb-3" style="color:var(--secu7);">Eixo Cruzado (Vertical)</p>
+                            <p class="t-p t-mut">Controla o alinhamento na altura. Classes prefixadas com
+                                <code>.al</code> (Align).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 4.1 O PA� (CONTAINER) -->
+                    <div class="mb-10">
+                        <h4 class="t-p f-bd mb-6 TprinD">5.1 O Container (.flx)</h4>
+
+                        <p class="t-m f-bd mb-4">Justify Content (Eixo Principal)</p>
+                        <div class="l gap-4 mb-8">
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.j-ct (Center)</p>
+                                <div class="flx-demo j-ct alc gap-2">
+                                    <div class="flx-item shadow-p">A</div>
+                                    <div class="flx-item shadow-p">B</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.j-sb (Space Between)</p>
+                                <div class="flx-demo j-sb alc gap-2">
+                                    <div class="flx-item shadow-p">A</div>
+                                    <div class="flx-item shadow-p">B</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.j-en (Flex End)</p>
+                                <div class="flx-demo j-en alc gap-2">
+                                    <div class="flx-item shadow-p">A</div>
+                                    <div class="flx-item shadow-p">B</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="t-m f-bd mb-4">Align Items (Eixo Cruzado)</p>
+                        <div class="l gap-4 mb-8">
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.alc (Center)</p>
+                                <div class="flx-demo alc j-ct gap-2">
+                                    <div class="flx-item" style="height:3rem">A</div>
+                                    <div class="flx-item" style="height:6rem">B</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.ale (End)</p>
+                                <div class="flx-demo ale j-ct gap-2">
+                                    <div class="flx-item" style="height:3rem">A</div>
+                                    <div class="flx-item" style="height:6rem">B</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m co4-g">
+                                <p class="t-p t-mut mb-2 f-mon">.alst (Stretch)</p>
+                                <div class="flx-demo alst j-ct gap-2">
+                                    <div class="flx-item">A</div>
+                                    <div class="flx-item">B</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="t-m f-bd mb-4">Direção (.f-cl) e Quebra (.f-wr)</p>
+                        <div class="l gap-4">
+                            <div class="co12 co6-m">
+                                <p class="t-p t-mut mb-2 f-mon">.f-cl (Column)</p>
+                                <div class="flx-demo f-cl alc j-ct gap-2">
+                                    <div class="flx-item">A</div>
+                                    <div class="flx-item">B</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m">
+                                <p class="t-p t-mut mb-2 f-mon">.f-wr (Wrap)</p>
+                                <div class="flx-demo f-wr alc gap-2" style="width:160px">
+                                    <div class="flx-item">1</div>
+                                    <div class="flx-item">2</div>
+                                    <div class="flx-item">3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4.2 OS FILHOS (ITEMS) -->
+                    <div class="mb-10">
+                        <h4 class="t-p f-bd mb-6 TprinD">5.2 Comportamento dos Itens</h4>
+
+                        <div class="l gap-4 mb-6">
+                            <div class="co12 co6-m">
+                                <p class="t-p t-mut mb-2 f-mon">.f-1 (Flex Grow: 1)</p>
+                                <div class="flx-demo alc gap-3">
+                                    <div class="flx-item f-1">Cresce (f-1)</div>
+                                    <div class="flx-item" style="background:var(--secu)">Fixo</div>
+                                </div>
+                            </div>
+                            <div class="co12 co6-m">
+                                <p class="t-p t-mut mb-2 f-mon">.f-sh0 (Flex Shrink: 0)</p>
+                                <div class="flx-demo alc gap-3" style="width:200px">
+                                    <div class="flx-item f-sh0">Não esmaga!</div>
+                                    <div class="flx-item f-1" style="background:var(--secu)">Esmaga</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain">
+<!-- Layout Horizontal Centralizado -->
+<div class="flx alc j-ct gap-4">...</div>
+
+<!-- Coluna Vertical -->
+<div class="flx f-cl alc gap-2">...</div>
+
+<!-- Item que cresce (Busca) entre dois Ícones -->
+<div class="flx alc gap-4">
+  <i>Icon</i>
+  <input class="f-1">
+  <i>Icon</i>
+</div>
+</script></pre>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- 6. REFERÊNCIA RÁPIDA -->
+                <!-- ================================================ -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-g f-bd mb-6"><i class="sw-list-ul mr-2 t-pri"></i> 6. Referência Completa</h3>
+
+                    <div class="l gap-6 f-wr">
+                        <div class="co12 co6-m co4-g">
+                            <p class="t-p f-bd t-mut mb-3">Containers (Max Width)</p>
+                            <div class="ref-row"><span class="ref-cls">.g</span><span class="ref-val">fluid</span></div>
+                            <div class="ref-row"><span class="ref-cls">.g-pp</span><span class="ref-val">380px</span>
+                            </div>
+                            <div class="ref-row"><span class="ref-cls">.g-p</span><span class="ref-val">576px</span>
+                            </div>
+                            <div class="ref-row"><span class="ref-cls">.g-m</span><span class="ref-val">768px</span>
+                            </div>
+                            <div class="ref-row"><span class="ref-cls">.g-g</span><span class="ref-val">992px</span>
+                            </div>
+                            <div class="ref-row"><span class="ref-cls">.g-gg</span><span class="ref-val">1200px</span>
+                            </div>
+                            <div class="ref-row"><span class="ref-cls">.g-xg</span><span class="ref-val">1400px</span>
+                            </div>
+                        </div>
+                        <div class="co12 co6-m co4-g">
+                            <p class="t-p f-bd t-mut mb-3">Grid Templates (.l-N)</p>
+                            <div class="ref-row"><span class="ref-cls">.l-[1-6]</span><span class="ref-val">n cols
+                                    iguais</span></div>
+                            <div class="ref-row"><span class="ref-cls">.l-1-2</span><span class="ref-val">1/2
+                                    proporção</span></div>
+                            <div class="ref-row"><span class="ref-cls">.l-2-1</span><span class="ref-val">2/1
+                                    proporção</span></div>
+                            <div class="ref-row"><span class="ref-cls">.l-N-[bp]</span><span
+                                    class="ref-val">responsivo</span></div>
+                        </div>
+                        <div class="co12 co6-m co4-g">
+                            <p class="t-p f-bd t-mut mb-3">Grid (12 Colunas)</p>
+                            <div class="ref-row"><span class="ref-cls">.l</span><span class="ref-val">12 cols
+                                    grid</span></div>
+                            <div class="ref-row"><span class="ref-cls">.l0</span><span class="ref-val">grid sem
+                                    gap</span></div>
+                            <div class="ref-row"><span class="ref-cls">.co[1-12]</span><span
+                                    class="ref-val">largura</span></div>
+                            <div class="ref-row"><span class="ref-cls">.coN-[bp]</span><span
+                                    class="ref-val">responsivo</span></div>
+                        </div>
+                        <div class="co12 co6-m co4-g">
+                            <p class="t-p f-bd t-mut mb-3">Flexbox Engine</p>
+                            <div class="ref-row"><span class="ref-cls">.flx</span><span class="ref-val">display:
+                                    flex</span></div>
+                            <div class="ref-row"><span class="ref-cls">.j-[ct|sb|en]</span><span class="ref-val">eixo
+                                    hor</span></div>
+                            <div class="ref-row"><span class="ref-cls">.al[c|e|st]</span><span class="ref-val">eixo
+                                    ver</span></div>
+                            <div class="ref-row"><span class="ref-cls">.f-[cl|wr]</span><span
+                                    class="ref-val">direção</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+
+</html>

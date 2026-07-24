@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Componentes Premium - SW Docs</title>
+  <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+  <link rel="stylesheet" href="../css/layout.css?v=9">
+  <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <style>
+    .demo-premium {
+      background: radial-gradient(circle at 50% 0%, #1e1e2e 0%, #0a0a0c 100%);
+      border-radius: 2.4rem;
+      padding: 6rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--sw-bor);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .premium-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .premium-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-5px);
+    }
+  </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+  <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+  <div class="doc-shell">
+    <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+    <main class="doc-main">
+
+      <nav class="brc mb-6" aria-label="Breadcrumb">
+        <a class="brc-it" href="../index.html">Home</a>
+        <span class="brc-it">Componentes</span>
+        <span class="brc-it is-cur" aria-current="page">Premium</span>
+      </nav>
+
+      <!-- INTRO -->
+      <div class="mb-8">
+        <span class="doc-tag">Exclusive Features</span>
+        <h2 class="t-xxg f-bd mb-2">Componentes <span class="TprinD">Premium</span></h2>
+        <p class="t-g t-mut mb-0">Recursos de alta fidelidade visual com animações complexas e estética moderna (Glassmorphism + Smooth Transitions).</p>
+      </div>
+
+      <!-- 1. NAVBAR PREMIUM -->
+      <div class="doc-card sec mb-6" id="navbar-prm">
+        <h3 class="t-m f-bd mb-1">1. Navbar Premium (Floating to Solid)</h3>
+        <p class="t-mut t-p mb-4">A classe <code class="Tpri">.y2nav-prm</code> cria uma barra de navegação flutuante e centralizada que se expande e torna-se sólida ao scrollar. Perfeita para landing pages e showcases.</p>
+
+        <div class="demo-premium mb-4">
+           <!-- Simulamos o comportamento prm aqui apenas visualmente -->
+           <nav y2nav class="y2nav-prm" style="position:relative; top:0; width:100%; max-width:600px; margin:0 auto;">
+             <div y2nav-box>
+                <a class="Tbran Fbrand Fs-18 Tdec-n mr-a" href="#">SW<span class="Tpri">.</span></a>
+                <div y2nav-mn class="gap-05">
+                  <a y2nav-lnk class="Tneu-5 Fs-12 Tdec-n p-04-08 hov-bg-wh-05 Twh-h" href="#">Home</a>
+                  <a y2nav-lnk class="Tneu-5 Fs-12 Tdec-n p-04-08 hov-bg-wh-05 Twh-h" href="#">Docs</a>
+                </div>
+                <a y2btn class="y2btn-sm y2btn-pri y2btn-grd is-pil ml-2" href="#">Get Started</a>
+             </div>
+           </nav>
+        </div>
+
+        <pre swcode="html"><script type="text/plain">
+<nav y2nav class="y2nav-prm">
+  <div y2nav-box>
+    <a class="Tbran Fbrand Fs-22 Tdec-n mr-a" href="/">SW</a>
+    
+    <div y2nav-mn class="gap-05">
+      <a y2nav-lnk class="..." href="#recursos">Recursos</a>
+      <a y2nav-lnk class="..." href="#contato">Contato</a>
+    </div>
+
+    <a y2btn class="y2btn-sm y2btn-pri y2btn-grd is-pil ml-2" href="#">Botão</a>
+  </div>
+</nav>
+</script></pre>
+
+        <div class="alert is-inf mt-4">
+          <i class="yd sw-info-circle mr-s"></i>
+          A transição para o estado sólido acontece automaticamente a partir de 50px de scroll, gerenciada pelo `y2.js`.
+        </div>
+      </div>
+
+      <!-- 2. ANIMAÇÕES DE MONTAGEM -->
+      <div class="doc-card sec mb-6" id="animations">
+        <h3 class="t-m f-bd mb-1">2. Animações de Montagem (Mounting)</h3>
+        <p class="t-mut t-p mb-4">Novas classes de revelação que simulam o encaixe de blocos 3D. Ideais para grids de cards.</p>
+
+        <div class="demo-premium">
+           <div class="premium-grid">
+              <div class="premium-card reveal-mount-up d-100">
+                <i class="yd sw-box Fs-32 Tpri mb-2"></i>
+                <div class="f-bd">Card 01</div>
+              </div>
+              <div class="premium-card reveal-mount-up d-200">
+                <i class="yd sw-zap Fs-32 Tper mb-2"></i>
+                <div class="f-bd">Card 02</div>
+              </div>
+              <div class="premium-card reveal-mount-up d-300">
+                <i class="yd sw-layers Fs-32 Tsuc mb-2"></i>
+                <div class="f-bd">Card 03</div>
+              </div>
+           </div>
+           <div class="text-center mt-6">
+              <button y2btn class="y2btn-out y2btn-sm" onclick="SW.reinit()">Reiniciar Animação</button>
+           </div>
+        </div>
+
+        <h4 class="t-s f-bd mb-2">Classes Disponíveis</h4>
+        <table class="table-ref w-100 mb-6">
+          <thead>
+            <tr>
+              <th>Classe</th>
+              <th>Efeito</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.reveal-mount-up</code></td>
+              <td>Vem de baixo com escala e inclinação 3D.</td>
+            </tr>
+            <tr>
+              <td><code>.reveal-mount-left</code></td>
+              <td>Vem da direita para a esquerda.</td>
+            </tr>
+            <tr>
+              <td><code>.reveal-mount-right</code></td>
+              <td>Vem da esquerda para a direita.</td>
+            </tr>
+            <tr>
+              <td><code>.reveal-mount-down</code></td>
+              <td>Vem de cima para baixo.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 class="t-s f-bd mb-2">Micro-Delays (Staggered)</h4>
+        <p class="t-mut t-p mb-4">Use essas classes para escalonar a entrada dos elementos:</p>
+        <div class="flx gap-s f-wr mb-6">
+          <code class="p-02-08 brad-04 Bg-bas">.d-100</code>
+          <code class="p-02-08 brad-04 Bg-bas">.d-200</code>
+          <code class="p-02-08 brad-04 Bg-bas">.d-300</code>
+          <code class="p-02-08 brad-04 Bg-bas">.d-400</code>
+          <code class="p-02-08 brad-04 Bg-bas">.d-500</code>
+          <code class="p-02-08 brad-04 Bg-bas">...</code>
+          <code class="p-02-08 brad-04 Bg-bas">.d-800</code>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

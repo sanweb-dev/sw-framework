@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lightbox - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .gal {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+            gap: 1rem
+        }
+
+        .gal-it img {
+            width: 100%;
+            height: 10rem;
+            object-fit: cover;
+            border-radius: var(--sw-r-g);
+            cursor: zoom-in;
+            transition: opacity .2s
+        }
+
+        .gal-it img:hover {
+            opacity: .85
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Lightbox SWLight</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Lightbox <span class="TprinD">SWLight</span></h2>
+                <p class="t-g t-mut">Galeria de imagens em overlay - navegação por teclado/swipe, grupos, legenda, zoom
+                    e autoplay.</p>
+            </div>
+
+            <!-- GALERIA SIMPLES -->
+            <div class="doc-card sec mb-6" id="galeria">
+                <h3 class="t-m f-bd mb-4">1. Galeria - Clique nas imagens</h3>
+                <div class="demo-wrap">
+                    <div class="gal">
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/y2ra1/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 1 - Paisagem natural">
+                                <img src="https://picsum.photos/seed/y2ra1/400/300" alt="Foto 1" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/SW/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 2 - Arquitetura urbana">
+                                <img src="https://picsum.photos/seed/SW/400/300" alt="Foto 2" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/y2ra3/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 3 - Natureza abstrata">
+                                <img src="https://picsum.photos/seed/y2ra3/400/300" alt="Foto 3" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/y2ra4/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 4 - Cenário noturno">
+                                <img src="https://picsum.photos/seed/y2ra4/400/300" alt="Foto 4" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/y2ra5/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 5 - Detalhes macro">
+                                <img src="https://picsum.photos/seed/y2ra5/400/300" alt="Foto 5" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="gal-it">
+                            <a y2light href="https://picsum.photos/seed/y2ra6/1200/800" y2light-grp="galeria1"
+                                y2light-cap="Foto 6 - Perspectiva aérea">
+                                <img src="https://picsum.photos/seed/y2ra6/400/300" alt="Foto 6" loading="lazy">
+                            </a>
+                        </div>
+                    </div>
+                    <p class="t-pp t-mut mt-3">Clique em qualquer imagem. Use ← → ou swipe para navegar. ESC para
+                        fechar.</p>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Link simples -->
+<a y2light href="imagem-grande.jpg">
+  <img src="thumb.jpg" alt="Descrição">
+</a>
+
+<!-- Galeria com grupo (navega entre todas) -->
+<a y2light href="foto1.jpg"
+   y2light-grp="minha-galeria"
+   y2light-cap="Descrição da foto 1">
+  <img src="thumb1.jpg" alt="Foto 1">
+</a>
+<a y2light href="foto2.jpg"
+   y2light-grp="minha-galeria"
+   y2light-cap="Descrição da foto 2">
+  <img src="thumb2.jpg" alt="Foto 2">
+</a>
+</script></pre>
+            </div>
+
+            <!-- TRIGGER PERSONALIZADO -->
+            <div class="doc-card sec mb-6" id="trigger">
+                <h3 class="t-m f-bd mb-4">2. Trigger Personalizado</h3>
+                <div class="demo-wrap" style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
+                    <a y2light href="https://picsum.photos/seed/y2ra7/1200/800" y2light-cap="Imagem aberta por botão">
+                        <button y2btn class="y2btn-pri">Abrir imagem</button>
+                    </a>
+                    <a y2light href="https://picsum.photos/seed/y2ra8/1200/800" class="t-pri f-bd">
+                        Ver foto completa
+                    </a>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Qualquer elemento pode ser trigger -->
+<a y2light href="foto.jpg">
+  <button>Ver foto</button>
+</a>
+
+<a y2light href="foto.jpg" class="link">Abrir</a>
+</script></pre>
+            </div>
+
+            <!-- ZOOM -->
+            <div class="doc-card sec mb-6" id="zoom">
+                <h3 class="t-m f-bd mb-4">3. Zoom & Opções</h3>
+                <div class="demo-wrap" style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
+                    <a y2light href="https://picsum.photos/seed/y2ra9/1200/800" y2light-zoom
+                        y2light-cap="Clique na imagem para dar zoom">
+                        <img src="https://picsum.photos/seed/y2ra9/200/150" alt="Zoom demo"
+                            style="height:8rem;width:auto;border-radius:var(--sw-r-g);cursor:zoom-in">
+                    </a>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Zoom ao clicar na imagem aberta -->
+<a y2light href="foto.jpg" y2light-zoom>
+  <img src="thumb.jpg">
+</a>
+
+<!-- Sem contador (ex: "2 / 6") -->
+<a y2light href="foto.jpg"
+   y2light-grp="galeria"
+   y2light-count="false">
+  <img src="thumb.jpg">
+</a>
+
+<!-- Autoplay do grupo (ms entre fotos) -->
+<a y2light href="foto.jpg"
+   y2light-grp="slides"
+   y2light-auto="3000">
+  <img src="thumb.jpg">
+</a>
+</script></pre>
+            </div>
+
+            <!-- API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">4. API JavaScript</h3>
+                <pre swcode="js">
+// Abrir lightbox programaticamente
+SWLight.open('https://exemplo.com/foto.jpg', {
+  caption: 'Minha foto',
+  zoom:    true
+});
+
+// Fechar
+SWLight.close();
+
+// Navegar
+SWLight.next();
+SWLight.prev();
+
+// Eventos
+document.addEventListener('yd:y2light:open',  e => console.log('Abriu', e.detail));
+document.addEventListener('yd:y2light:close', () => console.log('Fechou'));
+document.addEventListener('yd:y2light:nav',   e => console.log('Navegou:', e.detail.index));
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2light</code></td>
+                            <td>a / qualquer</td>
+                            <td>Ativa o lightbox no elemento</td>
+                        </tr>
+                        <tr>
+                            <td><code>href="url"</code></td>
+                            <td>a</td>
+                            <td>URL da imagem em tamanho completo</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2light-grp="nome"</code></td>
+                            <td>a</td>
+                            <td>Agrupa imagens para navegação entre elas</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2light-cap="texto"</code></td>
+                            <td>a</td>
+                            <td>Legenda exibida abaixo da imagem</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2light-zoom</code></td>
+                            <td>a</td>
+                            <td>Habilita zoom ao clicar na imagem aberta</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2light-auto="ms"</code></td>
+                            <td>a</td>
+                            <td>Autoplay do grupo (intervalo em ms)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2light-count="false"</code></td>
+                            <td>a</td>
+                            <td>Oculta o contador (N / Total)</td>
+                        </tr>
+                        <tr>
+                            <td>← → (teclado)</td>
+                            <td>-</td>
+                            <td>Navegar entre imagens do grupo</td>
+                        </tr>
+                        <tr>
+                            <td>ESC</td>
+                            <td>-</td>
+                            <td>Fechar lightbox</td>
+                        </tr>
+                        <tr>
+                            <td>Swipe</td>
+                            <td>-</td>
+                            <td>Navegar em dispositivos touch</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWLight.open(url, opts)</code></td>
+                            <td>JS</td>
+                            <td>Abrir via JavaScript</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:y2light:open / close / nav</code></td>
+                            <td>evento</td>
+                            <td>Disparados ao abrir, fechar e navegar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

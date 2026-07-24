@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" sw-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Laboratório das transições nativas do SW Framework, com exemplo no mesmo documento, fallback e estado real dos recursos em desenvolvimento.">
+  <meta name="theme-color" content="#090d16">
+  <title>Transições do SW Framework — Laboratório Alpha</title>
+  <script src="dist/sw-mpa.min.js"></script>
+  <link rel="stylesheet" href="dist/sw.min.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="assets/docs.css">
+  <script src="layout/header.js" defer></script>
+  <script src="layout/sidebar.js" defer></script>
+  <script src="assets/docs.js" defer></script>
+</head>
+<body>
+  <div class="doc-shell">
+    <main id="conteudo" class="doc-main">
+    <header class="docs-hero"><p class="docs-eyebrow">Laboratório nativo / 03</p><h1>Transições do SW Framework</h1><p class="docs-lead">A API nativa melhora mudanças de estado quando o navegador oferece suporte. A ação e o conteúdo continuam funcionando imediatamente sem animação.</p><div class="docs-meta"><span class="docs-pill" data-status="ready">Mesmo documento ativo</span><span class="docs-pill" data-status="ready">Direção MPA classificada</span></div></header>
+
+    <section class="docs-section" aria-labelledby="demo-title"><div class="docs-section-head"><div><p class="docs-kicker">Demonstração</p><h2 id="demo-title">Mudança de estado</h2></div><p>O botão executa <code>SW.Trans.run()</code>. Em navegadores compatíveis, o estado recebe uma transição nativa; nos demais, a atualização é direta.</p></div><div class="docs-specimen"><div class="docs-demo-box" data-transition-state="idle"><div class="docs-transition-card docs-demo-object" sw-morph="docs-state-card"><strong data-transition-label>Estado A</strong><br><span>morph validado e único</span></div></div><div class="docs-actions"><button class="sw-btn sw-btn-primary" type="button" data-transition-toggle aria-pressed="false">Alternar estado do exemplo</button><button class="sw-btn sw-btn-outline" type="button" data-loader-demo>Testar overlay de carregamento</button></div><pre class="docs-code"><code>SW.Trans.run(() =&gt; {
+  elemento.dataset.transitionState = 'active';
+});</code></pre></div></section>
+
+    <section class="docs-section" aria-labelledby="status-title"><div class="docs-section-head"><div><p class="docs-kicker">Estado real</p><h2 id="status-title">O que está pronto</h2></div><p>A base funcional é comum aos navegadores testados. A animação MPA entra somente quando o motor oferece o ciclo completo.</p></div><div class="docs-grid docs-grid-2"><article class="docs-specimen"><h3>Disponível agora</h3><ul class="docs-status-list"><li>Helper para transição no mesmo documento.</li><li>Morphing declarativo com nomes únicos validados.</li><li>Direções <code>forward</code>, <code>back</code> e <code>neutral</code> validadas pelo histórico.</li><li>Overlay, fallback e redução de movimento.</li></ul></article><article class="docs-specimen"><h3>Em desenvolvimento</h3><ul class="docs-status-list"><li data-status="partial">Scroll scrub ainda não implementado.</li><li data-status="partial">Dispositivos físicos e versões anteriores ainda não foram homologados.</li><li data-status="partial">O comportamento MPA continua dependente da capacidade de cada navegador.</li></ul></article></div></section>
+
+    <section class="docs-section" aria-labelledby="matrix-title"><div class="docs-section-head"><div><p class="docs-kicker">Matriz homologada</p><h2 id="matrix-title">O mesmo fluxo, três capacidades</h2></div><p>Os 65 testes cobrem navegação, componentes, formulários, console e layout. O resultado abaixo descreve o que cada motor realmente entregou no laboratório.</p></div><div class="docs-grid docs-grid-2"><article class="docs-specimen"><h3>Chromium 149</h3><ul class="docs-status-list"><li data-status="ready">Avanço MPA animado.</li><li>Voltar e recarregar preservam o fallback funcional.</li><li>375px, 768px e 1280px homologados.</li></ul></article><article class="docs-specimen"><h3>WebKit 26.5</h3><ul class="docs-status-list"><li data-status="ready">Avanço e retorno MPA animados.</li><li>Entrada reversa confirmou <code>sw-slide-in-left</code>.</li><li>Desktop de 1280px homologado.</li></ul></article><article class="docs-specimen"><h3>Firefox 151</h3><ul class="docs-status-list"><li>Direções do histórico classificadas corretamente.</li><li>Sem opt-in MPA, <code>pageswap</code> ou <code>pagereveal</code> neste motor.</li><li data-status="ready">Navegação direta funciona como fallback.</li></ul></article><article class="docs-specimen"><h3>Contrato comum</h3><ul class="docs-status-list"><li>Link, voltar, avançar e reload continuam funcionais.</li><li>Reload sempre retorna à direção <code>neutral</code>.</li><li>Sem erros de console ou overflow global.</li></ul></article></div></section>
+
+    <section class="docs-section" aria-labelledby="principios-title"><div class="docs-section-head"><div><p class="docs-kicker">Progressive enhancement</p><h2 id="principios-title">A navegação vem primeiro</h2></div><p>Links permanecem links, foco permanece previsível e nenhuma transição serve como autorização ou estado de negócio.</p></div><p class="docs-note">O bundle inicial <code>sw-mpa.min.js</code> usa o tipo e os índices da Navigation API para classificar link, voltar e avançar sem comparar URLs. O estado validado é transportado por aba e aplicado antes do CSS. <code>pagereveal</code> e BFCache aprimoram o momento visual quando disponíveis; caso contrário, permanece o fade neutro ou a navegação direta.</p></section>
+    </main>
+  </div>
+  <footer class="docs-footer"><a href="animacoes.html">Anterior: animações</a><a href="index.html">Voltar à visão geral</a></footer>
+  <script src="dist/sw.min.js"></script><script src="assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Badge - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem;
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Elementos</span>
+                <span class="brc-it is-cur" aria-current="page">Badge [y2badge]</span>
+            </nav>
+
+            <section class="mb-10">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Badge <span class="TprinD">[y2badge]</span></h1>
+                <p class="t-g t-mut">Pequenos indicadores de status, contadores e etiquetas. Perfeitos para notificações
+                    e metadados rápidos.</p>
+            </section>
+
+            <!-- 1. CORES SEMÂNTICAS -->
+            <div class="doc-card sec mb-8" id="cores">
+                <div class="flx alc gap-2 mb-4">
+                    <span y2badge class="y2badge-pri">Hot</span>
+                    <h3 class="t-m f-bd">Cores Semânticas</h3>
+                </div>
+
+                <div class="demo-wrap flx alc gap-3 f-wr">
+                    <span y2badge>Padrão</span>
+                    <span y2badge class="y2badge-pri">Primary</span>
+                    <span y2badge class="y2badge-sec">Secondary</span>
+                    <span y2badge class="y2badge-suc">Success</span>
+                    <span y2badge class="y2badge-ale">Alert</span>
+                    <span y2badge class="y2badge-err">Error</span>
+                    <span y2badge class="y2badge-inf">Info</span>
+                    <span y2badge class="y2badge-drk">Dark</span>
+                </div>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span y2badge>Padrão</span>
+<span y2badge class="y2badge-pri">Primary</span>
+<span y2badge class="y2badge-suc">Success</span>
+<span y2badge class="y2badge-err">Error</span>
+</script></pre>
+            </div>
+
+            <!-- 2. ESTILOS: OUTLINE & DOT -->
+            <div class="l-2 gap-6 mb-8">
+                <section class="doc-card sec" id="outline">
+                    <div class="p-6 border-bottom border-dashed">
+                        <h3 class="t-m f-bd">Outline Style</h3>
+                    </div>
+                    <div class="demo-wrap p-6 flx alc gap-3 f-wr">
+                        <span y2badge class="y2badge-out y2badge-pri">Primary</span>
+                        <span y2badge class="y2badge-out y2badge-suc">Success</span>
+                        <span y2badge class="y2badge-out y2badge-err">Error</span>
+                        <span y2badge class="y2badge-out y2badge-inf">Info</span>
+                    </div>
+                    <pre swcode="html" class="m-0"><script type="text/plain">
+<span y2badge class="y2badge-out y2badge-pri">Outline</span>
+</script></pre>
+                </section>
+
+                <section class="doc-card sec" id="dots">
+                    <div class="p-6 border-bottom border-dashed">
+                        <h3 class="t-m f-bd">Status Dots</h3>
+                    </div>
+                    <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                        <div class="flx alc gap-2"><span y2badge class="y2badge-dot y2badge-suc"></span> <span
+                                class="t-pp t-mut">Online</span></div>
+                        <div class="flx alc gap-2"><span y2badge class="y2badge-dot y2badge-ale"></span> <span
+                                class="t-pp t-mut">Away</span></div>
+                        <div class="flx alc gap-2"><span y2badge class="y2badge-dot y2badge-err"></span> <span
+                                class="t-pp t-mut">Busy</span></div>
+                        <div class="flx alc gap-2"><span y2badge class="y2badge-dot y2badge-g y2badge-pri"></span> <span
+                                class="t-pp t-mut">Large</span></div>
+                    </div>
+                    <pre swcode="html" class="m-0"><script type="text/plain">
+<span y2badge class="y2badge-dot y2badge-suc"></span>  <!-- Online -->
+<span y2badge class="y2badge-dot y2badge-ale"></span>  <!-- Away -->
+<span y2badge class="y2badge-dot y2badge-err"></span>  <!-- Busy -->
+<span y2badge class="y2badge-dot y2badge-g y2badge-pri"></span>  <!-- Large -->
+</script></pre>
+                </section>
+            </div>
+
+            <!-- 3. POSICIONAMENTO FLUTUANTE -->
+            <div class="doc-card sec mb-8" id="flutuante">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">Badges Flutuantes</h3>
+                    <p class="t-pp t-mut mt-1">Use <code class="t-pri f-bd">.bdg-wrap</code> no elemento pai para
+                        posicionar o badge no canto superior direito.</p>
+                </div>
+                <div class="demo-wrap p-8 flx alc gap-8 f-wr">
+                    <div class="bdg-wrap">
+                        <button y2btn class="y2btn-pri">Mensagens</button>
+                        <span y2badge class="y2badge-err bdg-fl">9+</span>
+                    </div>
+
+                    <div class="bdg-wrap">
+                        <div class="avt is-lg"><img src="https://i.pravatar.cc/100?u=badge" alt=""></div>
+                        <span y2badge class="y2badge-dot y2badge-suc bdg-fl"></span>
+                    </div>
+
+                    <div class="bdg-wrap">
+                        <i class="sw-bell t-xxg"></i>
+                        <span y2badge class="y2badge-dot y2badge-err bdg-fl"></span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="bdg-wrap">
+    <button y2btn class="y2btn-pri">Inbox</button>
+    <span y2badge class="y2badge-err bdg-fl">3</span>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. TAMANHOS -->
+            <div class="doc-card sec mb-8" id="tamanhos">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">Tamanhos</h3>
+                </div>
+                <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                    <span y2badge class="y2badge-pp y2badge-pri">PP</span>
+                    <span y2badge class="y2badge-p y2badge-pri">P</span>
+                    <span y2badge class="y2badge-m y2badge-pri">M (padrão)</span>
+                    <span y2badge class="y2badge-g y2badge-pri">G</span>
+                    <span y2badge class="y2badge-gg y2badge-pri">GG</span>
+                    <span y2badge class="y2badge-xg y2badge-pri">XG</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span y2badge class="y2badge-pp">PP</span>
+<span y2badge class="y2badge-p">P</span>
+<span y2badge class="y2badge-m">M</span>
+<span y2badge class="y2badge-g">G</span>
+<span y2badge class="y2badge-gg">GG</span>
+<span y2badge class="y2badge-xg">XG</span>
+</script></pre>
+            </div>
+
+            <!-- QUICK REFERENCE -->
+            <div class="doc-card sec" id="referencia">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">Quick Reference</h3>
+                </div>
+                <div class="tbl is-str">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Atributo/Classe</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>[y2badge]</code></td>
+                                <td>Base</td>
+                                <td>Atributo fundamental para o badge (fundo neutro por padrão).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2badge-pri, .y2badge-sec, .y2badge-suc, .y2badge-ale, .y2badge-err, .y2badge-inf, .y2badge-drk</code>
+                                </td>
+                                <td>Cor</td>
+                                <td>Variantes semânticas de cor de fundo.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2badge-out</code></td>
+                                <td>Estilo</td>
+                                <td>Outline: fundo transparente com borda colorida. Combina com variantes de cor.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2badge-dot</code></td>
+                                <td>Forma</td>
+                                <td>Transforma em ponto circular para indicadores de status.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2badge-pp, .y2badge-p, .y2badge-m, .y2badge-g, .y2badge-gg, .y2badge-xg</code>
+                                </td>
+                                <td>Tamanho</td>
+                                <td>Escala de tamanhos PP ? XG. Padrão sem classe equivale a M.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.bdg-wrap</code></td>
+                                <td>Layout</td>
+                                <td>Container com <code>position: relative</code> para badges flutuantes.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.bdg-fl</code></td>
+                                <td>Posição</td>
+                                <td>Flutua o badge no canto superior direito do elemento pai (<code>.bdg-wrap</code>).
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

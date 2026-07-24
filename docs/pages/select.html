@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Select - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem
+        }
+
+        @media(max-width:760px) {
+            .g2 {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .evt-log {
+            background: var(--sw-bg-alt);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem 1.6rem;
+            font-family: monospace;
+            font-size: 1.35rem;
+            color: var(--sw-txt-mut);
+            min-height: 4.4rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            margin-top: 1.2rem
+        }
+
+        .evt-log .evt-key {
+            color: var(--sw-pri);
+            font-weight: 600
+        }
+
+        .evt-log .evt-val {
+            color: var(--sw-suc)
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">Custom Select SWSel</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Custom Select <span class="TprinD">SWSel</span></h2>
+                <p class="t-g t-mut">Select customizado com busca em tempo real, multi-select com tags, teclado
+                    acessível e sincronização total com o <code>&lt;select&gt;</code> nativo.</p>
+            </div>
+
+            <!-- BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Básico</h3>
+                <p class="t-g t-mut mb-4">Envolva o <code>&lt;select&gt;</code> nativo com um <code>div y2select</code>.
+                    O JS oculta o nativo, injeta a UI e mantém os dois sincronizados. A busca vem ativada por padrão -
+                    use <code>y2select-search="false"</code> para remover.</p>
+                <div class="demo-wrap">
+                    <div class="g2" style="width:100%">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">País <span class="t-mut f-n">(com busca)</span></label>
+                            <div y2select id="sel-pais">
+                                <select name="pais" y2select-ph="Selecione um país...">
+                                    <option value="">Selecione...</option>
+                                    <option value="br">Brasil</option>
+                                    <option value="us">Estados Unidos</option>
+                                    <option value="pt">Portugal</option>
+                                    <option value="ar">Argentina</option>
+                                    <option value="de">Alemanha</option>
+                                    <option value="fr">França</option>
+                                    <option value="jp">Japão</option>
+                                    <option value="cn">China</option>
+                                    <option value="mx">México</option>
+                                    <option value="it">Itália</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Tecnologia <span class="t-mut f-n">(sem
+                                    busca)</span></label>
+                            <div y2select>
+                                <select name="tech" y2select-search="false" y2select-ph="Escolha...">
+                                    <option value="">Escolha...</option>
+                                    <option value="html">HTML</option>
+                                    <option value="css">CSS</option>
+                                    <option value="js">JavaScript</option>
+                                    <option value="ts">TypeScript</option>
+                                    <option value="vue">Vue.js</option>
+                                    <option value="react">React</option>
+                                    <option value="node">Node.js</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Com busca (padrão) -->
+<div y2select>
+  <select name="pais" y2select-ph="Selecione um país...">
+    <option value="">Selecione...</option>
+    <option value="br">Brasil</option>
+    <option value="us">Estados Unidos</option>
+  </select>
+</div>
+
+<!-- Sem campo de busca -->
+<div y2select>
+  <select y2select-search="false" y2select-ph="Escolha...">
+    <option value="html">HTML</option>
+    <option value="css">CSS</option>
+  </select>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MULTI -->
+            <div class="doc-card sec mb-6" id="multi">
+                <h3 class="t-m f-bd mb-4">2. Multi-Select com Tags</h3>
+                <p class="t-g t-mut mb-4">Adicione <code>multiple</code> no <code>&lt;select&gt;</code>. Cada item
+                    selecionado vira uma tag com botão de remoção - clique no <strong>?-</strong> para remover ou
+                    selecione o item novamente para desmarcar.</p>
+                <div class="demo-wrap">
+                    <div style="max-width:480px;width:100%">
+                        <label class="t-p f-bd mb-1 block">Skills</label>
+                        <div y2select id="sel-skills">
+                            <select name="skills" multiple y2select-ph="Escolha suas skills...">
+                                <option value="html">HTML5</option>
+                                <option value="css">CSS3</option>
+                                <option value="js" selected>JavaScript</option>
+                                <option value="ts">TypeScript</option>
+                                <option value="node">Node.js</option>
+                                <option value="react" selected>React</option>
+                                <option value="vue">Vue.js</option>
+                                <option value="python">Python</option>
+                            </select>
+                        </div>
+                        <div class="evt-log" id="log-skills">
+                            <span class="evt-key">value:</span>
+                            <span class="evt-val" id="log-skills-val">["js", "react"]</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var wrap = document.getElementById('sel-skills');
+                        var logVal = document.getElementById('log-skills-val');
+                        if (wrap && logVal) {
+                            wrap.addEventListener('yd:select:change', function (e) {
+                                logVal.textContent = JSON.stringify(e.detail.value);
+                            });
+                        }
+                    });
+                </script>
+                <pre swcode="html"><script type="text/plain">
+<div y2select>
+  <select name="skills" multiple y2select-ph="Escolha...">
+    <option value="js" selected>JavaScript</option>
+    <option value="react" selected>React</option>
+    <option value="vue">Vue.js</option>
+  </select>
+</div>
+</script></pre>
+            </div>
+
+            <!-- ESTADOS -->
+            <div class="doc-card sec mb-6" id="estados">
+                <h3 class="t-m f-bd mb-4">3. Estados de Validação</h3>
+                <p class="t-g t-mut mb-4">Adicione <code>.is-err</code> ou <code>.is-ok</code> no wrapper para
+                    indicar o estado do campo. Normalmente aplicados via JS após validação.</p>
+                <div class="demo-wrap">
+                    <div style="max-width:360px;width:100%">
+                        <label class="t-p f-bd mb-1 block">Framework</label>
+                        <div y2select id="sel-estado">
+                            <select y2select-search="false" y2select-ph="Escolha um framework...">
+                                <option value="">Escolha um framework...</option>
+                                <option value="react">React</option>
+                                <option value="vue">Vue.js</option>
+                                <option value="angular">Angular</option>
+                                <option value="svelte">Svelte</option>
+                            </select>
+                        </div>
+                        <p class="t-pp mt-1" id="msg-estado" style="min-height:2rem"></p>
+                    </div>
+                    <div class="flx gap-2 mt-4" style="flex-wrap:wrap">
+                        <button y2btn class="y2btn-sec" onclick="setEstado('')">Normal</button>
+                        <button y2btn class="y2btn-err" onclick="setEstado('is-err')">
+                            <i class="yd sw-warning"></i> Erro
+                        </button>
+                        <button y2btn class="y2btn-suc" onclick="setEstado('is-ok')">
+                            <i class="yd sw-check"></i> OK
+                        </button>
+                    </div>
+                </div>
+                <script>
+                    function setEstado(cls) {
+                        var wrap = document.getElementById('sel-estado');
+                        var msg = document.getElementById('msg-estado');
+                        wrap.classList.remove('is-err', 'is-ok');
+                        if (cls) wrap.classList.add(cls);
+                        if (cls === 'is-err') { msg.textContent = 'Selecione uma opção válida.'; msg.style.color = 'var(--sw-per)'; }
+                        else if (cls === 'is-ok') { msg.textContent = '?"tima escolha!'; msg.style.color = 'var(--sw-suc)'; }
+                        else { msg.textContent = ''; }
+                    }
+                </script>
+                <pre swcode="html"><script type="text/plain">
+<!-- Erro -->
+<div y2select class="is-err">
+  <select>...</select>
+</div>
+
+<!-- OK -->
+<div y2select class="is-ok">
+  <select>...</select>
+</div>
+</script></pre>
+                <pre swcode="js">
+// Aplicar estado via JS
+const wrap = document.querySelector('[y2select]');
+wrap.classList.add('is-err');  // ou is-ok
+wrap.classList.remove('is-err', 'is-ok');
+</pre>
+            </div>
+
+            <!-- EVENTO -->
+            <div class="doc-card sec mb-6" id="evento">
+                <h3 class="t-m f-bd mb-4">4. Evento em Tempo Real</h3>
+                <p class="t-g t-mut mb-4"><code>yd:select:change</code> é disparado no wrapper a cada seleção.
+                    O select nativo também recebe um <code>change</code> padrão - formulários funcionam normalmente.</p>
+                <div class="demo-wrap">
+                    <div style="max-width:360px;width:100%">
+                        <label class="t-p f-bd mb-1 block">Plano</label>
+                        <div y2select id="sel-evt">
+                            <select name="plano" y2select-search="false" y2select-ph="Selecione um plano...">
+                                <option value="">Selecione um plano...</option>
+                                <option value="free">Free - R$ 0/mês</option>
+                                <option value="pro">Pro - R$ 49/mês</option>
+                                <option value="business">Business - R$ 149/mês</option>
+                                <option value="enterprise">Enterprise - sob consulta</option>
+                            </select>
+                        </div>
+                        <div class="evt-log" id="log-evt">
+                            <span class="t-mut">Selecione um plano para ver o evento...</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var wrap = document.getElementById('sel-evt');
+                        var log = document.getElementById('log-evt');
+                        if (!wrap || !log) return;
+                        wrap.addEventListener('yd:select:change', function (e) {
+                            log.innerHTML =
+                                '<span class="evt-key">value:</span> <span class="evt-val">"' + e.detail.value[0] + '"</span>' +
+                                '&nbsp;&nbsp;<span class="evt-key">label:</span> <span class="evt-val">"' + e.detail.label + '"</span>';
+                        });
+                    });
+                </script>
+                <pre swcode="js">
+document.querySelector('[y2select]')
+  .addEventListener('yd:select:change', e => {
+    console.log(e.detail.value);  // array com os valores selecionados
+    console.log(e.detail.label);  // label do primeiro selecionado
+  });
+
+// Select nativo também dispara 'change' normalmente
+document.querySelector('[name="plano"]')
+  .addEventListener('change', function () {
+    console.log(this.value);
+  });
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2select</code></td>
+                            <td>div (wrapper)</td>
+                            <td>Ativa o custom select</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2select-ph="..."</code></td>
+                            <td>select</td>
+                            <td>Texto placeholder quando nada está selecionado</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2select-search="false"</code></td>
+                            <td>select</td>
+                            <td>Remove o campo de busca do dropdown</td>
+                        </tr>
+                        <tr>
+                            <td><code>multiple</code></td>
+                            <td>select</td>
+                            <td>Ativa multi-seleção com tags removíveis</td>
+                        </tr>
+                        <tr>
+                            <td><code>selected</code></td>
+                            <td>option</td>
+                            <td>Pré-seleciona a opção - refletido automaticamente na UI</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-err</code></td>
+                            <td>div (wrapper)</td>
+                            <td>Borda vermelha - estado de erro</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-ok</code></td>
+                            <td>div (wrapper)</td>
+                            <td>Borda verde - estado válido</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:select:change</code></td>
+                            <td>evento (wrapper)</td>
+                            <td><code>detail.value</code> (array) e <code>detail.label</code> (texto do 1 selecionado)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

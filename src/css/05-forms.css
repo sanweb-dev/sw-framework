@@ -1,0 +1,162 @@
+/* ==========================================================================
+   SW FRAMEWORK — 05-FORMS.CSS (FORMULÁRIOS "NO GRAU" PARA BACKENDS & CRUDS)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+/* --- 📝 GRUPO DE FORMULÁRIO (.sw-form-group) --- */
+.sw-form-group {
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sw-label {
+  font-family: var(--sw-f-san);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--sw-txt-mut);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sw-label-req::after {
+  content: "*";
+  color: var(--sw-err);
+  font-size: 1.6rem;
+}
+
+/* --- ✍️ INPUTS E TEXTAREAS (.sw-input) --- */
+.sw-input,
+.sw-select,
+.sw-textarea {
+  width: 100%;
+  min-height: 4.4rem;
+  padding: 0 1.4rem;
+  font-family: var(--sw-f-san);
+  font-size: 1.6rem;
+  color: var(--sw-txt);
+  background: var(--sw-sur);
+  border: 1px solid var(--sw-bor);
+  border-radius: var(--sw-r-m);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.sw-textarea {
+  height: auto;
+  min-height: 100px;
+  padding: 1.2rem 1.4rem;
+  resize: vertical;
+}
+
+/* --- ✨ FOCO REATIVO MODERNO (:focus) --- */
+.sw-input:focus,
+.sw-select:focus,
+.sw-textarea:focus {
+  border-color: var(--sw-pri);
+  box-shadow: 0 0 0 3px var(--sw-pri-glow);
+  background: var(--sw-sur-hover);
+}
+
+/* --- ⚡ DENSIDADE COMPACTA PARA CRUDS E TABELAS (.sw-input-sm) --- */
+.sw-input-sm,
+.sw-select-sm {
+  min-height: 4.4rem;
+  padding: 0 1rem;
+  font-size: 1.6rem;
+}
+
+.sw-input-lg {
+  height: 5.0rem;
+  font-size: 1.6rem;
+  padding: 0 1.8rem;
+}
+
+/* --- 🔽 SELECTS COM SETA VETORIAL CUSTOMIZADA (.sw-select) --- */
+.sw-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  padding-right: 3.6rem;
+  cursor: pointer;
+}
+
+.sw-select[data-sw-select-state="empty"] {
+  color: var(--sw-txt-mut);
+}
+
+.sw-input:disabled,
+.sw-select:disabled,
+.sw-textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* --- 🔄 SWITCH TOGGLE ESTILO MATERIAL/IOS (.sw-switch) --- */
+.sw-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sw-switch input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.sw-switch input:focus-visible + .sw-switch-slider { outline: 3px solid var(--sw-pri); outline-offset: 3px; }
+
+.sw-switch-slider {
+  width: 4.4rem;
+  height: 2.4rem;
+  background: var(--sw-bor);
+  border-radius: 99px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.sw-switch-slider::before {
+  content: "";
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sw-switch input:checked + .sw-switch-slider {
+  background: var(--sw-pri);
+}
+
+.sw-switch input:checked + .sw-switch-slider::before {
+  transform: translateX(2rem);
+}
+
+/* --- ✅ VALIDAÇÕES DE BACKEND (.is-valid / .is-invalid) --- */
+.sw-input.is-valid,
+.sw-select.is-valid,
+.sw-textarea.is-valid {
+  border-color: var(--sw-suc);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+.sw-input.is-invalid,
+.sw-select.is-invalid,
+.sw-textarea.is-invalid {
+  border-color: var(--sw-err);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.sw-form-error {
+  font-size: 1.2rem;
+  color: var(--sw-err);
+  font-weight: 500;
+}
+
+.sw-form-error[hidden] {
+  display: none;
+}

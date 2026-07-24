@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Máscara de Input - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem
+        }
+
+        @media(max-width:900px) {
+            .g3 {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media(max-width:560px) {
+            .g3 {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">Máscara de Input SWMask</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Máscara de Input <span class="TprinD">SWMask</span></h2>
+                <p class="t-g t-mut">Formatação automática ao digitar - CPF, CNPJ, telefone, CEP, data, hora,
+                    cartão, dinheiro e máscaras personalizadas.</p>
+            </div>
+
+            <!-- DEMO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo - Digite nos campos</h3>
+                <p class="t-g t-mut mb-4">Use o atributo <code>y2mask</code> com o nome da máscara desejada.
+                    A formatação acontece automaticamente a cada tecla.</p>
+                <div class="demo-wrap">
+                    <div class="g3" style="width:100%">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Telefone</label>
+                            <input class="inp" y2mask="telefone" placeholder="(11) 99999-9999">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">CPF</label>
+                            <input class="inp" y2mask="cpf" placeholder="000.000.000-00">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">CNPJ</label>
+                            <input class="inp" y2mask="cnpj" placeholder="00.000.000/0000-00">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">CEP</label>
+                            <input class="inp" y2mask="cep" placeholder="00000-000">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Data</label>
+                            <input class="inp" y2mask="data" placeholder="DD/MM/AAAA">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Hora</label>
+                            <input class="inp" y2mask="hora" placeholder="HH:MM">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Cartão de Crédito</label>
+                            <input class="inp" y2mask="cartao" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Dinheiro (com R$)</label>
+                            <input class="inp" y2mask="dinheiro" placeholder="R$ 0,00">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Dinheiro (sem R$)</label>
+                            <input class="inp" id="inp-valor" placeholder="0,00">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Processo Judicial</label>
+                            <input class="inp" y2mask="custom" y2mask-mask="#######-##.####.#.##.####"
+                                placeholder="0000000-00.0000.0.00.0000">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">RG <span class="t-mut f-n">(custom)</span></label>
+                            <input class="inp" y2mask="custom" y2mask-mask="##.###.###-#" placeholder="00.000.000-0">
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<input y2mask="telefone" placeholder="(11) 99999-9999">
+<input y2mask="cpf"      placeholder="000.000.000-00">
+<input y2mask="cnpj"     placeholder="00.000.000/0000-00">
+<input y2mask="cep"      placeholder="00000-000">
+<input y2mask="data"     placeholder="DD/MM/AAAA">
+<input y2mask="hora"     placeholder="HH:MM">
+<input y2mask="cartao"   placeholder="0000 0000 0000 0000">
+
+<!-- Máscara personalizada: # = dígito -->
+<input y2mask="custom" y2mask-mask="##.###.###-#" placeholder="RG">
+<input y2mask="custom" y2mask-mask="#######-##.####.#.##.####" placeholder="Processo">
+</script></pre>
+            </div>
+
+            <!-- CUSTOM -->
+            <div class="doc-card sec mb-6" id="custom">
+                <h3 class="t-m f-bd mb-4">2. Máscara Personalizada</h3>
+                <p class="t-g t-mut mb-4">Use <code>y2mask="custom"</code> com <code>y2mask-mask</code> para definir
+                    um padrão inline, ou registre uma máscara reutilizável com <code>SWMask.addMask()</code>.</p>
+
+                <p class="t-p f-bd mb-2">Tokens disponíveis:</p>
+                <div
+                    style="background:var(--sw-bg-alt);border-radius:var(--sw-r-m);padding:1.6rem;margin-bottom:1.6rem;font-size:1.4rem">
+                    <div class="flx gap-4" style="flex-wrap:wrap">
+                        <span><code>#</code> - qualquer dígito (0-9)</span>
+                        <span><code>A</code> - qualquer letra (A-Z)</span>
+                        <span><code>*</code> - qualquer caractere</span>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<!-- Inline: define a máscara direto no atributo -->
+<input y2mask="custom" y2mask-mask="##.###.###-#">
+<input y2mask="custom" y2mask-mask="####-####">
+</script></pre>
+
+                <pre swcode="js">
+// Registra uma máscara reutilizável com nome próprio
+SWMask.addMask('processo', '#######-##.####.#.##.####');
+
+// Usar no HTML
+// <input y2mask="processo">
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Valor</th>
+                            <th>Formato</th>
+                            <th>Exemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2mask="telefone"</code></td>
+                            <td>(##) ####-#### ou (##) #####-####</td>
+                            <td>(11) 98765-4321</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="cpf"</code></td>
+                            <td>###.###.###-##</td>
+                            <td>123.456.789-09</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="cnpj"</code></td>
+                            <td>##.###.###/####-##</td>
+                            <td>12.345.678/0001-99</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="cep"</code></td>
+                            <td>#####-###</td>
+                            <td>01310-100</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="data"</code></td>
+                            <td>##/##/####</td>
+                            <td>31/12/2025</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="hora"</code></td>
+                            <td>##:##</td>
+                            <td>23:59</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="cartao"</code></td>
+                            <td>#### #### #### ####</td>
+                            <td>4111 1111 1111 1111</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="dinheiro"</code></td>
+                            <td>R$ #.###,##</td>
+                            <td>R$ 1.234,56</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="valor"</code></td>
+                            <td>#.###,## (sem prefixo)</td>
+                            <td>1.234,56</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2mask="custom"</code></td>
+                            <td>Padrão via <code>y2mask-mask="..."</code></td>
+                            <td><code>##.###.###-#</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>SWMask.addMask(nome, padrão)</code></td>
+                            <td>Registra máscara reutilizável</td>
+                            <td><code>SWMask.addMask('rg', '##.###.###-#')</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+    <script>
+        document.getElementById('inp-valor').addEventListener('input', function () {
+            var d = this.value.replace(/\D/g, '');
+            if (!d) { this.value = ''; return; }
+            this.value = d.replace(/(\d)(\d{2})$/, '$1,$2').replace(/(?=(\d{3})+(\D))\B/g, '.');
+        });
+    </script>
+</body>
+
+</html>

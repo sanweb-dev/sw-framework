@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Utilitários - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .demo-box {
+            padding: 1.2rem 1.6rem;
+            border-radius: 0.8rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            min-height: 4.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .u-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .u-table th,
+        .u-table td {
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--sw-bor);
+            font-size: 1.4rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .u-table th {
+            background: var(--sw-bg-sec);
+            color: var(--sw-txt-bas);
+            padding: 1rem 1.2rem;
+            font-weight: 700;
+            border-bottom: 2px solid var(--sw-bor);
+        }
+
+        .u-table td:first-child {
+            font-family: var(--sw-f-mon);
+            color: var(--sw-pri);
+            white-space: nowrap;
+        }
+
+        .u-table td:nth-child(2) {
+            color: var(--sw-txt-mut);
+        }
+
+        .live-box {
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: 0.8rem;
+            padding: 1.2rem 1.6rem;
+            min-height: 5.6rem;
+        }
+
+        .fx-it {
+            background: var(--sw-pri);
+            color: #fff;
+            border-radius: 0.6rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .fx-it.s {
+            background: var(--sw-bg-sur);
+            border: 1px solid var(--sw-bor);
+            color: var(--sw-txt-mut);
+            width: 3.2rem;
+            height: 3.2rem;
+        }
+
+        .swatch {
+            height: 4rem;
+            border-radius: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .t-pri {
+            color: var(--sw-pri) !important;
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Utilitários</span>
+                <span class="brc-it is-cur" aria-current="page">Utilitários</span>
+            </nav>
+
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">Utilities</span>
+                <h2 class="t-xxg f-bd mb-2">Utilitários <span class="TprinD">-</span></h2>
+                <p class="t-g t-mut mb-0">Classes ultracurtas para estilização instantânea no HTML. Inspiradas no
+                    Tailwind, adaptadas à escala SW Framework (1rem = 10px).</p>
+            </div>
+
+            <!-- 1. DISPLAY & LAYOUT -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">1. Display &amp; Posição</h3>
+                <p class="t-mut t-p mb-6">Controla como o elemento é renderizado no flow do documento.</p>
+
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="demo-box Bneu10" style="width:10rem">.blk</div>
+                    <div class="demo-box Bneu7" style="width:10rem">.non <span class="t-mut">(hidden)</span></div>
+                    <div class="demo-box Bprin3" style="width:10rem">.flx</div>
+                    <div class="demo-box Bsecu" style="width:10rem">.grd</div>
+                    <div class="demo-box Bsuce" style="width:10rem">.inline</div>
+                    <div class="demo-box Binfo" style="width:10rem">.rel</div>
+                    <div class="demo-box Baler" style="width:10rem">.abs</div>
+                    <div class="demo-box Bperi" style="width:10rem">.fix</div>
+                </div>
+
+                <table class="u-table">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>CSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.blk</td>
+                            <td>display: block</td>
+                        </tr>
+                        <tr>
+                            <td>.non</td>
+                            <td>display: none</td>
+                        </tr>
+                        <tr>
+                            <td>.flx</td>
+                            <td>display: flex</td>
+                        </tr>
+                        <tr>
+                            <td>.grd</td>
+                            <td>display: grid</td>
+                        </tr>
+                        <tr>
+                            <td>.inline</td>
+                            <td>display: inline-block</td>
+                        </tr>
+                        <tr>
+                            <td>.rel</td>
+                            <td>position: relative</td>
+                        </tr>
+                        <tr>
+                            <td>.abs</td>
+                            <td>position: absolute</td>
+                        </tr>
+                        <tr>
+                            <td>.fix</td>
+                            <td>position: fixed</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="t-pp t-mut mb-2 mt-4">Combine classes para layouts flexíveis:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="flx gap-3 f-wr">Layout Flex Reponsivo</div>
+<div class="abs bot-0 ri-0">Fixado no canto</div>
+</script></pre>
+            </div>
+
+            <!-- 2. TIPOGRAFIA -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">2. Tipografia</h3>
+                <p class="t-mut t-p mb-6">Tamanho, peso, alinhamento, transformação e decoração de texto.</p>
+
+                <!-- Tamanhos -->
+                <h4 class="t-p f-bd mb-4 t-mut">Tamanhos - Escala PP-XXG</h4>
+                <div class="flx f-cl gap-3 mb-6">
+                    <div class="t-pp">t-pp - 1.0rem (10px) - Micro label</div>
+                    <div class="t-p">t-p - 1.2rem (12px) - Caption</div>
+                    <div class="t-m">t-m - 1.4rem (14px) - Body small</div>
+                    <div class="t-g">t-g - 1.6rem (16px) - Body base</div>
+                    <div class="t-gg">t-gg - 2.0rem (20px) - Subtitle</div>
+                    <div class="t-xg">t-xg - 2.8rem (28px) - Heading</div>
+                    <div class="t-xxg">t-xxg - 4.0rem (40px) - Hero</div>
+                </div>
+
+                <!-- Pesos -->
+                <h4 class="t-p f-bd mb-4 t-mut">Pesos</h4>
+                <div class="flx f-wr gap-4 mb-6">
+                    <span class="f-xlt">f-xlt (100)</span>
+                    <span class="f-lt">f-lt (300)</span>
+                    <span class="f-re">f-re (400)</span>
+                    <span class="f-m">f-m (500)</span>
+                    <span class="f-sm">f-sm (600)</span>
+                    <span class="f-bd">f-bd (700)</span>
+                    <span class="f-xbd">f-xbd (800)</span>
+                    <span class="f-bk">f-bk (900)</span>
+                </div>
+
+                <!-- Alinhamento / Transformação -->
+                <h4 class="t-p f-bd mb-4 t-mut">Alinhamento & Transformação</h4>
+                <div class="grid-3 g-m mb-6">
+                    <div class="doc-section t-ct">.t-ct - center</div>
+                    <div class="doc-section t-ri">.t-ri - right</div>
+                    <div class="doc-section t-le">.t-le - left</div>
+                    <div class="doc-section t-upp">.t-upp - UPPERCASE</div>
+                    <div class="doc-section t-low">.t-low - lowercase</div>
+                    <div class="doc-section t-cap">.t-cap - Capitalize</div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<p class="t-xg f-bd t-ct t-upp">Título Framework</p>
+<span class="t-p t-mut">Legenda discreta</span>
+</script></pre>
+            </div>
+
+            <!-- 3. ESPAÇAMENTO SEMÂNTICO -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">3. Espaçamento Semântico (PP - XXG)</h3>
+                <p class="t-mut t-p mb-6">Escala nomeada baseada em 1rem = 10px. Funciona em <code>m-*</code>,
+                    <code>p-*</code>, <code>gap-*</code>, e variantes direcionais.
+                </p>
+
+                <!-- Escala visual -->
+                <div class="flx f-cl gap-2 mb-6">
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">pp</span>
+                        <div class="Bprin3" style="height:1.2rem;width:0.4rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">0.4rem = 4px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">p</span>
+                        <div class="Bprin3" style="height:1.2rem;width:0.8rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">0.8rem = 8px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">m</span>
+                        <div class="Bprin3" style="height:1.2rem;width:1.6rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">1.6rem = 16px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">g</span>
+                        <div class="Bprin3" style="height:1.2rem;width:2.4rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">2.4rem = 24px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">gg</span>
+                        <div class="Bprin3" style="height:1.2rem;width:4.8rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">4.8rem = 48px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">xg</span>
+                        <div class="Bprin3" style="height:1.2rem;width:8rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">8.0rem = 80px</span>
+                    </div>
+                    <div class="flx alc gap-4">
+                        <span class="t-p f-mon" style="width:5rem;text-align:right">xxg</span>
+                        <div class="Bprin3" style="height:1.2rem;width:12rem;border-radius:2px"></div>
+                        <span class="t-p t-mut">12.0rem = 120px</span>
+                    </div>
+                </div>
+
+                <table class="u-table mb-6">
+                    <thead>
+                        <tr>
+                            <th>Prefixo</th>
+                            <th>Direção</th>
+                            <th>Exemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>m-*</td>
+                            <td>Margin (todos os lados)</td>
+                            <td>m-g = margin: 2.4rem</td>
+                        </tr>
+                        <tr>
+                            <td>mt-* / mb-* / ml-* / mr-*</td>
+                            <td>Margin direcional</td>
+                            <td>mb-m = margin-bottom: 1.6rem</td>
+                        </tr>
+                        <tr>
+                            <td>mx-* / my-*</td>
+                            <td>Margin eixo</td>
+                            <td>mx-au = centralizar</td>
+                        </tr>
+                        <tr>
+                            <td>p-*</td>
+                            <td>Padding (todos os lados)</td>
+                            <td>p-m = padding: 1.6rem</td>
+                        </tr>
+                        <tr>
+                            <td>pt-* / pb-* / pl-* / pr-*</td>
+                            <td>Padding direcional</td>
+                            <td>pt-g = padding-top: 2.4rem</td>
+                        </tr>
+                        <tr>
+                            <td>px-* / py-*</td>
+                            <td>Padding eixo</td>
+                            <td>py-m = padding vertical: 1.6rem</td>
+                        </tr>
+                        <tr>
+                            <td>gap-*</td>
+                            <td>Gap (flex/grid)</td>
+                            <td>gap-g = gap: 2.4rem</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Centralizar bloco com padding interno -->
+<div class="p-g mx-au" style="max-width: 60rem">...</div>
+
+<!-- Flex com gap semântico -->
+<div class="flx gap-m alc">...</div>
+</script></pre>
+            </div>
+
+            <!-- 4. ESPAÇAMENTO NUMÉRICO -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">4. Espaçamento Numérico (N = 4px)</h3>
+                <p class="t-mut t-p mb-6">Grade de 4px. Cada unidade = 0.4rem. Disponível em <code>m-N</code>,
+                    <code>p-N</code>, <code>gap-N</code> de 1 a 16.
+                </p>
+
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="demo-box Bneu10 p-1" style="font-size:1.2rem">1 = 4px</div>
+                    <div class="demo-box Bneu10 p-2" style="font-size:1.2rem">2 = 8px</div>
+                    <div class="demo-box Bneu10 p-3" style="font-size:1.2rem">3 = 12px</div>
+                    <div class="demo-box Bneu10 p-4" style="font-size:1.2rem">4 = 16px</div>
+                    <div class="demo-box Bneu10 p-6" style="font-size:1.2rem">6 = 24px</div>
+                    <div class="demo-box Bneu10 p-8" style="font-size:1.2rem">8 = 32px</div>
+                    <div class="demo-box Bneu10 p-10" style="font-size:1.2rem">10 = 40px</div>
+                    <div class="demo-box Bneu10 p-12" style="font-size:1.2rem">12 = 48px</div>
+                </div>
+
+                <pre swcode="html" lines><script type="text/plain">
+<div class="p-4 mb-8">padding 1.6rem, margin-bottom 3.2rem</div>
+<div class="flx gap-3">flex com gap de 1.2rem</div>
+</script></pre>
+            </div>
+
+            <!-- 5. CORES DE TEXTO -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">5. Cores de Texto <code>T{cor}{shade}</code></h3>
+                <p class="t-mut t-p mb-6">Cada família cromática tem shades 1-12 + opacidades 13-16. Use <code>T</code>
+                    maiúsculo + nome da cor + número.</p>
+
+                <!-- Semânticos -->
+                <h4 class="t-p f-bd mb-3 t-mut">Cores Semânticas</h4>
+                <div class="flx f-wr gap-3 mb-6">
+                    <span class="Tprin f-bd t-m">Tprin</span>
+                    <span class="Tsecu f-bd t-m">Tsecu</span>
+                    <span class="Tsuce f-bd t-m">Tsuce</span>
+                    <span class="Tinfo f-bd t-m">Tinfo</span>
+                    <span class="Taler f-bd t-m">Taler</span>
+                    <span class="Tperi f-bd t-m">Tperi</span>
+                </div>
+
+                <!-- Cromáticos exemplos -->
+                <h4 class="t-p f-bd mb-3 t-mut">Escala Cromática (exemplo: azul)</h4>
+                <div class="flx f-wr gap-3 mb-6">
+                    <span class="Tazul1 f-bd t-m">azul1</span>
+                    <span class="Tazul2 f-bd t-m">azul2</span>
+                    <span class="Tazul3 f-bd t-m">azul3</span>
+                    <span class="Tazul4 f-bd t-m">azul4</span>
+                    <span class="Tazul5 f-bd t-m">azul5</span>
+                    <span class="Tazul6 f-bd t-m">azul6</span>
+                    <span class="Tazul7 f-bd t-m">azul7</span>
+                    <span class="Tazul8 f-bd t-m">azul8</span>
+                    <span class="Tazul9 f-bd t-m">azul9</span>
+                    <span class="Tazul10 f-bd t-m">azul10</span>
+                    <span class="Tazul11 f-bd t-m">azul11</span>
+                    <span class="Tazul12 f-bd t-m">azul12</span>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Use .T{cor}{1-12} para hierarquia visual fina:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<span class="Tazul7">Destaque azul claro</span>
+<span class="Tazul10">Texto azul profundo</span>
+</script></pre>
+
+                <!-- Gradiente de texto -->
+                <h4 class="t-p f-bd mb-3 t-mut">Gradiente de Texto <code>T{cor}D</code></h4>
+                <div class="flx f-wr gap-4 mb-6">
+                    <span class="TprinD f-bk t-gg">TprinD</span>
+                    <span class="TsecuD f-bk t-gg">TsecuD</span>
+                    <span class="TvermD f-bk t-gg">TvermD</span>
+                    <span class="TverdD f-bk t-gg">TverdD</span>
+                    <span class="TazulD f-bk t-gg">TazulD</span>
+                    <span class="TgoldD f-bk t-gg">TgoldD</span>
+                    <span class="TroxoD f-bk t-gg">TroxoD</span>
+                    <span class="TrosaD f-bk t-gg">TrosaD</span>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Use classes semânticas para intenção ou cromáticas para design fixo:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<span class="Tprin f-bd">Texto Primário</span>
+<p class="Tazul7">Texto azul específico</p>
+<h2 class="TsecuD f-bk">Título com Gradiente Secundário</h2>
+</script></pre>
+            </div>
+
+            <!-- 6. CORES DE FUNDO -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">6. Cores de Fundo <code>B{cor}{shade}</code></h3>
+                <p class="t-mut t-p mb-6">Mesma lógica de T{cor}, mas aplica <code>background-color</code>. O contraste
+                    do texto é calculado automaticamente.</p>
+
+                <h4 class="t-p f-bd mb-3 t-mut">Semânticos</h4>
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="demo-box Bprin">Bprin</div>
+                    <div class="demo-box Bsecu">Bsecu</div>
+                    <div class="demo-box Bsuce">Bsuce</div>
+                    <div class="demo-box Binfo">Binfo</div>
+                    <div class="demo-box Baler">Baler</div>
+                    <div class="demo-box Bperi">Bperi</div>
+                </div>
+
+                <h4 class="t-p f-bd mb-3 t-mut">Escala cromática (verm 1?12)</h4>
+                <div class="flx f-wr gap-1 mb-6">
+                    <div class="swatch Bverm1" style="width:6rem">verm1</div>
+                    <div class="swatch Bverm2" style="width:6rem">verm2</div>
+                    <div class="swatch Bverm3" style="width:6rem">verm3</div>
+                    <div class="swatch Bverm4" style="width:6rem">verm4</div>
+                    <div class="swatch Bverm5" style="width:6rem">verm5</div>
+                    <div class="swatch Bverm6" style="width:6rem">verm6</div>
+                    <div class="swatch Bverm7" style="width:6rem">verm7</div>
+                    <div class="swatch Bverm8" style="width:6rem">verm8</div>
+                    <div class="swatch Bverm9" style="width:6rem">verm9</div>
+                    <div class="swatch Bverm10" style="width:6rem">verm10</div>
+                    <div class="swatch Bverm11" style="width:6rem">verm11</div>
+                    <div class="swatch Bverm12" style="width:6rem">verm12</div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Use .B{cor}{1-12} para controle tonal preciso:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="Bverm3 p-m">Fundo Vermelho Sutil</div>
+<div class="Bazul9 p-m">Fundo Azul Intenso</div>
+</script></pre>
+
+                <h4 class="t-p f-bd mb-3 t-mut">Gradientes de Fundo <code>B{cor}D</code></h4>
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="demo-box BprinD">BprinD</div>
+                    <div class="demo-box BsecuD">BsecuD</div>
+                    <div class="demo-box BvermD">BvermD</div>
+                    <div class="demo-box BverdD">BverdD</div>
+                    <div class="demo-box BazulD">BazulD</div>
+                    <div class="demo-box BroxoD">BroxoD</div>
+                </div>
+
+                <h4 class="t-p f-bd mb-3 t-mut">Opacidades &amp; Glassmorphism <code>B{cor}{13-16}</code></h4>
+                <p class="t-mut t-pp mb-3">Shades 13 a 16 aplicam opacidades de 10%, 30%, 60% e 90% respectivamente.</p>
+                <div class="flx f-wr gap-3 mb-6 doc-grid-demo"
+                    style="background:url('https://www.transparenttextures.com/patterns/cubes.png');padding:1rem">
+                    <div class="Bprin13">13 (10%)</div>
+                    <div class="Bprin14">14 (30%)</div>
+                    <div class="Bprin15">15 (60%)</div>
+                    <div class="Bprin16">16 (90%)</div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Exemplos de fundos sólidos, gradientes e opacidades translúcidas:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="Bsuce r-p p-m">Fundo Sucesso (Sólido)</div>
+<div class="BvermD r-m p-g">Fundo Gradiente Vermelho</div>
+<div class="Bprin14 p-xg">Fundo Primário com 30% de opacidade</div>
+</script></pre>
+            </div>
+
+            <!-- 7. GRADIENTES DG -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">7. Gradientes Decorativos <code>DG1-DG20</code></h3>
+                <p class="t-mut t-p mb-6">20 gradientes pré-definidos para fundos de seção, cards e banners. Use
+                    <code>.DG{n}</code> ou a variante <code>.dg{n}</code> para background-image.
+                </p>
+
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="demo-box DG1 r-m" style="min-width:10rem">DG1</div>
+                    <div class="demo-box DG2 r-m" style="min-width:10rem">DG2</div>
+                    <div class="demo-box DG3 r-m" style="min-width:10rem">DG3</div>
+                    <div class="demo-box DG4 r-m" style="min-width:10rem">DG4</div>
+                    <div class="demo-box DG5 r-m" style="min-width:10rem">DG5</div>
+                    <div class="demo-box DG6 r-m" style="min-width:10rem">DG6</div>
+                    <div class="demo-box DG7 r-m" style="min-width:10rem">DG7</div>
+                    <div class="demo-box DG8 r-m" style="min-width:10rem">DG8</div>
+                    <div class="demo-box DG9 r-m" style="min-width:10rem">DG9</div>
+                    <div class="demo-box DG10 r-m" style="min-width:10rem">DG10</div>
+                    <div class="demo-box DG11 r-m" style="min-width:10rem">DG11</div>
+                    <div class="demo-box DG12 r-m" style="min-width:10rem">DG12</div>
+                    <div class="demo-box DG13 r-m" style="min-width:10rem">DG13</div>
+                    <div class="demo-box DG14 r-m" style="min-width:10rem">DG14</div>
+                    <div class="demo-box DG15 r-m" style="min-width:10rem">DG15</div>
+                    <div class="demo-box DG16 r-m" style="min-width:10rem">DG16</div>
+                    <div class="demo-box DG17 r-m" style="min-width:10rem">DG17</div>
+                    <div class="demo-box DG18 r-m" style="min-width:10rem">DG18</div>
+                    <div class="demo-box DG19 r-m" style="min-width:10rem">DG19</div>
+                    <div class="demo-box DG20 r-m" style="min-width:10rem">DG20</div>
+                </div>
+
+                <p class="t-pp t-mut mb-2">Aplique .DG{n} para fundo fixo ou .dg{n} para sobreposição de gradiente:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<section class="DG5 p-xg t-wh">Hero com Gradiente Decorativo 5</section>
+<!-- A variante minúscula permite cor de fundo sólida por baixo -->
+<div class="Bneut12 dg3 r-g p-g">Gradiente sutil sobre fundo escuro</div>
+</script></pre>
+            </div>
+
+            <!-- 8. SIZING -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">8. Dimensionamento <code>w-*</code> &amp; <code>h-*</code></h3>
+                <p class="t-mut t-p mb-6">Largura e altura rápidas. Disponíveis: <code>fl</code> (100%), <code>v</code>
+                    (100vw/vh), <code>au</code> (auto).</p>
+
+                <div class="flx f-cl gap-3 mb-6">
+                    <div class="demo-box Bneu11 w-fl" style="height:4rem">.w-fl (100%)</div>
+                    <div class="demo-box Bneu11 w-au" style="height:4rem">.w-au (auto)</div>
+                    <div class="demo-box Bprin3 h-au py-4" style="width:20rem">.h-au (altura conteúdo)</div>
+                </div>
+
+                <p class="t-pp t-mut mb-2 mt-4">Controle dimensões rápidas com wrappers limitadores:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<div class="w-fl max-w p-g">Largura total limitada</div>
+<div class="h-v w-v Bneu12 flx j-ct alc">Fullscreen Centrado</div>
+</script></pre>
+
+                <table class="u-table">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>CSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.w-fl</td>
+                            <td>width: 100%</td>
+                        </tr>
+                        <tr>
+                            <td>.w-v</td>
+                            <td>width: 100vw</td>
+                        </tr>
+                        <tr>
+                            <td>.w-au</td>
+                            <td>width: auto</td>
+                        </tr>
+                        <tr>
+                            <td>.h-fl</td>
+                            <td>height: 100%</td>
+                        </tr>
+                        <tr>
+                            <td>.h-v</td>
+                            <td>height: 100vh</td>
+                        </tr>
+                        <tr>
+                            <td>.h-au</td>
+                            <td>height: auto</td>
+                        </tr>
+                        <tr>
+                            <td>.max-w</td>
+                            <td>max-width: 100%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 9. EFEITOS UI -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">9. Efeitos UI</h3>
+                <p class="t-mut t-p mb-6">Overflow, cursor, opacidade e gradientes utilitários.</p>
+
+                <div class="flx f-wr gap-4 mb-6">
+                    <div class="demo-box Bneu10 r-m poi" style="min-width:10rem">.poi (cursor pointer)</div>
+                    <div class="demo-box Bneu10 r-m op-5" style="min-width:10rem">.op-5 (50%)</div>
+                    <div class="demo-box Bneu10 r-m op-1" style="min-width:10rem">.op-1 (10%)</div>
+                    <div class="demo-box r-m ov-hi bg-g-pri" style="min-width:10rem">.bg-g-pri</div>
+                    <div class="demo-box r-m bg-g-suc" style="min-width:10rem">.bg-g-suc</div>
+                    <div class="demo-box r-m bg-g-per" style="min-width:10rem">.bg-g-per</div>
+                    <div class="demo-box r-m bg-g-pri" style="min-width:10rem;background:var(--mentD)!important">
+                        .bg-g-men</div>
+                </div>
+
+                <h4 class="t-p f-bd mb-3 t-mut">Z-index</h4>
+                <table class="u-table mb-6">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>Valor</th>
+                            <th>Uso típico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.z-bot</td>
+                            <td>var(--sw-z-bot)</td>
+                            <td>Elemento atrás de tudo</td>
+                        </tr>
+                        <tr>
+                            <td>.z-bas</td>
+                            <td>var(--sw-z-bas)</td>
+                            <td>Base (0)</td>
+                        </tr>
+                        <tr>
+                            <td>.z-nvb</td>
+                            <td>var(--sw-z-nvb)</td>
+                            <td>Navbar / header fixo</td>
+                        </tr>
+                        <tr>
+                            <td>.z-m</td>
+                            <td>var(--sw-z-m)</td>
+                            <td>Modal / overlay</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="t-pp t-mut mb-2 mt-4">Efeitos de borda, sombra e visibilidade:</p>
+                <pre swcode="html" lines><script type="text/plain">
+<img class="w-fl max-w ov-hi r-m sha" src="foto.jpg">
+<div class="bg-g-pri p-xg t-ct t-wh f-bd">Hero Gradiente Primário</div>
+<button class="poi op-5">Interativo</button>
+</script></pre>
+            </div>
+
+            <!-- 10. FLEX & ALINHAMENTO -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">10. Flex & Alinhamento</h3>
+                <p class="t-mut t-p mb-6">Controle completo de layout flexível - direção, alinhamento, wrap e grow.</p>
+
+                <!-- Live demo justify-content -->
+                <h4 class="t-p f-bd mb-3 t-mut">justify-content</h4>
+                <div class="flx f-cl gap-2 mb-6">
+                    <div class="live-box flx j-st gap-2 alc">
+                        <span class="fx-it">.j-st</span><span class="fx-it s"></span><span class="fx-it s"></span>
+                    </div>
+                    <div class="live-box flx j-ct gap-2 alc">
+                        <span class="fx-it">.j-ct</span><span class="fx-it s"></span><span class="fx-it s"></span>
+                    </div>
+                    <div class="live-box flx j-en gap-2 alc">
+                        <span class="fx-it">.j-en</span><span class="fx-it s"></span><span class="fx-it s"></span>
+                    </div>
+                    <div class="live-box flx j-sb alc">
+                        <span class="fx-it">.j-sb</span><span class="fx-it s"></span><span class="fx-it s"></span>
+                    </div>
+                    <div class="live-box flx j-se alc">
+                        <span class="fx-it">.j-se</span><span class="fx-it s"></span><span class="fx-it s"></span>
+                    </div>
+                </div>
+
+                <!-- Live demo align-items -->
+                <h4 class="t-p f-bd mb-3 t-mut">align-items</h4>
+                <div class="flx f-wr gap-3 mb-6">
+                    <div class="live-box flx alc gap-2" style="height:9rem;flex:1 1 20rem">
+                        <span class="fx-it" style="height:3rem">.alc</span>
+                        <span class="fx-it s" style="height:5rem"></span>
+                        <span class="fx-it s" style="height:7rem"></span>
+                    </div>
+                    <div class="live-box flx als gap-2" style="height:9rem;flex:1 1 20rem">
+                        <span class="fx-it" style="height:3rem">.als</span>
+                        <span class="fx-it s" style="height:5rem"></span>
+                        <span class="fx-it s" style="height:7rem"></span>
+                    </div>
+                    <div class="live-box flx ale gap-2" style="height:9rem;flex:1 1 20rem">
+                        <span class="fx-it" style="height:3rem">.ale</span>
+                        <span class="fx-it s" style="height:5rem"></span>
+                        <span class="fx-it s" style="height:7rem"></span>
+                    </div>
+                    <div class="live-box flx alb gap-2" style="height:9rem;flex:1 1 20rem">
+                        <span class="fx-it t-xxg">.alb</span>
+                        <span class="fx-it t-p">base</span>
+                        <span class="fx-it s" style="height:5rem"></span>
+                    </div>
+                </div>
+
+                <table class="u-table mb-6">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>CSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>.flx</td>
+                            <td>display: flex</td>
+                        </tr>
+                        <tr>
+                            <td>.f-cl</td>
+                            <td>flex-direction: column</td>
+                        </tr>
+                        <tr>
+                            <td>.f-clr</td>
+                            <td>flex-direction: column-reverse</td>
+                        </tr>
+                        <tr>
+                            <td>.f-rr</td>
+                            <td>flex-direction: row-reverse</td>
+                        </tr>
+                        <tr>
+                            <td>.f-wr</td>
+                            <td>flex-wrap: wrap</td>
+                        </tr>
+                        <tr>
+                            <td>.alc</td>
+                            <td>align-items: center</td>
+                        </tr>
+                        <tr>
+                            <td>.als</td>
+                            <td>align-items: flex-start</td>
+                        </tr>
+                        <tr>
+                            <td>.ale</td>
+                            <td>align-items: flex-end</td>
+                        </tr>
+                        <tr>
+                            <td>.alb</td>
+                            <td>align-items: baseline</td>
+                        </tr>
+                        <tr>
+                            <td>.alst</td>
+                            <td>align-items: stretch</td>
+                        </tr>
+                        <tr>
+                            <td>.j-ct</td>
+                            <td>justify-content: center</td>
+                        </tr>
+                        <tr>
+                            <td>.j-sb</td>
+                            <td>justify-content: space-between</td>
+                        </tr>
+                        <tr>
+                            <td>.j-sp</td>
+                            <td>justify-content: space-around</td>
+                        </tr>
+                        <tr>
+                            <td>.j-se</td>
+                            <td>justify-content: space-evenly</td>
+                        </tr>
+                        <tr>
+                            <td>.j-st</td>
+                            <td>justify-content: flex-start</td>
+                        </tr>
+                        <tr>
+                            <td>.j-en</td>
+                            <td>justify-content: flex-end</td>
+                        </tr>
+                        <tr>
+                            <td>.as-ct</td>
+                            <td>align-self: center</td>
+                        </tr>
+                        <tr>
+                            <td>.as-st</td>
+                            <td>align-self: flex-start</td>
+                        </tr>
+                        <tr>
+                            <td>.as-en</td>
+                            <td>align-self: flex-end</td>
+                        </tr>
+                        <tr>
+                            <td>.f-sh0</td>
+                            <td>flex-shrink: 0</td>
+                        </tr>
+                        <tr>
+                            <td>.ml-au</td>
+                            <td>margin-left: auto - empurra item para a direita</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre swcode="html" lines><script type="text/plain">
+<!-- Barra de navegação com logo + links + ação -->
+<div class="flx alc j-sb gap-4">
+  <span class="f-sh0">Logo</span>
+  <nav class="flx gap-4 alc">...</nav>
+  <button y2btn class="y2btn-pri ml-au">Login</button>
+</div>
+
+<!-- Grid de cards com wrap -->
+<div class="flx f-wr gap-g">
+  <div y2card class="f-sh0" style="width:28rem">Card 1</div>
+  <div y2card class="f-sh0" style="width:28rem">Card 2</div>
+</div>
+
+<!-- Coluna centrada verticalmente -->
+<div class="flx f-cl alc j-ct" style="min-height:40rem">
+  <h1>Hero</h1>
+</div>
+</script></pre>
+            </div>
+
+            <!-- QUICK REFERENCE -->
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-4">Quick Reference - Cheat Sheet</h3>
+                <div class="grid-3 g-g">
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">DISPLAY & POSIÇÃO</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.blk .non .flx .grd</span>
+                            <span>.inline .rel .abs .fix</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">FLEX & ALINHAMENTO</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.f-cl .f-clr .f-rr .f-wr</span>
+                            <span>.alc .als .ale .alb .alst</span>
+                            <span>.j-ct .j-sb .j-sp .j-se .j-st .j-en</span>
+                            <span>.as-ct .as-st .as-en</span>
+                            <span>.f-sh0 .ml-au</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">TIPOGRAFIA</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.t-pp .t-p .t-m .t-g .t-gg .t-xg .t-xxg</span>
+                            <span>.f-xlt .f-lt .f-re .f-m .f-sm .f-bd .f-xbd .f-bk</span>
+                            <span>.t-ct .t-ri .t-le .t-ju</span>
+                            <span>.t-upp .t-low .t-cap</span>
+                            <span>.t-uln .t-rsk .t-no-dec .t-ital</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">ESPAÇAMENTO</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.m-pp .m-p .m-m .m-g .m-gg .m-xg .m-xxg</span>
+                            <span>.mt- .mb- .ml- .mr- .mx- .my-</span>
+                            <span>.p-pp .p-p .p-m .p-g .p-gg .p-xg .p-xxg</span>
+                            <span>.pt- .pb- .pl- .pr- .px- .py-</span>
+                            <span>.gap-pp .gap-p .gap-m .gap-g</span>
+                            <span>.m-1.12 .p-1.12 .gap-1.16</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">CORES TEXTO</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.Tprin .Tsecu .Tsuce .Tinfo .Taler .Tperi</span>
+                            <span>.T{cor}1 . .T{cor}12</span>
+                            <span>.T{cor}D (gradiente)</span>
+                            <span>.Tmut .Tcla .Tnot</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">CORES FUNDO</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.Bprin .Bsecu .Bsuce .Binfo .Baler .Bperi</span>
+                            <span>.B{cor}1 . .B{cor}12</span>
+                            <span>.B{cor}13 . .B{cor}16 (opac)</span>
+                            <span>.B{cor}D (gradiente)</span>
+                            <span>.DG1.DG20 .dg1.dg20</span>
+                            <span>.bg-g-pri .bg-g-suc .bg-g-per</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="t-pp f-bd t-mut mb-3">BORDAS &amp; EFEITOS</p>
+                        <div class="flx f-cl gap-1 t-p f-mon">
+                            <span>.bor .bor-t .bor-b .bor-l .bor-r .bor-0</span>
+                            <span>.bor-1 .bor-2 .bor-4</span>
+                            <span>.bor-s-sol .bor-s-das .bor-s-dot</span>
+                            <span>.r-p .r-m .r-g .r-gg .r-fl</span>
+                            <span>.sha-p .sha .sha-g</span>
+                            <span>.poi .op-5 .op-1 .ov-hi .ov-au</span>
+                            <span>.w-fl .w-v .w-au .h-fl .h-v .max-w</span>
+                            <span>.z-bot .z-bas .z-nvb .z-m</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- VEJA TAMBÉM -->
+                <div class="mt-8 p-g Bneu14 r-m t-ct">
+                    <p class="t-p f-bd mb-2">Utilitários Especializados</p>
+                    <div class="flx f-wr gap-4 j-ct">
+                        <a href="uteis_bordas.html" class="Tprin f-bd">Bordas Detalhadas</a>
+                        <a href="uteis_shadows.html" class="Tprin f-bd">Sombras & Elevation</a>
+                        <a href="uteis_objectfit.html" class="Tprin f-bd">Object-Fit</a>
+                        <a href="uteis_zoons.html" class="Tprin f-bd">Scale & Zooms</a>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../dist/sw.min.js"></script>
+</body>
+
+</html>

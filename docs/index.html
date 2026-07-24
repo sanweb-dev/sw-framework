@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="pt-br" sw-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SW Framework - Documentação Oficial</title>
+  <script src="dist/sw-mpa.min.js"></script>
+  <link rel="stylesheet" href="dist/sw.min.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <script src="layout/header.js" defer></script>
+  <script src="layout/sidebar.js" defer></script>
+  <script src="dist/sw.min.js" defer></script>
+  <style>
+    .color-dot {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .grid-demo-col {
+      background: rgba(120, 147, 176, 0.15);
+      border: 1px dashed var(--sw-pri);
+      padding: 1.2rem;
+      text-align: center;
+      border-radius: 0.6rem;
+      font-size: 1.2rem;
+      color: var(--sw-pri);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* -- Hero ----------------------------------------------- */
+    .doc-hero {
+      background: radial-gradient(circle at 0% 0%, rgba(120, 147, 176, 0.18), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(62, 87, 113, 0.25), transparent 45%),
+        var(--sw-bg-sur);
+      border-radius: 2.4rem;
+      padding: 6rem 4rem;
+      margin-bottom: 4rem;
+      border: 1px solid var(--sw-bor);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 3rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+    }
+
+    .doc-hero-ver {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sw-pri);
+      margin-bottom: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(120, 147, 176, 0.12);
+      padding: 0.6rem 1.6rem;
+      border-radius: 99px;
+      border: 1px solid rgba(120, 147, 176, 0.25);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .doc-hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(3.6rem, 5vw, 5.6rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+
+    .doc-hero-sub {
+      font-size: 1.8rem;
+      color: var(--sw-txt-mut);
+      line-height: 1.5;
+      margin-bottom: 3.2rem;
+      max-width: 60rem;
+    }
+
+    .doc-hero-badge {
+      display: inline-grid;
+      place-items: center;
+      width: 14rem;
+      height: 14rem;
+      border-radius: 2.4rem;
+      background: linear-gradient(135deg, var(--sw-pri), var(--sw-sec));
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 5rem;
+      font-weight: 900;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      margin: 0 auto;
+    }
+
+    @media (max-width: 992px) {
+      .doc-hero {
+        grid-template-columns: 1fr;
+        padding: 4rem 2.4rem;
+        text-align: center;
+      }
+      .doc-hero-sub {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* -- Stats bar ------------------------------------------ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.6rem;
+      margin-bottom: 6rem;
+    }
+
+    .stat-it {
+      text-align: center;
+      padding: 2.4rem 1.6rem;
+      background: var(--sw-bg-sur);
+      border: 1px solid var(--sw-bor);
+      border-radius: 1.6rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .stat-it:hover {
+      transform: translateY(-4px);
+      border-color: var(--sw-pri);
+    }
+
+    .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.6rem;
+      font-weight: 900;
+      color: var(--sw-pri);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-lbl {
+      font-size: 1.2rem;
+      color: var(--sw-txt-mut);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media (max-width: 768px) {
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .doc-section-tag {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--sw-pri);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="doc-shell">
+    <main class="doc-main">
+
+      <!-- HERO -->
+      <header class="doc-hero">
+        <div class="doc-hero-content">
+          <div class="doc-hero-ver">
+            ⚡ SW Framework v0.1.0-alpha.1
+          </div>
+          <h1 class="doc-hero-title">
+            O Framework que<br /><span class="TprinD">acelera tudo.</span>
+          </h1>
+          <p class="doc-hero-sub">
+            Ecossistema nativo de alta performance para a web. CSS modular, zero dependências pesadas, componentes acessíveis e realce de sintaxe integrado.
+          </p>
+          <div class="flx gap-4 f-wr">
+            <a href="pages/swcode.html" class="d-col" style="padding: 1.2rem 2.4rem; background: var(--sw-pri); color: #fff; border: none; border-radius: 0.8rem; text-decoration: none;">Ver SWCode (Sintaxe)</a>
+            <a href="pages/layout_grid.html" class="d-col is-secu" style="padding: 1.2rem 2.4rem; border-radius: 0.8rem; text-decoration: none;">Layout & Grid</a>
+          </div>
+        </div>
+        <div class="doc-hero-badge">
+          SW
+        </div>
+      </header>
+
+      <!-- STATS -->
+      <div class="stats-bar">
+        <div class="stat-it">
+          <span class="stat-num">0.1.0</span>
+          <span class="stat-lbl">Versão Alpha</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">0</span>
+          <span class="stat-lbl">Dependências</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">12</span>
+          <span class="stat-lbl">Colunas Grid</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">40</span>
+          <span class="stat-lbl">40 presets</span>
+        </div>
+      </div>
+
+      <!-- RECURSOS CHAVE -->
+      <div class="l gap-4 mb-8">
+        <div class="co12 co6-m co3-g">
+          <div class="doc-card mb-0 h-100">
+            <div class="doc-tag mb-3">Sintaxe</div>
+            <h3 class="t-m f-bd mb-2">SWCode Integrado</h3>
+            <p class="t-mut t-p">Syntax highlighter nativo com suporte a JS, CSS, HTML, JSON, PHP e Bash, com 5 temas e cópia em 1 clique.</p>
+          </div>
+        </div>
+        <div class="co12 co6-m co3-g">
+          <div class="doc-card mb-0 h-100">
+            <div class="doc-tag mb-3">Layout</div>
+            <h3 class="t-m f-bd mb-2">Grid Atômico</h3>
+            <p class="t-mut t-p">Sistema flexível de 12 colunas com sufixos de breakpoint (<code>.co6-m</code>, <code>.g-gg</code>) e shortcuts.</p>
+          </div>
+        </div>
+        <div class="co12 co6-m co3-g">
+          <div class="doc-card mb-0 h-100">
+            <div class="doc-tag mb-3">Tema</div>
+            <h3 class="t-m f-bd mb-2">SWDay (Dark/Light)</h3>
+            <p class="t-mut t-p">Alternância instantânea de tema claro e escuro armazenada no <code>localStorage</code> sem FOUC.</p>
+          </div>
+        </div>
+        <div class="co12 co6-m co3-g">
+          <div class="doc-card mb-0 h-100">
+            <div class="doc-tag mb-3">Motion</div>
+            <h3 class="t-m f-bd mb-2">Catálogo Motion</h3>
+            <p class="t-mut t-p">Catalogados 40 presets (12 entradas, 7 reveals, 7 loops, 8 hovers e 6 presets de scroll) de alta performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMOS ACESSÍVEIS (FORMULÁRIO, TABELA & DIALOG) -->
+      <section class="doc-card mb-8">
+        <span class="doc-section-tag">Demonstração Interativa</span>
+        <h2 class="t-m f-bd mb-4">Controles e Componentes Acessíveis</h2>
+        
+        <form class="mb-6 flx alc gap-4" onsubmit="event.preventDefault()">
+          <label for="sw-demo-name" class="f-bd">Nome:</label>
+          <input id="sw-demo-name" type="text" class="cont-bar" style="height:4rem; max-width:300px; margin-bottom:0;" placeholder="Digite seu nome..." />
+        </form>
+
+        <table class="ref-table mb-6">
+          <caption class="t-p f-bd t-mut mb-2 text-left">Resumo de Recursos do Sistema</caption>
+          <thead>
+            <tr>
+              <th>Módulo</th>
+              <th>Status</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>SWCode</code></td>
+              <td><span class="bp-badge">Pronto</span></td>
+              <td>Highlighting nativo zero-dependência</td>
+            </tr>
+            <tr>
+              <td><code>SWLayout</code></td>
+              <td><span class="bp-badge">Pronto</span></td>
+              <td>Grid atômico de 12 colunas</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Diálogo Modal Acessível -->
+        <div id="sw-demo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;">
+          <h4 id="modal-title">Diálogo Acessível</h4>
+        </div>
+      </section>
+
+      <!-- FILOSOFIA -->
+      <section class="doc-card mb-8">
+        <div class="l alc gap-6">
+          <div class="co12 co6-g">
+            <span class="doc-section-tag">Filosofia</span>
+            <h2 class="t-xxg f-bd mb-4">Simplicidade que escala.</h2>
+            <p class="t-g t-mut mb-6">
+              O SW Framework foi projetado para eliminar a complexidade desnecessária. Desenvolva interfaces limpas, rápidas e consistentes com código nativo e previsível.
+            </p>
+            <ul class="flx f-cl gap-3 p-0 m-0" style="list-style: none;">
+              <li class="flx alc gap-3">
+                <span class="bp-badge">✓</span>
+                <span class="t-p f-bd">Zero Dependências Externas (Vanilla Pure)</span>
+              </li>
+              <li class="flx alc gap-3">
+                <span class="bp-badge">✓</span>
+                <span class="t-p f-bd">CSS Atômico + Estrutura Modular</span>
+              </li>
+              <li class="flx alc gap-3">
+                <span class="bp-badge">✓</span>
+                <span class="t-p f-bd">Variáveis CSS HSL de Alta Flexibilidade</span>
+              </li>
+            </ul>
+          </div>
+          <div class="co12 co6-g">
+            <div class="doc-card mb-0" style="background: var(--sw-bg-bas);">
+              <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// Código de Exemplo</p>
+              <pre swcode="html"><script type="text/plain">
+<!-- Grid de 2 colunas no desktop -->
+<div class="l gap-4">
+  <div class="co6-g">Coluna A</div>
+  <div class="co6-g">Coluna B</div>
+</div>
+</script></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="doc-footer">
+        <div>SW Framework v0.1.0-alpha.1 • Sandro Web Solutions</div>
+        <div><a href="index.html">Documentação Oficial</a></div>
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Breadcrumb - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">CSS Element</span>
+                <h1 class="t-xxg f-bd mb-2">Breadcrumb <span class="TprinD">[y2bread]</span></h1>
+                <p class="t-g t-mut">Trilha de navegação hierárquica - separadores customizáveis, variante com fundo e
+                    tamanhos.</p>
+            </div>
+
+            <!-- 1. BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">1. Básico</h3>
+                </div>
+                <div class="demo-wrap">
+                    <nav y2bread aria-label="Breadcrumb">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Produtos</a>
+                        <a y2bread-it href="#">Eletrônicos</a>
+                        <span y2bread-it class="y2bread-it-cur" aria-current="page">Notebooks</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav y2bread aria-label="Breadcrumb">
+    <a y2bread-it href="#">Home</a>
+    <a y2bread-it href="#">Produtos</a>
+    <a y2bread-it href="#">Eletrônicos</a>
+    <span y2bread-it class="y2bread-it-cur" aria-current="page">Notebooks</span>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- 2. SEPARADORES -->
+            <div class="doc-card sec mb-6" id="separadores">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">2. Separadores</h3>
+                    <p class="t-pp t-mut mt-1">Classes predefinidas ou CSS custom property <code
+                            class="t-pri f-bd">--brc-sep</code> para qualquer caractere.</p>
+                </div>
+                <div class="demo-wrap">
+                    <nav y2bread class="y2bread-chv" aria-label="Chevron">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Artigo</span>
+                    </nav>
+                    <nav y2bread class="y2bread-dot" aria-label="Dot">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Artigo</span>
+                    </nav>
+                    <nav y2bread class="y2bread-dsh" aria-label="Dash">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Artigo</span>
+                    </nav>
+                    <nav y2bread style="--brc-sep:'/'" aria-label="Custom">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Custom</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Separadores predefinidos -->
+<nav y2bread class="y2bread-chv">  <!-- > -->
+    <a y2bread-it href="#">Home</a>
+    <span y2bread-it class="y2bread-it-cur">Página</span>
+</nav>
+<nav y2bread class="y2bread-dot">...</nav>  <!--  -->
+<nav y2bread class="y2bread-dsh">...</nav>  <!-- - -->
+
+<!-- Caractere personalizado via CSS var -->
+<nav y2bread style="--brc-sep:'?'">...</nav>
+</script></pre>
+            </div>
+
+            <!-- 3. COM FUNDO -->
+            <div class="doc-card sec mb-6" id="fundo">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">3. Com Fundo</h3>
+                </div>
+                <div class="demo-wrap">
+                    <nav y2bread class="y2bread-bg" aria-label="Breadcrumb com fundo">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Artigo</span>
+                    </nav>
+                    <nav y2bread class="y2bread-pil y2bread-chv" aria-label="Breadcrumb pill">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Blog</a>
+                        <span y2bread-it class="y2bread-it-cur">Artigo (Pill)</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav y2bread class="y2bread-bg">...</nav>
+<nav y2bread class="y2bread-pil">...</nav>
+</script></pre>
+            </div>
+
+            <!-- 4. COM ÍCONES -->
+            <div class="doc-card sec mb-6" id="icones">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">4. Com Ícones</h3>
+                </div>
+                <div class="demo-wrap">
+                    <nav y2bread aria-label="Breadcrumb com Ícones">
+                        <a y2bread-it href="#"><i class="sw-home"></i> Home</a>
+                        <a y2bread-it href="#"><i class="sw-folder"></i> Projetos</a>
+                        <span y2bread-it class="y2bread-it-cur"><i class="sw-file"></i> Relatório Q1</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav y2bread aria-label="Breadcrumb">
+    <a y2bread-it href="#"><i class="sw-home"></i> Home</a>
+    <a y2bread-it href="#"><i class="sw-folder"></i> Projetos</a>
+    <span y2bread-it class="y2bread-it-cur"><i class="sw-file"></i> Relatório Q1</span>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- 5. TAMANHOS -->
+            <div class="doc-card sec mb-6" id="tamanhos">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">5. Tamanhos</h3>
+                </div>
+                <div class="demo-wrap">
+                    <nav y2bread class="y2bread-sm" aria-label="Breadcrumb pequeno">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Categoria</a>
+                        <span y2bread-it class="y2bread-it-cur">Página (SM)</span>
+                    </nav>
+                    <nav y2bread aria-label="Breadcrumb padrão">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Categoria</a>
+                        <span y2bread-it class="y2bread-it-cur">Página (Padrão)</span>
+                    </nav>
+                    <nav y2bread class="y2bread-lg" aria-label="Breadcrumb grande">
+                        <a y2bread-it href="#">Home</a>
+                        <a y2bread-it href="#">Categoria</a>
+                        <span y2bread-it class="y2bread-it-cur">Página (LG)</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav y2bread class="y2bread-sm">...</nav>
+<nav y2bread>...</nav>
+<nav y2bread class="y2bread-lg">...</nav>
+</script></pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">Quick Reference</h3>
+                </div>
+                <div class="tbl is-str">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Atributo/Classe</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>[y2bread]</code></td>
+                                <td>Base</td>
+                                <td>Container principal da trilha de navegação.</td>
+                            </tr>
+                            <tr>
+                                <td><code>y2bread-it</code></td>
+                                <td>Item</td>
+                                <td>Atributo de cada item da trilha - use em <code>&lt;a&gt;</code> ou
+                                    <code>&lt;span&gt;</code>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-it-cur</code></td>
+                                <td>Estado</td>
+                                <td>Classe no item atual - desativa hover e aplica bold.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-chv</code></td>
+                                <td>Separador</td>
+                                <td>Separador chevron (>).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-dot</code></td>
+                                <td>Separador</td>
+                                <td>Separador ponto (.).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-dsh</code></td>
+                                <td>Separador</td>
+                                <td>Separador traço (-).</td>
+                            </tr>
+                            <tr>
+                                <td><code>--brc-sep</code></td>
+                                <td>CSS Var</td>
+                                <td>Caractere separador personalizado (padrão: "/").</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-bg</code></td>
+                                <td>Estilo</td>
+                                <td>Fundo suave com borda e padding.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-pil</code></td>
+                                <td>Estilo</td>
+                                <td>Variante pill - idêntica ao bg com border-radius total.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.y2bread-sm / .y2bread-lg</code></td>
+                                <td>Tamanho</td>
+                                <td>Tamanhos menor e maior que o padrão.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

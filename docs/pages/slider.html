@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Slider - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .sld-demo-it {
+            height: 22rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--sw-f-xg);
+            font-weight: 700;
+            color: #fff;
+            border-radius: var(--sw-r-m)
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Slider SWSlider</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Slider <span class="TprinD">SWSlider</span></h2>
+                <p class="t-g t-mut">Carousel de imagens e conteúdo - swipe touch, teclado, autoplay, dots, múltipos
+                    itens visíveis, loop.</p>
+            </div>
+
+            <!-- BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Básico com Dots e Setas</h3>
+                <div class="demo-wrap">
+                    <div y2slider style="width:100%">
+                        <div class="y2slider-trk">
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:var(--sw-pri)">Slide 1</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:var(--sw-sec)">Slide 2</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:var(--sw-suc)">Slide 3</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:var(--sw-per)">Slide 4</div>
+                            </div>
+                        </div>
+                        <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+                        <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+                        <div class="y2slider-dot-grp"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2slider>
+  <div class="y2slider-trk">
+    <div class="y2slider-it"><img src="foto1.jpg"></div>
+    <div class="y2slider-it"><img src="foto2.jpg"></div>
+    <div class="y2slider-it"><img src="foto3.jpg"></div>
+  </div>
+  <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+  <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+  <div class="y2slider-dot-grp"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- AUTOPLAY -->
+            <div class="doc-card sec mb-6" id="autoplay">
+                <h3 class="t-m f-bd mb-4">2. Autoplay</h3>
+                <div class="demo-wrap">
+                    <div y2slider y2slider-auto="2000" style="width:100%">
+                        <div class="y2slider-trk">
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.2 160)">Auto 1</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.2 220)">Auto 2</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.2 280)">Auto 3</div>
+                            </div>
+                        </div>
+                        <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+                        <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+                        <div class="y2slider-dot-grp"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Pausa ao hover (padrão) -->
+<div y2slider y2slider-auto="3000">
+  ...
+</div>
+
+<!-- Continua mesmo com mouse em cima -->
+<div y2slider y2slider-auto="3000" y2slider-hover="run">
+  ...
+</div>
+</script></pre>
+            </div>
+
+            <!-- HOVER RUN -->
+            <div class="doc-card sec mb-6" id="hoverrun">
+                <h3 class="t-m f-bd mb-4">2b. Autoplay sem pausar no hover</h3>
+                <p class="t-g t-mut mb-4">Com <code>y2slider-hover="run"</code> o slider continua passando mesmo com o mouse em cima.</p>
+                <div class="demo-wrap">
+                    <div y2slider y2slider-auto="1500" y2slider-hover="run" style="width:100%">
+                        <div class="y2slider-trk">
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.22 30)">Hover 1</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.22 60)">Hover 2</div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it" style="background:oklch(55% 0.22 90)">Hover 3</div>
+                            </div>
+                        </div>
+                        <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+                        <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+                        <div class="y2slider-dot-grp"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MULTI ITEM -->
+            <div class="doc-card sec mb-6" id="multi">
+                <h3 class="t-m f-bd mb-4">3. Múltipos Itens Visíveis</h3>
+                <div class="demo-wrap">
+                    <div y2slider y2slider-show="3" y2slider-scroll="1" style="width:100%">
+                        <div class="y2slider-trk">
+                            <div class="y2slider-it" style="padding:0 .5rem">
+                                <div class="sld-demo-it" style="background:var(--sw-pri);height:14rem">1</div>
+                            </div>
+                            <div class="y2slider-it" style="padding:0 .5rem">
+                                <div class="sld-demo-it" style="background:var(--sw-sec);height:14rem">2</div>
+                            </div>
+                            <div class="y2slider-it" style="padding:0 .5rem">
+                                <div class="sld-demo-it" style="background:var(--sw-suc);height:14rem">3</div>
+                            </div>
+                            <div class="y2slider-it" style="padding:0 .5rem">
+                                <div class="sld-demo-it" style="background:var(--sw-ale);height:14rem">4</div>
+                            </div>
+                            <div class="y2slider-it" style="padding:0 .5rem">
+                                <div class="sld-demo-it" style="background:var(--sw-per);height:14rem">5</div>
+                            </div>
+                        </div>
+                        <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+                        <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+                        <div class="y2slider-dot-grp"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<!-- Mostra 3, avança 1 por vez -->
+<div y2slider y2slider-show="3" y2slider-scroll="1">
+  ...
+</div>
+
+<!-- Mostra 3, avança 3 por vez (padrão) -->
+<div y2slider y2slider-show="3">
+  ...
+</div>
+</script></pre>
+            </div>
+
+            <!-- EFEITOS E TRANSIÇÕES -->
+            <div class="doc-card sec mb-6" id="efeitos">
+                <h3 class="t-m f-bd mb-4">4. Efeitos e Transições - Zoom</h3>
+                <p class="t-mut mb-4" style="font-size:1.4rem">A imagem cresce lentamente (Ken Burns) e faz fade para a
+                    próxima. Use <code>y2slider-effect="zoom"</code> e defina uma altura fixa no container.</p>
+                <div class="demo-wrap">
+                    <div y2slider y2slider-effect="zoom" y2slider-auto="4000" style="width:100%;height:28rem">
+                        <div class="y2slider-trk">
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it"
+                                    style="width:100%;height:100%;background:var(--sw-pri);border-radius:0">Slide 1
+                                </div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it"
+                                    style="width:100%;height:100%;background:var(--sw-sec);border-radius:0">Slide 2
+                                </div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it"
+                                    style="width:100%;height:100%;background:var(--sw-suc);border-radius:0">Slide 3
+                                </div>
+                            </div>
+                            <div class="y2slider-it">
+                                <div class="sld-demo-it"
+                                    style="width:100%;height:100%;background:var(--sw-per);border-radius:0">Slide 4
+                                </div>
+                            </div>
+                        </div>
+                        <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+                        <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+                        <div class="y2slider-dot-grp"></div>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2slider y2slider-effect="zoom" y2slider-auto="4000" style="height:28rem">
+  <div class="y2slider-trk">
+    <div class="y2slider-it"><img src="foto1.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+    <div class="y2slider-it"><img src="foto2.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+    <div class="y2slider-it"><img src="foto3.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+  </div>
+  <button class="y2slider-prv" type="button"><i class="yd sw-chevron-left"></i></button>
+  <button class="y2slider-nxt" type="button"><i class="yd sw-chevron-right"></i></button>
+  <div class="y2slider-dot-grp"></div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">5. API JavaScript</h3>
+                <pre swcode="js">
+const sld = document.querySelector('[y2slider]');
+
+// Evento ao trocar de slide
+sld.addEventListener('yd:slider:change', e => {
+  console.log('Página atual:', e.detail.page);
+});
+</pre>
+            </div>
+
+            <!-- CONTROLE AO VIVO -->
+            <div class="doc-card sec" id="controle">
+                <h3 class="t-m f-bd mb-1">Controle ao vivo</h3>
+                <p class="t-mut t-p mb-4">Ajuste o intervalo do autoplay e a duração da transição em tempo real.</p>
+
+                <div y2slider id="sldr-live" y2slider-auto="3000" y2slider-dur="0.4s" style="width:100%;margin-bottom:2.4rem">
+                    <div class="y2slider-trk">
+                        <div class="y2slider-it" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);height:18rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.4rem;font-weight:700;border-radius:var(--sw-r-g)">Slide 1</div>
+                        <div class="y2slider-it" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);height:18rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.4rem;font-weight:700;border-radius:var(--sw-r-g)">Slide 2</div>
+                        <div class="y2slider-it" style="background:linear-gradient(135deg,#10b981,#059669);height:18rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.4rem;font-weight:700;border-radius:var(--sw-r-g)">Slide 3</div>
+                        <div class="y2slider-it" style="background:linear-gradient(135deg,#f59e0b,#ef4444);height:18rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.4rem;font-weight:700;border-radius:var(--sw-r-g)">Slide 4</div>
+                    </div>
+                    <button class="y2slider-prv"></button>
+                    <button class="y2slider-nxt"></button>
+                    <button class="y2slider-ply"></button>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+                    <div>
+                        <label style="display:block;font-size:1.3rem;font-weight:700;color:var(--sw-txt-mut);margin-bottom:.6rem">
+                            Intervalo autoplay: <span id="lbl-auto">3000ms</span>
+                        </label>
+                        <input type="range" min="500" max="8000" step="500" value="3000" style="width:100%;accent-color:var(--sw-pri)"
+                            oninput="
+                                document.getElementById('lbl-auto').textContent = this.value + 'ms';
+                                const s = document.getElementById('sldr-live')._y2Slider;
+                                if (s) { s.auto = parseInt(this.value); s._timerStop(); s._timerStart(); }
+                            ">
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:1.3rem;font-weight:700;color:var(--sw-txt-mut);margin-bottom:.6rem">
+                            Duração da transição: <span id="lbl-dur">0.4s</span>
+                        </label>
+                        <input type="range" min="100" max="1500" step="100" value="400" style="width:100%;accent-color:var(--sw-pri)"
+                            oninput="
+                                const ms = parseInt(this.value);
+                                const s = document.getElementById('sldr-live')._y2Slider;
+                                document.getElementById('lbl-dur').textContent = (ms/1000).toFixed(1) + 's';
+                                if (s) { s.dur = (ms/1000).toFixed(1) + 's'; s.trk.style.setProperty('--sldr-dur', s.dur); }
+                            ">
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2slider</code></td>
+                            <td>div</td>
+                            <td>Ativa o slider no container</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-auto="3000"</code></td>
+                            <td>div</td>
+                            <td>Autoplay a cada N ms - pausa no hover</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-hover="run"</code></td>
+                            <td>div</td>
+                            <td>Continua o autoplay mesmo com mouse em cima</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-show="3"</code></td>
+                            <td>div</td>
+                            <td>Mostra N itens por vez</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-scroll="1"</code></td>
+                            <td>div</td>
+                            <td>Avança N itens por clique (padrão: igual ao show)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-loop="false"</code></td>
+                            <td>div</td>
+                            <td>Desativa o loop (padrão: true)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-dur="0.6s"</code></td>
+                            <td>div</td>
+                            <td>Duração da transição (padrão: 0.4s) - aceita s ou ms</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2slider-effect="zoom"</code></td>
+                            <td>div</td>
+                            <td>Efeito zoom + fade (Ken Burns) - requer altura fixa</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-trk</code></td>
+                            <td>div</td>
+                            <td>Track - container dos slides</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-it</code></td>
+                            <td>div</td>
+                            <td>Item individual do slider</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-prv / .y2slider-nxt</code></td>
+                            <td>button</td>
+                            <td>Botões anterior / próximo</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-dot-grp</code></td>
+                            <td>div</td>
+                            <td>Container dos dots (gerado automaticamente)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-cap / .y2slider-cap-ttl</code></td>
+                            <td>div / span</td>
+                            <td>Legenda sobre a imagem</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2slider-ply</code></td>
+                            <td>button</td>
+                            <td>Botão play/pause do autoplay</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:slider:change</code></td>
+                            <td>evento</td>
+                            <td>Disparado ao trocar slide - detail: { page }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

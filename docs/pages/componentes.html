@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Componentes - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec {
+            scroll-margin-top: 10rem;
+        }
+
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+            gap: 1.6rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .comp-card {
+            background: var(--sw-bg-ele);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2rem 2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+            transition: border-color .2s, box-shadow .2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .comp-card:hover {
+            border-color: var(--sw-pri);
+            box-shadow: 0 0 0 1px var(--sw-pri);
+        }
+
+        .comp-card-ico {
+            font-size: 2.4rem;
+            color: var(--sw-pri);
+            line-height: 1;
+        }
+
+        .comp-card-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--sw-txt-bas);
+            line-height: 1.2;
+        }
+
+        .comp-card-desc {
+            font-size: 1.25rem;
+            color: var(--sw-txt-mut);
+            line-height: 1.5;
+            flex: 1;
+            margin: 0;
+        }
+
+        .comp-card-tag {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: var(--sw-pri);
+            opacity: .7;
+        }
+
+        .group-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--sw-txt-mut);
+            border-bottom: 1px solid var(--sw-bor);
+            padding-bottom: .8rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .is-sec .comp-card-ico { color: var(--sw-sec); }
+        .is-sec .comp-card-tag { color: var(--sw-sec); }
+        .is-sec .comp-card:hover { border-color: var(--sw-sec); box-shadow: 0 0 0 1px var(--sw-sec); }
+
+        .is-suc .comp-card-ico { color: var(--sw-suc); }
+        .is-suc .comp-card-tag { color: var(--sw-suc); }
+        .is-suc .comp-card:hover { border-color: var(--sw-suc); box-shadow: 0 0 0 1px var(--sw-suc); }
+
+        .is-ale .comp-card-ico { color: var(--sw-ale); }
+        .is-ale .comp-card-tag { color: var(--sw-ale); }
+        .is-ale .comp-card:hover { border-color: var(--sw-ale); box-shadow: 0 0 0 1px var(--sw-ale); }
+
+        .is-inf .comp-card-ico { color: var(--sw-inf); }
+        .is-inf .comp-card-tag { color: var(--sw-inf); }
+        .is-inf .comp-card:hover { border-color: var(--sw-inf); box-shadow: 0 0 0 1px var(--sw-inf); }
+
+        .is-per .comp-card-ico { color: var(--sw-per); }
+        .is-per .comp-card-tag { color: var(--sw-per); }
+        .is-per .comp-card:hover { border-color: var(--sw-per); box-shadow: 0 0 0 1px var(--sw-per); }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it is-cur" aria-current="page">Componentes</span>
+            </nav>
+
+            <section class="mb-10">
+                <span class="doc-tag">Overview</span>
+                <h1 class="t-xxg f-bd mb-2">Todos os Componentes <span class="TprinD">SW</span></h1>
+                <p class="t-g t-mut">77 componentes organizados em 10 categorias — CSS, JS e Backend PHP. Clique em qualquer card para acessar a documentação completa.</p>
+            </section>
+
+            <!-- ═══════════════════ FOUNDATION ═══════════════════ -->
+            <section class="sec mb-10" id="foundation">
+                <p class="group-title"><i class="sw-layers mr-s"></i> Foundation</p>
+                <div class="comp-grid">
+                    <a href="layout_grid.html" class="comp-card">
+                        <i class="sw-columns comp-card-ico"></i>
+                        <div class="comp-card-name">Layout & Grid</div>
+                        <p class="comp-card-desc">Sistema de grid flexível de 12 colunas com classes semânticas e ultra-curtas.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="estilo_cores.html" class="comp-card">
+                        <i class="sw-palette comp-card-ico"></i>
+                        <div class="comp-card-name">Cores</div>
+                        <p class="comp-card-desc">24 famílias de cores com tokens CSS. Paleta semântica completa via variáveis.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="estilo_tipografia.html" class="comp-card">
+                        <i class="sw-font comp-card-ico"></i>
+                        <div class="comp-card-name">Tipografia</div>
+                        <p class="comp-card-desc">Escala tipográfica, pesos, alturas de linha e classes de texto utilitárias.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="icones_Ydra.html" class="comp-card">
+                        <i class="sw-star comp-card-ico"></i>
+                        <div class="comp-card-name">Ícones</div>
+                        <p class="comp-card-desc">Biblioteca de ícones nativa do SW — via classe CSS, sem fontes externas.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="espacamento.html" class="comp-card">
+                        <i class="sw-ruler comp-card-ico"></i>
+                        <div class="comp-card-name">Espaçamento</div>
+                        <p class="comp-card-desc">Classes utilitárias para margin, padding e gap com escala consistente.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="fontes_wrapbreak.html" class="comp-card">
+                        <i class="sw-text comp-card-ico"></i>
+                        <div class="comp-card-name">Wrap & Break</div>
+                        <p class="comp-card-desc">Controle de quebra de linha, overflow e white-space para qualquer layout.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="config.html" class="comp-card">
+                        <i class="sw-cog comp-card-ico"></i>
+                        <div class="comp-card-name">y2.config.css</div>
+                        <p class="comp-card-desc">Personalize cores, fontes, bordas e temas sem tocar no código-fonte do SW.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ CSS ELEMENTOS ═══════════════════ -->
+            <section class="sec mb-10 is-sec" id="elementos">
+                <p class="group-title"><i class="sw-box mr-s"></i> CSS Elementos</p>
+                <div class="comp-grid">
+                    <a href="btn.html" class="comp-card">
+                        <i class="sw-mouse comp-card-ico"></i>
+                        <div class="comp-card-name">Button</div>
+                        <p class="comp-card-desc">Botões com variantes de cor, tamanho, forma, ícone e estados. Atributo <code>[y2btn]</code>.</p>
+                        <span class="comp-card-tag">CSS + JS</span>
+                    </a>
+                    <a href="avatar.html" class="comp-card">
+                        <i class="sw-user comp-card-ico"></i>
+                        <div class="comp-card-name">Avatar</div>
+                        <p class="comp-card-desc">Avatares circulares com iniciais, imagem, status e tamanhos configuráveis.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="badge.html" class="comp-card">
+                        <i class="sw-tag comp-card-ico"></i>
+                        <div class="comp-card-name">Badge</div>
+                        <p class="comp-card-desc">Rótulos e contadores para notificações, status e categorias.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="chip.html" class="comp-card">
+                        <i class="sw-label comp-card-ico"></i>
+                        <div class="comp-card-name">Chip</div>
+                        <p class="comp-card-desc">Tags compactas para filtros, seleção múltipla e categorização visual.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="breadcrumb.html" class="comp-card">
+                        <i class="sw-chevron-right comp-card-ico"></i>
+                        <div class="comp-card-name">Breadcrumb</div>
+                        <p class="comp-card-desc">Trilha de navegação hierárquica com separadores e estado ativo.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="divider.html" class="comp-card">
+                        <i class="sw-minus comp-card-ico"></i>
+                        <div class="comp-card-name">Divider</div>
+                        <p class="comp-card-desc">Separadores visuais horizontais e verticais com texto e variantes.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="progress.html" class="comp-card">
+                        <i class="sw-bar-chart comp-card-ico"></i>
+                        <div class="comp-card-name">Progress</div>
+                        <p class="comp-card-desc">Barras de progresso animadas, circulares e com gradiente.</p>
+                        <span class="comp-card-tag">CSS + JS</span>
+                    </a>
+                    <a href="skeleton.html" class="comp-card">
+                        <i class="sw-ghost comp-card-ico"></i>
+                        <div class="comp-card-name">Skeleton / Loader</div>
+                        <p class="comp-card-desc">Placeholders animados para estados de carregamento de conteúdo.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="stepper.html" class="comp-card">
+                        <i class="sw-list-check comp-card-ico"></i>
+                        <div class="comp-card-name">Stepper</div>
+                        <p class="comp-card-desc">Indicador de etapas para formulários multi-step e fluxos guiados.</p>
+                        <span class="comp-card-tag">CSS + JS</span>
+                    </a>
+                    <a href="timeline.html" class="comp-card">
+                        <i class="sw-time comp-card-ico"></i>
+                        <div class="comp-card-name">Timeline</div>
+                        <p class="comp-card-desc">Linha do tempo vertical para logs, históricos e eventos cronológicos.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ CSS COMPONENTES ═══════════════════ -->
+            <section class="sec mb-10 is-suc" id="css-comp">
+                <p class="group-title"><i class="sw-layers mr-s"></i> CSS Componentes</p>
+                <div class="comp-grid">
+                    <a href="cards.html" class="comp-card">
+                        <i class="sw-card comp-card-ico"></i>
+                        <div class="comp-card-name">Cards</div>
+                        <p class="comp-card-desc">11 variações de card — clássico, glass, filled, outlined, stat, alert e mais.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="tabela.html" class="comp-card">
+                        <i class="sw-table comp-card-ico"></i>
+                        <div class="comp-card-name">Tabela</div>
+                        <p class="comp-card-desc">Tabelas responsivas com hover, striped, bordered e células com badges.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="forms.html" class="comp-card">
+                        <i class="sw-clipboard comp-card-ico"></i>
+                        <div class="comp-card-name">Forms</div>
+                        <p class="comp-card-desc">Inputs, selects, checkboxes e radios estilizados com estados de validação.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="forms2.html" class="comp-card">
+                        <i class="sw-star comp-card-ico"></i>
+                        <div class="comp-card-name">Forms 2.0</div>
+                        <p class="comp-card-desc">Versão avançada com floating labels, grupos de input e layout premium.</p>
+                        <span class="comp-card-tag">CSS + JS</span>
+                    </a>
+                    <a href="utilitarios.html" class="comp-card">
+                        <i class="sw-cog comp-card-ico"></i>
+                        <div class="comp-card-name">Utilitários</div>
+                        <p class="comp-card-desc">Classes utilitárias de display, flex, posição, cursor e visibilidade.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="uteis_bordas.html" class="comp-card">
+                        <i class="sw-border-radius comp-card-ico"></i>
+                        <div class="comp-card-name">Bordas & Curvas</div>
+                        <p class="comp-card-desc">Border-radius, border-width e estilos de borda via classes utilitárias.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="uteis_shadows.html" class="comp-card">
+                        <i class="sw-layer comp-card-ico"></i>
+                        <div class="comp-card-name">Sombras & Elevação</div>
+                        <p class="comp-card-desc">Box-shadow em múltiplos níveis de elevação — de flat a glow neon.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="uteis_objectfit.html" class="comp-card">
+                        <i class="sw-image comp-card-ico"></i>
+                        <div class="comp-card-name">Object-Fit</div>
+                        <p class="comp-card-desc">Controle de preenchimento de imagens e vídeos dentro de containers.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                    <a href="uteis_zoons.html" class="comp-card">
+                        <i class="sw-zoom-in comp-card-ico"></i>
+                        <div class="comp-card-name">Zoom & Scale</div>
+                        <p class="comp-card-desc">Transformações de escala e zoom via hover com transições suaves.</p>
+                        <span class="comp-card-tag">CSS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ LAYOUT JS ═══════════════════ -->
+            <section class="sec mb-10 is-ale" id="layout-js">
+                <p class="group-title"><i class="sw-bolt-circle mr-s"></i> Layout JS</p>
+                <div class="comp-grid">
+                    <a href="navbar.html" class="comp-card">
+                        <i class="sw-menu comp-card-ico"></i>
+                        <div class="comp-card-name">Navbar</div>
+                        <p class="comp-card-desc">Barra de navegação responsiva com sticky, mega menu e mobile toggle.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="modal.html" class="comp-card">
+                        <i class="sw-box comp-card-ico"></i>
+                        <div class="comp-card-name">Modal</div>
+                        <p class="comp-card-desc">Diálogos flutuantes com focus trap, ESC, glass e drawer lateral.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="sidebar.html" class="comp-card">
+                        <i class="sw-sidebar comp-card-ico"></i>
+                        <div class="comp-card-name">Sidebar</div>
+                        <p class="comp-card-desc">Menu lateral recolhível com grupos, estado salvo e responsividade.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="panel.html" class="comp-card">
+                        <i class="sw-dock-right comp-card-ico"></i>
+                        <div class="comp-card-name">Panel (Drawer)</div>
+                        <p class="comp-card-desc">Painel deslizante lateral para ações contextuais e filtros avançados.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="accordion.html" class="comp-card">
+                        <i class="sw-list-ul comp-card-ico"></i>
+                        <div class="comp-card-name">Accordion</div>
+                        <p class="comp-card-desc">Conteúdo expansível com animação suave e suporte a múltiplos abertos.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="tabs.html" class="comp-card">
+                        <i class="sw-tab comp-card-ico"></i>
+                        <div class="comp-card-name">Tabs</div>
+                        <p class="comp-card-desc">Abas com transição animada, variantes pill/underline e lazy load.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="dropdown.html" class="comp-card">
+                        <i class="sw-chevron-down comp-card-ico"></i>
+                        <div class="comp-card-name">Dropdown</div>
+                        <p class="comp-card-desc">Menus suspensos inteligentes com posicionamento automático e submenus.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="tooltip.html" class="comp-card">
+                        <i class="sw-info-circle comp-card-ico"></i>
+                        <div class="comp-card-name">Tooltip</div>
+                        <p class="comp-card-desc">Dicas flutuantes com posicionamento em 4 direções e delay configurável.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ MÍDIA & DISPLAY ═══════════════════ -->
+            <section class="sec mb-10 is-inf" id="midia">
+                <p class="group-title"><i class="sw-slideshow mr-s"></i> Mídia & Display</p>
+                <div class="comp-grid">
+                    <a href="slider.html" class="comp-card">
+                        <i class="sw-slideshow comp-card-ico"></i>
+                        <div class="comp-card-name">Slider</div>
+                        <p class="comp-card-desc">Slider de imagens com autoplay, dots, arrows e transições customizáveis.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="lightbox.html" class="comp-card">
+                        <i class="sw-zoom-in comp-card-ico"></i>
+                        <div class="comp-card-name">Lightbox</div>
+                        <p class="comp-card-desc">Visualizador de imagens em tela cheia com galeria e navegação por teclado.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="carousel.html" class="comp-card">
+                        <i class="sw-carousel comp-card-ico"></i>
+                        <div class="comp-card-name">Text Carousel</div>
+                        <p class="comp-card-desc">Carrossel de textos e depoimentos com transição fade e autoplay.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="typewriter.html" class="comp-card">
+                        <i class="sw-edit comp-card-ico"></i>
+                        <div class="comp-card-name">Typewriter</div>
+                        <p class="comp-card-desc">Efeito de digitação automática com loop, cursor e velocidade configurável.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ NAVEGAÇÃO JS ═══════════════════ -->
+            <section class="sec mb-10" id="nav-js">
+                <p class="group-title"><i class="sw-target-lock mr-s"></i> Navegação JS</p>
+                <div class="comp-grid">
+                    <a href="pagination.html" class="comp-card">
+                        <i class="sw-last-page comp-card-ico"></i>
+                        <div class="comp-card-name">Pagination</div>
+                        <p class="comp-card-desc">Paginação dinâmica com ellipsis, first/last e integração com AJAX.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="scrollspy.html" class="comp-card">
+                        <i class="sw-target-lock comp-card-ico"></i>
+                        <div class="comp-card-name">ScrollSpy & Smooth Scroll</div>
+                        <p class="comp-card-desc">Destaque automático do item de menu conforme a seção visível na tela.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="pagetransition.html" class="comp-card">
+                        <i class="sw-bolt-circle comp-card-ico"></i>
+                        <div class="comp-card-name">Page Transition</div>
+                        <p class="comp-card-desc">Transições animadas entre páginas com efeitos de fade e slide.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="infinite.html" class="comp-card">
+                        <i class="sw-infinite comp-card-ico"></i>
+                        <div class="comp-card-name">Infinite Scroll</div>
+                        <p class="comp-card-desc">Carregamento automático de conteúdo ao atingir o fim da página.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="top.html" class="comp-card">
+                        <i class="sw-up-arrow comp-card-ico"></i>
+                        <div class="comp-card-name">Back to Top</div>
+                        <p class="comp-card-desc">Botão flutuante que aparece após scroll com smooth scroll ao topo.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="preload.html" class="comp-card">
+                        <i class="sw-loader comp-card-ico"></i>
+                        <div class="comp-card-name">Preloader</div>
+                        <p class="comp-card-desc">Tela de carregamento animada que some automaticamente ao carregar a página.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ FORMS JS ═══════════════════ -->
+            <section class="sec mb-10 is-suc" id="forms-js">
+                <p class="group-title"><i class="sw-clipboard mr-s"></i> Forms JS</p>
+                <div class="comp-grid">
+                    <a href="select.html" class="comp-card">
+                        <i class="sw-chevron-down comp-card-ico"></i>
+                        <div class="comp-card-name">Custom Select</div>
+                        <p class="comp-card-desc">Select estilizado com busca, grupos, ícones e seleção múltipla.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="validation.html" class="comp-card">
+                        <i class="sw-check comp-card-ico"></i>
+                        <div class="comp-card-name">Validação</div>
+                        <p class="comp-card-desc">Validação de formulários em tempo real com mensagens e regras customizáveis.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="mask.html" class="comp-card">
+                        <i class="sw-hash comp-card-ico"></i>
+                        <div class="comp-card-name">Máscara de Input</div>
+                        <p class="comp-card-desc">Formatação automática de CPF, CNPJ, telefone, CEP e máscaras customizadas.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="upload.html" class="comp-card">
+                        <i class="sw-upload comp-card-ico"></i>
+                        <div class="comp-card-name">File Upload</div>
+                        <p class="comp-card-desc">Upload com drag & drop, preview de imagens, progress bar e validação.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="textlimit.html" class="comp-card">
+                        <i class="sw-tachometer comp-card-ico"></i>
+                        <div class="comp-card-name">Text Limit</div>
+                        <p class="comp-card-desc">Contador de caracteres para inputs e textareas com limite visual.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="textarea.html" class="comp-card">
+                        <i class="sw-text comp-card-ico"></i>
+                        <div class="comp-card-name">Auto Textarea</div>
+                        <p class="comp-card-desc">Textarea que cresce automaticamente conforme o conteúdo digitado.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ EFEITOS JS ═══════════════════ -->
+            <section class="sec mb-10 is-sec" id="efeitos">
+                <p class="group-title"><i class="sw-party mr-s"></i> Efeitos JS</p>
+                <div class="comp-grid">
+                    <a href="animacoes.html" class="comp-card">
+                        <i class="sw-party comp-card-ico"></i>
+                        <div class="comp-card-name">Animações</div>
+                        <p class="comp-card-desc">Biblioteca de animações CSS prontas — fade, slide, bounce, pulse e mais.</p>
+                        <span class="comp-card-tag">CSS + JS</span>
+                    </a>
+                    <a href="scroll.html" class="comp-card">
+                        <i class="sw-upvote comp-card-ico"></i>
+                        <div class="comp-card-name">Scroll Anime</div>
+                        <p class="comp-card-desc">Animações ativadas ao entrar no viewport via Intersection Observer.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="parallax.html" class="comp-card">
+                        <i class="sw-layer comp-card-ico"></i>
+                        <div class="comp-card-name">Parallax</div>
+                        <p class="comp-card-desc">Efeito parallax em elementos e backgrounds com velocidade configurável.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="rating.html" class="comp-card">
+                        <i class="sw-star comp-card-ico"></i>
+                        <div class="comp-card-name">Rating / Stars</div>
+                        <p class="comp-card-desc">Avaliação por estrelas interativa com meia estrela e leitura de valor.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                    <a href="draggable.html" class="comp-card">
+                        <i class="sw-move comp-card-ico"></i>
+                        <div class="comp-card-name">Draggable</div>
+                        <p class="comp-card-desc">Elementos arrastáveis com snap, limites de área e callbacks de drop.</p>
+                        <span class="comp-card-tag">JS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ JS MÓDULOS ═══════════════════ -->
+            <section class="sec mb-10 is-per" id="modulos">
+                <p class="group-title"><i class="swcode mr-s"></i> JS Módulos</p>
+                <div class="comp-grid">
+                    <a href="y2alert.html" class="comp-card">
+                        <i class="sw-bell comp-card-ico"></i>
+                        <div class="comp-card-name">SWAlert</div>
+                        <p class="comp-card-desc">Sistema de notificações toast — sucesso, erro, info e alerta com fila.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="y2day.html" class="comp-card">
+                        <i class="sw-sun comp-card-ico"></i>
+                        <div class="comp-card-name">SWDay</div>
+                        <p class="comp-card-desc">Gerenciador de tema dark/light com detecção de preferência do sistema.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="y2ajax.html" class="comp-card">
+                        <i class="sw-loader comp-card-ico"></i>
+                        <div class="comp-card-name">SWAjax</div>
+                        <p class="comp-card-desc">Sistema de requisições AJAX declarativas via atributos HTML.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="swcode.html" class="comp-card">
+                        <i class="swcode comp-card-ico"></i>
+                        <div class="comp-card-name">SWCode</div>
+                        <p class="comp-card-desc">Highlight de sintaxe nativo com suporte a HTML, CSS, JS, PHP e SQL.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="lgpd.html" class="comp-card">
+                        <i class="sw-shield comp-card-ico"></i>
+                        <div class="comp-card-name">LGPD Consent</div>
+                        <p class="comp-card-desc">Banner de consentimento de cookies compatível com a LGPD.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="cotacao.html" class="comp-card">
+                        <i class="sw-dollar comp-card-ico"></i>
+                        <div class="comp-card-name">Cotação</div>
+                        <p class="comp-card-desc">Widget de cotação de moedas em tempo real via API de câmbio.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="instagram.html" class="comp-card">
+                        <i class="sw-share comp-card-ico"></i>
+                        <div class="comp-card-name">Instagram</div>
+                        <p class="comp-card-desc">Galeria de posts do Instagram integrada via API com layout responsivo.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                    <a href="table.html" class="comp-card">
+                        <i class="sw-table comp-card-ico"></i>
+                        <div class="comp-card-name">Table (AJAX)</div>
+                        <p class="comp-card-desc">Tabela dinâmica com ordenação, filtros, paginação e carregamento AJAX.</p>
+                        <span class="comp-card-tag">JS Module</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ═══════════════════ BACKEND PHP ═══════════════════ -->
+            <section class="sec mb-10 is-per" id="php">
+                <p class="group-title"><i class="sw-server mr-s"></i> Backend PHP — YdMVC</p>
+                <div class="comp-grid">
+                    <a href="y2php.html#router" class="comp-card">
+                        <i class="sw-route comp-card-ico"></i>
+                        <div class="comp-card-name">Router</div>
+                        <p class="comp-card-desc">Roteador HTTP nativo com suporte a GET, POST, PUT, DELETE e parâmetros dinâmicos.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#controller" class="comp-card">
+                        <i class="swcode comp-card-ico"></i>
+                        <div class="comp-card-name">Controller</div>
+                        <p class="comp-card-desc">Classe base de controllers com acesso direto a Request, View e helpers globais.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#crud" class="comp-card">
+                        <i class="sw-table comp-card-ico"></i>
+                        <div class="comp-card-name">CrudController</div>
+                        <p class="comp-card-desc">CRUD completo gerado automaticamente — index, show, create, update e delete.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#model" class="comp-card">
+                        <i class="sw-database comp-card-ico"></i>
+                        <div class="comp-card-name">Model</div>
+                        <p class="comp-card-desc">ORM leve com find, save, delete e relacionamentos básicos sem dependências.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#querybuilder" class="comp-card">
+                        <i class="sw-filter comp-card-ico"></i>
+                        <div class="comp-card-name">QueryBuilder</div>
+                        <p class="comp-card-desc">Construtor de queries fluente — where, orderBy, limit, join e execução segura.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#db" class="comp-card">
+                        <i class="sw-cylinder comp-card-ico"></i>
+                        <div class="comp-card-name">DB (PDO)</div>
+                        <p class="comp-card-desc">Conexão PDO singleton com prepared statements e suporte a múltiplos drivers.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#view" class="comp-card">
+                        <i class="sw-eye comp-card-ico"></i>
+                        <div class="comp-card-name">View</div>
+                        <p class="comp-card-desc">Engine de templates PHP nativos com layouts, partials e passagem de dados.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#request" class="comp-card">
+                        <i class="sw-inbox comp-card-ico"></i>
+                        <div class="comp-card-name">Request</div>
+                        <p class="comp-card-desc">Encapsula $_GET, $_POST, $_FILES e headers com sanitização automática.</p>
+                        <span class="comp-card-tag">PHP Core</span>
+                    </a>
+                    <a href="y2php.html#auth" class="comp-card">
+                        <i class="sw-lock comp-card-ico"></i>
+                        <div class="comp-card-name">Auth</div>
+                        <p class="comp-card-desc">Autenticação com login, logout, hash de senha e controle de acesso por rota.</p>
+                        <span class="comp-card-tag">PHP Auth</span>
+                    </a>
+                    <a href="y2php.html#session" class="comp-card">
+                        <i class="sw-user comp-card-ico"></i>
+                        <div class="comp-card-name">Session</div>
+                        <p class="comp-card-desc">Gerenciamento de sessão com flash messages, regeneração de ID e timeout.</p>
+                        <span class="comp-card-tag">PHP Auth</span>
+                    </a>
+                    <a href="y2php.html#rbac" class="comp-card">
+                        <i class="sw-shield comp-card-ico"></i>
+                        <div class="comp-card-name">RBAC</div>
+                        <p class="comp-card-desc">Controle de permissões por roles — admin, editor, usuário e regras customizadas.</p>
+                        <span class="comp-card-tag">PHP Auth</span>
+                    </a>
+                    <a href="y2php.html#validator" class="comp-card">
+                        <i class="sw-check-circle comp-card-ico"></i>
+                        <div class="comp-card-name">Validator</div>
+                        <p class="comp-card-desc">Validação de dados do lado servidor — required, email, min, max e regras próprias.</p>
+                        <span class="comp-card-tag">PHP Utils</span>
+                    </a>
+                    <a href="y2php.html#upload" class="comp-card">
+                        <i class="sw-upload comp-card-ico"></i>
+                        <div class="comp-card-name">Upload</div>
+                        <p class="comp-card-desc">Upload seguro de arquivos com validação de tipo, tamanho e renomeação automática.</p>
+                        <span class="comp-card-tag">PHP Utils</span>
+                    </a>
+                    <a href="y2php.html#cache" class="comp-card">
+                        <i class="sw-zap comp-card-ico"></i>
+                        <div class="comp-card-name">Cache</div>
+                        <p class="comp-card-desc">Cache em arquivo com TTL configurável — ideal para queries pesadas e APIs externas.</p>
+                        <span class="comp-card-tag">PHP Utils</span>
+                    </a>
+                    <a href="y2php.html#logger" class="comp-card">
+                        <i class="sw-file-text comp-card-ico"></i>
+                        <div class="comp-card-name">Logger</div>
+                        <p class="comp-card-desc">Log estruturado em arquivo com níveis info, warning, error e rotação automática.</p>
+                        <span class="comp-card-tag">PHP Utils</span>
+                    </a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" sw-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Componentes disponíveis no alpha do SW Framework, com exemplos acessíveis de botões, formulários, modal, painel e tabela.">
+  <meta name="theme-color" content="#090d16">
+  <title>Componentes do SW Framework — Documentação Alpha</title>
+  <script src="dist/sw-mpa.min.js"></script>
+  <link rel="stylesheet" href="dist/sw.min.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="assets/docs.css">
+  <script src="layout/header.js" defer></script>
+  <script src="layout/sidebar.js" defer></script>
+  <script src="assets/docs.js" defer></script>
+</head>
+<body>
+  <div class="doc-shell">
+    <main id="conteudo" class="doc-main">
+    <header class="docs-hero">
+      <p class="docs-eyebrow">Referência funcional / 01</p>
+      <h1>Componentes do SW Framework</h1>
+      <p class="docs-lead">Exemplos reais do catálogo disponível no alpha. Cada interação abaixo usa o mesmo bundle entregue em <code>dist</code>, com teclado, foco e fallback progressivo.</p>
+      <div class="docs-meta"><span class="docs-pill" data-status="ready">UI principal ativa</span><span class="docs-pill">Zero dependências em runtime</span></div>
+    </header>
+
+    <section class="docs-section" aria-labelledby="botoes-title">
+      <div class="docs-section-head"><div><p class="docs-kicker">Ações</p><h2 id="botoes-title">Botões e alertas</h2></div><p>Variações com contraste, foco visível e área mínima confortável para toque. Alertas tratam a mensagem como texto.</p></div>
+      <div class="docs-specimen">
+        <div class="docs-actions"><button class="sw-btn sw-btn-primary" data-doc-alert="Alerta informativo executado com segurança.">Executar alerta</button><button class="sw-btn sw-btn-secondary">Ação secundária</button><button class="sw-btn sw-btn-outline">Ação discreta</button><span class="sw-badge sw-badge-suc">Disponível</span></div>
+        <pre class="docs-code"><code>&lt;button class="sw-btn sw-btn-primary"&gt;Executar alerta&lt;/button&gt;
+SW.Alert.info('Mensagem segura');</code></pre>
+      </div>
+    </section>
+
+    <section class="docs-section" aria-labelledby="forms-title">
+      <div class="docs-section-head"><div><p class="docs-kicker">Entrada</p><h2 id="forms-title">Formulários nativos aprimorados</h2></div><p>Select, validação e máscaras preservam os controles HTML. Sem JavaScript, o formulário continua utilizável com a validação do navegador.</p></div>
+      <div class="docs-grid docs-grid-2">
+        <form id="docs-form-demo" class="docs-specimen" sw-valid><div class="sw-form-group"><label class="sw-label sw-label-req" for="docs-name">Nome do projeto</label><input class="sw-input" id="docs-name" name="project" required autocomplete="organization" placeholder="Ex.: Portal institucional" data-sw-error="Informe o nome do projeto."></div><div class="sw-form-group"><label class="sw-label" for="docs-document">CPF ou CNPJ</label><input class="sw-input" id="docs-document" name="document" sw-mask="document" inputmode="numeric" autocomplete="off" placeholder="Somente números"><small class="sw-text-mut">A máscara formata; a validação fiscal continua sendo responsabilidade da aplicação.</small></div><div class="sw-form-group"><label class="sw-label sw-label-req" for="docs-stack">Tipo</label><select class="sw-select" id="docs-stack" name="type" sw-select required><option value="">Selecione uma opção</option><option value="site">Site</option><option value="painel">Painel administrativo</option><option value="hibrido">Aplicação híbrida</option></select></div><button class="sw-btn sw-btn-primary" type="submit">Validar exemplo</button></form>
+        <article class="docs-specimen"><h3>Contrato do alpha</h3><ul class="docs-status-list"><li><code>sw-select</code> mantém teclado e interface nativa.</li><li><code>sw-valid</code> anuncia erros e foca o primeiro campo inválido.</li><li><code>sw-mask</code> oferece CPF, CNPJ, documento, telefone, CEP e data.</li><li data-status="ready">Reinicialização automática para conteúdo dinâmico.</li></ul><pre class="docs-code"><code>&lt;form sw-valid&gt;
+  &lt;input required&gt;
+  &lt;input sw-mask="phone"&gt;
+  &lt;select sw-select required&gt;...&lt;/select&gt;
+&lt;/form&gt;</code></pre></article>
+      </div>
+    </section>
+
+    <section class="docs-section" aria-labelledby="overlay-title">
+      <div class="docs-section-head"><div><p class="docs-kicker">Camadas</p><h2 id="overlay-title">Modal e painel</h2></div><p>Ambos controlam foco, Escape, retorno ao acionador e bloqueio de rolagem. Use modal para decisão; painel para contexto auxiliar.</p></div>
+      <div class="docs-specimen"><div class="docs-actions"><button class="sw-btn sw-btn-primary" sw-modal-open="#docs-modal">Abrir modal de exemplo</button><button class="sw-btn sw-btn-outline" sw-panel-open="#docs-panel">Abrir painel lateral</button></div></div>
+    </section>
+    </main>
+  </div>
+
+  <div id="docs-modal" class="sw-modal" role="dialog" aria-modal="true" aria-labelledby="docs-modal-title" aria-hidden="true"><div class="sw-modal-content"><h2 id="docs-modal-title">Modal acessível</h2><p class="sw-text-mut">Pressione Escape ou use o botão para retornar ao conteúdo.</p><button class="sw-btn sw-btn-primary" sw-modal-close>Fechar modal</button></div></div>
+  <aside id="docs-panel" class="sw-panel" aria-labelledby="docs-panel-title" aria-hidden="true"><h2 id="docs-panel-title">Painel contextual</h2><p class="sw-text-mut">Conteúdo auxiliar sem abandonar a página.</p><button class="sw-btn sw-btn-primary" sw-panel-close>Fechar painel</button></aside>
+  <footer class="docs-footer"><span>SW Framework 0.1.0-alpha.1</span><a href="animacoes.html">Próximo: animações</a></footer>
+  <script src="dist/sw.min.js"></script><script src="assets/docs.js"></script>
+</body>
+</html>

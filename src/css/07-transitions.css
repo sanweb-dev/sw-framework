@@ -1,0 +1,153 @@
+/* ==========================================================================
+   SW FRAMEWORK — 07-TRANSITIONS.CSS (VIEW TRANSITIONS API NATIVA POR DIREÇÃO)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+/* --- ⚡ ATIVAÇÃO DA NAVEGAÇÃO NATIVA MULTI-PAGE (MPA) --- */
+@view-transition {
+  navigation: auto;
+}
+
+/* ==========================================================================
+   1. TRANSITION SLIDE (PADRÃO SIMULTÂNEO: ESQUERDA / DIREITA)
+   ========================================================================== */
+@keyframes sw-slide-out-left {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-100%); opacity: 0.7; }
+}
+
+@keyframes sw-slide-in-right {
+  from { transform: translateX(100%); opacity: 0.7; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes sw-slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0.7; }
+}
+
+@keyframes sw-slide-in-left {
+  from { transform: translateX(-100%); opacity: 0.7; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* --- DIREÇÃO TOP / BOTTOM --- */
+@keyframes sw-slide-out-top {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(-100%); opacity: 0.7; }
+}
+
+@keyframes sw-slide-in-bottom {
+  from { transform: translateY(100%); opacity: 0.7; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* --- GEOMETRIA CÍRCULO (CLIP-PATH CIRCLE) --- */
+@keyframes sw-circle-in {
+  from { clip-path: circle(0% at 50% 50%); }
+  to   { clip-path: circle(150% at 50% 50%); }
+}
+
+@keyframes sw-trans-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes sw-trans-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- APLICAÇÃO NOS PSEUDO-ELEMENTOS NATIVOS --- */
+::view-transition-old(root) {
+  animation: 220ms ease both sw-trans-fade-out;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: 220ms ease both sw-trans-fade-in;
+  mix-blend-mode: normal;
+}
+
+html[data-sw-trans-direction="forward"]::view-transition-old(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-left;
+}
+
+html[data-sw-trans-direction="forward"]::view-transition-new(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-in-right;
+}
+
+html[data-sw-trans-direction="back"]::view-transition-old(root) {
+  animation: 400ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-right;
+}
+
+html[data-sw-trans-direction="back"]::view-transition-new(root) {
+  animation: 400ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-in-left;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+/* MORPHING: o nome validado e único é atribuído pelo SWTrans. */
+
+/* OVERLAY / PRELOADER ACESSÍVEL E OPCIONAL */
+[sw-trans-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 10060;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  color: var(--sw-txt);
+  background: var(--sw-bg);
+  background: color-mix(in srgb, var(--sw-bg) 94%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms var(--sw-ease), visibility 0s linear 200ms;
+}
+
+[sw-trans-overlay][hidden] { display: none; }
+
+[sw-trans-overlay][aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.sw-trans-overlay__inner {
+  width: min(100%, 32rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1.6rem 2rem;
+  border: 1px solid var(--sw-bor-glow);
+  border-radius: var(--sw-r-g);
+  background: var(--sw-sur);
+  box-shadow: var(--sw-sha-g);
+  font: 700 1.4rem/1.4 var(--sw-f-mon);
+}
+
+.sw-trans-overlay__indicator {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: 0 0 auto;
+  border: 2px solid var(--sw-pri-glow);
+  border-top-color: var(--sw-pri);
+  border-radius: 50%;
+  animation: sw-trans-spin 700ms linear infinite;
+}
+
+@keyframes sw-trans-spin { to { transform: rotate(1turn); } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms;
+  }
+  [sw-trans-overlay] { transition-duration: 0.01ms; }
+  .sw-trans-overlay__indicator { animation: none; border-color: var(--sw-pri); }
+}

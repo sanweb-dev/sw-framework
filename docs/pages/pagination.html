@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-direction: column
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Pagination SWPagina</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Pagination <span class="TprinD">SWPagina</span></h2>
+                <p class="t-g t-mut">Paginação gerada dinamicamente - com reticências automáticas, cores, tamanhos, pill
+                    e ghost.</p>
+            </div>
+
+            <!-- DEMOS -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo ao Vivo</h3>
+                <div class="demo-wrap">
+                    <div>
+                        <p class="t-pp t-mut mb-2">Padrão (50 itens, 10 por página)</p>
+                        <nav y2pagina y2pagina-total="50" y2pagina-per="10" y2pagina-cur="3"></nav>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-2">Pill (.is-pil)</p>
+                        <nav y2pagina class="is-pil" y2pagina-total="80" y2pagina-per="10" y2pagina-cur="4"></nav>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-2">Ghost (.is-gst)</p>
+                        <nav y2pagina class="is-gst" y2pagina-total="60" y2pagina-per="10" y2pagina-cur="2"></nav>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-2">Pequeno (.is-sm)</p>
+                        <nav y2pagina class="is-sm" y2pagina-total="50" y2pagina-per="10" y2pagina-cur="1"></nav>
+                    </div>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<nav y2pagina
+     y2pagina-total="50"
+     y2pagina-per="10"
+     y2pagina-cur="1">
+</nav>
+
+<!-- Pill -->
+<nav y2pagina class="is-pil" y2pagina-total="50" y2pagina-per="10" y2pagina-cur="1"></nav>
+
+<!-- Ghost (sem bordas) -->
+<nav y2pagina class="is-gst" y2pagina-total="50" y2pagina-per="10" y2pagina-cur="1"></nav>
+
+<!-- Pequeno / Grande -->
+<nav y2pagina class="is-sm" y2pagina-total="50" y2pagina-per="10" y2pagina-cur="1"></nav>
+<nav y2pagina class="is-lg" y2pagina-total="50" y2pagina-per="10" y2pagina-cur="1"></nav>
+</script></pre>
+            </div>
+
+            <!-- MANUAL -->
+            <div class="doc-card sec mb-6" id="manual">
+                <h3 class="t-m f-bd mb-4">2. HTML Manual (sem JS)</h3>
+                <div class="demo-wrap">
+                    <nav style="display:flex;flex-wrap:wrap;gap:.4rem;align-items:center">
+                        <a class="y2pagina-it is-arr" href="#"><i class="yd sw-chevron-left"></i></a>
+                        <a class="y2pagina-it" href="#">1</a>
+                        <a class="y2pagina-it is-act" href="#">2</a>
+                        <a class="y2pagina-it" href="#">3</a>
+                        <span class="y2pagina-it is-sep">…</span>
+                        <a class="y2pagina-it" href="#">10</a>
+                        <a class="y2pagina-it is-arr" href="#"><i class="yd sw-chevron-right"></i></a>
+                    </nav>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<nav>
+  <a class="y2pagina-it is-arr" href="#"><i class="yd sw-chevron-left"></i></a>
+  <a class="y2pagina-it" href="#">1</a>
+  <a class="y2pagina-it is-act" href="#">2</a>
+  <a class="y2pagina-it" href="#">3</a>
+  <span class="y2pagina-it is-sep">…</span>
+  <a class="y2pagina-it" href="#">10</a>
+  <a class="y2pagina-it is-arr" href="#"><i class="yd sw-chevron-right"></i></a>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- API -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">3. Reagir à Mudança de Página</h3>
+                <pre swcode="js">
+const pag = document.querySelector('[y2pagina]');
+
+pag.addEventListener('yd:y2pagina:change', e => {
+  const { page } = e.detail;
+  console.log('Página:', page);
+  carregarDados(page); // sua função
+});
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2pagina</code></td>
+                            <td>nav</td>
+                            <td>Gera a paginação automaticamente</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2pagina-total</code></td>
+                            <td>nav</td>
+                            <td>Total de itens</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2pagina-per</code></td>
+                            <td>nav</td>
+                            <td>Itens por página (padrão: 10)</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2pagina-cur</code></td>
+                            <td>nav</td>
+                            <td>Página atual inicial</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2pagina-delta</code></td>
+                            <td>nav</td>
+                            <td>Páginas vizinhas exibidas (padrão: 2)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-pil</code></td>
+                            <td>nav</td>
+                            <td>Estilo pill (bordas arredondadas)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-gst</code></td>
+                            <td>nav</td>
+                            <td>Ghost (sem bordas)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-sm / .is-lg</code></td>
+                            <td>nav</td>
+                            <td>Tamanho reduzido / ampliado</td>
+                        </tr>
+                        <tr>
+                            <td><code>.y2pagina-it</code></td>
+                            <td>a / span</td>
+                            <td>Item manual de paginação</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:y2pagina:change</code></td>
+                            <td>evento</td>
+                            <td>Disparado ao mudar de página - detail: { page }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

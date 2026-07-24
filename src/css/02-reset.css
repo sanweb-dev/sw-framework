@@ -1,0 +1,95 @@
+/* ==========================================================================
+   SW FRAMEWORK — 02-RESET.CSS (BASE, TIPOGRAFIA FLUIDA & SCROLLBARS)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--sw-scale);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--sw-bg);
+  color: var(--sw-txt);
+  font-family: var(--sw-f-san);
+  font-size: var(--sw-f-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- 🐙 SCROLLBAR PREMIUM FINAS & ELECANTES --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sw-pri);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sw-sec);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sw-pri) rgba(0, 0, 0, 0.1);
+}
+
+/* --- 🔠 TIPOGRAFIA FLUIDA NATIVA COM CLAMP() --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--sw-f-hd);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--sw-txt);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2.4rem, 2.0rem + 1.2vw, 4.8rem); }
+h2 { font-size: clamp(2.0rem, 1.8rem + 0.8vw, 3.6rem); }
+h3 { font-size: clamp(1.8rem, 1.6rem + 0.6vw, 3.0rem); }
+h4 { font-size: clamp(1.6rem, 1.5rem + 0.3vw, 2.4rem); }
+h5 { font-size: 1.8rem; }
+h6 { font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sw-txt-mut); }
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--sw-pri);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--sw-sec);
+}
+
+img, svg, video, iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--sw-bor);
+  margin: var(--sw-s-m) 0;
+}

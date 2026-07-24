@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Espaçamento - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        /* -- Escala Visual ----------------------------------- */
+        .scale-row {
+            display: flex;
+            align-items: center;
+            gap: 1.6rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .scale-row:last-child {
+            border-bottom: none;
+        }
+
+        .scale-token {
+            font-family: var(--sw-f-mon);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sw-pri);
+            min-width: 5rem;
+        }
+
+        .scale-rem {
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            min-width: 7rem;
+        }
+
+        .scale-px {
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            min-width: 4rem;
+        }
+
+        .scale-bar-wrap {
+            flex: 1;
+        }
+
+        .scale-bar {
+            height: 1.6rem;
+            background: var(--sw-pri);
+            border-radius: 3px;
+            min-width: 3px;
+        }
+
+        /* -- Box Model Demo ---------------------------------- */
+        .bm-demo {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: color-mix(in srgb, var(--sw-ale) 12%, transparent);
+            border: 2px dashed var(--sw-ale);
+            padding: 3.2rem;
+            border-radius: 8px;
+        }
+
+        .bm-demo-inner {
+            background: var(--sw-bg-bas);
+            border: 2px solid var(--sw-pri);
+            padding: 2.4rem 3.2rem;
+            border-radius: 6px;
+            font-family: var(--sw-f-mon);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sw-pri);
+            text-align: center;
+            position: relative;
+        }
+
+        .bm-label {
+            position: absolute;
+            font-family: var(--sw-f-mon);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            opacity: .7;
+        }
+
+        .bm-label-margin {
+            top: .6rem;
+            left: .8rem;
+            color: var(--sw-ale);
+        }
+
+        .bm-label-padding {
+            top: .5rem;
+            left: .5rem;
+            color: var(--sw-suc);
+        }
+
+        /* -- Gap Demo ---------------------------------------- */
+        .gap-demo-wrap {
+            display: flex;
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: 8px;
+            padding: 1.6rem;
+        }
+
+        .gap-item {
+            height: 3.2rem;
+            width: 3.2rem;
+            background: var(--sw-pri);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* -- Syntax Block ------------------------------------ */
+        .syn-wrap {
+            display: flex;
+            gap: 0.6rem;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .syn-part {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .syn-label {
+            font-size: 1.1rem;
+            color: var(--sw-txt-mut);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .syn-box {
+            font-family: var(--sw-f-mon);
+            font-size: 1.8rem;
+            font-weight: 800;
+            padding: 1rem 1.6rem;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .syn-sep {
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--sw-txt-mut);
+            align-self: center;
+            padding-bottom: 1rem;
+        }
+
+        .syn-vals {
+            font-family: var(--sw-f-mon);
+            font-size: 1.15rem;
+            color: var(--sw-txt-mut);
+            text-align: center;
+            line-height: 1.9;
+        }
+
+        /* -- Ref Table --------------------------------------- */
+        .ref-tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.3rem;
+        }
+
+        .ref-tbl th {
+            text-align: left;
+            padding: .8rem 1.2rem;
+            background: var(--sw-bg-sec);
+            color: var(--sw-txt-mut);
+            font-size: 1.1rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            font-weight: 700;
+            border-bottom: 1px solid var(--sw-bor);
+        }
+
+        .ref-tbl td {
+            padding: .7rem 1.2rem;
+            border-bottom: 1px solid var(--sw-bor);
+            vertical-align: middle;
+        }
+
+        .ref-tbl tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ref-tbl tr:hover td {
+            background: var(--sw-bg-sec);
+        }
+
+        .ref-tbl code {
+            font-size: 1.2rem;
+        }
+
+        .cls-grp {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+
+        .cls-tag {
+            font-family: var(--sw-f-mon);
+            font-size: 1.15rem;
+            color: var(--sw-pri);
+            background: color-mix(in srgb, var(--sw-pri) 10%, transparent);
+            border: 1px solid color-mix(in srgb, var(--sw-pri) 25%, transparent);
+            border-radius: 4px;
+            padding: .2rem .7rem;
+            white-space: nowrap;
+        }
+
+        .cls-tag-sec {
+            color: var(--sw-acc);
+            background: color-mix(in srgb, var(--sw-acc) 10%, transparent);
+            border-color: color-mix(in srgb, var(--sw-acc) 25%, transparent);
+        }
+
+        @media (max-width: 576px) {
+            h2.t-xxg {
+                font-size: 3.2rem !important;
+            }
+
+            .syn-box {
+                font-size: 1.4rem !important;
+                padding: 0.8rem 1rem;
+            }
+
+            .syn-vals {
+                font-size: 1rem;
+            }
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Espaçamento</span>
+            </nav>
+
+            <section>
+                <span class="doc-tag">Foundation</span>
+                <h2 class="t-xxg f-bd mb-2">Espaçamento <span class="TprinD">&amp; Métricas</span></h2>
+                <p class="t-g t-mut mb-8">Utilitários de <code>margin</code>, <code>padding</code> e <code>gap</code>.
+                    Dois sistemas de tamanho: escala semântica <strong>PP→XXG</strong> e escala numérica
+                    <strong>N4px</strong>.
+                </p>
+
+                <!-- -- 1. SINTAXE -------------------------------------- -->
+                <div class="doc-card mb-g reveal-up">
+                    <h3 class="t-m f-bd mb-6">Sintaxe das Classes</h3>
+
+                    <div class="syn-wrap mb-g">
+                        <div class="syn-part">
+                            <span class="syn-label">Propriedade</span>
+                            <div class="syn-box"
+                                style="background:color-mix(in srgb,var(--sw-pri) 12%,transparent);color:var(--sw-pri);border:1px solid color-mix(in srgb,var(--sw-pri) 30%,transparent);">
+                                m p gap</div>
+                            <div class="syn-vals">m = margin<br>p = padding<br>gap = gap</div>
+                        </div>
+                        <div class="syn-part">
+                            <span class="syn-label">&nbsp;</span>
+                            <div class="syn-sep">+</div>
+                        </div>
+                        <div class="syn-part">
+                            <span class="syn-label">Direção</span>
+                            <div class="syn-box"
+                                style="background:color-mix(in srgb,var(--sw-acc) 12%,transparent);color:var(--sw-acc);border:1px solid color-mix(in srgb,var(--sw-acc) 30%,transparent);">
+                                t b l r x y</div>
+                            <div class="syn-vals">t = top&nbsp;&nbsp;&nbsp;b = bottom<br>l = left&nbsp;&nbsp;r =
+                                right<br>x = left+right&nbsp;&nbsp;y = top+bottom<br><em>(omitir = todos os lados)</em>
+                            </div>
+                        </div>
+                        <div class="syn-part">
+                            <span class="syn-label">&nbsp;</span>
+                            <div class="syn-sep">-</div>
+                        </div>
+                        <div class="syn-part">
+                            <span class="syn-label">Tamanho</span>
+                            <div class="syn-box"
+                                style="background:color-mix(in srgb,var(--sw-suc) 12%,transparent);color:var(--sw-suc);border:1px solid color-mix(in srgb,var(--sw-suc) 30%,transparent);">
+                                pp p m g gg xg xxg</div>
+                            <div class="syn-vals">escala semântica<br><em>- ou -</em><br>1 2 3 4 6 8 12 16<br>escala
+                                numérica (N 4px)</div>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain"><!-- margin-bottom 24px -->
+<div class="mb-g">...</div>
+
+<!-- padding horizontal 32px -->
+<div class="px-8">...</div>
+
+<!-- gap 16px em flex/grid -->
+<div class="flx gap-4">...</div>
+
+<!-- margin-top auto (alinhamento) -->
+<div class="mt-au">...</div></script></pre>
+                </div>
+
+                <!-- -- 2. ESCALA DE TAMANHOS --------------------------- -->
+                <div class="doc-card mb-g reveal-up">
+                    <h3 class="t-m f-bd mb-2">Escala de Tamanhos</h3>
+                    <p class="t-mut t-p mb-g"><code>1rem = 10px</code>. A escala semântica vai de PP (4px) a XXG
+                        (120px). A escala numérica usa múltiplos de 4px.</p>
+
+                    <div class="l gap-g">
+                        <!-- Semântica -->
+                        <div class="co6-g">
+                            <p class="t-p f-bd t-mut mb-4 ls-wide" style="text-transform:uppercase;">Semântica (PP ?
+                                XXG)</p>
+                            <div class="box p-m"
+                                style="background:var(--sw-bg-sur);border:1px solid var(--sw-bor);border-radius:8px;">
+                                <div class="scale-row">
+                                    <span class="scale-token">pp</span>
+                                    <span class="scale-rem">0.4rem</span>
+                                    <span class="scale-px">4px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:2%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">p</span>
+                                    <span class="scale-rem">0.8rem</span>
+                                    <span class="scale-px">8px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:5%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">m</span>
+                                    <span class="scale-rem">1.6rem</span>
+                                    <span class="scale-px">16px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:12%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">g</span>
+                                    <span class="scale-rem">2.4rem</span>
+                                    <span class="scale-px">24px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:18%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">gg</span>
+                                    <span class="scale-rem">4.8rem</span>
+                                    <span class="scale-px">48px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:36%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">xg</span>
+                                    <span class="scale-rem">8.0rem</span>
+                                    <span class="scale-px">80px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:60%"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">xxg</span>
+                                    <span class="scale-rem">12.0rem</span>
+                                    <span class="scale-px">120px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Numrica -->
+                        <div class="co6-g">
+                            <p class="t-p f-bd t-mut mb-4 ls-wide" style="text-transform:uppercase;">Numérica (N 4px)
+                            </p>
+                            <div class="box p-m"
+                                style="background:var(--sw-bg-sur);border:1px solid var(--sw-bor);border-radius:8px;">
+                                <div class="scale-row">
+                                    <span class="scale-token">1</span>
+                                    <span class="scale-rem">0.4rem</span>
+                                    <span class="scale-px">4px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:2%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">2</span>
+                                    <span class="scale-rem">0.8rem</span>
+                                    <span class="scale-px">8px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:5%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">3</span>
+                                    <span class="scale-rem">1.2rem</span>
+                                    <span class="scale-px">12px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:8%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">4</span>
+                                    <span class="scale-rem">1.6rem</span>
+                                    <span class="scale-px">16px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:12%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">6</span>
+                                    <span class="scale-rem">2.4rem</span>
+                                    <span class="scale-px">24px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:18%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">8</span>
+                                    <span class="scale-rem">3.2rem</span>
+                                    <span class="scale-px">32px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:24%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">12</span>
+                                    <span class="scale-rem">4.8rem</span>
+                                    <span class="scale-px">48px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:36%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                                <div class="scale-row">
+                                    <span class="scale-token">16</span>
+                                    <span class="scale-rem">6.4rem</span>
+                                    <span class="scale-px">64px</span>
+                                    <div class="scale-bar-wrap">
+                                        <div class="scale-bar" style="width:48%;background:var(--sw-acc)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- -- 3. MARGIN --------------------------------------- -->
+                <div class="doc-card mb-g reveal-up">
+                    <div class="flx j-sb ai-c mb-2">
+                        <h3 class="t-m f-bd">Margin</h3>
+                        <code class="t-p">CSS: margin[-side]: value</code>
+                    </div>
+                    <p class="t-mut t-p mb-g">Espaço <strong>externo</strong> ao elemento - empurra os vizinhos. Não
+                        afeta o tamanho interno do elemento.</p>
+
+                    <div class="l gap-g mb-g">
+                        <!-- Box model visual -->
+                        <div class="co4-g flx j-ct ai-c">
+                            <div>
+                                <div class="bm-demo">
+                                    <span class="bm-label bm-label-margin">MARGIN (.m-g)</span>
+                                    <div class="bm-demo-inner">ELEMENTO</div>
+                                </div>
+                                <p class="t-p t-mut t-ct mt-4">Área hachurada = espaço da margin</p>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de classes -->
+                        <div class="co8-g">
+                            <table class="ref-tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Classe</th>
+                                        <th>Propriedade CSS</th>
+                                        <th>Variantes de tamanho</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>.m-*</code></td>
+                                        <td><code>margin</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp</span><span class="cls-tag">p</span><span
+                                                    class="cls-tag">m</span><span class="cls-tag">g</span><span
+                                                    class="cls-tag">gg</span><span class="cls-tag">xg</span><span
+                                                    class="cls-tag">xxg</span><span class="cls-tag">au</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.mt-*</code></td>
+                                        <td><code>margin-top</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag">au</span><span
+                                                    class="cls-tag cls-tag-sec">1 2 3 4 5 6 8 10 12</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.mb-*</code></td>
+                                        <td><code>margin-bottom</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag">au</span><span
+                                                    class="cls-tag cls-tag-sec">1 2 3 4 5 6 8 10 12</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.ml-*</code></td>
+                                        <td><code>margin-left</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag">au</span><span
+                                                    class="cls-tag cls-tag-sec">1 2 3 4 6 8</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.mr-*</code></td>
+                                        <td><code>margin-right</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag">au</span><span
+                                                    class="cls-tag cls-tag-sec">1 2 3 4 6 8</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.mx-*</code></td>
+                                        <td><code>margin-left + margin-right</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span><span class="cls-tag">au</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.my-*</code></td>
+                                        <td><code>margin-top + margin-bottom</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain"><!-- Separar seções verticalmente -->
+<section class="mb-gg">...</section>
+
+<!-- Centralizar bloco horizontalmente -->
+<div class="mx-au" style="max-width:60rem">...</div>
+
+<!-- Margem top automática (push para baixo) -->
+<footer class="mt-au">...</footer>
+
+<!-- Numérico: margin-bottom 32px -->
+<h2 class="mb-8">...</h2></script></pre>
+                </div>
+
+                <!-- -- 4. PADDING -------------------------------------- -->
+                <div class="doc-card mb-g reveal-up">
+                    <div class="flx j-sb ai-c mb-2">
+                        <h3 class="t-m f-bd">Padding</h3>
+                        <code class="t-p">CSS: padding[-side]: value</code>
+                    </div>
+                    <p class="t-mut t-p mb-g">Espaço <strong>interno</strong> ao elemento - entre o conteúdo e a borda.
+                        Aumenta o tamanho total do elemento.</p>
+
+                    <div class="l gap-g mb-g">
+                        <!-- Box model visual -->
+                        <div class="co4-g flx j-ct ai-c">
+                            <div>
+                                <div class="bm-demo"
+                                    style="background:color-mix(in srgb,var(--sw-suc) 12%,transparent);border-color:var(--sw-suc);padding:0;">
+                                    <div class="bm-demo-inner" style="padding:3.2rem;border-color:var(--sw-suc);">
+                                        <span class="bm-label bm-label-padding" style="color:var(--sw-suc);">PADDING
+                                            (.p-g)</span>
+                                        <div
+                                            style="background:var(--sw-bg-bas);border:1px solid var(--sw-bor);padding:.8rem 2rem;border-radius:4px;font-family:var(--sw-f-mon);font-size:1.2rem;color:var(--sw-txt-bas);">
+                                            CONTEÚDO</div>
+                                    </div>
+                                </div>
+                                <p class="t-p t-mut t-ct mt-4">Área colorida = espaço do padding</p>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de classes -->
+                        <div class="co8-g">
+                            <table class="ref-tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Classe</th>
+                                        <th>Propriedade CSS</th>
+                                        <th>Variantes de tamanho</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>.p-*</code></td>
+                                        <td><code>padding</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp</span><span class="cls-tag">p</span><span
+                                                    class="cls-tag">m</span><span class="cls-tag">g</span><span
+                                                    class="cls-tag">gg</span><span class="cls-tag">xg</span><span
+                                                    class="cls-tag">xxg</span><span class="cls-tag cls-tag-sec">1 2 3 4
+                                                    5 6 8 10 12</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.pt-*</code></td>
+                                        <td><code>padding-top</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag cls-tag-sec">1 2 3
+                                                    4 6 8 10</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.pb-*</code></td>
+                                        <td><code>padding-bottom</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→xxg</span><span class="cls-tag cls-tag-sec">1 2 3
+                                                    4 6 8 10</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.pl-*</code></td>
+                                        <td><code>padding-left</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.pr-*</code></td>
+                                        <td><code>padding-right</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.px-*</code></td>
+                                        <td><code>padding-left + padding-right</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span><span class="cls-tag cls-tag-sec">2 4 6
+                                                    8</span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>.py-*</code></td>
+                                        <td><code>padding-top + padding-bottom</code></td>
+                                        <td>
+                                            <div class="cls-grp"><span class="cls-tag">0</span><span
+                                                    class="cls-tag">pp→gg</span><span class="cls-tag cls-tag-sec">2 4 6
+                                                    8</span></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <pre swcode="html"><script type="text/plain"><!-- Padding em todos os lados -->
+<div class="p-g">...</div>
+
+<!-- Padding horizontal e vertical separados -->
+<button class="px-g py-p">...</button>
+
+<!-- Padding-top grande para seção hero -->
+<section class="pt-xxg pb-gg">...</section>
+
+<!-- Numérico: padding 16px -->
+<div class="p-4">...</div></script></pre>
+                </div>
+
+                <!-- -- 5. GAP ------------------------------------------- -->
+                <div class="doc-card mb-g reveal-up">
+                    <div class="flx j-sb ai-c mb-2">
+                        <h3 class="t-m f-bd">Gap</h3>
+                        <code class="t-p">CSS: gap | column-gap | row-gap</code>
+                    </div>
+                    <p class="t-mut t-p mb-g">Espaço <strong>entre itens</strong> de um container <code>flex</code> ou
+                        <code>grid</code>. Use <code>.gap-x-*</code> para coluna e <code>.gap-y-*</code> para linha
+                        separadamente.
+                    </p>
+
+                    <!-- Demo visual -->
+                    <div class="flx f-cl gap-m mb-g">
+                        <div>
+                            <p class="t-p f-bd t-mut mb-p f-mon">.gap-pp - 4px</p>
+                            <div class="gap-demo-wrap gap-pp">
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-p f-bd t-mut mb-p f-mon">.gap-p - 8px</p>
+                            <div class="gap-demo-wrap gap-p">
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-p f-bd t-mut mb-p f-mon">.gap-m - 16px</p>
+                            <div class="gap-demo-wrap gap-m">
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-p f-bd t-mut mb-p f-mon">.gap-g - 24px</p>
+                            <div class="gap-demo-wrap gap-g">
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-p f-bd t-mut mb-p f-mon">.gap-gg - 48px</p>
+                            <div class="gap-demo-wrap gap-gg">
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                                <div class="gap-item"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="ref-tbl mb-g">
+                        <thead>
+                            <tr>
+                                <th>Classe</th>
+                                <th>Propriedade CSS</th>
+                                <th>Variantes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>.gap-*</code></td>
+                                <td><code>gap</code></td>
+                                <td>
+                                    <div class="cls-grp"><span class="cls-tag">0</span><span class="cls-tag">pp p m g gg
+                                            xg xxg</span><span class="cls-tag cls-tag-sec">1 2 3 4 5 6 7 8 10 12
+                                            16</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>.gap-x-*</code></td>
+                                <td><code>column-gap</code></td>
+                                <td>
+                                    <div class="cls-grp"><span class="cls-tag">0</span><span class="cls-tag">pp p m g
+                                            gg</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>.gap-y-*</code></td>
+                                <td><code>row-gap</code></td>
+                                <td>
+                                    <div class="cls-grp"><span class="cls-tag">0</span><span class="cls-tag">pp p m g
+                                            gg</span></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pre swcode="html"><script type="text/plain"><!-- Gap uniforme em flex -->
+<div class="flx gap-g">...</div>
+
+<!-- Gap diferente por eixo em grid -->
+<div class="l gap-x-m gap-y-gg">...</div>
+
+<!-- Num�rico: gap 16px -->
+<div class="flx gap-4">...</div></script></pre>
+                </div>
+
+                <!-- -- 6. MARGIN vs PADDING ---------------------------- -->
+                <div class="doc-card reveal-up">
+                    <h3 class="t-m f-bd mb-6">Margin vs Padding - Quando usar cada um</h3>
+                    <table class="ref-tbl">
+                        <thead>
+                            <tr>
+                                <th>Situação</th>
+                                <th>Use</th>
+                                <th>Exemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Separar seções/blocos entre si</td>
+                                <td><code>.mb-*</code> / <code>.mt-*</code></td>
+                                <td><code>&lt;section class="mb-gg"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td>Centralizar elemento na página</td>
+                                <td><code>.mx-au</code></td>
+                                <td><code>&lt;div class="mx-au" style="max-width:80rem"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td>Espaço interno de cards/botes</td>
+                                <td><code>.p-*</code> / <code>.px-* .py-*</code></td>
+                                <td><code>&lt;button class="px-g py-p"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td>Área clicável maior em links</td>
+                                <td><code>.p-*</code></td>
+                                <td><code>&lt;a class="p-m"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td>Espaço entre itens de lista/flex/grid</td>
+                                <td><code>.gap-*</code></td>
+                                <td><code>&lt;ul class="flx gap-m"&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td>Empurrar elemento para o final (flex)</td>
+                                <td><code>.mt-au</code> / <code>.ml-au</code></td>
+                                <td><code>&lt;button class="ml-au"&gt;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script src="../dist/sw.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SWDay - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+    <style>
+
+        .sec { scroll-margin-top: 10rem }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: .8rem;
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .g2 { grid-template-columns: 1fr }
+        }
+
+        /* Preview temático */
+        .theme-preview {
+            border-radius: var(--sw-r-g);
+            overflow: hidden;
+            border: 1px solid var(--sw-bor);
+        }
+
+        .theme-preview-bar {
+            padding: .8rem 1.4rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .theme-preview-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .theme-preview.dark .theme-preview-bar {
+            background: hsl(210, 12%, 8%);
+            color: hsl(210, 12%, 50%);
+        }
+
+        .theme-preview.dark .theme-preview-body {
+            background: hsl(210, 10%, 10%);
+        }
+
+        .theme-preview.light .theme-preview-bar {
+            background: hsl(210, 10%, 92%);
+            color: hsl(210, 10%, 45%);
+        }
+
+        .theme-preview.light .theme-preview-body {
+            background: hsl(210, 10%, 96%);
+        }
+
+        .token-badge {
+            display: inline-block;
+            padding: .3rem .8rem;
+            border-radius: var(--sw-r-m);
+            font-size: 1.2rem;
+            font-family: var(--sw-f-mon);
+            font-weight: 600;
+            margin: .2rem;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            font-size: 1.4rem;
+        }
+
+        .flow-num {
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">SWDay</span>
+            </nav>
+
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">SWDay <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Toggle de tema escuro/claro com persistência em localStorage, sincronização entre abas, detecção de
+                    preferência do sistema e atalho de teclado - zero configuração.
+                </p>
+            </div>
+
+            <!-- 1. DEMO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-1">1. Demo</h3>
+                <p class="t-mut t-p mb-6">O botão no header desta página já está ativo. Clique e veja toda a
+                    documentação mudar de tema.</p>
+
+                <p class="demo-label">Botões de toggle - adicione y2day em qualquer elemento</p>
+                <div class="demo-wrap">
+                    <div class="flx flx-wrap gap-3 alc">
+                        <button y2day
+                            style="display:inline-flex;align-items:center;gap:.8rem;padding:.8rem 2rem;background:var(--sw-neu-10);border:1px solid var(--sw-bor);border-radius:var(--sw-r-fl);cursor:pointer;font-family:var(--sw-f-san);font-size:1.4rem;font-weight:600;color:#fff;transition:all .2s;">
+                            <span class="y2day-ico"></span>
+                            <span>Alternar tema</span>
+                        </button>
+                        <button y2day
+                            style="width:4rem;height:4rem;display:inline-flex;align-items:center;justify-content:center;background:var(--sw-neu-10);border:1px solid var(--sw-bor);border-radius:var(--sw-r-m);cursor:pointer;font-size:2rem;transition:all .2s;">
+                            <span class="y2day-ico"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<!-- Qualquer elemento com y2day vira um toggle -->
+<button y2day>
+    <span class="y2day-ico"></span> <!-- ícone auto-injetado -->
+    Alternar tema
+</button>
+
+<!-- Só ícone -->
+<button y2day></button>
+</script></pre>
+            </div>
+
+            <!-- 2. COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-1">2. Como funciona</h3>
+                <p class="t-mut t-p mb-6">SWDay adiciona <code>sw-theme="dark|light"</code> no elemento
+                    <code>&lt;html&gt;</code> e sobrescreve as variáveis CSS semânticas do SW.</p>
+
+                <div class="g2 mb-6">
+                    <div>
+                        <p class="demo-label">Tema escuro (padrão SW)</p>
+                        <div class="theme-preview dark">
+                            <div class="theme-preview-bar">DARK MODE</div>
+                            <div class="theme-preview-body">
+                                <span class="token-badge" style="background:hsl(210,10%,5%);color:hsl(210,10%,95%);border:1px solid hsl(210,12%,15%)">--sw-bg-bas: neu-12</span>
+                                <span class="token-badge" style="background:hsl(210,10%,5%);color:hsl(210,10%,95%);border:1px solid hsl(210,12%,15%)">--sw-txt-bas: neu-2</span>
+                                <span class="token-badge" style="background:hsl(210,10%,5%);color:hsl(210,10%,95%);border:1px solid hsl(210,12%,15%)">--sw-bor: neu-10</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="demo-label">Tema claro</p>
+                        <div class="theme-preview light">
+                            <div class="theme-preview-bar">LIGHT MODE</div>
+                            <div class="theme-preview-body">
+                                <span class="token-badge" style="background:hsl(210,10%,90%);color:hsl(210,10%,15%);border:1px solid hsl(210,10%,75%)">--sw-bg-bas: neu-1</span>
+                                <span class="token-badge" style="background:hsl(210,10%,90%);color:hsl(210,10%,15%);border:1px solid hsl(210,10%,75%)">--sw-txt-bas: neu-12</span>
+                                <span class="token-badge" style="background:hsl(210,10%,90%);color:hsl(210,10%,15%);border:1px solid hsl(210,10%,75%)">--sw-bor: neu-3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="css">
+/* Variáveis semânticas gerenciadas automaticamente pelo SWDay */
+html[sw-theme="light"] {
+    --sw-bg-bas:  var(--sw-neu-1);
+    --sw-bg-sur:  var(--sw-neu-2);
+    --sw-bg-sec:  var(--sw-neu-3);
+    --sw-txt-bas: var(--sw-neu-12);
+    --sw-txt-mut: var(--sw-neu-8);
+    --sw-bor:     var(--sw-neu-4);
+}
+</pre>
+            </div>
+
+            <!-- 3. SINCRONIZAÇÃO DE MÍDIA -->
+            <div class="doc-card sec mb-6" id="media">
+                <h3 class="t-m f-bd mb-1">3. Sincronização de Mídia</h3>
+                <p class="t-mut t-p mb-6">Alterne imagens e fundos automaticamente sem escrever uma linha de CSS extra.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Troca de Imagem (src)</p>
+                        <div class="demo-wrap flx alc jc">
+                            <img src="../../images/icon.png"
+                                y2day-img-light="../../images/icon.png"
+                                y2day-img-dark="../../images/tentaculos.png"
+                                style="height:64px;transition:opacity .3s" alt="Toggle Img">
+                        </div>
+                        <pre swcode="html"><script type="text/plain">
+<img src="placeholder.png"
+     y2day-img-light="logo-dark.png"
+     y2day-img-dark="logo-light.png">
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Background Image</p>
+                        <div class="demo-wrap">
+                            <div y2day-bg-light="var(--sw-neu-3)" y2day-bg-dark="var(--sw-neu-10)"
+                                style="height:100px;border-radius:8px;border:2px dashed var(--sw-bor);display:flex;align-items:center;justify-content:center;font-weight:700">
+                                área com BG dinâmico
+                            </div>
+                        </div>
+                        <pre swcode="html"><script type="text/plain">
+<div y2day-bg-light="url(bg-light.jpg)"
+     y2day-bg-dark="url(bg-dark.jpg)">
+</div>
+</script></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. SINCRONIZAÇÃO DE FONTES -->
+            <div class="doc-card sec mb-6" id="fontes">
+                <h3 class="t-m f-bd mb-1">4. Sincronização de Fontes</h3>
+                <p class="t-mut t-p mb-6">Alterne a tipografia conforme o ambiente para máxima legibilidade.</p>
+
+                <div class="demo-wrap">
+                    <h4 y2day-font-light="var(--sw-f-san)" y2day-font-dark="var(--sw-f-mon)"
+                        style="font-size:2.4rem;margin-bottom:1rem">
+                        Esta fonte muda conforme o tema!
+                    </h4>
+                    <p class="t-mut">No tema claro usamos Sans-Serif (Outfit), no escuro usamos Mono (JetBrains).</p>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<h1 y2day-font-light="var(--sw-f-san)"
+    y2day-font-dark="var(--sw-f-mon)">
+    Título Dinâmico
+</h1>
+</script></pre>
+            </div>
+
+            <!-- 5. PERSISTÊNCIA + SISTEMA -->
+            <div class="doc-card sec mb-6" id="persistencia">
+                <h3 class="t-m f-bd mb-1">5. Persistência + Sistema</h3>
+                <p class="t-mut t-p mb-6">O tema — salvo automaticamente e sincronizado entre abas.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Fluxo de decisão</p>
+                        <div class="demo-wrap" style="display:flex;flex-direction:column;gap:.8rem">
+                            <div class="flow-step">
+                                <span class="flow-num" style="background:var(--sw-pri);color:#fff">1</span>
+                                <span>localStorage <code>sw-theme</code> salvo?</span>
+                            </div>
+                            <div class="flow-step">
+                                <span class="flow-num" style="background:var(--sw-neu-9);color:#fff">2</span>
+                                <span>Se não → <code>prefers-color-scheme</code></span>
+                            </div>
+                            <div class="flow-step">
+                                <span class="flow-num" style="background:var(--sw-neu-9);color:#fff">3</span>
+                                <span>Se não → padrão <code>dark</code></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="demo-label">Recursos automáticos</p>
+                        <div class="demo-wrap" style="display:flex;flex-direction:column;gap:.8rem;font-size:1.4rem">
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> Persiste entre sessões (localStorage)</div>
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> Sincroniza entre abas abertas</div>
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> Respeita prefers-color-scheme</div>
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> Atalho Ctrl+Shift+D</div>
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> Evento yd:day:changed</div>
+                            <div class="flx alc gap-2"><span style="color:var(--sw-suc)">✓</span> ícone ☀️/🌙 auto-injetado</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. API -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-1">6. API JavaScript</h3>
+                <p class="t-mut t-p mb-6">Controle programático completo.</p>
+
+                <pre swcode="js">
+// Setar tema
+SWDay.set('dark');
+SWDay.set('light');
+
+// Toggle (dark → light → dark)
+SWDay.toggle();
+
+// Ler tema atual
+console.log(SWDay.theme); // 'dark' | 'light'
+
+// Escutar mudança de tema
+document.documentElement.addEventListener('yd:day:changed', (e) => {
+    console.log('Tema:', e.detail.theme);
+    // atualizar gráficos, ícones, etc.
+});
+</pre>
+
+                <pre swcode="js">
+// Exemplo real: sincronizar Chart.js com o tema
+document.documentElement.addEventListener('yd:day:changed', ({ detail }) => {
+    const isDark = detail.theme === 'dark';
+    myChart.options.scales.x.grid.color = isDark ? '#333' : '#ddd';
+    myChart.options.scales.y.grid.color = isDark ? '#333' : '#ddd';
+    myChart.update();
+});
+</pre>
+            </div>
+
+            <!-- 7. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">7. Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / API</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2day</code></td>
+                            <td>Transforma elemento em botão de toggle</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2day-img-[theme]</code></td>
+                            <td>Troca o src da imagem ao mudar de tema</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2day-bg-[theme]</code></td>
+                            <td>Troca o background-image ou cor ao mudar de tema</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2day-font-[theme]</code></td>
+                            <td>Troca a família de fonte ao mudar de tema</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWDay.set(theme)</code></td>
+                            <td>Altera o tema via JS - <code>'light'</code> | <code>'dark'</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>SWDay.toggle()</code></td>
+                            <td>Inverte o tema atual</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWDay.theme</code></td>
+                            <td>Retorna o tema ativo atualmente</td>
+                        </tr>
+                        <tr>
+                            <td><code>yd:day:changed</code></td>
+                            <td>Evento disparado no <code>&lt;html&gt;</code> ao trocar de tema</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

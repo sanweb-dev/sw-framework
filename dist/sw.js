@@ -1,0 +1,1239 @@
+/*! SW Framework 0.1.0-alpha.1 | Sandro Web Solutions | JavaScript */
+/* SW Framework Core — Sandro Web Solutions */
+(function () {
+  'use strict';
+
+  if (window.SW) return;
+
+  const blockedTags = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'META', 'BASE']);
+  const unsafeUrl = /^\s*(?:javascript|vbscript|data):/i;
+  let reinitFrame = 0;
+  let scrollLocks = 0;
+  let savedBodyOverflow = '';
+
+  const SW = {
+    version: '0.1.0-alpha.1',
+    _modules: new Map(),
+
+    register(name, module) {
+      if (!name || !module || this._modules.has(name)) return false;
+      this._modules.set(name, module);
+      if (document.readyState !== 'loading' && typeof module.initAll === 'function') {
+        module.initAll(document);
+      }
+      return true;
+    },
+
+    reinit(root = document) {
+      const safeRoot = root && typeof root.querySelectorAll === 'function' ? root : document;
+      this._modules.forEach((module) => {
+        if (typeof module.initAll === 'function') module.initAll(safeRoot);
+      });
+      this.emit(safeRoot, 'sw:reinit', { root: safeRoot });
+    },
+
+    scheduleReinit(root = document) {
+      if (reinitFrame) return;
+      reinitFrame = window.requestAnimationFrame(() => {
+        reinitFrame = 0;
+        this.reinit(root);
+      });
+    },
+
+    emit(element, eventName, detail = {}) {
+      const target = typeof element === 'string' ? document.querySelector(element) : (element || document);
+      if (!target || !eventName) return false;
+      return target.dispatchEvent(new CustomEvent(eventName, { detail, bubbles: true, cancelable: true }));
+    },
+
+    config({ hue, font, theme } = {}) {
+      if (hue !== undefined) {
+        const normalizedHue = Number(hue);
+        if (Number.isFinite(normalizedHue)) {
+          document.documentElement.style.setProperty('--sw-h-pri', String(Math.min(360, Math.max(0, normalizedHue))));
+        }
+      }
+      if (font !== undefined && typeof font === 'string' && font.length <= 200 && !/[;{}]/.test(font)) {
+        document.documentElement.style.setProperty('--sw-f-san', font.trim());
+      }
+      if (theme !== undefined) this.Day?.set(theme);
+    },
+
+    $(selector, root = document) {
+      if (typeof selector !== 'string') return [];
+      try { return Array.from((root || document).querySelectorAll(selector)); } catch (_) { return []; }
+    }
+  };
+
+  SW.html = {
+    sanitize(html) {
+      const template = document.createElement('template');
+      template.innerHTML = String(html ?? '');
+      template.content.querySelectorAll('*').forEach((element) => {
+        if (blockedTags.has(element.tagName)) {
+          element.remove();
+          return;
+        }
+        Array.from(element.attributes).forEach((attribute) => {
+          const name = attribute.name.toLowerCase();
+          if (name.startsWith('on') || name === 'srcdoc' || ((name === 'href' || name === 'src' || name === 'action') && unsafeUrl.test(attribute.value))) {
+            element.removeAttribute(attribute.name);
+          }
+        });
+      });
+      return template.content;
+    },
+
+    set(target, html, { trusted = false } = {}) {
+      if (!target) return;
+      target.replaceChildren();
+      if (trusted) {
+        const template = document.createElement('template');
+        template.innerHTML = String(html ?? '');
+        target.appendChild(template.content.cloneNode(true));
+        return;
+      }
+      target.appendChild(this.sanitize(html).cloneNode(true));
+    }
+  };
+
+  SW.Overlay = {
+    lock() {
+      if (scrollLocks === 0) {
+        savedBodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
+      scrollLocks += 1;
+    },
+    unlock() {
+      scrollLocks = Math.max(0, scrollLocks - 1);
+      if (scrollLocks === 0) document.body.style.overflow = savedBodyOverflow;
+    }
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => node.nodeType === Node.ELEMENT_NODE))) {
+      SW.scheduleReinit(document.body);
+    }
+  });
+
+  function boot() {
+    SW.Day?.init();
+    SW.reinit(document);
+    if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+    SW.emit(document, 'sw:ready', { version: SW.version });
+  }
+
+  document.documentElement.classList.add('sw-js');
+  window.SW = SW;
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+  else boot();
+})();
+
+/* SW Framework Utils */
+(function () {
+  'use strict';
+  let uidCounter = 0;
+  const Utils = {
+    uid(prefix = 'sw') { uidCounter += 1; return `${String(prefix).replace(/[^a-z0-9_-]/gi, '') || 'sw'}-${uidCounter}`; },
+    reducedMotion() { return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches); },
+    throttleFrame(callback) {
+      let frame = 0;
+      let lastArgs;
+      return function throttled(...args) {
+        lastArgs = args;
+        if (frame) return;
+        frame = window.requestAnimationFrame(() => { frame = 0; callback.apply(this, lastArgs); });
+      };
+    },
+    debounce(callback, wait = 150) {
+      let timer = 0;
+      return function debounced(...args) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => callback.apply(this, args), Math.max(0, Number(wait) || 0));
+      };
+    },
+    resolve(target, root = document) {
+      if (target instanceof Element) return target;
+      if (typeof target !== 'string') return null;
+      try { return root.querySelector(target); } catch (_) { return null; }
+    },
+    storage: {
+      get(key) { try { return window.localStorage.getItem(key); } catch (_) { return null; } },
+      set(key, value) { try { window.localStorage.setItem(key, value); return true; } catch (_) { return false; } }
+    }
+  };
+  window.SW.Utils = Utils;
+})();
+
+/* SW Framework Day — theme controller */
+(function () {
+  'use strict';
+  const allowedThemes = new Set(['dark', 'light']);
+  const SWDay = {
+    init() {
+      const savedTheme = SW.Utils.storage.get('sw-theme');
+      const systemTheme = window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      this.set(savedTheme || systemTheme, true);
+    },
+    set(theme, persist = true) {
+      if (!allowedThemes.has(theme)) return false;
+      document.documentElement.setAttribute('sw-theme', theme);
+      document.documentElement.style.colorScheme = theme;
+      if (persist) {
+        SW.Utils.storage.set('sw-theme', theme);
+      }
+      SW.emit(document, 'sw:theme:change', { theme });
+      return true;
+    },
+    setTheme(theme, persist = true) {
+      return this.set(theme, persist);
+    },
+    toggle() {
+      const current = document.documentElement.getAttribute('sw-theme') || 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      return this.set(next, true);
+    }
+  };
+  window.SW.Day = SWDay;
+  if (document.readyState !== 'loading') {
+    SWDay.init();
+  } else {
+    document.addEventListener('DOMContentLoaded', () => SWDay.init());
+  }
+})();
+
+/* SW Framework Trans — native transitions and scroll reveal */
+(function () {
+  'use strict';
+  const morphNamePattern = /^[a-z][a-z0-9_-]{0,47}$/;
+
+  class SWTrans {
+    static initAll(root = document) {
+      this.initMorphs();
+      this.initOverlay(root);
+      this.initReveals(root);
+    }
+
+    static initReveals(root = document) {
+      const elements = SW.$('[sw-scr]', root).filter((element) => !element._swTransInit);
+      if (!elements.length) return;
+      if (SW.Utils.reducedMotion() || !('IntersectionObserver' in window)) {
+        elements.forEach((element) => { element._swTransInit = true; element.classList.add('is-revealed'); });
+        return;
+      }
+      if (!this.observer) {
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-revealed');
+            SW.emit(entry.target, 'sw:trans:reveal');
+            this.observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      }
+      elements.forEach((element) => { element._swTransInit = true; this.observer.observe(element); });
+    }
+
+    static initMorphs() {
+      const groups = new Map();
+      SW.$('[sw-morph]').forEach((element) => {
+        const name = (element.getAttribute('sw-morph') || '').trim().toLowerCase();
+        element.style.removeProperty('view-transition-name');
+        if (!morphNamePattern.test(name)) {
+          SW.emit(element, 'sw:trans:morph-invalid', { name, reason: 'invalid' });
+          return;
+        }
+        if (!groups.has(name)) groups.set(name, []);
+        groups.get(name).push(element);
+      });
+      groups.forEach((elements, name) => {
+        if (elements.length !== 1) {
+          elements.forEach((element) => SW.emit(element, 'sw:trans:morph-invalid', { name, reason: 'duplicate' }));
+          return;
+        }
+        elements[0].style.viewTransitionName = `sw-${name}`;
+      });
+    }
+
+    static initOverlay(root = document) {
+      const candidate = root.matches?.('[sw-trans-overlay]') ? root : root.querySelector?.('[sw-trans-overlay]');
+      if (candidate && (!this.overlayElement || !this.overlayElement.isConnected)) this.overlayElement = candidate;
+      if (!this.overlayElement) return;
+      this.overlayElement.setAttribute('role', this.overlayElement.getAttribute('role') || 'status');
+      this.overlayElement.setAttribute('aria-live', this.overlayElement.getAttribute('aria-live') || 'polite');
+      if (!this.overlayElement.hasAttribute('aria-hidden')) this.overlayElement.setAttribute('aria-hidden', 'true');
+      if (this.overlayElement.getAttribute('aria-hidden') !== 'false') this.overlayElement.hidden = true;
+    }
+
+    static ensureOverlay() {
+      if (this.overlayElement?.isConnected) return this.overlayElement;
+      const existing = document.querySelector('[sw-trans-overlay]');
+      if (existing) {
+        this.overlayElement = existing;
+        this.initOverlay(existing);
+        return existing;
+      }
+      const overlay = document.createElement('div');
+      const inner = document.createElement('div');
+      const indicator = document.createElement('span');
+      const message = document.createElement('span');
+      overlay.setAttribute('sw-trans-overlay', '');
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.hidden = true;
+      inner.className = 'sw-trans-overlay__inner';
+      indicator.className = 'sw-trans-overlay__indicator';
+      indicator.setAttribute('aria-hidden', 'true');
+      message.setAttribute('sw-trans-message', '');
+      message.textContent = 'Carregando';
+      inner.append(indicator, message);
+      overlay.append(inner);
+      document.body.append(overlay);
+      this.overlayElement = overlay;
+      this.initOverlay(overlay);
+      return overlay;
+    }
+
+    static show(message = 'Carregando') {
+      const overlay = this.ensureOverlay();
+      window.clearTimeout(this.overlayTimer);
+      this.overlayDepth = (this.overlayDepth || 0) + 1;
+      const messageElement = overlay.querySelector('[sw-trans-message]');
+      if (messageElement) messageElement.textContent = String(message || 'Carregando').slice(0, 160);
+      overlay.hidden = false;
+      overlay.setAttribute('aria-hidden', 'false');
+      document.documentElement.setAttribute('aria-busy', 'true');
+      SW.emit(overlay, 'sw:trans:overlay-show');
+      return overlay;
+    }
+
+    static hide({ force = false } = {}) {
+      const overlay = this.overlayElement;
+      if (!overlay) return;
+      this.overlayDepth = force ? 0 : Math.max(0, (this.overlayDepth || 0) - 1);
+      if (this.overlayDepth > 0) return;
+      overlay.setAttribute('aria-hidden', 'true');
+      document.documentElement.removeAttribute('aria-busy');
+      SW.emit(overlay, 'sw:trans:overlay-hide');
+      const finish = () => { if ((this.overlayDepth || 0) === 0) overlay.hidden = true; };
+      if (SW.Utils.reducedMotion()) finish();
+      else this.overlayTimer = window.setTimeout(finish, 220);
+    }
+
+    static async during(task, { message = 'Carregando' } = {}) {
+      if (typeof task !== 'function') throw new TypeError('SW.Trans.during requer uma função.');
+      this.show(message);
+      try { return await task(); }
+      finally { this.hide(); }
+    }
+
+    static run(update, { skip = false } = {}) {
+      if (typeof update !== 'function') return null;
+      if (skip || SW.Utils.reducedMotion() || !document.startViewTransition) { update(); return null; }
+      return document.startViewTransition(update);
+    }
+  }
+  SWTrans.overlayDepth = 0;
+  window.SW?.register('SWTrans', SWTrans);
+  if (window.SW) window.SW.Trans = SWTrans;
+})();
+
+/* ==========================================================================
+   SW FRAMEWORK — SW-CODE.JS (SYNTAX HIGHLIGHTER ZERO-DEPENDÊNCIA)
+   Port de Alta Fidelidade do Y2Code para o Ecossistema Nill / SW Framework
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  class SWCode {
+    static initAll(root = document) {
+      const seen = new Set();
+      const selectors = 'pre[swcode], pre[sw-code], pre[data-swcode], pre[data-sw-code], pre[y2code], pre[y2-code], pre[data-y2code], pre[data-y2-code]';
+      
+      const elements = (window.SW && typeof window.SW.$$ === 'function') 
+        ? window.SW.$$(selectors, root) 
+        : Array.from((root || document).querySelectorAll(selectors));
+
+      elements.forEach(pre => {
+        if (pre && !pre._swDone && !pre._y2Done) {
+          seen.add(pre);
+        }
+      });
+
+      const languageCodes = (window.SW && typeof window.SW.$$ === 'function')
+        ? window.SW.$$('code[class*="language-"], code[class*="lang-"]', root)
+        : Array.from((root || document).querySelectorAll('code[class*="language-"], code[class*="lang-"]'));
+
+      languageCodes.forEach(code => {
+        const pre = code.parentElement;
+        if (pre && pre.tagName === 'PRE' && !pre._swDone && !pre._y2Done) {
+          seen.add(pre);
+        }
+      });
+
+      seen.forEach(pre => { SWCode._process(pre); });
+    }
+
+    static _esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    static _highlight(code, lang) {
+      code = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      const tokens = [];
+      let tokenIndex = 0;
+      function ph(content, cls) {
+        const k = `__TOKEN_${tokenIndex}__`;
+        const tk = cls.replace('tk-', '');
+        tokens[tokenIndex] = `<span tk="${tk}">${content}</span>`;
+        tokenIndex++;
+        return k;
+      }
+
+      let res = code;
+
+      if (lang === 'js' || lang === 'javascript' || lang === 'ts' || lang === 'typescript') {
+        res = res
+          .replace(/(\/\/.*$|\/\*[\s\S]*?\*\/)/gm, m => ph(m, 'tk-com'))
+          .replace(/('[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*"|`[^`\\]*(?:\\.[^`\\]*)*`)/g, m => ph(m, 'tk-str'))
+          .replace(/\b(const|let|var|function|return|if|else|for|while|break|continue|switch|case|default|try|catch|finally|throw|new|class|extends|super|import|from|export|async|await|this|typeof|instanceof)\b/g, m => ph(m, 'tk-kw'))
+          .replace(/\b(true|false|null|undefined)\b/g, m => ph(m, 'tk-bln'))
+          .replace(/\b(\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\b/g, m => ph(m, 'tk-num'))
+          .replace(/\b([a-zA-Z_$][\w$]*)\s*(?=\()/g, (m, f) => f.startsWith('__TOKEN_') ? m : ph(f, 'tk-fn') + m.slice(f.length));
+      } else if (lang === 'css' || lang === 'scss' || lang === 'less') {
+        res = res
+          .replace(/(\/\*[\s\S]*?\*\/)/g, m => ph(m, 'tk-com'))
+          .replace(/(@[\w-]+)/g, m => ph(m, 'tk-at'))
+          .replace(/(^|\}|\n)([^\{\n]+?)(\s*\{)/g, (m, p, s, b) => p + ph(s.trim(), 'tk-tag') + b)
+          .replace(/(--[\w-]+)/g, m => ph(m, 'tk-var'))
+          .replace(/([\w-]+)(\s*:\s*)/g, (m, p, s) => ph(p, 'tk-prp') + s)
+          .replace(/(:\s*)([^;\}]+)/g, (m, s, v) => s + ph(v, 'tk-str'))
+          .replace(/(\b\d+(?:\.\d+)?(px|em|rem|%|vh|vw|ch|ex|cm|mm|in|pt|pc)?\b)/g, m => ph(m, 'tk-num'));
+      } else if (lang === 'php') {
+        res = res
+          .replace(/(&lt;\?php|&lt;\?|\?&gt;)/gi, m => ph(m, 'tk-kw'))
+          .replace(/(\/\/[^\n]*|#[^\n]*|\/\*[\s\S]*?\*\/)/g, m => ph(m, 'tk-com'))
+          .replace(/('[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*")/g, m => ph(m, 'tk-str'))
+          .replace(/\b(abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|final|finally|fn|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|isset|list|match|namespace|new|or|parent|print|private|protected|public|readonly|require|require_once|return|self|static|switch|throw|trait|try|unset|use|var|while|xor|yield)\b/g, m => ph(m, 'tk-kw'))
+          .replace(/(\$[a-zA-Z_][\w]*)/g, m => ph(m, 'tk-var'))
+          .replace(/\b(\d+(?:\.\d+)?)\b/g, m => ph(m, 'tk-num'))
+          .replace(/\b([a-zA-Z_][\w]*)\s*(?=\()/g, (m, f) => f.startsWith('__TOKEN_') ? m : ph(f, 'tk-fn') + m.slice(f.length));
+      } else if (lang === 'json') {
+        res = res
+          .replace(/("[^"]*")/g, m => ph(m, 'tk-str'))
+          .replace(/\b(\d+(?:\.\d+)?)\b/g, m => ph(m, 'tk-num'))
+          .replace(/\b(true|false|null)\b/g, m => ph(m, 'tk-bln'));
+      } else if (lang === 'bash' || lang === 'sh' || lang === 'shell') {
+        res = res
+          .replace(/(#.*$)/gm, m => ph(m, 'tk-com'))
+          .replace(/('[^']*'|"[^"\\]*(?:\\.[^"\\]*)*")/g, m => ph(m, 'tk-str'))
+          .replace(/\b(if|then|else|elif|fi|for|in|do|done|while|until|case|esac|function|return|exit|break|continue|local|export|source|echo|read|shift|set|unset|trap|eval)\b/g, m => ph(m, 'tk-kw'))
+          .replace(/(\$\{[^}]+\}|\$[a-zA-Z_][\w]*)/g, m => ph(m, 'tk-var'))
+          .replace(/\b(\d+)\b/g, m => ph(m, 'tk-num'));
+      } else {
+        // Markup/HTML/XML/SVG
+        res = res
+          .replace(/(&lt;!--[\s\S]*?--&gt;)/g, m => ph(m, 'tk-com'))
+          .replace(/(&lt;\/?[a-zA-Z0-9\-]+)([\s\S]*?)(&gt;)/g, (m, t, a, c) => {
+            let attrs = a
+              .replace(/([a-zA-Z0-9\-:]+)(=)("[^"]*"|'[^']*')/g, (_, n, e, v) => ph(n, 'tk-atr') + e + ph(v, 'tk-str'))
+              .replace(/\s([a-zA-Z][a-zA-Z0-9\-:]*)(?=[\s\/>]|$)/g, (_, n) => ' ' + (n.includes('TOKEN') ? n : ph(n, 'tk-atr')));
+            return ph(t, 'tk-tag') + attrs + ph(c, 'tk-tag');
+          });
+      }
+
+      for (let i = tokens.length - 1; i >= 0; i--) {
+        res = res.replace(`__TOKEN_${i}__`, tokens[i]);
+      }
+      return res;
+    }
+
+    static _wrapLines(html) {
+      return '<div ln>' +
+        html.split(/\r?\n/).map(line => `<div ln-r><span ln-n></span><span ln-c>${line || ' '}</span></div>`).join('') +
+        '</div>';
+    }
+
+    static _process(pre) {
+      if (pre._swDone || pre._y2Done) return;
+      pre._swDone = true;
+      pre._y2Done = true;
+
+      let lang = pre.getAttribute('swcode') || pre.getAttribute('sw-code') || pre.getAttribute('data-swcode') || pre.getAttribute('data-sw-code') || pre.getAttribute('y2code') || pre.getAttribute('y2-code') || '';
+      const codeEl = pre.querySelector('code');
+      if (!lang && codeEl) {
+        const cls = [...codeEl.classList].find(c => c.startsWith('language-') || c.startsWith('lang-'));
+        if (cls) lang = cls.replace(/lang(uage)?-/, '');
+      }
+
+      const hasLines = pre.hasAttribute('swcode-lines') || pre.hasAttribute('sw-code-lines') || pre.hasAttribute('data-swcode-lines') || pre.hasAttribute('y2code-lines') || pre.hasAttribute('data-y2code-lines');
+      const script = pre.querySelector('script[type="text/plain"]');
+      const raw = (script ? script.textContent : (codeEl || pre).textContent)
+        .replace(/^\s+|\s+$/g, '')
+        .replace(/[\uFEFF\u200B\u0000-\u0008\u000B-\u000C\u000D-\u001F]/g, '');
+
+      let hl = SWCode._highlight(raw, lang.toLowerCase() || 'html');
+      if (hasLines) hl = SWCode._wrapLines(hl);
+
+      const themes = ['one-dark', 'palenight', 'dracula', 'github-dark', 'monokai'];
+      const initTheme = pre.getAttribute('swcode-theme') || pre.getAttribute('sw-code-theme') || pre.getAttribute('data-swcode-theme') || pre.getAttribute('y2code-theme') || 'one-dark';
+      let themeIdx = Math.max(0, themes.indexOf(initTheme));
+
+      const wrap = document.createElement('div');
+      wrap._swDone = true;
+      wrap._y2Done = true;
+      wrap.setAttribute('swcode', '');
+      wrap.setAttribute('y2code', '');
+      wrap.setAttribute('swcode-theme', themes[themeIdx]);
+      wrap.setAttribute('y2code-theme', themes[themeIdx]);
+
+      const hdr = document.createElement('div');
+      hdr.setAttribute('swcode-hdr', '');
+      hdr.setAttribute('y2code-hdr', '');
+
+      const badge = document.createElement('span');
+      badge.setAttribute('swcode-lang', '');
+      badge.setAttribute('y2code-lang', '');
+      badge.textContent = lang || 'code';
+
+      const themeBtn = document.createElement('button');
+      themeBtn.type = 'button';
+      themeBtn.setAttribute('swcode-thm', '');
+      themeBtn.setAttribute('y2code-thm', '');
+      themeBtn.textContent = themes[themeIdx];
+      themeBtn.onclick = () => {
+        themeIdx = (themeIdx + 1) % themes.length;
+        wrap.setAttribute('swcode-theme', themes[themeIdx]);
+        wrap.setAttribute('y2code-theme', themes[themeIdx]);
+        themeBtn.textContent = themes[themeIdx];
+      };
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('swcode-cpy', '');
+      btn.setAttribute('y2code-cpy', '');
+      btn.textContent = 'Copiar';
+      btn.onclick = () => {
+        navigator.clipboard.writeText(raw).then(() => {
+          btn.textContent = 'Copiado!';
+          btn.classList.add('swcode-act');
+          btn.classList.add('y2code-act');
+          setTimeout(() => {
+            btn.textContent = 'Copiar';
+            btn.classList.remove('swcode-act');
+            btn.classList.remove('y2code-act');
+          }, 1200);
+        });
+      };
+
+      hdr.appendChild(badge);
+      hdr.appendChild(themeBtn);
+      hdr.appendChild(btn);
+
+      const newPre = document.createElement('pre');
+      newPre._swDone = true;
+      newPre._y2Done = true;
+      newPre.setAttribute('swcode-pre', '');
+      newPre.setAttribute('y2code-pre', '');
+      if (hasLines) {
+        newPre.setAttribute('swcode-lines', '');
+        newPre.setAttribute('y2code-lines', '');
+      }
+      newPre.innerHTML = hl;
+
+      if (pre.parentNode) {
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(hdr);
+        wrap.appendChild(newPre);
+        pre.parentNode.removeChild(pre);
+      }
+    }
+  }
+
+  window.SW?.register('SWCode', SWCode);
+  if (window.SW) window.SW.Code = SWCode;
+  window.SWCode = SWCode;
+  window.Y2Code = SWCode;
+})();
+
+/* SW Framework Modal */
+(function () {
+  'use strict';
+  const focusable = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+  class SWModal {
+    static initAll(root = document) {
+      SW.$('[sw-modal-open], [sw-modal]', root).forEach((trigger) => {
+        if (trigger._swModalInit) return;
+        trigger._swModalInit = true;
+        trigger.addEventListener('click', (event) => {
+          const selector = trigger.getAttribute('sw-modal-open') || trigger.getAttribute('sw-modal');
+          if (!selector?.startsWith('#')) return;
+          event.preventDefault();
+          SWModal.show(selector, trigger);
+        });
+      });
+      SW.$('.sw-modal', root).forEach((modal) => {
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-hidden', modal.classList.contains('is-active') ? 'false' : 'true');
+        if (modal._swModalCloseInit) return;
+        modal._swModalCloseInit = true;
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal || event.target.closest('[sw-modal-close]')) SWModal.hide(modal);
+        });
+      });
+    }
+
+    static show(target, trigger = document.activeElement) {
+      const modal = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!modal || modal.classList.contains('is-active')) return false;
+      modal._swPreviousFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
+      modal.classList.add('is-active');
+      modal.setAttribute('aria-hidden', 'false');
+      SW.Overlay.lock();
+      modal._swKeydown = (event) => {
+        if (event.key === 'Escape') SWModal.hide(modal);
+        if (event.key === 'Tab') SWModal.trapFocus(modal, event);
+      };
+      window.addEventListener('keydown', modal._swKeydown);
+      window.requestAnimationFrame(() => (modal.querySelector('[autofocus], [sw-modal-close], ' + focusable) || modal).focus({ preventScroll: true }));
+      if (!modal.hasAttribute('tabindex')) modal.setAttribute('tabindex', '-1');
+      SW.emit(modal, 'sw:modal:open');
+      return true;
+    }
+
+    static hide(target) {
+      const modal = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!modal?.classList.contains('is-active')) return false;
+      modal.classList.remove('is-active');
+      modal.setAttribute('aria-hidden', 'true');
+      window.removeEventListener('keydown', modal._swKeydown);
+      SW.Overlay.unlock();
+      modal._swPreviousFocus?.focus?.({ preventScroll: true });
+      SW.emit(modal, 'sw:modal:close');
+      return true;
+    }
+
+    static trapFocus(modal, event) {
+      const items = SW.$(focusable, modal).filter((element) => !element.hidden && element.getClientRects().length);
+      if (!items.length) { event.preventDefault(); modal.focus(); return; }
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+  }
+
+  window.SW?.register('SWModal', SWModal);
+  if (window.SW) window.SW.Modal = SWModal;
+})();
+
+/* SW Framework Alert */
+(function () {
+  'use strict';
+
+  class SWAlert {
+    static initAll() {
+      if (document.querySelector('#sw-toast-container')) return;
+      const container = document.createElement('div');
+      container.id = 'sw-toast-container';
+      container.className = 'sw-toast-container';
+      container.setAttribute('aria-live', 'polite');
+      container.setAttribute('aria-atomic', 'false');
+      document.body.appendChild(container);
+    }
+
+    static show(msg, type = 'info', duration = 3500) {
+      this.initAll();
+      const normalizedType = ['ok', 'err', 'ale', 'info'].includes(type) ? type : 'info';
+      const timeout = Math.min(30000, Math.max(1000, Number(duration) || 3500));
+      const toast = document.createElement('div');
+      toast.className = `sw-toast sw-badge sw-badge-${normalizedType === 'ok' ? 'suc' : normalizedType === 'err' ? 'err' : normalizedType === 'ale' ? 'ale' : 'pri'}`;
+      toast.setAttribute('role', normalizedType === 'err' ? 'alert' : 'status');
+
+      const icon = document.createElement('span');
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = ({ ok: '✅', err: '❌', ale: '⚠️', info: 'ℹ️' })[normalizedType];
+      const message = document.createElement('span');
+      message.textContent = String(msg ?? '');
+      toast.append(icon, message);
+      document.querySelector('#sw-toast-container').appendChild(toast);
+
+      window.setTimeout(() => {
+        toast.classList.add('is-leaving');
+        window.setTimeout(() => toast.remove(), 300);
+      }, timeout);
+      return toast;
+    }
+
+    static ok(msg, duration) { return this.show(msg, 'ok', duration); }
+    static err(msg, duration) { return this.show(msg, 'err', duration); }
+    static ale(msg, duration) { return this.show(msg, 'ale', duration); }
+    static info(msg, duration) { return this.show(msg, 'info', duration); }
+    static confirm(msg) { return Promise.resolve(window.confirm(String(msg ?? ''))); }
+  }
+
+  window.SW?.register('SWAlert', SWAlert);
+  if (window.SW) window.SW.Alert = SWAlert;
+})();
+
+/* SW Framework Panel */
+(function () {
+  'use strict';
+  class SWPanel {
+    static initAll(root = document) {
+      SW.$('[sw-panel-open]', root).forEach((trigger) => {
+        if (trigger._swPanelInit) return;
+        trigger._swPanelInit = true;
+        trigger.addEventListener('click', (event) => {
+          const selector = trigger.getAttribute('sw-panel-open');
+          if (!selector?.startsWith('#')) return;
+          event.preventDefault();
+          SWPanel.show(selector, trigger);
+        });
+      });
+      SW.$('.sw-panel', root).forEach((panel) => {
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-modal', 'true');
+        panel.setAttribute('aria-hidden', panel.classList.contains('is-active') ? 'false' : 'true');
+        if (panel._swPanelCloseInit) return;
+        panel._swPanelCloseInit = true;
+        panel.addEventListener('click', (event) => {
+          if (event.target.closest('[sw-panel-close]')) SWPanel.hide(panel);
+        });
+      });
+    }
+    static show(target, trigger = document.activeElement) {
+      const panel = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!panel || panel.classList.contains('is-active')) return false;
+      panel._swPreviousFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
+      panel.classList.add('is-active');
+      panel.setAttribute('aria-hidden', 'false');
+      if (!panel.hasAttribute('tabindex')) panel.setAttribute('tabindex', '-1');
+      panel._swKeydown = (event) => { if (event.key === 'Escape') SWPanel.hide(panel); };
+      window.addEventListener('keydown', panel._swKeydown);
+      SW.Overlay.lock();
+      window.requestAnimationFrame(() => (panel.querySelector('[autofocus], [sw-panel-close], button, input, select, textarea, a[href]') || panel).focus({ preventScroll: true }));
+      SW.emit(panel, 'sw:panel:open');
+      return true;
+    }
+    static hide(target) {
+      const panel = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!panel?.classList.contains('is-active')) return false;
+      panel.classList.remove('is-active');
+      panel.setAttribute('aria-hidden', 'true');
+      window.removeEventListener('keydown', panel._swKeydown);
+      SW.Overlay.unlock();
+      panel._swPreviousFocus?.focus?.({ preventScroll: true });
+      SW.emit(panel, 'sw:panel:close');
+      return true;
+    }
+  }
+  window.SW?.register('SWPanel', SWPanel);
+  if (window.SW) window.SW.Panel = SWPanel;
+})();
+
+/* SW Framework Lightbox */
+(function () {
+  'use strict';
+  class SWLight {
+    static initAll(root = document) {
+      SW.$('[sw-light]', root).forEach((trigger) => {
+        if (trigger._swLightInit) return;
+        trigger._swLightInit = true;
+        trigger.addEventListener('click', (event) => {
+          event.preventDefault();
+          SWLight.open(trigger.getAttribute('href') || trigger.getAttribute('src') || trigger.getAttribute('sw-light'), trigger);
+        });
+      });
+    }
+    static open(source, trigger) {
+      let url;
+      try { url = new URL(source, window.location.href); } catch (_) { return false; }
+      if (!['http:', 'https:', 'blob:', 'data:'].includes(url.protocol)) return false;
+      let modal = document.querySelector('#sw-lightbox-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'sw-lightbox-modal';
+        modal.className = 'sw-modal sw-lightbox';
+        modal.setAttribute('aria-label', 'Visualização ampliada da imagem');
+        const content = document.createElement('div');
+        content.className = 'sw-modal-content sw-lightbox-content';
+        const image = document.createElement('img');
+        image.id = 'sw-lightbox-img';
+        image.alt = '';
+        content.appendChild(image);
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+        SW.Modal?.initAll(modal.parentNode);
+      }
+      modal.querySelector('#sw-lightbox-img').src = url.href;
+      return SW.Modal?.show(modal, trigger);
+    }
+  }
+  window.SW?.register('SWLight', SWLight);
+  if (window.SW) window.SW.Light = SWLight;
+})();
+
+/* SW Framework Table */
+(function () {
+  'use strict';
+  class SWTable {
+    static initAll(root = document) {
+      SW.$('table[sw-table]', root).forEach((table) => {
+        if (table._swTableInit || !table.tBodies[0]) return;
+        table._swTableInit = new SWTableInstance(table);
+      });
+    }
+  }
+  class SWTableInstance {
+    constructor(table) {
+      this.table = table;
+      this.tbody = table.tBodies[0];
+      this.rows = Array.from(this.tbody.rows);
+      this.buildControls();
+      this.bindSort();
+    }
+    buildControls() {
+      const controls = document.createElement('div');
+      controls.className = 'sw-table-controls';
+      const field = document.createElement('div');
+      field.className = 'sw-table-search';
+      const label = document.createElement('label');
+      label.className = 'sw-sr-only';
+      label.textContent = 'Buscar na tabela';
+      const input = document.createElement('input');
+      input.type = 'search';
+      input.className = 'sw-input sw-input-sm';
+      input.placeholder = 'Buscar na tabela…';
+      input.setAttribute('aria-label', 'Buscar na tabela');
+      label.htmlFor = input.id = `sw-table-search-${Math.random().toString(36).slice(2, 9)}`;
+      field.append(label, input);
+      this.count = document.createElement('div');
+      this.count.className = 'sw-text-mut sw-table-count';
+      this.count.setAttribute('aria-live', 'polite');
+      controls.append(field, this.count);
+      this.table.parentNode.insertBefore(controls, this.table);
+      if (!this.table.parentElement.classList.contains('sw-table-scroll')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'sw-table-scroll';
+        wrapper.setAttribute('role', 'region');
+        wrapper.setAttribute('aria-label', this.table.querySelector('caption')?.textContent || 'Tabela rolável');
+        wrapper.tabIndex = 0;
+        this.table.parentNode.insertBefore(wrapper, this.table);
+        wrapper.appendChild(this.table);
+      }
+      input.addEventListener('input', () => this.filter(input.value));
+      this.updateCount(this.rows.length);
+    }
+    filter(value) {
+      const term = String(value).toLocaleLowerCase().trim();
+      let visible = 0;
+      this.rows.forEach((row) => {
+        const matches = row.textContent.toLocaleLowerCase().includes(term);
+        row.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      this.updateCount(visible);
+    }
+    updateCount(visible) { this.count.textContent = `${visible} de ${this.rows.length} registros`; }
+    bindSort() {
+      Array.from(this.table.tHead?.rows[0]?.cells || []).forEach((header, index) => {
+        header.tabIndex = 0;
+        header.setAttribute('role', 'columnheader');
+        header.setAttribute('aria-sort', 'none');
+        const sort = () => this.sortBy(header, index);
+        header.addEventListener('click', sort);
+        header.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); sort(); }
+        });
+      });
+    }
+    sortBy(header, index) {
+      const ascending = header.getAttribute('aria-sort') !== 'ascending';
+      this.table.querySelectorAll('th[aria-sort]').forEach((cell) => cell.setAttribute('aria-sort', 'none'));
+      header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+      this.rows.sort((rowA, rowB) => {
+        const a = rowA.cells[index]?.textContent.trim() || '';
+        const b = rowB.cells[index]?.textContent.trim() || '';
+        return (ascending ? 1 : -1) * a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+      }).forEach((row) => this.tbody.appendChild(row));
+    }
+  }
+  window.SW?.register('SWTable', SWTable);
+  if (window.SW) window.SW.Table = SWTable;
+})();
+
+/* SW Framework AJAX — safe same-origin HTML fragments */
+(function () {
+  'use strict';
+
+  class SWAjax {
+    static initAll(root = document) {
+      SW.$('[sw-ajax], [sw-ajax-src]', root).forEach((element) => {
+        if (element._swAjaxInit) return;
+        element._swAjaxInit = true;
+        element.addEventListener('click', (event) => {
+          event.preventDefault();
+          SWAjax.execute(element);
+        });
+      });
+    }
+
+    static async execute(trigger) {
+      const sourceSelector = trigger.getAttribute('sw-ajax-src');
+      const targetSelector = trigger.getAttribute('sw-target');
+      const targetType = trigger.getAttribute('sw-ajax-target');
+      const trusted = trigger.hasAttribute('sw-ajax-trusted');
+      let content = '';
+
+      try {
+        if (sourceSelector) {
+          const source = document.querySelector(sourceSelector);
+          if (!source) throw new Error(`Elemento interno não encontrado: ${sourceSelector}`);
+          content = source.tagName === 'TEMPLATE' ? source.innerHTML : source.innerHTML;
+        } else {
+          const rawUrl = trigger.getAttribute('sw-ajax');
+          if (!rawUrl) throw new Error('Fonte AJAX ausente.');
+          const url = new URL(rawUrl, window.location.href);
+          if (url.origin !== window.location.origin && !trigger.hasAttribute('sw-ajax-crossorigin')) {
+            throw new Error('SWAjax bloqueou uma origem externa não autorizada.');
+          }
+          const controller = new AbortController();
+          const timeout = window.setTimeout(() => controller.abort(), 15000);
+          SW.emit(trigger, 'sw:ajax:start', { url: url.href });
+          try {
+            const response = await fetch(url.href, {
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'text/html' },
+              signal: controller.signal
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('text/html') && !contentType.includes('text/plain')) {
+              throw new Error(`Tipo de conteúdo não suportado: ${contentType || 'desconhecido'}`);
+            }
+            content = await response.text();
+          } finally {
+            window.clearTimeout(timeout);
+          }
+        }
+
+        const target = this.resolveTarget(trigger, targetType, targetSelector);
+        if (!target) throw new Error('Alvo de injeção não encontrado.');
+        const render = () => {
+          SW.html.set(target.content, content, { trusted });
+          SW.reinit(target.content);
+        };
+        if (SW.Trans) SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
+        else render();
+
+        if (targetType === 'panel') SW.Panel?.show(target.overlay);
+        if (targetType === 'modal') SW.Modal?.show(target.overlay);
+        SW.emit(trigger, 'sw:ajax:done', { sourceSelector });
+      } catch (error) {
+        console.error('[SW-AJAX]', error);
+        SW.emit(trigger, 'sw:ajax:error', { error });
+        SW.Alert?.err(error.name === 'AbortError' ? 'A requisição demorou demais.' : 'Não foi possível carregar o conteúdo.');
+      }
+    }
+
+    static resolveTarget(trigger, type, selector) {
+      if (type === 'panel') {
+        const requested = trigger.getAttribute('sw-panel');
+        const panelSelector = requested?.startsWith('#') ? requested : '#sw-global-panel';
+        let panel = document.querySelector(panelSelector);
+        if (!panel) {
+          panel = document.createElement('aside');
+          panel.id = panelSelector.slice(1);
+          panel.className = 'sw-panel';
+          panel.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(panel);
+        }
+        return { overlay: panel, content: panel };
+      }
+      if (type === 'modal') {
+        const requested = trigger.getAttribute('sw-modal');
+        const modalSelector = requested?.startsWith('#') ? requested : '#sw-global-modal';
+        let modal = document.querySelector(modalSelector);
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = modalSelector.slice(1);
+          modal.className = 'sw-modal';
+          const body = document.createElement('div');
+          body.className = 'sw-modal-content';
+          modal.appendChild(body);
+          document.body.appendChild(modal);
+        }
+        return { overlay: modal, content: modal.querySelector('.sw-modal-content') };
+      }
+      const content = selector ? document.querySelector(selector) : null;
+      return content ? { overlay: content, content } : null;
+    }
+  }
+
+  window.SW?.register('SWAjax', SWAjax);
+  if (window.SW) window.SW.Ajax = SWAjax;
+})();
+
+/* SW Framework — progressive enhancement for native selects */
+(function () {
+  'use strict';
+
+  class SWSelect {
+    static initAll(root = document) {
+      SW.$('select[sw-select], select.sw-select', root).forEach((select) => this.init(select));
+    }
+
+    static init(select) {
+      if (!(select instanceof HTMLSelectElement) || select._swSelectInit) return false;
+      select._swSelectInit = true;
+      select.classList.add('sw-select');
+      select.addEventListener('change', () => {
+        this.sync(select);
+        SW.emit(select, 'sw:select-change', { value: select.value, select });
+      });
+      this.sync(select);
+      return true;
+    }
+
+    static sync(select) {
+      if (!(select instanceof HTMLSelectElement)) return false;
+      select.dataset.swSelectState = select.value === '' ? 'empty' : 'selected';
+      return true;
+    }
+
+    static set(target, value, { emit = true } = {}) {
+      const select = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!(select instanceof HTMLSelectElement)) return false;
+      const normalized = String(value ?? '');
+      if (!Array.from(select.options).some((option) => option.value === normalized)) return false;
+      select.value = normalized;
+      this.sync(select);
+      if (emit) select.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    }
+  }
+
+  window.SW?.register('SWSelect', SWSelect);
+  if (window.SW) window.SW.Select = SWSelect;
+})();
+
+/* SW Framework — accessible form validation built on native constraints */
+(function () {
+  'use strict';
+
+  const instances = new WeakMap();
+  let fieldCounter = 0;
+
+  class SWValid {
+    constructor(form) {
+      this.form = form;
+      this.form.noValidate = true;
+      this.fields().forEach((field) => this.bind(field));
+      this.form.addEventListener('submit', (event) => {
+        if (!this.check({ focus: true })) {
+          event.preventDefault();
+          SW.emit(this.form, 'sw:valid-error', { form: this.form });
+          return;
+        }
+        if (!SW.emit(this.form, 'sw:valid-submit', { form: this.form })) event.preventDefault();
+      });
+    }
+
+    fields() {
+      return Array.from(this.form.elements).filter((field) =>
+        field instanceof HTMLElement &&
+        typeof field.checkValidity === 'function' &&
+        !field.disabled &&
+        !['button', 'submit', 'reset', 'hidden'].includes(field.type)
+      );
+    }
+
+    bind(field) {
+      if (field._swValidInit) return;
+      field._swValidInit = true;
+      field.addEventListener('blur', () => {
+        field.dataset.swValidTouched = 'true';
+        this.validateField(field);
+        this.updateState();
+      });
+      field.addEventListener('input', () => {
+        if (field.dataset.swValidTouched === 'true' || field.getAttribute('aria-invalid') === 'true') {
+          this.validateField(field);
+          this.updateState();
+        }
+      });
+      field.addEventListener('change', () => {
+        field.dataset.swValidTouched = 'true';
+        this.validateField(field);
+        this.updateState();
+      });
+    }
+
+    errorElement(field) {
+      if (!field.id) {
+        fieldCounter += 1;
+        field.id = `sw-field-${fieldCounter}`;
+      }
+      const errorId = `${field.id}-error`;
+      let error = this.form.querySelector(`#${CSS.escape(errorId)}`);
+      if (!error) {
+        error = document.createElement('p');
+        error.id = errorId;
+        error.className = 'sw-form-error';
+        error.setAttribute('role', 'alert');
+        error.hidden = true;
+        (field.closest('.sw-form-group') || field.parentElement || this.form).appendChild(error);
+      }
+      return error;
+    }
+
+    validateField(field) {
+      const valid = field.checkValidity();
+      const error = this.errorElement(field);
+      field.classList.toggle('is-invalid', !valid);
+      field.classList.toggle('is-valid', valid && field.dataset.swValidTouched === 'true' && String(field.value || '') !== '');
+
+      if (!valid) {
+        field.setAttribute('aria-invalid', 'true');
+        const describedBy = new Set((field.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+        describedBy.add(error.id);
+        field.setAttribute('aria-describedby', Array.from(describedBy).join(' '));
+        error.textContent = field.dataset.swError || field.validationMessage || 'Revise este campo.';
+        error.hidden = false;
+      } else {
+        field.removeAttribute('aria-invalid');
+        const describedBy = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter((id) => id && id !== error.id);
+        if (describedBy.length) field.setAttribute('aria-describedby', describedBy.join(' '));
+        else field.removeAttribute('aria-describedby');
+        error.textContent = '';
+        error.hidden = true;
+      }
+      return valid;
+    }
+
+    updateState() {
+      const valid = this.fields().every((field) => field.checkValidity());
+      this.form.dataset.swValidState = valid ? 'valid' : 'invalid';
+      return valid;
+    }
+
+    check({ focus = true } = {}) {
+      const fields = this.fields();
+      let firstInvalid = null;
+      fields.forEach((field) => {
+        field.dataset.swValidTouched = 'true';
+        if (!this.validateField(field) && !firstInvalid) firstInvalid = field;
+      });
+      this.form.dataset.swValidState = firstInvalid ? 'invalid' : 'valid';
+      if (firstInvalid && focus) firstInvalid.focus({ preventScroll: false });
+      return !firstInvalid;
+    }
+
+    static initAll(root = document) {
+      SW.$('form[sw-valid]', root).forEach((form) => this.init(form));
+    }
+
+    static init(form) {
+      if (!(form instanceof HTMLFormElement)) return null;
+      if (!instances.has(form)) instances.set(form, new SWValid(form));
+      const instance = instances.get(form);
+      instance.fields().forEach((field) => instance.bind(field));
+      return instance;
+    }
+
+    static check(target, options = {}) {
+      const form = typeof target === 'string' ? document.querySelector(target) : target;
+      return this.init(form)?.check(options) ?? false;
+    }
+  }
+
+  window.SW?.register('SWValid', SWValid);
+  if (window.SW) window.SW.Valid = SWValid;
+})();
+
+/* SW Framework — bounded, formatting-only masks */
+(function () {
+  'use strict';
+
+  const limits = Object.freeze({ cpf: 11, cnpj: 14, document: 14, phone: 11, cep: 8, date: 8 });
+
+  const joinParts = (digits, sizes, separators) => {
+    let cursor = 0;
+    let output = '';
+    sizes.forEach((size, index) => {
+      const part = digits.slice(cursor, cursor + size);
+      if (!part) return;
+      if (output && separators[index - 1]) output += separators[index - 1];
+      output += part;
+      cursor += size;
+    });
+    return output;
+  };
+
+  const formatters = Object.freeze({
+    cpf: (digits) => joinParts(digits, [3, 3, 3, 2], ['.', '.', '-']),
+    cnpj: (digits) => joinParts(digits, [2, 3, 3, 4, 2], ['.', '.', '/', '-']),
+    document: (digits) => digits.length <= 11 ? formatters.cpf(digits) : formatters.cnpj(digits),
+    phone: (digits) => {
+      if (!digits) return '';
+      const area = digits.slice(0, 2);
+      const middleSize = digits.length > 10 ? 5 : 4;
+      const middle = digits.slice(2, 2 + middleSize);
+      const end = digits.slice(2 + middleSize);
+      return `${digits.length > 2 ? `(${area}) ` : area}${middle}${end ? `-${end}` : ''}`;
+    },
+    cep: (digits) => joinParts(digits, [5, 3], ['-']),
+    date: (digits) => joinParts(digits, [2, 2, 4], ['/', '/'])
+  });
+
+  class SWMask {
+    static initAll(root = document) {
+      SW.$('input[sw-mask]', root).forEach((input) => this.init(input));
+    }
+
+    static init(input) {
+      if (!(input instanceof HTMLInputElement) || input._swMaskInit) return false;
+      const name = input.getAttribute('sw-mask');
+      if (!Object.prototype.hasOwnProperty.call(limits, name)) return false;
+      input._swMaskInit = true;
+      if (!input.hasAttribute('inputmode')) input.inputMode = 'numeric';
+      input.addEventListener('input', () => this.apply(input));
+      this.apply(input, false);
+      return true;
+    }
+
+    static apply(input, emit = true) {
+      const name = input.getAttribute('sw-mask');
+      if (!(input instanceof HTMLInputElement) || !Object.prototype.hasOwnProperty.call(limits, name)) return '';
+      const digits = String(input.value || '').replace(/\D/g, '').slice(0, limits[name]);
+      input.value = formatters[name](digits);
+      input.dataset.swMaskValue = digits;
+      if (emit) SW.emit(input, 'sw:mask-input', { mask: name, raw: digits, value: input.value });
+      return digits;
+    }
+
+    static raw(target) {
+      const input = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!(input instanceof HTMLInputElement)) return '';
+      return this.apply(input, false);
+    }
+
+    static set(target, value, { emit = true } = {}) {
+      const input = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!(input instanceof HTMLInputElement)) return false;
+      input.value = String(value ?? '');
+      this.apply(input, emit);
+      return true;
+    }
+  }
+
+  window.SW?.register('SWMask', SWMask);
+  if (window.SW) window.SW.Mask = SWMask;
+})();

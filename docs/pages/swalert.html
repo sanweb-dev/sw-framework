@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SWAlert - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: .8rem;
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem;
+        }
+
+        @media (max-width: 900px) {
+
+            .g2,
+            .g3 {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .pos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .8rem;
+        }
+
+        .pos-mid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .8rem;
+            pointer-events: none;
+            opacity: 0;
+            height: 1.6rem;
+        }
+
+        .type-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    </style>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">SWAlert</span>
+            </nav>
+
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">SWAlert <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Sistema de notificações toast completo. 5 tipos, 6 posições, progress bar, caixa de confirmação com
+                    focus trap ✨ zero dependências, zero CSS externo (injetado automaticamente).
+                </p>
+            </div>
+
+            <!-- 1. TIPOS -->
+            <div class="doc-card sec mb-6" id="tipos">
+                <h3 class="t-m f-bd mb-1">1. Tipos</h3>
+                <p class="t-mut t-p mb-6">5 variantes semânticas + aliases em PT-BR.</p>
+
+                <p class="demo-label">Demo ✨ clique para disparar</p>
+                <div class="demo-wrap">
+                    <div class="type-row">
+                        <button y2btn class="y2btn-suc"
+                            onclick="SWAlert.ok('Operação concluída com sucesso!', 4000, 'tr')">ok / sucesso</button>
+                        <button y2btn class="y2btn-err"
+                            onclick="SWAlert.err('Erro ao processar. Tente novamente.', 4000, 'tr')">err / erro</button>
+                        <button y2btn class="y2btn-ale"
+                            onclick="SWAlert.ale('Atenção: esta ação é irreversível.', 4000, 'tr')">ale /
+                            alerta</button>
+                        <button y2btn class="y2btn-inf"
+                            onclick="SWAlert.inf('Nova atualização disponível.', 4000, 'tr')">inf / info</button>
+                        <button y2btn class="y2btn-sec"
+                            onclick="SWAlert.drk('Modo silencioso ativado.', 4000, 'tr')">drk</button>
+                    </div>
+                </div>
+
+                <pre swcode="js">
+// Métodos principais
+SWAlert.ok('Salvo com sucesso!');
+SWAlert.err('Falha na requisição.');
+SWAlert.ale('Atenção necessária.');
+SWAlert.inf('Nova mensagem recebida.');
+SWAlert.drk('Notificação silenciosa.');
+
+// Aliases PT-BR
+SWAlert.sucesso('Dados atualizados!');
+SWAlert.erro('Não foi possível salvar.');
+SWAlert.alerta('Verifique os campos.');
+SWAlert.info('Processando...');
+</pre>
+            </div>
+
+            <!-- 2. POSIÇÕES -->
+            <div class="doc-card sec mb-6" id="posicoes">
+                <h3 class="t-m f-bd mb-1">2. Posições</h3>
+                <p class="t-mut t-p mb-6">9 posições ✨ topo, centro e base - esquerdo/centro/direito.</p>
+
+                <p class="demo-label">Demo ✨ clique em qualquer célula</p>
+                <div class="demo-wrap">
+                    <div class="pos-grid">
+                        <button y2btn class="y2btn-suc" onclick="SWAlert.ok('tl &mdash; topo esquerdo', 3000, 'tl')">tl</button>
+                        <button y2btn class="y2btn-inf" onclick="SWAlert.inf('tc &mdash; topo centro', 3000, 'tc')">tc</button>
+                        <button y2btn class="y2btn-suc"
+                            onclick="SWAlert.ok('tr &mdash; topo direito (padrão)', 3000, 'tr')">tr (padrão)</button>
+                        <button y2btn class="y2btn-ale" onclick="SWAlert.ale('cl &mdash; centro esquerdo', 3000, 'cl')">cl</button>
+                        <button y2btn class="y2btn-pri" onclick="SWAlert.inf('cc &mdash; centro tela', 3000, 'cc')">cc</button>
+                        <button y2btn class="y2btn-inf" onclick="SWAlert.inf('cr &mdash; centro direito', 3000, 'cr')">cr</button>
+                        <button y2btn class="y2btn-ale" onclick="SWAlert.ale('bl &mdash; base esquerdo', 3000, 'bl')">bl</button>
+                        <button y2btn class="y2btn-sec" onclick="SWAlert.drk('bc &mdash; base centro', 3000, 'bc')">bc</button>
+                        <button y2btn class="y2btn-err" onclick="SWAlert.err('br &mdash; base direito', 3000, 'br')">br</button>
+                    </div>
+                </div>
+
+                <pre swcode="js">
+// 3º parâmetro = posição
+// Topo:   'tl' | 'tc' | 'tr'
+// Centro: 'cl' | 'cc' | 'cr'
+// Base:   'bl' | 'bc' | 'br'
+// Padrão: 'tr'
+
+SWAlert.ok('Salvo!', 3000, 'bl');   // base esquerdo
+SWAlert.err('Erro!', 5000, 'cc');   // centro tela
+</pre>
+            </div>
+
+            <!-- 3. DURAÇÃO + TÍTULO -->
+            <div class="doc-card sec mb-6" id="opcoes">
+                <h3 class="t-m f-bd mb-1">3. Duração + Título</h3>
+                <p class="t-mut t-p mb-6">Controle preciso de timing e suporte a títulos.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Duração personalizada</p>
+                        <div class="demo-wrap">
+                            <div class="flx f-cl gap-3">
+                                <button y2btn class="y2btn-inf"
+                                    onclick="SWAlert.inf('Dura apenas 1.5 segundos', 1500, 'tr')">1.5s</button>
+                                <button y2btn class="y2btn-inf"
+                                    onclick="SWAlert.inf('Dura 6 segundos', 6000, 'tr')">6s</button>
+                                <button y2btn class="y2btn-sec"
+                                    onclick="SWAlert.drk('Persistente &mdash; feche manualmente', 0, 'tr')">Sem timer
+                                    (0)</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="demo-label">Com título</p>
+                        <div class="demo-wrap">
+                            <div class="flx f-cl gap-3">
+                                <button y2btn class="y2btn-suc"
+                                    onclick="SWAlert.ok('Arquivo enviado com sucesso para o servidor.', 4000, 'tr', 'Upload completo')">Com
+                                    título</button>
+                                <button y2btn class="y2btn-err"
+                                    onclick="SWAlert.err('Verifique sua conexão e tente novamente.', 6000, 'tr', 'Falha de rede')">Erro
+                                    com título</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="js">
+// Assinatura completa
+SWAlert.ok(msg, duração_ms, posição, título)
+
+// dur = 0 &mdash; não fecha automaticamente
+SWAlert.drk('Aguardando confirmação...', 0, 'tr');
+
+// Com título
+SWAlert.ok(
+    'Arquivo enviado com sucesso.',
+    4000, 'tr',
+    'Upload completo'
+);
+</pre>
+            </div>
+
+            <!-- 4. CONFIRMAR -->
+            <div class="doc-card sec mb-6" id="confirmar">
+                <h3 class="t-m f-bd mb-1">4. Caixa de Confirmação</h3>
+                <p class="t-mut t-p mb-6">Dialog modal com focus trap, ESC para cancelar e callback.</p>
+
+                <p class="demo-label">Demo</p>
+                <div class="demo-wrap">
+                    <div class="flx flx-wrap gap-3">
+                        <button y2btn class="y2btn-err" onclick="
+                            SWAlert.confirmar(
+                                'Esta ação é permanente e não pode ser desfeita. Tem certeza?',
+                                function(ok) { ok ? SWAlert.ok('Deletado!', 3000, 'tr') : SWAlert.inf('Cancelado.', 2500, 'tr'); },
+                                'Deletar registro'
+                            )">Deletar registro</button>
+
+                        <button y2btn class="y2btn-ale" onclick="
+                            SWAlert.confirmar(
+                                'Você será desconectado desta sessão.',
+                                function(ok) { ok ? SWAlert.drk('Saindo...', 2000, 'tc') : null; },
+                                'Sair da conta'
+                            )">Sair da conta</button>
+                    </div>
+                </div>
+
+                <pre swcode="js">
+SWAlert.confirmar(
+    'Tem certeza que deseja deletar?',   // mensagem
+    (confirmado) => {                    // callback
+        if (confirmado) {
+            deletarRegistro();
+            SWAlert.ok('Deletado!');
+        }
+    },
+    'Deletar registro',  // título (opcional, padrão: 'Confirmação')
+    '✨'                 // ícone  (opcional, padrão: '✨')
+);
+</pre>
+            </div>
+
+            <!-- 5. ATRIBUTO HTML -->
+            <div class="doc-card sec mb-6" id="atributo">
+                <h3 class="t-m f-bd mb-1">5. Atributo HTML</h3>
+                <p class="t-mut t-p mb-6">Dispare alertas direto no HTML sem escrever JS.</p>
+
+                <p class="demo-label">Demo</p>
+                <div class="demo-wrap">
+                    <div class="flx flx-wrap gap-3">
+                        <button y2btn class="y2btn-suc" y2alert="ok" y2alert-msg="Dados salvos com sucesso!"
+                            y2alert-pos="tr" y2alert-dur="3000">Salvar</button>
+
+                        <button y2btn class="y2btn-err" y2alert="err" y2alert-msg="Sem conexão com o servidor."
+                            y2alert-pos="bl">Simular erro</button>
+
+                        <button y2btn class="y2btn-ale" y2alert="ale" y2alert-msg="Verifique os campos obrigatórios."
+                            y2alert-pos="tc" y2alert-dur="5000">Validar</button>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<button
+    y2alert="ok"
+    y2alert-msg="Dados salvos!"
+    y2alert-pos="tr"
+    y2alert-dur="3000">
+    Salvar
+</button>
+
+<!-- Atributos disponíveis -->
+<!-- y2alert        = ok | err | ale | inf | drk  -->
+<!-- y2alert-msg    = texto da mensagem            -->
+<!-- y2alert-title  = título (opcional)            -->
+<!-- y2alert-pos    = tl | tc | tr | bl | bc | br -->
+<!-- y2alert-dur    = duração em ms               -->
+</script></pre>
+            </div>
+
+            <!-- 6. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">6. Quick Reference</h3>
+
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Parâmetros</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>SWAlert.ok()</code></td>
+                            <td>msg, dur?, pos?, title?</td>
+                            <td>Toast verde &mdash; sucesso</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.err()</code></td>
+                            <td>msg, dur?, pos?, title?</td>
+                            <td>Toast vermelho &mdash; erro</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.ale()</code></td>
+                            <td>msg, dur?, pos?, title?</td>
+                            <td>Toast amarelo &mdash; alerta</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.inf()</code></td>
+                            <td>msg, dur?, pos?, title?</td>
+                            <td>Toast azul &mdash; informação</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.drk()</code></td>
+                            <td>msg, dur?, pos?, title?</td>
+                            <td>Toast neutro &mdash; silencioso</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.sucesso()</code></td>
+                            <td>msg, dur?, pos?</td>
+                            <td>Alias PT-BR de .ok()</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.erro()</code></td>
+                            <td>msg, dur?, pos?</td>
+                            <td>Alias PT-BR de .err()</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.alerta()</code></td>
+                            <td>msg, dur?, pos?</td>
+                            <td>Alias PT-BR de .ale()</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.info()</code></td>
+                            <td>msg, dur?, pos?</td>
+                            <td>Alias PT-BR de .inf()</td>
+                        </tr>
+                        <tr>
+                            <td><code>SWAlert.confirmar()</code></td>
+                            <td>msg, cb, title?, icon?</td>
+                            <td>Dialog com callback booleano</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-6">
+                    <table class="ref-table">
+                        <thead>
+                            <tr>
+                                <th>Parâmetro</th>
+                                <th>Tipo</th>
+                                <th>Padrão</th>
+                                <th>Valores</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>msg</code></td>
+                                <td>string</td>
+                                <td>"" (vazio)</td>
+                                <td>HTML aceito</td>
+                            </tr>
+                            <tr>
+                                <td><code>dur</code></td>
+                                <td>number</td>
+                                <td>4000</td>
+                                <td>ms — 0 = persistente</td>
+                            </tr>
+                            <tr>
+                                <td><code>pos</code></td>
+                                <td>string</td>
+                                <td>'tr'</td>
+                                <td>tl — tc — tr — cl — cc — cr — bl — bc — br</td>
+                            </tr>
+                            <tr>
+                                <td><code>title</code></td>
+                                <td>string</td>
+                                <td>''</td>
+                                <td>Texto do cabeçalho</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

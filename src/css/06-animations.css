@@ -1,0 +1,191 @@
+/* ==========================================================================
+   SW FRAMEWORK — 06-ANIMATIONS.CSS (CATÁLOGO DE 40 PRESETS)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+/* --- VARIÁVEIS E CURVAS --- */
+:root {
+  --sw-ease:   cubic-bezier(0.22, 1, 0.36, 1);
+  --sw-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sw-spd-f:  0.18s;
+  --sw-spd:    0.45s;
+  --sw-spd-s:  0.7s;
+  --sw-dist:   2.4rem;
+}
+
+/* ==========================================================================
+   1. REVEAL (Scroll Reveal via Observer)
+   ========================================================================== */
+[class*="sw-rev-"] {
+  opacity: 0;
+  transition: opacity var(--sw-spd) var(--sw-ease), transform var(--sw-spd) var(--sw-ease), filter var(--sw-spd) var(--sw-ease);
+}
+
+.sw-rev-up    { transform: translateY(var(--sw-dist)); }
+.sw-rev-down  { transform: translateY(calc(-1 * var(--sw-dist))); }
+.sw-rev-left  { transform: translateX(var(--sw-dist)); }
+.sw-rev-right { transform: translateX(calc(-1 * var(--sw-dist))); }
+.sw-rev-in    { transform: scale(0.94); }
+.sw-rev-out   { transform: scale(1.04); }
+.sw-rev-blur  { filter: blur(0.4rem); opacity: 0; }
+
+[class*="sw-rev-"].is-revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ==========================================================================
+   2. TIMED (One-Shot Animations)
+   ========================================================================== */
+.sw-ani-fade  { animation: sw-fade  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-up    { animation: sw-up    var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-down  { animation: sw-down  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-left  { animation: sw-left  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-right { animation: sw-right var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-pop   { animation: sw-pop   var(--sw-spd) var(--sw-spring) both; }
+.sw-ani-flip  { animation: sw-flip  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-roll  { animation: sw-roll  var(--sw-spd) var(--sw-spring) both; }
+.sw-ani-soft  { animation: sw-soft  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-blur  { animation: sw-blur  var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-scale { animation: sw-scale var(--sw-spd) var(--sw-ease)   both; }
+.sw-ani-zoom-out { animation: sw-zoom-out var(--sw-spd) var(--sw-ease) both; }
+
+/* ==========================================================================
+   3. LOOP (Animações Infinitas Contínuas)
+   ========================================================================== */
+.sw-loop-spin   { animation: sw-spin   2s linear infinite; }
+.sw-loop-pulse  { animation: sw-pulse  2s var(--sw-ease) infinite; }
+.sw-loop-float  { animation: sw-float  3s var(--sw-ease) infinite; }
+.sw-loop-fade   { animation: sw-blink  2.5s var(--sw-ease) infinite; }
+.sw-loop-bounce { animation: sw-bounce 1.2s var(--sw-spring) infinite; }
+.sw-loop-glow   { animation: sw-glow   2s var(--sw-ease) infinite; }
+.sw-loop-wave   { animation: sw-wave   2.4s var(--sw-ease) infinite; }
+
+.sw-loop-paused { animation-play-state: paused !important; }
+
+[class*="sw-loop-"]:hover,
+[class*="sw-loop-"]:focus-visible {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   4. MICRO (Interações de Hover)
+   ========================================================================== */
+[class*="sw-hov-"] {
+  transition: transform var(--sw-spd-f) var(--sw-ease), box-shadow var(--sw-spd-f) var(--sw-ease), filter var(--sw-spd-f) var(--sw-ease);
+}
+
+.sw-hov-up:hover     { transform: translateY(-0.3rem); }
+.sw-hov-in:hover     { transform: scale(1.025); }
+.sw-hov-lift:hover   { transform: translateY(-0.3rem); box-shadow: var(--sw-sha-g); }
+.sw-hov-glow:hover   { filter: drop-shadow(0 0 0.6rem var(--sw-pri)); }
+.sw-hov-tada:hover   { animation: sw-tada 0.28s var(--sw-ease); }
+.sw-hov-flip:hover   { transform: perspective(70rem) rotateY(8deg); }
+.sw-hov-soft:hover   { transform: translateY(-0.2rem); opacity: 0.88; }
+.sw-hov-shrink:hover { transform: scale(0.98); }
+
+[sw-tilt], [sw-magnetic] {
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+/* ==========================================================================
+   5. BIDIRECTIONAL SCROLL MOUNT/UNMOUNT [sw-scr]
+   ========================================================================== */
+.sw-js [sw-scr] {
+  transition: opacity var(--sw-spd) var(--sw-ease), transform var(--sw-spd) var(--sw-ease), filter var(--sw-spd) var(--sw-ease);
+}
+
+.sw-js [sw-scr="up"]     { opacity: 0; transform: translateY(var(--sw-dist)); }
+.sw-js [sw-scr="down"]   { opacity: 0; transform: translateY(calc(-1 * var(--sw-dist))); }
+.sw-js [sw-scr="fade"]   { opacity: 0; }
+.sw-js [sw-scr="blur"]   { opacity: 0; filter: blur(0.4rem); }
+.sw-js [sw-scr="pop"]    { opacity: 0; transform: scale(0.94); }
+.sw-js [sw-scr="3dl"]    { opacity: 0; transform: perspective(70rem) rotateY(12deg); }
+
+.sw-js [sw-scr].is-revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+@keyframes sw-fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sw-up    { from { opacity: 0; transform: translateY(var(--sw-dist)); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sw-down  { from { opacity: 0; transform: translateY(calc(-1 * var(--sw-dist))); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sw-left  { from { opacity: 0; transform: translateX(var(--sw-dist)); } to { opacity: 1; transform: translateX(0); } }
+@keyframes sw-right { from { opacity: 0; transform: translateX(calc(-1 * var(--sw-dist))); } to { opacity: 1; transform: translateX(0); } }
+@keyframes sw-pop   { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes sw-flip  { from { opacity: 0; transform: perspective(70rem) rotateX(-12deg); } to { opacity: 1; transform: perspective(70rem) rotateX(0); } }
+@keyframes sw-roll  { from { opacity: 0; transform: translateX(calc(-1 * var(--sw-dist))) rotate(-6deg); } to { opacity: 1; transform: translateX(0) rotate(0); } }
+@keyframes sw-soft  { from { opacity: 0; transform: translateY(0.8rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sw-blur  { from { opacity: 0; transform: translateY(0.8rem); filter: blur(0.4rem); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes sw-scale { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes sw-zoom-out { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+
+@keyframes sw-spin   { to { transform: rotate(360deg); } }
+@keyframes sw-pulse  { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+@keyframes sw-float  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.6rem); } }
+@keyframes sw-blink  { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+@keyframes sw-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.7rem); } }
+@keyframes sw-glow   { 0%, 100% { filter: drop-shadow(0 0 0.25rem var(--sw-pri)); } 50% { filter: drop-shadow(0 0 0.8rem var(--sw-pri)); } }
+@keyframes sw-wave   { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-0.4rem) rotate(3deg); } }
+@keyframes sw-tada   { 0%, 100% { transform: scale(1) rotate(0); } 35% { transform: scale(0.98) rotate(-2deg); } 70% { transform: scale(1.015) rotate(2deg); } }
+@keyframes sw-marquee-loop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ==========================================================================
+   6. SW-FX INTERACTIONS & TEXT EFFECTS
+   ========================================================================== */
+[sw-typewriter]::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 0.15em;
+  animation: sw-blink 1s var(--sw-ease) infinite;
+}
+[sw-typewriter][data-sw-typewriter-state="idle"]::after {
+  opacity: 0;
+}
+
+.sw-split-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.sw-split-char {
+  display: inline-block;
+}
+
+[sw-scrub] {
+  opacity: var(--sw-scrub-progress, 0);
+  transform: translateY(calc((1 - var(--sw-scrub-progress, 0)) * var(--sw-dist)));
+}
+
+[sw-marquee] {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+}
+.sw-marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  animation: sw-marquee-loop 20s linear infinite;
+}
+[sw-marquee][data-sw-marquee-state="paused"] .sw-marquee-content,
+[sw-marquee]:hover .sw-marquee-content,
+[sw-marquee]:focus-within .sw-marquee-content {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="sw-ani-"], [class*="sw-loop-"], [class*="sw-rev-"], [class*="sw-hov-"], [sw-scr], [sw-tilt], [sw-magnetic], [sw-typewriter], [sw-split], [sw-scrub], [sw-marquee] {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
+

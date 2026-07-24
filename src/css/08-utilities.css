@@ -1,0 +1,45 @@
+/* ==========================================================================
+   SW FRAMEWORK — 08-UTILITIES.CSS (EFEITOS E UTILITÁRIOS VISUAIS ELEGANTES)
+   Nill Ecosystem | Sandro Web Solutions
+   ========================================================================== */
+
+/* --- 🔮 GLASSMORPHISM & BLUR --- */
+.sw-glass {
+  background: var(--sw-gls-bg) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--sw-gls-bor) !important;
+}
+
+.sw-blur-sm { backdrop-filter: blur(4px); }
+.sw-blur-md { backdrop-filter: blur(12px); }
+.sw-blur-lg { backdrop-filter: blur(24px); }
+
+/* --- ✨ BRILHOS E GLOW --- */
+.sw-glow {
+  box-shadow: 0 0 20px var(--sw-pri-glow) !important;
+}
+
+.sw-glow-text {
+  text-shadow: 0 0 12px var(--sw-pri-glow);
+}
+
+/* --- 👥 ALINHAMENTOS E FLEXBOX HELPERS --- */
+.sw-flex          { display: flex; }
+.sw-flex-col      { display: flex; flex-direction: column; }
+.sw-flex-center   { display: flex; align-items: center; justify-content: center; }
+.sw-flex-between  { display: flex; align-items: center; justify-content: space-between; }
+.sw-gap-sm        { gap: var(--sw-s-p); }
+.sw-gap-md        { gap: var(--sw-s-m); }
+.sw-gap-lg        { gap: var(--sw-s-g); }
+
+/* --- 📐 TEXTO E ESCONDER --- */
+.sw-text-center   { text-align: center; }
+.sw-text-right    { text-align: right; }
+.sw-text-left     { text-align: left; }
+.sw-text-mut      { color: var(--sw-txt-mut) !important; }
+.sw-text-pri      { color: var(--sw-pri) !important; }
+
+.sw-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 767.98px) { .sw-hide-mobile { display: none !important; } }
+@media (min-width: 768px) { .sw-hide-desktop { display: none !important; } }

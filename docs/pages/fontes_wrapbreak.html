@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br" theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wrap & Break - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .demo-box {
+            background: var(--sw-bg-det);
+            border: 1px dashed var(--sw-bor);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .width-limit {
+            max-width: 320px;
+            margin: 0 auto;
+            border-left: 2px solid var(--sw-pri);
+            border-right: 2px solid var(--sw-pri);
+            padding: 1rem;
+            background: rgba(var(--sw-pri-h), 0.03);
+        }
+
+        .code-label {
+            font-family: var(--sw-f-mon);
+            font-size: 1.1rem;
+            color: var(--sw-pri);
+            background: var(--sw-pri-opa1);
+            padding: 0.2rem 0.8rem;
+            border-radius: 0.4rem;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+    </style>
+
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Wrap & Break</span>
+            </nav>
+
+            <!-- CABEALHO PADRO -->
+            <div class="mb-12">
+                <span class="doc-tag">Utilidades de Texto</span>
+                <h2 class="t-xxg f-bd mb-2">Wrap & <span class="TprinD">Break</span></h2>
+                <p class="t-g t-mut">Controle avançado sobre quebras de texto e balanceamento visual para layouts
+                    responsivos impecáveis.</p>
+            </div>
+
+            <!-- 1. TEXT WRAP BALANCE -->
+            <div class="doc-card mb-10 reveal-up">
+                <h3 class="t-m f-bd mb-4">Balanceamento Moderno (.twr-*)</h3>
+                <p class="t-p t-mut mb-8">Utiliza algoritmos do navegador para distribuir o texto de forma harmoniosa
+                    entre as linhas.</p>
+
+                <div class="l gap-6">
+                    <div class="co6-g">
+                        <span class="code-label">.twr-b</span>
+                        <h4 class="t-p f-bd mb-2">Text Wrap Balance</h4>
+                        <div class="demo-box">
+                            <div class="width-limit twr-b t-gg f-bd Tprin">
+                                Título do SW Fica Perfeitamente Balanceado
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co6-g">
+                        <span class="code-label">.twr-p</span>
+                        <h4 class="t-p f-bd mb-2">Text Wrap Pretty</h4>
+                        <div class="demo-box">
+                            <div class="width-limit twr-p t-p t-mut">
+                                O algoritmo 'pretty' analisa as quebras para evitar que a última linha fique muito curta
+                                ou com hifens isolados.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. WORD BREAKS -->
+            <div class="doc-card mb-10 reveal-up">
+                <h3 class="t-m f-bd mb-4">Quebra de Palavras (.wordb-*)</h3>
+                <p class="t-p t-mut mb-8">Evite que palavras ultra-longas ou URLs extrapolem os limites do container.
+                </p>
+
+                <div class="l gap-6">
+                    <div class="co6-g">
+                        <span class="code-label">.wordb-ba</span>
+                        <h4 class="t-p f-bd mb-2">Word Break All</h4>
+                        <div class="demo-box">
+                            <div class="width-limit wordb-ba t-p Taler f-mon">
+                                STRING_MUITO_LONGA_QUE_PRECISA_QUEBRAR_PARA_NAO_DESTRUIR_O_LAYOUT_DO_SEU_WEBAPP_YDRA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co6-g">
+                        <span class="code-label">.wordb-bw</span>
+                        <h4 class="t-p f-bd mb-2">Word Break Word</h4>
+                        <div class="demo-box">
+                            <div class="width-limit wordb-bw t-p Tsecu">
+                                InconstitucionalissimamenteLongaPalavraQueSeraQuebradaApenasSeRealmenteNaoHouverEspaço.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. TRUNCATE & CLAMP -->
+            <div class="doc-card mb-10 reveal-up">
+                <h3 class="t-m f-bd mb-4">Truncagem e Clamp</h3>
+                <p class="t-p t-mut mb-8">Utilize reticências automáticas para textos que não podem ocupar muito espaço.
+                </p>
+
+                <div class="l gap-6">
+                    <div class="co6-g">
+                        <span class="code-label">.truncate</span>
+                        <h4 class="t-p f-bd mb-2">Truncate (1 Linha)</h4>
+                        <div class="demo-box">
+                            <div class="width-limit truncate t-p">
+                                Este texto é cortado com reticências logo no final da primeira linha disponível.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co6-g">
+                        <span class="code-label">.clamp-2</span>
+                        <h4 class="t-p f-bd mb-2">Line Clamp (N Linhas)</h4>
+                        <div class="demo-box">
+                            <div class="width-limit clamp-2 t-p Tmut">
+                                O Line Clamp permite limitar o texto a um número específico de linhas antes de aplicar
+                                as reticências, ideal para resumos de cards.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../dist/sw.min.js"></script>
+</body>
+
+</html>

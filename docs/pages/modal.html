@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modal - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec {
+            scroll-margin-top: 10rem;
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media(max-width:860px) {
+            .g2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+
+    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
+
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Modal</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Modal <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut">Diálogos, popups e drawers - focus trap automático, ESC, animações, tamanhos,
+                    glassmorphism e drawer lateral. Zero dependências externas.</p>
+            </div>
+
+            <!-- 1. BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Uso Básico</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri" y2modal="#mdl-basic">Abrir Modal</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<button y2modal="#meuModal">Abrir</button>
+
+<div y2modal id="meuModal">
+  <div class="mdl-box">
+    <div class="mdl-hdr">
+      <h4 class="mdl-ttl">Título</h4>
+      <button class="mdl-cls" y2modal-cls aria-label="Fechar"></button>
+    </div>
+    <div class="mdl-bdy">Conteúdo</div>
+    <div class="mdl-ftr">
+      <button y2btn y2modal-cls>Cancelar</button>
+      <button y2btn class="y2btn-pri">Confirmar</button>
+    </div>
+  </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. TAMANHOS -->
+            <div class="doc-card sec mb-6" id="tamanhos">
+                <h3 class="t-m f-bd mb-4">2. Tamanhos</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-out" y2modal="#mdl-pp">PP</button>
+                    <button y2btn class="y2btn-sec" y2modal="#mdl-p">P</button>
+                    <button y2btn class="y2btn-pri" y2modal="#mdl-m">M (padrão)</button>
+                    <button y2btn class="y2btn-suc" y2modal="#mdl-g">G</button>
+                    <button y2btn class="y2btn-ale" y2modal="#mdl-gg">GG</button>
+                    <button y2btn class="y2btn-err" y2modal="#mdl-fl">Full</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2modal class="is-pp" ...> <!-- Muito pequeno -->
+<div y2modal class="is-p"  ...> <!-- Pequeno -->
+<div y2modal ...>               <!-- Médio (padrão) -->
+<div y2modal class="is-g"  ...> <!-- Grande -->
+<div y2modal class="is-gg" ...> <!-- Extra grande -->
+<div y2modal class="is-fl" ...> <!-- Full screen -->
+</script></pre>
+            </div>
+
+            <!-- 3. EFEITOS -->
+            <div class="doc-card sec mb-6" id="efeitos">
+                <h3 class="t-m f-bd mb-4">3. Efeitos de Entrada</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri" y2modal="#mdl-sld">Slide</button>
+                    <button y2btn class="y2btn-sec" y2modal="#mdl-zoo">Zoom</button>
+                    <button y2btn class="y2btn-suc" y2modal="#mdl-drw">Drawer</button>
+                    <button y2btn class="y2btn-inf" y2modal="#mdl-gls">Glass</button>
+                </div>
+                <pre swcode="html"><script type="text/plain">
+<div y2modal class="is-sld" ...> <!-- Slide de cima -->
+<div y2modal class="is-zoo" ...> <!-- Zoom in -->
+<div y2modal class="is-drw" ...> <!-- Drawer lateral -->
+<div y2modal ...><div class="mdl-box is-gls"> <!-- Glassmorphism -->
+</script></pre>
+            </div>
+
+            <!-- 4. API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">4. API JavaScript</h3>
+                <div class="demo-wrap">
+                    <button y2btn class="y2btn-pri" onclick="SWModal.show('#mdl-basic')">SWModal.show()</button>
+                    <button y2btn class="y2btn-out" onclick="SWModal.hide('#mdl-basic')">SWModal.hide()</button>
+                </div>
+                <pre swcode="js">
+// Abrir / fechar programaticamente
+SWModal.show('#meuModal');
+SWModal.hide('#meuModal');
+
+// Evento disparado ao abrir
+document.querySelector('#meuModal')
+  .addEventListener('yd:modal:open', () => console.log('abriu'));
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>y2modal="#id"</code></td>
+                            <td>button</td>
+                            <td>Abre o modal pelo seletor</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2modal</code></td>
+                            <td>div</td>
+                            <td>Define o container do modal</td>
+                        </tr>
+                        <tr>
+                            <td><code>y2modal-cls</code></td>
+                            <td>button</td>
+                            <td>Fecha o modal ao clicar</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-box</code></td>
+                            <td>div</td>
+                            <td>Caixa central do modal</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-hdr</code></td>
+                            <td>div</td>
+                            <td>Cabeçalho com título e botão fechar</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-ttl</code></td>
+                            <td>h4</td>
+                            <td>Título do modal</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-cls</code></td>
+                            <td>button</td>
+                            <td>Botão X de fechar no cabeçalho</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-bdy</code></td>
+                            <td>div</td>
+                            <td>Área de conteúdo com scroll</td>
+                        </tr>
+                        <tr>
+                            <td><code>.mdl-ftr</code></td>
+                            <td>div</td>
+                            <td>Rodapé com ações</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-pp / .is-p / .is-g / .is-gg / .is-fl</code></td>
+                            <td>[y2modal]</td>
+                            <td>Tamanhos do modal</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-sld</code></td>
+                            <td>[y2modal]</td>
+                            <td>Animação slide (padrão: fade + scale)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-act</code></td>
+                            <td>[y2modal]</td>
+                            <td>Estado aberto - adicionado automaticamente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAIS DE DEMO -->
+    <div y2modal id="mdl-basic">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Modal Básico</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Conteúdo do modal. ESC ou clique no backdrop para fechar.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn y2modal-cls>Fechar</button><button y2btn class="y2btn-pri"
+                    y2modal-cls>Confirmar</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-pp" id="mdl-pp">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">PP</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Modal tamanho PP.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-p" id="mdl-p">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Pequeno</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Modal tamanho P.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-m" id="mdl-m">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Médio</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Modal tamanho M (padrão).</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-g" id="mdl-g">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Grande</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Modal tamanho G.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-gg" id="mdl-gg">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Extra Grande</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Modal tamanho GG.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-fl" id="mdl-fl">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Full Screen</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy" style="flex:1">
+                <p>Modal tela cheia.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>Fechar</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-sld" id="mdl-sld">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Slide</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Efeito slide de cima.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-zoo" id="mdl-zoo">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Zoom</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Efeito zoom in.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+    <div y2modal class="is-drw" id="mdl-drw">
+        <div class="mdl-box">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Drawer</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Painel lateral (drawer).</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>Fechar</button></div>
+        </div>
+    </div>
+    <div y2modal id="mdl-gls">
+        <div class="mdl-box is-gls">
+            <div class="mdl-hdr">
+                <h4 class="mdl-ttl">Glassmorphism</h4><button class="mdl-cls" y2modal-cls></button>
+            </div>
+            <div class="mdl-bdy">
+                <p>Visual glass com blur.</p>
+            </div>
+            <div class="mdl-ftr"><button y2btn class="y2btn-pri" y2modal-cls>OK</button></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

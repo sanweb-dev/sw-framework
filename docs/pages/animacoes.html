@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Animações - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-box {
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            padding: 1.6rem 1.2rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: var(--sw-f-mon);
+            color: var(--sw-txt-bas);
+            cursor: pointer;
+            user-select: none;
+            min-height: 9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+        }
+
+        .demo-box i {
+            font-size: 2.4rem;
+            color: var(--prin);
+        }
+
+        .demo-lbl {
+            font-size: 1.05rem;
+            color: var(--sw-txt-mut);
+            font-weight: 400;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+            gap: .8rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .demo-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: .8rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .demo-grid-loop {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+            gap: .8rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .cat-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding-bottom: .8rem;
+            border-bottom: 2px solid var(--sw-bor);
+            margin-bottom: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .reveal-playground {
+            background: var(--sw-bg-sec);
+            border-radius: var(--sw-r-g);
+            padding: 3rem 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1.6rem;
+            min-height: 16rem;
+            align-items: center;
+        }
+
+        .rev-box {
+            background: var(--prin13);
+            border: 2px solid var(--prin);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem 1.6rem;
+            font-weight: 700;
+            font-family: var(--sw-f-mon);
+            color: var(--prin);
+            font-size: 1.3rem;
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <header class="doc-top" data-sw-ajax data-sw-url="../layout/header.html" data-sw-trigger="load"></header>
+    <div class="doc-shell">
+        <aside class="doc-aside" data-sw-ajax data-sw-url="../layout/sidebar.html" data-sw-trigger="load"></aside>
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">Animações</span>
+            </nav>
+
+            <span class="doc-tag">Features</span>
+            <h2 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Framework</span></h2>
+            <p class="t-g t-mut mb-8">4 camadas: <strong>Reveal</strong> (scroll trigger) - <strong>Timed</strong>
+                (one-shot) - <strong>Loop</strong> (infinito) - <strong>Micro</strong> (hover). Clique nos demos para
+                repetir.</p>
+
+            <!-- 1. REVEAL -->
+            <div class="doc-card sec mb-6" id="reveal">
+                <h3 class="t-g f-bd mb-2">1. Reveal - Scroll Trigger</h3>
+                <p class="t-mut mb-4">Elementos entram na tela ao serem detectados pelo scroll via
+                    <code>IntersectionObserver</code>. Adicione <code>class="reveal-*"</code> - o SW observa
+                    automaticamente.
+                </p>
+
+                <div class="reveal-playground" id="revPlayground">
+                    <div class="rev-box" data-rev="reveal-up">.reveal-up</div>
+                    <div class="rev-box" data-rev="reveal-down">.reveal-down</div>
+                    <div class="rev-box" data-rev="reveal-left">.reveal-left</div>
+                    <div class="rev-box" data-rev="reveal-right">.reveal-right</div>
+                    <div class="rev-box" data-rev="reveal-in">.reveal-in</div>
+                    <div class="rev-box" data-rev="reveal-out">.reveal-out</div>
+                    <div class="rev-box" data-rev="reveal-blur">.reveal-blur</div>
+                </div>
+                <button y2btn class="y2btn-pri mb-6" onclick="replayReveal()"><i class="yd sw-refresh mr-2"></i> Repetir
+                    animações</button>
+
+                <p class="cat-label">Velocidade + Delay</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-up spd-f" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-f<div class="demo-lbl">0.25s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i class="yd sw-flash"></i>base<div
+                            class="demo-lbl">0.55s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up spd-s" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-s<div class="demo-lbl">0.9s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up spd-xs" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
+                    </div>
+                </div>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-up dly-1" onclick="replay(this)"><i
+                            class="yd sw-timer"></i>.dly-1<div class="demo-lbl">0.1s delay</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-3" onclick="replay(this)"><i
+                            class="yd sw-timer"></i>.dly-3<div class="demo-lbl">0.3s delay</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-5" onclick="replay(this)"><i
+                            class="yd sw-timer"></i>.dly-5<div class="demo-lbl">0.5s delay</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-8" onclick="replay(this)"><i
+                            class="yd sw-timer"></i>.dly-8<div class="demo-lbl">1.2s delay</div>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<!-- Reveal: o SW detecta class="reveal-*" automaticamente -->
+<div class="reveal-up">Sobe ao entrar na tela</div>
+<div class="reveal-left spd-s dly-3">Vem da esquerda, lento + delay 0.3s</div>
+<div class="reveal-in">Zoom de entrada</div>
+<div class="reveal-blur">Desfoca &mdash; foca</div>
+</script></pre>
+            </div>
+
+            <!-- 2. TIMED -->
+            <div class="doc-card sec mb-6" id="timed">
+                <h3 class="t-g f-bd mb-2">2. Timed - One-Shot</h3>
+                <p class="t-mut mb-4">Roda uma vez. Ideal para modais, popups e notificações. <strong>Clique para
+                        repetir.</strong></p>
+
+                <p class="cat-label">Direção</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-fade" onclick="replay(this)"><i
+                            class="yd sw-eye"></i>.ani-fade</div>
+                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i
+                            class="yd sw-up-arrow"></i>.ani-up</div>
+                    <div class="demo-box" data-timed="ani-down" onclick="replay(this)"><i
+                            class="yd sw-down-arrow"></i>.ani-down</div>
+                    <div class="demo-box" data-timed="ani-left" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-right"></i>.ani-left</div>
+                    <div class="demo-box" data-timed="ani-right" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-left"></i>.ani-right</div>
+                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="yd sw-expand"></i>.ani-in
+                    </div>
+                    <div class="demo-box" data-timed="ani-out" onclick="replay(this)"><i
+                            class="yd sw-expand-alt"></i>.ani-out</div>
+                    <div class="demo-box" data-timed="ani-flip" onclick="replay(this)"><i
+                            class="yd sw-sync"></i>.ani-flip</div>
+                    <div class="demo-box" data-timed="ani-drop" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-top"></i>.ani-drop</div>
+                </div>
+
+                <p class="cat-label">Velocidade (aplica em qualquer ani-*)</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-in spd-f" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-f<div class="demo-lbl">0.25s fast</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="yd sw-flash"></i>base<div
+                            class="demo-lbl">0.55s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-in spd-s" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-s<div class="demo-lbl">0.9s slow</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-in spd-xs" onclick="replay(this)"><i
+                            class="yd sw-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<div class="ani-up">Sobe uma vez</div>
+<div class="ani-in spd-f">Zoom rápido</div>
+<div class="ani-left spd-s dly-3">Vem da direita, lento, delay 0.3s</div>
+<div class="ani-flip">Vira no eixo X</div>
+</script></pre>
+            </div>
+
+            <!-- 2b. TIMED AVANÇADO -->
+            <div class="doc-card sec mb-6" id="timed-adv">
+                <h3 class="t-g f-bd mb-2">2b. Timed Avançado - 11 modelos exclusivos</h3>
+                <p class="t-mut mb-4">Clip-path, 3D perspectiva, skew, roll, pop spring e mais. <strong>Clique para
+                        repetir.</strong></p>
+
+                <p class="cat-label">Clip-path Wipes (revela direcional sem fade)</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-wipe-l" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-right"></i>.ani-wipe-l<div class="demo-lbl">wipe</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-wipe-r" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-left"></i>.ani-wipe-r<div class="demo-lbl">wipe</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-wipe-t" onclick="replay(this)"><i
+                            class="yd sw-up-arrow"></i>.ani-wipe-t<div class="demo-lbl">wipe</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-wipe-b" onclick="replay(this)"><i
+                            class="yd sw-down-arrow"></i>.ani-wipe-b<div class="demo-lbl">wipe</div>
+                    </div>
+                </div>
+
+                <p class="cat-label">3D Perspectiva</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-3d-l" onclick="replay(this)"><i
+                            class="yd sw-box"></i>.ani-3d-l<div class="demo-lbl">rotateY -90°</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-3d-r" onclick="replay(this)"><i
+                            class="yd sw-box"></i>.ani-3d-r<div class="demo-lbl">rotateY +90°</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-3d-t" onclick="replay(this)"><i
+                            class="yd sw-box"></i>.ani-3d-t<div class="demo-lbl">rotateX 80°</div>
+                    </div>
+                </div>
+
+                <p class="cat-label">Skew + Roll + Pop + Swing</p>
+                <div class="demo-grid">
+                    <div class="demo-box" data-timed="ani-skew-l" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-right"></i>.ani-skew-l<div class="demo-lbl">inclina entrada</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-skew-r" onclick="replay(this)"><i
+                            class="yd sw-arrow-from-left"></i>.ani-skew-r<div class="demo-lbl">inclina entrada</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-roll" onclick="replay(this)"><i
+                            class="yd sw-sync"></i>.ani-roll<div class="demo-lbl">gira + desliza</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-pop" onclick="replay(this)"><i class="yd sw-star"></i>.ani-pop
+                        <div class="demo-lbl">spring overshoot</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-zoom-blur" onclick="replay(this)"><i
+                            class="yd sw-eye"></i>.ani-zoom-blur<div class="demo-lbl">zoom + desfoca</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-swing" onclick="replay(this)"><i
+                            class="yd sw-bell"></i>.ani-swing<div class="demo-lbl">p�ndulo</div>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<div class="ani-wipe-l">Aparece com wipe da direita</div>
+<div class="ani-3d-l spd-s">Gira em 3D, lento</div>
+<div class="ani-pop">Spring com overshoot</div>
+<div class="ani-zoom-blur dly-3">Zoom + blur com delay</div>
+</script></pre>
+            </div>
+
+            <!-- 3. LOOP -->
+            <div class="doc-card sec mb-6" id="loop">
+                <h3 class="t-g f-bd mb-2">3. Loop - Animação Infinita</h3>
+                <p class="t-mut mb-4">Anima continuamente. Ideal para ícones, loaders e decorações.</p>
+
+                <p class="cat-label">Loop Clássicos (10)</p>
+                <div class="demo-grid-loop">
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-refresh loop-spin"></i>.loop-spin</div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-refresh loop-spin-r"></i>.loop-spin-r
+                        <div class="demo-lbl">reverso</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-heart loop-pulse"
+                            style="color:var(--verm)"></i>.loop-pulse</div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-cloud loop-float"
+                            style="color:var(--azul)"></i>.loop-float<div class="demo-lbl">flutua</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-cloud loop-float-r"
+                            style="color:var(--cian)"></i>.loop-float-r<div class="demo-lbl">flutua</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-fade"
+                            style="color:var(--gold)"></i>.loop-fade<div class="demo-lbl">pisca</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-bell loop-shake"
+                            style="color:var(--lara)"></i>.loop-shake</div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-down-arrow loop-bounce"
+                            style="color:var(--secu)"></i>.loop-bounce</div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-glow"
+                            style="color:var(--gold);--sw-glow-color:var(--gold)"></i>.loop-glow<div class="demo-lbl">
+                            brilho pulsante</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-flash loop-flicker"
+                            style="color:var(--aler)"></i>.loop-flicker<div class="demo-lbl">efeito neon</div>
+                    </div>
+                </div>
+
+                <p class="cat-label">Loop Avançados (6)</p>
+                <div class="demo-grid-loop">
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-wind loop-breathe"
+                            style="color:var(--ceu);font-size:2.8rem"></i>.loop-breathe<div class="demo-lbl">respira
+                            suave</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-bell loop-swing"
+                            style="color:var(--gold);font-size:2.8rem;transform-origin:top center"></i>.loop-swing<div
+                            class="demo-lbl">pêndulo</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-box loop-jello"
+                            style="color:var(--viol);font-size:2.8rem"></i>.loop-jello<div class="demo-lbl">elástico
+                            jello</div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-heart loop-hbeat"
+                            style="color:var(--verm);font-size:2.8rem"></i>.loop-hbeat<div class="demo-lbl">batimento
+                        </div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-flash loop-rubber"
+                            style="color:var(--lara);font-size:2.8rem"></i>.loop-rubber<div class="demo-lbl">rubber band
+                        </div>
+                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-wave"
+                            style="color:var(--turq);font-size:2.8rem"></i>.loop-wave<div class="demo-lbl">onda diagonal
+                        </div>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<i class="yd sw-refresh loop-spin"></i>
+<i class="yd sw-heart loop-pulse" style="color:var(--verm)"></i>
+<i class="yd sw-cloud loop-float"></i>
+
+<!-- Glow com cor customizada -->
+<i class="yd sw-star loop-glow" style="--sw-glow-color:var(--gold)"></i>
+</script></pre>
+            </div>
+
+            <!-- 4. MICRO (HOVER) -->
+            <div class="doc-card sec mb-6" id="hover">
+                <h3 class="t-g f-bd mb-2">4. Micro - Hover</h3>
+                <p class="t-mut mb-4">Interações de hover via <code>transform</code> e <code>filter</code>. Sem JS.
+                    <strong>Passe o mouse.</strong>
+                </p>
+
+                <p class="cat-label">Movimento</p>
+                <div class="demo-grid">
+                    <div class="demo-box hov-up"><i class="yd sw-up-arrow"></i>.hov-up</div>
+                    <div class="demo-box hov-down"><i class="yd sw-down-arrow"></i>.hov-down</div>
+                    <div class="demo-box hov-left"><i class="yd sw-arrow-from-right"></i>.hov-left</div>
+                    <div class="demo-box hov-right"><i class="yd sw-arrow-from-left"></i>.hov-right</div>
+                    <div class="demo-box hov-in"><i class="yd sw-expand"></i>.hov-in</div>
+                    <div class="demo-box hov-out"><i class="yd sw-expand-alt"></i>.hov-out</div>
+                    <div class="demo-box hov-lift"><i class="yd sw-layers"></i>.hov-lift<div class="demo-lbl">sobe +
+                            sombra</div>
+                    </div>
+                </div>
+
+                <p class="cat-label">Filtros</p>
+                <div class="demo-grid">
+                    <div class="demo-box hov-bright" style="background:var(--prin14)"><i
+                            class="yd sw-sun"></i>.hov-bright</div>
+                    <div class="demo-box hov-dim" style="background:var(--prin14)"><i class="yd sw-moon"></i>.hov-dim
+                    </div>
+                    <div class="demo-box hov-sat" style="background:var(--prin14)"><i class="yd sw-palette"></i>.hov-sat
+                    </div>
+                    <div class="demo-box hov-glow"><i class="yd sw-star"
+                            style="--sw-glow-color:var(--prin)"></i>.hov-glow</div>
+                </div>
+
+                <p class="cat-label">Animações no hover</p>
+                <div class="demo-grid">
+                    <div class="demo-box hov-shake"><i class="yd sw-bell"></i>.hov-shake</div>
+                    <div class="demo-box hov-tada"><i class="yd sw-party"></i>.hov-tada</div>
+                    <div class="demo-box hov-pulse"><i class="yd sw-heart"></i>.hov-pulse</div>
+                    <div class="demo-box hov-bounce"><i class="yd sw-down-arrow"></i>.hov-bounce</div>
+                </div>
+
+                <p class="cat-label">Hover Avançados</p>
+                <div class="demo-grid">
+                    <div class="demo-box hov-flip"><i class="yd sw-sync"></i>.hov-flip<div class="demo-lbl">rotateY 180
+                        </div>
+                    </div>
+                    <div class="demo-box hov-skew"><i class="yd sw-arrow-from-right"></i>.hov-skew<div class="demo-lbl">
+                            skewX</div>
+                    </div>
+                    <div class="demo-box hov-jello"><i class="yd sw-box"></i>.hov-jello<div class="demo-lbl">jello</div>
+                    </div>
+                    <div class="demo-box hov-rubber"><i class="yd sw-flash"></i>.hov-rubber<div class="demo-lbl">rubber
+                            band</div>
+                    </div>
+                    <div class="demo-box hov-roll"><i class="yd sw-refresh"></i>.hov-roll<div class="demo-lbl">gira +
+                            desliza</div>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<div class="hov-lift">Card com lift</div>
+<button class="hov-in hov-bright">Cresce e ilumina</button>
+<i class="yd sw-bell hov-shake"></i>
+<div class="hov-flip">Vira em 3D</div>
+<div class="hov-jello">Jello elástico</div>
+
+<!-- Glow com cor customizada -->
+<div class="hov-glow" style="--sw-glow-color:var(--gold)">Glow dourado</div>
+</script></pre>
+            </div>
+
+            <!-- SCROLL MOUNT/UNMOUNT -->
+            <div class="doc-card sec mb-6" id="scroll-mnt"
+                style="background:linear-gradient(135deg, var(--prin---), var(--sw-bg-sur))">
+                <h3 class="t-g f-bd mb-2">Scroll Mount/Unmount</h3>
+                <p class="t-mut mb-4">Sistema bidirecional: elementos <strong>montam</strong> ao entrar na viewport
+                    e <strong>desmontam</strong> ao sair. Use <code>y2anime-mnt</code> combinado com
+                    <code>class="reveal-*"</code>.
+                </p>
+                <pre swcode="html" class="mb-6"><script type="text/plain">
+<!-- y2anime-mnt = bidirecional (monta e desmonta ao rolar) -->
+<div class="reveal-up" y2anime-mnt>Sobe ao entrar, some ao sair</div>
+<div class="reveal-up dly-3" y2anime-mnt>Com delay</div>
+<div class="reveal-blur spd-s" y2anime-mnt>Blur, lento</div>
+<div class="reveal-in" y2anime-mnt>Zoom de entrada</div>
+</script></pre>
+                <a href="scroll.html" y2btn class="y2btn-pri">
+                    <i class="yd sw-arrow-to-right mr-2"></i> Ver demo completo do Scroll
+                </a>
+            </div>
+
+            <!-- 5. DELAYS -->
+            <div class="doc-card sec mb-6" id="delays">
+                <h3 class="t-g f-bd mb-4">5. Delays - .dly-1 a .dly-9</h3>
+                <p class="t-mut mb-4">Funciona com reveal, timed e loop. <strong>Clique "Replay" para ver a
+                        cascata.</strong></p>
+
+                <div class="flx gap-3 f-wr mb-4" id="delayDemo">
+                    <div class="demo-box" data-timed="ani-up dly-1" onclick="replay(this)" style="min-width:9rem">.dly-1
+                        <div class="demo-lbl">0.1s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-2" onclick="replay(this)" style="min-width:9rem">.dly-2
+                        <div class="demo-lbl">0.2s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-3" onclick="replay(this)" style="min-width:9rem">.dly-3
+                        <div class="demo-lbl">0.3s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-4" onclick="replay(this)" style="min-width:9rem">.dly-4
+                        <div class="demo-lbl">0.4s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-5" onclick="replay(this)" style="min-width:9rem">.dly-5
+                        <div class="demo-lbl">0.5s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-6" onclick="replay(this)" style="min-width:9rem">.dly-6
+                        <div class="demo-lbl">0.7s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-7" onclick="replay(this)" style="min-width:9rem">.dly-7
+                        <div class="demo-lbl">0.9s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-8" onclick="replay(this)" style="min-width:9rem">.dly-8
+                        <div class="demo-lbl">1.2s</div>
+                    </div>
+                    <div class="demo-box" data-timed="ani-up dly-9" onclick="replay(this)" style="min-width:9rem">.dly-9
+                        <div class="demo-lbl">1.6s</div>
+                    </div>
+                </div>
+                <button y2btn class="y2btn-sec" onclick="replayAll('#delayDemo .demo-box')">
+                    <i class="yd sw-refresh mr-2"></i> Replay Cascata
+                </button>
+
+                <pre swcode="html" style="margin-top:1.6rem"><script type="text/plain">
+<!-- Cards em cascata com stagger de delay -->
+<div class="l gap-4">
+  <div class="co4-g reveal-up dly-1">Card 1</div>
+  <div class="co4-g reveal-up dly-3">Card 2</div>
+  <div class="co4-g reveal-up dly-5">Card 3</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 6. VARIVEIS CSS -->
+            <div class="doc-card sec" id="vars">
+                <h3 class="t-g f-bd mb-4">6. Variveis CSS</h3>
+                <p class="t-mut mb-4">Override no seu <code>:root</code> para ajustar todo o sistema de animações.</p>
+                <pre swcode="css"><script type="text/plain">
+:root {
+    /* Curvas de easing */
+    --sw-ease:   cubic-bezier(0.25, 0.46, 0.45, 0.94); /* padrão */
+    --sw-spring: cubic-bezier(0.34, 1.56, 0.64, 1);    /* elástico */
+    --sw-sharp:  cubic-bezier(0.4,  0,    0.6,  1);     /* abrupto */
+
+    /* Durações */
+    --sw-spd-f:  0.25s;  /* .spd-f  &mdash; rápido */
+    --sw-spd:    0.55s;  /* base    &mdash; padrão */
+    --sw-spd-s:  0.9s;   /* .spd-s  &mdash; lento */
+    --sw-spd-xs: 1.6s;   /* .spd-xs &mdash; muito lento */
+    --sw-spd-lp: 3s;     /* loop    &mdash; contínuo */
+
+    /* Distâncias de movimento */
+    --sw-dist:    5rem;   /* reveal pequeno (up/down) */
+    --sw-dist-lg: 10rem;  /* reveal grande (left/right) */
+
+    /* Glow color (hov-glow, loop-glow) */
+    --sw-glow-color: var(--prin);
+}
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function replay(el) {
+            var classes = (el.dataset.timed || '').split(' ').filter(Boolean);
+            classes.forEach(function (c) { el.classList.remove(c); });
+            void el.offsetWidth;
+            classes.forEach(function (c) { el.classList.add(c); });
+        }
+
+        function replayAll(selector) {
+            document.querySelectorAll(selector).forEach(function (el) { replay(el); });
+        }
+
+        function replayReveal() {
+            var boxes = document.querySelectorAll('#revPlayground .rev-box');
+            boxes.forEach(function (box) {
+                var cls = box.dataset.rev;
+                box.classList.remove('is-revealed', cls);
+                void box.offsetWidth;
+                box.classList.add(cls);
+            });
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    boxes.forEach(function (box, i) {
+                        setTimeout(function () { box.classList.add('is-revealed'); }, i * 100);
+                    });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Impede que SWAnime observe os boxes do playground ao detectar reveal-* via reinit do ajax
+            document.querySelectorAll('#revPlayground .rev-box').forEach(function (el) {
+                el._y2Rev = true;
+            });
+            document.querySelectorAll('[data-timed]').forEach(function (el) {
+                el.dataset.timed.split(' ').filter(Boolean).forEach(function (c) { el.classList.add(c); });
+            });
+            replayReveal();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-br" sw-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>SWCode - SW Framework Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <script src="../dist/sw.min.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">SWCode</span>
+            </nav>
+
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">SWCode <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Syntax highlighting zero-dependência para JS/TS, CSS, HTML, JSON, PHP e Bash. 5 temas built-in (One-Dark padrão),
+                    botão de copiar, numeração de linhas - tudo auto-inicializado e sem necessidade de escapar caracteres.
+                </p>
+            </div>
+
+            <!-- META: esta página inteira — uma demo de SWCode -->
+            <div class="doc-card mb-6" style="border-color:var(--sw-pri)">
+                <p class="t-p f-bd mb-0" style="color:var(--sw-pri)">⚡ Esta página inteira — uma demo ao vivo - todos os
+                    blocos de código abaixo foram processados automaticamente pelo SWCode ao carregar.</p>
+            </div>
+
+            <!-- 1. COMO USAR -->
+            <div class="doc-card sec" id="setup">
+                <h3 class="t-m f-bd mb-1">1. Como Usar</h3>
+                <p class="t-p t-mut mb-6">Integre o SWCode em seu projeto em apenas 2 passos.</p>
+
+                <div class="l gap-4 f-wr mb-6">
+                    <div class="co12 co6-g">
+                        <p class="t-pp f-bd t-mut mb-2 uppercase tracking-wider">Passo 1: Incluir Arquivos</p>
+                        <pre swcode="html"><script type="text/plain">
+<!-- No Head -->
+<link rel="stylesheet" href="dist/sw.min.css">
+
+<!-- No final do Body -->
+<script src="dist/sw.min.js"></script>
+</script></pre>
+                    </div>
+                    <div class="co12 co6-g">
+                        <p class="t-pp f-bd t-mut mb-2 uppercase tracking-wider">Passo 2: Markup Semântico</p>
+                        <pre swcode="html"><script type="text/plain">
+<!-- Use o atributo swcode -->
+<pre swcode="javascript">
+  const sw = "⚡SW⚡";
+</pre>
+</script></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card mb-0" style="background:var(--sw-bg-sec); border-color:var(--sw-bor)">
+                  <h4 class="t-p f-bd mb-2" style="color:var(--sw-pri)">⚡ Escrita Normal (No-Escape)</h4>
+                  <p class="t-p t-mut mb-0">O SWCode permite escrever código sem precisar converter <code>&lt;</code> em <code>&amp;lt;</code>. Para linguagens com tags (HTML/PHP), envolva o código em uma tag <code>&lt;script type="text/plain"&gt;</code> dentro do <code>&lt;pre&gt;</code>.</p>
+                </div>
+            </div>
+
+            <!-- 2. USO BÁSICO -->
+            <div class="doc-card sec" id="basico">
+                <h3 class="t-m f-bd mb-1">2. Uso Básico</h3>
+                <p class="t-mut t-p mb-6">Escreva seu código <b>normalmente</b> dentro de um <code>&lt;pre&gt;</code> com o atributo <code style="color:var(--sw-pri)">swcode="linguagem"</code>.</p>
+
+                <div class="demo-label">JavaScript (Escrita Normal)</div>
+                <pre swcode="js">
+const soma = (a, b) => a + b;
+console.log(soma(2, 3)); // 5
+</pre>
+
+                <div class="demo-label mt-4">HTML/PHP (Sem Escapar - Usando Script Tag)</div>
+                <p class="t-p t-mut mb-4">Para códigos que contêm tags (como HTML), use <code>&lt;script type="text/plain"&gt;</code> para evitar que o navegador interprete o código antes do realce.</p>
+                <pre swcode="html"><script type="text/plain">
+<div class="card">
+   <h3>Título do Card</h3>
+   <p>Conteúdo do card aqui...</p>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 3. JAVASCRIPT -->
+            <div class="doc-card sec" id="js">
+                <h3 class="t-m f-bd mb-1">3. JavaScript / TypeScript</h3>
+                <p class="t-mut t-p mb-6">Keywords, funções, strings, template literals, comentários, números, constantes.</p>
+
+                <pre swcode="js">
+// Classe com TypeScript
+class UserService {
+    private readonly users: Map<string, User> = new Map();
+
+    async findById(id: string): Promise<User | null> {
+        if (!id) throw new Error('ID obrigatório');
+        return this.users.get(id) ?? null;
+    }
+
+    static create(data: Partial<User>): User {
+        return {
+            id: crypto.randomUUID(),
+            createdAt: new Date(),
+            ...data
+        };
+    }
+}
+
+// Arrow functions + desestruturação
+const { nome, idade = 18 } = usuario;
+const ativo = idade >= 18 && nome !== null;
+
+// Template literal
+const msg = `Usuário ${nome} tem ${idade} anos.`;
+</pre>
+            </div>
+
+            <!-- 4. CSS -->
+            <div class="doc-card sec" id="css">
+                <h3 class="t-m f-bd mb-1">4. CSS / SCSS</h3>
+                <p class="t-mut t-p mb-6">Seletores, propriedades, valores, variáveis, @-rules e cores.</p>
+
+                <pre swcode="css">
+/* Componente de Card com CSS custom properties */
+@layer components {
+    .crd {
+        --cd-bg:  var(--sw-bg-sur);
+        --cd-r:   var(--sw-r-m);
+        --cd-pad: 2.4rem;
+
+        background: var(--cd-bg);
+        border-radius: var(--cd-r);
+        padding: var(--cd-pad);
+        transition: transform .2s, box-shadow .2s;
+    }
+
+    .crd.is-int:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
+    }
+
+    @media (max-width: 576px) {
+        .crd { --cd-pad: 1.6rem; }
+    }
+}
+</pre>
+            </div>
+
+            <!-- 5. HTML -->
+            <div class="doc-card sec" id="html">
+                <h3 class="t-m f-bd mb-1">5. HTML / Markup</h3>
+                <p class="t-mut t-p mb-6">Tags, atributos, valores e comentários.</p>
+
+                <pre swcode="html"><script type="text/plain">
+<!-- Componente de Card Produto -->
+<article class="sw-card">
+    <div class="sw-card-img-wrap">
+        <img
+            src="/img/produto.jpg"
+            alt="Nome do produto"
+            loading="lazy"
+            width="400"
+            height="300">
+        <div class="sw-badge sw-badge-primary">-20%</div>
+    </div>
+    <div class="sw-card-body">
+        <h3>Produto Framework Edition</h3>
+        <button class="sw-btn sw-btn-primary">
+            Adicionar ao carrinho
+        </button>
+    </div>
+</article>
+</script></pre>
+            </div>
+
+            <!-- 6. JSON -->
+            <div class="doc-card sec" id="json">
+                <h3 class="t-m f-bd mb-1">6. JSON</h3>
+                <p class="t-mut t-p mb-6">Chaves, valores, tipos primitivos e aninhamento.</p>
+
+                <pre swcode="json">
+{
+    "framework": "SW",
+    "version": "0.1.0-alpha.1",
+    "modules": ["SWTrans", "SWModal", "SWAlert", "SWDay", "SWAjax", "SWCode"],
+    "config": {
+        "theme": "dark",
+        "scale": "62.5%",
+        "breakpoints": {
+            "p": 576,
+            "m": 768,
+            "g": 1024,
+            "gg": 1280
+        }
+    },
+    "active": true,
+    "license": "MIT"
+}
+</pre>
+            </div>
+
+            <!-- 7. PHP -->
+            <div class="doc-card sec" id="php">
+                <h3 class="t-m f-bd mb-1">7. PHP</h3>
+                <p class="t-mut t-p mb-6">Keywords, variáveis, funções, strings e comentários.</p>
+
+                <pre swcode="php"><script type="text/plain">
+<?php
+declare(strict_types=1);
+
+namespace App\Services;
+
+class ProdutoService
+{
+    public function __construct(
+        private readonly ProdutoRepository $repo,
+        private readonly CacheInterface $cache
+    ) {}
+
+    /**
+     * Busca produto com cache
+     */
+    public function findById(int $id): ?Produto
+    {
+        $key = "produto:{$id}";
+
+        return $this->cache->remember($key, 3600, function () use ($id) {
+            return $this->repo->find($id);
+        });
+    }
+
+    public function salvar(array $dados): Produto
+    {
+        if (empty($dados['nome'])) {
+            throw new \InvalidArgumentException('Nome obrigatório');
+        }
+
+        $produto = Produto::create($dados);
+        $this->repo->save($produto);
+        $this->cache->forget("produto:{$produto->id}");
+
+        return $produto;
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 8. BASH -->
+            <div class="doc-card sec" id="bash">
+                <h3 class="t-m f-bd mb-1">8. Bash / Shell</h3>
+                <p class="t-mut t-p mb-6">Keywords, variáveis, strings e comentários.</p>
+
+                <pre swcode="bash">
+#!/bin/bash
+# Deploy script - SW Framework
+
+set -euo pipefail
+
+APP_DIR="/var/www/sw"
+BACKUP_DIR="/var/backups/sw"
+DATE=$(date +%Y%m%d_%H%M%S)
+
+echo "⚡SW⚡ Deploy SW Framework - $DATE"
+
+# Backup
+if [ -d "$APP_DIR" ]; then
+    tar -czf "$BACKUP_DIR/backup_$DATE.tar.gz" "$APP_DIR"
+    echo "✓ Backup criado"
+fi
+
+# Pull + build
+cd "$APP_DIR"
+git pull origin main
+npm ci --production
+npm run build
+
+echo "✓ Deploy concluído com sucesso"
+</pre>
+            </div>
+
+            <!-- 9. NUMERAÇÃO DE LINHAS -->
+            <div class="doc-card sec" id="linhas">
+                <h3 class="t-m f-bd mb-1">9. Numeração de Linhas</h3>
+                <p class="t-mut t-p mb-6">Adicione <code style="color:var(--sw-pri)">swcode-lines</code> no <code>&lt;pre&gt;</code> para ativar.</p>
+
+                <pre swcode="js" swcode-lines>
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+
+// Criar aplicação
+const app = createApp(App);
+
+// Plugins
+app.use(router);
+
+// Mount
+app.mount('#app');
+
+console.log('⚡ App SW iniciado com sucesso!');
+</pre>
+            </div>
+
+            <!-- 10. TEMAS -->
+            <div class="doc-card sec" id="temas">
+                <h3 class="t-m f-bd mb-1">10. Temas</h3>
+                <p class="t-mut t-p mb-4">Use <code style="color:var(--sw-pri)">swcode-theme="..."</code> no <code>&lt;pre&gt;</code> para definir o tema inicial. O botão no header cicla pelos 5 temas.</p>
+
+                <pre swcode="html"><script type="text/plain">
+<pre swcode="js" swcode-theme="dracula">...</pre>
+<pre swcode="js" swcode-theme="one-dark">...</pre>
+<pre swcode="js" swcode-theme="github-dark">...</pre>
+<pre swcode="js" swcode-theme="monokai">...</pre>
+</script></pre>
+
+                <!-- One Dark -->
+                <p class="t-p f-bd mb-2 mt-6">One Dark <span class="t-mut" style="font-weight:400">(padrão)</span></p>
+                <div class="palette mb-3">
+                    <div class="pal-it"><div class="pal-dot" style="background:#c678dd"></div>kw</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#61afef"></div>fn</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#98c379"></div>str</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#5c6370"></div>com</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#d19a66"></div>num</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#e06c75"></div>bln</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#e06c75"></div>tag</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#d19a66"></div>atr</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#56b6c2"></div>prp</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#e06c75"></div>var</div>
+                </div>
+                <pre swcode="js" swcode-theme="one-dark">
+// One Dark - Atom inspired (Default)
+async function fetchUser(id) {
+    const res = await fetch(`/api/users/${id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json(); // { id, name, email }
+}
+</pre>
+
+                <!-- Palenight -->
+                <p class="t-p f-bd mb-2 mt-6">Palenight</p>
+                <div class="palette mb-3">
+                    <div class="pal-it"><div class="pal-dot" style="background:#c792ea"></div>kw</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#82aaff"></div>fn</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#c3e88d"></div>str</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#676e95"></div>com</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#f78c6c"></div>num</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#ff5370"></div>bln</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#f07178"></div>tag</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#ffcb6b"></div>atr</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#89ddff"></div>prp</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#f78c6c"></div>var</div>
+                </div>
+                <pre swcode="js" swcode-theme="palenight">
+// Palenight - Material inspired
+async function fetchUser(id) {
+    const res = await fetch(`/api/users/${id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json(); // { id, name, email }
+}
+</pre>
+
+                <!-- Dracula -->
+                <p class="t-p f-bd mb-2 mt-6">Dracula</p>
+                <div class="palette mb-3">
+                    <div class="pal-it"><div class="pal-dot" style="background:#ff79c6"></div>kw</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#50fa7b"></div>fn</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#f1fa8c"></div>str</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#6272a4"></div>com</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#bd93f9"></div>num</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#bd93f9"></div>bln</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#ff79c6"></div>tag</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#50fa7b"></div>atr</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#8be9fd"></div>prp</div>
+                    <div class="pal-it"><div class="pal-dot" style="background:#ffb86c"></div>var</div>
+                </div>
+                <pre swcode="js" swcode-theme="dracula">
+// Dracula - Dark with vibrant accents
+async function fetchUser(id) {
+    const res = await fetch(`/api/users/${id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json(); // { id, name, email }
+}
+</pre>
+            </div>
+
+            <!-- 11. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-1">11. Quick Reference</h3>
+
+                <table class="ref-table mb-6">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pre[swcode="lang"]</code></td>
+                            <td>Ativa o highlight na linguagem especificada</td>
+                        </tr>
+                        <tr>
+                            <td><code>pre[swcode-lines]</code></td>
+                            <td>Ativa numeração de linhas</td>
+                        </tr>
+                        <tr>
+                            <td><code>pre[swcode-theme="nome"]</code></td>
+                            <td>Define o tema inicial: one-dark — palenight — dracula — github-dark — monokai</td>
+                        </tr>
+                        <tr>
+                            <td><code>script[type="text/plain"]</code></td>
+                            <td>Use dentro do pre para NÃO precisar escapar caracteres como &lt; e &gt;</td>
+                        </tr>
+                        <tr>
+                            <td><code>[swcode]</code></td>
+                            <td>Container externo gerado pelo módulo (estilização via atributo)</td>
+                        </tr>
+                        <tr>
+                            <td><code>[swcode-hdr]</code></td>
+                            <td>Barra superior (lang badge + botão tema + botão copiar)</td>
+                        </tr>
+                        <tr>
+                            <td><code>[swcode-thm]</code></td>
+                            <td>Botão de troca de tema (cicla pelos 5 temas)</td>
+                        </tr>
+                        <tr>
+                            <td><code>[swcode-cpy]</code></td>
+                            <td>Botão de copiar</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Linguagem</th>
+                            <th>Valores aceitos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>JavaScript</td>
+                            <td>js — javascript — ts — typescript</td>
+                        </tr>
+                        <tr>
+                            <td>CSS</td>
+                            <td>css — scss — less</td>
+                        </tr>
+                        <tr>
+                            <td>HTML</td>
+                            <td>html — markup — xml — svg</td>
+                        </tr>
+                        <tr>
+                            <td>JSON</td>
+                            <td>json</td>
+                        </tr>
+                        <tr>
+                            <td>PHP</td>
+                            <td>php</td>
+                        </tr>
+                        <tr>
+                            <td>Bash</td>
+                            <td>bash — sh — shell</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="doc-footer">
+                <div>SW Framework v0.1.0-alpha.1 • Sandro Web Solutions</div>
+                <div><a href="../index.html">Documentação Oficial</a></div>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
