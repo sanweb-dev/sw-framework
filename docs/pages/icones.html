@@ -35,17 +35,16 @@
         <div class="icon-grid" id="icon-grid"></div>
 
         <div class="docs-specimen" style="margin-top:2.4rem;">
-          <h3 class="docs-specimen-title">Como usar</h3>
-          <p>Clique num ícone para copiar a tag pronta. Uso direto:</p>
+          <h3 class="docs-specimen-title">Como usar — cor dinâmica com <code>sw-icon</code></h3>
+          <p>O atributo <code>sw-icon</code> injeta o SVG inline automaticamente (via <code>SW.Icon</code>) — a cor segue <code>currentColor</code> de verdade, muda com o tema e com classes de texto (<code>.sw-text-pri</code>, etc.).</p>
           <div class="docs-code">
-            <pre><code>&lt;img src="dist/icons/Abstract/badge.svg" alt="" width="24" height="24"&gt;
+            <pre><code>&lt;span sw-icon="Abstract/badge" style="color: var(--sw-pri);"&gt;&lt;/span&gt;
 
-&lt;!-- cor herdada do elemento pai (funciona com &lt;img&gt; via filtro, ou inline via fetch) --&gt;
-&lt;span style="color: var(--sw-pri);"&gt;
-  &lt;img src="dist/icons/Abstract/badge.svg" alt="" width="24" height="24" style="filter: none;"&gt;
-&lt;/span&gt;</code></pre>
+&lt;!-- ou via JS, em qualquer elemento --&gt;
+&lt;script&gt;SW.Icon.use('#meu-icone', 'Base/setting-config');&lt;/script&gt;</code></pre>
           </div>
-          <p class="t-mut t-p">Nota: <code>&lt;img&gt;</code> não herda <code>currentColor</code> diretamente (limitação do HTML) — para ícones que precisam mudar de cor dinamicamente, use fetch + inline SVG (ver <code>SW.Code</code> como referência de carregamento) ou aplique <code>filter</code> CSS.</p>
+          <p class="t-mut t-p mb-4">Exemplo ao vivo: <span sw-icon="Abstract/badge" style="color: var(--sw-pri); vertical-align: -0.3em;"></span> muda de cor com <code>color</code> herdado.</p>
+          <p class="t-mut t-p">Alternativa mais simples (sem JS, sem herdar cor): <code>&lt;img src="dist/icons/Abstract/badge.svg" alt="" width="24" height="24"&gt;</code>.</p>
         </div>
       </section>
 

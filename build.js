@@ -14,7 +14,7 @@ const jsFiles = [
   path.join(root, 'src', 'js', 'core', 'sw-utils.js'),
   path.join(root, 'src', 'js', 'modules', 'sw-day.js'),
   path.join(root, 'src', 'js', 'modules', 'sw-trans.js'),
-  ...['sw-code.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js']
+  ...['sw-code.js', 'sw-icon.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js']
     .map((file) => path.join(root, 'src', 'js', 'modules', file)),
 ];
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');
