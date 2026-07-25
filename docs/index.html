@@ -247,6 +247,33 @@
         </div>
       </div>
 
+      <!-- INSTALAÇÃO -->
+      <section class="doc-card mb-8">
+        <span class="doc-section-tag">Começar agora</span>
+        <h2 class="t-m f-bd mb-4">Instalação</h2>
+        <p class="t-mut t-p mb-6">Ainda não publicado em registro (npm/CDN). Use os bundles prontos em <code>dist/</code> ou clone o repositório.</p>
+        <div class="l gap-4">
+          <div class="co12 co6-g">
+            <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 1. Inclua os bundles</p>
+            <pre swcode="html"><script type="text/plain">
+&lt;link rel="stylesheet" href="dist/sw.min.css"&gt;
+&lt;script src="dist/sw.min.js" defer&gt;&lt;/script&gt;
+&lt;!-- opcional: efeitos SW-FX --&gt;
+&lt;script src="dist/sw-fx.min.js" defer&gt;&lt;/script&gt;
+</script></pre>
+          </div>
+          <div class="co12 co6-g">
+            <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 2. Ou clone e faça o build</p>
+            <pre swcode="bash"><script type="text/plain">
+git clone &lt;repositorio&gt;
+cd sw
+npm install
+npm run build
+</script></pre>
+          </div>
+        </div>
+      </section>
+
       <!-- DEMOS ACESSÍVEIS (FORMULÁRIO, TABELA & DIALOG) -->
       <section class="doc-card mb-8">
         <span class="doc-section-tag">Demonstração Interativa</span>

@@ -2,7 +2,28 @@
   "name": "@sandroweb/sw-framework",
   "version": "0.1.0-alpha.1",
   "private": true,
-  "description": "Laboratório e build do SW Framework",
+  "description": "Framework web nativo e sem dependencias: CSS modular, componentes acessiveis, transicoes de pagina via View Transitions API e efeitos SW-FX progressivos.",
+  "keywords": [
+    "framework",
+    "css",
+    "vanilla-js",
+    "view-transitions",
+    "accessibility",
+    "zero-dependency"
+  ],
+  "author": "Sandro Web Solutions",
+  "license": "MIT",
+  "main": "dist/sw.min.js",
+  "style": "dist/sw.min.css",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "node build.js",
     "test": "node --test tests/sw-framework.test.js",
