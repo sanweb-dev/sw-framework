@@ -3,8 +3,8 @@
    Nill Ecosystem | Sandro Web Solutions
    ========================================================================== */
 
-/* --- 🔘 BOTÕES (.sw-btn) --- */
-.sw-btn {
+/* --- 🔘 BOTÕES ([sw-btn] — atributo canônico, .sw-btn aceito como alias) --- */
+[sw-btn], .sw-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,79 +13,152 @@
   font-family: var(--sw-f-san);
   font-size: 1.4rem;
   font-weight: 600;
-  border-radius: var(--sw-r);
+  border-radius: var(--sw-r-m);
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
   min-height: 4.4rem;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  background: var(--sw-sur);
+  color: var(--sw-txt);
+  border-color: var(--sw-bor);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, filter 0.25s ease;
   user-select: none;
 }
 
-.sw-btn:focus-visible,
+[sw-btn]:focus-visible, .sw-btn:focus-visible,
 a:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--sw-pri);
   outline-offset: 3px;
 }
 
-.sw-btn:hover {
+[sw-btn]:hover, .sw-btn:hover {
   transform: translateY(-2px);
 }
 
-.sw-btn-primary {
-  background: var(--sw-pri);
-  color: #ffffff;
-  box-shadow: 0 4px 14px var(--sw-pri-glow);
+[sw-btn][disabled], .sw-btn[disabled], [sw-btn].sw-btn-dis, .sw-btn.sw-btn-dis {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  pointer-events: none;
 }
 
-.sw-btn-primary:hover {
-  filter: brightness(1.15);
-  box-shadow: 0 6px 20px var(--sw-pri-glow);
-}
+/* --- Cores semânticas (gradiente + sombra colorida, estilo Material Kit) --- */
+.sw-btn-pri, .sw-btn-primary  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-pri); }
+.sw-btn-suc, .sw-btn-success  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-suc); }
+.sw-btn-err, .sw-btn-danger   { background: var(--sw-grad-err); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-err); }
+.sw-btn-ale, .sw-btn-warning  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-ale); }
+.sw-btn-inf, .sw-btn-info     { background: var(--sw-grad-inf); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-inf); }
+.sw-btn-drk                   { background: var(--sw-grad-drk); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-drk); }
+.sw-btn-lit                   { background: var(--sw-grad-lit); color: #1a2636; border-color: transparent; box-shadow: var(--sw-sha-lit); }
 
-.sw-btn-secondary {
+.sw-btn-pri:hover, .sw-btn-primary:hover,
+.sw-btn-suc:hover, .sw-btn-success:hover,
+.sw-btn-err:hover, .sw-btn-danger:hover,
+.sw-btn-ale:hover, .sw-btn-warning:hover,
+.sw-btn-inf:hover, .sw-btn-info:hover,
+.sw-btn-drk:hover, .sw-btn-lit:hover { filter: brightness(1.08); }
+
+.sw-btn-sec, .sw-btn-secondary {
   background: var(--sw-sur);
   color: var(--sw-txt);
   border-color: var(--sw-bor);
 }
 
-.sw-btn-secondary:hover {
+.sw-btn-sec:hover, .sw-btn-secondary:hover {
   background: var(--sw-sur-hover);
   border-color: var(--sw-bor-glow);
 }
 
-.sw-btn-outline {
-  background: transparent;
+/* --- Estilos (outline / ghost / glass) — combinam com as cores acima --- */
+.sw-btn-out, .sw-btn-outline {
+  background: transparent !important;
+  box-shadow: none !important;
   color: var(--sw-pri);
   border-color: var(--sw-pri);
 }
+.sw-btn-out.sw-btn-suc, .sw-btn-out.sw-btn-success { color: var(--sw-suc); border-color: var(--sw-suc); }
+.sw-btn-out.sw-btn-err, .sw-btn-out.sw-btn-danger  { color: var(--sw-err); border-color: var(--sw-err); }
+.sw-btn-out.sw-btn-ale, .sw-btn-out.sw-btn-warning { color: var(--sw-ale); border-color: var(--sw-ale); }
+.sw-btn-out.sw-btn-inf, .sw-btn-out.sw-btn-info    { color: var(--sw-inf); border-color: var(--sw-inf); }
+.sw-btn-out.sw-btn-sec, .sw-btn-out.sw-btn-secondary { color: var(--sw-txt); border-color: var(--sw-bor); }
 
-.sw-btn-outline:hover {
-  background: var(--sw-pri-glow);
+.sw-btn-out:hover, .sw-btn-outline:hover {
+  background: var(--sw-pri-glow) !important;
   color: #ffffff;
 }
 
-.sw-btn-glass {
+.sw-btn-gst {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  color: var(--sw-pri);
+}
+.sw-btn-gst:hover { background: var(--sw-sur) !important; }
+.sw-btn-gst.sw-btn-suc { color: var(--sw-suc); }
+.sw-btn-gst.sw-btn-err { color: var(--sw-err); }
+.sw-btn-gst.sw-btn-ale { color: var(--sw-ale); }
+.sw-btn-gst.sw-btn-inf { color: var(--sw-inf); }
+
+.sw-btn-gls, .sw-btn-glass {
   background: var(--sw-gls-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--sw-txt);
   border-color: var(--sw-gls-bor);
+  box-shadow: none;
 }
 
-.sw-btn-sm { padding: 0.5rem 1.2rem; font-size: 1.2rem; }
-.sw-btn-lg { padding: 1.2rem 2.6rem; font-size: 1.6rem; }
-.sw-btn-pill { border-radius: var(--sw-r-fl); }
+/* --- Tamanhos (escala t-shirt) --- */
+.sw-btn-pp, .sw-btn-sm { padding: 0.4rem 1rem; font-size: 1.1rem; min-height: 2.8rem; gap: 0.5rem; }
+.sw-btn-p              { padding: 0.6rem 1.4rem; font-size: 1.2rem; min-height: 3.6rem; }
+.sw-btn-m              { padding: 0.8rem 1.8rem; font-size: 1.4rem; min-height: 4.4rem; }
+.sw-btn-g              { padding: 1rem 2.2rem; font-size: 1.5rem; min-height: 5rem; }
+.sw-btn-gg, .sw-btn-lg { padding: 1.2rem 2.6rem; font-size: 1.6rem; min-height: 5.6rem; }
+.sw-btn-xg             { padding: 1.5rem 3.2rem; font-size: 1.8rem; min-height: 6.4rem; }
+
+/* --- Formas --- */
+.sw-btn-pil, .sw-btn-pill { border-radius: var(--sw-r-fl); }
+.sw-btn-sqr { border-radius: 0; }
+.sw-btn-rnd { border-radius: 50%; padding: 0; width: 4.4rem; height: 4.4rem; min-height: 0; }
+.sw-btn-rnd.sw-btn-pp, .sw-btn-rnd.sw-btn-sm { width: 2.8rem; height: 2.8rem; }
+.sw-btn-rnd.sw-btn-gg, .sw-btn-rnd.sw-btn-lg { width: 5.6rem; height: 5.6rem; }
+
+/* --- Agrupamento --- */
+[sw-btn-grp] { display: inline-flex; }
+[sw-btn-grp] > [sw-btn], [sw-btn-grp] > .sw-btn { border-radius: 0; margin-inline-start: -1px; }
+[sw-btn-grp] > [sw-btn]:first-child, [sw-btn-grp] > .sw-btn:first-child { border-top-left-radius: var(--sw-r-m); border-bottom-left-radius: var(--sw-r-m); margin-inline-start: 0; }
+[sw-btn-grp] > [sw-btn]:last-child, [sw-btn-grp] > .sw-btn:last-child { border-top-right-radius: var(--sw-r-m); border-bottom-right-radius: var(--sw-r-m); }
+[sw-btn-grp] > [sw-btn]:hover, [sw-btn-grp] > .sw-btn:hover { z-index: 1; transform: none; }
+
+/* --- Estados --- */
+.sw-btn-act { filter: brightness(1.1); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .25); }
+
+.sw-btn-ldr { position: relative; color: transparent !important; pointer-events: none; }
+.sw-btn-ldr::after {
+  content: "";
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  color: #fff;
+  animation: sw-btn-spin 0.7s linear infinite;
+}
+.sw-btn-out.sw-btn-ldr::after, .sw-btn-gst.sw-btn-ldr::after { color: var(--sw-pri); }
+
+@keyframes sw-btn-spin { to { transform: rotate(360deg); } }
 
 /* --- 🃏 CARDS GLASSMORPHISM (.sw-card) --- */
 .sw-card {
   background: var(--sw-sur);
   border: 1px solid var(--sw-bor);
-  border-radius: var(--sw-r-g);
+  border-radius: var(--sw-r-gg);
   padding: 2rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--sw-sha);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -130,7 +203,7 @@ a:focus-visible,
   padding: 0.3rem 0.8rem;
   font-size: 1.1rem;
   font-weight: 700;
-  border-radius: var(--sw-r-p);
+  border-radius: var(--sw-r-fl);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: rgba(255, 255, 255, 0.08);
@@ -138,10 +211,11 @@ a:focus-visible,
   border: 1px solid var(--sw-bor);
 }
 
-.sw-badge-pri  { background: var(--sw-pri-glow); color: var(--sw-pri); border-color: var(--sw-pri); }
-.sw-badge-suc  { background: rgba(34, 197, 94, 0.15); color: var(--sw-suc); border-color: var(--sw-suc); }
-.sw-badge-err  { background: rgba(239, 68, 68, 0.15); color: var(--sw-err); border-color: var(--sw-err); }
-.sw-badge-ale  { background: rgba(245, 158, 11, 0.15); color: var(--sw-ale); border-color: var(--sw-ale); }
+.sw-badge-pri  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; }
+.sw-badge-suc  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; }
+.sw-badge-err  { background: var(--sw-grad-err); color: #fff; border-color: transparent; }
+.sw-badge-ale  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; }
+.sw-badge-inf  { background: var(--sw-grad-inf); color: #fff; border-color: transparent; }
 
 /* --- 🚪 MODAL (.sw-modal) --- */
 .sw-modal {
@@ -214,6 +288,40 @@ a:focus-visible,
 th[aria-sort] { cursor: pointer; }
 th[aria-sort="ascending"]::after { content: " ▲"; }
 th[aria-sort="descending"]::after { content: " ▼"; }
+
+/* --- 📊 TABELA ([sw-table]) — estilo Material Kit (header discreto, linhas suaves) --- */
+[sw-table] {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--sw-sur);
+  border-radius: var(--sw-r-m);
+  overflow: hidden;
+  box-shadow: var(--sw-sha-p);
+}
+
+[sw-table] thead th {
+  padding: 1.2rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sw-txt-mut);
+  background: var(--sw-bg);
+  border-bottom: 1px solid var(--sw-bor);
+  text-align: left;
+}
+
+[sw-table] tbody td {
+  padding: 1.2rem 1.6rem;
+  font-size: 1.4rem;
+  color: var(--sw-txt);
+  border-bottom: 1px solid var(--sw-bor);
+}
+
+[sw-table] tbody tr:last-child td { border-bottom: none; }
+[sw-table] tbody tr { transition: background-color 0.15s ease; }
+[sw-table] tbody tr:hover { background: var(--sw-sur-hover); }
+[sw-table].sw-table-striped tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
 
 @media (min-width: 768px) {
   .sw-table-controls { flex-direction: row; align-items: center; justify-content: space-between; }

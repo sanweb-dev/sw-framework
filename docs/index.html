@@ -34,20 +34,113 @@
 
     /* -- Hero ----------------------------------------------- */
     .doc-hero {
-      background: radial-gradient(circle at 0% 0%, rgba(120, 147, 176, 0.18), transparent 45%),
-        radial-gradient(circle at 100% 100%, rgba(62, 87, 113, 0.25), transparent 45%),
-        var(--sw-bg-sur);
+      background: var(--sw-bg-sur);
       border-radius: 2.4rem;
-      padding: 6rem 4rem;
+      padding: 7rem 4rem;
       margin-bottom: 4rem;
       border: 1px solid var(--sw-bor);
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.3fr 0.9fr;
       align-items: center;
       gap: 3rem;
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+      isolation: isolate;
+    }
+
+    .doc-hero::before,
+    .doc-hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: -1;
+      opacity: 0.55;
+    }
+
+    .doc-hero::before {
+      width: 46rem;
+      height: 46rem;
+      top: -20rem;
+      right: -14rem;
+      background: radial-gradient(circle, var(--sw-pri), transparent 70%);
+    }
+
+    .doc-hero::after {
+      width: 34rem;
+      height: 34rem;
+      bottom: -16rem;
+      left: -10rem;
+      background: radial-gradient(circle, var(--sw-suc), transparent 70%);
+      opacity: 0.25;
+    }
+
+    /* -- Mockup de código (janela flutuante) ------------------ */
+    .doc-hero-visual {
+      position: relative;
+      perspective: 1400px;
+    }
+
+    .doc-hero-window {
+      background: var(--ck-bg, #0d1117);
+      border: 1px solid var(--sw-bor-glow);
+      border-radius: var(--sw-r-g);
+      box-shadow: var(--sw-sha-g);
+      overflow: hidden;
+      transform: rotateY(-8deg) rotateX(4deg);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .doc-hero-visual:hover .doc-hero-window {
+      transform: rotateY(-2deg) rotateX(1deg) translateY(-4px);
+    }
+
+    .doc-hero-window-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1.2rem 1.6rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .doc-hero-window-dot { width: 1.1rem; height: 1.1rem; border-radius: 50%; }
+    .doc-hero-window-bar span:nth-child(1) { background: #ff5f56; }
+    .doc-hero-window-bar span:nth-child(2) { background: #ffbd2e; }
+    .doc-hero-window-bar span:nth-child(3) { background: #27c93f; }
+
+    .doc-hero-window-title {
+      margin-left: 0.8rem;
+      font-family: var(--sw-f-mon);
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .doc-hero-window pre[swcode] { margin: 0; border-radius: 0; }
+    .doc-hero-window [swcode-hdr] { display: none !important; }
+    .doc-hero-window [swcode-pre] { border: none; box-shadow: none; border-radius: 0; }
+
+    .doc-hero-float-badge {
+      position: absolute;
+      bottom: -1.8rem;
+      right: -1.6rem;
+      background: var(--sw-grad-pri);
+      color: #fff;
+      padding: 1rem 1.6rem;
+      border-radius: var(--sw-r-m);
+      box-shadow: var(--sw-sha-pri);
+      font-family: var(--sw-f-mon);
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    @media (max-width: 992px) {
+      .doc-hero-window { transform: none !important; }
+      .doc-hero-float-badge { display: none; }
     }
 
     .doc-hero-ver {
@@ -181,19 +274,44 @@
             ⚡ SW Framework v0.1.0-alpha.1
           </div>
           <h1 class="doc-hero-title">
-            O Framework que<br /><span class="TprinD">acelera tudo.</span>
+            O Framework que <span class="TprinD" sw-scramble tabindex="0">acelera tudo.</span>
           </h1>
           <p class="doc-hero-sub">
             Ecossistema nativo de alta performance para a web. CSS modular, zero dependências pesadas, componentes acessíveis e realce de sintaxe integrado.
           </p>
           <div class="flx gap-4 f-wr">
-            <a href="componentes.html" class="d-col" style="padding: 1.2rem 2.4rem; background: var(--sw-pri); color: #fff; border: none; border-radius: 0.8rem; text-decoration: none;">Explorar documentação</a>
-            <a href="pages/swcode.html" class="d-col is-secu" style="padding: 1.2rem 2.4rem; border-radius: 0.8rem; text-decoration: none;">Ver SWCode (Sintaxe)</a>
-            <a href="pages/layout_grid.html" class="d-col is-secu" style="padding: 1.2rem 2.4rem; border-radius: 0.8rem; text-decoration: none;">Layout & Grid</a>
+            <a href="componentes.html" sw-btn class="sw-btn-pri">Explorar documentação</a>
+            <a href="pages/swcode.html" sw-btn class="sw-btn-out">Ver SWCode (Sintaxe)</a>
+            <a href="pages/layout_grid.html" sw-btn class="sw-btn-gst">Layout & Grid</a>
           </div>
         </div>
-        <div class="doc-hero-badge">
-          SW
+        <div class="doc-hero-visual">
+          <div class="doc-hero-window">
+            <div class="doc-hero-window-bar">
+              <span class="doc-hero-window-dot"></span>
+              <span class="doc-hero-window-dot"></span>
+              <span class="doc-hero-window-dot"></span>
+              <span class="doc-hero-window-title">app.js</span>
+            </div>
+            <pre swcode="js"><script type="text/plain">
+import { SW } from 'sw-framework';
+
+SW.Icon.use('#logo', 'Abstract/badge');
+SW.Alert.ok('Pronto para produção!');
+
+document.querySelector('[sw-modal-open]')
+  .addEventListener('click', () => {
+    SW.Modal.open('#intro');
+  });
+
+// Zero dependências. Zero configuração.
+export const acelera = true;
+</script></pre>
+          </div>
+          <div class="doc-hero-float-badge">
+            <span sw-icon="Base/lightning" style="width:1.4em;height:1.4em;"></span>
+            0 dependências
+          </div>
         </div>
       </header>
 
@@ -257,17 +375,15 @@
         <div class="l gap-4">
           <div class="co12 co6-g">
             <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 1. Inclua os bundles</p>
-            <pre swcode="html"><script type="text/plain">
-&lt;link rel="stylesheet" href="dist/sw.min.css"&gt;
+            <pre swcode="html"><code>&lt;link rel="stylesheet" href="dist/sw.min.css"&gt;
 &lt;script src="dist/sw.min.js" defer&gt;&lt;/script&gt;
 &lt;!-- opcional: efeitos SW-FX --&gt;
-&lt;script src="dist/sw-fx.min.js" defer&gt;&lt;/script&gt;
-</script></pre>
+&lt;script src="dist/sw-fx.min.js" defer&gt;&lt;/script&gt;</code></pre>
           </div>
           <div class="co12 co6-g">
             <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 2. Ou clone e faça o build</p>
             <pre swcode="bash"><script type="text/plain">
-git clone &lt;repositorio&gt;
+git clone <repositorio>
 cd sw
 npm install
 npm run build

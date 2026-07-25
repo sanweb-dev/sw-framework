@@ -46,3 +46,41 @@
 
 [sw-icon] { display: inline-flex; width: 1.4em; height: 1.4em; color: inherit; }
 [sw-icon] .sw-icon-svg { width: 100%; height: 100%; stroke: currentColor; }
+
+/* --- 📏 GAP (usado em .flx/.l — .l já tem gap padrão, .flx precisa destas classes) --- */
+.gap-0  { gap: 0 !important; }
+.gap-1  { gap: 0.4rem !important; }
+.gap-2  { gap: 0.8rem !important; }
+.gap-3  { gap: 1.2rem !important; }
+.gap-4  { gap: 1.6rem !important; }
+.gap-6  { gap: 2.4rem !important; }
+.gap-8  { gap: 3.2rem !important; }
+.gap-10 { gap: 4rem !important; }
+
+/* --- 📏 PADDING E MARGIN (escala 0-10, mesma proporção do gap/mb) --- */
+.p-0  { padding: 0 !important; }
+.p-1  { padding: 0.4rem !important; }
+.p-2  { padding: 0.8rem !important; }
+.p-3  { padding: 1.2rem !important; }
+.p-4  { padding: 1.6rem !important; }
+.p-6  { padding: 2.4rem !important; }
+.p-8  { padding: 3.2rem !important; }
+.p-10 { padding: 4rem !important; }
+
+.m-0  { margin: 0 !important; }
+.m-1  { margin: 0.4rem !important; }
+.m-2  { margin: 0.8rem !important; }
+.m-3  { margin: 1.2rem !important; }
+.m-4  { margin: 1.6rem !important; }
+.m-6  { margin: 2.4rem !important; }
+.m-8  { margin: 3.2rem !important; }
+.m-10 { margin: 4rem !important; }
+.mt-4 { margin-top: 1.6rem !important; }
+
+/* --- 🔠 MATRIZ DE FONTES (paridade Y2) --- */
+.sw-f1 { font-family: var(--sw-f1) !important; }
+.sw-f2 { font-family: var(--sw-f2) !important; }
+.sw-f3 { font-family: var(--sw-f3) !important; }
+.sw-f4 { font-family: var(--sw-f4) !important; }
+.sw-f5 { font-family: var(--sw-f5) !important; }
+.sw-f6 { font-family: var(--sw-f6) !important; }

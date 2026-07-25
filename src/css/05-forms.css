@@ -40,6 +40,7 @@
   background: var(--sw-sur);
   border: 1px solid var(--sw-bor);
   border-radius: var(--sw-r-m);
+  box-shadow: var(--sw-sha-p);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
@@ -113,7 +114,7 @@
   background: var(--sw-bor);
   border-radius: 99px;
   position: relative;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sw-switch-slider::before {
@@ -125,11 +126,13 @@
   height: 1.8rem;
   background: #ffffff;
   border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(13, 19, 29, .3);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .sw-switch input:checked + .sw-switch-slider {
-  background: var(--sw-pri);
+  background: var(--sw-grad-pri);
+  box-shadow: 0 0 0 6px var(--sw-pri-glow);
 }
 
 .sw-switch input:checked + .sw-switch-slider::before {

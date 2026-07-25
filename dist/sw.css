@@ -4,11 +4,13 @@
    Nill Ecosystem | Sandro Web Solutions
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Alumni+Sans:wght@100;200;300;400;500;600;700;800;900&family=Meow+Script&family=Dancing+Script:wght@400;500;600;700&family=Playwrite+BR:wght@100;200;300;400&family=Outfit:wght@100..900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+
 :root {
   /* --- 🌐 DEEP SEA PALETTE HUES & SATURATIONS --- */
-  --sw-h-pri: 212;  /* Hue Primária (Slate Sky Blue - Swatch 4) */
-  --sw-s-pri: 28%;
-  --sw-l-pri: 58%;
+  --sw-h-pri: 200;  /* Hue Primária (Azure Vivo — Deep Sea Vibrante) */
+  --sw-s-pri: 75%;
+  --sw-l-pri: 56%;
 
   --sw-h-sec: 215;  /* Deep Ocean Navy (Swatch 2) */
   --sw-h-acc: 211;  /* Muted Steel (Swatch 3) */
@@ -36,9 +38,17 @@
   --sw-gls-bor:    rgba(62, 87, 113, 0.3);
 
   /* --- 🔠 TIPOGRAFIA E ESCALAS --- */
-  --sw-f-san: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
-  --sw-f-hd:  'Outfit', var(--sw-f-san);
+  --sw-f-san: 'Poppins', 'Outfit', system-ui, sans-serif; /* fonte padrão do framework */
+  --sw-f-hd:  'Poppins', var(--sw-f-san);
   --sw-f-mon: 'JetBrains Mono', monospace;
+
+  /* Matriz de fontes (paridade com Y2) — use via .sw-f1..sw-f6 ou diretamente nos tokens */
+  --sw-f1: 'Poppins', sans-serif;
+  --sw-f2: 'Roboto', sans-serif;
+  --sw-f3: 'Alumni Sans', sans-serif;
+  --sw-f4: 'Meow Script', cursive;
+  --sw-f5: 'Dancing Script', cursive;
+  --sw-f6: 'Playwrite BR', cursive;
 
   --sw-scale: 62.5%; /* 1rem = 10px */
   --sw-f-base: 1.6rem;
@@ -63,6 +73,25 @@
   --sw-sha-p: 0 2px 8px rgba(13, 19, 29, 0.3);
   --sw-sha:   0 8px 24px rgba(13, 19, 29, 0.4);
   --sw-sha-g: 0 20px 50px rgba(13, 19, 29, 0.6);
+
+  /* --- 🌈 GRADIENTES E SOMBRAS COLORIDAS (estilo Material Kit) --- */
+  --sw-grad-pri: linear-gradient(195deg, hsl(var(--sw-h-pri), var(--sw-s-pri), calc(var(--sw-l-pri) + 14%)), var(--sw-pri));
+  --sw-grad-suc: linear-gradient(195deg, color-mix(in srgb, var(--sw-suc) 78%, white), var(--sw-suc));
+  --sw-grad-err: linear-gradient(195deg, color-mix(in srgb, var(--sw-err) 78%, white), var(--sw-err));
+  --sw-grad-ale: linear-gradient(195deg, color-mix(in srgb, var(--sw-ale) 78%, white), var(--sw-ale));
+  --sw-grad-inf: linear-gradient(195deg, color-mix(in srgb, var(--sw-inf) 78%, white), var(--sw-inf));
+  --sw-grad-sec: linear-gradient(195deg, var(--sw-sur-hover), var(--sw-sec));
+
+  --sw-sha-pri: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px var(--sw-pri-glow);
+  --sw-sha-suc: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-suc) 40%, transparent);
+  --sw-sha-err: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-err) 40%, transparent);
+  --sw-sha-ale: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-ale) 40%, transparent);
+  --sw-sha-inf: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-inf) 40%, transparent);
+
+  --sw-grad-drk: linear-gradient(195deg, color-mix(in srgb, var(--sw-sec) 65%, white), var(--sw-sec));
+  --sw-grad-lit: linear-gradient(195deg, #f8fafc, #dbe3ec);
+  --sw-sha-drk: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px rgba(0, 0, 0, .4);
+  --sw-sha-lit: 0 4px 20px 0 rgba(13, 19, 29, .14), 0 7px 10px -5px rgba(13, 19, 29, .15);
 
   /* --- 🎨 MATRIZ COMPLETA DAS CORES DO SW --- */
   --sw-c-verm: hsl(355, 75%, 55%);
@@ -89,12 +118,12 @@
    ☀️ TEMA CLARO / LIGHT MODE (DEEP SEA DAY - 60/30/10)
    ========================================================================== */
 html[sw-theme="light"] {
-  --sw-h-pri: 215;
-  --sw-s-pri: 35%;
-  --sw-l-pri: 20%;
+  --sw-h-pri: 200;
+  --sw-s-pri: 80%;
+  --sw-l-pri: 42%;
 
-  --sw-pri:        #1a2636; /* Swatch 2 - Deep Ocean Navy em destaque no claro */
-  --sw-pri-glow:   rgba(26, 38, 54, 0.15);
+  --sw-pri:        hsl(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri)); /* Azure Vivo — Deep Sea Vibrante */
+  --sw-pri-glow:   hsla(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri), 0.18);
 
   --sw-bg:         #f3efdf; /* 60% Swatch 5 - Warm Off-White Cream */
   --sw-sur:        #e6e1cf; /* 30% Soft Warm Surface */
@@ -384,8 +413,8 @@ hr {
    Nill Ecosystem | Sandro Web Solutions
    ========================================================================== */
 
-/* --- 🔘 BOTÕES (.sw-btn) --- */
-.sw-btn {
+/* --- 🔘 BOTÕES ([sw-btn] — atributo canônico, .sw-btn aceito como alias) --- */
+[sw-btn], .sw-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -394,79 +423,152 @@ hr {
   font-family: var(--sw-f-san);
   font-size: 1.4rem;
   font-weight: 600;
-  border-radius: var(--sw-r);
+  border-radius: var(--sw-r-m);
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
   min-height: 4.4rem;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  background: var(--sw-sur);
+  color: var(--sw-txt);
+  border-color: var(--sw-bor);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, filter 0.25s ease;
   user-select: none;
 }
 
-.sw-btn:focus-visible,
+[sw-btn]:focus-visible, .sw-btn:focus-visible,
 a:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--sw-pri);
   outline-offset: 3px;
 }
 
-.sw-btn:hover {
+[sw-btn]:hover, .sw-btn:hover {
   transform: translateY(-2px);
 }
 
-.sw-btn-primary {
-  background: var(--sw-pri);
-  color: #ffffff;
-  box-shadow: 0 4px 14px var(--sw-pri-glow);
+[sw-btn][disabled], .sw-btn[disabled], [sw-btn].sw-btn-dis, .sw-btn.sw-btn-dis {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  pointer-events: none;
 }
 
-.sw-btn-primary:hover {
-  filter: brightness(1.15);
-  box-shadow: 0 6px 20px var(--sw-pri-glow);
-}
+/* --- Cores semânticas (gradiente + sombra colorida, estilo Material Kit) --- */
+.sw-btn-pri, .sw-btn-primary  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-pri); }
+.sw-btn-suc, .sw-btn-success  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-suc); }
+.sw-btn-err, .sw-btn-danger   { background: var(--sw-grad-err); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-err); }
+.sw-btn-ale, .sw-btn-warning  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-ale); }
+.sw-btn-inf, .sw-btn-info     { background: var(--sw-grad-inf); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-inf); }
+.sw-btn-drk                   { background: var(--sw-grad-drk); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-drk); }
+.sw-btn-lit                   { background: var(--sw-grad-lit); color: #1a2636; border-color: transparent; box-shadow: var(--sw-sha-lit); }
 
-.sw-btn-secondary {
+.sw-btn-pri:hover, .sw-btn-primary:hover,
+.sw-btn-suc:hover, .sw-btn-success:hover,
+.sw-btn-err:hover, .sw-btn-danger:hover,
+.sw-btn-ale:hover, .sw-btn-warning:hover,
+.sw-btn-inf:hover, .sw-btn-info:hover,
+.sw-btn-drk:hover, .sw-btn-lit:hover { filter: brightness(1.08); }
+
+.sw-btn-sec, .sw-btn-secondary {
   background: var(--sw-sur);
   color: var(--sw-txt);
   border-color: var(--sw-bor);
 }
 
-.sw-btn-secondary:hover {
+.sw-btn-sec:hover, .sw-btn-secondary:hover {
   background: var(--sw-sur-hover);
   border-color: var(--sw-bor-glow);
 }
 
-.sw-btn-outline {
-  background: transparent;
+/* --- Estilos (outline / ghost / glass) — combinam com as cores acima --- */
+.sw-btn-out, .sw-btn-outline {
+  background: transparent !important;
+  box-shadow: none !important;
   color: var(--sw-pri);
   border-color: var(--sw-pri);
 }
+.sw-btn-out.sw-btn-suc, .sw-btn-out.sw-btn-success { color: var(--sw-suc); border-color: var(--sw-suc); }
+.sw-btn-out.sw-btn-err, .sw-btn-out.sw-btn-danger  { color: var(--sw-err); border-color: var(--sw-err); }
+.sw-btn-out.sw-btn-ale, .sw-btn-out.sw-btn-warning { color: var(--sw-ale); border-color: var(--sw-ale); }
+.sw-btn-out.sw-btn-inf, .sw-btn-out.sw-btn-info    { color: var(--sw-inf); border-color: var(--sw-inf); }
+.sw-btn-out.sw-btn-sec, .sw-btn-out.sw-btn-secondary { color: var(--sw-txt); border-color: var(--sw-bor); }
 
-.sw-btn-outline:hover {
-  background: var(--sw-pri-glow);
+.sw-btn-out:hover, .sw-btn-outline:hover {
+  background: var(--sw-pri-glow) !important;
   color: #ffffff;
 }
 
-.sw-btn-glass {
+.sw-btn-gst {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  color: var(--sw-pri);
+}
+.sw-btn-gst:hover { background: var(--sw-sur) !important; }
+.sw-btn-gst.sw-btn-suc { color: var(--sw-suc); }
+.sw-btn-gst.sw-btn-err { color: var(--sw-err); }
+.sw-btn-gst.sw-btn-ale { color: var(--sw-ale); }
+.sw-btn-gst.sw-btn-inf { color: var(--sw-inf); }
+
+.sw-btn-gls, .sw-btn-glass {
   background: var(--sw-gls-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--sw-txt);
   border-color: var(--sw-gls-bor);
+  box-shadow: none;
 }
 
-.sw-btn-sm { padding: 0.5rem 1.2rem; font-size: 1.2rem; }
-.sw-btn-lg { padding: 1.2rem 2.6rem; font-size: 1.6rem; }
-.sw-btn-pill { border-radius: var(--sw-r-fl); }
+/* --- Tamanhos (escala t-shirt) --- */
+.sw-btn-pp, .sw-btn-sm { padding: 0.4rem 1rem; font-size: 1.1rem; min-height: 2.8rem; gap: 0.5rem; }
+.sw-btn-p              { padding: 0.6rem 1.4rem; font-size: 1.2rem; min-height: 3.6rem; }
+.sw-btn-m              { padding: 0.8rem 1.8rem; font-size: 1.4rem; min-height: 4.4rem; }
+.sw-btn-g              { padding: 1rem 2.2rem; font-size: 1.5rem; min-height: 5rem; }
+.sw-btn-gg, .sw-btn-lg { padding: 1.2rem 2.6rem; font-size: 1.6rem; min-height: 5.6rem; }
+.sw-btn-xg             { padding: 1.5rem 3.2rem; font-size: 1.8rem; min-height: 6.4rem; }
+
+/* --- Formas --- */
+.sw-btn-pil, .sw-btn-pill { border-radius: var(--sw-r-fl); }
+.sw-btn-sqr { border-radius: 0; }
+.sw-btn-rnd { border-radius: 50%; padding: 0; width: 4.4rem; height: 4.4rem; min-height: 0; }
+.sw-btn-rnd.sw-btn-pp, .sw-btn-rnd.sw-btn-sm { width: 2.8rem; height: 2.8rem; }
+.sw-btn-rnd.sw-btn-gg, .sw-btn-rnd.sw-btn-lg { width: 5.6rem; height: 5.6rem; }
+
+/* --- Agrupamento --- */
+[sw-btn-grp] { display: inline-flex; }
+[sw-btn-grp] > [sw-btn], [sw-btn-grp] > .sw-btn { border-radius: 0; margin-inline-start: -1px; }
+[sw-btn-grp] > [sw-btn]:first-child, [sw-btn-grp] > .sw-btn:first-child { border-top-left-radius: var(--sw-r-m); border-bottom-left-radius: var(--sw-r-m); margin-inline-start: 0; }
+[sw-btn-grp] > [sw-btn]:last-child, [sw-btn-grp] > .sw-btn:last-child { border-top-right-radius: var(--sw-r-m); border-bottom-right-radius: var(--sw-r-m); }
+[sw-btn-grp] > [sw-btn]:hover, [sw-btn-grp] > .sw-btn:hover { z-index: 1; transform: none; }
+
+/* --- Estados --- */
+.sw-btn-act { filter: brightness(1.1); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .25); }
+
+.sw-btn-ldr { position: relative; color: transparent !important; pointer-events: none; }
+.sw-btn-ldr::after {
+  content: "";
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  color: #fff;
+  animation: sw-btn-spin 0.7s linear infinite;
+}
+.sw-btn-out.sw-btn-ldr::after, .sw-btn-gst.sw-btn-ldr::after { color: var(--sw-pri); }
+
+@keyframes sw-btn-spin { to { transform: rotate(360deg); } }
 
 /* --- 🃏 CARDS GLASSMORPHISM (.sw-card) --- */
 .sw-card {
   background: var(--sw-sur);
   border: 1px solid var(--sw-bor);
-  border-radius: var(--sw-r-g);
+  border-radius: var(--sw-r-gg);
   padding: 2rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--sw-sha);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -511,7 +613,7 @@ a:focus-visible,
   padding: 0.3rem 0.8rem;
   font-size: 1.1rem;
   font-weight: 700;
-  border-radius: var(--sw-r-p);
+  border-radius: var(--sw-r-fl);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: rgba(255, 255, 255, 0.08);
@@ -519,10 +621,11 @@ a:focus-visible,
   border: 1px solid var(--sw-bor);
 }
 
-.sw-badge-pri  { background: var(--sw-pri-glow); color: var(--sw-pri); border-color: var(--sw-pri); }
-.sw-badge-suc  { background: rgba(34, 197, 94, 0.15); color: var(--sw-suc); border-color: var(--sw-suc); }
-.sw-badge-err  { background: rgba(239, 68, 68, 0.15); color: var(--sw-err); border-color: var(--sw-err); }
-.sw-badge-ale  { background: rgba(245, 158, 11, 0.15); color: var(--sw-ale); border-color: var(--sw-ale); }
+.sw-badge-pri  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; }
+.sw-badge-suc  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; }
+.sw-badge-err  { background: var(--sw-grad-err); color: #fff; border-color: transparent; }
+.sw-badge-ale  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; }
+.sw-badge-inf  { background: var(--sw-grad-inf); color: #fff; border-color: transparent; }
 
 /* --- 🚪 MODAL (.sw-modal) --- */
 .sw-modal {
@@ -595,6 +698,40 @@ a:focus-visible,
 th[aria-sort] { cursor: pointer; }
 th[aria-sort="ascending"]::after { content: " ▲"; }
 th[aria-sort="descending"]::after { content: " ▼"; }
+
+/* --- 📊 TABELA ([sw-table]) — estilo Material Kit (header discreto, linhas suaves) --- */
+[sw-table] {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--sw-sur);
+  border-radius: var(--sw-r-m);
+  overflow: hidden;
+  box-shadow: var(--sw-sha-p);
+}
+
+[sw-table] thead th {
+  padding: 1.2rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sw-txt-mut);
+  background: var(--sw-bg);
+  border-bottom: 1px solid var(--sw-bor);
+  text-align: left;
+}
+
+[sw-table] tbody td {
+  padding: 1.2rem 1.6rem;
+  font-size: 1.4rem;
+  color: var(--sw-txt);
+  border-bottom: 1px solid var(--sw-bor);
+}
+
+[sw-table] tbody tr:last-child td { border-bottom: none; }
+[sw-table] tbody tr { transition: background-color 0.15s ease; }
+[sw-table] tbody tr:hover { background: var(--sw-sur-hover); }
+[sw-table].sw-table-striped tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
 
 @media (min-width: 768px) {
   .sw-table-controls { flex-direction: row; align-items: center; justify-content: space-between; }
@@ -881,6 +1018,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
   background: var(--sw-sur);
   border: 1px solid var(--sw-bor);
   border-radius: var(--sw-r-m);
+  box-shadow: var(--sw-sha-p);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
@@ -954,7 +1092,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
   background: var(--sw-bor);
   border-radius: 99px;
   position: relative;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sw-switch-slider::before {
@@ -966,11 +1104,13 @@ th[aria-sort="descending"]::after { content: " ▼"; }
   height: 1.8rem;
   background: #ffffff;
   border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(13, 19, 29, .3);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .sw-switch input:checked + .sw-switch-slider {
-  background: var(--sw-pri);
+  background: var(--sw-grad-pri);
+  box-shadow: 0 0 0 6px var(--sw-pri-glow);
 }
 
 .sw-switch input:checked + .sw-switch-slider::before {
@@ -1396,3 +1536,41 @@ html[data-sw-trans-direction="back"]::view-transition-new(root) {
 
 [sw-icon] { display: inline-flex; width: 1.4em; height: 1.4em; color: inherit; }
 [sw-icon] .sw-icon-svg { width: 100%; height: 100%; stroke: currentColor; }
+
+/* --- 📏 GAP (usado em .flx/.l — .l já tem gap padrão, .flx precisa destas classes) --- */
+.gap-0  { gap: 0 !important; }
+.gap-1  { gap: 0.4rem !important; }
+.gap-2  { gap: 0.8rem !important; }
+.gap-3  { gap: 1.2rem !important; }
+.gap-4  { gap: 1.6rem !important; }
+.gap-6  { gap: 2.4rem !important; }
+.gap-8  { gap: 3.2rem !important; }
+.gap-10 { gap: 4rem !important; }
+
+/* --- 📏 PADDING E MARGIN (escala 0-10, mesma proporção do gap/mb) --- */
+.p-0  { padding: 0 !important; }
+.p-1  { padding: 0.4rem !important; }
+.p-2  { padding: 0.8rem !important; }
+.p-3  { padding: 1.2rem !important; }
+.p-4  { padding: 1.6rem !important; }
+.p-6  { padding: 2.4rem !important; }
+.p-8  { padding: 3.2rem !important; }
+.p-10 { padding: 4rem !important; }
+
+.m-0  { margin: 0 !important; }
+.m-1  { margin: 0.4rem !important; }
+.m-2  { margin: 0.8rem !important; }
+.m-3  { margin: 1.2rem !important; }
+.m-4  { margin: 1.6rem !important; }
+.m-6  { margin: 2.4rem !important; }
+.m-8  { margin: 3.2rem !important; }
+.m-10 { margin: 4rem !important; }
+.mt-4 { margin-top: 1.6rem !important; }
+
+/* --- 🔠 MATRIZ DE FONTES (paridade Y2) --- */
+.sw-f1 { font-family: var(--sw-f1) !important; }
+.sw-f2 { font-family: var(--sw-f2) !important; }
+.sw-f3 { font-family: var(--sw-f3) !important; }
+.sw-f4 { font-family: var(--sw-f4) !important; }
+.sw-f5 { font-family: var(--sw-f5) !important; }
+.sw-f6 { font-family: var(--sw-f6) !important; }

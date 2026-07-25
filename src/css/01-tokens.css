@@ -3,11 +3,13 @@
    Nill Ecosystem | Sandro Web Solutions
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Alumni+Sans:wght@100;200;300;400;500;600;700;800;900&family=Meow+Script&family=Dancing+Script:wght@400;500;600;700&family=Playwrite+BR:wght@100;200;300;400&family=Outfit:wght@100..900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+
 :root {
   /* --- 🌐 DEEP SEA PALETTE HUES & SATURATIONS --- */
-  --sw-h-pri: 212;  /* Hue Primária (Slate Sky Blue - Swatch 4) */
-  --sw-s-pri: 28%;
-  --sw-l-pri: 58%;
+  --sw-h-pri: 200;  /* Hue Primária (Azure Vivo — Deep Sea Vibrante) */
+  --sw-s-pri: 75%;
+  --sw-l-pri: 56%;
 
   --sw-h-sec: 215;  /* Deep Ocean Navy (Swatch 2) */
   --sw-h-acc: 211;  /* Muted Steel (Swatch 3) */
@@ -35,9 +37,17 @@
   --sw-gls-bor:    rgba(62, 87, 113, 0.3);
 
   /* --- 🔠 TIPOGRAFIA E ESCALAS --- */
-  --sw-f-san: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
-  --sw-f-hd:  'Outfit', var(--sw-f-san);
+  --sw-f-san: 'Poppins', 'Outfit', system-ui, sans-serif; /* fonte padrão do framework */
+  --sw-f-hd:  'Poppins', var(--sw-f-san);
   --sw-f-mon: 'JetBrains Mono', monospace;
+
+  /* Matriz de fontes (paridade com Y2) — use via .sw-f1..sw-f6 ou diretamente nos tokens */
+  --sw-f1: 'Poppins', sans-serif;
+  --sw-f2: 'Roboto', sans-serif;
+  --sw-f3: 'Alumni Sans', sans-serif;
+  --sw-f4: 'Meow Script', cursive;
+  --sw-f5: 'Dancing Script', cursive;
+  --sw-f6: 'Playwrite BR', cursive;
 
   --sw-scale: 62.5%; /* 1rem = 10px */
   --sw-f-base: 1.6rem;
@@ -62,6 +72,25 @@
   --sw-sha-p: 0 2px 8px rgba(13, 19, 29, 0.3);
   --sw-sha:   0 8px 24px rgba(13, 19, 29, 0.4);
   --sw-sha-g: 0 20px 50px rgba(13, 19, 29, 0.6);
+
+  /* --- 🌈 GRADIENTES E SOMBRAS COLORIDAS (estilo Material Kit) --- */
+  --sw-grad-pri: linear-gradient(195deg, hsl(var(--sw-h-pri), var(--sw-s-pri), calc(var(--sw-l-pri) + 14%)), var(--sw-pri));
+  --sw-grad-suc: linear-gradient(195deg, color-mix(in srgb, var(--sw-suc) 78%, white), var(--sw-suc));
+  --sw-grad-err: linear-gradient(195deg, color-mix(in srgb, var(--sw-err) 78%, white), var(--sw-err));
+  --sw-grad-ale: linear-gradient(195deg, color-mix(in srgb, var(--sw-ale) 78%, white), var(--sw-ale));
+  --sw-grad-inf: linear-gradient(195deg, color-mix(in srgb, var(--sw-inf) 78%, white), var(--sw-inf));
+  --sw-grad-sec: linear-gradient(195deg, var(--sw-sur-hover), var(--sw-sec));
+
+  --sw-sha-pri: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px var(--sw-pri-glow);
+  --sw-sha-suc: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-suc) 40%, transparent);
+  --sw-sha-err: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-err) 40%, transparent);
+  --sw-sha-ale: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-ale) 40%, transparent);
+  --sw-sha-inf: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-inf) 40%, transparent);
+
+  --sw-grad-drk: linear-gradient(195deg, color-mix(in srgb, var(--sw-sec) 65%, white), var(--sw-sec));
+  --sw-grad-lit: linear-gradient(195deg, #f8fafc, #dbe3ec);
+  --sw-sha-drk: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px rgba(0, 0, 0, .4);
+  --sw-sha-lit: 0 4px 20px 0 rgba(13, 19, 29, .14), 0 7px 10px -5px rgba(13, 19, 29, .15);
 
   /* --- 🎨 MATRIZ COMPLETA DAS CORES DO SW --- */
   --sw-c-verm: hsl(355, 75%, 55%);
@@ -88,12 +117,12 @@
    ☀️ TEMA CLARO / LIGHT MODE (DEEP SEA DAY - 60/30/10)
    ========================================================================== */
 html[sw-theme="light"] {
-  --sw-h-pri: 215;
-  --sw-s-pri: 35%;
-  --sw-l-pri: 20%;
+  --sw-h-pri: 200;
+  --sw-s-pri: 80%;
+  --sw-l-pri: 42%;
 
-  --sw-pri:        #1a2636; /* Swatch 2 - Deep Ocean Navy em destaque no claro */
-  --sw-pri-glow:   rgba(26, 38, 54, 0.15);
+  --sw-pri:        hsl(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri)); /* Azure Vivo — Deep Sea Vibrante */
+  --sw-pri-glow:   hsla(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri), 0.18);
 
   --sw-bg:         #f3efdf; /* 60% Swatch 5 - Warm Off-White Cream */
   --sw-sur:        #e6e1cf; /* 30% Soft Warm Surface */

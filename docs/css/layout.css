@@ -12,7 +12,7 @@
   --sw-bg-sur: #1a2636;            /* Swatch 2: Deep Ocean Slate */
   --sw-bg-sec: #131d2b;
   --sw-bor: #3e5771;               /* Swatch 3: Muted Steel */
-  --sw-pri: #7893b0;               /* Swatch 4: Slate Sky Blue Accent */
+  /* --sw-pri não é redeclarado aqui — usa o token real de 01-tokens.css (Deep Sea Vibrante) */
   --sw-sec: #3e5771;
   --sw-txt-bas: #f3efdf;           /* Swatch 5: Warm Cream Off-White */
   --sw-txt-mut: #9fb2c7;
@@ -37,7 +37,7 @@ html[sw-theme="light"] {
   --sw-bg-sur: #ffffff;
   --sw-bg-sec: #e6e1cf;
   --sw-bor: #b8c5d3;
-  --sw-pri: #1a2636;
+  /* --sw-pri não é redeclarado aqui — usa o token real de 01-tokens.css (Deep Sea Vibrante) */
   --sw-sec: #3e5771;
   --sw-txt-bas: #0d131d;
   --sw-txt-mut: #3e5771;

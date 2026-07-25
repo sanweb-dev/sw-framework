@@ -4,13 +4,19 @@
 
   const cache = new Map();
   const defaultBasePath = window.location.pathname.includes('/pages/') ? '../dist/icons/' : 'dist/icons/';
+  const canFetch = window.location.protocol !== 'file:';
 
   async function fetchIcon(iconPath) {
     if (cache.has(iconPath)) return cache.get(iconPath);
+    if (!canFetch) {
+      // fetch() não funciona sob file:// (sem servidor); evita erro de rede no console.
+      cache.set(iconPath, Promise.resolve(''));
+      return '';
+    }
     const basePath = SWIcon.basePath ?? defaultBasePath;
     const promise = fetch(`${basePath}${iconPath}.svg`)
       .then((response) => { if (!response.ok) throw new Error(`Ícone não encontrado: ${iconPath}`); return response.text(); })
-      .catch((error) => { console.error('[SW-Icon]', error.message); return ''; });
+      .catch((error) => { console.warn('[SW-Icon]', error.message); return ''; });
     cache.set(iconPath, promise);
     return promise;
   }
