@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR" sw-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Biblioteca de ícones do SW Framework — 2.658 ícones IconPark (Apache 2.0), pesquisáveis, cor herdada do tema.">
+  <title>Ícones — SW Framework Documentação</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+  <link rel="stylesheet" href="../dist/sw.min.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+  <style>
+    .icon-search { width: 100%; max-width: 40rem; margin-bottom: 2rem; }
+    .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 1rem; }
+    .icon-card { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; padding: 1.2rem 0.6rem; border: 1px solid var(--sw-bor); border-radius: 0.8rem; background: var(--sw-sur); cursor: pointer; text-align: center; }
+    .icon-card:hover, .icon-card:focus-visible { border-color: var(--sw-pri); }
+    .icon-card img { width: 2.8rem; height: 2.8rem; color: var(--sw-txt-bas); }
+    .icon-card span { font-size: 1.1rem; color: var(--sw-txt-mut); word-break: break-word; }
+    .icon-count { color: var(--sw-txt-mut); margin-bottom: 1.6rem; }
+  </style>
+</head>
+<body>
+  <div class="doc-shell">
+    <main class="doc-main">
+      <section class="docs-section">
+        <div class="docs-section-head">
+          <span class="doc-hero-ver">SW MÓDULOS / ÍCONES</span>
+          <h1 class="docs-section-title">Biblioteca de Ícones</h1>
+          <p class="docs-section-desc">2.658 ícones do <a href="https://iconpark.oceanengine.com" target="_blank" rel="noopener">IconPark</a> (ByteDance, licença Apache 2.0, uso comercial livre), com <code>stroke="currentColor"</code> — herdam a cor do texto e do tema claro/escuro automaticamente.</p>
+        </div>
+
+        <input type="search" class="sw-input icon-search" id="icon-search" placeholder="Buscar ícone (ex.: seta, coração, usuário)…" aria-label="Buscar ícone">
+        <p class="icon-count" id="icon-count" aria-live="polite">Carregando…</p>
+        <div class="icon-grid" id="icon-grid"></div>
+
+        <div class="docs-specimen" style="margin-top:2.4rem;">
+          <h3 class="docs-specimen-title">Como usar</h3>
+          <p>Clique num ícone para copiar a tag pronta. Uso direto:</p>
+          <div class="docs-code">
+            <pre><code>&lt;img src="dist/icons/Abstract/badge.svg" alt="" width="24" height="24"&gt;
+
+&lt;!-- cor herdada do elemento pai (funciona com &lt;img&gt; via filtro, ou inline via fetch) --&gt;
+&lt;span style="color: var(--sw-pri);"&gt;
+  &lt;img src="dist/icons/Abstract/badge.svg" alt="" width="24" height="24" style="filter: none;"&gt;
+&lt;/span&gt;</code></pre>
+          </div>
+          <p class="t-mut t-p">Nota: <code>&lt;img&gt;</code> não herda <code>currentColor</code> diretamente (limitação do HTML) — para ícones que precisam mudar de cor dinamicamente, use fetch + inline SVG (ver <code>SW.Code</code> como referência de carregamento) ou aplique <code>filter</code> CSS.</p>
+        </div>
+      </section>
+
+      <footer class="doc-footer">
+        <a href="../index.html">Voltar ao Dashboard ↑</a>
+      </footer>
+    </main>
+  </div>
+  <script src="../dist/sw.min.js"></script>
+  <script>
+    (async function () {
+      const grid = document.getElementById('icon-grid');
+      const search = document.getElementById('icon-search');
+      const count = document.getElementById('icon-count');
+      let icons = [];
+
+      try {
+        const response = await fetch('../dist/icons/manifest.json');
+        const data = await response.json();
+        icons = data.icons || [];
+      } catch (error) {
+        count.textContent = 'Não foi possível carregar o manifesto de ícones.';
+        return;
+      }
+
+      function render(list) {
+        count.textContent = `${list.length} de ${icons.length} ícones`;
+        grid.innerHTML = list.slice(0, 300).map((icon) => `
+          <button type="button" class="icon-card" data-path="${icon.path}" data-name="${icon.name}">
+            <img src="../dist/${icon.path}" alt="" width="28" height="28" loading="lazy">
+            <span>${icon.name}</span>
+          </button>
+        `).join('');
+      }
+
+      render(icons);
+
+      search.addEventListener('input', () => {
+        const term = search.value.trim().toLowerCase();
+        const filtered = term ? icons.filter((icon) => icon.name.includes(term) || icon.category.toLowerCase().includes(term)) : icons;
+        render(filtered);
+      });
+
+      grid.addEventListener('click', (event) => {
+        const card = event.target.closest('.icon-card');
+        if (!card) return;
+        const snippet = `<img src="dist/${card.dataset.path}" alt="" width="24" height="24">`;
+        navigator.clipboard?.writeText(snippet);
+        SW.Alert?.ok(`Copiado: ${card.dataset.name}`, 1800);
+      });
+    })();
+  </script>
+</body>
+</html>

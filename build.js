@@ -19,6 +19,7 @@ const jsFiles = [
 ];
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');
 const fxFile = path.join(root, 'src', 'fx', 'sw-fx.js');
+const iconsSrcDir = path.join(root, 'src', 'icons');
 
 function assertSourceFiles(files) {
   const missing = files.filter((file) => !fs.existsSync(file));
@@ -42,6 +43,43 @@ function compactJs(source) {
 
 function hash(content) { return crypto.createHash('sha256').update(content).digest('hex'); }
 function banner(type) { return `/*! SW Framework ${VERSION} | Sandro Web Solutions | ${type} */\n`; }
+
+function normalizeIconSvg(source) {
+  return source.replace(/(stroke|fill)="black"/g, '$1="currentColor"');
+}
+
+function buildIcons() {
+  if (!fs.existsSync(iconsSrcDir)) return { count: 0, categories: 0 };
+  const iconsDistDir = path.join(distDir, 'icons');
+  const docsIconsDistDir = path.join(docsDistDir, 'icons');
+  fs.mkdirSync(iconsDistDir, { recursive: true });
+  fs.mkdirSync(docsIconsDistDir, { recursive: true });
+
+  const categories = fs.readdirSync(iconsSrcDir, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+  const manifest = [];
+  categories.forEach((categoryEntry) => {
+    const category = categoryEntry.name;
+    const categorySrcDir = path.join(iconsSrcDir, category);
+    const categoryDistDir = path.join(iconsDistDir, category);
+    const categoryDocsDir = path.join(docsIconsDistDir, category);
+    fs.mkdirSync(categoryDistDir, { recursive: true });
+    fs.mkdirSync(categoryDocsDir, { recursive: true });
+
+    fs.readdirSync(categorySrcDir).filter((file) => file.endsWith('.svg')).forEach((file) => {
+      const raw = fs.readFileSync(path.join(categorySrcDir, file), 'utf8');
+      const normalized = normalizeIconSvg(raw);
+      atomicWrite(path.join(categoryDistDir, file), normalized);
+      atomicWrite(path.join(categoryDocsDir, file), normalized);
+      const name = file.replace(/\.svg$/, '');
+      manifest.push({ category, name, path: `icons/${category}/${file}` });
+    });
+  });
+
+  const manifestContent = `${JSON.stringify({ version: VERSION, count: manifest.length, icons: manifest }, null, 2)}\n`;
+  atomicWrite(path.join(iconsDistDir, 'manifest.json'), manifestContent);
+  atomicWrite(path.join(docsIconsDistDir, 'manifest.json'), manifestContent);
+  return { count: manifest.length, categories: categories.length };
+}
 
 function main() {
   console.log(`SW Framework ${VERSION} — build iniciado`);
@@ -71,7 +109,9 @@ function main() {
   });
   atomicWrite(path.join(distDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   atomicWrite(path.join(docsDistDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
-  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}`);
+
+  const icons = buildIcons();
+  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}`);
 }
 
 try { main(); } catch (error) { console.error(`Build interrompido: ${error.message}`); process.exitCode = 1; }

@@ -104,6 +104,9 @@
           <a href="${root}pages/utilitarios.html" class="nav-it ${currentPath === 'utilitarios.html' ? 'is-active is-act' : ''}" data-doc-link data-page="utilitarios">
             ${icons.tool} <span>Utilitários CSS</span>
           </a>
+          <a href="${root}pages/icones.html" class="nav-it ${currentPath === 'icones.html' ? 'is-active is-act' : ''}" data-doc-link data-page="icones">
+            ${icons.badge} <span>Ícones</span>
+          </a>
         </div>
       </div>
 
