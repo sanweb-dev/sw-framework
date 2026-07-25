@@ -90,13 +90,7 @@
             ${icons.btn} <span>Botões</span>
           </a>
           <a href="${root}pages/badge.html" class="nav-it ${currentPath === 'badge.html' ? 'is-active is-act' : ''}" data-doc-link data-page="badge">
-            ${icons.badge} <span>Badges & Chips</span>
-          </a>
-          <a href="${root}pages/progress.html" class="nav-it ${currentPath === 'progress.html' ? 'is-active is-act' : ''}" data-doc-link data-page="progress">
-            ${icons.prog} <span>Progress & Loaders</span>
-          </a>
-          <a href="${root}pages/skeleton.html" class="nav-it ${currentPath === 'skeleton.html' ? 'is-active is-act' : ''}" data-doc-link data-page="skeleton">
-            ${icons.skel} <span>Skeleton</span>
+            ${icons.badge} <span>Badges</span>
           </a>
           <a href="${root}pages/cards.html" class="nav-it ${currentPath === 'cards.html' ? 'is-active is-act' : ''}" data-doc-link data-page="cards">
             ${icons.card} <span>Cards & Painéis</span>
@@ -125,6 +119,9 @@
           </a>
           <a href="${root}pages/lightbox.html" class="nav-it ${currentPath === 'lightbox.html' ? 'is-active is-act' : ''}" data-doc-link data-page="lightbox">
             ${icons.lbx} <span>Lightbox</span>
+          </a>
+          <a href="${root}pages/select.html" class="nav-it ${currentPath === 'select.html' ? 'is-active is-act' : ''}" data-doc-link data-page="select">
+            ${icons.form} <span>Select</span>
           </a>
         </div>
       </div>

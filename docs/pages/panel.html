@@ -53,15 +53,15 @@
             <div class="doc-card sec mb-6" id="demo">
                 <h3 class="t-m f-bd mb-4">1. Demo ao Vivo</h3>
                 <div class="demo-wrap">
-                    <button y2btn class="y2btn-pri" y2panel-open="#pan-right">Abrir Direita</button>
-                    <button y2btn class="y2btn-out" y2panel-open="#pan-bottom">Abrir Baixo</button>
-                    <button y2btn class="y2btn-out y2btn-pri" y2panel-open="#pan-left">Abrir Esquerda</button>
-                    <button y2btn class="y2btn-sec" y2panel-open="#pan-top">Abrir Topo</button>
+                    <button sw-btn class="sw-btn-pri" sw-panel-open="#pan-right">Abrir Direita</button>
+                    <button sw-btn class="sw-btn-out" sw-panel-open="#pan-bottom">Abrir Baixo</button>
+                    <button sw-btn class="sw-btn-out sw-btn-pri" sw-panel-open="#pan-left">Abrir Esquerda</button>
+                    <button sw-btn class="sw-btn-sec" sw-panel-open="#pan-top">Abrir Topo</button>
                 </div>
             </div>
 
             <!-- Panel direita -->
-            <div class="pnl" id="pan-right" y2panel>
+            <div class="pnl" id="pan-right" sw-panel>
                 <div class="pnl-ovl"></div>
                 <div class="pnl-box">
                     <div class="pnl-hdr">
@@ -79,14 +79,14 @@
                         </div>
                     </div>
                     <div class="pnl-ftr">
-                        <button y2btn class="y2btn-pri pnl-cls" style="flex:1">Aplicar</button>
-                        <button y2btn class="y2btn-out pnl-cls">Limpar</button>
+                        <button sw-btn class="sw-btn-pri pnl-cls" style="flex:1">Aplicar</button>
+                        <button sw-btn class="sw-btn-out pnl-cls">Limpar</button>
                     </div>
                 </div>
             </div>
 
             <!-- Panel baixo -->
-            <div class="pnl is-bot" id="pan-bottom" y2panel>
+            <div class="pnl is-bot" id="pan-bottom" sw-panel>
                 <div class="pnl-ovl"></div>
                 <div class="pnl-box">
                     <div class="pnl-hdr">
@@ -98,15 +98,15 @@
                             de
                             ação.</p>
                         <div class="flx gap-2 flex-wrap">
-                            <button y2btn class="y2btn-suc">Confirmar</button>
-                            <button y2btn class="y2btn-err y2btn-out">Cancelar</button>
+                            <button sw-btn class="sw-btn-suc">Confirmar</button>
+                            <button sw-btn class="sw-btn-err sw-btn-out">Cancelar</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Panel esquerda -->
-            <div class="pnl is-lft" id="pan-left" y2panel>
+            <div class="pnl is-lft" id="pan-left" sw-panel>
                 <div class="pnl-ovl"></div>
                 <div class="pnl-box">
                     <div class="pnl-hdr">
@@ -122,7 +122,7 @@
             </div>
 
             <!-- Panel topo -->
-            <div class="pnl is-top" id="pan-top" y2panel>
+            <div class="pnl is-top" id="pan-top" sw-panel>
                 <div class="pnl-ovl"></div>
                 <div class="pnl-box">
                     <div class="pnl-hdr">
@@ -141,10 +141,10 @@
                 <h3 class="t-m f-bd mb-4">2. Estrutura HTML</h3>
                 <pre swcode="html"><script type="text/plain">
 <!-- Botão de abertura -->
-<button y2panel-open="#meu-panel">Abrir Painel</button>
+<button sw-panel-open="#meu-panel">Abrir Painel</button>
 
 <!-- Panel (posição padrão: direita) -->
-<div class="pnl" id="meu-panel" y2panel>
+<div class="pnl" id="meu-panel" sw-panel>
   <div class="pnl-ovl"></div>
   <div class="pnl-box">
 
@@ -161,8 +161,8 @@
 
     <!-- Rodapé opcional -->
     <div class="pnl-ftr">
-      <button y2btn class="y2btn-pri pnl-cls">Salvar</button>
-      <button y2btn class="pnl-cls">Cancelar</button>
+      <button sw-btn class="sw-btn-pri pnl-cls">Salvar</button>
+      <button sw-btn class="pnl-cls">Cancelar</button>
     </div>
 
   </div>
@@ -175,16 +175,16 @@
                 <h3 class="t-m f-bd mb-4">3. Posições</h3>
                 <pre swcode="html"><script type="text/plain">
 <!-- Direita (padrão) -->
-<div class="pnl" y2panel>...</div>
+<div class="pnl" sw-panel>...</div>
 
 <!-- Esquerda -->
-<div class="pnl is-lft" y2panel>...</div>
+<div class="pnl is-lft" sw-panel>...</div>
 
 <!-- Baixo (bottom sheet) -->
-<div class="pnl is-bot" y2panel>...</div>
+<div class="pnl is-bot" sw-panel>...</div>
 
 <!-- Cima -->
-<div class="pnl is-top" y2panel>...</div>
+<div class="pnl is-top" sw-panel>...</div>
 </script></pre>
             </div>
 
@@ -193,25 +193,25 @@
                 <h3 class="t-m f-bd mb-4">4. Tamanhos</h3>
                 <pre swcode="html"><script type="text/plain">
 <!-- SM (240px) -->
-<div class="pnl" y2panel>
+<div class="pnl" sw-panel>
   <div class="pnl-ovl"></div>
   <div class="pnl-box is-sm">...</div>
 </div>
 
 <!-- Normal (320px - padrão) -->
-<div class="pnl" y2panel>
+<div class="pnl" sw-panel>
   <div class="pnl-ovl"></div>
   <div class="pnl-box">...</div>
 </div>
 
 <!-- LG (480px) -->
-<div class="pnl" y2panel>
+<div class="pnl" sw-panel>
   <div class="pnl-ovl"></div>
   <div class="pnl-box is-lg">...</div>
 </div>
 
 <!-- Full width -->
-<div class="pnl" y2panel>
+<div class="pnl" sw-panel>
   <div class="pnl-ovl"></div>
   <div class="pnl-box is-fl">...</div>
 </div>
@@ -247,12 +247,12 @@ panel.addEventListener('yd:panel:close', () => console.log('Painel fechado'));
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>y2panel</code></td>
+                            <td><code>sw-panel</code></td>
                             <td>div</td>
                             <td>Ativa SWPanel no elemento</td>
                         </tr>
                         <tr>
-                            <td><code>y2panel-open="#id"</code></td>
+                            <td><code>sw-panel-open="#id"</code></td>
                             <td>button</td>
                             <td>Botão de abertura por seletor</td>
                         </tr>

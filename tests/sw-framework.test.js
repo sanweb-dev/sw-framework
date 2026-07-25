@@ -78,9 +78,9 @@ test('Utility breakpoints use broadly compatible top-level media queries', () =>
 test('Documentation has semantic and accessible foundations', () => {
   const html = read('docs/index.html');
   assert.match(html, /<main[\s>]/);
-  assert.match(html, /role="dialog"/);
+  assert.match(html, /class="sw-modal"/);
   assert.match(html, /<caption/);
-  assert.match(html, /for="sw-demo-name"/);
+  assert.match(html, /for="sw-demo-hue"/);
   assert.doesNotMatch(html, /justify-space-between/);
 });
 

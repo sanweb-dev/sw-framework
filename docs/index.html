@@ -11,6 +11,7 @@
   <script src="layout/header.js" defer></script>
   <script src="layout/sidebar.js" defer></script>
   <script src="dist/sw.min.js" defer></script>
+  <script src="dist/sw-fx.min.js" defer></script>
   <style>
     .color-dot {
       width: 1.2rem;
@@ -186,7 +187,8 @@
             Ecossistema nativo de alta performance para a web. CSS modular, zero dependências pesadas, componentes acessíveis e realce de sintaxe integrado.
           </p>
           <div class="flx gap-4 f-wr">
-            <a href="pages/swcode.html" class="d-col" style="padding: 1.2rem 2.4rem; background: var(--sw-pri); color: #fff; border: none; border-radius: 0.8rem; text-decoration: none;">Ver SWCode (Sintaxe)</a>
+            <a href="componentes.html" class="d-col" style="padding: 1.2rem 2.4rem; background: var(--sw-pri); color: #fff; border: none; border-radius: 0.8rem; text-decoration: none;">Explorar documentação</a>
+            <a href="pages/swcode.html" class="d-col is-secu" style="padding: 1.2rem 2.4rem; border-radius: 0.8rem; text-decoration: none;">Ver SWCode (Sintaxe)</a>
             <a href="pages/layout_grid.html" class="d-col is-secu" style="padding: 1.2rem 2.4rem; border-radius: 0.8rem; text-decoration: none;">Layout & Grid</a>
           </div>
         </div>
@@ -274,42 +276,64 @@ npm run build
         </div>
       </section>
 
-      <!-- DEMOS ACESSÍVEIS (FORMULÁRIO, TABELA & DIALOG) -->
+      <!-- DEMOS ACESSÍVEIS (MÓDULOS SW AO VIVO) -->
       <section class="doc-card mb-8">
         <span class="doc-section-tag">Demonstração Interativa</span>
-        <h2 class="t-m f-bd mb-4">Controles e Componentes Acessíveis</h2>
-        
-        <form class="mb-6 flx alc gap-4" onsubmit="event.preventDefault()">
-          <label for="sw-demo-name" class="f-bd">Nome:</label>
-          <input id="sw-demo-name" type="text" class="cont-bar" style="height:4rem; max-width:300px; margin-bottom:0;" placeholder="Digite seu nome..." />
-        </form>
+        <h2 class="t-m f-bd mb-4">Módulos SW ao vivo</h2>
+        <p class="t-mut t-p mb-6">Cada botão abaixo dispara um módulo real do SW — não é ilustração estática.</p>
 
-        <table class="ref-table mb-6">
+        <div class="flx gap-3 f-wr mb-6">
+          <button class="sw-btn sw-btn-outline" type="button" onclick="SW.Alert.ok('SW Framework ativado com sucesso!')">Testar Notificação</button>
+          <button class="sw-btn sw-btn-outline" type="button" sw-modal-open="#modal-demo">Testar SWModal</button>
+          <button class="sw-btn sw-btn-outline" type="button" sw-panel-open="#panel-config">Configurar SW</button>
+          <button class="sw-btn sw-btn-outline" type="button" sw-ajax-src="#ajax-source-demo" sw-ajax-target="panel">Testar SW-AJAX</button>
+        </div>
+
+        <table sw-table class="ref-table mb-6">
           <caption class="t-p f-bd t-mut mb-2 text-left">Resumo de Recursos do Sistema</caption>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Módulo</th>
-              <th>Status</th>
               <th>Descrição</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>SWCode</code></td>
-              <td><span class="bp-badge">Pronto</span></td>
-              <td>Highlighting nativo zero-dependência</td>
-            </tr>
-            <tr>
-              <td><code>SWLayout</code></td>
-              <td><span class="bp-badge">Pronto</span></td>
-              <td>Grid atômico de 12 colunas</td>
-            </tr>
+            <tr><td>1</td><td>SWCode</td><td>Highlighting nativo zero-dependência</td></tr>
+            <tr><td>2</td><td>SWLayout</td><td>Grid atômico de 12 colunas</td></tr>
+            <tr><td>3</td><td>SW-FX</td><td>Scramble, typewriter, tilt e magnetismo nativos</td></tr>
           </tbody>
         </table>
 
-        <!-- Diálogo Modal Acessível -->
-        <div id="sw-demo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;">
-          <h4 id="modal-title">Diálogo Acessível</h4>
+        <div class="flx gap-4 f-wr mb-2" style="align-items:center;">
+          <h4 sw-scramble style="margin:0;">Passe o mouse aqui (SW-FX)</h4>
+          <div sw-tilt class="doc-card mb-0" style="padding:1rem 1.6rem; display:inline-block;">Tilt 3D</div>
+          <button class="sw-btn" type="button" sw-magnetic>Magnetismo</button>
+        </div>
+        <article sw-scr="up" class="doc-card mb-0" style="padding:1.2rem;">Este bloco revela ao entrar na tela (<code>sw-scr</code>).</article>
+
+        <!-- Fonte interna para o SW-AJAX (sem requisição HTTP) -->
+        <template id="ajax-source-demo">
+          <p style="font-weight:700; margin-bottom:0.8rem;">Conteúdo Injetado via SW-AJAX</p>
+          <p class="t-mut mb-4">Copiado de um elemento interno da página, sem chamada de rede.</p>
+          <button class="sw-btn sw-btn-outline" type="button" sw-panel-close>Fechar</button>
+        </template>
+
+        <!-- Painel de configuração (drawer) -->
+        <aside id="panel-config" class="sw-panel">
+          <h4 class="mb-2">Configurar SW</h4>
+          <label for="sw-demo-hue" class="f-bd">Hue primária</label>
+          <input id="sw-demo-hue" type="range" min="0" max="360" value="212" oninput="SW.config({ hue: this.value })" style="width:100%;">
+          <button class="sw-btn sw-btn-outline mt-4" type="button" sw-panel-close>Fechar</button>
+        </aside>
+
+        <!-- Modal acessível -->
+        <div id="modal-demo" class="sw-modal">
+          <div class="sw-modal-content">
+            <h4 id="modal-demo-title">Diálogo Acessível</h4>
+            <p class="t-mut">Foco preso, ESC fecha, foco retorna ao gatilho.</p>
+            <button class="sw-btn sw-btn-outline" type="button" sw-modal-close>Fechar</button>
+          </div>
         </div>
       </section>
 

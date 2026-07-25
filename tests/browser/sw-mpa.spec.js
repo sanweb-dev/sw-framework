@@ -32,7 +32,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
   page.on('pageerror', (error) => errors.push(error.message));
 
   await page.goto(`${baseUrl}/index.html`);
-  await expect(page).toHaveTitle(/SW Framework Alpha/);
+  await expect(page).toHaveTitle(/SW Framework - Documentação Oficial/);
   await expect(page.locator('html')).toHaveAttribute('data-sw-trans-direction', 'neutral');
   const capabilities = await page.evaluate(() => ({
     navigation: 'navigation' in window,
@@ -62,7 +62,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
   await page.evaluate(() => ['sw-test-pageswap', 'sw-test-pagereveal', 'sw-test-pagereveal-animations']
     .forEach((key) => sessionStorage.removeItem(key)));
   await page.goBack();
-  await expect(page).toHaveTitle(/SW Framework Alpha/);
+  await expect(page).toHaveTitle(/SW Framework - Documentação Oficial/);
   const backSwap = await page.evaluate(() => sessionStorage.getItem('sw-test-pageswap'));
   if (browserName === 'webkit') expect(backSwap).toBe('transition');
   else if (browserName === 'chromium') expect(backSwap).toBe('event');
@@ -80,7 +80,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
   await expect(page.locator('html')).toHaveAttribute('data-sw-trans-direction', capabilities.navigation ? 'forward' : 'neutral');
 
   await page.goBack();
-  await expect(page).toHaveTitle(/SW Framework Alpha/);
+  await expect(page).toHaveTitle(/SW Framework - Documentação Oficial/);
   await expect(page.locator('html')).toHaveAttribute('data-sw-trans-direction', capabilities.navigation ? 'back' : 'neutral');
   await page.evaluate(() => sessionStorage.removeItem('sw-test-pageswap'));
   await Promise.all([

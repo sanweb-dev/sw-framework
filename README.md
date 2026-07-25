@@ -66,9 +66,11 @@ Documentação completa e catálogo interativo: `docs/index.html` (servir localm
 
 ## Rodando localmente
 
+O projeto tem seu próprio servidor estático zero-dependência (`tests/static-server.js`) — mesmo servidor usado pelos testes Playwright, com proteção de path traversal e headers de segurança. Não precisa instalar nada externo.
+
 ```bash
-npm run build              # gera dist/
-npx http-server docs -p 4173   # ou qualquer servidor estático apontando pra docs/
+npm run build   # gera dist/
+npm run serve   # sobe o servidor em http://127.0.0.1:4173/docs/index.html
 ```
 
 ## Testes

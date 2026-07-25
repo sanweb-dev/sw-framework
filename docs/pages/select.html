@@ -84,15 +84,15 @@
             <!-- BÁSICO -->
             <div class="doc-card sec mb-6" id="basico">
                 <h3 class="t-m f-bd mb-4">1. Básico</h3>
-                <p class="t-g t-mut mb-4">Envolva o <code>&lt;select&gt;</code> nativo com um <code>div y2select</code>.
+                <p class="t-g t-mut mb-4">Envolva o <code>&lt;select&gt;</code> nativo com um <code>div sw-select</code>.
                     O JS oculta o nativo, injeta a UI e mantém os dois sincronizados. A busca vem ativada por padrão -
-                    use <code>y2select-search="false"</code> para remover.</p>
+                    use <code>sw-select-search="false"</code> para remover.</p>
                 <div class="demo-wrap">
                     <div class="g2" style="width:100%">
                         <div>
                             <label class="t-p f-bd mb-1 block">País <span class="t-mut f-n">(com busca)</span></label>
-                            <div y2select id="sel-pais">
-                                <select name="pais" y2select-ph="Selecione um país...">
+                            <div sw-select id="sel-pais">
+                                <select name="pais" sw-select-ph="Selecione um país...">
                                     <option value="">Selecione...</option>
                                     <option value="br">Brasil</option>
                                     <option value="us">Estados Unidos</option>
@@ -110,8 +110,8 @@
                         <div>
                             <label class="t-p f-bd mb-1 block">Tecnologia <span class="t-mut f-n">(sem
                                     busca)</span></label>
-                            <div y2select>
-                                <select name="tech" y2select-search="false" y2select-ph="Escolha...">
+                            <div sw-select>
+                                <select name="tech" sw-select-search="false" sw-select-ph="Escolha...">
                                     <option value="">Escolha...</option>
                                     <option value="html">HTML</option>
                                     <option value="css">CSS</option>
@@ -127,8 +127,8 @@
                 </div>
                 <pre swcode="html"><script type="text/plain">
 <!-- Com busca (padrão) -->
-<div y2select>
-  <select name="pais" y2select-ph="Selecione um país...">
+<div sw-select>
+  <select name="pais" sw-select-ph="Selecione um país...">
     <option value="">Selecione...</option>
     <option value="br">Brasil</option>
     <option value="us">Estados Unidos</option>
@@ -136,8 +136,8 @@
 </div>
 
 <!-- Sem campo de busca -->
-<div y2select>
-  <select y2select-search="false" y2select-ph="Escolha...">
+<div sw-select>
+  <select sw-select-search="false" sw-select-ph="Escolha...">
     <option value="html">HTML</option>
     <option value="css">CSS</option>
   </select>
@@ -154,8 +154,8 @@
                 <div class="demo-wrap">
                     <div style="max-width:480px;width:100%">
                         <label class="t-p f-bd mb-1 block">Skills</label>
-                        <div y2select id="sel-skills">
-                            <select name="skills" multiple y2select-ph="Escolha suas skills...">
+                        <div sw-select id="sel-skills">
+                            <select name="skills" multiple sw-select-ph="Escolha suas skills...">
                                 <option value="html">HTML5</option>
                                 <option value="css">CSS3</option>
                                 <option value="js" selected>JavaScript</option>
@@ -184,8 +184,8 @@
                     });
                 </script>
                 <pre swcode="html"><script type="text/plain">
-<div y2select>
-  <select name="skills" multiple y2select-ph="Escolha...">
+<div sw-select>
+  <select name="skills" multiple sw-select-ph="Escolha...">
     <option value="js" selected>JavaScript</option>
     <option value="react" selected>React</option>
     <option value="vue">Vue.js</option>
@@ -202,8 +202,8 @@
                 <div class="demo-wrap">
                     <div style="max-width:360px;width:100%">
                         <label class="t-p f-bd mb-1 block">Framework</label>
-                        <div y2select id="sel-estado">
-                            <select y2select-search="false" y2select-ph="Escolha um framework...">
+                        <div sw-select id="sel-estado">
+                            <select sw-select-search="false" sw-select-ph="Escolha um framework...">
                                 <option value="">Escolha um framework...</option>
                                 <option value="react">React</option>
                                 <option value="vue">Vue.js</option>
@@ -214,11 +214,11 @@
                         <p class="t-pp mt-1" id="msg-estado" style="min-height:2rem"></p>
                     </div>
                     <div class="flx gap-2 mt-4" style="flex-wrap:wrap">
-                        <button y2btn class="y2btn-sec" onclick="setEstado('')">Normal</button>
-                        <button y2btn class="y2btn-err" onclick="setEstado('is-err')">
+                        <button sw-btn class="sw-btn-sec" onclick="setEstado('')">Normal</button>
+                        <button sw-btn class="sw-btn-err" onclick="setEstado('is-err')">
                             <i class="yd sw-warning"></i> Erro
                         </button>
-                        <button y2btn class="y2btn-suc" onclick="setEstado('is-ok')">
+                        <button sw-btn class="sw-btn-suc" onclick="setEstado('is-ok')">
                             <i class="yd sw-check"></i> OK
                         </button>
                     </div>
@@ -236,18 +236,18 @@
                 </script>
                 <pre swcode="html"><script type="text/plain">
 <!-- Erro -->
-<div y2select class="is-err">
+<div sw-select class="is-err">
   <select>...</select>
 </div>
 
 <!-- OK -->
-<div y2select class="is-ok">
+<div sw-select class="is-ok">
   <select>...</select>
 </div>
 </script></pre>
                 <pre swcode="js">
 // Aplicar estado via JS
-const wrap = document.querySelector('[y2select]');
+const wrap = document.querySelector('[sw-select]');
 wrap.classList.add('is-err');  // ou is-ok
 wrap.classList.remove('is-err', 'is-ok');
 </pre>
@@ -261,8 +261,8 @@ wrap.classList.remove('is-err', 'is-ok');
                 <div class="demo-wrap">
                     <div style="max-width:360px;width:100%">
                         <label class="t-p f-bd mb-1 block">Plano</label>
-                        <div y2select id="sel-evt">
-                            <select name="plano" y2select-search="false" y2select-ph="Selecione um plano...">
+                        <div sw-select id="sel-evt">
+                            <select name="plano" sw-select-search="false" sw-select-ph="Selecione um plano...">
                                 <option value="">Selecione um plano...</option>
                                 <option value="free">Free - R$ 0/mês</option>
                                 <option value="pro">Pro - R$ 49/mês</option>
@@ -288,7 +288,7 @@ wrap.classList.remove('is-err', 'is-ok');
                     });
                 </script>
                 <pre swcode="js">
-document.querySelector('[y2select]')
+document.querySelector('[sw-select]')
   .addEventListener('yd:select:change', e => {
     console.log(e.detail.value);  // array com os valores selecionados
     console.log(e.detail.label);  // label do primeiro selecionado
@@ -315,17 +315,17 @@ document.querySelector('[name="plano"]')
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>y2select</code></td>
+                            <td><code>sw-select</code></td>
                             <td>div (wrapper)</td>
                             <td>Ativa o custom select</td>
                         </tr>
                         <tr>
-                            <td><code>y2select-ph="..."</code></td>
+                            <td><code>sw-select-ph="..."</code></td>
                             <td>select</td>
                             <td>Texto placeholder quando nada está selecionado</td>
                         </tr>
                         <tr>
-                            <td><code>y2select-search="false"</code></td>
+                            <td><code>sw-select-search="false"</code></td>
                             <td>select</td>
                             <td>Remove o campo de busca do dropdown</td>
                         </tr>

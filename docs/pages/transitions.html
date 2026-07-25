@@ -58,25 +58,25 @@
                     <div>
                         <p class="t-pp t-mut mb-3">Cada botão navega para outra página com um efeito diferente:</p>
                         <div class="flx gap-3 flw">
-                            <a href="pagetransition.html" y2transi y2transi-effect="slide" y2btn class="y2btn-pri">
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="slide" sw-btn class="sw-btn-pri">
                                 <i class="yd sw-chevron-right"></i> Slide
                             </a>
-                            <a href="pagetransition.html" y2transi y2transi-effect="up" y2btn class="y2btn-pri"
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="up" sw-btn class="sw-btn-pri"
                                 style="background:var(--sw-sec,#7c3aed);border-color:var(--sw-sec,#7c3aed)">
                                 <i class="yd sw-chevron-up"></i> Up
                             </a>
-                            <a href="pagetransition.html" y2transi y2transi-effect="down" y2btn class="y2btn-pri"
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="down" sw-btn class="sw-btn-pri"
                                 style="background:#0891b2;border-color:#0891b2">
                                 <i class="yd sw-chevron-down"></i> Down
                             </a>
-                            <a href="pagetransition.html" y2transi y2transi-effect="fade" y2btn class="y2btn-suc">
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="fade" sw-btn class="sw-btn-suc">
                                 <i class="yd sw-eye"></i> Fade
                             </a>
-                            <a href="pagetransition.html" y2transi y2transi-effect="zoom" y2btn class="y2btn-pri"
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="zoom" sw-btn class="sw-btn-pri"
                                 style="background:#f59e0b;border-color:#f59e0b">
                                 <i class="yd sw-zoom-in"></i> Zoom
                             </a>
-                            <a href="pagetransition.html" y2transi y2transi-effect="circle" y2btn class="y2btn-pri"
+                            <a href="pagetransition.html" sw-trans sw-trans-effect="circle" sw-btn class="sw-btn-pri"
                                 style="background:#ef4444;border-color:#ef4444">
                                 <i class="yd sw-circle"></i> Circle
                             </a>
@@ -89,13 +89,13 @@
             <!-- COMO FUNCIONA -->
             <div class="doc-card sec mb-6" id="como">
                 <h3 class="t-m f-bd mb-4">2. Como Funciona</h3>
-                <p class="t-g t-mut mb-4">SWTransi intercepta cliques em links com o atributo <code>y2transi</code> e
+                <p class="t-g t-mut mb-4">SWTransi intercepta cliques em links com o atributo <code>sw-trans</code> e
                     aplica uma animação de saída antes de navegar. Ao carregar a nova página, uma animação de entrada
                     complementa a transição. O overlay é criado automaticamente pelo JS.</p>
                 <div style="background:var(--sw-bg-alt);border-radius:var(--sw-r-g);padding:2rem;font-size:1.4rem">
                     <div class="flx alc gap-3 mb-2">
                         <span class="bdg is-pri is-sm">1</span>
-                        <span>Usuário clica em um link <code>[y2transi]</code></span>
+                        <span>Usuário clica em um link <code>[sw-trans]</code></span>
                     </div>
                     <div class="flx alc gap-3 mb-2">
                         <span class="bdg is-pri is-sm">2</span>
@@ -119,20 +119,20 @@
             <!-- CONFIGURAÇÃO -->
             <div class="doc-card sec mb-6" id="config">
                 <h3 class="t-m f-bd mb-4">3. Uso Básico</h3>
-                <p class="t-g t-mut mb-4">Adicione <code>y2transi</code> em qualquer link interno. O overlay é criado
+                <p class="t-g t-mut mb-4">Adicione <code>sw-trans</code> em qualquer link interno. O overlay é criado
                     automaticamente - não é necessário nenhum elemento HTML extra.</p>
                 <pre swcode="html"><script type="text/plain">
 <!-- Efeito padrão (slide) -->
-<a href="/sobre" y2transi>Sobre</a>
+<a href="/sobre" sw-trans>Sobre</a>
 
 <!-- Com efeito específico -->
-<a href="/portfolio" y2transi y2transi-effect="fade">Portfolio</a>
+<a href="/portfolio" sw-trans sw-trans-effect="fade">Portfolio</a>
 
 <!-- Com duração customizada (ms) -->
-<a href="/contato" y2transi y2transi-effect="zoom" y2transi-dur="600">Contato</a>
+<a href="/contato" sw-trans sw-trans-effect="zoom" sw-trans-dur="600">Contato</a>
 
 <!-- Com cor do overlay -->
-<a href="/home" y2transi y2transi-color="#6366f1">Home</a>
+<a href="/home" sw-trans sw-trans-color="#6366f1">Home</a>
 </script></pre>
             </div>
 
@@ -140,44 +140,44 @@
             <div class="doc-card sec mb-6" id="efeitos">
                 <h3 class="t-m f-bd mb-4">4. Efeitos Disponíveis</h3>
                 <div class="demo-wrap">
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">slide</p>
                         <p class="t-pp t-mut mb-3">Overlay desliza da esquerda para a direita. Efeito padrão.</p>
-                        <code class="t-pri">y2transi-effect="slide"</code>
+                        <code class="t-pri">sw-trans-effect="slide"</code>
                     </div>
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">up</p>
                         <p class="t-pp t-mut mb-3">Overlay sobe de baixo para cima. Sensação de avanço.</p>
-                        <code class="t-pri">y2transi-effect="up"</code>
+                        <code class="t-pri">sw-trans-effect="up"</code>
                     </div>
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">down</p>
                         <p class="t-pp t-mut mb-3">Overlay desce de cima para baixo. Sensação de retorno.</p>
-                        <code class="t-pri">y2transi-effect="down"</code>
+                        <code class="t-pri">sw-trans-effect="down"</code>
                     </div>
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">fade</p>
                         <p class="t-pp t-mut mb-3">Overlay aparece com opacidade. Simples e discreto.</p>
-                        <code class="t-pri">y2transi-effect="fade"</code>
+                        <code class="t-pri">sw-trans-effect="fade"</code>
                     </div>
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">zoom</p>
                         <p class="t-pp t-mut mb-3">Overlay expande do centro da tela. Impactante para landing pages.</p>
-                        <code class="t-pri">y2transi-effect="zoom"</code>
+                        <code class="t-pri">sw-trans-effect="zoom"</code>
                     </div>
-                    <div y2card style="padding:2rem;flex:1;min-width:22rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">circle</p>
                         <p class="t-pp t-mut mb-3">Revelar circular do centro com clip-path. Criativo e fluido.</p>
-                        <code class="t-pri">y2transi-effect="circle"</code>
+                        <code class="t-pri">sw-trans-effect="circle"</code>
                     </div>
                 </div>
                 <pre swcode="html"><script type="text/plain">
-<a href="/p1" y2transi y2transi-effect="slide">Slide</a>
-<a href="/p2" y2transi y2transi-effect="up">Up</a>
-<a href="/p3" y2transi y2transi-effect="down">Down</a>
-<a href="/p4" y2transi y2transi-effect="fade">Fade</a>
-<a href="/p5" y2transi y2transi-effect="zoom">Zoom</a>
-<a href="/p6" y2transi y2transi-effect="circle">Circle</a>
+<a href="/p1" sw-trans sw-trans-effect="slide">Slide</a>
+<a href="/p2" sw-trans sw-trans-effect="up">Up</a>
+<a href="/p3" sw-trans sw-trans-effect="down">Down</a>
+<a href="/p4" sw-trans sw-trans-effect="fade">Fade</a>
+<a href="/p5" sw-trans sw-trans-effect="zoom">Zoom</a>
+<a href="/p6" sw-trans sw-trans-effect="circle">Circle</a>
 </script></pre>
             </div>
 
@@ -185,15 +185,15 @@
             <div class="doc-card sec mb-6" id="excluir">
                 <h3 class="t-m f-bd mb-4">5. Links sem Transição</h3>
                 <p class="t-g t-mut mb-4">Links externos (<code>target="_blank"</code>), âncoras (<code>href="#"</code>)
-                    e links sem <code>y2transi</code> são ignorados automaticamente.</p>
+                    e links sem <code>sw-trans</code> são ignorados automaticamente.</p>
                 <pre swcode="html"><script type="text/plain">
 <!-- Estes NÃO ativam transição -->
 <a href="https://externo.com" target="_blank">Externo</a>
 <a href="#ancora">Âncora</a>
-<a href="/pagina">Link normal (sem y2transi)</a>
+<a href="/pagina">Link normal (sem sw-trans)</a>
 
 <!-- Apenas estes ativam -->
-<a href="/pagina" y2transi>Com transição</a>
+<a href="/pagina" sw-trans>Com transição</a>
 </script></pre>
             </div>
 
@@ -210,23 +210,23 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>y2transi</code></td>
+                            <td><code>sw-trans</code></td>
                             <td>a</td>
                             <td>Ativa a transição no link</td>
                         </tr>
                         <tr>
-                            <td><code>y2transi-effect</code></td>
+                            <td><code>sw-trans-effect</code></td>
                             <td>a</td>
                             <td>Efeito: <code>slide</code> (padrão) - <code>up</code> - <code>down</code> -
                                 <code>fade</code> - <code>zoom</code> - <code>circle</code></td>
                         </tr>
                         <tr>
-                            <td><code>y2transi-dur</code></td>
+                            <td><code>sw-trans-dur</code></td>
                             <td>a</td>
                             <td>Duração da animação em ms (padrão: 400)</td>
                         </tr>
                         <tr>
-                            <td><code>y2transi-color</code></td>
+                            <td><code>sw-trans-color</code></td>
                             <td>a</td>
                             <td>Cor do overlay (padrão: var(--sw-pri))</td>
                         </tr>

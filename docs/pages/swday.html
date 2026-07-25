@@ -140,30 +140,30 @@
                 <p class="t-mut t-p mb-6">O botão no header desta página já está ativo. Clique e veja toda a
                     documentação mudar de tema.</p>
 
-                <p class="demo-label">Botões de toggle - adicione y2day em qualquer elemento</p>
+                <p class="demo-label">Botões de toggle - adicione sw-day em qualquer elemento</p>
                 <div class="demo-wrap">
                     <div class="flx flx-wrap gap-3 alc">
-                        <button y2day
+                        <button sw-day
                             style="display:inline-flex;align-items:center;gap:.8rem;padding:.8rem 2rem;background:var(--sw-neu-10);border:1px solid var(--sw-bor);border-radius:var(--sw-r-fl);cursor:pointer;font-family:var(--sw-f-san);font-size:1.4rem;font-weight:600;color:#fff;transition:all .2s;">
-                            <span class="y2day-ico"></span>
+                            <span class="sw-day-ico"></span>
                             <span>Alternar tema</span>
                         </button>
-                        <button y2day
+                        <button sw-day
                             style="width:4rem;height:4rem;display:inline-flex;align-items:center;justify-content:center;background:var(--sw-neu-10);border:1px solid var(--sw-bor);border-radius:var(--sw-r-m);cursor:pointer;font-size:2rem;transition:all .2s;">
-                            <span class="y2day-ico"></span>
+                            <span class="sw-day-ico"></span>
                         </button>
                     </div>
                 </div>
 
                 <pre swcode="html"><script type="text/plain">
-<!-- Qualquer elemento com y2day vira um toggle -->
-<button y2day>
-    <span class="y2day-ico"></span> <!-- ícone auto-injetado -->
+<!-- Qualquer elemento com sw-day vira um toggle -->
+<button sw-day>
+    <span class="sw-day-ico"></span> <!-- ícone auto-injetado -->
     Alternar tema
 </button>
 
 <!-- Só ícone -->
-<button y2day></button>
+<button sw-day></button>
 </script></pre>
             </div>
 
@@ -221,27 +221,27 @@ html[sw-theme="light"] {
                         <p class="demo-label">Troca de Imagem (src)</p>
                         <div class="demo-wrap flx alc jc">
                             <img src="../../images/icon.png"
-                                y2day-img-light="../../images/icon.png"
-                                y2day-img-dark="../../images/tentaculos.png"
+                                sw-day-img-light="../../images/icon.png"
+                                sw-day-img-dark="../../images/tentaculos.png"
                                 style="height:64px;transition:opacity .3s" alt="Toggle Img">
                         </div>
                         <pre swcode="html"><script type="text/plain">
 <img src="placeholder.png"
-     y2day-img-light="logo-dark.png"
-     y2day-img-dark="logo-light.png">
+     sw-day-img-light="logo-dark.png"
+     sw-day-img-dark="logo-light.png">
 </script></pre>
                     </div>
                     <div>
                         <p class="demo-label">Background Image</p>
                         <div class="demo-wrap">
-                            <div y2day-bg-light="var(--sw-neu-3)" y2day-bg-dark="var(--sw-neu-10)"
+                            <div sw-day-bg-light="var(--sw-neu-3)" sw-day-bg-dark="var(--sw-neu-10)"
                                 style="height:100px;border-radius:8px;border:2px dashed var(--sw-bor);display:flex;align-items:center;justify-content:center;font-weight:700">
                                 área com BG dinâmico
                             </div>
                         </div>
                         <pre swcode="html"><script type="text/plain">
-<div y2day-bg-light="url(bg-light.jpg)"
-     y2day-bg-dark="url(bg-dark.jpg)">
+<div sw-day-bg-light="url(bg-light.jpg)"
+     sw-day-bg-dark="url(bg-dark.jpg)">
 </div>
 </script></pre>
                     </div>
@@ -254,7 +254,7 @@ html[sw-theme="light"] {
                 <p class="t-mut t-p mb-6">Alterne a tipografia conforme o ambiente para máxima legibilidade.</p>
 
                 <div class="demo-wrap">
-                    <h4 y2day-font-light="var(--sw-f-san)" y2day-font-dark="var(--sw-f-mon)"
+                    <h4 sw-day-font-light="var(--sw-f-san)" sw-day-font-dark="var(--sw-f-mon)"
                         style="font-size:2.4rem;margin-bottom:1rem">
                         Esta fonte muda conforme o tema!
                     </h4>
@@ -262,8 +262,8 @@ html[sw-theme="light"] {
                 </div>
 
                 <pre swcode="html"><script type="text/plain">
-<h1 y2day-font-light="var(--sw-f-san)"
-    y2day-font-dark="var(--sw-f-mon)">
+<h1 sw-day-font-light="var(--sw-f-san)"
+    sw-day-font-dark="var(--sw-f-mon)">
     Título Dinâmico
 </h1>
 </script></pre>
@@ -352,19 +352,19 @@ document.documentElement.addEventListener('yd:day:changed', ({ detail }) => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>y2day</code></td>
+                            <td><code>sw-day</code></td>
                             <td>Transforma elemento em botão de toggle</td>
                         </tr>
                         <tr>
-                            <td><code>y2day-img-[theme]</code></td>
+                            <td><code>sw-day-img-[theme]</code></td>
                             <td>Troca o src da imagem ao mudar de tema</td>
                         </tr>
                         <tr>
-                            <td><code>y2day-bg-[theme]</code></td>
+                            <td><code>sw-day-bg-[theme]</code></td>
                             <td>Troca o background-image ou cor ao mudar de tema</td>
                         </tr>
                         <tr>
-                            <td><code>y2day-font-[theme]</code></td>
+                            <td><code>sw-day-font-[theme]</code></td>
                             <td>Troca a família de fonte ao mudar de tema</td>
                         </tr>
                         <tr>

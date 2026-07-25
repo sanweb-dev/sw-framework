@@ -106,16 +106,16 @@
                 <p class="demo-label">Demo ✨ clique para disparar</p>
                 <div class="demo-wrap">
                     <div class="type-row">
-                        <button y2btn class="y2btn-suc"
+                        <button sw-btn class="sw-btn-suc"
                             onclick="SWAlert.ok('Operação concluída com sucesso!', 4000, 'tr')">ok / sucesso</button>
-                        <button y2btn class="y2btn-err"
+                        <button sw-btn class="sw-btn-err"
                             onclick="SWAlert.err('Erro ao processar. Tente novamente.', 4000, 'tr')">err / erro</button>
-                        <button y2btn class="y2btn-ale"
+                        <button sw-btn class="sw-btn-ale"
                             onclick="SWAlert.ale('Atenção: esta ação é irreversível.', 4000, 'tr')">ale /
                             alerta</button>
-                        <button y2btn class="y2btn-inf"
+                        <button sw-btn class="sw-btn-inf"
                             onclick="SWAlert.inf('Nova atualização disponível.', 4000, 'tr')">inf / info</button>
-                        <button y2btn class="y2btn-sec"
+                        <button sw-btn class="sw-btn-sec"
                             onclick="SWAlert.drk('Modo silencioso ativado.', 4000, 'tr')">drk</button>
                     </div>
                 </div>
@@ -144,16 +144,16 @@ SWAlert.info('Processando...');
                 <p class="demo-label">Demo ✨ clique em qualquer célula</p>
                 <div class="demo-wrap">
                     <div class="pos-grid">
-                        <button y2btn class="y2btn-suc" onclick="SWAlert.ok('tl &mdash; topo esquerdo', 3000, 'tl')">tl</button>
-                        <button y2btn class="y2btn-inf" onclick="SWAlert.inf('tc &mdash; topo centro', 3000, 'tc')">tc</button>
-                        <button y2btn class="y2btn-suc"
+                        <button sw-btn class="sw-btn-suc" onclick="SWAlert.ok('tl &mdash; topo esquerdo', 3000, 'tl')">tl</button>
+                        <button sw-btn class="sw-btn-inf" onclick="SWAlert.inf('tc &mdash; topo centro', 3000, 'tc')">tc</button>
+                        <button sw-btn class="sw-btn-suc"
                             onclick="SWAlert.ok('tr &mdash; topo direito (padrão)', 3000, 'tr')">tr (padrão)</button>
-                        <button y2btn class="y2btn-ale" onclick="SWAlert.ale('cl &mdash; centro esquerdo', 3000, 'cl')">cl</button>
-                        <button y2btn class="y2btn-pri" onclick="SWAlert.inf('cc &mdash; centro tela', 3000, 'cc')">cc</button>
-                        <button y2btn class="y2btn-inf" onclick="SWAlert.inf('cr &mdash; centro direito', 3000, 'cr')">cr</button>
-                        <button y2btn class="y2btn-ale" onclick="SWAlert.ale('bl &mdash; base esquerdo', 3000, 'bl')">bl</button>
-                        <button y2btn class="y2btn-sec" onclick="SWAlert.drk('bc &mdash; base centro', 3000, 'bc')">bc</button>
-                        <button y2btn class="y2btn-err" onclick="SWAlert.err('br &mdash; base direito', 3000, 'br')">br</button>
+                        <button sw-btn class="sw-btn-ale" onclick="SWAlert.ale('cl &mdash; centro esquerdo', 3000, 'cl')">cl</button>
+                        <button sw-btn class="sw-btn-pri" onclick="SWAlert.inf('cc &mdash; centro tela', 3000, 'cc')">cc</button>
+                        <button sw-btn class="sw-btn-inf" onclick="SWAlert.inf('cr &mdash; centro direito', 3000, 'cr')">cr</button>
+                        <button sw-btn class="sw-btn-ale" onclick="SWAlert.ale('bl &mdash; base esquerdo', 3000, 'bl')">bl</button>
+                        <button sw-btn class="sw-btn-sec" onclick="SWAlert.drk('bc &mdash; base centro', 3000, 'bc')">bc</button>
+                        <button sw-btn class="sw-btn-err" onclick="SWAlert.err('br &mdash; base direito', 3000, 'br')">br</button>
                     </div>
                 </div>
 
@@ -179,11 +179,11 @@ SWAlert.err('Erro!', 5000, 'cc');   // centro tela
                         <p class="demo-label">Duração personalizada</p>
                         <div class="demo-wrap">
                             <div class="flx f-cl gap-3">
-                                <button y2btn class="y2btn-inf"
+                                <button sw-btn class="sw-btn-inf"
                                     onclick="SWAlert.inf('Dura apenas 1.5 segundos', 1500, 'tr')">1.5s</button>
-                                <button y2btn class="y2btn-inf"
+                                <button sw-btn class="sw-btn-inf"
                                     onclick="SWAlert.inf('Dura 6 segundos', 6000, 'tr')">6s</button>
-                                <button y2btn class="y2btn-sec"
+                                <button sw-btn class="sw-btn-sec"
                                     onclick="SWAlert.drk('Persistente &mdash; feche manualmente', 0, 'tr')">Sem timer
                                     (0)</button>
                             </div>
@@ -193,10 +193,10 @@ SWAlert.err('Erro!', 5000, 'cc');   // centro tela
                         <p class="demo-label">Com título</p>
                         <div class="demo-wrap">
                             <div class="flx f-cl gap-3">
-                                <button y2btn class="y2btn-suc"
+                                <button sw-btn class="sw-btn-suc"
                                     onclick="SWAlert.ok('Arquivo enviado com sucesso para o servidor.', 4000, 'tr', 'Upload completo')">Com
                                     título</button>
-                                <button y2btn class="y2btn-err"
+                                <button sw-btn class="sw-btn-err"
                                     onclick="SWAlert.err('Verifique sua conexão e tente novamente.', 6000, 'tr', 'Falha de rede')">Erro
                                     com título</button>
                             </div>
@@ -228,14 +228,14 @@ SWAlert.ok(
                 <p class="demo-label">Demo</p>
                 <div class="demo-wrap">
                     <div class="flx flx-wrap gap-3">
-                        <button y2btn class="y2btn-err" onclick="
+                        <button sw-btn class="sw-btn-err" onclick="
                             SWAlert.confirmar(
                                 'Esta ação é permanente e não pode ser desfeita. Tem certeza?',
                                 function(ok) { ok ? SWAlert.ok('Deletado!', 3000, 'tr') : SWAlert.inf('Cancelado.', 2500, 'tr'); },
                                 'Deletar registro'
                             )">Deletar registro</button>
 
-                        <button y2btn class="y2btn-ale" onclick="
+                        <button sw-btn class="sw-btn-ale" onclick="
                             SWAlert.confirmar(
                                 'Você será desconectado desta sessão.',
                                 function(ok) { ok ? SWAlert.drk('Saindo...', 2000, 'tc') : null; },
@@ -267,32 +267,32 @@ SWAlert.confirmar(
                 <p class="demo-label">Demo</p>
                 <div class="demo-wrap">
                     <div class="flx flx-wrap gap-3">
-                        <button y2btn class="y2btn-suc" y2alert="ok" y2alert-msg="Dados salvos com sucesso!"
-                            y2alert-pos="tr" y2alert-dur="3000">Salvar</button>
+                        <button sw-btn class="sw-btn-suc" sw-toast="ok" sw-toast-msg="Dados salvos com sucesso!"
+                            sw-toast-pos="tr" sw-toast-dur="3000">Salvar</button>
 
-                        <button y2btn class="y2btn-err" y2alert="err" y2alert-msg="Sem conexão com o servidor."
-                            y2alert-pos="bl">Simular erro</button>
+                        <button sw-btn class="sw-btn-err" sw-toast="err" sw-toast-msg="Sem conexão com o servidor."
+                            sw-toast-pos="bl">Simular erro</button>
 
-                        <button y2btn class="y2btn-ale" y2alert="ale" y2alert-msg="Verifique os campos obrigatórios."
-                            y2alert-pos="tc" y2alert-dur="5000">Validar</button>
+                        <button sw-btn class="sw-btn-ale" sw-toast="ale" sw-toast-msg="Verifique os campos obrigatórios."
+                            sw-toast-pos="tc" sw-toast-dur="5000">Validar</button>
                     </div>
                 </div>
 
                 <pre swcode="html"><script type="text/plain">
 <button
-    y2alert="ok"
-    y2alert-msg="Dados salvos!"
-    y2alert-pos="tr"
-    y2alert-dur="3000">
+    sw-toast="ok"
+    sw-toast-msg="Dados salvos!"
+    sw-toast-pos="tr"
+    sw-toast-dur="3000">
     Salvar
 </button>
 
 <!-- Atributos disponíveis -->
-<!-- y2alert        = ok | err | ale | inf | drk  -->
-<!-- y2alert-msg    = texto da mensagem            -->
-<!-- y2alert-title  = título (opcional)            -->
-<!-- y2alert-pos    = tl | tc | tr | bl | bc | br -->
-<!-- y2alert-dur    = duração em ms               -->
+<!-- sw-toast        = ok | err | ale | inf | drk  -->
+<!-- sw-toast-msg    = texto da mensagem            -->
+<!-- sw-toast-title  = título (opcional)            -->
+<!-- sw-toast-pos    = tl | tc | tr | bl | bc | br -->
+<!-- sw-toast-dur    = duração em ms               -->
 </script></pre>
             </div>
 

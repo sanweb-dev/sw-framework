@@ -32,7 +32,7 @@ test('carrega sem overflow horizontal e gera captura visual', async ({ page }, t
 });
 
 test('alterna e persiste o tema', async ({ page }) => {
-  await page.getByRole('button', { name: /Dia & Noite/ }).click();
+  await page.getByRole('button', { name: /Alternar Tema/ }).click();
   await expect(page.locator('html')).toHaveAttribute('sw-theme', 'light');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('sw-theme', 'light');

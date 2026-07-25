@@ -1,6 +1,7 @@
 (function (window, document) {
   'use strict';
 
+  const root = document.documentElement;
   const directions = new Set(['neutral', 'forward', 'back']);
   const storageKey = 'sw:trans:direction';
   try {
