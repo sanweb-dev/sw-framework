@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stepper - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Stepper</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Stepper <span class="TprinD">[sw-stp]</span></h1>
+                <p class="t-g t-mut mb-0">Indicador de progresso em etapas — checkout, onboarding, wizards de múltiplos passos.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Horizontal</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-stp>
+                        <div class="sw-stp-it is-dn"><div class="sw-stp-num"></div><div class="sw-stp-lbl">Carrinho</div></div>
+                        <div class="sw-stp-it is-dn"><div class="sw-stp-num"></div><div class="sw-stp-lbl">Endereço</div></div>
+                        <div class="sw-stp-it is-act"><div class="sw-stp-num">3</div><div class="sw-stp-lbl">Pagamento</div></div>
+                        <div class="sw-stp-it"><div class="sw-stp-num">4</div><div class="sw-stp-lbl">Confirmação</div></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-stp>
+    <div class="sw-stp-it is-dn"><div class="sw-stp-num"></div><div class="sw-stp-lbl">Carrinho</div></div>
+    <div class="sw-stp-it is-act"><div class="sw-stp-num">2</div><div class="sw-stp-lbl">Endereço</div></div>
+    <div class="sw-stp-it"><div class="sw-stp-num">3</div><div class="sw-stp-lbl">Pagamento</div></div>
+</div>
+<!-- is-dn = concluído (mostra ✓) · is-act = passo atual · sem classe = pendente -->
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">2. Vertical</h3>
+                <div class="demo-wrap p-6" style="max-width:32rem">
+                    <div sw-stp class="sw-stp-v">
+                        <div class="sw-stp-it is-dn"><div class="sw-stp-num"></div><div><div class="sw-stp-lbl">Conta criada</div><p class="t-pp t-mut mb-0">14 Mar, 09:20</p></div></div>
+                        <div class="sw-stp-it is-act"><div class="sw-stp-num">2</div><div><div class="sw-stp-lbl">Verificar e-mail</div><p class="t-pp t-mut mb-0">Aguardando confirmação</p></div></div>
+                        <div class="sw-stp-it"><div class="sw-stp-num">3</div><div><div class="sw-stp-lbl">Completar perfil</div></div></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-stp class="sw-stp-v">
+    <div class="sw-stp-it is-dn"><div class="sw-stp-num"></div><div class="sw-stp-lbl">Conta criada</div></div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mt-8">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-stp]</code></td><td>Base</td><td>Container — distribui os passos em linha.</td></tr>
+                            <tr><td><code>.sw-stp-v</code></td><td>Direção</td><td>Empilha os passos verticalmente.</td></tr>
+                            <tr><td><code>.sw-stp-it</code></td><td>Item</td><td>Um passo — número/check + rótulo.</td></tr>
+                            <tr><td><code>.is-act</code></td><td>Estado</td><td>Passo atual — destacado na cor primária.</td></tr>
+                            <tr><td><code>.is-dn</code></td><td>Estado</td><td>Passo concluído — verde com ✓, esconde o número.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

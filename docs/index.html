@@ -280,7 +280,7 @@
             Ecossistema nativo de alta performance para a web. CSS modular, zero dependências pesadas, componentes acessíveis e realce de sintaxe integrado.
           </p>
           <div class="flx gap-4 f-wr">
-            <a href="componentes.html" sw-btn class="sw-btn-pri">Explorar documentação</a>
+            <a href="pages/componentes.html" sw-btn class="sw-btn-pri">Explorar documentação</a>
             <a href="pages/swcode.html" sw-btn class="sw-btn-out">Ver SWCode (Sintaxe)</a>
             <a href="pages/layout_grid.html" sw-btn class="sw-btn-gst">Layout & Grid</a>
           </div>
@@ -435,70 +435,30 @@ npm run build
           <button class="sw-btn sw-btn-outline" type="button" sw-panel-close>Fechar</button>
         </template>
 
-        <!-- Painel de configuração (drawer) -->
-        <aside id="panel-config" class="sw-panel">
-          <h4 class="mb-2">Configurar SW</h4>
-          <label for="sw-demo-hue" class="f-bd">Hue primária</label>
-          <input id="sw-demo-hue" type="range" min="0" max="360" value="212" oninput="SW.config({ hue: this.value })" style="width:100%;">
-          <button class="sw-btn sw-btn-outline mt-4" type="button" sw-panel-close>Fechar</button>
-        </aside>
-
-        <!-- Modal acessível -->
-        <div id="modal-demo" class="sw-modal">
-          <div class="sw-modal-content">
-            <h4 id="modal-demo-title">Diálogo Acessível</h4>
-            <p class="t-mut">Foco preso, ESC fecha, foco retorna ao gatilho.</p>
-            <button class="sw-btn sw-btn-outline" type="button" sw-modal-close>Fechar</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- FILOSOFIA -->
-      <section class="doc-card mb-8">
-        <div class="l alc gap-6">
-          <div class="co12 co6-g">
-            <span class="doc-section-tag">Filosofia</span>
-            <h2 class="t-xxg f-bd mb-4">Simplicidade que escala.</h2>
-            <p class="t-g t-mut mb-6">
-              O SW Framework foi projetado para eliminar a complexidade desnecessária. Desenvolva interfaces limpas, rápidas e consistentes com código nativo e previsível.
-            </p>
-            <ul class="flx f-cl gap-3 p-0 m-0" style="list-style: none;">
-              <li class="flx alc gap-3">
-                <span class="bp-badge">✓</span>
-                <span class="t-p f-bd">Zero Dependências Externas (Vanilla Pure)</span>
-              </li>
-              <li class="flx alc gap-3">
-                <span class="bp-badge">✓</span>
-                <span class="t-p f-bd">CSS Atômico + Estrutura Modular</span>
-              </li>
-              <li class="flx alc gap-3">
-                <span class="bp-badge">✓</span>
-                <span class="t-p f-bd">Variáveis CSS HSL de Alta Flexibilidade</span>
-              </li>
-            </ul>
-          </div>
-          <div class="co12 co6-g">
-            <div class="doc-card mb-0" style="background: var(--sw-bg-bas);">
-              <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// Código de Exemplo</p>
-              <pre swcode="html"><script type="text/plain">
-<!-- Grid de 2 colunas no desktop -->
-<div class="l gap-4">
-  <div class="co6-g">Coluna A</div>
-  <div class="co6-g">Coluna B</div>
-</div>
-</script></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- FOOTER -->
       <footer class="doc-footer">
         <div>SW Framework v0.1.0-alpha.1 • Sandro Web Solutions</div>
-        <div><a href="index.html">Documentação Oficial</a></div>
+        <div><a href="pages/componentes.html">Documentação Oficial</a></div>
       </footer>
 
     </main>
+  </div>
+
+  <!-- Painel de configuração (drawer) -->
+  <aside id="panel-config" class="sw-panel">
+    <h4 class="mb-2">Configurar SW</h4>
+    <label for="sw-demo-hue" class="f-bd">Hue primária</label>
+    <input id="sw-demo-hue" type="range" min="0" max="360" value="212" oninput="SW.config({ hue: this.value })" style="width:100%;">
+    <button class="sw-btn sw-btn-outline mt-4" type="button" sw-panel-close>Fechar</button>
+  </aside>
+
+  <!-- Modal acessível -->
+  <div id="modal-demo" class="sw-modal">
+    <div class="sw-modal-content">
+      <h4 id="modal-demo-title">Diálogo Acessível</h4>
+      <p class="t-mut">Foco preso, ESC fecha, foco retorna ao gatilho.</p>
+      <button class="sw-btn sw-btn-outline" type="button" sw-modal-close>Fechar</button>
+    </div>
   </div>
 </body>
 </html>

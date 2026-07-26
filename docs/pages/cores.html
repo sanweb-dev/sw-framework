@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cores & Gradients - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
     <style>
@@ -33,12 +33,12 @@
             width: 4rem;
             height: 4rem;
             border-radius: var(--sw-r-p);
-            border: 1px solid var(--sw-bor);
+            border: 4px solid var(--sw-bor);
             flex-shrink: 0;
         }
 
         .color-text {
-            font-size: 1.4rem;
+            font-size: 2.6rem;
             font-weight: 700;
             height: 4rem;
             /* Alinhando com color-box */
@@ -59,7 +59,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -69,6 +69,10 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 2px;
             margin-bottom: 8px;
+        }
+
+        .fam-title {
+            font-size: 2rem;
         }
 
         .opa-item {
@@ -103,17 +107,14 @@
     </style>
 
     <script src="../dist/sw.min.js" defer></script>
-    <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
 
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
 
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
@@ -351,6 +352,13 @@
                                     font-size: 1.4rem;
                                 }
 
+                                /* BL e BORDER só mudam a cor da borda — grossura maior deixa o
+                                   tom de cada passo visível de verdade na lista. */
+                                .colors1 ul li[class^="sw-bl"],
+                                .colors1 ul li[class^="sw-border"] {
+                                    border-width: 4px;
+                                }
+
                                 .colors1 ul li small {
                                     opacity: 0.6;
                                 }
@@ -431,13 +439,13 @@
                                     <li style="background:var(--sw-bg-sur); color:var(--sw-color---);">
                                         <b>.Tsw-color---<small>--sw-color---</small></b>
                                     </li>
-                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color_);">
+                                    <li style="background:var(--sw-bg_); color:var(--sw-color_);">
                                         <b>.Tsw-color_<small>--sw-color_</small></b>
                                     </li>
-                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color__);">
+                                    <li style="background:var(--sw-bg_); color:var(--sw-color__);">
                                         <b>.Tsw-color__<small>--sw-color__</small></b>
                                     </li>
-                                    <li style="background:var(--sw-bg-sur); color:var(--sw-color___);">
+                                    <li style="background:var(--sw-bg_); color:var(--sw-color___);">
                                         <b>.Tsw-color___<small>--sw-color___</small></b>
                                     </li>
                                 </ul>
@@ -453,7 +461,7 @@
                                     <li style="background:var(--sw-bg-sur)"><a
                                             style="--aa: var(--sw-link--); --bb: var(--sw-hover--);"><b>.Tsw-link--<small>--sw-link--</small></b></a>
                                     </li>
-                                    <li style="background:var(--sw-bg-sur)"><a
+                                    <li style="background:var(--sw-bg_)"><a
                                             style="--aa: var(--sw-link_); --bb: var(--sw-hover_);"><b>.Tsw-link_<small>--sw-link_</small></b></a>
                                     </li>
                                 </ul>
@@ -515,9 +523,9 @@
                             <pre swcode="css">
 <script type="text/plain">
 /* --- Light Theme Overrides --- */
-html[y2day-theme="light"] {
+html[sw-theme="light"] {
     --sw-bg:        var(--sw-neu-1);
-    --sw-bg-:       var(--bran);
+    --sw-bg-:       #ffffff;
     --sw-bg--:      var(--sw-neu-3);
     --sw-bg---:     var(--sw-neu-4);
     --sw-bg_:       var(--sw-neu-11);
@@ -529,7 +537,7 @@ html[y2day-theme="light"] {
 }
 
 /* --- Dark Theme Overrides --- */
-html[y2day-theme="dark"] {
+html[sw-theme="dark"] {
     --sw-bg:        var(--sw-neu-12);
     --sw-bg-:       var(--sw-neu-11);
     --sw-bg--:      var(--sw-neu-10);
@@ -919,9 +927,9 @@ html[y2day-theme="dark"] {
             const border = needsBorder.includes(fam) ? 'outline: 1px solid var(--sw-bor);' : '';
 
             let html = `
-                <div class="box p-g h-full flx f-cl" style="background: var(--sw-bg-sur); border: 1px solid var(--sw-bor);">
+                <div class="box p-g h-full flx f-cl" style="background: var(--sw-bg-sur);">
                     <div class="flx j-sb ai-c mb-m">
-                        <p class="t-p f-bd t-upp">${fam}</p>
+                        <p class="fam-title f-bd t-upp">${fam}</p>
                         <span class="t-pp f-mon t-mut">--${fam}</span>
                     </div>
 

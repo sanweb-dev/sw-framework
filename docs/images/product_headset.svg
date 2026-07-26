@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgHds" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bgHds)"/>
+  <!-- Headband -->
+  <path d="M 260,260 A 150,150 0 0,1 540,260" fill="none" stroke="#334155" stroke-width="24" stroke-linecap="round"/>
+  <!-- Ear Cups -->
+  <rect x="220" y="240" width="65" height="130" rx="30" fill="#1e293b" stroke="url(#ring)" stroke-width="4"/>
+  <rect x="515" y="240" width="65" height="130" rx="30" fill="#1e293b" stroke="url(#ring)" stroke-width="4"/>
+  <!-- Inner Cushions -->
+  <rect x="235" y="255" width="35" height="100" rx="16" fill="#0f172a"/>
+  <rect x="530" y="255" width="35" height="100" rx="16" fill="#0f172a"/>
+  <text x="400" y="420" font-family="sans-serif" font-size="22" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="3">ANC WIRELESS HEADSET</text>
+</svg>

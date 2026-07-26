@@ -6,8 +6,15 @@
   'use strict';
 
   function initSidebar() {
-    const isPage = window.location.pathname.includes('/pages/');
-    const root = isPage ? '../' : '';
+    // Caminho absoluto (não relativo) — a navegação troca a URL via pushState sem
+    // recarregar a página, então um href relativo passaria a ser resolvido a partir
+    // da nova URL a cada clique, duplicando segmentos como "pages/pages/". Calculado
+    // a partir de "/pages/" no caminho atual em vez de assumir "/docs/" fixo: funciona
+    // tanto no servidor Node de teste (.../docs/pages/x.html) quanto no Apache, onde
+    // "docs/" já é a raiz do site (.../pages/x.html, sem o segmento "docs").
+    const path = window.location.pathname;
+    const pagesIndex = path.indexOf('/pages/');
+    const root = pagesIndex !== -1 ? path.slice(0, pagesIndex + 1) : (path.slice(0, path.lastIndexOf('/') + 1) || '/');
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
     const iconPaths = {
@@ -31,6 +38,14 @@
       fx: "Edit/flashlamp",
       layers: "Edit/layers",
       sun: "Weather/sun",
+      avt: "Peoples/user",
+      chip: "Base/tag",
+      brc: "Arrows/arrow-right",
+      div: "Character/minus",
+      prg: "Base/loading",
+      skl: "Abstract/round-mask",
+      stp: "Charts/ranking-list",
+      tml: "Time/big-clock",
       prog: "Abstract/circular-connection",
       alert: "Safe/alarm"
     };
@@ -38,9 +53,9 @@
     const sidebarHtml = `
       <div class="sidebar-identity">
         <a href="${root}index.html" class="sidebar-logo" data-doc-link>
-          <span class="sidebar-brand-mark">SW</span>
+          <img src="${root}images/logo.png" alt="SW Framework" class="sidebar-brand-mark">
           <span class="sidebar-brand-title">
-            SW Framework
+            Framework
             <small>v0.1.0-alpha.1</small>
           </span>
         </a>
@@ -96,6 +111,30 @@
           </a>
           <a href="${root}pages/tabela.html" class="nav-it ${currentPath === 'tabela.html' ? 'is-active is-act' : ''}" data-doc-link data-page="tabela">
             <span sw-icon="${iconPaths.tbl}"></span> <span>Tabela</span>
+          </a>
+          <a href="${root}pages/avatar.html" class="nav-it ${currentPath === 'avatar.html' ? 'is-active is-act' : ''}" data-doc-link data-page="avatar">
+            <span sw-icon="${iconPaths.avt}"></span> <span>Avatar</span>
+          </a>
+          <a href="${root}pages/chip.html" class="nav-it ${currentPath === 'chip.html' ? 'is-active is-act' : ''}" data-doc-link data-page="chip">
+            <span sw-icon="${iconPaths.chip}"></span> <span>Chip</span>
+          </a>
+          <a href="${root}pages/breadcrumb.html" class="nav-it ${currentPath === 'breadcrumb.html' ? 'is-active is-act' : ''}" data-doc-link data-page="breadcrumb">
+            <span sw-icon="${iconPaths.brc}"></span> <span>Breadcrumb</span>
+          </a>
+          <a href="${root}pages/divider.html" class="nav-it ${currentPath === 'divider.html' ? 'is-active is-act' : ''}" data-doc-link data-page="divider">
+            <span sw-icon="${iconPaths.div}"></span> <span>Divider</span>
+          </a>
+          <a href="${root}pages/progress.html" class="nav-it ${currentPath === 'progress.html' ? 'is-active is-act' : ''}" data-doc-link data-page="progress">
+            <span sw-icon="${iconPaths.prg}"></span> <span>Progress</span>
+          </a>
+          <a href="${root}pages/skeleton.html" class="nav-it ${currentPath === 'skeleton.html' ? 'is-active is-act' : ''}" data-doc-link data-page="skeleton">
+            <span sw-icon="${iconPaths.skl}"></span> <span>Skeleton</span>
+          </a>
+          <a href="${root}pages/stepper.html" class="nav-it ${currentPath === 'stepper.html' ? 'is-active is-act' : ''}" data-doc-link data-page="stepper">
+            <span sw-icon="${iconPaths.stp}"></span> <span>Stepper</span>
+          </a>
+          <a href="${root}pages/timeline.html" class="nav-it ${currentPath === 'timeline.html' ? 'is-active is-act' : ''}" data-doc-link data-page="timeline">
+            <span sw-icon="${iconPaths.tml}"></span> <span>Timeline</span>
           </a>
           <a href="${root}pages/forms.html" class="nav-it ${currentPath === 'forms.html' ? 'is-active is-act' : ''}" data-doc-link data-page="forms">
             <span sw-icon="${iconPaths.form}"></span> <span>Formulários</span>
@@ -207,7 +246,28 @@
 
         const title = doc.title || document.title;
 
+        // Páginas individuais costumam ter <style> próprio no <head> (ex.: componentes.html,
+        // btn.html, tipografia.html) — a troca via AJAX só substitui o <main>, então sem isto
+        // o CSS da página só aparecia depois de um F5 (recarga completa do <head>).
+        const newStyles = Array.from(doc.head.querySelectorAll('style'));
+
+        // Algumas páginas (ex.: cores.html) montam o próprio conteúdo via <script> inline,
+        // muitas vezes fora do <main>. Um <script> inserido via innerHTML fica inerte —
+        // sem isto, a troca via AJAX carregava a página sem o conteúdo gerado por JS.
+        // Exclui <script type="text/plain"> — usado pelo SWCode pra guardar amostras de
+        // código como texto inerte (não são JS de verdade e quebrariam ao ser executados).
+        const executableTypes = new Set(['', 'text/javascript', 'application/javascript', 'module']);
+        const newScripts = Array.from(doc.querySelectorAll('script:not([src])'))
+          .filter((script) => executableTypes.has(script.type));
+
         const updateDom = () => {
+          document.head.querySelectorAll('style[data-doc-page-style]').forEach((el) => el.remove());
+          newStyles.forEach((style) => {
+            const clone = style.cloneNode(true);
+            clone.setAttribute('data-doc-page-style', '');
+            document.head.appendChild(clone);
+          });
+
           main.innerHTML = newMain.innerHTML;
           document.title = title;
 
@@ -219,6 +279,13 @@
             if (window.SW.Fx && typeof window.SW.Fx.reset === 'function') window.SW.Fx.reset(main);
             if (window.SW.Icon && typeof window.SW.Icon.initAll === 'function') window.SW.Icon.initAll(main);
           }
+
+          newScripts.forEach((script) => {
+            const clone = document.createElement('script');
+            clone.textContent = script.textContent;
+            document.body.appendChild(clone);
+            clone.remove();
+          });
         };
 
         if (window.SW && window.SW.Trans && typeof window.SW.Trans.run === 'function') {

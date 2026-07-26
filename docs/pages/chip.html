@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chip - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Chip</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Chip <span class="TprinD">[sw-chip]</span></h1>
+                <p class="t-g t-mut mb-0">Etiqueta compacta pra filtros, tags removíveis e seleção múltipla.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Cores</h3>
+                <div class="demo-wrap p-6 flx alc gap-2 f-wr">
+                    <span sw-chip>Padrão</span>
+                    <span sw-chip class="sw-chip-pri">Primário</span>
+                    <span sw-chip class="sw-chip-sec">Secundário</span>
+                    <span sw-chip class="sw-chip-suc">Sucesso</span>
+                    <span sw-chip class="sw-chip-ale">Alerta</span>
+                    <span sw-chip class="sw-chip-err">Erro</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-chip class="sw-chip-pri">Primário</span>
+<!-- Variantes: sw-chip-sec | sw-chip-suc | sw-chip-ale | sw-chip-err -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">2. Removível & Selecionado</h3>
+                <div class="demo-wrap p-6 flx alc gap-2 f-wr">
+                    <span sw-chip>Frontend <span class="sw-chip-x">×</span></span>
+                    <span sw-chip class="sw-chip-pri">Backend <span class="sw-chip-x">×</span></span>
+                    <span sw-chip class="sw-chip-sel">Selecionado</span>
+                    <span sw-chip class="sw-chip-out">Outline</span>
+                    <span sw-chip class="sw-chip-pp">Compacto</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-chip>Frontend <span class="sw-chip-x">×</span></span>
+<span sw-chip class="sw-chip-sel">Selecionado</span>  <!-- fundo sólido, estado ativo -->
+<span sw-chip class="sw-chip-out">Outline</span>       <!-- sem fundo -->
+<span sw-chip class="sw-chip-pp">Compacto</span>        <!-- tamanho reduzido -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">3. Com Avatar</h3>
+                <div class="demo-wrap p-6 flx alc gap-2 f-wr">
+                    <span sw-chip><span sw-avt class="sw-avt-pp"><img src="https://i.pravatar.cc/60?u=chip1" alt=""></span> Gabriel Lima</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-chip>
+    <span sw-avt class="sw-avt-pp"><img src="foto.jpg" alt=""></span>
+    Gabriel Lima
+</span>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-chip]</code></td><td>Base</td><td>Atributo fundamental — pill compacta.</td></tr>
+                            <tr><td><code>.sw-chip-pri, -sec, -suc, -ale, -err</code></td><td>Cor</td><td>Fundo translúcido na cor semântica.</td></tr>
+                            <tr><td><code>.sw-chip-sel</code></td><td>Estado</td><td>Fundo sólido — chip selecionada.</td></tr>
+                            <tr><td><code>.sw-chip-out</code></td><td>Estilo</td><td>Sem preenchimento, só borda.</td></tr>
+                            <tr><td><code>.sw-chip-pp</code></td><td>Tamanho</td><td>Versão compacta.</td></tr>
+                            <tr><td><code>.sw-chip-x</code></td><td>Elemento</td><td>Botão × pra remover a chip (dentro do <code>[sw-chip]</code>).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

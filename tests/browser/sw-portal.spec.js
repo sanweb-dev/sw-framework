@@ -3,11 +3,26 @@ const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 
 const docsDir = path.resolve(__dirname, '..', '..', 'docs');
+// As páginas de componentes/animações/transições moram em docs/pages/ desde a reestruturação
+// de 25/07/2026 — docsDir continua apontando pra docs/ porque também é usado pra achar
+// tests/artifacts (via "..") mais abaixo neste arquivo.
+const pagesDir = path.join(docsDir, 'pages');
 const pages = [
-  ['componentes.html', 'Componentes do SW Framework'],
+  ['componentes.html', 'Todos os Componentes'],
   ['animacoes.html', 'Animações do SW Framework'],
   ['transitions.html', 'Transições do SW Framework']
 ];
+
+// Acima de 992px o topo (nav[aria-label="Documentação principal"]) é ocultado de propósito
+// (ver layout.css, "Topo removido no desktop como na Y2") — a navegação nesse viewport é a
+// barra lateral (.doc-aside), sempre visível. Verifica que ao menos uma das duas está ativa.
+async function expectNavigationVisible(page) {
+  const [navVisible, sidebarVisible] = await Promise.all([
+    page.locator('nav[aria-label="Documentação principal"]').isVisible(),
+    page.locator('.doc-aside').isVisible()
+  ]);
+  expect(navVisible || sidebarVisible).toBe(true);
+}
 
 test('portal documental é navegável, sem erros e sem overflow', async ({ page }) => {
   const errors = [];
@@ -15,10 +30,10 @@ test('portal documental é navegável, sem erros e sem overflow', async ({ page 
   page.on('pageerror', (error) => errors.push(error.message));
 
   for (const [file, heading] of pages) {
-    await page.goto(pathToFileURL(path.join(docsDir, file)).href);
+    await page.goto(pathToFileURL(path.join(pagesDir, file)).href);
     await page.waitForLoadState('networkidle');
     await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible();
-    await expect(page.locator('nav[aria-label="Documentação principal"]')).toBeVisible();
+    await expectNavigationVisible(page);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
   }
@@ -26,18 +41,18 @@ test('portal documental é navegável, sem erros e sem overflow', async ({ page 
 });
 
 test('exemplos interativos funcionam com teclado e fallback nativo', async ({ page }) => {
-  await page.goto(pathToFileURL(path.join(docsDir, 'componentes.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'componentes.html')).href);
   await page.getByRole('button', { name: 'Abrir modal de exemplo' }).click();
   await expect(page.locator('#docs-modal')).toHaveAttribute('aria-hidden', 'false');
   await page.keyboard.press('Escape');
   await expect(page.locator('#docs-modal')).toHaveAttribute('aria-hidden', 'true');
 
-  await page.goto(pathToFileURL(path.join(docsDir, 'animacoes.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'animacoes.html')).href);
   const sample = page.locator('[data-animation-sample]');
   await page.getByRole('button', { name: /Reproduzir pop/ }).click();
   await expect(sample).toHaveClass(/sw-ani-pop/);
 
-  await page.goto(pathToFileURL(path.join(docsDir, 'transitions.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'transitions.html')).href);
   const state = page.locator('[data-transition-state]');
   await page.getByRole('button', { name: 'Alternar estado do exemplo' }).click();
   await expect(state).toHaveAttribute('data-transition-state', 'active');
@@ -45,7 +60,7 @@ test('exemplos interativos funcionam com teclado e fallback nativo', async ({ pa
 
 test('catálogo de motion reproduz presets, pausa loops e respeita movimento reduzido', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto(pathToFileURL(path.join(docsDir, 'animacoes.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'animacoes.html')).href);
 
   const sample = page.locator('[data-animation-sample]');
   await page.getByRole('button', { name: 'Reproduzir entrada suave' }).click();
@@ -71,7 +86,7 @@ test('catálogo de motion reproduz presets, pausa loops e respeita movimento red
 });
 
 test('SWTrans aplica morph único e controla overlay acessível', async ({ page }, testInfo) => {
-  await page.goto(pathToFileURL(path.join(docsDir, 'transitions.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'transitions.html')).href);
   const morph = page.locator('[sw-morph="docs-state-card"]');
   await expect(morph).toHaveCSS('view-transition-name', 'sw-docs-state-card');
 
@@ -99,7 +114,7 @@ test('SWTrans aplica morph único e controla overlay acessível', async ({ page 
 });
 
 test('formulário integra select nativo, validação acessível e máscaras limitadas', async ({ page }) => {
-  await page.goto(pathToFileURL(path.join(docsDir, 'componentes.html')).href);
+  await page.goto(pathToFileURL(path.join(pagesDir, 'componentes.html')).href);
 
   const form = page.locator('#docs-form-demo');
   const name = page.locator('#docs-name');

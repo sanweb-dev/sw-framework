@@ -132,6 +132,10 @@
       const hasLines = pre.hasAttribute('swcode-lines') || pre.hasAttribute('sw-code-lines') || pre.hasAttribute('data-swcode-lines') || pre.hasAttribute('y2code-lines') || pre.hasAttribute('data-y2code-lines');
       const script = pre.querySelector('script[type="text/plain"]');
       const raw = (script ? script.textContent : (codeEl || pre).textContent)
+        // Exemplo que precisa mostrar um </script> literal tem que escapar como <\/script>
+        // dentro do <script type="text/plain"> (senão fecharia o wrapper cedo demais) —
+        // desfaz esse escape aqui antes de exibir, senão a barra invertida aparece na tela.
+        .replace(/<\\\/script>/gi, '</script>')
         .replace(/^\s+|\s+$/g, '')
         .replace(/[\uFEFF\u200B\u0000-\u0008\u000B-\u000C\u000D-\u001F]/g, '');
 

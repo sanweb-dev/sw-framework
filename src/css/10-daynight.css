@@ -1,0 +1,105 @@
+/* ==========================================================================
+   SW FRAMEWORK — 10-DAYNIGHT.CSS (UTILITÁRIOS DO SISTEMA DAY/NIGHT)
+   Nill Ecosystem | Sandro Web Solutions
+   Classes que aplicam os grupos tonais de 01-tokens.css (--sw-bg, --sw-bl,
+   --sw-border, --sw-color, --sw-link, --sw-hover, --sw-shadow). Os tokens já
+   trocam de valor sozinhos com o atributo real de tema (html[sw-theme]).
+   ========================================================================== */
+
+/* --- 🎨 BG (fundo) — cada regra já traz o texto com contraste automático --- */
+.sw-bg, .Bsw-bg           { background-color: var(--sw-bg); color: var(--sw-txt); }
+.sw-bg-, .Bsw-bg-         { background-color: var(--sw-bg-); color: var(--sw-txt); }
+.sw-bg--, .Bsw-bg--       { background-color: var(--sw-bg--); color: var(--sw-txt); }
+.sw-bg---, .Bsw-bg---     { background-color: var(--sw-bg---); color: var(--sw-txt); }
+.sw-bg_, .Bsw-bg_         { background-color: var(--sw-bg_); color: var(--sw-txt-inv); }
+.sw-bg__, .Bsw-bg__       { background-color: var(--sw-bg__); color: var(--sw-txt-inv); }
+.sw-bg___, .Bsw-bg___     { background-color: var(--sw-bg___); color: var(--sw-txt-inv); }
+
+/* --- 🖊️ BL (linha/borda suave) --- */
+.sw-bl, .Bsw-bl           { border-color: var(--sw-bl) !important; }
+.sw-bl-, .Bsw-bl-         { border-color: var(--sw-bl-) !important; }
+.sw-bl--, .Bsw-bl--       { border-color: var(--sw-bl--) !important; }
+.sw-bl---, .Bsw-bl---     { border-color: var(--sw-bl---) !important; }
+.sw-bl_, .Bsw-bl_         { border-color: var(--sw-bl_) !important; }
+.sw-bl__, .Bsw-bl__       { border-color: var(--sw-bl__) !important; }
+.sw-bl___, .Bsw-bl___     { border-color: var(--sw-bl___) !important; }
+
+/* --- 🔲 BORDER (borda estrutural) --- */
+.sw-border           { border-color: var(--sw-border) !important; }
+.sw-border-          { border-color: var(--sw-border-) !important; }
+.sw-border--         { border-color: var(--sw-border--) !important; }
+.sw-border_          { border-color: var(--sw-border_) !important; }
+
+/* --- 🔤 COLOR (texto tonal) --- */
+.Tsw-color           { color: var(--sw-color); }
+.Tsw-color-          { color: var(--sw-color-); }
+.Tsw-color--         { color: var(--sw-color--); }
+.Tsw-color---        { color: var(--sw-color---); }
+.Tsw-color_          { color: var(--sw-color_); }
+.Tsw-color__         { color: var(--sw-color__); }
+.Tsw-color___        { color: var(--sw-color___); }
+
+/* --- 🔗 LINK / HOVER --- */
+.Tsw-link            { color: var(--sw-link); }
+.Tsw-link-           { color: var(--sw-link-); }
+.Tsw-link--          { color: var(--sw-link--); }
+.Tsw-link_           { color: var(--sw-link_); }
+.Tsw-link:hover, a.Tsw-link:hover { color: var(--sw-hover); }
+
+.Tsw-hover           { color: var(--sw-hover); }
+.Tsw-hover-          { color: var(--sw-hover-); }
+.Tsw-hover--         { color: var(--sw-hover--); }
+.Tsw-hover_          { color: var(--sw-hover_); }
+
+/* --- 🌑 SHADOW --- */
+.sw-shadow           { box-shadow: var(--sw-shadow); }
+.sw-shadow-          { box-shadow: var(--sw-shadow-); }
+.sw-shadow--         { box-shadow: var(--sw-shadow--); }
+.sw-shadow---        { box-shadow: var(--sw-shadow---); }
+.sw-shadow_          { box-shadow: var(--sw-shadow_); }
+
+/* --- 🌗 BOTÃO DE TEMA ([sw-day]) — mesma posição/estilo do FAB original (Y2Day): preso na borda direita, centralizado verticalmente --- */
+[sw-day] {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  user-select: none;
+  color: inherit;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+[sw-day] .sw-daytg-ico { font-size: 1.8rem; line-height: 1; transition: transform 0.3s, color 0.3s; }
+[sw-day]:hover { opacity: 1; }
+[sw-day]:hover .sw-daytg-ico { transform: rotate(20deg); }
+
+.sw-day-fab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10040;
+  width: 3.2rem;
+  height: 3.6rem;
+  border-radius: var(--sw-r-m) 0 0 var(--sw-r-m);
+  background: var(--sw-sur);
+  border: 1px solid var(--sw-bor);
+  border-right: none;
+  color: var(--sw-txt);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s, border-color 0.2s, width 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.sw-day-fab:hover { width: 3.8rem; background: var(--sw-bg-); }
+
+/* No tema claro o FAB continua escuro de propósito (igual Ydra/Y2) — garante contraste
+   alto sempre, em vez de usar a superfície clara do tema e quase sumir na borda da página. */
+html[sw-theme="light"] .sw-day-fab {
+  background: var(--sw-neu-10);
+  border-color: var(--sw-bor);
+  color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+html[sw-theme="light"] .sw-day-fab:hover { background: var(--sw-neu-9); color: #fff; }

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Skeleton - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+  <style>
+    .demo-label { font-size: 1.2rem; font-weight: 700; color: var(--sw-txt-mut); text-transform: uppercase; letter-spacing: 0.06em; }
+  </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Skeleton</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Skeleton <span class="TprinD">[sw-skl]</span></h1>
+                <p class="t-g t-mut mb-0">Placeholders de carregamento com efeito shimmer — usados internamente pelos cards de produto (<code>.sw-card-ldg</code>).</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Formas Básicas</h3>
+                <div class="demo-wrap p-6 flx f-cl gap-2" style="max-width:32rem">
+                    <div sw-skl class="sw-skl-ttl"></div>
+                    <div sw-skl class="sw-skl-txt"></div>
+                    <div sw-skl class="sw-skl-txt"></div>
+                    <div sw-skl class="sw-skl-txt"></div>
+                    <div sw-skl class="sw-skl-txt-sm mt-4" style="width:40%"></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-skl class="sw-skl-ttl"></div>
+<div sw-skl class="sw-skl-txt"></div>
+<div sw-skl class="sw-skl-txt"></div>  <!-- última linha automaticamente mais curta -->
+<div sw-skl class="sw-skl-txt-sm"></div>  <!-- legenda/meta, mais fina -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">2. Avatar — tamanhos</h3>
+                <p class="t-mut t-p mb-6">Mesma escala do componente <code>[sw-avt]</code> real: <code>pp</code>, <code>p</code>, padrão e <code>g</code>.</p>
+                <div class="demo-wrap p-6 flx alc gap-4">
+                    <div sw-skl class="sw-skl-avt sw-skl-avt-pp"></div>
+                    <div sw-skl class="sw-skl-avt sw-skl-avt-p"></div>
+                    <div sw-skl class="sw-skl-avt"></div>
+                    <div sw-skl class="sw-skl-avt sw-skl-avt-g"></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-skl class="sw-skl-avt sw-skl-avt-pp"></div>
+<div sw-skl class="sw-skl-avt sw-skl-avt-p"></div>
+<div sw-skl class="sw-skl-avt"></div>          <!-- padrão -->
+<div sw-skl class="sw-skl-avt sw-skl-avt-g"></div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">3. Imagem, Botão e Badge</h3>
+                <div class="demo-wrap p-6 flx f-cl gap-6">
+                    <div>
+                        <p class="demo-label mb-2">.sw-skl-img (16:9) · .sw-skl-img-sqr (1:1) · .sw-skl-img-wd (21:9)</p>
+                        <div class="flx gap-2 flx-wrap">
+                            <div sw-skl class="sw-skl-img" style="width:16rem"></div>
+                            <div sw-skl class="sw-skl-img-sqr" style="width:8rem"></div>
+                            <div sw-skl class="sw-skl-img-wd" style="width:20rem"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="demo-label mb-2">Botão — pp / padrão / g</p>
+                        <div class="flx alc gap-2">
+                            <div sw-skl class="sw-skl-btn sw-skl-btn-pp"></div>
+                            <div sw-skl class="sw-skl-btn"></div>
+                            <div sw-skl class="sw-skl-btn sw-skl-btn-g"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="demo-label mb-2">Badge/chip e círculo/quadrado avulsos</p>
+                        <div class="flx alc gap-2">
+                            <div sw-skl class="sw-skl-badge"></div>
+                            <div sw-skl class="sw-skl-badge" style="width:4rem"></div>
+                            <div sw-skl class="sw-skl-crc" style="width:2.4rem;height:2.4rem"></div>
+                            <div sw-skl class="sw-skl-sqr" style="width:2.4rem;height:2.4rem"></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-skl class="sw-skl-img"></div>       <!-- 16:9 -->
+<div sw-skl class="sw-skl-img-sqr"></div>   <!-- 1:1 -->
+<div sw-skl class="sw-skl-img-wd"></div>    <!-- 21:9, banner -->
+<div sw-skl class="sw-skl-btn sw-skl-btn-pp"></div>
+<div sw-skl class="sw-skl-btn"></div>
+<div sw-skl class="sw-skl-btn sw-skl-btn-g"></div>
+<div sw-skl class="sw-skl-badge"></div>
+<div sw-skl class="sw-skl-crc" style="width:2.4rem;height:2.4rem"></div>
+<div sw-skl class="sw-skl-sqr" style="width:2.4rem;height:2.4rem"></div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">4. Card de Perfil (composto)</h3>
+                <div class="demo-wrap p-6" style="max-width:32rem">
+                    <div class="flx gap-3 alc mb-3">
+                        <div sw-skl class="sw-skl-avt"></div>
+                        <div class="flx f-cl gap-1" style="flex:1">
+                            <div sw-skl class="sw-skl-txt" style="width:40%;height:1.4rem;margin-bottom:0"></div>
+                            <div sw-skl class="sw-skl-txt-sm" style="width:25%;margin-bottom:0"></div>
+                        </div>
+                    </div>
+                    <div sw-skl class="sw-skl-img mb-3"></div>
+                    <div sw-skl class="sw-skl-btn"></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="flx gap-3 alc">
+    <div sw-skl class="sw-skl-avt"></div>
+    <div sw-skl class="sw-skl-txt" style="width:40%"></div>
+</div>
+<div sw-skl class="sw-skl-img"></div>
+<div sw-skl class="sw-skl-btn"></div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">5. Linha de Tabela (composto)</h3>
+                <p class="t-mut t-p mb-6">Mesmo padrão usado no carregamento de <code>[sw-table]</code> (<code>tr.is-ldg</code>) — aqui montado manualmente com formas soltas.</p>
+                <div class="demo-wrap p-6">
+                    <div class="tbl">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="width:4.4rem"><div sw-skl class="sw-skl-avt sw-skl-avt-p"></div></td>
+                                    <td><div sw-skl class="sw-skl-txt" style="width:70%;margin-bottom:0"></div></td>
+                                    <td><div sw-skl class="sw-skl-badge"></div></td>
+                                    <td><div sw-skl class="sw-skl-btn sw-skl-btn-pp"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div sw-skl class="sw-skl-avt sw-skl-avt-p"></div></td>
+                                    <td><div sw-skl class="sw-skl-txt" style="width:55%;margin-bottom:0"></div></td>
+                                    <td><div sw-skl class="sw-skl-badge"></div></td>
+                                    <td><div sw-skl class="sw-skl-btn sw-skl-btn-pp"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mt-8">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-skl]</code></td><td>Base</td><td>Aplica o gradiente com shimmer animado.</td></tr>
+                            <tr><td><code>.sw-skl-txt</code></td><td>Forma</td><td>Linha de texto — a última de um grupo encolhe pra 70%.</td></tr>
+                            <tr><td><code>.sw-skl-txt-sm</code></td><td>Forma</td><td>Linha de texto menor — legenda/meta.</td></tr>
+                            <tr><td><code>.sw-skl-ttl</code></td><td>Forma</td><td>Linha de título, mais alta.</td></tr>
+                            <tr><td><code>.sw-skl-ttl-sm</code></td><td>Forma</td><td>Linha de título menor (subtítulo).</td></tr>
+                            <tr><td><code>.sw-skl-avt</code> <code>-pp</code> <code>-p</code> <code>-g</code></td><td>Tamanho</td><td>Círculo de avatar — mesma escala do <code>[sw-avt]</code> real.</td></tr>
+                            <tr><td><code>.sw-skl-img</code> <code>-sqr</code> <code>-wd</code></td><td>Forma</td><td>Retângulo de imagem — 16:9, 1:1 (quadrado) ou 21:9 (banner).</td></tr>
+                            <tr><td><code>.sw-skl-btn</code> <code>-pp</code> <code>-g</code></td><td>Tamanho</td><td>Retângulo de botão — mesma escala do <code>[sw-btn]</code> real.</td></tr>
+                            <tr><td><code>.sw-skl-badge</code></td><td>Forma</td><td>Pílula curta — placeholder de badge/chip.</td></tr>
+                            <tr><td><code>.sw-skl-crc</code> / <code>.sw-skl-sqr</code></td><td>Forma</td><td>Círculo ou quadrado avulso, tamanho livre via <code>style</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

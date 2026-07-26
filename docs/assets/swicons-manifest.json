@@ -1,0 +1,5160 @@
+{
+  "count": 1031,
+  "icons": [
+    {
+      "class": "swis-balloon",
+      "name": "balloon",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-castle",
+      "name": "castle",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-coffee-bean",
+      "name": "coffee-bean",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-horizontal-center",
+      "name": "objects-horizontal-center",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-horizontal-left",
+      "name": "objects-horizontal-left",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-horizontal-right",
+      "name": "objects-horizontal-right",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-vertical-bottom",
+      "name": "objects-vertical-bottom",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-vertical-center",
+      "name": "objects-vertical-center",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-objects-vertical-top",
+      "name": "objects-vertical-top",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-pear",
+      "name": "pear",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-shield-minus",
+      "name": "shield-minus",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-shield-plus",
+      "name": "shield-plus",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-shower",
+      "name": "shower",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-sushi",
+      "name": "sushi",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-universal-access",
+      "name": "universal-access",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-child",
+      "name": "child",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-horizontal-left",
+      "name": "horizontal-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-horizontal-right",
+      "name": "horizontal-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-horizontal-center",
+      "name": "objects-horizontal-center",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-horizontal-left",
+      "name": "objects-horizontal-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-horizontal-right",
+      "name": "objects-horizontal-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-vertical-bottom",
+      "name": "objects-vertical-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-vertical-center",
+      "name": "objects-vertical-center",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-objects-vertical-top",
+      "name": "objects-vertical-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rfid",
+      "name": "rfid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-minus",
+      "name": "shield-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-plus",
+      "name": "shield-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shower",
+      "name": "shower",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sushi",
+      "name": "sushi",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-universal-access",
+      "name": "universal-access",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-vertical-bottom",
+      "name": "vertical-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-vertical-top",
+      "name": "vertical-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swil-graphql",
+      "name": "graphql",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-typescript",
+      "name": "typescript",
+      "kind": "swil"
+    },
+    {
+      "class": "swis-color",
+      "name": "color",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-reflect-horizontal",
+      "name": "reflect-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-reflect-vertical",
+      "name": "reflect-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-color",
+      "name": "color",
+      "kind": "swi"
+    },
+    {
+      "class": "swil-mongodb",
+      "name": "mongodb",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-postgresql",
+      "name": "postgresql",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-deezer",
+      "name": "deezer",
+      "kind": "swil"
+    },
+    {
+      "class": "swis-hard-hat",
+      "name": "hard-hat",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-home-alt-2",
+      "name": "home-alt-2",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-cheese",
+      "name": "cheese",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-home-alt-2",
+      "name": "home-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hard-hat",
+      "name": "hard-hat",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cheese",
+      "name": "cheese",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cart-add",
+      "name": "cart-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cart-download",
+      "name": "cart-download",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-no-signal",
+      "name": "no-signal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-signal-1",
+      "name": "signal-1",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-signal-2",
+      "name": "signal-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-signal-3",
+      "name": "signal-3",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-signal-4",
+      "name": "signal-4",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-signal-5",
+      "name": "signal-5",
+      "kind": "swi"
+    },
+    {
+      "class": "swil-xing",
+      "name": "xing",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-meta",
+      "name": "meta",
+      "kind": "swil"
+    },
+    {
+      "class": "swi-lemon",
+      "name": "lemon",
+      "kind": "swi"
+    },
+    {
+      "class": "swis-lemon",
+      "name": "lemon",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-cricket-ball",
+      "name": "cricket-ball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-baguette",
+      "name": "baguette",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bowl-hot",
+      "name": "bowl-hot",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bowl-rice",
+      "name": "bowl-rice",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cable-car",
+      "name": "cable-car",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-candles",
+      "name": "candles",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-circle-half",
+      "name": "circle-half",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-circle-quarter",
+      "name": "circle-quarter",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-circle-three-quarter",
+      "name": "circle-three-quarter",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cross",
+      "name": "cross",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fork",
+      "name": "fork",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-knife",
+      "name": "knife",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-money-withdraw",
+      "name": "money-withdraw",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-popsicle",
+      "name": "popsicle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-scatter-chart",
+      "name": "scatter-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swis-baguette",
+      "name": "baguette",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-bowl-hot",
+      "name": "bowl-hot",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-bowl-rice",
+      "name": "bowl-rice",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-cable-car",
+      "name": "cable-car",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-circle-half",
+      "name": "circle-half",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-circle-quarter",
+      "name": "circle-quarter",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-circle-three-quarter",
+      "name": "circle-three-quarter",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-cricket-ball",
+      "name": "cricket-ball",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-invader",
+      "name": "invader",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-male-female",
+      "name": "male-female",
+      "kind": "swi"
+    },
+    {
+      "class": "swis-popsicle",
+      "name": "popsicle",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-tree-alt",
+      "name": "tree-alt",
+      "kind": "swis"
+    },
+    {
+      "class": "swil-venmo",
+      "name": "venmo",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-upwork",
+      "name": "upwork",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-netlify",
+      "name": "netlify",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-java",
+      "name": "java",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-heroku",
+      "name": "heroku",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-go-lang",
+      "name": "go-lang",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-gmail",
+      "name": "gmail",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-flask",
+      "name": "flask",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-99designs",
+      "name": "99designs",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-500px",
+      "name": "500px",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-adobe",
+      "name": "adobe",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-airbnb",
+      "name": "airbnb",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-algolia",
+      "name": "algolia",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-amazon",
+      "name": "amazon",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-android",
+      "name": "android",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-angular",
+      "name": "angular",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-apple",
+      "name": "apple",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-audible",
+      "name": "audible",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-aws",
+      "name": "aws",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-baidu",
+      "name": "baidu",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-behance",
+      "name": "behance",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-bing",
+      "name": "bing",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-bitcoin",
+      "name": "bitcoin",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-blender",
+      "name": "blender",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-blogger",
+      "name": "blogger",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-bootstrap",
+      "name": "bootstrap",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-chrome",
+      "name": "chrome",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-codepen",
+      "name": "codepen",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-c-plus-plus",
+      "name": "c-plus-plus",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-creative-commons",
+      "name": "creative-commons",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-css3",
+      "name": "css3",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-dailymotion",
+      "name": "dailymotion",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-deviantart",
+      "name": "deviantart",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-dev-to",
+      "name": "dev-to",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-digg",
+      "name": "digg",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-digitalocean",
+      "name": "digitalocean",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-discord",
+      "name": "discord",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-discord-alt",
+      "name": "discord-alt",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-discourse",
+      "name": "discourse",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-django",
+      "name": "django",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-docker",
+      "name": "docker",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-dribbble",
+      "name": "dribbble",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-dropbox",
+      "name": "dropbox",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-drupal",
+      "name": "drupal",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-ebay",
+      "name": "ebay",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-edge",
+      "name": "edge",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-etsy",
+      "name": "etsy",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-facebook",
+      "name": "facebook",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-facebook-circle",
+      "name": "facebook-circle",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-facebook-square",
+      "name": "facebook-square",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-figma",
+      "name": "figma",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-firebase",
+      "name": "firebase",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-firefox",
+      "name": "firefox",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-flickr",
+      "name": "flickr",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-flickr-square",
+      "name": "flickr-square",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-flutter",
+      "name": "flutter",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-foursquare",
+      "name": "foursquare",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-git",
+      "name": "git",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-github",
+      "name": "github",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-gitlab",
+      "name": "gitlab",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-google",
+      "name": "google",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-google-cloud",
+      "name": "google-cloud",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-google-plus",
+      "name": "google-plus",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-google-plus-circle",
+      "name": "google-plus-circle",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-html5",
+      "name": "html5",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-imdb",
+      "name": "imdb",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-instagram",
+      "name": "instagram",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-instagram-alt",
+      "name": "instagram-alt",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-internet-explorer",
+      "name": "internet-explorer",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-invision",
+      "name": "invision",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-javascript",
+      "name": "javascript",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-joomla",
+      "name": "joomla",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-jquery",
+      "name": "jquery",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-jsfiddle",
+      "name": "jsfiddle",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-kickstarter",
+      "name": "kickstarter",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-kubernetes",
+      "name": "kubernetes",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-less",
+      "name": "less",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-linkedin",
+      "name": "linkedin",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-linkedin-square",
+      "name": "linkedin-square",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-magento",
+      "name": "magento",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-mailchimp",
+      "name": "mailchimp",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-markdown",
+      "name": "markdown",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-mastercard",
+      "name": "mastercard",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-mastodon",
+      "name": "mastodon",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-medium",
+      "name": "medium",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-medium-old",
+      "name": "medium-old",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-medium-square",
+      "name": "medium-square",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-messenger",
+      "name": "messenger",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-microsoft",
+      "name": "microsoft",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-microsoft-teams",
+      "name": "microsoft-teams",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-nodejs",
+      "name": "nodejs",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-ok-ru",
+      "name": "ok-ru",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-opera",
+      "name": "opera",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-patreon",
+      "name": "patreon",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-paypal",
+      "name": "paypal",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-periscope",
+      "name": "periscope",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-php",
+      "name": "php",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-pinterest",
+      "name": "pinterest",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-pinterest-alt",
+      "name": "pinterest-alt",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-play-store",
+      "name": "play-store",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-pocket",
+      "name": "pocket",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-product-hunt",
+      "name": "product-hunt",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-python",
+      "name": "python",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-quora",
+      "name": "quora",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-react",
+      "name": "react",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-redbubble",
+      "name": "redbubble",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-reddit",
+      "name": "reddit",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-redux",
+      "name": "redux",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-sass",
+      "name": "sass",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-shopify",
+      "name": "shopify",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-sketch",
+      "name": "sketch",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-skype",
+      "name": "skype",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-slack",
+      "name": "slack",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-slack-old",
+      "name": "slack-old",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-snapchat",
+      "name": "snapchat",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-soundcloud",
+      "name": "soundcloud",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-spotify",
+      "name": "spotify",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-spring-boot",
+      "name": "spring-boot",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-squarespace",
+      "name": "squarespace",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-stack-overflow",
+      "name": "stack-overflow",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-steam",
+      "name": "steam",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-stripe",
+      "name": "stripe",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-tailwind-css",
+      "name": "tailwind-css",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-telegram",
+      "name": "telegram",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-tiktok",
+      "name": "tiktok",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-trello",
+      "name": "trello",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-trip-advisor",
+      "name": "trip-advisor",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-tumblr",
+      "name": "tumblr",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-tux",
+      "name": "tux",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-twitch",
+      "name": "twitch",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-twitter",
+      "name": "twitter",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-unity",
+      "name": "unity",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-unsplash",
+      "name": "unsplash",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-vimeo",
+      "name": "vimeo",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-visa",
+      "name": "visa",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-visual-studio",
+      "name": "visual-studio",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-vk",
+      "name": "vk",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-vuejs",
+      "name": "vuejs",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-whatsapp",
+      "name": "whatsapp",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-whatsapp-square",
+      "name": "whatsapp-square",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-wikipedia",
+      "name": "wikipedia",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-windows",
+      "name": "windows",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-wix",
+      "name": "wix",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-wordpress",
+      "name": "wordpress",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-yahoo",
+      "name": "yahoo",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-yelp",
+      "name": "yelp",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-youtube",
+      "name": "youtube",
+      "kind": "swil"
+    },
+    {
+      "class": "swil-zoom",
+      "name": "zoom",
+      "kind": "swil"
+    },
+    {
+      "class": "swi-collapse-alt",
+      "name": "collapse-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-collapse-horizontal",
+      "name": "collapse-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-collapse-vertical",
+      "name": "collapse-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-expand-horizontal",
+      "name": "expand-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-expand-vertical",
+      "name": "expand-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-injection",
+      "name": "injection",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-leaf",
+      "name": "leaf",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-math",
+      "name": "math",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-party",
+      "name": "party",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-abacus",
+      "name": "abacus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-accessibility",
+      "name": "accessibility",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-add-to-queue",
+      "name": "add-to-queue",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-adjust",
+      "name": "adjust",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-alarm",
+      "name": "alarm",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-alarm-add",
+      "name": "alarm-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-alarm-exclamation",
+      "name": "alarm-exclamation",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-alarm-off",
+      "name": "alarm-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-alarm-snooze",
+      "name": "alarm-snooze",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-album",
+      "name": "album",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-align-justify",
+      "name": "align-justify",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-align-left",
+      "name": "align-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-align-middle",
+      "name": "align-middle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-align-right",
+      "name": "align-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-analyse",
+      "name": "analyse",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-anchor",
+      "name": "anchor",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-angry",
+      "name": "angry",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-aperture",
+      "name": "aperture",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arch",
+      "name": "arch",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-archive",
+      "name": "archive",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-archive-in",
+      "name": "archive-in",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-archive-out",
+      "name": "archive-out",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-area",
+      "name": "area",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-back",
+      "name": "arrow-back",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-from-bottom",
+      "name": "arrow-from-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-from-left",
+      "name": "arrow-from-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-from-right",
+      "name": "arrow-from-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-from-top",
+      "name": "arrow-from-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-to-bottom",
+      "name": "arrow-to-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-to-left",
+      "name": "arrow-to-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-to-right",
+      "name": "arrow-to-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-arrow-to-top",
+      "name": "arrow-to-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-at",
+      "name": "at",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-atom",
+      "name": "atom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-award",
+      "name": "award",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-badge",
+      "name": "badge",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-badge-check",
+      "name": "badge-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-ball",
+      "name": "ball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-band-aid",
+      "name": "band-aid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bar-chart",
+      "name": "bar-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bar-chart-alt",
+      "name": "bar-chart-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bar-chart-alt-2",
+      "name": "bar-chart-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bar-chart-square",
+      "name": "bar-chart-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-barcode",
+      "name": "barcode",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-barcode-reader",
+      "name": "barcode-reader",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-baseball",
+      "name": "baseball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-basket",
+      "name": "basket",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-basketball",
+      "name": "basketball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bath",
+      "name": "bath",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-battery",
+      "name": "battery",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bed",
+      "name": "bed",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-been-here",
+      "name": "been-here",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-beer",
+      "name": "beer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bell",
+      "name": "bell",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bell-minus",
+      "name": "bell-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bell-off",
+      "name": "bell-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bell-plus",
+      "name": "bell-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bible",
+      "name": "bible",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bitcoin",
+      "name": "bitcoin",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-blanket",
+      "name": "blanket",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-block",
+      "name": "block",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bluetooth",
+      "name": "bluetooth",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-body",
+      "name": "body",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bold",
+      "name": "bold",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bolt-circle",
+      "name": "bolt-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bomb",
+      "name": "bomb",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bone",
+      "name": "bone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bong",
+      "name": "bong",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book",
+      "name": "book",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-add",
+      "name": "book-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-alt",
+      "name": "book-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-bookmark",
+      "name": "book-bookmark",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-content",
+      "name": "book-content",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-heart",
+      "name": "book-heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark",
+      "name": "bookmark",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-alt",
+      "name": "bookmark-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-alt-minus",
+      "name": "bookmark-alt-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-alt-plus",
+      "name": "bookmark-alt-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-heart",
+      "name": "bookmark-heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-minus",
+      "name": "bookmark-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmark-plus",
+      "name": "bookmark-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bookmarks",
+      "name": "bookmarks",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-open",
+      "name": "book-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-book-reader",
+      "name": "book-reader",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-all",
+      "name": "border-all",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-bottom",
+      "name": "border-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-inner",
+      "name": "border-inner",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-left",
+      "name": "border-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-none",
+      "name": "border-none",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-outer",
+      "name": "border-outer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-radius",
+      "name": "border-radius",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-right",
+      "name": "border-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-border-top",
+      "name": "border-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bot",
+      "name": "bot",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bowling-ball",
+      "name": "bowling-ball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-box",
+      "name": "box",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bracket",
+      "name": "bracket",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-braille",
+      "name": "braille",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-brain",
+      "name": "brain",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-briefcase",
+      "name": "briefcase",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-briefcase-alt",
+      "name": "briefcase-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-briefcase-alt-2",
+      "name": "briefcase-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-brightness",
+      "name": "brightness",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-brightness-half",
+      "name": "brightness-half",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-broadcast",
+      "name": "broadcast",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-brush",
+      "name": "brush",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-brush-alt",
+      "name": "brush-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bug",
+      "name": "bug",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bug-alt",
+      "name": "bug-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-building",
+      "name": "building",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-building-house",
+      "name": "building-house",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-buildings",
+      "name": "buildings",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bulb",
+      "name": "bulb",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bullseye",
+      "name": "bullseye",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-buoy",
+      "name": "buoy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bus",
+      "name": "bus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bus-school",
+      "name": "bus-school",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cabinet",
+      "name": "cabinet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cake",
+      "name": "cake",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calculator",
+      "name": "calculator",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar",
+      "name": "calendar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-alt",
+      "name": "calendar-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-check",
+      "name": "calendar-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-edit",
+      "name": "calendar-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-event",
+      "name": "calendar-event",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-exclamation",
+      "name": "calendar-exclamation",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-heart",
+      "name": "calendar-heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-minus",
+      "name": "calendar-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-plus",
+      "name": "calendar-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-star",
+      "name": "calendar-star",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-week",
+      "name": "calendar-week",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-calendar-x",
+      "name": "calendar-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-camera",
+      "name": "camera",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-camera-home",
+      "name": "camera-home",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-camera-movie",
+      "name": "camera-movie",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-camera-off",
+      "name": "camera-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-capsule",
+      "name": "capsule",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-captions",
+      "name": "captions",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-car",
+      "name": "car",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-card",
+      "name": "card",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-down",
+      "name": "caret-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-down-circle",
+      "name": "caret-down-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-down-square",
+      "name": "caret-down-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-left",
+      "name": "caret-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-left-circle",
+      "name": "caret-left-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-left-square",
+      "name": "caret-left-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-right",
+      "name": "caret-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-right-circle",
+      "name": "caret-right-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-right-square",
+      "name": "caret-right-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-up",
+      "name": "caret-up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-up-circle",
+      "name": "caret-up-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-caret-up-square",
+      "name": "caret-up-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-carousel",
+      "name": "carousel",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cart",
+      "name": "cart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cart-alt",
+      "name": "cart-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cast",
+      "name": "cast",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-category",
+      "name": "category",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-category-alt",
+      "name": "category-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cctv",
+      "name": "cctv",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-certification",
+      "name": "certification",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chair",
+      "name": "chair",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chalkboard",
+      "name": "chalkboard",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chart",
+      "name": "chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chat",
+      "name": "chat",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-check",
+      "name": "check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-checkbox",
+      "name": "checkbox",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-checkbox-checked",
+      "name": "checkbox-checked",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-checkbox-minus",
+      "name": "checkbox-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-checkbox-square",
+      "name": "checkbox-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-check-circle",
+      "name": "check-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-check-double",
+      "name": "check-double",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-check-shield",
+      "name": "check-shield",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-check-square",
+      "name": "check-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-down",
+      "name": "chevron-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-down-circle",
+      "name": "chevron-down-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-down-square",
+      "name": "chevron-down-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-left",
+      "name": "chevron-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-left-circle",
+      "name": "chevron-left-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-left-square",
+      "name": "chevron-left-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-right",
+      "name": "chevron-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-right-circle",
+      "name": "chevron-right-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-right-square",
+      "name": "chevron-right-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevrons-down",
+      "name": "chevrons-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevrons-left",
+      "name": "chevrons-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevrons-right",
+      "name": "chevrons-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevrons-up",
+      "name": "chevrons-up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-up",
+      "name": "chevron-up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-up-circle",
+      "name": "chevron-up-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chevron-up-square",
+      "name": "chevron-up-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chip",
+      "name": "chip",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-church",
+      "name": "church",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-circle",
+      "name": "circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-clinic",
+      "name": "clinic",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-clipboard",
+      "name": "clipboard",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-closet",
+      "name": "closet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud",
+      "name": "cloud",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-download",
+      "name": "cloud-download",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-drizzle",
+      "name": "cloud-drizzle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-lightning",
+      "name": "cloud-lightning",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-light-rain",
+      "name": "cloud-light-rain",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-rain",
+      "name": "cloud-rain",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-snow",
+      "name": "cloud-snow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cloud-upload",
+      "name": "cloud-upload",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-code",
+      "name": "code",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-code-alt",
+      "name": "code-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-code-block",
+      "name": "code-block",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-code-curly",
+      "name": "code-curly",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-coffee",
+      "name": "coffee",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-coffee-togo",
+      "name": "coffee-togo",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cog",
+      "name": "cog",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-coin",
+      "name": "coin",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-coin-stack",
+      "name": "coin-stack",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-collapse",
+      "name": "collapse",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-collection",
+      "name": "collection",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-color-fill",
+      "name": "color-fill",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-columns",
+      "name": "columns",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-command",
+      "name": "command",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment",
+      "name": "comment",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-add",
+      "name": "comment-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-check",
+      "name": "comment-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-detail",
+      "name": "comment-detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-dots",
+      "name": "comment-dots",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-edit",
+      "name": "comment-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-error",
+      "name": "comment-error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-minus",
+      "name": "comment-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-comment-x",
+      "name": "comment-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-compass",
+      "name": "compass",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-confused",
+      "name": "confused",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-conversation",
+      "name": "conversation",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cookie",
+      "name": "cookie",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cool",
+      "name": "cool",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-copy",
+      "name": "copy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-copy-alt",
+      "name": "copy-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-copyright",
+      "name": "copyright",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-credit-card",
+      "name": "credit-card",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-credit-card-alt",
+      "name": "credit-card-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-credit-card-front",
+      "name": "credit-card-front",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-crop",
+      "name": "crop",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-crosshair",
+      "name": "crosshair",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-crown",
+      "name": "crown",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cube",
+      "name": "cube",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cube-alt",
+      "name": "cube-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cuboid",
+      "name": "cuboid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-current-location",
+      "name": "current-location",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-customize",
+      "name": "customize",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cut",
+      "name": "cut",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cycling",
+      "name": "cycling",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cylinder",
+      "name": "cylinder",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-data",
+      "name": "data",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-desktop",
+      "name": "desktop",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-detail",
+      "name": "detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-devices",
+      "name": "devices",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dialpad",
+      "name": "dialpad",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dialpad-alt",
+      "name": "dialpad-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-diamond",
+      "name": "diamond",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-1",
+      "name": "dice-1",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-2",
+      "name": "dice-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-3",
+      "name": "dice-3",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-4",
+      "name": "dice-4",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-5",
+      "name": "dice-5",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dice-6",
+      "name": "dice-6",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-directions",
+      "name": "directions",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-disc",
+      "name": "disc",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dish",
+      "name": "dish",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dislike",
+      "name": "dislike",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dizzy",
+      "name": "dizzy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dna",
+      "name": "dna",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dock-bottom",
+      "name": "dock-bottom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dock-left",
+      "name": "dock-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dock-right",
+      "name": "dock-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dock-top",
+      "name": "dock-top",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dollar",
+      "name": "dollar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dollar-circle",
+      "name": "dollar-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-donate-blood",
+      "name": "donate-blood",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-donate-heart",
+      "name": "donate-heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-door-open",
+      "name": "door-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dots-horizontal",
+      "name": "dots-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dots-horizontal-rounded",
+      "name": "dots-horizontal-rounded",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dots-vertical",
+      "name": "dots-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dots-vertical-rounded",
+      "name": "dots-vertical-rounded",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-doughnut-chart",
+      "name": "doughnut-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-down-arrow",
+      "name": "down-arrow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-down-arrow-alt",
+      "name": "down-arrow-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-down-arrow-circle",
+      "name": "down-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-download",
+      "name": "download",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-downvote",
+      "name": "downvote",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-drink",
+      "name": "drink",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-droplet",
+      "name": "droplet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-dumbbell",
+      "name": "dumbbell",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-duplicate",
+      "name": "duplicate",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-edit",
+      "name": "edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-edit-alt",
+      "name": "edit-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-envelope",
+      "name": "envelope",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-envelope-open",
+      "name": "envelope-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-equalizer",
+      "name": "equalizer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-eraser",
+      "name": "eraser",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-error",
+      "name": "error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-error-alt",
+      "name": "error-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-error-circle",
+      "name": "error-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-euro",
+      "name": "euro",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-exclude",
+      "name": "exclude",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-exit",
+      "name": "exit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-exit-fullscreen",
+      "name": "exit-fullscreen",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-expand",
+      "name": "expand",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-expand-alt",
+      "name": "expand-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-export",
+      "name": "export",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-extension",
+      "name": "extension",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-face",
+      "name": "face",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fast-forward",
+      "name": "fast-forward",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fast-forward-circle",
+      "name": "fast-forward-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-female",
+      "name": "female",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-female-sign",
+      "name": "female-sign",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-file",
+      "name": "file",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-file-blank",
+      "name": "file-blank",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-file-find",
+      "name": "file-find",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-film",
+      "name": "film",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-filter",
+      "name": "filter",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-filter-alt",
+      "name": "filter-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fingerprint",
+      "name": "fingerprint",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-first-aid",
+      "name": "first-aid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-first-page",
+      "name": "first-page",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-flag",
+      "name": "flag",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-folder",
+      "name": "folder",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-folder-minus",
+      "name": "folder-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-folder-open",
+      "name": "folder-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-folder-plus",
+      "name": "folder-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-font",
+      "name": "font",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-font-color",
+      "name": "font-color",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-font-family",
+      "name": "font-family",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-font-size",
+      "name": "font-size",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-food-menu",
+      "name": "food-menu",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-food-tag",
+      "name": "food-tag",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-football",
+      "name": "football",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fridge",
+      "name": "fridge",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-fullscreen",
+      "name": "fullscreen",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-game",
+      "name": "game",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-gas-pump",
+      "name": "gas-pump",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-ghost",
+      "name": "ghost",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-gift",
+      "name": "gift",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-branch",
+      "name": "git-branch",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-commit",
+      "name": "git-commit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-compare",
+      "name": "git-compare",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-merge",
+      "name": "git-merge",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-pull-request",
+      "name": "git-pull-request",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-git-repo-forked",
+      "name": "git-repo-forked",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-glasses",
+      "name": "glasses",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-glasses-alt",
+      "name": "glasses-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-globe",
+      "name": "globe",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-globe-alt",
+      "name": "globe-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-grid",
+      "name": "grid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-grid-alt",
+      "name": "grid-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-grid-horizontal",
+      "name": "grid-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-grid-small",
+      "name": "grid-small",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-grid-vertical",
+      "name": "grid-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-group",
+      "name": "group",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-handicap",
+      "name": "handicap",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-happy",
+      "name": "happy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-happy-alt",
+      "name": "happy-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-happy-beaming",
+      "name": "happy-beaming",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-happy-heart-eyes",
+      "name": "happy-heart-eyes",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hash",
+      "name": "hash",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hdd",
+      "name": "hdd",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-heading",
+      "name": "heading",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-headphone",
+      "name": "headphone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-health",
+      "name": "health",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-heart",
+      "name": "heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-heart-circle",
+      "name": "heart-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-heart-square",
+      "name": "heart-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-help-circle",
+      "name": "help-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hide",
+      "name": "hide",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-highlight",
+      "name": "highlight",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-history",
+      "name": "history",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hive",
+      "name": "hive",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-home",
+      "name": "home",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-home-alt",
+      "name": "home-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-home-circle",
+      "name": "home-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-home-heart",
+      "name": "home-heart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-home-smile",
+      "name": "home-smile",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-horizontal-center",
+      "name": "horizontal-center",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hotel",
+      "name": "hotel",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-hourglass",
+      "name": "hourglass",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-id-card",
+      "name": "id-card",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-image",
+      "name": "image",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-image-add",
+      "name": "image-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-image-alt",
+      "name": "image-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-images",
+      "name": "images",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-import",
+      "name": "import",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-infinite",
+      "name": "infinite",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-info-circle",
+      "name": "info-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-info-square",
+      "name": "info-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-intersect",
+      "name": "intersect",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-italic",
+      "name": "italic",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-joystick",
+      "name": "joystick",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-joystick-alt",
+      "name": "joystick-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-joystick-button",
+      "name": "joystick-button",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-key",
+      "name": "key",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-label",
+      "name": "label",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-landscape",
+      "name": "landscape",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-laptop",
+      "name": "laptop",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-last-page",
+      "name": "last-page",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-laugh",
+      "name": "laugh",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-layer",
+      "name": "layer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-layer-minus",
+      "name": "layer-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-layer-plus",
+      "name": "layer-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-layout",
+      "name": "layout",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-arrow",
+      "name": "left-arrow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-arrow-alt",
+      "name": "left-arrow-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-arrow-circle",
+      "name": "left-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-down-arrow-circle",
+      "name": "left-down-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-indent",
+      "name": "left-indent",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-left-top-arrow-circle",
+      "name": "left-top-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-library",
+      "name": "library",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-like",
+      "name": "like",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-line-chart",
+      "name": "line-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-line-chart-down",
+      "name": "line-chart-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-link",
+      "name": "link",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-link-alt",
+      "name": "link-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-link-external",
+      "name": "link-external",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-lira",
+      "name": "lira",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list-check",
+      "name": "list-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list-minus",
+      "name": "list-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list-ol",
+      "name": "list-ol",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list-plus",
+      "name": "list-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list-ul",
+      "name": "list-ul",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-loader",
+      "name": "loader",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-loader-alt",
+      "name": "loader-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-loader-circle",
+      "name": "loader-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-location-plus",
+      "name": "location-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-lock",
+      "name": "lock",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-lock-alt",
+      "name": "lock-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-lock-open",
+      "name": "lock-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-lock-open-alt",
+      "name": "lock-open-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-log-in",
+      "name": "log-in",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-log-in-circle",
+      "name": "log-in-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-log-out",
+      "name": "log-out",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-log-out-circle",
+      "name": "log-out-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-low-vision",
+      "name": "low-vision",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-magnet",
+      "name": "magnet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mail-send",
+      "name": "mail-send",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-male",
+      "name": "male",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-male-sign",
+      "name": "male-sign",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-map",
+      "name": "map",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-map-alt",
+      "name": "map-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-map-pin",
+      "name": "map-pin",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mask",
+      "name": "mask",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-medal",
+      "name": "medal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-meh",
+      "name": "meh",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-meh-alt",
+      "name": "meh-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-meh-blank",
+      "name": "meh-blank",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-memory-card",
+      "name": "memory-card",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-menu",
+      "name": "menu",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-menu-alt-left",
+      "name": "menu-alt-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-menu-alt-right",
+      "name": "menu-alt-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-merge",
+      "name": "merge",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message",
+      "name": "message",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-add",
+      "name": "message-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt",
+      "name": "message-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-add",
+      "name": "message-alt-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-check",
+      "name": "message-alt-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-detail",
+      "name": "message-alt-detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-dots",
+      "name": "message-alt-dots",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-edit",
+      "name": "message-alt-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-error",
+      "name": "message-alt-error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-minus",
+      "name": "message-alt-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-alt-x",
+      "name": "message-alt-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-check",
+      "name": "message-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-detail",
+      "name": "message-detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-dots",
+      "name": "message-dots",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-edit",
+      "name": "message-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-error",
+      "name": "message-error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-minus",
+      "name": "message-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded",
+      "name": "message-rounded",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-add",
+      "name": "message-rounded-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-check",
+      "name": "message-rounded-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-detail",
+      "name": "message-rounded-detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-dots",
+      "name": "message-rounded-dots",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-edit",
+      "name": "message-rounded-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-error",
+      "name": "message-rounded-error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-minus",
+      "name": "message-rounded-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-rounded-x",
+      "name": "message-rounded-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square",
+      "name": "message-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-add",
+      "name": "message-square-add",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-check",
+      "name": "message-square-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-detail",
+      "name": "message-square-detail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-dots",
+      "name": "message-square-dots",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-edit",
+      "name": "message-square-edit",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-error",
+      "name": "message-square-error",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-minus",
+      "name": "message-square-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-square-x",
+      "name": "message-square-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-message-x",
+      "name": "message-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-meteor",
+      "name": "meteor",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-microchip",
+      "name": "microchip",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-microphone",
+      "name": "microphone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-microphone-off",
+      "name": "microphone-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-minus",
+      "name": "minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-minus-back",
+      "name": "minus-back",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-minus-circle",
+      "name": "minus-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-minus-front",
+      "name": "minus-front",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mobile",
+      "name": "mobile",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mobile-alt",
+      "name": "mobile-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mobile-landscape",
+      "name": "mobile-landscape",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mobile-vibration",
+      "name": "mobile-vibration",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-money",
+      "name": "money",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-moon",
+      "name": "moon",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mouse",
+      "name": "mouse",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-mouse-alt",
+      "name": "mouse-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-move",
+      "name": "move",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-move-horizontal",
+      "name": "move-horizontal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-move-vertical",
+      "name": "move-vertical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-movie",
+      "name": "movie",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-movie-play",
+      "name": "movie-play",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-music",
+      "name": "music",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-navigation",
+      "name": "navigation",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-network-chart",
+      "name": "network-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-news",
+      "name": "news",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-no-entry",
+      "name": "no-entry",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-note",
+      "name": "note",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-notepad",
+      "name": "notepad",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-notification",
+      "name": "notification",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-notification-off",
+      "name": "notification-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-outline",
+      "name": "outline",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-package",
+      "name": "package",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paint",
+      "name": "paint",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paint-roll",
+      "name": "paint-roll",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-palette",
+      "name": "palette",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paperclip",
+      "name": "paperclip",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paper-plane",
+      "name": "paper-plane",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paragraph",
+      "name": "paragraph",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-paste",
+      "name": "paste",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pause",
+      "name": "pause",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pause-circle",
+      "name": "pause-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pen",
+      "name": "pen",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pencil",
+      "name": "pencil",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-phone",
+      "name": "phone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-phone-call",
+      "name": "phone-call",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-phone-incoming",
+      "name": "phone-incoming",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-phone-off",
+      "name": "phone-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-phone-outgoing",
+      "name": "phone-outgoing",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-photo-album",
+      "name": "photo-album",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pie-chart",
+      "name": "pie-chart",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pie-chart-alt",
+      "name": "pie-chart-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pie-chart-alt-2",
+      "name": "pie-chart-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pin",
+      "name": "pin",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-planet",
+      "name": "planet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-play",
+      "name": "play",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-play-circle",
+      "name": "play-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-plug",
+      "name": "plug",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-plus",
+      "name": "plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-plus-circle",
+      "name": "plus-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-plus-medical",
+      "name": "plus-medical",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-podcast",
+      "name": "podcast",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pointer",
+      "name": "pointer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-poll",
+      "name": "poll",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-polygon",
+      "name": "polygon",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pound",
+      "name": "pound",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-power-off",
+      "name": "power-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-printer",
+      "name": "printer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pulse",
+      "name": "pulse",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-purchase-tag",
+      "name": "purchase-tag",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-purchase-tag-alt",
+      "name": "purchase-tag-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pyramid",
+      "name": "pyramid",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-qr",
+      "name": "qr",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-qr-scan",
+      "name": "qr-scan",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-question-mark",
+      "name": "question-mark",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-radar",
+      "name": "radar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-radio",
+      "name": "radio",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-radio-circle",
+      "name": "radio-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-radio-circle-marked",
+      "name": "radio-circle-marked",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-receipt",
+      "name": "receipt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rectangle",
+      "name": "rectangle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-recycle",
+      "name": "recycle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-redo",
+      "name": "redo",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-refresh",
+      "name": "refresh",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-registered",
+      "name": "registered",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rename",
+      "name": "rename",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-repeat",
+      "name": "repeat",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-reply",
+      "name": "reply",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-reply-all",
+      "name": "reply-all",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-repost",
+      "name": "repost",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-reset",
+      "name": "reset",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-restaurant",
+      "name": "restaurant",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-revision",
+      "name": "revision",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rewind",
+      "name": "rewind",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rewind-circle",
+      "name": "rewind-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-arrow",
+      "name": "right-arrow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-arrow-alt",
+      "name": "right-arrow-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-arrow-circle",
+      "name": "right-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-down-arrow-circle",
+      "name": "right-down-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-indent",
+      "name": "right-indent",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right-top-arrow-circle",
+      "name": "right-top-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rocket",
+      "name": "rocket",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rotate-left",
+      "name": "rotate-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rotate-right",
+      "name": "rotate-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rss",
+      "name": "rss",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-ruble",
+      "name": "ruble",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-ruler",
+      "name": "ruler",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-run",
+      "name": "run",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rupee",
+      "name": "rupee",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sad",
+      "name": "sad",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-save",
+      "name": "save",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-scan",
+      "name": "scan",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-screenshot",
+      "name": "screenshot",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-search",
+      "name": "search",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-search-alt",
+      "name": "search-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-search-alt-2",
+      "name": "search-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-selection",
+      "name": "selection",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-select-multiple",
+      "name": "select-multiple",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-send",
+      "name": "send",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-server",
+      "name": "server",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shape-circle",
+      "name": "shape-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shape-polygon",
+      "name": "shape-polygon",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shape-square",
+      "name": "shape-square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shape-triangle",
+      "name": "shape-triangle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-share",
+      "name": "share",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-share-alt",
+      "name": "share-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shekel",
+      "name": "shekel",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield",
+      "name": "shield",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-alt",
+      "name": "shield-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-alt-2",
+      "name": "shield-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-quarter",
+      "name": "shield-quarter",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shield-x",
+      "name": "shield-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shocked",
+      "name": "shocked",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shopping-bag",
+      "name": "shopping-bag",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-show",
+      "name": "show",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-show-alt",
+      "name": "show-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-shuffle",
+      "name": "shuffle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sidebar",
+      "name": "sidebar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sitemap",
+      "name": "sitemap",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-skip-next",
+      "name": "skip-next",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-skip-next-circle",
+      "name": "skip-next-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-skip-previous",
+      "name": "skip-previous",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-skip-previous-circle",
+      "name": "skip-previous-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sleepy",
+      "name": "sleepy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-slider",
+      "name": "slider",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-slider-alt",
+      "name": "slider-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-slideshow",
+      "name": "slideshow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-smile",
+      "name": "smile",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort",
+      "name": "sort",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort-alt-2",
+      "name": "sort-alt-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort-a-z",
+      "name": "sort-a-z",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort-down",
+      "name": "sort-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort-up",
+      "name": "sort-up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sort-z-a",
+      "name": "sort-z-a",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-spa",
+      "name": "spa",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-space-bar",
+      "name": "space-bar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-speaker",
+      "name": "speaker",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-spray-can",
+      "name": "spray-can",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-spreadsheet",
+      "name": "spreadsheet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-square",
+      "name": "square",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-square-rounded",
+      "name": "square-rounded",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-star",
+      "name": "star",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-station",
+      "name": "station",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-stats",
+      "name": "stats",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sticker",
+      "name": "sticker",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-stop",
+      "name": "stop",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-stop-circle",
+      "name": "stop-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-stopwatch",
+      "name": "stopwatch",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-store",
+      "name": "store",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-store-alt",
+      "name": "store-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-street-view",
+      "name": "street-view",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-strikethrough",
+      "name": "strikethrough",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-subdirectory-left",
+      "name": "subdirectory-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-subdirectory-right",
+      "name": "subdirectory-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sun",
+      "name": "sun",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-support",
+      "name": "support",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-swim",
+      "name": "swim",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-sync",
+      "name": "sync",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tab",
+      "name": "tab",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-table",
+      "name": "table",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tachometer",
+      "name": "tachometer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tag",
+      "name": "tag",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tag-alt",
+      "name": "tag-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-target-lock",
+      "name": "target-lock",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-task",
+      "name": "task",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-task-x",
+      "name": "task-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-taxi",
+      "name": "taxi",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tennis-ball",
+      "name": "tennis-ball",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-terminal",
+      "name": "terminal",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-test-tube",
+      "name": "test-tube",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-text",
+      "name": "text",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-time",
+      "name": "time",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-time-five",
+      "name": "time-five",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-timer",
+      "name": "timer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tired",
+      "name": "tired",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-toggle-left",
+      "name": "toggle-left",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-toggle-right",
+      "name": "toggle-right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tone",
+      "name": "tone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-traffic-cone",
+      "name": "traffic-cone",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-train",
+      "name": "train",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-transfer",
+      "name": "transfer",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-transfer-alt",
+      "name": "transfer-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trash",
+      "name": "trash",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trash-alt",
+      "name": "trash-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trending-down",
+      "name": "trending-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trending-up",
+      "name": "trending-up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trim",
+      "name": "trim",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trip",
+      "name": "trip",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-trophy",
+      "name": "trophy",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-tv",
+      "name": "tv",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-underline",
+      "name": "underline",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-undo",
+      "name": "undo",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-unite",
+      "name": "unite",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-unlink",
+      "name": "unlink",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-up-arrow",
+      "name": "up-arrow",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-up-arrow-alt",
+      "name": "up-arrow-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-up-arrow-circle",
+      "name": "up-arrow-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-upload",
+      "name": "upload",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-upside-down",
+      "name": "upside-down",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-upvote",
+      "name": "upvote",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-usb",
+      "name": "usb",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user",
+      "name": "user",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-check",
+      "name": "user-check",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-circle",
+      "name": "user-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-minus",
+      "name": "user-minus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-pin",
+      "name": "user-pin",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-plus",
+      "name": "user-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-voice",
+      "name": "user-voice",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-user-x",
+      "name": "user-x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-vector",
+      "name": "vector",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-vertical-center",
+      "name": "vertical-center",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-vial",
+      "name": "vial",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-video",
+      "name": "video",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-video-off",
+      "name": "video-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-video-plus",
+      "name": "video-plus",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-video-recording",
+      "name": "video-recording",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-voicemail",
+      "name": "voicemail",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-volume",
+      "name": "volume",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-volume-full",
+      "name": "volume-full",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-volume-low",
+      "name": "volume-low",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-volume-mute",
+      "name": "volume-mute",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-walk",
+      "name": "walk",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wallet",
+      "name": "wallet",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wallet-alt",
+      "name": "wallet-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-water",
+      "name": "water",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-webcam",
+      "name": "webcam",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wifi",
+      "name": "wifi",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wifi-0",
+      "name": "wifi-0",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wifi-1",
+      "name": "wifi-1",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wifi-2",
+      "name": "wifi-2",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wifi-off",
+      "name": "wifi-off",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wind",
+      "name": "wind",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-window",
+      "name": "window",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-window-alt",
+      "name": "window-alt",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-window-close",
+      "name": "window-close",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-window-open",
+      "name": "window-open",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-windows",
+      "name": "windows",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wine",
+      "name": "wine",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wink-smile",
+      "name": "wink-smile",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wink-tongue",
+      "name": "wink-tongue",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-won",
+      "name": "won",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-world",
+      "name": "world",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-wrench",
+      "name": "wrench",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-x",
+      "name": "x",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-x-circle",
+      "name": "x-circle",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-yen",
+      "name": "yen",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-zoom-in",
+      "name": "zoom-in",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-zoom-out",
+      "name": "zoom-out",
+      "kind": "swi"
+    },
+    {
+      "class": "swis-party",
+      "name": "party",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-hot",
+      "name": "hot",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-droplet",
+      "name": "droplet",
+      "kind": "swis"
+    },
+    {
+      "class": "swis-cat",
+      "name": "cat",
+      "kind": "swis"
+    },
+    {
+      "class": "swi-chv-d",
+      "name": "chv-d",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chv-r",
+      "name": "chv-r",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chv-u",
+      "name": "chv-u",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-chv-l",
+      "name": "chv-l",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-right",
+      "name": "right",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-bar",
+      "name": "bar",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-steps",
+      "name": "steps",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-clock",
+      "name": "clock",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-panel",
+      "name": "panel",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-list",
+      "name": "list",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-side",
+      "name": "side",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-info",
+      "name": "info",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-img",
+      "name": "img",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-zoom",
+      "name": "zoom",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-rotate",
+      "name": "rotate",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-pages",
+      "name": "pages",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-aim",
+      "name": "aim",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-flash",
+      "name": "flash",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-inf",
+      "name": "inf",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-up",
+      "name": "up",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-count",
+      "name": "count",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-scroll",
+      "name": "scroll",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-layers",
+      "name": "layers",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-load",
+      "name": "load",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-insta",
+      "name": "insta",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-cursor",
+      "name": "cursor",
+      "kind": "swi"
+    },
+    {
+      "class": "swi-form",
+      "name": "form",
+      "kind": "swi"
+    }
+  ]
+}

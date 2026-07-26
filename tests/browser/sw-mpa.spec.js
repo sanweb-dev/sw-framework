@@ -48,7 +48,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
     .forEach((key) => sessionStorage.removeItem(key)));
 
   await page.getByRole('link', { name: 'Explorar documentação' }).click();
-  await expect(page.getByRole('heading', { level: 1, name: 'Componentes do SW Framework' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: /Todos os Componentes/ })).toBeVisible();
   const forwardSwap = await page.evaluate(() => sessionStorage.getItem('sw-test-pageswap'));
   if (capabilities.optedIn) expect(forwardSwap).toBe('transition');
   else expect([null, 'event']).toContain(forwardSwap);
@@ -76,7 +76,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
 
   await page.evaluate(() => sessionStorage.removeItem('sw-test-pageswap'));
   await page.goForward();
-  await expect(page.getByRole('heading', { level: 1, name: 'Componentes do SW Framework' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: /Todos os Componentes/ })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('data-sw-trans-direction', capabilities.navigation ? 'forward' : 'neutral');
 
   await page.goBack();

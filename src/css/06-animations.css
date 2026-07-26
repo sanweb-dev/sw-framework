@@ -11,6 +11,7 @@
   --sw-spd:    0.45s;
   --sw-spd-s:  0.7s;
   --sw-dist:   2.4rem;
+  --sw-delay:  0s;
 }
 
 /* ==========================================================================
@@ -18,7 +19,7 @@
    ========================================================================== */
 [class*="sw-rev-"] {
   opacity: 0;
-  transition: opacity var(--sw-spd) var(--sw-ease), transform var(--sw-spd) var(--sw-ease), filter var(--sw-spd) var(--sw-ease);
+  transition: opacity var(--sw-spd) var(--sw-ease) var(--sw-delay), transform var(--sw-spd) var(--sw-ease) var(--sw-delay), filter var(--sw-spd) var(--sw-ease) var(--sw-delay);
 }
 
 .sw-rev-up    { transform: translateY(var(--sw-dist)); }
@@ -38,18 +39,18 @@
 /* ==========================================================================
    2. TIMED (One-Shot Animations)
    ========================================================================== */
-.sw-ani-fade  { animation: sw-fade  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-up    { animation: sw-up    var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-down  { animation: sw-down  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-left  { animation: sw-left  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-right { animation: sw-right var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-pop   { animation: sw-pop   var(--sw-spd) var(--sw-spring) both; }
-.sw-ani-flip  { animation: sw-flip  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-roll  { animation: sw-roll  var(--sw-spd) var(--sw-spring) both; }
-.sw-ani-soft  { animation: sw-soft  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-blur  { animation: sw-blur  var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-scale { animation: sw-scale var(--sw-spd) var(--sw-ease)   both; }
-.sw-ani-zoom-out { animation: sw-zoom-out var(--sw-spd) var(--sw-ease) both; }
+.sw-ani-fade  { animation: sw-fade  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-up    { animation: sw-up    var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-down  { animation: sw-down  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-left  { animation: sw-left  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-right { animation: sw-right var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-pop   { animation: sw-pop   var(--sw-spd) var(--sw-spring) var(--sw-delay) both; }
+.sw-ani-flip  { animation: sw-flip  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-roll  { animation: sw-roll  var(--sw-spd) var(--sw-spring) var(--sw-delay) both; }
+.sw-ani-soft  { animation: sw-soft  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-blur  { animation: sw-blur  var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-scale { animation: sw-scale var(--sw-spd) var(--sw-ease)   var(--sw-delay) both; }
+.sw-ani-zoom-out { animation: sw-zoom-out var(--sw-spd) var(--sw-ease) var(--sw-delay) both; }
 
 /* ==========================================================================
    3. LOOP (Animações Infinitas Contínuas)

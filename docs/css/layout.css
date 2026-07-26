@@ -12,12 +12,9 @@
   --sw-bg-sur: #1a2636;            /* Swatch 2: Deep Ocean Slate */
   --sw-bg-sec: #131d2b;
   --sw-bor: #3e5771;               /* Swatch 3: Muted Steel */
-  /* --sw-pri não é redeclarado aqui — usa o token real de 01-tokens.css (Deep Sea Vibrante) */
-  --sw-sec: #3e5771;
+  /* --sw-pri e --sw-sec não são redeclarados aqui — usam os tokens reais de 01-tokens.css */
   --sw-txt-bas: #f3efdf;           /* Swatch 5: Warm Cream Off-White */
   --sw-txt-mut: #9fb2c7;
-  --sw-neu-8: #9fb2c7;
-  --sw-neu-10: #3e5771;
   --sw-r-m: 0.8rem;
   --sw-r-g: 1.2rem;
   --sw-r-gg: 1.6rem;
@@ -33,16 +30,13 @@
 }
 
 html[sw-theme="light"] {
-  --sw-bg-bas: #f3efdf;
-  --sw-bg-sur: #ffffff;
-  --sw-bg-sec: #e6e1cf;
-  --sw-bor: #b8c5d3;
-  /* --sw-pri não é redeclarado aqui — usa o token real de 01-tokens.css (Deep Sea Vibrante) */
-  --sw-sec: #3e5771;
-  --sw-txt-bas: #0d131d;
-  --sw-txt-mut: #3e5771;
-  --sw-neu-8: #3e5771;
-  --sw-neu-10: #b8c5d3;
+  --sw-bg-bas: #e9ebee;
+  --sw-bg-sur: #f8f9fa;
+  --sw-bg-sec: #eef0f2;
+  --sw-bor: #d8dce2;
+  /* --sw-pri e --sw-sec não são redeclarados aqui — usam os tokens reais de 01-tokens.css */
+  --sw-txt-bas: #1a1d23;
+  --sw-txt-mut: #5b6270;
 }
 
 *, *::before, *::after {
@@ -156,23 +150,14 @@ body {
   gap: 1.2rem;
   padding: 1.6rem 1.2rem;
   margin-bottom: 1rem;
-  border-radius: 1.2rem;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--sw-bor);
+  justify-content: center;
 }
 
 .sidebar-brand-mark {
-  display: inline-grid;
-  place-items: center;
-  width: 3.6rem;
   height: 3.6rem;
-  border-radius: 0.8rem;
-  background: var(--sw-pri);
-  color: #ffffff;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 900;
-  font-size: 1.5rem;
+  width: auto;
+  object-fit: contain;
 }
 
 .sidebar-brand-title {
@@ -241,7 +226,7 @@ body {
   gap: 1rem;
   padding: 0.8rem 1.2rem;
   border-radius: 0.8rem;
-  margin: 0.4rem 0;
+  /* margin: 0.4rem 0; */
   color: var(--sw-txt-bas);
   font-size: 1.35rem;
   transition: all 0.2s ease;
@@ -310,7 +295,7 @@ body {
 
 .doc-tag {
   display: inline-block;
-  padding: 0.4rem 1.2rem;
+  padding: 0.4rem 1rem 0.2rem 1rem;
   border-radius: 2rem;
   font-size: 1.1rem;
   font-weight: 800;
@@ -322,46 +307,33 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-.TprinD {
-  background: linear-gradient(90deg, var(--sw-pri), var(--sw-sec));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+/* .TprinD, escala tipográfica (.t-pp.t-xxg, .t-h1.t-h6), .f-bd, .t-mut, .t-pri
+   promovidos para o framework real (src/css/08-utilities.css e 09-chromatic.css) —
+   deixaram de ser exclusivos da doc, agora vêm de dist/sw.min.css. */
 
-.t-xxg {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(3rem, 4vw, 4.8rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  margin: 0 0 1.2rem 0;
-}
+/* --- Atalhos de alinhamento e transformação --- */
+.C { text-align: center !important; }
+.D { text-align: right !important; }
+.E { text-align: left !important; }
+.J { text-align: justify !important; }
+.U { text-transform: uppercase !important; }
+.W { text-transform: lowercase !important; }
+.P { text-transform: capitalize !important; }
 
-.t-m {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
+/* --- Atalhos de peso numérico --- */
+.fw1 { font-weight: 100 !important; }
+.fw2 { font-weight: 200 !important; }
+.fw3 { font-weight: 300 !important; }
+.fw4 { font-weight: 400 !important; }
+.fw5 { font-weight: 500 !important; }
+.fw6 { font-weight: 600 !important; }
+.fw7 { font-weight: 700 !important; }
+.fw8 { font-weight: 800 !important; }
+.fw9 { font-weight: 900 !important; }
+.fwb { font-weight: 700 !important; }
+.fwn { font-weight: 400 !important; }
 
-.f-bd { font-weight: 700 !important; }
-.t-mut { color: var(--sw-txt-mut) !important; }
-.t-pri { color: var(--sw-pri) !important; }
-.t-g { font-size: 1.6rem; line-height: 1.6; }
-.t-p { font-size: 1.4rem; }
-.t-pp { font-size: 1.2rem; }
-
-.mb-0 { margin-bottom: 0 !important; }
-.mb-1 { margin-bottom: 0.4rem !important; }
-.mb-2 { margin-bottom: 0.8rem !important; }
-.mb-3 { margin-bottom: 1.2rem !important; }
-.mb-4 { margin-bottom: 1.6rem !important; }
-.mb-6 { margin-bottom: 2.4rem !important; }
-.mb-8 { margin-bottom: 3.2rem !important; }
-.mb-10 { margin-bottom: 4rem !important; }
-.mt-4 { margin-top: 1.6rem !important; }
-.mt-6 { margin-top: 2.4rem !important; }
+/* .mb-0.mb-10, .mt-4, .mt-6 promovidos para src/css/08-utilities.css (escala numérica direcional) */
 
 /* Breadcrumb (.brc) */
 .brc {
@@ -457,7 +429,6 @@ body {
   color: var(--sw-pri);
 }
 
-.flx { display: flex; }
 .flx-demo {
   background: var(--sw-bg-sec);
   border-radius: var(--sw-r-m);
@@ -666,4 +637,12 @@ body {
     max-width: 100vw;
     padding: 2.4rem 1.6rem;
   }
+}
+
+.color-box {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--sw-r-p);
+  border: 4px solid var(--sw-bor);
+  flex-shrink: 0;
 }

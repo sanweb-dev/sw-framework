@@ -6,8 +6,14 @@
   'use strict';
 
   function initHeader() {
-    const isPage = window.location.pathname.includes('/pages/');
-    const root = isPage ? '../' : '';
+    // Caminho absoluto — ver sidebar.js para o motivo (evita duplicar "pages/pages/"
+    // depois que a navegação via AJAX troca a URL com pushState). Calculado a partir
+    // de "/pages/" no caminho atual em vez de assumir "/docs/" fixo: funciona tanto
+    // servido com o servidor Node de teste (.../docs/pages/x.html) quanto pelo Apache,
+    // onde "docs/" já é a raiz do site (.../pages/x.html, sem o segmento "docs").
+    const path = window.location.pathname;
+    const pagesIndex = path.indexOf('/pages/');
+    const root = pagesIndex !== -1 ? path.slice(0, pagesIndex + 1) : (path.slice(0, path.lastIndexOf('/') + 1) || '/');
 
     const headerHtml = `
       <nav class="docs-nav" aria-label="Documentação principal" style="display:flex; align-items:center; justify-space-between; width:100%;">
@@ -17,7 +23,7 @@
           </button>
 
           <a href="${root}index.html" class="doc-brand-title" style="display:flex; align-items:center; gap:1rem; text-decoration:none; color:var(--sw-txt-bas);">
-            <span class="doc-brand-mark" style="display:inline-grid; place-items:center; width:3.2rem; height:3.2rem; background:var(--sw-pri); color:#fff; font-weight:900; border-radius:0.6rem; font-family:'JetBrains Mono',monospace;">SW</span>
+            <img src="${root}images/logo.png" alt="SW Framework" style="height:3.2rem; width:auto; object-fit:contain;">
             <span style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1.6rem;">SW Framework Docs</span>
           </a>
         </div>
@@ -33,6 +39,14 @@
         </div>
       </nav>
     `;
+
+    if (!document.querySelector('link[rel~="icon"]')) {
+      const favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      favicon.type = 'image/png';
+      favicon.href = `${root}images/logo.png`;
+      document.head.appendChild(favicon);
+    }
 
     let top = document.querySelector('.doc-top');
     if (!top) {

@@ -3,7 +3,7 @@
    Nill Ecosystem | Sandro Web Solutions
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Alumni+Sans:wght@100;200;300;400;500;600;700;800;900&family=Meow+Script&family=Dancing+Script:wght@400;500;600;700&family=Playwrite+BR:wght@100;200;300;400&family=Outfit:wght@100..900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Alumni+Sans:wght@100;200;300;400;500;600;700;800;900&family=Meow+Script&family=Dancing+Script:wght@400;500;600;700&family=Playwrite+BR:wght@100;200;300;400&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
 
 :root {
   /* --- 🌐 DEEP SEA PALETTE HUES & SATURATIONS --- */
@@ -11,15 +11,19 @@
   --sw-s-pri: 75%;
   --sw-l-pri: 56%;
 
-  --sw-h-sec: 215;  /* Deep Ocean Navy (Swatch 2) */
-  --sw-h-acc: 211;  /* Muted Steel (Swatch 3) */
+  --sw-h-sec: 275;  /* Secondary Hue (Purple/Violet) */
+  --sw-s-sec: 75%;
+  --sw-l-sec: 58%;
 
   /* --- 🎨 CORES SEMÂNTICAS PRINCIPAIS --- */
   --sw-pri:        hsl(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri));
   --sw-pri-glow:   hsla(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri), 0.25);
-  --sw-sec:        hsl(215, 35%, 16%);
+  --sw-sec:        hsl(var(--sw-h-sec), var(--sw-s-sec), var(--sw-l-sec));
+  --sw-sec-glow:   hsla(var(--sw-h-sec), var(--sw-s-sec), var(--sw-l-sec), 0.25);
   --sw-acc:        hsl(211, 29%, 34%);
-  
+  --sw-sec-txt:    var(--sw-sec);
+
+
   --sw-suc:        hsl(145, 65%, 42%);  /* Sucesso */
   --sw-err:        hsl(355, 75%, 55%);  /* Erro/Perigo */
   --sw-ale:        hsl(40, 85%, 52%);   /* Alerta */
@@ -52,6 +56,14 @@
   --sw-scale: 62.5%; /* 1rem = 10px */
   --sw-f-base: 1.6rem;
 
+  /* Escala fluida de headings — usada pelos h1-h6 nativos e pelas classes .t-h1..6 */
+  --sw-f-h1: clamp(2.4rem, 2.0rem + 1.2vw, 4.8rem);
+  --sw-f-h2: clamp(2.0rem, 1.8rem + 0.8vw, 3.6rem);
+  --sw-f-h3: clamp(1.8rem, 1.6rem + 0.6vw, 3.0rem);
+  --sw-f-h4: clamp(1.6rem, 1.5rem + 0.3vw, 2.4rem);
+  --sw-f-h5: 1.8rem;
+  --sw-f-h6: 1.4rem;
+
   /* --- 📏 ESPAÇAMENTO Padrão (PP-XXG) --- */
   --sw-s-pp:  0.4rem;
   --sw-s-p:   0.8rem;
@@ -59,12 +71,14 @@
   --sw-s-g:   2.4rem;
   --sw-s-gg:  4.8rem;
   --sw-s-xg:  8.0rem;
+  --sw-s-xxg: 12.0rem;
 
   /* --- 📐 ARONDAMENTO (BORDER RADIUS) --- */
   --sw-r-p:   0.4rem;
   --sw-r-m:   0.8rem;
   --sw-r-g:   1.2rem;
   --sw-r-gg:  1.8rem;
+  --sw-r-xl:  2.4rem;
   --sw-r-fl:  9999px;
   --sw-r:     var(--sw-r-m);
 
@@ -73,24 +87,95 @@
   --sw-sha:   0 8px 24px rgba(13, 19, 29, 0.4);
   --sw-sha-g: 0 20px 50px rgba(13, 19, 29, 0.6);
 
+  /* --- 🗂️ CAMADAS (Z-INDEX) --- */
+  --sw-z-bot: -1;
+  --sw-z-bas: 0;
+  --sw-z-nvb: 100;
+  --sw-z-m:   10000;
+
   /* --- 🌈 GRADIENTES E SOMBRAS COLORIDAS (estilo Material Kit) --- */
   --sw-grad-pri: linear-gradient(195deg, hsl(var(--sw-h-pri), var(--sw-s-pri), calc(var(--sw-l-pri) + 14%)), var(--sw-pri));
   --sw-grad-suc: linear-gradient(195deg, color-mix(in srgb, var(--sw-suc) 78%, white), var(--sw-suc));
   --sw-grad-err: linear-gradient(195deg, color-mix(in srgb, var(--sw-err) 78%, white), var(--sw-err));
   --sw-grad-ale: linear-gradient(195deg, color-mix(in srgb, var(--sw-ale) 78%, white), var(--sw-ale));
   --sw-grad-inf: linear-gradient(195deg, color-mix(in srgb, var(--sw-inf) 78%, white), var(--sw-inf));
-  --sw-grad-sec: linear-gradient(195deg, var(--sw-sur-hover), var(--sw-sec));
+  --sw-grad-sec: linear-gradient(195deg, color-mix(in srgb, var(--sw-sec) 78%, white), var(--sw-sec));
 
   --sw-sha-pri: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px var(--sw-pri-glow);
+  --sw-sha-sec: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-sec) 40%, transparent);
   --sw-sha-suc: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-suc) 40%, transparent);
   --sw-sha-err: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-err) 40%, transparent);
   --sw-sha-ale: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-ale) 40%, transparent);
   --sw-sha-inf: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px color-mix(in srgb, var(--sw-inf) 40%, transparent);
 
-  --sw-grad-drk: linear-gradient(195deg, color-mix(in srgb, var(--sw-sec) 65%, white), var(--sw-sec));
+  --sw-grad-drk: linear-gradient(195deg, #334155, #0f172a);
   --sw-grad-lit: linear-gradient(195deg, #f8fafc, #dbe3ec);
-  --sw-sha-drk: 0 4px 20px 0 rgba(13, 19, 29, .3), 0 7px 10px -5px rgba(0, 0, 0, .4);
+  --sw-sha-drk: 0 4px 20px 0 rgba(13, 19, 29, .4), 0 7px 10px -5px rgba(0, 0, 0, .6);
   --sw-sha-lit: 0 4px 20px 0 rgba(13, 19, 29, .14), 0 7px 10px -5px rgba(13, 19, 29, .15);
+
+  /* --- ⚫⚪ ESCALA NEUTRA (12 PASSOS) — base do sistema Day/Night --- */
+  --sw-neu-1:  hsl(212, 10%, 97%);
+  --sw-neu-2:  hsl(212, 10%, 90%);
+  --sw-neu-3:  hsl(212, 10%, 83%);
+  --sw-neu-4:  hsl(212, 10%, 76%);
+  --sw-neu-5:  hsl(212, 10%, 68%);
+  --sw-neu-6:  hsl(212, 10%, 60%);
+  --sw-neu-7:  hsl(212, 10%, 50%);
+  --sw-neu-8:  hsl(212, 10%, 40%);
+  --sw-neu-9:  hsl(212, 10%, 32%);
+  --sw-neu-10: hsl(212, 10%, 24%);
+  --sw-neu-11: hsl(212, 10%, 16%);
+  --sw-neu-12: hsl(212, 10%, 8%);
+
+  /* --- 🌗 SISTEMA DAY/NIGHT — grupos tonais (padrão escuro, ver override claro abaixo) --- */
+  --sw-bg:        var(--sw-neu-12);
+  --sw-bg-:       var(--sw-neu-11);
+  --sw-bg--:      var(--sw-neu-10);
+  --sw-bg---:     var(--sw-neu-9);
+  --sw-bg_:       var(--sw-neu-2);
+  --sw-bg__:      var(--sw-neu-1);
+  --sw-bg___:     #ffffff;
+
+  --sw-bl:        var(--sw-neu-10);
+  --sw-bl-:       var(--sw-neu-9);
+  --sw-bl--:      var(--sw-neu-8);
+  --sw-bl---:     var(--sw-neu-7);
+  --sw-bl_:       var(--sw-neu-4);
+  --sw-bl__:      var(--sw-neu-3);
+  --sw-bl___:     var(--sw-neu-2);
+
+  --sw-border:    var(--sw-neu-10);
+  --sw-border-:   var(--sw-neu-8);
+  --sw-border--:  var(--sw-neu-6);
+  --sw-border_:   var(--sw-neu-1);
+
+  --sw-color:        var(--sw-neu-1);
+  --sw-color-:       var(--sw-neu-2);
+  --sw-color--:      var(--sw-neu-3);
+  --sw-color---:     var(--sw-neu-4);
+  --sw-color_:       var(--sw-neu-10);
+  --sw-color__:      var(--sw-neu-11);
+  --sw-color___:     var(--sw-neu-12);
+
+  --sw-link:      hsl(200, 75%, 65%);
+  --sw-link-:     hsl(200, 75%, 55%);
+  --sw-link--:    hsl(200, 75%, 45%);
+  --sw-link_:     hsl(200, 75%, 78%);
+
+  --sw-hover:     hsl(200, 75%, 75%);
+  --sw-hover-:    hsl(200, 75%, 65%);
+  --sw-hover--:   hsl(200, 75%, 55%);
+  --sw-hover_:    hsl(200, 75%, 85%);
+
+  --sw-shadow:      0 2px 8px rgba(0, 0, 0, 0.35);
+  --sw-shadow-:     0 4px 14px rgba(0, 0, 0, 0.45);
+  --sw-shadow--:    0 8px 24px rgba(0, 0, 0, 0.55);
+  --sw-shadow---:   0 16px 40px rgba(0, 0, 0, 0.65);
+  --sw-shadow_:     0 2px 4px rgba(0, 0, 0, 0.25);
+
+  /* Contraste automático: --sw-txt já lê bem sobre bg/-/--/--- (grupo dominante do
+     tema); --sw-txt-inv é o oposto, para o grupo _/__/___ (sempre tonalidade invertida). */
+  --sw-txt-inv:     #0d131d;
 
   /* --- 🎨 MATRIZ COMPLETA DAS CORES DO SW --- */
   --sw-c-verm: hsl(355, 75%, 55%);
@@ -124,17 +209,65 @@ html[sw-theme="light"] {
   --sw-pri:        hsl(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri)); /* Azure Vivo — Deep Sea Vibrante */
   --sw-pri-glow:   hsla(var(--sw-h-pri), var(--sw-s-pri), var(--sw-l-pri), 0.18);
 
-  --sw-bg:         #f3efdf; /* 60% Swatch 5 - Warm Off-White Cream */
-  --sw-sur:        #e6e1cf; /* 30% Soft Warm Surface */
-  --sw-sur-hover:  #dcd7c4;
-  --sw-bor:        #b8c5d3; /* Soft Steel Border */
-  --sw-bor-glow:   rgba(26, 38, 54, 0.2);
-  --sw-txt:        #0d131d; /* Swatch 1 - Darkest Night Navy */
-  --sw-txt-mut:    #3e5771; /* Swatch 3 - Muted Steel */
-  --sw-gls-bg:     rgba(243, 239, 223, 0.85);
-  --sw-gls-bor:    rgba(26, 38, 54, 0.15);
+  --sw-bg:         #e9ebee; /* Cinza claro (fundo) */
+  --sw-sur:        #f8f9fa; /* Cinza quase branco (cards, elevado) */
+  --sw-sur-hover:  #eef0f2;
+  --sw-bor:        #d8dce2; /* Cinza neutro (borda) */
+  --sw-bor-glow:   rgba(26, 38, 54, 0.15);
+  --sw-txt:        #1a1d23; /* Cinza quase preto (texto) */
+  --sw-txt-mut:    #5b6270; /* Cinza médio (texto mudo) */
+  --sw-gls-bg:     rgba(233, 235, 238, 0.85);
+  --sw-gls-bor:    rgba(26, 38, 54, 0.12);
 
   --sw-sha-p:      0 2px 6px rgba(13, 19, 29, 0.08);
   --sw-sha:        0 10px 25px rgba(13, 19, 29, 0.1);
   --sw-sha-g:      0 25px 60px rgba(13, 19, 29, 0.15);
+
+  /* --- 🌗 SISTEMA DAY/NIGHT — override claro --- */
+  --sw-bg:        var(--sw-neu-1);
+  --sw-bg-:       #ffffff;
+  --sw-bg--:      var(--sw-neu-3);
+  --sw-bg---:     var(--sw-neu-4);
+  --sw-bg_:       var(--sw-neu-11);
+  --sw-bg__:      var(--sw-neu-12);
+  --sw-bg___:     #000000;
+
+  --sw-bl:        var(--sw-neu-3);
+  --sw-bl-:       var(--sw-neu-4);
+  --sw-bl--:      var(--sw-neu-5);
+  --sw-bl---:     var(--sw-neu-6);
+  --sw-bl_:       var(--sw-neu-9);
+  --sw-bl__:      var(--sw-neu-10);
+  --sw-bl___:     var(--sw-neu-11);
+
+  --sw-border:    var(--sw-neu-4);
+  --sw-border-:   var(--sw-neu-6);
+  --sw-border--:  var(--sw-neu-8);
+  --sw-border_:   var(--sw-neu-12);
+
+  --sw-color:        var(--sw-neu-12);
+  --sw-color-:       var(--sw-neu-11);
+  --sw-color--:      var(--sw-neu-10);
+  --sw-color---:     var(--sw-neu-9);
+  --sw-color_:       var(--sw-neu-3);
+  --sw-color__:      var(--sw-neu-2);
+  --sw-color___:     var(--sw-neu-1);
+
+  --sw-link:      hsl(200, 75%, 45%);
+  --sw-link-:     hsl(200, 75%, 55%);
+  --sw-link--:    hsl(200, 75%, 65%);
+  --sw-link_:     hsl(200, 75%, 30%);
+
+  --sw-hover:     hsl(200, 75%, 35%);
+  --sw-hover-:    hsl(200, 75%, 45%);
+  --sw-hover--:   hsl(200, 75%, 55%);
+  --sw-hover_:    hsl(200, 75%, 22%);
+
+  --sw-shadow:      0 2px 8px rgba(13, 19, 29, 0.10);
+  --sw-shadow-:     0 4px 14px rgba(13, 19, 29, 0.14);
+  --sw-shadow--:    0 8px 24px rgba(13, 19, 29, 0.18);
+  --sw-shadow---:   0 16px 40px rgba(13, 19, 29, 0.22);
+  --sw-shadow_:     0 2px 4px rgba(13, 19, 29, 0.06);
+
+  --sw-txt-inv:     #f3efdf;
 }

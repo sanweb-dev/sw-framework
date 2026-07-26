@@ -170,19 +170,48 @@
 (function () {
   'use strict';
   const allowedThemes = new Set(['dark', 'light']);
+  const STORAGE_KEY = 'sw-theme';
+  let storageBound = false;
+  let keyboardBound = false;
+  let fabInjected = false;
+
+  // Resolve valores tipo var(--sw-f-san) vindos de atributo, com fallback pro segundo argumento do var().
+  function resolveVar(value) {
+    if (!value || !value.includes('var(')) return value;
+    const match = value.match(/var\((--[^,)]+)(?:,\s*([^)]+))?\)/);
+    if (!match) return value;
+    return getComputedStyle(document.documentElement).getPropertyValue(match[1]).trim() || match[2] || value;
+  }
+
+  // Site travado num único tema via <html sw-day-lock="dark"> ou <html sw-day-lock="light"> —
+  // desativa a troca por completo (set/toggle/atalho/storage) e some com qualquer botão de toggle.
+  function lockedTheme() {
+    const raw = document.documentElement.getAttribute('sw-day-lock');
+    return allowedThemes.has(raw) ? raw : null;
+  }
+
   const SWDay = {
+    get theme() {
+      return document.documentElement.getAttribute('sw-theme') || 'dark';
+    },
     init() {
-      const savedTheme = SW.Utils.storage.get('sw-theme');
+      const locked = lockedTheme();
+      if (locked) { this.set(locked, false); return; }
+      const savedTheme = SW.Utils.storage.get(STORAGE_KEY);
       const systemTheme = window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
       this.set(savedTheme || systemTheme, true);
     },
     set(theme, persist = true) {
       if (!allowedThemes.has(theme)) return false;
+      const locked = lockedTheme();
+      if (locked && theme !== locked) return false;
       document.documentElement.setAttribute('sw-theme', theme);
       document.documentElement.style.colorScheme = theme;
       if (persist) {
-        SW.Utils.storage.set('sw-theme', theme);
+        SW.Utils.storage.set(STORAGE_KEY, theme);
       }
+      this._syncMedia(theme);
+      this._syncButtons(theme);
       SW.emit(document, 'sw:theme:change', { theme });
       return true;
     },
@@ -193,14 +222,112 @@
       const current = document.documentElement.getAttribute('sw-theme') || 'dark';
       const next = current === 'light' ? 'dark' : 'light';
       return this.set(next, true);
+    },
+
+    // Troca imagem/fundo/fonte conforme o tema via atributos [sw-day-img-{tema}], [sw-day-bg-{tema}], [sw-day-font-{tema}].
+    _syncMedia(theme) {
+      SW.$(`img[sw-day-img-${theme}]`).forEach((image) => {
+        image.src = resolveVar(image.getAttribute(`sw-day-img-${theme}`));
+      });
+      SW.$(`[sw-day-bg-${theme}]`).forEach((element) => {
+        const value = resolveVar(element.getAttribute(`sw-day-bg-${theme}`));
+        if (value.trim().startsWith('url(')) {
+          element.style.backgroundImage = value;
+        } else {
+          element.style.background = value;
+        }
+      });
+      SW.$(`[sw-day-font-${theme}]`).forEach((element) => {
+        element.style.fontFamily = resolveVar(element.getAttribute(`sw-day-font-${theme}`));
+      });
+    },
+
+    _syncButtons(theme) {
+      SW.$('[sw-day]').forEach((button) => {
+        button.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        // title é só a dica visual (tooltip) — o nome acessível vem de aria-label,
+        // fixo, definido uma vez em initAll(). Não trocar aria-label aqui: precisa
+        // continuar igual ao botão de tema do cabeçalho ("Alternar Tema..."),
+        // independente do estado atual do tema.
+        button.setAttribute('title', theme === 'light' ? 'Modo escuro' : 'Modo claro');
+        const icon = button.querySelector('.sw-daytg-ico');
+        if (icon) icon.className = `sw-daytg-ico ${theme === 'light' ? 'swi-moon' : 'swi-sun'}`;
+      });
+    },
+
+    initAll(root = document) {
+      const locked = lockedTheme();
+      const theme = locked || document.documentElement.getAttribute('sw-theme') || 'dark';
+
+      SW.$('[sw-day]', root).forEach((button) => {
+        if (button._swDayBound) return;
+        button._swDayBound = true;
+        // Tema travado: não faz sentido mostrar um toggle que não troca nada.
+        if (locked) { button.hidden = true; button.disabled = true; return; }
+        if (button.tagName === 'BUTTON' && !button.hasAttribute('type')) button.setAttribute('type', 'button');
+        if (!button.hasAttribute('aria-label') && !button.textContent.trim()) button.setAttribute('aria-label', 'Alternar Tema Claro/Escuro');
+        if (!button.querySelector('.sw-daytg-ico') && !button.textContent.trim()) {
+          const icon = document.createElement('i');
+          icon.className = 'sw-daytg-ico';
+          button.appendChild(icon);
+        }
+        button.addEventListener('click', () => this.toggle());
+      });
+
+      // Se nenhuma página registrou um botão próprio, injeta um FAB acessível — igual ao Y2Day.
+      // Mesmo aria-label do botão de tema do cabeçalho (visível só até 992px, ver layout.css)
+      // pra manter um único nome acessível estável entre os dois, qualquer que seja o viewport.
+      // Página que não quer NENHUM botão (nem o próprio, nem o padrão) usa <html sw-day-no-fab>.
+      // Tema travado (<html sw-day-lock="...">) nunca injeta FAB — não há o que alternar.
+      // Botões marcados [sw-day-demo] (exemplos dentro da própria doc do módulo) não contam
+      // como "a página já tem botão próprio" — senão a página que documenta o toggle seria a
+      // única do site sem o FAB padrão.
+      const hasRealButton = SW.$('[sw-day]').some((el) => !el.hasAttribute('sw-day-demo'));
+      if (!locked && root === document && !fabInjected && !hasRealButton && !document.documentElement.hasAttribute('sw-day-no-fab')) {
+        fabInjected = true;
+        const fab = document.createElement('button');
+        fab.type = 'button';
+        fab.setAttribute('sw-day', '');
+        fab.setAttribute('aria-label', 'Alternar Tema Claro/Escuro');
+        fab.className = 'sw-day-fab';
+        fab.title = 'Ctrl+Shift+D';
+        const icon = document.createElement('i');
+        icon.className = 'sw-daytg-ico';
+        fab.appendChild(icon);
+        fab._swDayBound = true;
+        fab.addEventListener('click', () => this.toggle());
+        document.body.appendChild(fab);
+      }
+
+      // Repara o boot: sw-mpa.js já cravou sw-theme no <html> bem cedo (evita flash de cor
+      // errada), mas SW.Day.init() roda ANTES deste módulo existir de fato (sw-core.js chama
+      // SW.Day?.init() no boot() dele, que executa antes de sw-day.js registrar SWDay — vira
+      // no-op silencioso). Sem isto aqui, imagem/fundo/fonte nunca sincronizavam no carregamento
+      // da página, só quando o usuário clicava — no reload eles voltavam pro padrão do HTML.
+      this._syncMedia(theme);
+      this._syncButtons(theme);
+
+      if (!storageBound) {
+        storageBound = true;
+        window.addEventListener('storage', (event) => {
+          if (event.key === STORAGE_KEY && event.newValue && allowedThemes.has(event.newValue)) {
+            this.set(event.newValue, false);
+          }
+        });
+      }
+      if (!keyboardBound) {
+        keyboardBound = true;
+        document.addEventListener('keydown', (event) => {
+          if (event.ctrlKey && event.shiftKey && (event.key === 'D' || event.key === 'd')) {
+            event.preventDefault();
+            this.toggle();
+          }
+        });
+      }
     }
   };
   window.SW.Day = SWDay;
-  if (document.readyState !== 'loading') {
-    SWDay.init();
-  } else {
-    document.addEventListener('DOMContentLoaded', () => SWDay.init());
-  }
+  SW.register('SWDay', SWDay);
 })();
 
 /* SW Framework Trans — native transitions and scroll reveal */
@@ -472,6 +599,10 @@
       const hasLines = pre.hasAttribute('swcode-lines') || pre.hasAttribute('sw-code-lines') || pre.hasAttribute('data-swcode-lines') || pre.hasAttribute('y2code-lines') || pre.hasAttribute('data-y2code-lines');
       const script = pre.querySelector('script[type="text/plain"]');
       const raw = (script ? script.textContent : (codeEl || pre).textContent)
+        // Exemplo que precisa mostrar um </script> literal tem que escapar como <\/script>
+        // dentro do <script type="text/plain"> (senão fecharia o wrapper cedo demais) —
+        // desfaz esse escape aqui antes de exibir, senão a barra invertida aparece na tela.
+        .replace(/<\\\/script>/gi, '</script>')
         .replace(/^\s+|\s+$/g, '')
         .replace(/[\uFEFF\u200B\u0000-\u0008\u000B-\u000C\u000D-\u001F]/g, '');
 
@@ -564,8 +695,15 @@
   'use strict';
 
   const cache = new Map();
-  const defaultBasePath = window.location.pathname.includes('/pages/') ? '../dist/icons/' : 'dist/icons/';
   const canFetch = window.location.protocol !== 'file:';
+
+  // Calculado a cada chamada (não uma vez no carregamento do módulo): a navegação
+  // via AJAX do portal troca a URL com pushState sem recarregar este script, então
+  // um valor fixo calculado no início ficaria errado assim que o caminho mudasse.
+  function defaultBasePath() {
+    const match = window.location.pathname.match(/^(.*\/docs\/)/);
+    return match ? `${match[1]}dist/icons/` : (window.location.pathname.includes('/pages/') ? '../dist/icons/' : 'dist/icons/');
+  }
 
   async function fetchIcon(iconPath) {
     if (cache.has(iconPath)) return cache.get(iconPath);
@@ -574,13 +712,41 @@
       cache.set(iconPath, Promise.resolve(''));
       return '';
     }
-    const basePath = SWIcon.basePath ?? defaultBasePath;
+    const basePath = SWIcon.basePath ?? defaultBasePath();
     const promise = fetch(`${basePath}${iconPath}.svg`)
       .then((response) => { if (!response.ok) throw new Error(`Ícone não encontrado: ${iconPath}`); return response.text(); })
       .catch((error) => { console.warn('[SW-Icon]', error.message); return ''; });
     cache.set(iconPath, promise);
     return promise;
   }
+
+  // Atalho tipo "icon font" (<i class="sw-bell">) usado nas páginas de docs — mapeia
+  // o nome curto pro ícone real do IconPark. Não substitui sw-icon="Categoria/nome",
+  // que continua sendo a forma canônica e cobre todos os 2.658 ícones.
+  const FONT_ALIASES = {
+    bell: 'Music/bell-ring', box: 'Office/box', calendar: 'Edit/calendar',
+    chart: 'Charts/chart-histogram-one', check: 'Character/check', 'check-circle': 'Character/check-one',
+    'chevron-left': 'Arrows/arrow-left', 'chevron-right': 'Arrows/arrow-right', clock: 'Time/alarm-clock',
+    columns: 'Edit/column', copy: 'Edit/copy', cpu: 'Hardware/cpu', 'day-ico': 'Weather/sun',
+    download: 'Arrows/download', eye: 'Base/preview-open', file: 'Office/file-text-one',
+    folder: 'Office/folder', grid: 'Edit/grid-four', heart: 'Health/heart',
+    'horizontal-right': 'Arrows/arrow-right', image: 'Office/image-files', 'info-circle': 'Character/info',
+    input: 'Others/voice-input', layout: 'Edit/layout-four', 'layout-grid': 'Edit/grid-four',
+    list: 'Edit/list', 'list-ul': 'Components/checklist', mail: 'Office/mail', map: 'Charts/area-map',
+    mobile: 'Hardware/phone-one', money: 'Money/paper-money', moon: 'Weather/moon',
+    palette: 'Operate/color-filter', search: 'Base/search', 'shape-triangle': 'Safe/alarm',
+    shield: 'Safe/shield', star: 'Edit/star', 'star-off': 'Edit/star', sun: 'Weather/sun',
+    tag: 'Base/tag', upload: 'Arrows/upload', user: 'Peoples/user', users: 'Peoples/peoples',
+    warning: 'Safe/alarm', world: 'Travel/world', x: 'Character/close-small', zap: 'Hardware/bolt-one',
+  };
+
+  // Logos de marca (<i class="y2l-github">) — subconjunto real disponível no IconPark.
+  // linkedin e firefox não existem no set (2.658 ícones) e ficam sem ícone.
+  const BRAND_ALIASES = {
+    github: 'Brand/github', twitter: 'Brand/twitter', behance: 'Brand/behance',
+    dribbble: 'Brand/dribble', youtube: 'Brand/youtube', instagram: 'Brand/instagram',
+    facebook: 'Brand/facebook', telegram: 'Brand/telegram', figma: 'Brand/figma',
+  };
 
   class SWIcon {
     static basePath = null; // sobrescreva se a estrutura de pastas do consumidor for diferente
@@ -601,6 +767,17 @@
       SW.$('[sw-icon]', root).forEach((element) => {
         const iconPath = element.getAttribute('sw-icon');
         if (element.getAttribute('data-sw-icon-state') === 'ready' || !iconPath) return;
+        SWIcon.use(element, iconPath);
+      });
+
+      SW.$('i', root).forEach((element) => {
+        if (element.getAttribute('data-sw-icon-state') === 'ready') return;
+        const classes = Array.from(element.classList);
+        const swName = classes.find((cls) => cls.startsWith('sw-') && FONT_ALIASES[cls.slice(3)]);
+        const brandName = classes.find((cls) => cls.startsWith('y2l-') && BRAND_ALIASES[cls.slice(4)]);
+        const iconPath = swName ? FONT_ALIASES[swName.slice(3)] : brandName ? BRAND_ALIASES[brandName.slice(4)] : null;
+        if (!iconPath) return;
+        element.classList.add('sw-icon-font');
         SWIcon.use(element, iconPath);
       });
     }
@@ -683,53 +860,248 @@
   if (window.SW) window.SW.Modal = SWModal;
 })();
 
-/* SW Framework Alert */
+/* SW Framework Alert — portado do Y2Alert (y2.sanweb.com.br), CSS injetado em runtime */
 (function () {
   'use strict';
 
   class SWAlert {
-    static initAll() {
-      if (document.querySelector('#sw-toast-container')) return;
-      const container = document.createElement('div');
-      container.id = 'sw-toast-container';
-      container.className = 'sw-toast-container';
-      container.setAttribute('aria-live', 'polite');
-      container.setAttribute('aria-atomic', 'false');
-      document.body.appendChild(container);
+    static _boxes = {};
+    static _cssReady = false;
+
+    static _css() {
+      if (SWAlert._cssReady) return;
+      SWAlert._cssReady = true;
+      const s = document.createElement('style');
+      s.id = '_sw-alert-css';
+      s.textContent = `
+.sw-alert-box{position:fixed;z-index:999999;display:flex;flex-direction:column;gap:1.2rem;pointer-events:none;width:min(42rem,calc(100vw - 3.2rem))}
+.sw-alert-box.tl{top:2rem;left:2rem}.sw-alert-box.tc{top:2rem;left:50%;transform:translateX(-50%)}
+.sw-alert-box.tr{top:2rem;right:2rem}.sw-alert-box.bl{bottom:2rem;left:2rem}
+.sw-alert-box.bc{bottom:2rem;left:50%;transform:translateX(-50%)}.sw-alert-box.br{bottom:2rem;right:2rem}
+.sw-alert-box.cl{top:50%;left:2rem;transform:translateY(-50%)}.sw-alert-box.cc{top:50%;left:50%;transform:translate(-50%,-50%)}.sw-alert-box.cr{top:50%;right:2rem;transform:translateY(-50%)}
+.sw-alert{position:relative;display:flex;align-items:center;min-height:6.4rem;padding:1.4rem 2.4rem 1.4rem 6.2rem;border-radius:.8rem;border:1px solid transparent;pointer-events:all;cursor:pointer;font-family:var(--sw-f-san);font-size:1.7rem;font-weight:500;line-height:1.4;color:#fff;background:rgba(20,20,20,.75);backdrop-filter:blur(1.2rem);-webkit-backdrop-filter:blur(1.2rem);box-shadow:0 1.2rem 4rem rgba(0,0,0,.5);text-shadow:0.1rem 0.1rem 0.3rem rgba(0,0,0,.5);animation:_swAlrIn .4s cubic-bezier(0.2, 0.8, 0.4, 1.05);transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1)}
+.sw-alert.is-out{opacity:0;transform:translateX(20px) scale(0.95);filter:blur(4px)}
+@keyframes _swAlrIn{from{opacity:0;transform:translateX(40px);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+.sw-alert-ico{position:absolute;left:1.6rem;top:50%;transform:translateY(-50%);width:3.2rem;height:3.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:2.8rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.sw-alert-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}.sw-alert-ttl{font-weight:700;margin-bottom:.2rem;font-size:1.4rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.9}
+.sw-alert-msg{opacity:1;font-weight:400}
+.sw-alert-cls{position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:3.2rem;height:3.2rem;display:flex;align-items:center;justify-content:center;opacity:0.3;font-size:2.4rem;line-height:1;background:none;border:0;cursor:pointer;color:inherit;transition:all .2s;border-radius:50%}
+.sw-alert-cls:hover{opacity:1;background:rgba(255,255,255,0.1)}
+.sw-alert-bar{position:absolute;bottom:0;left:.8rem;right:.8rem;height:3px;border-radius:99px;opacity:0.6;animation:_swBar linear forwards}
+@keyframes _swBar{from{width:calc(100% - 1.6rem)}to{width:0%}}
+.sw-alert.ok{border-color:rgba(0,255,100,0.35);color:#e0ffe0}.sw-alert.ok .sw-alert-bar{background:#00ff64}
+.sw-alert.err{border-color:rgba(255,50,50,0.35);color:#ffe0e0}.sw-alert.err .sw-alert-bar{background:#ff3232}
+.sw-alert.ale{border-color:rgba(255,180,0,0.35);color:#fff5e0}.sw-alert.ale .sw-alert-bar{background:#ffb400}
+.sw-alert.inf{border-color:rgba(0,180,255,0.35);color:#e0f5ff}.sw-alert.inf .sw-alert-bar{background:#00b4ff}
+.sw-alert.drk{border-color:rgba(255,255,255,0.15);color:#f5f5f5}.sw-alert.drk .sw-alert-bar{background:#fff}
+/* Confirmação — estilo SweetAlert2 */
+.sw-cfm-ovl{position:fixed!important;inset:0!important;z-index:9999999!important;background:rgba(0,0,0,.6)!important;backdrop-filter:blur(4px)!important;-webkit-backdrop-filter:blur(4px)!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:2rem!important;opacity:0!important;transition:opacity .25s ease!important;pointer-events:none!important}
+.sw-cfm-ovl.is-act{opacity:1!important;pointer-events:auto!important}
+.sw-cfm{font-family:var(--sw-f-hd)!important;display:flex!important;flex-direction:column!important;align-items:center!important;background:var(--sw-sur)!important;border:1px solid var(--sw-bor)!important;border-radius:var(--sw-r-g)!important;width:min(40rem,94vw)!important;box-shadow:0 2.5rem 6rem rgba(0,0,0,.45)!important;overflow:hidden!important;text-align:center!important;transform:scale(.72) translateY(28px)!important;opacity:0!important;transition:transform .38s cubic-bezier(.34,1.4,.64,1),opacity .3s ease!important}
+.sw-cfm-ovl.is-act .sw-cfm{transform:scale(1) translateY(0)!important;opacity:1!important}
+.sw-cfm-hdr{width:100%!important;padding:3.2rem 2.4rem 1.2rem!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:.8rem!important}
+.sw-cfm-ico-wrap{width:7rem!important;height:7rem!important;border-radius:50%!important;background:linear-gradient(135deg,#fbbf24,#f97316)!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:0 .8rem 2.8rem rgba(249,115,22,.5)!important;animation:_swCfmPop .5s cubic-bezier(.34,1.6,.64,1) .1s both!important}
+.sw-cfm-ico-wrap i{font-size:3.2rem!important;color:#fff!important;line-height:1!important}
+@keyframes _swCfmPop{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.sw-cfm-ttl{font-family:var(--sw-f-hd)!important;font-size:2rem!important;font-weight:800!important;color:var(--sw-txt)!important;margin:0!important;line-height:1.2!important}
+.sw-cfm-bdy{width:100%!important;padding:0 3.2rem 0!important}
+.sw-cfm-txt{font-family:var(--sw-f-san)!important;font-size:1.5rem!important;font-weight:400!important;color:var(--sw-txt-mut)!important;line-height:1.7!important;margin:0!important}
+.sw-cfm-act{width:100%!important;display:flex!important;flex-direction:row-reverse!important;gap:1rem!important;justify-content:center!important;padding:1.6rem 2.4rem 2.4rem!important}
+.sw-cfm-act button{font-family:var(--sw-f-san)!important;padding:1.1rem 2.8rem!important;border:none!important;cursor:pointer!important;font-size:1.5rem!important;font-weight:700!important;border-radius:var(--sw-r-m)!important;transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;position:relative!important;overflow:hidden!important;letter-spacing:.01em!important}
+.sw-cfm-act button::before{content:''!important;position:absolute!important;top:0!important;left:-100%!important;width:100%!important;height:100%!important;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)!important;transition:left .4s ease!important}
+.sw-cfm-act button:hover::before{left:100%!important}
+.sw-cfm-act button:active{transform:scale(.97)!important}
+.sw-cfm-act .is-ok{background:linear-gradient(135deg,#3ecf6a,#28a745)!important;color:#fff!important;box-shadow:0 4px 14px rgba(40,167,69,.4)!important}.sw-cfm-act .is-ok:hover{filter:brightness(1.08)!important;transform:translateY(-2px)!important;box-shadow:0 6px 20px rgba(40,167,69,.5)!important}
+.sw-cfm-act .is-no{background:var(--sw-bg-)!important;color:var(--sw-txt-mut)!important;border:1.5px solid var(--sw-bor)!important}.sw-cfm-act .is-no:hover{background:var(--sw-neu-3)!important;transform:translateY(-2px)!important}`;
+      document.head.appendChild(s);
     }
 
-    static show(msg, type = 'info', duration = 3500) {
-      this.initAll();
-      const normalizedType = ['ok', 'err', 'ale', 'info'].includes(type) ? type : 'info';
-      const timeout = Math.min(30000, Math.max(1000, Number(duration) || 3500));
-      const toast = document.createElement('div');
-      toast.className = `sw-toast sw-badge sw-badge-${normalizedType === 'ok' ? 'suc' : normalizedType === 'err' ? 'err' : normalizedType === 'ale' ? 'ale' : 'pri'}`;
-      toast.setAttribute('role', normalizedType === 'err' ? 'alert' : 'status');
+    static _getBox(pos) {
+      SWAlert._css();
+      const p = pos || 'tr';
+      if (!SWAlert._boxes[p]) {
+        const box = document.createElement('div');
+        box.className = `sw-alert-box ${p}`;
+        box.setAttribute('aria-live', 'polite');
+        box.setAttribute('aria-atomic', 'false');
+        document.body.appendChild(box);
+        SWAlert._boxes[p] = box;
+      }
+      return SWAlert._boxes[p];
+    }
 
-      const icon = document.createElement('span');
-      icon.setAttribute('aria-hidden', 'true');
-      icon.textContent = ({ ok: '✅', err: '❌', ale: '⚠️', info: 'ℹ️' })[normalizedType];
-      const message = document.createElement('span');
+    static _show(type, msg, title, dur, pos) {
+      const duration = dur === undefined || dur === null ? 4000 : Number(dur) || 0;
+      const box = SWAlert._getBox(pos);
+
+      const icos = {
+        ok: 'swi-check-circle',
+        err: 'swi-error-circle',
+        ale: 'swi-alarm-exclamation',
+        inf: 'swi-info-circle',
+        drk: 'swi-diamond',
+      };
+
+      const el = document.createElement('div');
+      el.className = `sw-alert ${type}`;
+      el.setAttribute('role', 'alert');
+
+      const icoClass = icos[type];
+      if (icoClass) {
+        const icoEl = document.createElement('i');
+        icoEl.className = `sw-alert-ico ${icoClass}`;
+        el.appendChild(icoEl);
+      } else {
+        el.style.paddingLeft = '2.4rem';
+      }
+
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'sw-alert-body';
+
+      if (title) {
+        const ttlEl = document.createElement('div');
+        ttlEl.className = 'sw-alert-ttl';
+        ttlEl.textContent = title;
+        bodyEl.appendChild(ttlEl);
+      }
+
+      const message = document.createElement('div');
+      message.className = 'sw-alert-msg';
       message.textContent = String(msg ?? '');
-      toast.append(icon, message);
-      document.querySelector('#sw-toast-container').appendChild(toast);
+      bodyEl.appendChild(message);
 
-      window.setTimeout(() => {
-        toast.classList.add('is-leaving');
-        window.setTimeout(() => toast.remove(), 300);
-      }, timeout);
-      return toast;
+      if (duration > 0) {
+        const barEl = document.createElement('div');
+        barEl.className = 'sw-alert-bar';
+        barEl.style.animationDuration = `${duration}ms`;
+        bodyEl.appendChild(barEl);
+      }
+
+      const clsBtn = document.createElement('button');
+      clsBtn.type = 'button';
+      clsBtn.className = 'sw-alert-cls';
+      clsBtn.setAttribute('aria-label', 'Fechar');
+      const clsIco = document.createElement('i');
+      clsIco.className = 'swi-cross';
+      clsBtn.appendChild(clsIco);
+
+      el.appendChild(bodyEl);
+      el.appendChild(clsBtn);
+
+      const dismiss = () => {
+        el.classList.add('is-out');
+        window.setTimeout(() => el.remove(), 400);
+      };
+
+      clsBtn.addEventListener('click', (e) => { e.stopPropagation(); dismiss(); });
+      el.addEventListener('click', dismiss);
+      if (duration > 0) window.setTimeout(dismiss, duration);
+
+      box.appendChild(el);
+      return el;
     }
 
-    static ok(msg, duration) { return this.show(msg, 'ok', duration); }
-    static err(msg, duration) { return this.show(msg, 'err', duration); }
-    static ale(msg, duration) { return this.show(msg, 'ale', duration); }
-    static info(msg, duration) { return this.show(msg, 'info', duration); }
-    static confirm(msg) { return Promise.resolve(window.confirm(String(msg ?? ''))); }
+    // API principal
+    static ok(msg, dur, pos, title) { return SWAlert._show('ok', msg, title, dur, pos); }
+    static err(msg, dur, pos, title) { return SWAlert._show('err', msg, title, dur, pos); }
+    static ale(msg, dur, pos, title) { return SWAlert._show('ale', msg, title, dur, pos); }
+    static inf(msg, dur, pos, title) { return SWAlert._show('inf', msg, title, dur, pos); }
+    static drk(msg, dur, pos, title) { return SWAlert._show('drk', msg, title, dur, pos); }
+
+    // Aliases PT-BR
+    static sucesso(msg, dur, pos) { return SWAlert.ok(msg, dur, pos); }
+    static erro(msg, dur, pos) { return SWAlert.err(msg, dur, pos); }
+    static alerta(msg, dur, pos) { return SWAlert.ale(msg, dur, pos); }
+    static info(msg, dur, pos) { return SWAlert.inf(msg, dur, pos); }
+
+    // Caixa de confirmação — dialog modal com focus trap e ESC
+    static confirmar(msg, cb, title, icon) {
+      SWAlert._css();
+      const ovl = document.createElement('div');
+      ovl.className = 'sw-cfm-ovl';
+      ovl.setAttribute('role', 'dialog');
+      ovl.setAttribute('aria-modal', 'true');
+      ovl.setAttribute('aria-labelledby', 'sw-cfm-ttl-' + Date.now());
+
+      const icoClass = icon || 'swi-help-circle';
+
+      const cfm = document.createElement('div'); cfm.className = 'sw-cfm';
+      const hdr = document.createElement('div'); hdr.className = 'sw-cfm-hdr';
+      const icoWrap = document.createElement('div'); icoWrap.className = 'sw-cfm-ico-wrap';
+      const icoEl = document.createElement('i'); icoEl.className = icoClass;
+      const ttlEl = document.createElement('div'); ttlEl.className = 'sw-cfm-ttl';
+      const bdy = document.createElement('div'); bdy.className = 'sw-cfm-bdy';
+      const txt = document.createElement('p'); txt.className = 'sw-cfm-txt';
+      const act = document.createElement('div'); act.className = 'sw-cfm-act';
+      const btnNo = document.createElement('button'); btnNo.type = 'button'; btnNo.className = 'is-no'; btnNo.textContent = 'Cancelar';
+      const btnOk = document.createElement('button'); btnOk.type = 'button'; btnOk.className = 'is-ok'; btnOk.textContent = 'Confirmar';
+
+      icoWrap.appendChild(icoEl);
+      ttlEl.textContent = title || 'Confirmação';
+      txt.textContent = String(msg ?? '');
+
+      hdr.append(icoWrap, ttlEl);
+      bdy.appendChild(txt);
+      act.append(btnNo, btnOk);
+      cfm.append(hdr, bdy, act);
+      ovl.appendChild(cfm);
+
+      document.body.appendChild(ovl);
+      document.body.style.overflow = 'hidden';
+      window.setTimeout(() => ovl.classList.add('is-act'), 10);
+
+      const focusables = [btnOk, btnNo];
+      const trapFocus = (e) => {
+        if (e.key !== 'Tab') return;
+        const idx = focusables.indexOf(document.activeElement);
+        e.preventDefault();
+        const next = e.shiftKey ? (idx <= 0 ? focusables.length - 1 : idx - 1) : (idx === focusables.length - 1 ? 0 : idx + 1);
+        focusables[next]?.focus();
+      };
+
+      const cleanup = (res) => {
+        ovl.classList.remove('is-act');
+        ovl.addEventListener('transitionend', () => {
+          ovl.remove();
+          document.body.style.overflow = '';
+          document.removeEventListener('keydown', escFn);
+          document.removeEventListener('keydown', trapFocus);
+          if (typeof cb === 'function') cb(res);
+        }, { once: true });
+      };
+
+      btnOk.addEventListener('click', () => cleanup(true));
+      btnNo.addEventListener('click', () => cleanup(false));
+      ovl.addEventListener('click', (e) => { if (e.target === ovl) cleanup(false); });
+
+      const escFn = (e) => { if (e.key === 'Escape') cleanup(false); };
+      document.addEventListener('keydown', escFn);
+      document.addEventListener('keydown', trapFocus);
+      window.setTimeout(() => btnOk.focus(), 100);
+    }
+
+    // Inicialização por atributo — [sw-toast="ok|err|ale|inf|drk"]
+    static initAll(root) {
+      const scope = root || document;
+      (scope.querySelectorAll ? scope.querySelectorAll('[sw-toast]') : []).forEach((btn) => {
+        if (btn._swAlertBound) return;
+        btn._swAlertBound = true;
+        btn.addEventListener('click', () => {
+          SWAlert._show(
+            btn.getAttribute('sw-toast') || 'inf',
+            btn.getAttribute('sw-toast-msg') || 'Mensagem',
+            btn.getAttribute('sw-toast-title') || '',
+            parseInt(btn.getAttribute('sw-toast-dur'), 10) || 4000,
+            btn.getAttribute('sw-toast-pos') || 'tr'
+          );
+        });
+      });
+    }
   }
 
   window.SW?.register('SWAlert', SWAlert);
   if (window.SW) window.SW.Alert = SWAlert;
+  window.SWAlert = SWAlert;
 })();
 
 /* SW Framework Panel */
@@ -928,25 +1300,42 @@
       SW.$('[sw-ajax], [sw-ajax-src]', root).forEach((element) => {
         if (element._swAjaxInit) return;
         element._swAjaxInit = true;
-        element.addEventListener('click', (event) => {
-          event.preventDefault();
+        const trigger = (element.getAttribute('sw-ajax-trigger') || 'click').toLowerCase();
+        if (trigger === 'load') {
           SWAjax.execute(element);
-        });
+        } else if (trigger === 'hover') {
+          element.addEventListener('mouseenter', () => SWAjax.execute(element), { once: true });
+        } else {
+          element.addEventListener('click', (event) => {
+            event.preventDefault();
+            SWAjax.execute(element);
+          });
+        }
       });
     }
 
-    static async execute(trigger) {
+    static async execute(trigger, overrideBody) {
       const sourceSelector = trigger.getAttribute('sw-ajax-src');
       const targetSelector = trigger.getAttribute('sw-target');
       const targetType = trigger.getAttribute('sw-ajax-target');
       const trusted = trigger.hasAttribute('sw-ajax-trusted');
+      const extractSelector = trigger.getAttribute('sw-ajax-extract');
+      const push = trigger.hasAttribute('sw-ajax-push');
+      const method = (trigger.getAttribute('sw-ajax-method') || 'GET').toUpperCase();
+      const showLoader = (trigger.getAttribute('sw-ajax-loader') || '').toLowerCase() !== 'off';
+      const effect = trigger.getAttribute('sw-ajax-effect');
+      const duration = trigger.getAttribute('sw-ajax-duration');
+      const distance = trigger.getAttribute('sw-ajax-distance');
+      const delay = trigger.getAttribute('sw-ajax-delay');
+      const target = this.resolveTarget(trigger, targetType, targetSelector);
       let content = '';
+      let requestUrl = '';
 
       try {
         if (sourceSelector) {
           const source = document.querySelector(sourceSelector);
           if (!source) throw new Error(`Elemento interno não encontrado: ${sourceSelector}`);
-          content = source.tagName === 'TEMPLATE' ? source.innerHTML : source.innerHTML;
+          content = source.innerHTML;
         } else {
           const rawUrl = trigger.getAttribute('sw-ajax');
           if (!rawUrl) throw new Error('Fonte AJAX ausente.');
@@ -954,16 +1343,27 @@
           if (url.origin !== window.location.origin && !trigger.hasAttribute('sw-ajax-crossorigin')) {
             throw new Error('SWAjax bloqueou uma origem externa não autorizada.');
           }
+          requestUrl = url.href;
+          const timeoutMs = Math.min(60000, Math.max(1000, parseInt(trigger.getAttribute('sw-ajax-timeout'), 10) || 15000));
           const controller = new AbortController();
-          const timeout = window.setTimeout(() => controller.abort(), 15000);
+          const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
           SW.emit(trigger, 'sw:ajax:start', { url: url.href });
+          if (target && showLoader) this._setLoading(target.content, true);
           try {
-            const response = await fetch(url.href, {
-              method: 'GET',
+            const fetchOptions = {
+              method,
               credentials: 'same-origin',
               headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'text/html' },
               signal: controller.signal
-            });
+            };
+            if (method !== 'GET') {
+              const body = overrideBody !== undefined ? overrideBody : (trigger.tagName === 'FORM' ? new FormData(trigger) : undefined);
+              if (body !== undefined) {
+                fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
+                if (!(body instanceof FormData)) fetchOptions.headers['Content-Type'] = 'application/json';
+              }
+            }
+            const response = await fetch(url.href, fetchOptions);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const contentType = response.headers.get('content-type') || '';
             if (!contentType.includes('text/html') && !contentType.includes('text/plain')) {
@@ -975,23 +1375,84 @@
           }
         }
 
-        const target = this.resolveTarget(trigger, targetType, targetSelector);
+        // Resposta de pagina inteira (<html>/<body>): extrai so o fragmento pedido em vez de injetar a pagina crua.
+        if (/<html[\s>]/i.test(content) || /<body[\s>]/i.test(content)) {
+          const parsed = new DOMParser().parseFromString(content, 'text/html');
+          const extracted = extractSelector ? parsed.querySelector(extractSelector) : parsed.body;
+          content = extracted ? extracted.innerHTML : content;
+        } else if (extractSelector) {
+          const scratch = document.createElement('div');
+          scratch.innerHTML = content;
+          const extracted = scratch.querySelector(extractSelector);
+          if (extracted) content = extracted.innerHTML;
+        }
+
         if (!target) throw new Error('Alvo de injeção não encontrado.');
         const render = () => {
           SW.html.set(target.content, content, { trusted });
           SW.reinit(target.content);
+          if (effect || duration || distance || delay) {
+            this._applyEffect(target.content, { effect, duration, distance, delay });
+          }
         };
-        if (SW.Trans) SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
-        else render();
+        if (SW.Trans) {
+          // document.startViewTransition() adia o callback pro próximo frame — sem esperar
+          // updateCallbackDone, o resto do fluxo (evento done, fim do loading) rodaria antes
+          // do conteúdo existir de fato no DOM.
+          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
+          if (transition?.updateCallbackDone) await transition.updateCallbackDone;
+        } else {
+          render();
+        }
 
         if (targetType === 'panel') SW.Panel?.show(target.overlay);
         if (targetType === 'modal') SW.Modal?.show(target.overlay);
+        if (push && requestUrl && window.history?.pushState) window.history.pushState({}, '', requestUrl);
+        this._setLoading(target.content, false);
         SW.emit(trigger, 'sw:ajax:done', { sourceSelector });
       } catch (error) {
         console.error('[SW-AJAX]', error);
         SW.emit(trigger, 'sw:ajax:error', { error });
-        SW.Alert?.err(error.name === 'AbortError' ? 'A requisição demorou demais.' : 'Não foi possível carregar o conteúdo.');
+        const message = error.name === 'AbortError' ? 'A requisição demorou demais.' : 'Não foi possível carregar o conteúdo.';
+        if (target) {
+          this._setLoading(target.content, false);
+          this._setError(target.content, message);
+        }
+        SW.Alert?.err(message);
       }
+    }
+
+    // Efeito de entrada declarado direto na tag — sw-ajax-effect/-duration/-distance/-delay.
+    // Sem JS: aplica os tokens do catálogo de animações (--sw-spd/--sw-dist/--sw-delay)
+    // e a classe .sw-ani-*/.sw-rev-*/.sw-loop-* no elemento injetado.
+    static _applyEffect(element, { effect, duration, distance, delay }) {
+      const toTime = (value) => (value && /^\d+$/.test(value) ? `${value}ms` : value);
+      if (duration) element.style.setProperty('--sw-spd', toTime(duration));
+      if (distance) element.style.setProperty('--sw-dist', /^\d+$/.test(distance) ? `${distance}rem` : distance);
+      if (delay) element.style.setProperty('--sw-delay', toTime(delay));
+      if (!effect) return;
+      const cls = /^sw-(ani|rev|loop)-/.test(effect) ? effect : `sw-ani-${effect}`;
+      element.className = element.className.replace(/\bsw-(ani|rev|loop)-[a-z-]+\b/g, '').trim();
+      element.classList.remove('is-revealed');
+      void element.offsetWidth;
+      element.classList.add(cls);
+      if (cls.startsWith('sw-rev-')) {
+        requestAnimationFrame(() => requestAnimationFrame(() => element.classList.add('is-revealed')));
+      }
+    }
+
+    static _setLoading(element, isLoading) {
+      if (!element) return;
+      element.classList.toggle('sw-ajax-loading', isLoading);
+      if (isLoading) element.setAttribute('aria-busy', 'true');
+      else element.removeAttribute('aria-busy');
+    }
+
+    static _setError(element, message) {
+      if (!element) return;
+      element.classList.add('sw-ajax-error');
+      element.setAttribute('title', message);
+      window.setTimeout(() => element.classList.remove('sw-ajax-error'), 2000);
     }
 
     static resolveTarget(trigger, type, selector) {
@@ -1025,6 +1486,30 @@
       }
       const content = selector ? document.querySelector(selector) : null;
       return content ? { overlay: content, content } : null;
+    }
+
+    // Helpers estáticos — mesmo caminho de execução do atributo, só que disparado via JS.
+    static load(url, dest, opts = {}) {
+      const trigger = document.createElement('span');
+      trigger.setAttribute('sw-ajax', url);
+      if (dest) trigger.setAttribute('sw-target', dest);
+      if (opts.trusted) trigger.setAttribute('sw-ajax-trusted', '');
+      if (opts.crossorigin) trigger.setAttribute('sw-ajax-crossorigin', '');
+      if (opts.push) trigger.setAttribute('sw-ajax-push', '');
+      if (opts.extract) trigger.setAttribute('sw-ajax-extract', opts.extract);
+      return SWAjax.execute(trigger);
+    }
+
+    static post(url, data, dest, opts = {}) {
+      const trigger = document.createElement('span');
+      trigger.setAttribute('sw-ajax', url);
+      trigger.setAttribute('sw-ajax-method', 'POST');
+      if (dest) trigger.setAttribute('sw-target', dest);
+      if (opts.trusted) trigger.setAttribute('sw-ajax-trusted', '');
+      if (opts.crossorigin) trigger.setAttribute('sw-ajax-crossorigin', '');
+      if (opts.push) trigger.setAttribute('sw-ajax-push', '');
+      if (opts.extract) trigger.setAttribute('sw-ajax-extract', opts.extract);
+      return SWAjax.execute(trigger, data);
     }
   }
 
@@ -1287,4 +1772,34 @@
 
   window.SW?.register('SWMask', SWMask);
   if (window.SW) window.SW.Mask = SWMask;
+})();
+
+/* SW Framework Chip — [sw-chip] removível via .sw-chip-x */
+(function () {
+  'use strict';
+
+  let bound = false;
+
+  const SWChip = {
+    initAll() {
+      if (bound) return;
+      bound = true;
+      document.addEventListener('click', (event) => {
+        const trigger = event.target.closest('.sw-chip-x');
+        if (!trigger) return;
+        const chip = trigger.closest('[sw-chip]');
+        if (!chip) return;
+        SW.emit(chip, 'sw:chip:remove', {});
+        if (SW.Utils.reducedMotion()) {
+          chip.remove();
+          return;
+        }
+        chip.classList.add('is-leaving');
+        window.setTimeout(() => chip.remove(), 250);
+      });
+    }
+  };
+
+  window.SW?.register('SWChip', SWChip);
+  if (window.SW) window.SW.Chip = SWChip;
 })();

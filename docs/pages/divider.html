@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Divider - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+  <style>
+    .demo-label { font-size: 1.2rem; font-weight: 700; color: var(--sw-txt-mut); text-transform: uppercase; letter-spacing: 0.06em; }
+  </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Divider</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Divider <span class="TprinD">[sw-div]</span></h1>
+                <p class="t-g t-mut mb-0">Linha separadora horizontal ou vertical, com ou sem rótulo de texto.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Horizontal</h3>
+                <div class="demo-wrap p-6">
+                    <p class="demo-label mb-1">[sw-div] — padrão</p>
+                    <p class="t-p t-mut mb-1">Conteúdo acima</p>
+                    <hr sw-div>
+                    <p class="t-p t-mut mb-0">Conteúdo abaixo</p>
+
+                    <p class="demo-label mb-1 mt-4">.sw-div-dsh — tracejado</p>
+                    <hr sw-div class="sw-div-dsh">
+
+                    <p class="demo-label mb-1 mt-4">.sw-div-thk — mais grosso</p>
+                    <hr sw-div class="sw-div-thk">
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<hr sw-div>
+<hr sw-div class="sw-div-dsh">   <!-- tracejado -->
+<hr sw-div class="sw-div-thk">   <!-- mais grosso -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">2. Com Texto</h3>
+                <div class="demo-wrap p-6">
+                    <p class="demo-label mb-1">.sw-div-txt — linha dos dois lados, texto centralizado</p>
+                    <p class="t-p t-mut mb-0">Continue com e-mail</p>
+                    <div class="sw-div-txt">ou</div>
+                    <p class="t-p t-mut mb-0">Continue com Google</p>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="sw-div-txt">ou</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">3. Vertical</h3>
+                <p class="demo-label mb-1">.sw-div-v — use dentro de um container flex</p>
+                <div class="demo-wrap p-6 flx alc" style="height:6rem">
+                    <span class="t-p">Item 1</span>
+                    <hr sw-div class="sw-div-v">
+                    <span class="t-p">Item 2</span>
+                    <hr sw-div class="sw-div-v">
+                    <span class="t-p">Item 3</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="flx alc">
+    <span>Item 1</span>
+    <hr sw-div class="sw-div-v">
+    <span>Item 2</span>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mt-8">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-div]</code></td><td>Base</td><td>Linha horizontal simples (em cima de <code>&lt;hr&gt;</code>).</td></tr>
+                            <tr><td><code>.sw-div-dsh</code></td><td>Estilo</td><td>Tracejado.</td></tr>
+                            <tr><td><code>.sw-div-thk</code></td><td>Estilo</td><td>Mais grosso (2px).</td></tr>
+                            <tr><td><code>.sw-div-v</code></td><td>Direção</td><td>Vertical — use dentro de um container flex.</td></tr>
+                            <tr><td><code>.sw-div-txt</code></td><td>Variante</td><td><code>&lt;div&gt;</code> com texto centralizado e linhas dos dois lados.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

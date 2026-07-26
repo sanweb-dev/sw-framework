@@ -4,33 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Button - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
-
-    <style>
-        .sec {
-            scroll-margin-top: 10rem;
-        }
-
-        .demo-wrap {
-            background: var(--sw-bg-bas);
-            border: 1px solid var(--sw-bor);
-            border-radius: var(--sw-r-g);
-            padding: 2.4rem;
-            margin-bottom: .8rem;
-        }
-    </style>
-    <script src="../dist/sw.min.js" defer></script>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
@@ -159,6 +142,34 @@
 </script></pre>
                 </section>
             </div>
+
+            <!-- GLASS / ESPELHADOS STYLE -->
+            <section class="doc-card sec mb-8" id="glass">
+                <div class="p-6 border-bottom border-dashed">
+                    <h3 class="t-m f-bd">4. Glass / Espelhados Style (.sw-btn-gls)</h3>
+                    <p class="t-pp t-mut font2">Estilo de vidro translúcido com efeito de desfoque (Glassmorphism) e bordas suaves.</p>
+                </div>
+                <div class="demo-wrap p-6">
+                    <div class="flx gap-4 f-wr j-ct">
+                        <button sw-btn class="sw-btn-gls">Base Glass</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-pri">Primário</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-sec">Secundário</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-suc">Sucesso</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-ale">Alerta</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-err">Erro</button>
+                        <button sw-btn class="sw-btn-gls sw-btn-inf">Info</button>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-btn class="sw-btn-gls">Base Glass</button>
+<button sw-btn class="sw-btn-gls sw-btn-pri">Primário</button>
+<button sw-btn class="sw-btn-gls sw-btn-sec">Secundário</button>
+<button sw-btn class="sw-btn-gls sw-btn-suc">Sucesso</button>
+<button sw-btn class="sw-btn-gls sw-btn-ale">Alerta</button>
+<button sw-btn class="sw-btn-gls sw-btn-err">Erro</button>
+<button sw-btn class="sw-btn-gls sw-btn-inf">Info</button>
+</script></pre>
+            </section>
 
             <!-- 4. TAMANHOS & FORMAS -->
             <section class="doc-card sec mb-8" id="tamanhos">

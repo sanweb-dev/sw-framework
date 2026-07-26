@@ -66,11 +66,16 @@ Documentação completa e catálogo interativo: `docs/index.html` (servir localm
 
 ## Rodando localmente
 
-O projeto tem seu próprio servidor estático zero-dependência (`tests/static-server.js`) — mesmo servidor usado pelos testes Playwright, com proteção de path traversal e headers de segurança. Não precisa instalar nada externo.
+Navegação normal do dia a dia: `npm run build` para gerar `dist/`, depois abrir `https://sw.san/index.html` pelo servidor local padrão do Nill (Apache, via `nill.ps1 iniciar`) — o projeto já está registrado nesse mecanismo (`.env` com `LOCAL_HOST=sw.san`, `LOCAL_PUBLIC_PATH=docs`).
 
 ```bash
 npm run build   # gera dist/
-npm run serve   # sobe o servidor em http://127.0.0.1:4173/docs/index.html
+```
+
+O projeto também tem um servidor estático zero-dependência próprio (`tests/static-server.js`), usado exclusivamente pelos testes Playwright (`npm run test:browser`), não para navegação manual:
+
+```bash
+npm run serve   # sobe o servidor de teste em http://127.0.0.1:4173/docs/index.html
 ```
 
 ## Testes

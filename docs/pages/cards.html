@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Cards Framework - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
 
     <style>
         .t-pri { color: var(--sw-pri) !important; }
@@ -29,8 +30,8 @@
         .g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
         .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
         .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-        @media (max-width: 1100px) { .g4 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 800px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) { .g4 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } }
         .badge-new {
             display: inline-block;
             padding: 0.1rem 0.6rem;
@@ -60,18 +61,14 @@
         }
         .ic { font-size: 1.2rem }
     </style>
-    <script src="../dist/sw.min.js" defer></script>
-    <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
 
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
 
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
@@ -194,10 +191,10 @@
                                 <button sw-btn class="sw-btn-p" style="background:white;color:var(--sw-pri)">Saiba mais</button>
                             </div>
                         </div>
-                        <div style="background: linear-gradient(135deg, var(--sw-pri), var(--viol7)); border-radius:1.2rem; padding:2.2rem">
+                        <div style="background: linear-gradient(135deg, #0284c7, #7e22ce); border-radius:1.2rem; padding:2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3)">
                             <div sw-card class="sw-card-gls" style="overflow:visible">
-                                <div class="sw-card-hdr" style="color:white;border-color:rgba(255,255,255,0.15)">Glass Morphism</div>
-                                <div class="sw-card-bdy" style="color:rgba(255,255,255,0.85)">
+                                <div class="sw-card-hdr" style="color:white;border-color:rgba(255,255,255,0.25)">Glass Morphism</div>
+                                <div class="sw-card-bdy" style="color:rgba(255,255,255,0.95)">
                                     <p style="line-height:1.6">Fundo blur com transparência. Use sobre gradientes ou imagens.</p>
                                 </div>
                             </div>
@@ -238,7 +235,7 @@
                     <div class="g3">
                         <div sw-card class="sw-card-med sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/blog_design.png" alt="Design Systems">
+                                <img src="../images/blog_design.svg" alt="Design Systems">
                                 <span class="sw-card-cat">Design</span>
                                 <span class="sw-card-dur">5 min</span>
                             </div>
@@ -256,7 +253,7 @@
                         </div>
                         <div sw-card class="sw-card-med sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/blog_dev.png" alt="Development">
+                                <img src="../images/blog_dev.svg" alt="Development">
                                 <span class="sw-card-cat" style="background:var(--sw-sec)">Dev</span>
                             </div>
                             <div class="sw-card-cnt">
@@ -273,7 +270,7 @@
                         </div>
                         <div sw-card class="sw-card-med sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/blog_grid.png" alt="Grid System">
+                                <img src="../images/blog_grid.svg" alt="Grid System">
                                 <span class="sw-card-cat" style="background:var(--sw-suc)">Performance</span>
                                 <span class="sw-card-dur">12 min</span>
                             </div>
@@ -294,7 +291,7 @@
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <div sw-card class="sw-card-med sw-card-int">
   <div class="sw-card-img">
-    <img src="foto.jpg" alt="Título">
+    <img src="foto.svg" alt="Título">
     <span class="sw-card-cat">Categoria</span>
     <span class="sw-card-dur">5 min</span>
   </div>
@@ -318,7 +315,7 @@
                     <div class="g2">
                         <div sw-card class="sw-card-med sw-card-full sw-card-int" style="height:28rem">
                             <div class="sw-card-img h-fl">
-                                <img src="../../images/blog_full_1.png" alt="SW 2.0 Release">
+                                <img src="../images/blog_design.svg" alt="SW 2.0 Release">
                                 <div class="sw-card-ovl"></div>
                                 <span class="sw-card-cat">Destaque</span>
                             </div>
@@ -333,7 +330,7 @@
                         </div>
                         <div sw-card class="sw-card-med sw-card-full sw-card-int" style="height:28rem">
                             <div class="sw-card-img h-fl">
-                                <img src="../../images/blog_full_2.png" alt="Design Systems Tutorial">
+                                <img src="../images/blog_dev.svg" alt="Design Systems Tutorial">
                                 <div class="sw-card-ovl"></div>
                                 <span class="sw-card-cat" style="background:var(--sw-sec)">Tutorial</span>
                             </div>
@@ -376,7 +373,7 @@
                     <div class="g4">
                         <div sw-card class="sw-card-prd sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/product_keyboard.png" alt="Teclado Mecânico">
+                                <img src="../images/product_keyboard.svg" alt="Teclado Mecânico">
                                 <div class="sw-card-bdg">
                                     <span class="sw-card-bdg-it is-new">Novo</span>
                                 </div>
@@ -403,7 +400,7 @@
 
                         <div sw-card class="sw-card-prd sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/product_monitor.png" alt="Monitor Dell UltraSharp">
+                                <img src="../images/product_monitor.svg" alt="Monitor Dell UltraSharp">
                                 <div class="sw-card-bdg">
                                     <span class="sw-card-bdg-it is-sal">-30%</span>
                                     <span class="sw-card-bdg-it is-hot">Hot</span>
@@ -432,7 +429,7 @@
 
                         <div sw-card class="sw-card-prd sw-card-int">
                             <div class="sw-card-img">
-                                <img src="../../images/product_headset.png" alt="Headset Sony WH-1000XM5">
+                                <img src="../images/product_headset.svg" alt="Headset Sony WH-1000XM5">
                                 <div class="sw-card-bdg">
                                     <span class="sw-card-bdg-it is-lmt">Limitado</span>
                                 </div>
@@ -514,8 +511,8 @@
                 <div class="demo-wrap">
                     <div class="g3">
                         <div sw-card class="sw-card-prf">
-                            <div class="sw-card-cvr"><img src="../../images/profile_cover_1.png" alt="Cover"></div>
-                            <div class="sw-card-avt is-onl"><img src="../../images/avatar_1.png" alt="Gabriel Lima"></div>
+                            <div class="sw-card-cvr"><img src="../images/profile_cover.svg" alt="Cover"></div>
+                            <div class="sw-card-avt is-onl"><img src="../images/avatar_1.svg" alt="Gabriel Lima"></div>
                             <div class="sw-card-cnt">
                                 <div class="sw-card-nme">Gabriel Lima</div>
                                 <div class="sw-card-rol">Full-stack Developer · SW Framework</div>
@@ -535,8 +532,8 @@
                             </div>
                         </div>
                         <div sw-card class="sw-card-prf">
-                            <div class="sw-card-cvr"><img src="../../images/profile_cover_2.png" alt="Cover"></div>
-                            <div class="sw-card-avt"><img src="../../images/avatar_2.png" alt="Marina Costa"></div>
+                            <div class="sw-card-cvr"><img src="../images/profile_cover.svg" alt="Cover"></div>
+                            <div class="sw-card-avt"><img src="../images/avatar_2.svg" alt="Marina Costa"></div>
                             <div class="sw-card-cnt">
                                 <div class="sw-card-nme">Marina Costa</div>
                                 <div class="sw-card-rol">UI/UX Designer · Freelancer</div>
@@ -555,8 +552,8 @@
                             </div>
                         </div>
                         <div sw-card class="sw-card-prf">
-                            <div class="sw-card-cvr"><img src="../../images/profile_cover_3.png" alt="Cover"></div>
-                            <div class="sw-card-avt is-onl"><img src="../../images/avatar_3.png" alt="Rafael Souza"></div>
+                            <div class="sw-card-cvr"><img src="../images/profile_cover.svg" alt="Cover"></div>
+                            <div class="sw-card-avt is-onl"><img src="../images/avatar_3.svg" alt="Rafael Souza"></div>
                             <div class="sw-card-cnt">
                                 <div class="sw-card-nme">Rafael Souza</div>
                                 <div class="sw-card-rol">DevOps Engineer · AWS</div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Utilitários - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
 
@@ -92,6 +92,24 @@
         .t-pri {
             color: var(--sw-pri) !important;
         }
+
+        .doc-section {
+            padding: 1.2rem 1.6rem;
+            border: 1px solid var(--sw-bor);
+            border-radius: 0.8rem;
+            background: var(--sw-bg-sec);
+            font-size: 1.3rem;
+        }
+
+        /* DG1-20 são overlays translúcidos (preto ou branco) sem cor própria — pensados pra
+           usar sobre um fundo já colorido. Sozinhos na demo, dão uma base cinza-média fixa
+           pra todos ficarem visíveis nos dois temas (senão DG9/10/11/19, que são brancos,
+           somem contra fundo claro). */
+        .demo-box[class*="DG"] {
+            background-color: var(--sw-neu-6);
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
     </style>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -99,10 +117,8 @@
 
 <body>
 
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
 
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
@@ -125,8 +141,8 @@
                 <p class="t-mut t-p mb-6">Controla como o elemento é renderizado no flow do documento.</p>
 
                 <div class="flx f-wr gap-3 mb-6">
-                    <div class="demo-box Bneu10" style="width:10rem">.blk</div>
-                    <div class="demo-box Bneu7" style="width:10rem">.non <span class="t-mut">(hidden)</span></div>
+                    <div class="demo-box Bneut10" style="width:10rem">.blk</div>
+                    <div class="demo-box Bneut7" style="width:10rem">.non <span class="t-mut">(hidden)</span></div>
                     <div class="demo-box Bprin3" style="width:10rem">.flx</div>
                     <div class="demo-box Bsecu" style="width:10rem">.grd</div>
                     <div class="demo-box Bsuce" style="width:10rem">.inline</div>
@@ -192,13 +208,13 @@
                 <!-- Tamanhos -->
                 <h4 class="t-p f-bd mb-4 t-mut">Tamanhos - Escala PP-XXG</h4>
                 <div class="flx f-cl gap-3 mb-6">
-                    <div class="t-pp">t-pp - 1.0rem (10px) - Micro label</div>
-                    <div class="t-p">t-p - 1.2rem (12px) - Caption</div>
-                    <div class="t-m">t-m - 1.4rem (14px) - Body small</div>
-                    <div class="t-g">t-g - 1.6rem (16px) - Body base</div>
-                    <div class="t-gg">t-gg - 2.0rem (20px) - Subtitle</div>
-                    <div class="t-xg">t-xg - 2.8rem (28px) - Heading</div>
-                    <div class="t-xxg">t-xxg - 4.0rem (40px) - Hero</div>
+                    <div class="t-pp">t-pp - 1.2rem (12px) - Micro label</div>
+                    <div class="t-p">t-p - 1.4rem (14px) - Caption</div>
+                    <div class="t-g">t-g - 1.8rem (18px) - Body base</div>
+                    <div class="t-m">t-m - 2.2rem (22px) - Subtitle/heading</div>
+                    <div class="t-gg">t-gg - 3.2rem (32px) - Heading</div>
+                    <div class="t-xg">t-xg - 4.8rem (48px) - Display</div>
+                    <div class="t-xxg">t-xxg - ~48px fluido - Hero</div>
                 </div>
 
                 <!-- Pesos -->
@@ -216,13 +232,13 @@
 
                 <!-- Alinhamento / Transformação -->
                 <h4 class="t-p f-bd mb-4 t-mut">Alinhamento & Transformação</h4>
-                <div class="grid-3 g-m mb-6">
+                <div class="grid-3 mb-6">
                     <div class="doc-section t-ct">.t-ct - center</div>
                     <div class="doc-section t-ri">.t-ri - right</div>
                     <div class="doc-section t-le">.t-le - left</div>
-                    <div class="doc-section t-upp">.t-upp - UPPERCASE</div>
-                    <div class="doc-section t-low">.t-low - lowercase</div>
-                    <div class="doc-section t-cap">.t-cap - Capitalize</div>
+                    <div class="doc-section"><span class="t-upp">.t-upp</span> - texto maiúsculo</div>
+                    <div class="doc-section"><span class="t-low">.T-LOW</span> - texto minúsculo</div>
+                    <div class="doc-section"><span class="t-cap">.t-cap</span> - texto capitalizado</div>
                 </div>
 
                 <pre swcode="html" lines><script type="text/plain">
@@ -341,14 +357,14 @@
                 </p>
 
                 <div class="flx f-wr gap-3 mb-6">
-                    <div class="demo-box Bneu10 p-1" style="font-size:1.2rem">1 = 4px</div>
-                    <div class="demo-box Bneu10 p-2" style="font-size:1.2rem">2 = 8px</div>
-                    <div class="demo-box Bneu10 p-3" style="font-size:1.2rem">3 = 12px</div>
-                    <div class="demo-box Bneu10 p-4" style="font-size:1.2rem">4 = 16px</div>
-                    <div class="demo-box Bneu10 p-6" style="font-size:1.2rem">6 = 24px</div>
-                    <div class="demo-box Bneu10 p-8" style="font-size:1.2rem">8 = 32px</div>
-                    <div class="demo-box Bneu10 p-10" style="font-size:1.2rem">10 = 40px</div>
-                    <div class="demo-box Bneu10 p-12" style="font-size:1.2rem">12 = 48px</div>
+                    <div class="demo-box Bneut10 p-1" style="font-size:1.2rem">1 = 4px</div>
+                    <div class="demo-box Bneut10 p-2" style="font-size:1.2rem">2 = 8px</div>
+                    <div class="demo-box Bneut10 p-3" style="font-size:1.2rem">3 = 12px</div>
+                    <div class="demo-box Bneut10 p-4" style="font-size:1.2rem">4 = 16px</div>
+                    <div class="demo-box Bneut10 p-6" style="font-size:1.2rem">6 = 24px</div>
+                    <div class="demo-box Bneut10 p-8" style="font-size:1.2rem">8 = 32px</div>
+                    <div class="demo-box Bneut10 p-10" style="font-size:1.2rem">10 = 40px</div>
+                    <div class="demo-box Bneut10 p-12" style="font-size:1.2rem">12 = 48px</div>
                 </div>
 
                 <pre swcode="html" lines><script type="text/plain">
@@ -405,7 +421,7 @@
                     <span class="TvermD f-bk t-gg">TvermD</span>
                     <span class="TverdD f-bk t-gg">TverdD</span>
                     <span class="TazulD f-bk t-gg">TazulD</span>
-                    <span class="TgoldD f-bk t-gg">TgoldD</span>
+                    <span class="TambaD f-bk t-gg">TambaD</span>
                     <span class="TroxoD f-bk t-gg">TroxoD</span>
                     <span class="TrosaD f-bk t-gg">TrosaD</span>
                 </div>
@@ -468,12 +484,12 @@
 
                 <h4 class="t-p f-bd mb-3 t-mut">Opacidades &amp; Glassmorphism <code>B{cor}{13-16}</code></h4>
                 <p class="t-mut t-pp mb-3">Shades 13 a 16 aplicam opacidades de 10%, 30%, 60% e 90% respectivamente.</p>
-                <div class="flx f-wr gap-3 mb-6 doc-grid-demo"
-                    style="background:url('https://www.transparenttextures.com/patterns/cubes.png');padding:1rem">
-                    <div class="Bprin13">13 (10%)</div>
-                    <div class="Bprin14">14 (30%)</div>
-                    <div class="Bprin15">15 (60%)</div>
-                    <div class="Bprin16">16 (90%)</div>
+                <div class="flx f-wr alc gap-4 mb-6 doc-grid-demo"
+                    style="background:url('https://www.transparenttextures.com/patterns/cubes.png'); min-height:14rem; padding:3.2rem; border-radius:var(--sw-r-g);">
+                    <div class="Bprin13 r-m" style="padding:1.6rem 2.4rem; font-size:1.4rem; font-weight:700;">13 (10%)</div>
+                    <div class="Bprin14 r-m" style="padding:1.6rem 2.4rem; font-size:1.4rem; font-weight:700;">14 (30%)</div>
+                    <div class="Bprin15 r-m" style="padding:1.6rem 2.4rem; font-size:1.4rem; font-weight:700;">15 (60%)</div>
+                    <div class="Bprin16 r-m" style="padding:1.6rem 2.4rem; font-size:1.4rem; font-weight:700;">16 (90%)</div>
                 </div>
 
                 <p class="t-pp t-mut mb-2">Exemplos de fundos sólidos, gradientes e opacidades translúcidas:</p>
@@ -529,15 +545,15 @@
                     (100vw/vh), <code>au</code> (auto).</p>
 
                 <div class="flx f-cl gap-3 mb-6">
-                    <div class="demo-box Bneu11 w-fl" style="height:4rem">.w-fl (100%)</div>
-                    <div class="demo-box Bneu11 w-au" style="height:4rem">.w-au (auto)</div>
+                    <div class="demo-box Bneut11 w-fl" style="height:4rem">.w-fl (100%)</div>
+                    <div class="demo-box Bneut11 w-au" style="height:4rem">.w-au (auto)</div>
                     <div class="demo-box Bprin3 h-au py-4" style="width:20rem">.h-au (altura conteúdo)</div>
                 </div>
 
                 <p class="t-pp t-mut mb-2 mt-4">Controle dimensões rápidas com wrappers limitadores:</p>
                 <pre swcode="html" lines><script type="text/plain">
 <div class="w-fl max-w p-g">Largura total limitada</div>
-<div class="h-v w-v Bneu12 flx j-ct alc">Fullscreen Centrado</div>
+<div class="h-v w-v Bneut12 flx j-ct alc">Fullscreen Centrado</div>
 </script></pre>
 
                 <table class="u-table">
@@ -586,9 +602,9 @@
                 <p class="t-mut t-p mb-6">Overflow, cursor, opacidade e gradientes utilitários.</p>
 
                 <div class="flx f-wr gap-4 mb-6">
-                    <div class="demo-box Bneu10 r-m poi" style="min-width:10rem">.poi (cursor pointer)</div>
-                    <div class="demo-box Bneu10 r-m op-5" style="min-width:10rem">.op-5 (50%)</div>
-                    <div class="demo-box Bneu10 r-m op-1" style="min-width:10rem">.op-1 (10%)</div>
+                    <div class="demo-box Bneut10 r-m poi" style="min-width:10rem">.poi (cursor pointer)</div>
+                    <div class="demo-box Bneut10 r-m op-5" style="min-width:10rem">.op-5 (50%)</div>
+                    <div class="demo-box Bneut10 r-m op-1" style="min-width:10rem">.op-1 (10%)</div>
                     <div class="demo-box r-m ov-hi bg-g-pri" style="min-width:10rem">.bg-g-pri</div>
                     <div class="demo-box r-m bg-g-suc" style="min-width:10rem">.bg-g-suc</div>
                     <div class="demo-box r-m bg-g-per" style="min-width:10rem">.bg-g-per</div>
@@ -744,7 +760,7 @@
                             <td>justify-content: space-between</td>
                         </tr>
                         <tr>
-                            <td>.j-sp</td>
+                            <td>.j-sa</td>
                             <td>justify-content: space-around</td>
                         </tr>
                         <tr>
@@ -806,7 +822,7 @@
             <!-- QUICK REFERENCE -->
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-4">Quick Reference - Cheat Sheet</h3>
-                <div class="grid-3 g-g">
+                <div class="grid-3">
 
                     <div>
                         <p class="t-pp f-bd t-mut mb-3">DISPLAY & POSIÇÃO</p>
@@ -821,7 +837,7 @@
                         <div class="flx f-cl gap-1 t-p f-mon">
                             <span>.f-cl .f-clr .f-rr .f-wr</span>
                             <span>.alc .als .ale .alb .alst</span>
-                            <span>.j-ct .j-sb .j-sp .j-se .j-st .j-en</span>
+                            <span>.j-ct .j-sb .j-sa .j-se .j-st .j-en</span>
                             <span>.as-ct .as-st .as-en</span>
                             <span>.f-sh0 .ml-au</span>
                         </div>
@@ -856,7 +872,7 @@
                             <span>.Tprin .Tsecu .Tsuce .Tinfo .Taler .Tperi</span>
                             <span>.T{cor}1 . .T{cor}12</span>
                             <span>.T{cor}D (gradiente)</span>
-                            <span>.Tmut .Tcla .Tnot</span>
+                            <span>.t-mut .t-pri</span>
                         </div>
                     </div>
 
@@ -875,9 +891,9 @@
                     <div>
                         <p class="t-pp f-bd t-mut mb-3">BORDAS &amp; EFEITOS</p>
                         <div class="flx f-cl gap-1 t-p f-mon">
-                            <span>.bor .bor-t .bor-b .bor-l .bor-r .bor-0</span>
-                            <span>.bor-1 .bor-2 .bor-4</span>
-                            <span>.bor-s-sol .bor-s-das .bor-s-dot</span>
+                            <span>.bd-t .bd-r .bd-b .bd-l .bd-0 .bd-1 .bd-2 .bd-3</span>
+                            <span>.bd-slid .bd-dsh .bd-dot</span>
+                            <span>.bd-pri .bd-sec .bd-suc .bd-ale .bd-err .bd-mut</span>
                             <span>.r-p .r-m .r-g .r-gg .r-fl</span>
                             <span>.sha-p .sha .sha-g</span>
                             <span>.poi .op-5 .op-1 .ov-hi .ov-au</span>
@@ -886,17 +902,6 @@
                         </div>
                     </div>
 
-                </div>
-
-                <!-- VEJA TAMBÉM -->
-                <div class="mt-8 p-g Bneu14 r-m t-ct">
-                    <p class="t-p f-bd mb-2">Utilitários Especializados</p>
-                    <div class="flx f-wr gap-4 j-ct">
-                        <a href="uteis_bordas.html" class="Tprin f-bd">Bordas Detalhadas</a>
-                        <a href="uteis_shadows.html" class="Tprin f-bd">Sombras & Elevation</a>
-                        <a href="uteis_objectfit.html" class="Tprin f-bd">Object-Fit</a>
-                        <a href="uteis_zoons.html" class="Tprin f-bd">Scale & Zooms</a>
-                    </div>
                 </div>
             </div>
 

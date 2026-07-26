@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Tipografia & Icones - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
-    <script src="../dist/sw.min.js" defer></script>
     <script src="../dist/sw.min.js" defer></script>
     <style>
         .tipo-row {
@@ -130,10 +129,8 @@
 
 <body>
 
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
 
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
@@ -230,18 +227,18 @@
 
                 <!-- UTILITRIOS DE ATALHO (SW Native) -->
                 <div class="doc-card mb-g">
-                    <h3 class="t-m f-bd mb-2">Utilitarios de Atalho (Nativos)</h3>
-                    <p class="t-mut t-p mb-g">O SW oferece atalhos rapidos para alinhamento, pesos e transformaes,
+                    <h3 class="t-m f-bd mb-2">Utilitários de Atalho (Nativos)</h3>
+                    <p class="t-mut t-p mb-g">O SW oferece atalhos rápidos para alinhamento, pesos e transformações,
                         otimizando o fluxo de desenvolvimento.</p>
 
                     <div class="l gap-4">
                         <div class="co6-g">
-                            <h4 class="t-p f-bd mb-p">Alinhamento & Transformao</h4>
+                            <h4 class="t-p f-bd mb-p">Alinhamento & Transformação</h4>
                             <div class="tipo-row">
                                 <span class="tipo-label">.C / .D / .E / .J</span>
                                 <div class="box w-full p-2 mb-p"
                                     style="background: var(--sw-bg-sur); border: 1px dashed var(--sw-bor);">
-                                    <p class="C t-pri f-bd">Padrao SW de Alinhamento (Centralizado .C)</p>
+                                    <p class="C t-pri f-bd">Padrão SW de Alinhamento (Centralizado .C)</p>
                                 </div>
                             </div>
                             <div class="tipo-row">
@@ -280,12 +277,12 @@
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-m</span>
-                        <span class="tipo-val">1.6rem = 16px</span>
+                        <span class="tipo-val">2.2rem = 22px</span>
                         <span class="tipo-demo t-m">O rato roeu a roupa do rei de Roma - Base</span>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-g</span>
-                        <span class="tipo-val">2.0rem = 20px</span>
+                        <span class="tipo-val">1.8rem = 18px</span>
                         <span class="tipo-demo t-g">O rato roeu a roupa - Grande</span>
                     </div>
                     <div class="tipo-row">
@@ -300,7 +297,7 @@
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-xxg</span>
-                        <span class="tipo-val">6.4rem = 64px</span>
+                        <span class="tipo-val">clamp(3–4.8rem)</span>
                         <span class="tipo-demo t-xxg lh-tight TprinD">Display</span>
                     </div>
                 </div>
@@ -308,38 +305,38 @@
                 <!-- HEADINGS H1-H6 -->
                 <div class="doc-card mb-g">
                     <h3 class="t-m f-bd mb-2">Headings H1-H6</h3>
-                    <p class="t-mut t-p mb-g">Todos os headings s�o fluidos com <code>calc(rem + vw)</code>. Use
+                    <p class="t-mut t-p mb-g">Todos os headings são fluidos com <code>calc(rem + vw)</code>. Use
                         <code>.t-h{n}</code> para aplicar o tamanho em qualquer elemento.
                     </p>
 
                     <div class="tipo-row">
                         <span class="tipo-label">h1 / .t-h1</span>
-                        <span class="tipo-val">2.2r + 1.5vw</span>
+                        <span class="tipo-val">clamp(2.4–4.8rem)</span>
                         <h1 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h1);">Heading Um</h1>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">h2 / .t-h2</span>
-                        <span class="tipo-val">2.2r + 0.9vw</span>
+                        <span class="tipo-val">clamp(2.0–3.6rem)</span>
                         <h2 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h2);">Heading Dois</h2>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">h3 / .t-h3</span>
-                        <span class="tipo-val">2.0r + 0.6vw</span>
+                        <span class="tipo-val">clamp(1.8–3.0rem)</span>
                         <h3 class="tipo-demo lh-tight" style="font-size: var(--sw-f-h3);">Heading Três</h3>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">h4 / .t-h4</span>
-                        <span class="tipo-val">2.0r + 0.3vw</span>
+                        <span class="tipo-val">clamp(1.6–2.4rem)</span>
                         <h4 class="tipo-demo" style="font-size: var(--sw-f-h4);">Heading Quatro</h4>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">h5 / .t-h5</span>
-                        <span class="tipo-val">2.0rem = 20px</span>
+                        <span class="tipo-val">1.8rem = 18px</span>
                         <h5 class="tipo-demo" style="font-size: var(--sw-f-h5);">Heading Cinco</h5>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">h6 / .t-h6</span>
-                        <span class="tipo-val">1.6rem = 16px</span>
+                        <span class="tipo-val">1.4rem = 14px</span>
                         <h6 class="tipo-demo" style="font-size: var(--sw-f-h6);">Heading Seis</h6>
                     </div>
                 </div>

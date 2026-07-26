@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Timeline</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Timeline <span class="TprinD">[sw-tml]</span></h1>
+                <p class="t-g t-mut mb-0">Linha do tempo vertical ou horizontal — histórico de eventos, changelog, atividade.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Vertical</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-tml>
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot is-fil">✓</div>
+                            <div class="sw-tml-tme">16 Mar 2026 — 14:32</div>
+                            <div class="sw-tml-ttl">Deploy v2.4.1 em produção</div>
+                            <div class="sw-tml-txt">0 erros, 0 warnings. Tempo de build: 1m 42s.</div>
+                        </div>
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot is-suc"></div>
+                            <div class="sw-tml-tme">15 Mar 2026 — 18:05</div>
+                            <div class="sw-tml-ttl">Testes E2E aprovados</div>
+                            <div class="sw-tml-txt">75/75 testes passando em Chromium, Firefox e WebKit.</div>
+                        </div>
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot is-ale">!</div>
+                            <div class="sw-tml-tme">14 Mar 2026 — 10:00</div>
+                            <div class="sw-tml-ttl">Branch de release criada</div>
+                            <div class="sw-tml-txt">release/2.4.1 aberta a partir de main.</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tml>
+    <div class="sw-tml-it">
+        <div class="sw-tml-dot is-fil">✓</div>
+        <div class="sw-tml-tme">16 Mar 2026</div>
+        <div class="sw-tml-ttl">Título do evento</div>
+        <div class="sw-tml-txt">Descrição opcional...</div>
+    </div>
+</div>
+<!-- Cor do ponto: padrão | is-suc | is-ale | is-err · is-fil = preenchido -->
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">2. Horizontal</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-tml class="sw-tml-h">
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot is-fil">1</div>
+                            <div class="sw-tml-ttl">Pedido feito</div>
+                            <div class="sw-tml-txt">14 Mar</div>
+                        </div>
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot is-fil">2</div>
+                            <div class="sw-tml-ttl">Em separação</div>
+                            <div class="sw-tml-txt">15 Mar</div>
+                        </div>
+                        <div class="sw-tml-it">
+                            <div class="sw-tml-dot">3</div>
+                            <div class="sw-tml-ttl">A caminho</div>
+                            <div class="sw-tml-txt">Previsão: 18 Mar</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tml class="sw-tml-h">
+    <div class="sw-tml-it"><div class="sw-tml-dot is-fil">1</div><div class="sw-tml-ttl">Pedido feito</div></div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mt-8">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-tml]</code></td><td>Base</td><td>Linha vertical conectando os eventos.</td></tr>
+                            <tr><td><code>.sw-tml-h</code></td><td>Direção</td><td>Linha do tempo horizontal, com scroll.</td></tr>
+                            <tr><td><code>.sw-tml-it</code></td><td>Item</td><td>Um evento na linha do tempo.</td></tr>
+                            <tr><td><code>.sw-tml-dot</code></td><td>Elemento</td><td>Marcador — aceita <code>.is-suc / .is-ale / .is-err / .is-fil</code>.</td></tr>
+                            <tr><td><code>.sw-tml-tme, .sw-tml-ttl, .sw-tml-txt</code></td><td>Elemento</td><td>Data/hora, título e descrição do evento.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

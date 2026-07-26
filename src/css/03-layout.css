@@ -166,6 +166,41 @@
 .j-st    { justify-content: flex-start; }
 
 .alc     { align-items: center; }
+.als     { align-items: flex-start; }
 .ale     { align-items: flex-end; }
+.alb     { align-items: baseline; }
 .alst    { align-items: stretch; }
 .alst-i  { align-items: start; }
+
+.f-clr   { flex-direction: column-reverse; }
+.f-rr    { flex-direction: row-reverse; }
+.j-se    { justify-content: space-evenly; }
+
+.as-ct   { align-self: center; }
+.as-st   { align-self: flex-start; }
+.as-en   { align-self: flex-end; }
+
+.ml-au   { margin-left: auto !important; }
+.mx-au   { margin-left: auto !important; margin-right: auto !important; }
+
+/* --- 🧱 DISPLAY & POSIÇÃO --- */
+.blk    { display: block; }
+.non    { display: none; }
+.grd    { display: grid; }
+.inline { display: inline-block; }
+.rel    { position: relative; }
+.abs    { position: absolute; }
+.fix    { position: fixed; }
+
+/* --- 📐 DIMENSIONAMENTO --- */
+.w-fl  { width: 100%; }
+.w-au  { width: auto; }
+.w-v   { width: 100vw; }
+.h-fl  { height: 100%; }
+.h-au  { height: auto; }
+.h-v   { height: 100vh; }
+.max-w { max-width: 100%; }
+
+/* --- 🔳 GRID DE 3 COLUNAS (atalho) --- */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sw-s-m); }
+@media (max-width: 768px) { .grid-3 { grid-template-columns: 1fr; } }

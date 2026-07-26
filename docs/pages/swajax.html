@@ -1,102 +1,805 @@
 <!DOCTYPE html>
-<html lang="pt-BR" sw-theme="dark">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Documentação do módulo SW-AJAX — trocas dinâmicas de conteúdo restritas à mesma origem, com sanitização e reinicialização automática dos módulos SW.">
-  <title>Módulo SW-AJAX — SW Framework Documentação</title>
+    <meta charset="UTF-8">
+    <title>SW-AJAX - SW Docs</title>
   <script src="../dist/sw-mpa.min.js"></script>
-  <link rel="stylesheet" href="../dist/sw.min.css">
-  <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: .8rem;
+        }
+
+        .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+        @media (max-width: 900px) { .g2 { grid-template-columns: 1fr; } }
+
+        /* Caixa de destino das demos */
+        .ajax-dest {
+            min-height: 8rem;
+            background: var(--sw-bg-sec);
+            border: 2px dashed var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            padding: 1.6rem;
+            font-size: 1.4rem;
+            color: var(--sw-txt-mut);
+        }
+        .ajax-dest .loaded { color: var(--sw-txt-bas); }
+
+        /* Diagrama de fluxo */
+        .flow { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; font-size: 1.3rem; }
+        .flow-box { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); padding: .6rem 1.2rem; font-family: var(--sw-f-mon); color: var(--sw-txt-bas); }
+        .flow-box small { color: var(--sw-txt-mut); display: block; margin-top: .2rem; }
+        .flow-arr { color: var(--sw-txt-mut); font-size: 1.6rem; }
+        .flow-box.hi { border-color: var(--sw-pri); color: var(--sw-pri); }
+        .flow-box.hi small { color: var(--sw-pri); opacity: .75; }
+
+        .attr-tbl { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
+        .attr-tbl td { padding: .5rem .8rem; border-bottom: 1px solid var(--sw-bor); }
+        .attr-tbl td:first-child { font-family: var(--sw-f-mon); color: var(--sw-pri); white-space: nowrap; }
+        .attr-tbl td:last-child { color: var(--sw-txt-mut); }
+        .attr-tbl tr:last-child td { border-bottom: none; }
+
+        .fx-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-bottom: 1.6rem; }
+        .fx-btn {
+            padding: .8rem 1.6rem;
+            border: 1.5px solid var(--fx-c);
+            border-radius: var(--sw-r-fl);
+            background: color-mix(in srgb, var(--fx-c) 12%, transparent);
+            color: var(--fx-c);
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: var(--sw-f-san);
+            cursor: pointer;
+            transition: background .15s ease, color .15s ease, transform .15s ease, box-shadow .15s ease;
+        }
+        .fx-btn:hover { background: color-mix(in srgb, var(--fx-c) 25%, transparent); transform: translateY(-1px); }
+        .fx-btn.is-act {
+            background: var(--fx-c);
+            color: #fff;
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--fx-c) 50%, transparent);
+        }
+        /* Especificidade de ID sempre vence a cascata — por isso a transição aqui precisa
+           incluir de propósito as mesmas transições que [class*="sw-rev-"] declara em
+           06-animations.css (opacity/transform/filter), senão o shorthand as apaga e os
+           efeitos de reveal param de animar dentro desta caixa. */
+        #fx-box {
+            border-color: var(--fx-c, var(--sw-bor));
+            transition:
+                border-color .2s ease,
+                opacity var(--sw-spd) var(--sw-ease) var(--sw-delay),
+                transform var(--sw-spd) var(--sw-ease) var(--sw-delay),
+                filter var(--sw-spd) var(--sw-ease) var(--sw-delay);
+        }
+
+        .fx-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem;
+            padding: 1.6rem 2rem;
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+        }
+        .fx-controls label {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+        .fx-controls label span { color: var(--sw-pri); font-family: var(--sw-f-mon); text-transform: none; letter-spacing: 0; }
+        .fx-controls input[type="range"] { width: 100%; accent-color: var(--sw-pri); }
+        @media (max-width: 700px) { .fx-controls { grid-template-columns: 1fr; } }
+    </style>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
+
 <body>
-  <div class="doc-shell">
-    <main class="doc-main">
-      <section class="docs-section">
-        <div class="docs-section-head">
-          <span class="doc-hero-ver">SW MÓDULOS / SW-AJAX</span>
-          <h1 class="docs-section-title">Módulo SW-AJAX</h1>
-          <p class="docs-section-desc">Carrega fragmentos HTML da mesma origem (ou de um elemento interno da própria página) e injeta no destino — modal, painel ou qualquer elemento. Restrito por padrão à mesma origem, com timeout, validação de tipo de conteúdo e reinicialização automática dos módulos SW no HTML injetado.</p>
-        </div>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">SW-AJAX</span>
+            </nav>
 
-        <div class="docs-specimen" style="margin-bottom:2rem;">
-          <h3 class="docs-specimen-title">Como funciona</h3>
-          <p>Qualquer elemento com <code>sw-ajax</code> (URL) ou <code>sw-ajax-src</code> (seletor de um elemento já presente na página) dispara a busca ao ser clicado. O conteúdo é injetado no destino resolvido, os módulos SW no novo conteúdo são reinicializados, e uma transição (<code>SW.Trans.run()</code>) roda por padrão.</p>
-          <div class="docs-code">
-            <pre><code>&lt;!-- Busca em URL da mesma origem, injeta num elemento --&gt;
-&lt;button sw-ajax="/parcial.html" sw-target="#resultado"&gt;Carregar&lt;/button&gt;
-&lt;div id="resultado"&gt;&lt;/div&gt;
+            <!-- INTRO -->
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">SW-AJAX <span class="TprinD">Framework</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Carregamento dinâmico de conteúdo via fetch com suporte a trigger click/load/hover, efeitos de
+                    entrada, reinicialização automática dos módulos SW no destino e API estática. Restrito à mesma
+                    origem por padrão, com sanitização e timeout — sem executar scripts do HTML recebido.
+                </p>
+            </div>
 
-&lt;!-- Copia conteúdo de um elemento já na página, sem requisição HTTP --&gt;
-&lt;button sw-ajax-src="#fonte-interna" sw-target="#resultado"&gt;Copiar&lt;/button&gt;
-&lt;template id="fonte-interna"&gt;&lt;p&gt;Conteúdo local&lt;/p&gt;&lt;/template&gt;</code></pre>
-          </div>
-        </div>
+            <!-- 1. COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-1">1. Como funciona</h3>
+                <p class="t-mut t-p mb-4">Adicione <code class="cod">sw-ajax</code> (URL) ou
+                    <code class="cod">sw-ajax-src</code> (elemento interno) em qualquer elemento. Ao disparar o
+                    trigger, o SWAjax busca o conteúdo, sanitiza e injeta no destino, reinicializa os módulos SW
+                    nele contidos e dispara um evento.
+                </p>
 
-        <div class="docs-specimen" style="margin-bottom:2rem;">
-          <h3 class="docs-specimen-title">Injetar em painel ou modal</h3>
-          <p>Use <code>sw-ajax-target="panel"</code> ou <code>sw-ajax-target="modal"</code> para abrir o resultado direto num painel (drawer) ou modal, em vez de um elemento fixo. Combine com <code>sw-panel</code>/<code>sw-modal</code> para escolher o seletor do overlay (opcional — um padrão é criado automaticamente se omitido).</p>
-          <div class="docs-code">
-            <pre><code>&lt;button sw-ajax="/detalhes.html" sw-ajax-target="modal"&gt;Ver detalhes&lt;/button&gt;
-&lt;button sw-ajax="/menu.html" sw-ajax-target="panel"&gt;Abrir menu&lt;/button&gt;</code></pre>
-          </div>
-        </div>
+                <div class="demo-wrap mb-4">
+                    <div class="flow">
+                        <div class="flow-box"><strong>1. Trigger</strong><br><small>click / load / hover</small></div>
+                        <span class="flow-arr">→</span>
+                        <div class="flow-box hi"><strong>2. fetch(url)</strong><br><small>GET ou POST, mesma origem</small></div>
+                        <span class="flow-arr">→</span>
+                        <div class="flow-box"><strong>3. Sanitizar</strong><br><small>SW.html.set()</small></div>
+                        <span class="flow-arr">→</span>
+                        <div class="flow-box"><strong>4. Injetar</strong><br><small>dest.innerHTML</small></div>
+                        <span class="flow-arr">→</span>
+                        <div class="flow-box"><strong>5. Reinit</strong><br><small>SW.reinit(dest)</small></div>
+                        <span class="flow-arr">→</span>
+                        <div class="flow-box"><strong>6. Evento</strong><br><small>sw:ajax:done</small></div>
+                    </div>
+                </div>
 
-        <div class="docs-specimen" style="margin-bottom:2rem;">
-          <h3 class="docs-specimen-title">Restrições de segurança</h3>
-          <ul class="docs-status-list">
-            <li>Só busca URLs da <strong>mesma origem</strong> por padrão — outra origem exige <code>sw-ajax-crossorigin</code> explícito no elemento.</li>
-            <li>Timeout fixo de 15 segundos por requisição (via <code>AbortController</code>).</li>
-            <li>Resposta precisa ter <code>Content-Type</code> <code>text/html</code> ou <code>text/plain</code> — qualquer outro tipo é rejeitado.</li>
-            <li>Conteúdo injetado passa por <code>SW.html.set()</code>; use <code>sw-ajax-trusted</code> apenas quando a fonte for realmente confiável.</li>
-          </ul>
-        </div>
+                <div class="g2 mb-4">
+                    <div>
+                        <p class="demo-label">Sanitização por padrão</p>
+                        <p class="t-mut" style="font-size:1.35rem;margin-bottom:.8rem">
+                            O HTML recebido passa por <code class="cod">SW.html.set()</code> antes de entrar no DOM.
+                            Scripts do conteúdo injetado <strong>não são executados</strong> — use
+                            <code class="cod">sw-ajax-trusted</code> apenas quando a fonte for realmente confiável.
+                        </p>
+                    </div>
+                    <div>
+                        <p class="demo-label">Restrito à mesma origem</p>
+                        <p class="t-mut" style="font-size:1.35rem;margin-bottom:.8rem">
+                            Por padrão só busca URLs da própria origem. Outra origem exige
+                            <code class="cod">sw-ajax-crossorigin</code> explícito no elemento. Timeout de 15s por
+                            padrão (ajustável via <code class="cod">sw-ajax-timeout</code>), via
+                            <code class="cod">AbortController</code>.
+                        </p>
+                    </div>
+                </div>
 
-        <div class="docs-specimen">
-          <h3 class="docs-specimen-title">Eventos</h3>
-          <p>Disparados no próprio elemento gatilho:</p>
-          <div class="docs-code">
-            <pre><code>trigger.addEventListener('sw:ajax:start', ({ detail }) => {
-  console.log('Buscando:', detail.url);
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Gatilho: qualquer elemento com sw-ajax -->
+<button
+    sw-ajax="/api/lista"
+    sw-target="#resultado">
+    Carregar Lista
+</button>
+
+<!-- Destino: onde o HTML sanitizado será injetado -->
+<div id="resultado"></div>
+
+<!-- Módulos SW no conteúdo injetado são reinicializados automaticamente -->
+</script></pre>
+            </div>
+
+            <!-- 2. TRIGGERS -->
+            <div class="doc-card sec mb-6" id="triggers">
+                <h3 class="t-m f-bd mb-1">2. Triggers</h3>
+                <p class="t-mut t-p mb-6">3 modos de disparo — click, load automático e hover prefetch.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">click (padrão)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-ajax="/produtos" sw-target="#lista">
+    Carregar produtos
+</button>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">load — carrega ao entrar na página</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div
+    sw-ajax="/dashboard/widgets"
+    sw-ajax-trigger="load"
+    sw-target="#widgets">
+</div>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">hover — pré-carrega no mouseover</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<a href="/perfil/42"
+    sw-ajax="/perfil/42/preview"
+    sw-ajax-trigger="hover"
+    sw-target="#preview-card">
+    Ver perfil
+</a>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Resumo dos atributos principais</p>
+                        <div class="demo-wrap" style="padding:1.2rem">
+                            <table class="attr-tbl">
+                                <tr><td>sw-ajax</td><td>URL a buscar</td></tr>
+                                <tr><td>sw-ajax-src</td><td>elemento interno, sem HTTP</td></tr>
+                                <tr><td>sw-target</td><td>seletor CSS do destino</td></tr>
+                                <tr><td>sw-ajax-trigger</td><td>click | load | hover</td></tr>
+                                <tr><td>sw-ajax-method</td><td>GET (padrão) | POST</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. EFEITOS DE ENTRADA -->
+            <div class="doc-card sec mb-6" id="efeitos">
+                <h3 class="t-m f-bd mb-1">3. Efeitos de Entrada</h3>
+                <p class="t-mut t-p mb-6">O conteúdo injetado pode receber qualquer classe de animação real do
+                    framework — <code class="cod">.sw-ani-*</code> (entrada única), <code class="cod">.sw-rev-*</code>
+                    (reveal) e <code class="cod">.sw-loop-*</code> (contínua), ver <a href="animacoes.html" class="Tpri">catálogo
+                    completo</a>. Clique num efeito abaixo — a demo usa <code class="cod">sw-ajax-src</code>
+                    (sem requisição HTTP) e reaplica a classe a cada clique.</p>
+
+                <p class="demo-label">Duração · Distância · Atraso</p>
+                <div class="fx-controls mb-6">
+                    <label>Duração <span id="fx-spd-val">0.45s</span>
+                        <input type="range" id="fx-spd" min="0.1" max="1.5" step="0.05" value="0.45"></label>
+                    <label>Distância <span id="fx-dist-val">2.4rem</span>
+                        <input type="range" id="fx-dist" min="0" max="8" step="0.2" value="2.4"></label>
+                    <label>Atraso <span id="fx-delay-val">0s</span>
+                        <input type="range" id="fx-delay" min="0" max="1" step="0.05" value="0"></label>
+                </div>
+
+                <p class="demo-label">12 entradas únicas — <code class="cod">.sw-ani-*</code></p>
+                <div class="fx-row" id="fx-buttons">
+                    <button type="button" class="fx-btn" style="--fx-c:#3b82f6" data-fx="sw-ani-fade" data-src="#_dc1">fade</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#10b981" data-fx="sw-ani-up" data-src="#_dc2">up</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#f43f5e" data-fx="sw-ani-down" data-src="#_dc3">down</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#f59e0b" data-fx="sw-ani-left" data-src="#_dc1">left</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#8b5cf6" data-fx="sw-ani-right" data-src="#_dc2">right</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#ec4899" data-fx="sw-ani-pop" data-src="#_dc3">pop</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#06b6d4" data-fx="sw-ani-flip" data-src="#_dc1">flip</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#84cc16" data-fx="sw-ani-roll" data-src="#_dc2">roll</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#a855f7" data-fx="sw-ani-soft" data-src="#_dc3">soft</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#64748b" data-fx="sw-ani-blur" data-src="#_dc1">blur</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#f97316" data-fx="sw-ani-scale" data-src="#_dc2">scale</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#14b8a6" data-fx="sw-ani-zoom-out" data-src="#_dc3">zoom-out</button>
+                </div>
+
+                <p class="demo-label">7 reveal — <code class="cod">.sw-rev-*</code> <span class="t-mut" style="text-transform:none;letter-spacing:0">(normalmente disparado por scroll, aqui replicado no clique)</span></p>
+                <div class="fx-row" id="fx-buttons-rev">
+                    <button type="button" class="fx-btn" style="--fx-c:#22c55e" data-fxrev="sw-rev-up" data-src="#_dc1">rev-up</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#ef4444" data-fxrev="sw-rev-down" data-src="#_dc2">rev-down</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#eab308" data-fxrev="sw-rev-left" data-src="#_dc3">rev-left</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#6366f1" data-fxrev="sw-rev-right" data-src="#_dc1">rev-right</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#d946ef" data-fxrev="sw-rev-in" data-src="#_dc2">rev-in</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#fb923c" data-fxrev="sw-rev-out" data-src="#_dc3">rev-out</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#94a3b8" data-fxrev="sw-rev-blur" data-src="#_dc1">rev-blur</button>
+                </div>
+
+                <p class="demo-label">7 contínuas — <code class="cod">.sw-loop-*</code> <span class="t-mut" style="text-transform:none;letter-spacing:0">(clique de novo pra parar)</span></p>
+                <div class="fx-row" id="fx-buttons-loop">
+                    <button type="button" class="fx-btn" style="--fx-c:#0ea5e9" data-fxloop="sw-loop-spin">loop-spin</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#f472b6" data-fxloop="sw-loop-pulse">loop-pulse</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#34d399" data-fxloop="sw-loop-float">loop-float</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#a78bfa" data-fxloop="sw-loop-fade">loop-fade</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#fbbf24" data-fxloop="sw-loop-bounce">loop-bounce</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#60a5fa" data-fxloop="sw-loop-glow">loop-glow</button>
+                    <button type="button" class="fx-btn" style="--fx-c:#f87171" data-fxloop="sw-loop-wave">loop-wave</button>
+                </div>
+
+                <div id="fx-box" class="ajax-dest">Clique em qualquer efeito acima ✨</div>
+
+                <div id="_dc1" hidden>
+                    <p style="font-size:1.5rem;font-weight:600;margin-bottom:.8rem">SW Framework</p>
+                    <p style="color:var(--sw-txt-mut);margin:0">Conteúdo carregado via <code class="cod">sw-ajax-src</code> — sem requisição HTTP.</p>
+                </div>
+                <div id="_dc2" hidden>
+                    <p style="font-size:1.5rem;font-weight:600;margin-bottom:.8rem">SW-AJAX</p>
+                    <p style="color:var(--sw-txt-mut);margin:0">Reaproveita as animações reais do catálogo <code class="cod">.sw-ani-*</code> pra dar entrada suave ao conteúdo.</p>
+                </div>
+                <div id="_dc3" hidden>
+                    <p style="font-size:1.5rem;font-weight:600;margin-bottom:.8rem">Zero dependências</p>
+                    <p style="color:var(--sw-txt-mut);margin:0">Animações puras em CSS — sem biblioteca externa.</p>
+                </div>
+
+                <hr sw-div class="mt-8 mb-6">
+
+                <p class="demo-label">Declarativo — direto na tag, zero JavaScript</p>
+                <p class="t-mut t-p mb-4">Os 4 atributos abaixo controlam o efeito de entrada sem escrever
+                    nenhum código: <code class="cod">sw-ajax-effect</code>,
+                    <code class="cod">sw-ajax-duration</code> (ms), <code class="cod">sw-ajax-distance</code>
+                    (com unidade) e <code class="cod">sw-ajax-delay</code> (ms). O SWAjax lê tudo isso sozinho
+                    ao injetar o conteúdo.</p>
+
+                <div class="fx-row">
+                    <button sw-btn class="sw-btn-pp sw-btn-pri"
+                        sw-ajax-src="#_dc1" sw-target="#fx-declarative"
+                        sw-ajax-effect="pop" sw-ajax-duration="900" sw-ajax-distance="5rem">
+                        pop lento
+                    </button>
+                    <button sw-btn class="sw-btn-pp sw-btn-suc"
+                        sw-ajax-src="#_dc2" sw-target="#fx-declarative"
+                        sw-ajax-effect="left" sw-ajax-duration="300">
+                        left rápido
+                    </button>
+                    <button sw-btn class="sw-btn-pp sw-btn-ale"
+                        sw-ajax-src="#_dc3" sw-target="#fx-declarative"
+                        sw-ajax-effect="sw-rev-up" sw-ajax-delay="300">
+                        rev-up com atraso
+                    </button>
+                </div>
+                <div id="fx-declarative" class="ajax-dest">Sem JS nenhum — só atributos na tag ✨</div>
+
+                <pre swcode="html" class="mt-4"><script type="text/plain">
+<button
+    sw-ajax-src="#conteudo-oculto"
+    sw-target="#destino"
+    sw-ajax-effect="pop"
+    sw-ajax-duration="900"
+    sw-ajax-distance="5rem"
+    sw-ajax-delay="150">
+    Carregar
+</button>
+<div id="destino"></div>
+
+<!-- sw-ajax-effect aceita o nome curto (pop, up, left...) e usa .sw-ani- -->
+<!-- por padrão, ou o nome completo pra usar reveal/loop:                -->
+<!-- sw-ajax-effect="sw-rev-up"  |  sw-ajax-effect="sw-loop-spin"        -->
+</script></pre>
+
+                <pre swcode="js" class="mt-4">
+// A demo de botões coloridos acima é só JS local da página — troca o
+// conteúdo via SW-AJAX (sw-ajax-src) e reaplica a classe de animação
+// escolhida manualmente:
+box.classList.remove(efeitoAnterior);
+void box.offsetWidth;              // força reflow pra poder repetir a animação
+box.classList.add('sw-ani-fade');  // ou qualquer outra .sw-ani-* / .sw-rev-* / .sw-loop-*
+
+// Duração, distância e atraso são tokens CSS — dá pra sobrescrever por elemento:
+box.style.setProperty('--sw-spd', '0.8s');    // duração
+box.style.setProperty('--sw-dist', '4rem');   // distância percorrida
+box.style.setProperty('--sw-delay', '0.2s');  // atraso antes de começar
+</pre>
+            </div>
+
+            <!-- 4. PRELOAD -->
+            <div class="doc-card sec mb-6" id="preload">
+                <h3 class="t-m f-bd mb-1">4. Preload (estado de carregamento)</h3>
+                <p class="t-mut t-p mb-6">Enquanto a requisição HTTP está em andamento, o destino recebe
+                    automaticamente a classe <code class="cod">.sw-ajax-loading</code>: o conteúdo antigo escurece
+                    e borra, e um spinner real aparece por cima — assim fica claro que algo está carregando, em vez
+                    do conteúdo antigo continuar parado ali sem nenhum aviso. Vem ligado por padrão; dá pra desligar
+                    por elemento com <code class="cod">sw-ajax-loader="off"</code>, pra casos onde a troca é rápida
+                    o bastante pra não precisar de indicador (ex.: <code class="cod">sw-ajax-src</code>, que nunca
+                    faz requisição HTTP e por isso nunca mostra o preload).</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Com preload (padrão)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-ajax="/relatorio/pesado" sw-target="#area">
+    Carregar relatório
+</button>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Sem preload</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<button
+    sw-ajax="/relatorio/pesado"
+    sw-target="#area"
+    sw-ajax-loader="off">
+    Carregar relatório
+</button>
+</script></pre>
+                    </div>
+                </div>
+
+                <p class="t-mut t-p mt-4 mb-2">Demo — busca de verdade (<code class="cod">sw-ajax</code>, mesma
+                    origem). No localhost a resposta costuma chegar rápido demais pra ver o spinner com calma;
+                    pra observar melhor, abra o DevTools → Network → throttling (ex.: "Slow 3G") antes de clicar.
+                    O botão "sem preload" troca o conteúdo sem nenhum aviso visual até a resposta chegar.</p>
+                <div class="g2">
+                    <div>
+                        <div class="flx gap-2 mb-2">
+                            <button sw-btn class="sw-btn-pp sw-btn-pri" id="preload-on-btn"
+                                sw-ajax="tabela.html" sw-ajax-extract="h2"
+                                sw-target="#preload-on-box">Com preload</button>
+                        </div>
+                        <div id="preload-on-box" class="ajax-dest">Aguardando clique…</div>
+                    </div>
+                    <div>
+                        <div class="flx gap-2 mb-2">
+                            <button sw-btn class="sw-btn-pp sw-btn-sec" id="preload-off-btn"
+                                sw-ajax="tabela.html" sw-ajax-extract="h2"
+                                sw-target="#preload-off-box" sw-ajax-loader="off">Sem preload</button>
+                        </div>
+                        <div id="preload-off-box" class="ajax-dest">Aguardando clique…</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. AJAX INTERNO -->
+            <div class="doc-card sec mb-6" id="interno">
+                <h3 class="t-m f-bd mb-1">5. AJAX Interno</h3>
+                <p class="t-mut t-p mb-6">Com <code class="cod">sw-ajax-src</code> o conteúdo é copiado de um
+                    elemento oculto na própria página — sem requisição HTTP. Ideal pra tabs, accordions e wizards.</p>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Triggers -->
+<button sw-ajax-src="#tab-1" sw-target="#conteudo">Tab 1</button>
+<button sw-ajax-src="#tab-2" sw-target="#conteudo">Tab 2</button>
+
+<!-- Destino -->
+<div id="conteudo"></div>
+
+<!-- Fontes ocultas -->
+<template id="tab-1"><h4>Conteúdo da Tab 1</h4></template>
+<template id="tab-2"><h4>Conteúdo da Tab 2</h4></template>
+</script></pre>
+
+                <p class="t-mut t-p mt-4 mb-6">Funciona com <code class="cod">&lt;template&gt;</code> ou
+                    <code class="cod">&lt;div hidden&gt;</code> como fonte. Após a injeção,
+                    <code class="cod">SW.reinit()</code> é chamado automaticamente no destino.</p>
+
+                <p class="demo-label">Demo — AJAX Interno</p>
+                <div class="fx-row">
+                    <button sw-btn class="sw-btn-pp sw-btn-pri" sw-ajax-src="#_int1" sw-target="#interno-box">Tab 1 — Sobre</button>
+                    <button sw-btn class="sw-btn-pp sw-btn-sec" sw-ajax-src="#_int2" sw-target="#interno-box">Tab 2 — Recursos</button>
+                    <button sw-btn class="sw-btn-pp sw-btn-suc" sw-ajax-src="#_int3" sw-target="#interno-box">Tab 3 — Código</button>
+                </div>
+
+                <div id="interno-box" class="ajax-dest">Clique em uma tab acima ✨</div>
+
+                <div id="_int1" hidden>
+                    <p style="font-size:1.4rem;font-weight:700;margin-bottom:.6rem">O que é AJAX Interno?</p>
+                    <p style="color:var(--sw-txt-mut);font-size:1.35rem;margin:0">
+                        Com <code class="cod">sw-ajax-src</code> o conteúdo é lido de um elemento oculto na própria
+                        página — zero requisição HTTP, zero servidor necessário. Ideal para tabs, accordions,
+                        wizards e qualquer troca de conteúdo local.
+                    </p>
+                </div>
+                <div id="_int2" hidden>
+                    <p style="font-size:1.4rem;font-weight:700;margin-bottom:.6rem">Recursos suportados</p>
+                    <ul style="color:var(--sw-txt-mut);font-size:1.35rem;margin:0;padding-left:1.6rem;line-height:2">
+                        <li>Qualquer HTML — incluindo componentes SW</li>
+                        <li>Reinit automático de todos os módulos no destino</li>
+                        <li>Funciona com <code class="cod">&lt;template&gt;</code> ou <code class="cod">&lt;div hidden&gt;</code></li>
+                        <li>Também injeta em painel/modal via <code class="cod">sw-ajax-target</code></li>
+                    </ul>
+                </div>
+                <div id="_int3" hidden>
+                    <p style="font-size:1.4rem;font-weight:700;margin-bottom:.6rem">Como usar</p>
+                    <pre swcode="html" style="margin:0"><script type="text/plain">
+<button sw-ajax-src="#meu-conteudo" sw-target="#area">Carregar</button>
+<div id="area"></div>
+<template id="meu-conteudo">
+    <p>Qualquer HTML aqui!</p>
+</template>
+</script></pre>
+                </div>
+            </div>
+
+            <!-- 5. API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-1">6. API JavaScript</h3>
+                <p class="t-mut t-p mb-6">Dispare carregamentos programaticamente, sem HTML declarativo.</p>
+
+                <pre swcode="js">
+// Carregar conteúdo via GET
+SWAjax.load('/api/lista', '#resultado');
+
+// Com opções
+SWAjax.load('/api/lista', '#resultado', {
+    push: true,          // atualiza a URL no navegador (history.pushState)
+    extract: '#conteudo' // extrai só um trecho da resposta
 });
 
-trigger.addEventListener('sw:ajax:done', ({ detail }) => {
-  console.log('Concluído.');
+// POST com dados (objeto vira JSON automaticamente)
+SWAjax.post('/api/salvar', { nome: 'João', idade: 30 }, '#resposta');
+
+// POST com FormData (upload de arquivo)
+const fd = new FormData(document.querySelector('#meuForm'));
+SWAjax.post('/api/upload', fd, '#resultado');
+</pre>
+
+                <pre swcode="js">
+// Eventos disponíveis no elemento trigger
+el.addEventListener('sw:ajax:start', ({ detail }) => {
+    console.log('Buscando:', detail.url);
 });
 
-trigger.addEventListener('sw:ajax:error', ({ detail }) => {
-  console.error('Falha:', detail.error);
-});</code></pre>
-          </div>
-        </div>
+el.addEventListener('sw:ajax:done', () => {
+    console.log('Concluído.');
+});
 
-        <div class="docs-specimen" style="margin-top:2rem;">
-          <h3 class="docs-specimen-title">Referência de atributos</h3>
-          <table class="ref-table">
-            <thead>
-              <tr><th>Atributo</th><th>Descrição</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>sw-ajax</code></td><td>URL a buscar (GET, mesma origem por padrão)</td></tr>
-              <tr><td><code>sw-ajax-src</code></td><td>Seletor de um elemento/template já presente na página — sem requisição HTTP</td></tr>
-              <tr><td><code>sw-target</code></td><td>Seletor CSS do elemento de destino (quando não é painel/modal)</td></tr>
-              <tr><td><code>sw-ajax-target</code></td><td><code>panel</code> ou <code>modal</code> — injeta no overlay correspondente</td></tr>
-              <tr><td><code>sw-panel</code> / <code>sw-modal</code></td><td>Seletor do painel/modal a usar (opcional, um padrão é criado se ausente)</td></tr>
-              <tr><td><code>sw-ajax-trusted</code></td><td>Pula a sanitização — usar só com fonte confiável</td></tr>
-              <tr><td><code>sw-ajax-crossorigin</code></td><td>Autoriza buscar URL de outra origem (bloqueado por padrão)</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+el.addEventListener('sw:ajax:error', ({ detail }) => {
+    console.error('Erro:', detail.error);
+});
+</pre>
+            </div>
 
-      <footer class="doc-footer">
-        <a href="config.html">← Anterior: Configuração</a>
-        <a href="../index.html">Voltar ao Dashboard ↑</a>
-      </footer>
-    </main>
-  </div>
-  <script src="../dist/sw.min.js"></script>
+            <!-- 6. PADRÕES REAIS -->
+            <div class="doc-card sec mb-6" id="padroes">
+                <h3 class="t-m f-bd mb-1">7. Padrões Reais</h3>
+                <p class="t-mut t-p mb-6">Casos de uso comuns em aplicações.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Tabs com AJAX</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="flx gap-2 mb-4">
+    <button sw-btn class="sw-btn-pri"
+        sw-ajax="/pedidos/ativos"
+        sw-target="#tab-content">
+        Ativos
+    </button>
+    <button sw-btn
+        sw-ajax="/pedidos/finalizados"
+        sw-target="#tab-content">
+        Finalizados
+    </button>
+</nav>
+<div id="tab-content"></div>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Widget auto-carregado</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Carrega ao entrar na página -->
+<div
+    sw-ajax="/dashboard/resumo"
+    sw-ajax-trigger="load"
+    sw-target="#resumo-widget">
+</div>
+
+<div id="resumo-widget">
+    <!-- Skeleton enquanto carrega -->
+    <div sw-skl class="sw-skl-img"></div>
+</div>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Paginação via AJAX</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div id="tabela-wrap"><!-- tabela vem aqui --></div>
+
+<!-- Botões de paginação gerados pelo servidor -->
+<button
+    sw-ajax="/usuarios?page=2"
+    sw-target="#tabela-wrap"
+    sw-ajax-push>
+    Página 2
+</button>
+</script></pre>
+                    </div>
+                    <div>
+                        <p class="demo-label">Abrir resultado num modal</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<button
+    sw-ajax="/detalhes/42"
+    sw-ajax-target="modal">
+    Ver detalhes
+</button>
+<!-- Um modal padrão é criado automaticamente se sw-modal não for informado -->
+</script></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. REINIT AUTOMÁTICO -->
+            <div class="doc-card sec mb-6" id="reinit">
+                <h3 class="t-m f-bd mb-1">8. Reinit Automático</h3>
+                <p class="t-mut t-p mb-6">Após cada carregamento, <code class="cod">SW.reinit(dest)</code> é chamado
+                    automaticamente — todos os módulos SW no novo conteúdo são inicializados sem nenhuma
+                    configuração extra.</p>
+
+                <div class="demo-wrap">
+                    <div style="font-size:1.4rem;line-height:1.8">
+                        <p class="mb-3">Se o servidor retornar HTML com botões <code class="cod">sw-modal</code>,
+                            alertas <code class="cod">sw-toast</code>, código <code class="cod">swcode</code> ou
+                            qualquer outro componente SW — eles serão inicializados automaticamente.</p>
+                        <p class="mb-0 t-mut">Isso inclui todo módulo registrado via <code class="cod">SW.register()</code>.</p>
+                    </div>
+                </div>
+
+                <pre swcode="js">
+// Manual: reinicializar módulos em um container específico
+SW.reinit(document.querySelector('#meu-container'));
+</pre>
+            </div>
+
+            <!-- 8. SEGURANÇA -->
+            <div class="doc-card sec" id="seguranca">
+                <h3 class="t-m f-bd mb-1">9. Segurança</h3>
+                <p class="t-mut t-p mb-6">Diferença deliberada em relação a implementações que executam scripts do
+                    HTML recebido: o SW-AJAX prioriza segurança por padrão.</p>
+                <table class="ref-table mb-8">
+                    <thead><tr><th>Regra</th><th>Comportamento</th></tr></thead>
+                    <tbody>
+                        <tr><td>Origem</td><td>Só busca a <strong>mesma origem</strong> por padrão — outra origem exige <code>sw-ajax-crossorigin</code> explícito.</td></tr>
+                        <tr><td>Timeout</td><td>15 segundos por padrão, ajustável via <code>sw-ajax-timeout</code> (1–60s), via <code>AbortController</code>.</td></tr>
+                        <tr><td>Content-Type</td><td>Só aceita <code>text/html</code> ou <code>text/plain</code> — qualquer outro tipo é rejeitado.</td></tr>
+                        <tr><td>Sanitização</td><td>Conteúdo passa por <code>SW.html.set()</code>; use <code>sw-ajax-trusted</code> só com fonte confiável.</td></tr>
+                        <tr><td>Scripts</td><td>Não são executados — SW-AJAX nunca roda <code>&lt;script&gt;</code> do HTML recebido.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 9. QUICK REFERENCE -->
+            <div class="doc-card sec mt-8" id="ref">
+                <h3 class="t-m f-bd mb-4">10. Quick Reference</h3>
+
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Atributo</th><th>Valores</th><th>Padrão</th><th>Descrição</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>sw-ajax</code></td><td>string</td><td>—</td><td>URL a buscar (GET ou POST, mesma origem por padrão)</td></tr>
+                        <tr><td><code>sw-ajax-src</code></td><td>seletor CSS</td><td>—</td><td>Fonte interna (elemento/template local, sem HTTP)</td></tr>
+                        <tr><td><code>sw-target</code></td><td>seletor CSS</td><td>—</td><td>Onde injetar o HTML (quando não é painel/modal)</td></tr>
+                        <tr><td><code>sw-ajax-target</code></td><td>panel | modal</td><td>—</td><td>Injeta direto no painel ou modal (criado automaticamente se ausente)</td></tr>
+                        <tr><td><code>sw-panel</code> / <code>sw-modal</code></td><td>seletor CSS</td><td>—</td><td>Seletor do painel/modal a usar</td></tr>
+                        <tr><td><code>sw-ajax-extract</code></td><td>seletor CSS</td><td>—</td><td>Extrai só um trecho da resposta HTML</td></tr>
+                        <tr><td><code>sw-ajax-trigger</code></td><td>click | load | hover</td><td>click</td><td>Quando disparar a requisição</td></tr>
+                        <tr><td><code>sw-ajax-method</code></td><td>GET | POST</td><td>GET</td><td>Método HTTP</td></tr>
+                        <tr><td><code>sw-ajax-push</code></td><td>booleano</td><td>false</td><td>Atualiza a URL via <code>history.pushState</code></td></tr>
+                        <tr><td><code>sw-ajax-trusted</code></td><td>booleano</td><td>false</td><td>Pula a sanitização — usar só com fonte confiável</td></tr>
+                        <tr><td><code>sw-ajax-crossorigin</code></td><td>booleano</td><td>false</td><td>Autoriza buscar URL de outra origem</td></tr>
+                        <tr><td><code>sw-ajax-timeout</code></td><td>ms (1000–60000)</td><td>15000</td><td>Timeout da requisição via <code>AbortController</code></td></tr>
+                        <tr><td><code>sw-ajax-loader</code></td><td>off</td><td>ligado</td><td>Desliga o preload (spinner + escurecimento) durante a busca HTTP</td></tr>
+                        <tr><td><code>sw-ajax-effect</code></td><td>nome curto (fade, up, pop...) ou classe completa (sw-rev-*, sw-loop-*)</td><td>—</td><td>Efeito de entrada aplicado ao injetar — sem JS</td></tr>
+                        <tr><td><code>sw-ajax-duration</code></td><td>ms ou tempo CSS</td><td>0.45s</td><td>Sobrescreve <code>--sw-spd</code> no elemento injetado</td></tr>
+                        <tr><td><code>sw-ajax-distance</code></td><td>número (rem) ou com unidade</td><td>2.4rem</td><td>Sobrescreve <code>--sw-dist</code> no elemento injetado</td></tr>
+                        <tr><td><code>sw-ajax-delay</code></td><td>ms ou tempo CSS</td><td>0s</td><td>Sobrescreve <code>--sw-delay</code> — atraso antes do efeito começar</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-6">
+                    <table class="ref-table">
+                        <thead><tr><th>Método estático</th><th>Parâmetros</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>SWAjax.load()</code></td><td>url, dest, opts?<br><small style="opacity:.6">opts: { trusted, crossorigin, push, extract }</small></td><td>GET e injeta no destino (seletor CSS)</td></tr>
+                            <tr><td><code>SWAjax.post()</code></td><td>url, data, dest, opts?<br><small style="opacity:.6">data: objeto (vira JSON) ou FormData</small></td><td>POST e injeta no destino</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6">
+                    <table class="ref-table">
+                        <thead><tr><th>Evento</th><th>Detalhe</th><th>Quando</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw:ajax:start</code></td><td><code>{ url }</code></td><td>Antes da requisição partir</td></tr>
+                            <tr><td><code>sw:ajax:done</code></td><td><code>{ sourceSelector }</code></td><td>Após injetar e reinicializar o destino</td></tr>
+                            <tr><td><code>sw:ajax:error</code></td><td><code>{ error }</code></td><td>Falha de rede, timeout ou tipo de conteúdo rejeitado</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script>
+        (function () {
+            var box = document.getElementById('fx-box');
+            var allGroups = [
+                document.getElementById('fx-buttons'),
+                document.getElementById('fx-buttons-rev'),
+                document.getElementById('fx-buttons-loop'),
+            ];
+            var current = null;
+            var currentLoopBtn = null;
+
+            function clearActive() {
+                allGroups.forEach(function (g) {
+                    g.querySelectorAll('.fx-btn.is-act').forEach(function (b) { b.classList.remove('is-act'); });
+                });
+            }
+
+            function loadContent(selector) {
+                var src = selector && document.querySelector(selector);
+                if (src) {
+                    box.innerHTML = src.innerHTML;
+                    if (window.SW) SW.reinit(box);
+                }
+            }
+
+            function setColor(btn) {
+                box.style.setProperty('--fx-c', getComputedStyle(btn).getPropertyValue('--fx-c'));
+            }
+
+            // Grupo 1 — entradas únicas (.sw-ani-*)
+            document.getElementById('fx-buttons').addEventListener('click', function (event) {
+                var btn = event.target.closest('button[data-fx]');
+                if (!btn) return;
+                clearActive();
+                btn.classList.add('is-act');
+                currentLoopBtn = null;
+                setColor(btn);
+                loadContent(btn.getAttribute('data-src'));
+                box.classList.remove('is-revealed');
+                if (current) box.classList.remove(current);
+                void box.offsetWidth;
+                current = btn.getAttribute('data-fx');
+                box.classList.add(current);
+            });
+
+            // Grupo 2 — reveal (.sw-rev-*), normalmente disparado por IntersectionObserver;
+            // aqui replicamos o "is-revealed" manualmente no clique pra poder demonstrar.
+            document.getElementById('fx-buttons-rev').addEventListener('click', function (event) {
+                var btn = event.target.closest('button[data-fxrev]');
+                if (!btn) return;
+                clearActive();
+                btn.classList.add('is-act');
+                currentLoopBtn = null;
+                setColor(btn);
+                loadContent(btn.getAttribute('data-src'));
+                if (current) box.classList.remove(current);
+                box.classList.remove('is-revealed');
+                void box.offsetWidth;
+                current = btn.getAttribute('data-fxrev');
+                box.classList.add(current);
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () { box.classList.add('is-revealed'); });
+                });
+            });
+
+            // Grupo 3 — contínuas (.sw-loop-*): clique de novo no mesmo botão pra parar.
+            document.getElementById('fx-buttons-loop').addEventListener('click', function (event) {
+                var btn = event.target.closest('button[data-fxloop]');
+                if (!btn) return;
+                var fx = btn.getAttribute('data-fxloop');
+                if (current) { box.classList.remove(current); box.classList.remove('is-revealed'); current = null; }
+
+                if (currentLoopBtn === btn) {
+                    // mesmo botão de novo: para o loop
+                    clearActive();
+                    currentLoopBtn = null;
+                    return;
+                }
+                clearActive();
+                btn.classList.add('is-act');
+                currentLoopBtn = btn;
+                setColor(btn);
+                box.innerHTML = '<p style="font-size:1.5rem;font-weight:600">' + btn.textContent + '</p><p style="color:var(--sw-txt-mut);margin:0">Animação contínua — clique de novo pra parar.</p>';
+                box.classList.add(fx);
+                current = fx;
+            });
+
+            // Controles de duração / distância / atraso — sobrescrevem os tokens no próprio box.
+            var spd = document.getElementById('fx-spd');
+            var dist = document.getElementById('fx-dist');
+            var delay = document.getElementById('fx-delay');
+            spd.addEventListener('input', function () {
+                box.style.setProperty('--sw-spd', spd.value + 's');
+                document.getElementById('fx-spd-val').textContent = spd.value + 's';
+            });
+            dist.addEventListener('input', function () {
+                box.style.setProperty('--sw-dist', dist.value + 'rem');
+                document.getElementById('fx-dist-val').textContent = dist.value + 'rem';
+            });
+            delay.addEventListener('input', function () {
+                box.style.setProperty('--sw-delay', delay.value + 's');
+                document.getElementById('fx-delay-val').textContent = delay.value + 's';
+            });
+        })();
+    </script>
 </body>
+
 </html>

@@ -3,11 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>y2.config.css - Personalização | SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+    <title>sw.config.css - Personalização | SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
-    <script src="../dist/sw.min.js" defer></script>
     <script src="../dist/sw.min.js" defer></script>
 
     <style>
@@ -177,9 +176,7 @@
 </head>
 
 <body>
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
 
         <main class="doc-main">
 
@@ -187,7 +184,7 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">Foundation</span>
-                <span class="brc-it is-cur" aria-current="page">y2.config.css</span>
+                <span class="brc-it is-cur" aria-current="page">sw.config.css</span>
             </nav>
 
             <!-- HERO -->
@@ -195,95 +192,87 @@
                 <span class="doc-tag">Instalação & Configuração</span>
                 <h1 class="t-xxg f-bd mb-2">Instalação <span class="TprinD">SW Framework</span></h1>
                 <p class="t-g t-mut mb-6">
-                    Integre o SW em segundos via CDN ou faça o download dos arquivos de distribuição.
+                    Copie os arquivos de distribuição pro seu projeto e comece a usar em segundos.
                     Zero dependências, zero build tools.
                 </p>
 
-                <!-- Dois bundles -->
-                <div class="l gap-g mb-6">
-                    <div class="co6">
-                        <div class="p-g h-fl" style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-g);background:var(--sw-bg-sur)">
-                            <div class="flx alc gap-m mb-m">
-                                <span sw-badge class="sw-badge-pri sw-badge-pp" style="font-weight:800">CORE</span>
-                                <span class="f-bd t-p">Base do framework</span>
-                            </div>
-                            <p class="t-mut" style="font-size:var(--sw-f-sm);margin-bottom:1.2rem">~408kb · Layout, componentes, plugins JS, animações, forms. Congelado e estável.</p>
-                            <div class="flx gap-m f-wr">
-                                <a href="https://y2.sanweb.com.br../dist/sw.min.css" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>y2.min.css</a>
-                                <a href="https://y2.sanweb.com.br../dist/sw.min.js" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>y2.min.js</a>
-                                <a href="https://y2.sanweb.com.br/fonts/wficons.woff2" sw-btn class="sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>fonts/</a>
+                <!-- Bundles reais do SW Framework -->
+                <div class="mb-6" style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-g);background:var(--sw-sur);box-shadow:0 4px 20px rgba(0,0,0,0.08);overflow:hidden">
+                    <div class="flx j-sb alc f-wr gap-m" style="padding:1.6rem 2.4rem;border-bottom:1px solid var(--sw-bor)">
+                        <div class="flx alc gap-m">
+                            <span sw-badge class="sw-badge-pri sw-badge-pp" style="font-weight:800">OBRIGATÓRIO</span>
+                            <div>
+                                <p class="f-bd t-p mb-0">CSS + Core JS</p>
+                                <p class="t-mut t-pp mb-0">~84kb CSS + ~52kb JS · Layout, componentes, tema, ícones.</p>
                             </div>
                         </div>
+                        <div class="flx gap-m f-wr">
+                            <a href="../dist/sw.min.css" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.css</a>
+                            <a href="../dist/sw.min.js" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.js</a>
+                        </div>
                     </div>
-                    <div class="co6">
-                        <div class="p-g h-fl" style="border:2px solid var(--sw-suc);border-radius:var(--sw-r-g);background:color-mix(in srgb,var(--sw-suc) 5%,transparent)">
-                            <div class="flx alc gap-m mb-m">
-                                <span sw-badge class="sw-badge-suc sw-badge-pp" style="font-weight:800">COMPL</span>
-                                <span class="f-bd t-p">Módulos avançados</span>
+                    <div class="flx j-sb alc f-wr gap-m" style="padding:1.6rem 2.4rem">
+                        <div class="flx alc gap-m">
+                            <span sw-badge class="sw-badge-suc sw-badge-pp" style="font-weight:800">OPCIONAL</span>
+                            <div>
+                                <p class="f-bd t-p mb-0">SW-FX + SW-MPA</p>
+                                <p class="t-mut t-pp mb-0">~15kb · Efeitos nativos e transições de página. Zero dependências.</p>
                             </div>
-                            <p class="t-mut" style="font-size:var(--sw-f-sm);margin-bottom:1.2rem">~12kb · Table AJAX, SWEditor, Cotação, Instagram, Infinite Scroll, File Upload. Em evolução contínua.</p>
-                            <div class="flx gap-m f-wr">
-                                <a href="https://y2.sanweb.com.br../dist/sw.min.css" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw-compl.min.css</a>
-                                <a href="https://y2.sanweb.com.br../dist/sw.min.js" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw-compl.min.js</a>
-                            </div>
+                        </div>
+                        <div class="flx gap-m f-wr">
+                            <a href="../dist/sw-fx.min.js" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw-fx.min.js</a>
+                            <a href="../dist/sw-mpa.min.js" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw-mpa.min.js</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- INSTALAÇÃO CDN -->
+            <!-- INSTALAÇÃO -->
             <section class="doc-card sec mb-8" id="instalacao">
                 <div class="p-6 border-bottom border-dashed flx gap-3 alc">
                     <div class="step-num">1</div>
                     <div>
-                        <h3 class="t-m f-bd mb-0">Via CDN (recomendado)</h3>
-                        <p class="t-pp t-mut">Cole no <code>&lt;head&gt;</code> do seu HTML. Sem instalação, sem npm, sem build.</p>
+                        <h3 class="t-m f-bd mb-0">Self-hosted (ainda sem CDN)</h3>
+                        <p class="t-pp t-mut">Copie os arquivos de <code>dist/</code> pro seu projeto e carregue no <code>&lt;head&gt;</code>. Sem npm, sem build.</p>
                     </div>
                 </div>
                 <div class="p-6">
-                    <p class="t-p t-mut mb-3"><strong>Apenas Core</strong> — uso geral:</p>
+                    <p class="t-p t-mut mb-3"><strong>Essencial</strong> — CSS + Core:</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
-<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script></script></pre>
+<link rel="stylesheet" href="/dist/sw.min.css">
+<script src="/dist/sw.min.js" defer><\/script></script></pre>
 
-                    <p class="t-p t-mut mb-3 mt-5"><strong>Core + Compl</strong> — com módulos avançados (Table AJAX, Editor, Instagram…):</p>
+                    <p class="t-p t-mut mb-3 mt-5"><strong>Com efeitos e transições</strong> — SW-FX e SW-MPA (opcionais):</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
-<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script>
+<link rel="stylesheet" href="/dist/sw.min.css">
+<script src="/dist/sw.min.js" defer><\/script>
 
-<!-- SW Compl (opcional) -->
-<link rel="stylesheet" href="https://y2.sanweb.com.br../dist/sw.min.css">
-<script src="https://y2.sanweb.com.br../dist/sw.min.js" defer><\/script></script></pre>
+<!-- SW-FX: efeitos nativos (opcional) -->
+<script src="/dist/sw-fx.min.js" defer><\/script>
+
+<!-- SW-MPA: transições entre páginas (opcional) -->
+<script src="/dist/sw-mpa.min.js" defer><\/script></script></pre>
                     <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-inf) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-inf) 30%,transparent);border-radius:var(--sw-r-g)">
                         <i class="sw-info-circle" style="color:var(--sw-inf);font-size:2rem;flex-shrink:0"></i>
-                        <p class="t-p mb-0">O Compl detecta o Core automaticamente e registra os módulos via <code>SW.use()</code>. Carregue sempre o Core primeiro.</p>
+                        <p class="t-p mb-0">SW-FX e SW-MPA detectam o Core automaticamente. Carregue sempre o Core primeiro.</p>
                     </div>
                 </div>
 
                 <div class="p-6 border-top border-dashed">
-                    <h4 class="t-p f-bd mb-3">Via Download (self-hosted)</h4>
-                    <p class="t-p t-mut mb-4">Baixe os arquivos, coloque a pasta <code>fonts/</code> no mesmo nível do CSS e hospede no seu servidor.</p>
+                    <h4 class="t-p f-bd mb-3">Estrutura de pastas</h4>
+                    <p class="t-p t-mut mb-4">Copie a pasta <code>dist/</code> inteira — os ícones (SVG, via <code>SW.Icon</code>) ficam em <code>dist/icons/</code>, não são fonte de ícone tipo <code>@font-face</code>.</p>
                     <div class="cfg-block mb-4">
 <span class="cfg-comment">meu-projeto/</span>
-├── <span class="cfg-value">y2.min.css</span>
-├── <span class="cfg-value">y2.min.js</span>
-├── <span class="cfg-value">sw-compl.min.css</span>   <span class="cfg-comment">← opcional</span>
-├── <span class="cfg-value">sw-compl.min.js</span>    <span class="cfg-comment">← opcional</span>
-├── <span class="cfg-value">fonts/</span>              <span class="cfg-comment">← obrigatório para os ícones</span>
-│   ├── wficons.woff2
-│   ├── wficons.woff
-│   └── wficons.ttf
+├── <span class="cfg-value">dist/sw.min.css</span>
+├── <span class="cfg-value">dist/sw.min.js</span>
+├── <span class="cfg-value">dist/sw-fx.min.js</span>     <span class="cfg-comment">← opcional</span>
+├── <span class="cfg-value">dist/sw-mpa.min.js</span>    <span class="cfg-comment">← opcional</span>
+├── <span class="cfg-value">dist/icons/</span>            <span class="cfg-comment">← SVGs do SW.Icon</span>
+├── <span class="cfg-value">sw.config.css</span>          <span class="cfg-comment">← sua personalização (seção 2)</span>
 └── index.html</div>
-                    <pre swcode="html"><script type="text/plain"><!-- CSS local -->
-<link rel="stylesheet" href="/y2.min.css">
-<link rel="stylesheet" href="/sw-compl.min.css"> <!-- se usar compl -->
-
-<!-- JS local -->
-<script src="/y2.min.js" defer><\/script>
-<script src="/sw-compl.min.js" defer><\/script> <!-- se usar compl --></script></pre>
                     <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">
                         <i class="sw-shape-triangle" style="color:var(--sw-ale);font-size:2rem;flex-shrink:0"></i>
-                        <p class="t-p mb-0">A pasta <code>fonts/</code> deve estar no mesmo diretório que o <code>y2.min.css?v=32</code>. Os ícones não carregam sem ela.</p>
+                        <p class="t-p mb-0">A pasta <code>dist/icons/</code> deve ficar no mesmo diretório que o CSS/JS — o <code>SW.Icon</code> resolve o caminho automaticamente a partir da localização da página.</p>
                     </div>
                 </div>
 
@@ -321,7 +310,7 @@
             <!-- 2. CONFIG CSS -->
             <section class="mb-6">
                 <span class="doc-tag">Personalização</span>
-                <h2 class="t-xg f-bd mb-2"><span class="TprinD">y2.config.css</span></h2>
+                <h2 class="t-xg f-bd mb-2"><span class="TprinD">sw.config.css</span></h2>
                 <p class="t-g t-mut mb-4">
                     Personalize cores, fontes e bordas sem tocar no código-fonte do SW.
                     100% compatível com o <strong>SWDay</strong> (dark / light).
@@ -348,32 +337,31 @@
                     <div class="step-num">1</div>
                     <div>
                         <h3 class="t-m f-bd mb-0">Criar e carregar o arquivo</h3>
-                        <p class="t-pp t-mut">Crie o <code>y2.config.css</code> na raiz do seu projeto e carregue <strong>depois</strong> do SW.</p>
+                        <p class="t-pp t-mut">Crie o <code>sw.config.css</code> na raiz do seu projeto e carregue <strong>depois</strong> do SW.</p>
                     </div>
                 </div>
                 <div class="p-6">
                     <p class="t-p t-mut mb-4">Estrutura de arquivos recomendada:</p>
                     <div class="cfg-block mb-4">
 <span class="cfg-comment">meu-projeto/</span>
-├── <span class="cfg-value">y2.config.css</span>   <span class="cfg-comment">← crie aqui</span>
+├── <span class="cfg-value">sw.config.css</span>   <span class="cfg-comment">← crie aqui</span>
 ├── index.html
 └── assets/</div>
 
                     <p class="t-p t-mut mb-4">No HTML, a ordem importa:</p>
-                    <pre swcode="html"><script type="text/plain"><!-- 1. SW Core -->
-<link rel="stylesheet" href="/dist/y2.min.css">
-<script src="/dist/y2.min.js" defer><\/script>
+                    <pre swcode="html"><script type="text/plain"><!-- 1. SW Core (obrigatório) -->
+<link rel="stylesheet" href="/dist/sw.min.css">
+<script src="/dist/sw.min.js" defer><\/script>
 
-<!-- 2. SW Compl (opcional) -->
-<link rel="stylesheet" href="/dist/sw-compl.min.css">
-<script src="/dist/sw-compl.min.js" defer><\/script>
+<!-- 2. SW-FX / SW-MPA (opcionais) -->
+<script src="/dist/sw-fx.min.js" defer><\/script>
 
 <!-- 3. Sua configuração (sempre por último) -->
-<link rel="stylesheet" href="/y2.config.css"></script></pre>
+<link rel="stylesheet" href="/sw.config.css"></script></pre>
 
                     <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">
                         <i class="sw-shape-triangle" style="color:var(--sw-ale);font-size:2rem;flex-shrink:0"></i>
-                        <p class="t-p mb-0">O <code>y2.config.css</code> deve ser carregado <strong>depois de todos os bundles SW</strong> para que a cascata funcione corretamente — Core, Compl e só então Config.</p>
+                        <p class="t-p mb-0">O <code>sw.config.css</code> deve ser carregado <strong>por último</strong>, depois de todos os bundles SW, pra sobrescrever os tokens em <code>:root</code> corretamente.</p>
                     </div>
                 </div>
             </section>
@@ -384,7 +372,7 @@
                     <div class="step-num">2</div>
                     <div>
                         <h3 class="t-m f-bd mb-0">Cores — Personalização Total</h3>
-                        <p class="t-pp t-mut">O SW oferece três caminhos para mudar sua identidade visual.</p>
+                        <p class="t-pp t-mut">O SW oferece dois caminhos pra mudar sua identidade visual.</p>
                     </div>
                 </div>
 
@@ -392,15 +380,15 @@
                 <div class="p-6 border-bottom border-dashed">
                     <h4 class="t-p f-bd mb-2">A. Sobrescrita Direta (HEX / RGB)</h4>
                     <p class="t-p t-mut mb-4">Se você já tem uma cor exata em HEX ou RGB, pode forçá-la diretamente. Útil para marcas com manuais de identidade rigorosos.</p>
-                    <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+                    <pre swcode="css" class="m-0"><script type="text/plain">/* sw.config.css */
 :root {
   --sw-pri: #ff3e00; /* Sua cor primária exata */
   --sw-sec: #40b3ff; /* Sua cor secundária exata */
 }
 
-/* Opcional: ajuste as variantes de opacidade */
+/* Opcional: um tom translúcido pra fundos suaves */
 :root {
-  --sw-pri-opa1: color-mix(in srgb, var(--sw-pri) 10%, transparent);
+  --sw-pri-glow: color-mix(in srgb, var(--sw-pri) 25%, transparent);
 }</script></pre>
                 </div>
 
@@ -446,7 +434,7 @@
                             <span class="bdg" style="background:color-mix(in srgb,var(--sw-pri) 15%,transparent);color:var(--sw-pri);border:1px solid color-mix(in srgb,var(--sw-pri) 30%,transparent);border-radius:var(--sw-r-fl);padding:.2rem .8rem;font-size:1.2rem;font-weight:700">Badge</span>
                         </div>
 
-                        <p class="t-pp t-mut mb-2">Código gerado no seu <code>y2.config.css</code>:</p>
+                        <p class="t-pp t-mut mb-2">Código pra colar no seu <code>sw.config.css</code>:</p>
                         <div class="cfg-block">
 <span class="cfg-sel">:root</span> {
   <span class="cfg-key">--sw-h-pri</span>: <span class="cfg-value" id="code-pri">210</span><span class="cfg-comment">; /* azul */</span>
@@ -458,19 +446,6 @@
                         <h4 class="t-p f-bd mb-3">Referência de ângulos de matiz</h4>
                         <div class="flx gap-2 f-wr" id="hue-swatches"></div>
                     </div>
-                </div>
-
-                <!-- Caminho C: Navbar Premium -->
-                <div class="p-6">
-                    <h4 class="t-p f-bd mb-2">C. Cores do Navbar Premium</h4>
-                    <p class="t-p t-mut mb-4">O componente <code>.y2nav-prm</code> possui tokens próprios para controle fino do Glassmorphism e do estado sólido ao scrollar.</p>
-                    <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
-:root {
-  --sw-prm-nav-bg:  rgba(20, 20, 30, 0.5);   /* Fundo flutuante (glass) */
-  --sw-prm-nav-sol: rgba(10, 10, 15, 0.98);  /* Fundo ao scrollar (sólido) */
-  --sw-prm-nav-bor: rgba(255, 255, 255, 0.1); /* Borda sutil */
-  --sw-prm-nav-blu: 25px;                    /* Intensidade do Blur */
-}</script></pre>
                 </div>
             </section>
 
@@ -498,7 +473,7 @@
                     </div>
                 </div>
 
-                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+                <pre swcode="css" class="m-0"><script type="text/plain">/* sw.config.css */
 
 /* 1. Importe a fonte desejada */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
@@ -559,7 +534,7 @@
                     </div>
                 </div>
 
-                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css — Preset: Material (padrão SW) */
+                <pre swcode="css" class="m-0"><script type="text/plain">/* sw.config.css — Preset: Material (padrão SW) */
 :root {
     --sw-r-p:  0.4rem;  /* 4px  — chips, badges           */
     --sw-r-m:  0.8rem;  /* 8px  — botões, inputs          */
@@ -569,70 +544,70 @@
 }</script></pre>
             </section>
 
-            <!-- 5. YDDAY — TEMA CLARO / ESCURO -->
+            <!-- 5. SWDAY — TEMA CLARO / ESCURO -->
             <section class="doc-card sec mb-8" id="sw-day">
                 <div class="p-6 border-bottom border-dashed flx gap-3 alc">
                     <div class="step-num">5</div>
                     <div>
                         <h3 class="t-m f-bd mb-0">SWDay — Temas Claro & Escuro</h3>
-                        <p class="t-pp t-mut">Defina valores diferentes para cada tema sem conflito.</p>
+                        <p class="t-pp t-mut">O escuro é o padrão do framework (<code>:root</code>). O claro é o override em <code>html[sw-theme="light"]</code>.</p>
                     </div>
                 </div>
                 <div class="demo-wrap p-6">
                     <div class="l-2 gap-4">
                         <!-- Dark preview -->
-                        <div style="background:#0d0d14;border:1px solid #2a2a38;border-radius:var(--sw-r-g);padding:2rem">
+                        <div style="background:#0d131d;border:1px solid #3e5771;border-radius:var(--sw-r-g);padding:2rem">
                             <div class="flx gap-2 alc mb-3">
-                                <i class="sw-moon" style="color:#7c7cff;font-size:2rem"></i>
-                                <span class="t-p f-bd" style="color:#f0f0f5">Tema Escuro</span>
+                                <i class="sw-moon" style="color:#7c9ab0;font-size:2rem"></i>
+                                <span class="t-p f-bd" style="color:#f3efdf">Tema Escuro (padrão)</span>
                             </div>
-                            <div style="background:#12121a;border:1px solid #2a2a38;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
-                                <span style="color:#8888a0;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-bas: #0d0d14</span>
+                            <div style="background:#1a2636;border:1px solid #3e5771;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
+                                <span style="color:#9fb2c7;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg: #0d131d</span>
                             </div>
-                            <div style="background:#12121a;border:1px solid #2a2a38;border-radius:var(--sw-r-m);padding:1.2rem">
-                                <span style="color:#8888a0;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-sur: #12121a</span>
+                            <div style="background:#1a2636;border:1px solid #3e5771;border-radius:var(--sw-r-m);padding:1.2rem">
+                                <span style="color:#9fb2c7;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-sur: #1a2636</span>
                             </div>
                         </div>
                         <!-- Light preview -->
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:var(--sw-r-g);padding:2rem">
+                        <div style="background:#e9ebee;border:1px solid #d8dce2;border-radius:var(--sw-r-g);padding:2rem">
                             <div class="flx gap-2 alc mb-3">
                                 <i class="sw-sun" style="color:#f59e0b;font-size:2rem"></i>
-                                <span class="t-p f-bd" style="color:#0f172a">Tema Claro</span>
+                                <span class="t-p f-bd" style="color:#1a1d23">Tema Claro (override)</span>
                             </div>
-                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
-                                <span style="color:#64748b;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-bas: #f8fafc</span>
+                            <div style="background:#f8f9fa;border:1px solid #d8dce2;border-radius:var(--sw-r-m);padding:1.2rem;margin-bottom:.8rem">
+                                <span style="color:#5b6270;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg: #e9ebee</span>
                             </div>
-                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--sw-r-m);padding:1.2rem">
-                                <span style="color:#64748b;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-bg-sur: #ffffff</span>
+                            <div style="background:#f8f9fa;border:1px solid #d8dce2;border-radius:var(--sw-r-m);padding:1.2rem">
+                                <span style="color:#5b6270;font-size:1.3rem;font-family:var(--sw-f-mon)">--sw-sur: #f8f9fa</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <pre swcode="css" class="m-0"><script type="text/plain">/* y2.config.css */
+                <pre swcode="css" class="m-0"><script type="text/plain">/* sw.config.css */
 
-/* Valores globais (ambos os temas) */
+/* Valores globais (afetam os dois temas) */
 :root {
     --sw-h-pri: 250;           /* índigo */
     --sw-f-san: 'Inter', sans-serif;
 }
 
-/* Somente no tema ESCURO */
-html[sw-theme="dark"] {
-    --sw-bg-bas: #0d0d14;
-    --sw-bg-sur: #12121a;
-    --sw-bor:    #2a2a38;
-    --sw-txt-bas: #f0f0f5;
-    --sw-pri: hsl(250, 100%, 62%); /* mais brilhante no dark */
+/* Escuro é o padrão do SW — sobrescreva direto em :root */
+:root {
+    --sw-bg:  #0d0d14;
+    --sw-sur: #12121a;
+    --sw-bor: #2a2a38;
+    --sw-txt: #f0f0f5;
+    --sw-pri: hsl(250, 100%, 62%); /* mais brilhante no escuro */
 }
 
 /* Somente no tema CLARO */
 html[sw-theme="light"] {
-    --sw-bg-bas: #f8fafc;
-    --sw-bg-sur: #ffffff;
-    --sw-bor:    #e2e8f0;
-    --sw-txt-bas: #0f172a;
-    --sw-pri: hsl(250, 100%, 40%); /* mais escuro no light */
+    --sw-bg:  #f8fafc;
+    --sw-sur: #ffffff;
+    --sw-bor: #e2e8f0;
+    --sw-txt: #0f172a;
+    --sw-pri: hsl(250, 100%, 40%); /* mais escuro no claro */
 }</script></pre>
             </section>
 
@@ -659,45 +634,57 @@ html[sw-theme="light"] {
                             <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">CORES</td></tr>
                             <tr>
                                 <td><code class="token-name">--sw-h-pri</code></td>
-                                <td><code class="token-default">210</code></td>
+                                <td><code class="token-default">200</code></td>
                                 <td class="t-pp">Matiz da cor primária (0–360)</td>
                                 <td class="t-pp t-mut">Botões, links, acentos, sombras</td>
                             </tr>
                             <tr>
                                 <td><code class="token-name">--sw-h-sec</code></td>
-                                <td><code class="token-default">275</code></td>
+                                <td><code class="token-default">215</code></td>
                                 <td class="t-pp">Matiz da cor secundária</td>
-                                <td class="t-pp t-mut">Badges, variantes secundárias</td>
-                            </tr>
-                            <tr>
-                                <td><code class="token-name">--sw-h-suc</code></td>
-                                <td><code class="token-default">140</code></td>
-                                <td class="t-pp">Matiz da cor de sucesso</td>
-                                <td class="t-pp t-mut">Alertas ok, validação positiva</td>
-                            </tr>
-                            <tr>
-                                <td><code class="token-name">--sw-h-per</code></td>
-                                <td><code class="token-default">0</code></td>
-                                <td class="t-pp">Matiz de perigo / erro</td>
-                                <td class="t-pp t-mut">Alertas err, validação negativa</td>
-                            </tr>
-                            <tr>
-                                <td><code class="token-name">--sw-h-ale</code></td>
-                                <td><code class="token-default">45</code></td>
-                                <td class="t-pp">Matiz de alerta</td>
-                                <td class="t-pp t-mut">Alertas ale, warnings</td>
+                                <td class="t-pp t-mut">Fundos escuros, variantes secundárias</td>
                             </tr>
                             <tr>
                                 <td><code class="token-name">--sw-pri</code></td>
-                                <td><code class="token-default">hsl(210, 100%, 40%)</code></td>
+                                <td><code class="token-default">hsl(200, 75%, 56%)</code></td>
                                 <td class="t-pp">Cor primária direta (override total)</td>
                                 <td class="t-pp t-mut">Tudo que usa var(--sw-pri)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-suc</code></td>
+                                <td><code class="token-default">hsl(145, 65%, 42%)</code></td>
+                                <td class="t-pp">Cor de sucesso</td>
+                                <td class="t-pp t-mut">Alertas ok, validação positiva</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-err</code></td>
+                                <td><code class="token-default">hsl(355, 75%, 55%)</code></td>
+                                <td class="t-pp">Cor de perigo / erro</td>
+                                <td class="t-pp t-mut">Alertas err, validação negativa</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-ale</code></td>
+                                <td><code class="token-default">hsl(40, 85%, 52%)</code></td>
+                                <td class="t-pp">Cor de alerta</td>
+                                <td class="t-pp t-mut">Warnings</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-inf</code></td>
+                                <td><code class="token-default">hsl(205, 75%, 52%)</code></td>
+                                <td class="t-pp">Cor de informação</td>
+                                <td class="t-pp t-mut">Alertas informativos</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-c-{família}</code></td>
+                                <td><code class="token-default">28 famílias</code></td>
+                                <td class="t-pp">Paleta cromática completa (verm, azul, viol…)</td>
+                                <td class="t-pp t-mut">Ver <a href="cores.html" class="Tprin">página Cores HSL</a></td>
                             </tr>
 
                             <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">TIPOGRAFIA</td></tr>
                             <tr>
                                 <td><code class="token-name">--sw-f-san</code></td>
-                                <td><code class="token-default">'Outfit', 'Poppins', …</code></td>
+                                <td><code class="token-default">'Poppins', 'Outfit', …</code></td>
                                 <td class="t-pp">Fonte principal sans-serif</td>
                                 <td class="t-pp t-mut">Todo o texto do framework</td>
                             </tr>
@@ -716,6 +703,12 @@ html[sw-theme="light"] {
 
                             <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">ARREDONDAMENTO</td></tr>
                             <tr>
+                                <td><code class="token-name">--sw-r-p</code></td>
+                                <td><code class="token-default">0.4rem</code></td>
+                                <td class="t-pp">Radius pequeno — chips, badges</td>
+                                <td class="t-pp t-mut">Elementos compactos</td>
+                            </tr>
+                            <tr>
                                 <td><code class="token-name">--sw-r-m</code></td>
                                 <td><code class="token-default">0.8rem</code></td>
                                 <td class="t-pp">Radius médio — botões, inputs</td>
@@ -729,35 +722,47 @@ html[sw-theme="light"] {
                             </tr>
                             <tr>
                                 <td><code class="token-name">--sw-r-gg</code></td>
-                                <td><code class="token-default">1.6rem</code></td>
+                                <td><code class="token-default">1.8rem</code></td>
                                 <td class="t-pp">Radius extra — modais</td>
                                 <td class="t-pp t-mut">Modais, overlays</td>
                             </tr>
-
-                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">TEMA (YDDAY)</td></tr>
                             <tr>
-                                <td><code class="token-name">--sw-bg-bas</code></td>
-                                <td><code class="token-default">dark/light automático</code></td>
+                                <td><code class="token-name">--sw-r-fl</code></td>
+                                <td><code class="token-default">9999px</code></td>
+                                <td class="t-pp">Totalmente arredondado</td>
+                                <td class="t-pp t-mut">Pills, avatares, badges redondos</td>
+                            </tr>
+
+                            <tr><td colspan="4" style="padding:.6rem 1.2rem;background:color-mix(in srgb,var(--sw-pri) 6%,transparent);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sw-pri)">TEMA (SWDAY)</td></tr>
+                            <tr>
+                                <td><code class="token-name">--sw-bg</code></td>
+                                <td><code class="token-default">escuro/claro automático</code></td>
                                 <td class="t-pp">Fundo da página</td>
                                 <td class="t-pp t-mut">Background do body</td>
                             </tr>
                             <tr>
-                                <td><code class="token-name">--sw-bg-sur</code></td>
-                                <td><code class="token-default">dark/light automático</code></td>
+                                <td><code class="token-name">--sw-sur</code></td>
+                                <td><code class="token-default">escuro/claro automático</code></td>
                                 <td class="t-pp">Superfícies (cards, sidebar)</td>
                                 <td class="t-pp t-mut">Cards, modais, sidebar</td>
                             </tr>
                             <tr>
-                                <td><code class="token-name">--sw-txt-bas</code></td>
-                                <td><code class="token-default">dark/light automático</code></td>
+                                <td><code class="token-name">--sw-txt</code></td>
+                                <td><code class="token-default">escuro/claro automático</code></td>
                                 <td class="t-pp">Cor principal do texto</td>
                                 <td class="t-pp t-mut">Headings, parágrafos</td>
                             </tr>
                             <tr>
                                 <td><code class="token-name">--sw-bor</code></td>
-                                <td><code class="token-default">dark/light automático</code></td>
+                                <td><code class="token-default">escuro/claro automático</code></td>
                                 <td class="t-pp">Cor das bordas</td>
                                 <td class="t-pp t-mut">Cards, inputs, dividers</td>
+                            </tr>
+                            <tr>
+                                <td><code class="token-name">--sw-bg / --sw-color / --sw-border…</code></td>
+                                <td><code class="token-default">7 tons cada</code></td>
+                                <td class="t-pp">Sistema Day/Night avançado (BG, BL, Border, Color, Link, Hover, Shadow)</td>
+                                <td class="t-pp t-mut">Ver <a href="cores.html#" class="Tprin">seção 5 de Cores HSL</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -781,19 +786,24 @@ html[sw-theme="light"] {
 
                 <pre swcode="css" id="cfg-template" class="m-0"><script type="text/plain">/**
  * ╔══════════════════════════════════════════════╗
- * ║        YDRA CONFIG — Meu Projeto             ║
+ * ║        SW CONFIG — Meu Projeto               ║
  * ╚══════════════════════════════════════════════╝
- * Carregue DEPOIS do y2.min.css?v=32:
- * <link rel="stylesheet" href="y2.config.css">
+ * Carregue DEPOIS do sw.min.css:
+ * <link rel="stylesheet" href="sw.config.css">
  */
 
-/* ── HUES (altere o número, todas as shades atualizam) ── */
+/* ── HUES (altere o número, todas as shades da cor derivam daqui) ── */
 :root {
-    --sw-h-pri: 210;    /* azul   */
-    --sw-h-sec: 275;    /* roxo   */
-    --sw-h-suc: 140;    /* verde  */
-    --sw-h-per: 0;      /* vermelho */
-    --sw-h-ale: 45;     /* âmbar  */
+    --sw-h-pri: 200;    /* azul   */
+    --sw-h-sec: 215;    /* navy   */
+}
+
+/* ── CORES DE ESTADO (override direto, se precisar) ── */
+:root {
+    /* --sw-suc: hsl(145, 65%, 42%); */
+    /* --sw-err: hsl(355, 75%, 55%); */
+    /* --sw-ale: hsl(40, 85%, 52%); */
+    /* --sw-inf: hsl(205, 75%, 52%); */
 }
 
 /* ── TIPOGRAFIA ── */
@@ -807,21 +817,21 @@ html[sw-theme="light"] {
     --sw-r-p:  0.4rem;
     --sw-r-m:  0.8rem;
     --sw-r-g:  1.2rem;
-    --sw-r-gg: 1.6rem;
+    --sw-r-gg: 1.8rem;
     --sw-r-xl: 2.4rem;
 }
 
-/* ── TEMA ESCURO (SWDay dark) ── */
-html[sw-theme="dark"] {
-    /* --sw-bg-bas: #0d0d14; */
-    /* --sw-bg-sur: #12121a; */
-    /* --sw-bor:    #2a2a38; */
+/* ── TEMA ESCURO (SWDay — é o padrão em :root, sobrescreva direto) ── */
+:root {
+    /* --sw-bg:  #0d0d14; */
+    /* --sw-sur: #12121a; */
+    /* --sw-bor: #2a2a38; */
 }
 
 /* ── TEMA CLARO (SWDay light) ── */
 html[sw-theme="light"] {
-    /* --sw-bg-bas: #f8fafc; */
-    /* --sw-bg-sur: #ffffff; */
+    /* --sw-bg:  #f8fafc; */
+    /* --sw-sur: #ffffff; */
     /* --sw-bor:    #e2e8f0; */
 }</script></pre>
             </section>
@@ -956,6 +966,10 @@ html[sw-theme="light"] {
         applyHue(priSlider.value, h);
     });
 
+    // Estado inicial — sem isto, os swatches de shade ficam em branco até o
+    // usuário arrastar um slider pela primeira vez.
+    applyHue(priSlider.value, secSlider.value);
+
     // ── Hue Reference Swatches ────────────────────────────
     const swatchContainer = document.getElementById('hue-swatches');
     const hueNames = [
@@ -1007,7 +1021,7 @@ html[sw-theme="light"] {
     // ── Preset Gallery ────────────────────────────────────
     const presetCodes = {
         roxo:    `:root {\n    --sw-h-pri: 275;  /* roxo */\n    --sw-h-sec: 305;  /* fúcsia */\n    --sw-r-m:  1.2rem;\n    --sw-r-g:  1.8rem;\n}`,
-        emerald: `:root {\n    --sw-h-pri: 155;  /* esmeralda */\n    --sw-h-sec: 190;  /* água */\n    --sw-r-m:  0.6rem;\n    --sw-r-g:  1.0rem;\n}\nhtml[sw-theme="light"] {\n    --sw-bg-bas: #f0fdf4;\n    --sw-bor: #bbf7d0;\n}`,
+        emerald: `:root {\n    --sw-h-pri: 155;  /* esmeralda */\n    --sw-h-sec: 190;  /* água */\n    --sw-r-m:  0.6rem;\n    --sw-r-g:  1.0rem;\n}\nhtml[sw-theme="light"] {\n    --sw-bg: #f0fdf4;\n    --sw-bor: #bbf7d0;\n}`,
         rose:    `:root {\n    --sw-h-pri: 340;  /* rose */\n    --sw-h-sec: 30;   /* laranja */\n    --sw-r-m:  1.0rem;\n    --sw-r-g:  1.6rem;\n}`,
         sharp:   `:root {\n    --sw-h-pri: 210;\n    --sw-r-p:  0;\n    --sw-r-m:  0.2rem;\n    --sw-r-g:  0.4rem;\n    --sw-r-gg: 0.4rem;\n    --sw-r-xl: 0.4rem;\n}`,
         ocean:   `:root {\n    --sw-h-pri: 195;  /* ciano */\n    --sw-h-sec: 225;  /* azul */\n    --sw-r-m:  0.8rem;\n    --sw-r-g:  1.4rem;\n}`,

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Tabela Framework - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css">
+  <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
 
@@ -114,10 +114,8 @@
 
 <body>
 
-    <header class="doc-top" data-sw-ajax data-sw-url="/docs/layout/header.html" data-sw-trigger="load"></header>
-
     <div class="doc-shell">
-        <aside class="doc-aside" data-sw-ajax data-sw-url="/docs/layout/sidebar.html" data-sw-trigger="load"></aside>
+        <!-- header.js/sidebar.js (ver <head>) geram .doc-top e .doc-aside sozinhos, igual às outras páginas -->
 
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">

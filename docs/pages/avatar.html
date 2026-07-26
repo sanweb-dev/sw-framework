@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Avatar - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Avatar</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Avatar <span class="TprinD">[sw-avt]</span></h1>
+                <p class="t-g t-mut mb-0">Imagem de usuário circular ou quadrada, com iniciais de fallback, indicador de status e agrupamento empilhado.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Tamanhos</h3>
+                <div class="demo-wrap p-6 flx alc gap-3 f-wr">
+                    <span sw-avt class="sw-avt-pp">PP</span>
+                    <span sw-avt class="sw-avt-p">P</span>
+                    <span sw-avt>M</span>
+                    <span sw-avt class="sw-avt-g">G</span>
+                    <span sw-avt class="sw-avt-gg">GG</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-avt class="sw-avt-pp">PP</span>
+<span sw-avt class="sw-avt-p">P</span>
+<span sw-avt>M</span>  <!-- padrão -->
+<span sw-avt class="sw-avt-g">G</span>
+<span sw-avt class="sw-avt-gg">GG</span>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">2. Cores & Forma</h3>
+                <div class="demo-wrap p-6 flx alc gap-3 f-wr">
+                    <span sw-avt>P</span>
+                    <span sw-avt class="sw-avt-sec">S</span>
+                    <span sw-avt class="sw-avt-suc">S</span>
+                    <span sw-avt class="sw-avt-ale">A</span>
+                    <span sw-avt class="sw-avt-err">E</span>
+                    <span sw-avt class="sw-avt-inf">I</span>
+                    <span sw-avt class="sw-avt-sqr">Q</span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-avt class="sw-avt-suc">S</span>
+<!-- Variantes: sw-avt-pri (padrão) | sw-avt-sec | sw-avt-suc | sw-avt-ale | sw-avt-err | sw-avt-inf -->
+<span sw-avt class="sw-avt-sqr">Q</span>  <!-- quadrado, cantos arredondados -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">3. Com Imagem & Status</h3>
+                <div class="demo-wrap p-6 flx alc gap-3 f-wr">
+                    <span sw-avt class="sw-avt-g is-onl"><img src="https://i.pravatar.cc/100?u=avt1" alt="Usuário online"></span>
+                    <span sw-avt class="sw-avt-g is-bsy"><img src="https://i.pravatar.cc/100?u=avt2" alt="Usuário ocupado"></span>
+                    <span sw-avt class="sw-avt-g is-away"><img src="https://i.pravatar.cc/100?u=avt3" alt="Usuário ausente"></span>
+                    <span sw-avt class="sw-avt-g is-off"><img src="https://i.pravatar.cc/100?u=avt4" alt="Usuário offline"></span>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-avt class="is-onl"><img src="foto.jpg" alt="Nome"></span>
+<!-- Status: is-onl (online) | is-bsy (ocupado) | is-away (ausente) | is-off (offline) -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">4. Grupo Empilhado</h3>
+                <div class="demo-wrap p-6">
+                    <div class="sw-avt-grp">
+                        <span sw-avt><img src="https://i.pravatar.cc/100?u=grp1" alt=""></span>
+                        <span sw-avt class="sw-avt-sec"><img src="https://i.pravatar.cc/100?u=grp2" alt=""></span>
+                        <span sw-avt class="sw-avt-suc"><img src="https://i.pravatar.cc/100?u=grp3" alt=""></span>
+                        <span class="sw-avt-grp-more">+5</span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="sw-avt-grp">
+    <span sw-avt><img src="foto1.jpg" alt=""></span>
+    <span sw-avt><img src="foto2.jpg" alt=""></span>
+    <span class="sw-avt-grp-more">+5</span>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-avt]</code></td><td>Base</td><td>Atributo fundamental — círculo com iniciais ou imagem.</td></tr>
+                            <tr><td><code>.sw-avt-pp, .sw-avt-p, .sw-avt-g, .sw-avt-gg</code></td><td>Tamanho</td><td>Escala PP→GG. Sem classe = tamanho M (padrão).</td></tr>
+                            <tr><td><code>.sw-avt-sqr</code></td><td>Forma</td><td>Quadrado com cantos arredondados em vez de círculo.</td></tr>
+                            <tr><td><code>.sw-avt-sec, -suc, -ale, -err, -inf</code></td><td>Cor</td><td>Variantes semânticas do fundo (sem imagem).</td></tr>
+                            <tr><td><code>.is-onl, .is-bsy, .is-away, .is-off</code></td><td>Status</td><td>Indicador de presença no canto inferior direito.</td></tr>
+                            <tr><td><code>.sw-avt-grp</code></td><td>Layout</td><td>Agrupa avatares filhos sobrepostos.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

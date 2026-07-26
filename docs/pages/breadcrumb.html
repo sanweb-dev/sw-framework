@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Breadcrumb - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes</span>
+                <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">Component</span>
+                <h1 class="t-xxg f-bd mb-2">Breadcrumb <span class="TprinD">.brc</span></h1>
+                <p class="t-g t-mut mb-0">Trilha de navegação hierárquica. Já usada no topo de toda página desta documentação.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Padrão</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it">Componentes</span>
+                        <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc" aria-label="Breadcrumb">
+    <a class="brc-it" href="/">Home</a>
+    <span class="brc-it">Componentes</span>
+    <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">2. Com Ícones</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#"><span sw-icon="Hardware/dashboard-one" style="width:1.2em;height:1.2em;margin-right:.3rem"></span>Dashboard</a>
+                        <span class="brc-it">Projetos</span>
+                        <span class="brc-it is-cur" aria-current="page">SW Framework</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc" aria-label="Breadcrumb">
+    <a class="brc-it" href="/">
+        <span sw-icon="Hardware/dashboard-one"></span> Dashboard
+    </a>
+    <span class="brc-it is-cur" aria-current="page">SW Framework</span>
+</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>.brc</code></td><td>Base</td><td><code>&lt;nav&gt;</code> container da trilha, separadores automáticos via CSS.</td></tr>
+                            <tr><td><code>.brc-it</code></td><td>Item</td><td>Cada nível — <code>&lt;a&gt;</code> se navegável, <code>&lt;span&gt;</code> se não.</td></tr>
+                            <tr><td><code>.is-cur</code></td><td>Estado</td><td>Marca o item atual — use com <code>aria-current="page"</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
