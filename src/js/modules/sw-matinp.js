@@ -86,9 +86,12 @@
       const el = this._inp;
       if (this._mask && masks[this._mask]) {
         el.addEventListener('input', () => {
-          const pos = el.selectionStart;
+          // Sem restaurar a posição do cursor de propósito: como o texto formatado muda de
+          // tamanho a cada tecla (parênteses, traço, barra...), tentar devolver o cursor pra
+          // um índice numérico antigo o jogava no meio da string errada, embaralhando os
+          // próximos dígitos digitados. Deixar o cursor ir pro fim (padrão do navegador ao
+          // setar .value) funciona certo pro caso comum de digitar em sequência.
           el.value = masks[this._mask](el.value);
-          try { el.setSelectionRange(pos, pos); } catch (_) { /* posição fora do range em alguns navegadores */ }
           SW.emit(el, 'sw:matinp:change', { value: el.value });
         });
       }
