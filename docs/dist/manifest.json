@@ -1,14 +1,14 @@
 {
   "version": "0.1.0-alpha.1",
-  "generatedAt": "2026-07-27T20:58:51.053Z",
+  "generatedAt": "2026-07-27T21:47:10.238Z",
   "files": {
     "sw.css": {
-      "bytes": 376430,
-      "sha256": "f73eb4b176d5a73386ebb1a3691b578a9964081897f351460c2e28676dee3533"
+      "bytes": 376601,
+      "sha256": "992dbdf694472e88ea85a502b78c8a55f14c64b97b97e1e644013fea50a600d6"
     },
     "sw.min.css": {
-      "bytes": 310957,
-      "sha256": "92993a44da27415e0c692bf6f1405b8f44702dc4bb74076bf003672b058faba4"
+      "bytes": 311100,
+      "sha256": "dbf68c6282a6841490339c17d4526d6f01c4fbb98f10119f0abed60411d911ce"
     },
     "sw-mpa.js": {
       "bytes": 2788,

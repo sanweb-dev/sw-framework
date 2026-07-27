@@ -6643,6 +6643,10 @@ span.sw-card-pop {
 [sw-top].is-tr { bottom: auto; top: var(--sw-s-m); }
 [sw-top].is-tl { bottom: auto; top: var(--sw-s-m); right: auto; left: var(--sw-s-m); }
 
+/* Ícone */
+[sw-top] i.swi-up-arrow-alt { font-size: 3rem; color: #ffffff94; transition: color .15s var(--sw-ease); }
+[sw-top]:hover i.swi-up-arrow-alt { color: #fff; }
+
 /* ---------- Preloader ---------- */
 [sw-pre] { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; background: var(--sw-bg); z-index: var(--sw-z-m); transition: opacity .5s var(--sw-ease); }
 [sw-pre].is-out { opacity: 0; pointer-events: none; }
