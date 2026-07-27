@@ -82,8 +82,9 @@
             <div class="doc-card sec mb-6" id="basico">
                 <h3 class="t-m f-bd mb-4">1. Básico</h3>
                 <p class="t-g t-mut mb-4">Envolva o <code>&lt;select&gt;</code> nativo com um <code>div sw-select</code>.
-                    O JS oculta o nativo, injeta a UI e mantém os dois sincronizados. A busca vem ativada por padrão -
-                    use <code>sw-select-search="false"</code> para remover.</p>
+                    O JS oculta o nativo, injeta a UI e mantém os dois sincronizados. Com busca ativada (padrão em
+                    seleção única) o próprio campo visível já é o input de busca — clique e comece a digitar direto,
+                    sem passo extra. Use <code>sw-select-search="false"</code> para remover a busca.</p>
                 <div class="demo-wrap">
                     <div class="g2" style="width:100%">
                         <div>
@@ -174,7 +175,7 @@
                         var wrap = document.getElementById('sel-skills');
                         var logVal = document.getElementById('log-skills-val');
                         if (wrap && logVal) {
-                            wrap.addEventListener('yd:select:change', function (e) {
+                            wrap.addEventListener('sw:select:change', function (e) {
                                 logVal.textContent = JSON.stringify(e.detail.value);
                             });
                         }
@@ -213,10 +214,10 @@
                     <div class="flx gap-2 mt-4" style="flex-wrap:wrap">
                         <button sw-btn class="sw-btn-sec" onclick="setEstado('')">Normal</button>
                         <button sw-btn class="sw-btn-err" onclick="setEstado('is-err')">
-                            <i class="yd sw-warning"></i> Erro
+                            Erro
                         </button>
                         <button sw-btn class="sw-btn-suc" onclick="setEstado('is-ok')">
-                            <i class="yd sw-check"></i> OK
+                            OK
                         </button>
                     </div>
                 </div>
@@ -253,7 +254,7 @@ wrap.classList.remove('is-err', 'is-ok');
             <!-- EVENTO -->
             <div class="doc-card sec mb-6" id="evento">
                 <h3 class="t-m f-bd mb-4">4. Evento em Tempo Real</h3>
-                <p class="t-g t-mut mb-4"><code>yd:select:change</code> é disparado no wrapper a cada seleção.
+                <p class="t-g t-mut mb-4"><code>sw:select:change</code> é disparado no wrapper a cada seleção.
                     O select nativo também recebe um <code>change</code> padrão - formulários funcionam normalmente.</p>
                 <div class="demo-wrap">
                     <div style="max-width:360px;width:100%">
@@ -277,7 +278,7 @@ wrap.classList.remove('is-err', 'is-ok');
                         var wrap = document.getElementById('sel-evt');
                         var log = document.getElementById('log-evt');
                         if (!wrap || !log) return;
-                        wrap.addEventListener('yd:select:change', function (e) {
+                        wrap.addEventListener('sw:select:change', function (e) {
                             log.innerHTML =
                                 '<span class="evt-key">value:</span> <span class="evt-val">"' + e.detail.value[0] + '"</span>' +
                                 '&nbsp;&nbsp;<span class="evt-key">label:</span> <span class="evt-val">"' + e.detail.label + '"</span>';
@@ -286,7 +287,7 @@ wrap.classList.remove('is-err', 'is-ok');
                 </script>
                 <pre swcode="js">
 document.querySelector('[sw-select]')
-  .addEventListener('yd:select:change', e => {
+  .addEventListener('sw:select:change', e => {
     console.log(e.detail.value);  // array com os valores selecionados
     console.log(e.detail.label);  // label do primeiro selecionado
   });
@@ -347,7 +348,7 @@ document.querySelector('[name="plano"]')
                             <td>Borda verde - estado válido</td>
                         </tr>
                         <tr>
-                            <td><code>yd:select:change</code></td>
+                            <td><code>sw:select:change</code></td>
                             <td>evento (wrapper)</td>
                             <td><code>detail.value</code> (array) e <code>detail.label</code> (texto do 1 selecionado)
                             </td>
