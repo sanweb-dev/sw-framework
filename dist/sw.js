@@ -1434,10 +1434,21 @@
       const cls = /^sw-(ani|rev|loop)-/.test(effect) ? effect : `sw-ani-${effect}`;
       element.className = element.className.replace(/\bsw-(ani|rev|loop)-[a-z-]+\b/g, '').trim();
       element.classList.remove('is-revealed');
-      void element.offsetWidth;
-      element.classList.add(cls);
       if (cls.startsWith('sw-rev-')) {
-        requestAnimationFrame(() => requestAnimationFrame(() => element.classList.add('is-revealed')));
+        // .sw-rev-* usa transition (não animation) pra revelar. Se a transição já estiver ativa
+        // quando o estado oculto (opacity:0) é aplicado, o navegador começa a animar rumo a ele —
+        // e como .is-revealed chega logo em seguida, a transição nunca tem tempo real de
+        // progredir (o alvo volta pra 1 quase no mesmo instante): visualmente não acontece nada.
+        // Desliga a transição, aplica o oculto como salto instantâneo, comita, religa e só então
+        // revela — assim a transição de verdade acontece do oculto pro visível.
+        element.style.transition = 'none';
+        element.classList.add(cls);
+        void element.offsetWidth;
+        element.style.transition = '';
+        requestAnimationFrame(() => element.classList.add('is-revealed'));
+      } else {
+        element.classList.add(cls);
+        void element.offsetWidth;
       }
     }
 
