@@ -1210,6 +1210,7 @@ a:focus-visible,
   width: 3.2rem; height: 3.2rem; border-radius: 50%; border: none; background: transparent;
   color: var(--sw-txt-mut); cursor: pointer; position: relative; flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
+  top: -20px; right: -20px;
 }
 .mdl-cls:hover { background: var(--sw-bg-); color: var(--sw-txt); }
 .mdl-cls::before, .mdl-cls::after {

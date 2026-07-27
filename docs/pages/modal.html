@@ -72,11 +72,11 @@
   <div class="mdl-box">
     <div class="mdl-hdr">
       <h4 class="mdl-ttl">Título</h4>
-      <button class="mdl-cls" sw-modal-cls aria-label="Fechar"></button>
+      <button class="mdl-cls" sw-modal-close aria-label="Fechar"></button>
     </div>
     <div class="mdl-bdy">Conteúdo</div>
     <div class="mdl-ftr">
-      <button sw-btn sw-modal-cls>Cancelar</button>
+      <button sw-btn sw-modal-close>Cancelar</button>
       <button sw-btn class="sw-btn-pri">Confirmar</button>
     </div>
   </div>
@@ -163,7 +163,7 @@ document.querySelector('#meuModal')
                             <td>Define o container do modal</td>
                         </tr>
                         <tr>
-                            <td><code>sw-modal-cls</code></td>
+                            <td><code>sw-modal-close</code></td>
                             <td>button</td>
                             <td>Fecha o modal ao clicar</td>
                         </tr>
@@ -222,123 +222,123 @@ document.querySelector('#meuModal')
     <div class="sw-modal" id="mdl-basic">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Modal Básico</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Modal Básico</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Conteúdo do modal. ESC ou clique no backdrop para fechar.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn sw-modal-cls>Fechar</button><button sw-btn class="sw-btn-pri"
-                    sw-modal-cls>Confirmar</button></div>
+            <div class="mdl-ftr"><button sw-btn sw-modal-close>Fechar</button><button sw-btn class="sw-btn-pri"
+                    sw-modal-close>Confirmar</button></div>
         </div>
     </div>
     <div class="sw-modal is-pp" id="mdl-pp">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">PP</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">PP</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Modal tamanho PP.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-p" id="mdl-p">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Pequeno</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Pequeno</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Modal tamanho P.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-m" id="mdl-m">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Médio</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Médio</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Modal tamanho M (padrão).</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-g" id="mdl-g">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Grande</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Grande</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Modal tamanho G.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-gg" id="mdl-gg">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Extra Grande</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Extra Grande</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Modal tamanho GG.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-fl" id="mdl-fl">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Full Screen</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Full Screen</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy" style="flex:1">
                 <p>Modal tela cheia.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>Fechar</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>Fechar</button></div>
         </div>
     </div>
     <div class="sw-modal is-sld" id="mdl-sld">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Slide</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Slide</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Efeito slide de cima.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-zoo" id="mdl-zoo">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Zoom</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Zoom</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Efeito zoom in.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
     <div class="sw-modal is-drw" id="mdl-drw">
         <div class="mdl-box">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Drawer</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Drawer</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Painel lateral (drawer).</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>Fechar</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>Fechar</button></div>
         </div>
     </div>
     <div class="sw-modal" id="mdl-gls">
         <div class="mdl-box is-gls">
             <div class="mdl-hdr">
-                <h4 class="mdl-ttl">Glassmorphism</h4><button class="mdl-cls" sw-modal-cls></button>
+                <h4 class="mdl-ttl">Glassmorphism</h4><button class="mdl-cls" sw-modal-close></button>
             </div>
             <div class="mdl-bdy">
                 <p>Visual glass com blur.</p>
             </div>
-            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-cls>OK</button></div>
+            <div class="mdl-ftr"><button sw-btn class="sw-btn-pri" sw-modal-close>OK</button></div>
         </div>
     </div>
 
