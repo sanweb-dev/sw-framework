@@ -6644,8 +6644,28 @@ span.sw-card-pop {
 [sw-top].is-tl { bottom: auto; top: var(--sw-s-m); right: auto; left: var(--sw-s-m); }
 
 /* ---------- Preloader ---------- */
-[sw-pre] { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--sw-bg); z-index: var(--sw-z-m); transition: opacity .5s var(--sw-ease); }
+[sw-pre] { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; background: var(--sw-bg); z-index: var(--sw-z-m); transition: opacity .5s var(--sw-ease); }
 [sw-pre].is-out { opacity: 0; pointer-events: none; }
+
+.sw-spinner { width: 4.8rem; height: 4.8rem; border: .4rem solid var(--sw-bor); border-top-color: var(--sw-pri); border-radius: 50%; animation: sw-spin .8s linear infinite; }
+
+.sw-pre-dots { display: flex; gap: .8rem; }
+.sw-pre-dots span { width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--sw-pri); animation: sw-pre-dot 1s ease-in-out infinite; }
+.sw-pre-dots span:nth-child(2) { animation-delay: .15s; }
+.sw-pre-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes sw-pre-dot { 0%, 80%, 100% { transform: scale(.6); opacity: .5; } 40% { transform: scale(1); opacity: 1; } }
+
+.sw-pre-lbl { color: var(--sw-txt-mut); font-size: 1.3rem; }
+
+[sw-pre].is-drk { background: #0f0f0f; }
+[sw-pre].is-pri { background: var(--sw-pri); }
+[sw-pre].is-pri .sw-spinner { border-color: rgba(255, 255, 255, .3); border-top-color: #fff; }
+[sw-pre].is-pri .sw-pre-dots span { background: #fff; }
+[sw-pre].is-pri .sw-pre-lbl { color: #fff; }
+
+[sw-pre].is-bar { background: transparent; justify-content: flex-start; }
+[sw-pre].is-bar::after { content: ''; position: absolute; top: 0; left: 0; height: .3rem; width: 100%; background: var(--sw-pri); animation: sw-pre-bar 1.4s ease-in-out infinite; }
+@keyframes sw-pre-bar { 0% { transform: scaleX(0); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } 50.001% { transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
 
 /* ---------- Dropdown ---------- */
 [sw-dropdown] { position: relative; display: inline-block; }

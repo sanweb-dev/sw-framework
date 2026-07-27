@@ -27,8 +27,8 @@
                 <p class="t-g t-mut mb-0">Tela de carregamento em tela cheia que some automaticamente 200ms após a página terminar de carregar.</p>
             </section>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Uso</h3>
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Uso</h3>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <!-- Coloque logo no início do <body> -->
 <div sw-pre>
@@ -36,18 +36,82 @@
 </div>
 </script></pre>
                 <p class="t-mut mt-4">Ao carregar, o SW adiciona <code>.is-out</code> (transição de opacidade via CSS) e remove o elemento do DOM após 600ms.</p>
-                <div class="tbl is-str mt-4">
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Demo ao vivo</h3>
+                <p class="t-p t-mut mb-4">O preloader real já sumiu (a página já carregou) — cada botão abaixo mostra uma variante por ~1.6s e some sozinho com a mesma animação, só pra visualizar sem precisar recarregar a página.</p>
+                <div class="demo-wrap p-6 flx gap-3 f-wr">
+                    <button sw-btn class="sw-btn-out" data-pre="">Spinner (padrão)</button>
+                    <button sw-btn class="sw-btn-out" data-pre="" data-pre-dots="1">Dots</button>
+                    <button sw-btn class="sw-btn-out" data-pre="is-drk">Escuro</button>
+                    <button sw-btn class="sw-btn-out" data-pre="is-pri">Colorido</button>
+                    <button sw-btn class="sw-btn-out" data-pre="is-bar">Barra de progresso</button>
+                </div>
+                <pre swcode="html" class="m-0 mt-6"><script type="text/plain">
+<div sw-pre class="is-drk">
+    <div class="sw-spinner"></div>
+    <p class="sw-pre-lbl">Carregando…</p>
+</div>
+
+<div sw-pre>
+    <div class="sw-pre-dots"><span></span><span></span><span></span></div>
+</div>
+
+<div sw-pre class="is-bar"></div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
                     <table>
                         <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>[sw-pre]</code></td><td>Overlay de tela cheia — remove-se sozinho após o <code>load</code>.</td></tr>
-                            <tr><td><code>.is-out</code></td><td>Aplicada automaticamente para animar a saída.</td></tr>
+                            <tr><td><code>[sw-pre]</code></td><td>Overlay de tela cheia — remove-se sozinho 200ms após o <code>load</code>.</td></tr>
+                            <tr><td><code>.is-out</code></td><td>Aplicada automaticamente para animar a saída (fade, 600ms).</td></tr>
+                            <tr><td><code>.sw-spinner</code></td><td>Anel giratório — o indicador padrão.</td></tr>
+                            <tr><td><code>.sw-pre-dots</code></td><td>3 pontinhos saltitantes — precisa de 3 <code>&lt;span&gt;</code> filhos.</td></tr>
+                            <tr><td><code>.sw-pre-lbl</code></td><td>Texto opcional abaixo do indicador.</td></tr>
+                            <tr><td><code>.is-drk</code></td><td>Fundo escuro fixo (<code>#0f0f0f</code>), independente do tema.</td></tr>
+                            <tr><td><code>.is-pri</code></td><td>Fundo na cor primária — spinner/dots/label viram brancos.</td></tr>
+                            <tr><td><code>.is-bar</code></td><td>Fundo transparente, só uma barra de progresso animada no topo.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        (function () {
+            document.querySelectorAll('[data-pre]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var variant = btn.getAttribute('data-pre');
+                    var useDots = btn.hasAttribute('data-pre-dots');
+                    var isBar = variant === 'is-bar';
+
+                    var el = document.createElement('div');
+                    el.setAttribute('sw-pre', '');
+                    el._swPre = true; // impede o auto-init do SW (observer de mutação) de assumir e sumir sozinho em 200ms
+                    if (variant) el.className = variant;
+
+                    if (!isBar) {
+                        var indicator = useDots
+                            ? '<div class="sw-pre-dots"><span></span><span></span><span></span></div>'
+                            : '<div class="sw-spinner"></div>';
+                        el.innerHTML = indicator + '<p class="sw-pre-lbl">Carregando…</p>';
+                    }
+
+                    document.body.appendChild(el);
+                    window.setTimeout(function () {
+                        el.classList.add('is-out');
+                        window.setTimeout(function () { el.remove(); }, 600);
+                    }, 1600);
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
