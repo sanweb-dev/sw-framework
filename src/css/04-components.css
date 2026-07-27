@@ -331,6 +331,70 @@ a:focus-visible,
 .bdg-fl { position: absolute; top: -0.6rem; right: -0.6rem; }
 .sw-badge-dot.bdg-fl { top: -0.1rem; right: -0.1rem; }
 
+/* --- 🍞 BREADCRUMB (.brc) — trilha de navegação, separador/estilo/tamanho configuráveis --- */
+.brc {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+  font-size: 1.3rem;
+  padding: 0;
+  font-family: var(--sw-f-mon);
+}
+
+.brc-it {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sw-txt-mut);
+  text-decoration: none;
+  transition: color .18s;
+  white-space: nowrap;
+}
+
+.brc-it:not(.is-cur):hover { color: var(--sw-pri); }
+
+.brc-it.is-cur {
+  color: var(--sw-txt);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.brc-it:not(:last-child)::after {
+  content: '/';
+  margin: 0 .7rem;
+  color: var(--sw-txt-mut);
+  opacity: .5;
+}
+
+/* --- Separador seta (›) --- */
+.brc.is-arrow .brc-it:not(:last-child)::after { content: '›'; font-weight: 700; }
+
+/* --- Separador ponto (•) --- */
+.brc.is-dot .brc-it:not(:last-child)::after { content: '•'; margin: 0 .9rem; font-size: .8em; }
+
+/* --- Separador chevron via ícone (some o "/" e usa .brc-sep entre os itens) --- */
+.brc.is-chevron .brc-it:not(:last-child)::after { content: none; }
+.brc-sep { display: inline-flex; margin: 0 .6rem; color: var(--sw-txt-mut); opacity: .5; width: 1.1em; height: 1.1em; }
+
+/* --- Pill: cada item vira uma cápsula com fundo --- */
+.brc.is-pill { gap: .4rem; }
+.brc.is-pill .brc-it { padding: .3rem .9rem; border-radius: var(--sw-r-fl); background: var(--sw-sur); }
+.brc.is-pill .brc-it:not(:last-child)::after { content: none; }
+.brc.is-pill .brc-it.is-cur { background: var(--sw-pri); color: #fff; }
+
+/* --- Bar: trilha inteira dentro de uma barra com borda, como um card raso --- */
+.brc.is-bar {
+  padding: .8rem 1.4rem;
+  background: var(--sw-sur);
+  border: 1px solid var(--sw-bor);
+  border-radius: var(--sw-r-m);
+}
+
+/* --- Tamanhos --- */
+.brc.is-sm { font-size: 1.1rem; }
+.brc.is-lg { font-size: 1.5rem; }
+
 /* --- 📊 TABELA (.tbl) — sistema completo: skin, density, style, sticky, status, contador --- */
 .tbl {
   --tb-pad-y: 1rem;

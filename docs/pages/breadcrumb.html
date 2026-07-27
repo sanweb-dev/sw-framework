@@ -65,15 +65,99 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">3. Separador Seta</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc is-arrow" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it">Componentes</span>
+                        <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc is-arrow" aria-label="Breadcrumb">...</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">4. Separador Ponto</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc is-dot" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it">Componentes</span>
+                        <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc is-dot" aria-label="Breadcrumb">...</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">5. Pill</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc is-pill" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it">Componentes</span>
+                        <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc is-pill" aria-label="Breadcrumb">...</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">6. Bar (dentro de uma barra)</h3>
+                <div class="demo-wrap p-6">
+                    <nav class="brc is-bar is-arrow" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it">Componentes</span>
+                        <span class="brc-it is-cur" aria-current="page">Breadcrumb</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc is-bar is-arrow" aria-label="Breadcrumb">...</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">7. Tamanhos</h3>
+                <div class="demo-wrap p-6 flx fld-col gap-3">
+                    <nav class="brc is-sm" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it is-cur" aria-current="page">Pequeno (.is-sm)</span>
+                    </nav>
+                    <nav class="brc" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it is-cur" aria-current="page">Padrão</span>
+                    </nav>
+                    <nav class="brc is-lg" aria-label="Breadcrumb">
+                        <a class="brc-it" href="#">Home</a>
+                        <span class="brc-it is-cur" aria-current="page">Grande (.is-lg)</span>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav class="brc is-sm">...</nav>
+<nav class="brc">...</nav>
+<nav class="brc is-lg">...</nav>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
                         <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>.brc</code></td><td>Base</td><td><code>&lt;nav&gt;</code> container da trilha, separadores automáticos via CSS.</td></tr>
+                            <tr><td><code>.brc</code></td><td>Base</td><td><code>&lt;nav&gt;</code> container da trilha, separador "/" automático via CSS.</td></tr>
                             <tr><td><code>.brc-it</code></td><td>Item</td><td>Cada nível — <code>&lt;a&gt;</code> se navegável, <code>&lt;span&gt;</code> se não.</td></tr>
                             <tr><td><code>.is-cur</code></td><td>Estado</td><td>Marca o item atual — use com <code>aria-current="page"</code>.</td></tr>
+                            <tr><td><code>.is-arrow</code></td><td>Separador</td><td>Troca o "/" por "›".</td></tr>
+                            <tr><td><code>.is-dot</code></td><td>Separador</td><td>Troca o "/" por "•".</td></tr>
+                            <tr><td><code>.is-pill</code></td><td>Estilo</td><td>Cada item vira uma cápsula com fundo; item atual ganha fundo colorido.</td></tr>
+                            <tr><td><code>.is-bar</code></td><td>Estilo</td><td>Trilha inteira dentro de uma barra com borda, como um card raso.</td></tr>
+                            <tr><td><code>.is-sm / .is-lg</code></td><td>Tamanho</td><td>Reduz/aumenta a fonte da trilha inteira.</td></tr>
                         </tbody>
                     </table>
                 </div>

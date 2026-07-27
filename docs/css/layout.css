@@ -330,44 +330,8 @@ body {
 
 /* .mb-0.mb-10, .mt-4, .mt-6 promovidos para src/css/08-utilities.css (escala numérica direcional) */
 
-/* Breadcrumb (.brc) */
-.brc {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0;
-  list-style: none;
-  font-size: 1.3rem;
-  margin-bottom: 2.4rem;
-  padding: 0;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.brc-it {
-  display: inline-flex;
-  align-items: center;
-  color: var(--sw-txt-mut);
-  text-decoration: none;
-  transition: color .18s;
-  white-space: nowrap;
-}
-
-.brc-it:not(.is-cur):hover {
-  color: var(--sw-pri);
-}
-
-.brc-it.is-cur {
-  color: var(--sw-txt-bas);
-  font-weight: 700;
-  pointer-events: none;
-}
-
-.brc-it:not(:last-child)::after {
-  content: '/';
-  margin: 0 .7rem;
-  color: var(--sw-txt-mut);
-  opacity: .5;
-}
+/* Breadcrumb (.brc) — agora shippado no framework (src/css/04-components.css), ver lá pra variantes */
+.brc { margin-bottom: 2.4rem; }
 
 /* Grids e Demos de Coluna (.d-col, .cont-bar, .axis-box, etc) */
 .d-col {
