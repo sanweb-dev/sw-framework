@@ -15,6 +15,11 @@
         .fx-cell .sw-carousel-trk { min-height: 5rem; }
         .fx-cell blockquote { margin: 0; font-size: 1.4rem; }
         .fx-cell-nav { display: flex; justify-content: center; gap: .8rem; margin-top: 1.2rem; }
+        .crsl-card blockquote { margin: 0 0 1.6rem; font-size: 1.7rem; font-style: italic; line-height: 1.5; }
+        .crsl-person { display: flex; align-items: center; gap: 1rem; }
+        .crsl-avatar { width: 4rem; height: 4rem; border-radius: 50%; background: var(--sw-grad-pri); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.6rem; flex-shrink: 0; }
+        .crsl-person strong { display: block; font-size: 1.4rem; }
+        .crsl-role { font-size: 1.2rem; color: var(--sw-txt-mut); }
     </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
@@ -37,14 +42,32 @@
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Básico</h3>
-                <p class="t-p t-mut mb-4">Container com <code>.sw-carousel-trk</code> (os itens) e, opcionalmente, <code>.sw-carousel-dts</code> (pontinhos, preenchidos sozinhos pelo JS) e <code>.sw-carousel-prv</code>/<code>.sw-carousel-nxt</code> (setas). Aqui com autoplay de 3s e arraste/swipe habilitado por padrão.</p>
+                <h3 class="t-m f-bd mb-4">1. Depoimentos</h3>
+                <p class="t-p t-mut mb-4">Container com <code>.sw-carousel-trk</code> (os itens) e, opcionalmente, <code>.sw-carousel-dts</code> (pontinhos, preenchidos sozinhos pelo JS) e <code>.sw-carousel-prv</code>/<code>.sw-carousel-nxt</code> (setas). O conteúdo de cada item é livre — aqui um cartão com avatar, nome e cargo. Autoplay de 4s, arraste/swipe sempre ativo.</p>
                 <div class="demo-wrap p-6">
-                    <div sw-carousel sw-carousel-auto="3000" sw-carousel-effect="slide-left" style="min-height:8rem;position:relative;">
-                        <div class="sw-carousel-trk" style="position:relative;min-height:6rem;">
-                            <blockquote style="margin:0">"O SW deixou nosso frontend muito mais rápido de montar." — Cliente A</blockquote>
-                            <blockquote style="margin:0">"Zero dependências, zero dor de cabeça." — Cliente B</blockquote>
-                            <blockquote style="margin:0">"A documentação viva ajudou demais no onboarding." — Cliente C</blockquote>
+                    <div sw-carousel sw-carousel-auto="4000" sw-carousel-effect="fade" style="min-height:12rem;position:relative;">
+                        <div class="sw-carousel-trk" style="position:relative;min-height:10rem;">
+                            <div class="crsl-card">
+                                <blockquote>"O SW deixou nosso frontend muito mais rápido de montar."</blockquote>
+                                <div class="crsl-person">
+                                    <span class="crsl-avatar">A</span>
+                                    <div><strong>Ana Silva</strong><span class="crsl-role">CTO, TechStart</span></div>
+                                </div>
+                            </div>
+                            <div class="crsl-card">
+                                <blockquote>"Zero dependências, zero dor de cabeça."</blockquote>
+                                <div class="crsl-person">
+                                    <span class="crsl-avatar">B</span>
+                                    <div><strong>Bruno Lima</strong><span class="crsl-role">Dev Frontend</span></div>
+                                </div>
+                            </div>
+                            <div class="crsl-card">
+                                <blockquote>"A documentação viva ajudou demais no onboarding."</blockquote>
+                                <div class="crsl-person">
+                                    <span class="crsl-avatar">C</span>
+                                    <div><strong>Carla Nunes</strong><span class="crsl-role">Tech Lead</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="flx alc jcc gap-3 mt-4">
                             <button class="sw-carousel-prv">‹</button>
@@ -54,10 +77,10 @@
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-carousel sw-carousel-auto="3000" sw-carousel-effect="slide-left">
+<div sw-carousel sw-carousel-auto="4000">
     <div class="sw-carousel-trk">
-        <blockquote>Depoimento 1</blockquote>
-        <blockquote>Depoimento 2</blockquote>
+        <div><!-- Item 1: qualquer HTML --></div>
+        <div><!-- Item 2 --></div>
     </div>
     <button class="sw-carousel-prv">‹</button>
     <button class="sw-carousel-nxt">›</button>
@@ -67,7 +90,7 @@
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Os 9 efeitos <code class="t-p">sw-carousel-effect</code></h3>
+                <h3 class="t-m f-bd mb-4">2. Efeitos de animação <code class="t-p">sw-carousel-effect</code></h3>
                 <p class="t-p t-mut mb-4">Sem autoplay aqui — clique na seta de cada card pra ver o efeito específico rodar.</p>
                 <div class="fx-grid">
                     <div class="fx-cell">
@@ -147,7 +170,54 @@
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">3. Sem loop <code class="t-p">sw-carousel-loop="false"</code></h3>
+                <h3 class="t-m f-bd mb-4">3. Variantes mínimas</h3>
+                <p class="t-p t-mut mb-4">Quase tudo é opcional. Controles não são obrigatórios — sem eles, ainda dá pra navegar via swipe/arraste ou API. Só <code>.sw-carousel-trk</code> é indispensável.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Sem dots nem setas — só swipe/autoplay -->
+<div sw-carousel sw-carousel-auto="3000">
+    <div class="sw-carousel-trk">...</div>
+</div>
+
+<!-- Apenas dots -->
+<div sw-carousel>
+    <div class="sw-carousel-trk">...</div>
+    <div class="sw-carousel-dts"></div>
+</div>
+
+<!-- Com setas + dots -->
+<div sw-carousel>
+    <div class="sw-carousel-trk">...</div>
+    <button class="sw-carousel-prv">‹</button>
+    <button class="sw-carousel-nxt">›</button>
+    <div class="sw-carousel-dts"></div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. API JavaScript</h3>
+                <p class="t-p t-mut mb-4">Controle programático via <code>SW.Carousel</code>, além do evento <code>sw:carousel:change</code>.</p>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const car = document.querySelector('[sw-carousel]');
+
+// Navegação
+SW.Carousel.next(car);
+SW.Carousel.prev(car);
+SW.Carousel.goTo(car, 2); // vai direto pro índice 2
+
+// Play/pause do autoplay
+SW.Carousel.pause(car);
+SW.Carousel.resume(car);
+
+// Evento
+car.addEventListener('sw:carousel:change', (e) => {
+    console.log('slide atual:', e.detail.index);
+});
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Sem loop <code class="t-p">sw-carousel-loop="false"</code></h3>
                 <p class="t-p t-mut mb-4">Trava no primeiro e no último item — clicar em "próximo" no último não volta pro início.</p>
                 <div class="demo-wrap p-6">
                     <div sw-carousel sw-carousel-loop="false" sw-carousel-effect="fade" style="min-height:6rem;position:relative;">
