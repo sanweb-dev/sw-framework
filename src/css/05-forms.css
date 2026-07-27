@@ -55,6 +55,7 @@
 .sw-input:focus,
 .sw-select:focus,
 .sw-textarea:focus {
+  outline: none;
   border-color: var(--sw-pri);
   box-shadow: 0 0 0 3px var(--sw-pri-glow);
   background: var(--sw-sur-hover);
