@@ -7,6 +7,31 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        /* Só pra estas demos — mostra que o .is-act do scrollspy é livre pra estilizar como quiser. */
+        .spy-pill a { display: block; padding: .5rem 1.2rem; border-radius: var(--sw-r-fl); color: var(--sw-txt-mut); transition: background .15s var(--sw-ease), color .15s var(--sw-ease); }
+        .spy-pill a.is-act { background: color-mix(in srgb, var(--sw-pri) 15%, transparent); color: var(--sw-pri); font-weight: 600; }
+
+        .spy-border a { display: block; padding: .5rem 0 .5rem 1.2rem; border-left: 3px solid transparent; color: var(--sw-txt-mut); transition: border-color .15s var(--sw-ease), color .15s var(--sw-ease); }
+        .spy-border a.is-act { border-left-color: var(--sw-pri); color: var(--sw-pri); font-weight: 600; }
+
+        .spy-dot a { display: block; position: relative; padding: .5rem 0 .5rem 1.6rem; color: var(--sw-txt-mut); }
+        .spy-dot a::before { content: ''; position: absolute; left: 0; top: 50%; width: .6rem; height: .6rem; border-radius: 50%; background: var(--sw-bor); transform: translateY(-50%) scale(.7); transition: transform .15s var(--sw-ease), background .15s var(--sw-ease); }
+        .spy-dot a.is-act { color: var(--sw-pri); font-weight: 600; }
+        .spy-dot a.is-act::before { background: var(--sw-pri); transform: translateY(-50%) scale(1.2); }
+
+        .spy-hnav { display: flex; gap: 2rem; flex-wrap: wrap; border-bottom: 1px solid var(--sw-bor); padding-bottom: 1rem; margin-bottom: 1.6rem; }
+        .spy-hnav a { color: var(--sw-txt-mut); padding-bottom: .4rem; border-bottom: 2px solid transparent; }
+        .spy-hnav a.is-act { color: var(--sw-pri); font-weight: 700; border-bottom-color: var(--sw-pri); }
+
+        .spy-steps { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .spy-step { display: flex; flex-direction: column; align-items: center; gap: .5rem; font-size: 1.1rem; color: var(--sw-txt-mut); flex: 1; text-align: center; }
+        .spy-step-n { width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--sw-sur); border: 1px solid var(--sw-bor); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--sw-txt); }
+        .spy-step.is-act { color: var(--sw-pri); font-weight: 600; }
+        .spy-step.is-act .spy-step-n { background: var(--sw-pri); border-color: var(--sw-pri); color: #fff; }
+        .spy-progress { height: .5rem; background: var(--sw-bor); border-radius: 999px; overflow: hidden; margin-bottom: 1.6rem; }
+        .spy-progress-bar { height: 100%; width: 20%; background: var(--sw-pri); border-radius: 999px; transition: width .3s var(--sw-ease); }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -30,7 +55,7 @@
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">1. Demo (rolagem dentro de um container)</h3>
                 <div class="demo-wrap p-6 flx gap-4">
-                    <nav sw-scrollspy sw-scrollspy-tgt="#spy-box" sw-scrollspy-offset="8" class="flx fld-col gap-2" style="min-width:12rem;">
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy-box" sw-scrollspy-offset="8" class="flx f-cl gap-2" style="min-width:12rem;">
                         <a href="#spy-a">Seção A</a>
                         <a href="#spy-b">Seção B</a>
                         <a href="#spy-c">Seção C</a>
@@ -54,7 +79,148 @@
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Smooth Scroll isolado</h3>
+                <h3 class="t-m f-bd mb-4">2. Três estilos de menu, mesmo conteúdo</h3>
+                <p class="t-p t-mut mb-4">O componente só alterna a classe <code>.is-act</code> — o visual é 100% seu. Os três menus abaixo observam o mesmo container ao mesmo tempo.</p>
+                <div class="demo-wrap p-6 flx gap-4">
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy2-box" sw-scrollspy-offset="8" class="flx f-cl gap-1 spy-pill" style="min-width:11rem;">
+                        <a href="#spy2-a">Pill</a>
+                        <a href="#spy2-b">Segunda</a>
+                        <a href="#spy2-c">Terceira</a>
+                    </nav>
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy2-box" sw-scrollspy-offset="8" class="flx f-cl gap-1 spy-border" style="min-width:11rem;">
+                        <a href="#spy2-a">Borda</a>
+                        <a href="#spy2-b">Segunda</a>
+                        <a href="#spy2-c">Terceira</a>
+                    </nav>
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy2-box" sw-scrollspy-offset="8" class="flx f-cl gap-1 spy-dot" style="min-width:11rem;">
+                        <a href="#spy2-a">Ponto</a>
+                        <a href="#spy2-b">Segunda</a>
+                        <a href="#spy2-c">Terceira</a>
+                    </nav>
+                    <div id="spy2-box" style="height:16rem;overflow-y:auto;border:1px solid var(--sw-bor);border-radius:var(--sw-r-m);padding:0 1.2rem;flex:1;min-width:16rem;">
+                        <section id="spy2-a" style="padding:2rem 0"><h4>Primeira</h4><p class="t-mut">Conteúdo da primeira seção.</p></section>
+                        <section id="spy2-b" style="padding:2rem 0"><h4>Segunda</h4><p class="t-mut">Conteúdo da segunda seção.</p></section>
+                        <section id="spy2-c" style="padding:2rem 0"><h4>Terceira</h4><p class="t-mut">Conteúdo da terceira seção.</p></section>
+                    </div>
+                </div>
+                <pre swcode="css" class="m-0"><script type="text/plain">
+/* Estilo pill — sua própria classe + .is-act */
+.meu-menu a.is-act {
+    background: color-mix(in srgb, var(--sw-pri) 15%, transparent);
+    color: var(--sw-pri);
+}
+
+/* Estilo borda lateral */
+.meu-menu a.is-act { border-left: 3px solid var(--sw-pri); color: var(--sw-pri); }
+
+/* Estilo ponto (::before) */
+.meu-menu a.is-act::before { background: var(--sw-pri); transform: scale(1.2); }
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Navbar horizontal</h3>
+                <p class="t-p t-mut mb-4">O mesmo componente funciona com o menu na horizontal, acima do conteúdo — padrão comum em landing pages.</p>
+                <div class="demo-wrap p-6">
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy3-box" sw-scrollspy-offset="8" class="spy-hnav">
+                        <a href="#spy3-a">Produto</a>
+                        <a href="#spy3-b">Funcionalidades</a>
+                        <a href="#spy3-c">Preços</a>
+                        <a href="#spy3-d">FAQ</a>
+                        <a href="#spy3-e">Contato</a>
+                    </nav>
+                    <div id="spy3-box" style="height:14rem;overflow-y:auto;">
+                        <section id="spy3-a" style="padding:1.5rem 0"><h4>Produto</h4><p class="t-mut">Visão geral do produto.</p></section>
+                        <section id="spy3-b" style="padding:1.5rem 0"><h4>Funcionalidades</h4><p class="t-mut">O que o produto faz.</p></section>
+                        <section id="spy3-c" style="padding:1.5rem 0"><h4>Preços</h4><p class="t-mut">Planos e valores.</p></section>
+                        <section id="spy3-d" style="padding:1.5rem 0"><h4>FAQ</h4><p class="t-mut">Perguntas frequentes.</p></section>
+                        <section id="spy3-e" style="padding:1.5rem 0"><h4>Contato</h4><p class="t-mut">Fale com a gente.</p></section>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-scrollspy sw-scrollspy-tgt="#pagina" class="spy-hnav">
+    <a href="#produto">Produto</a>
+    <a href="#precos">Preços</a>
+</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Stepper + barra de progresso <code class="t-p">sw:scrollspy:change</code></h3>
+                <p class="t-p t-mut mb-4">Escutando o evento, dá pra dirigir qualquer indicador externo — aqui uma barra de progresso e um stepper numerado que não são links de menu nenhum.</p>
+                <div class="demo-wrap p-6">
+                    <div class="spy-steps" id="spy4-steps">
+                        <div class="spy-step is-act" data-step="0"><span class="spy-step-n">1</span>Briefing</div>
+                        <div class="spy-step" data-step="1"><span class="spy-step-n">2</span>Design</div>
+                        <div class="spy-step" data-step="2"><span class="spy-step-n">3</span>Dev</div>
+                        <div class="spy-step" data-step="3"><span class="spy-step-n">4</span>Testes</div>
+                        <div class="spy-step" data-step="4"><span class="spy-step-n">5</span>Deploy</div>
+                    </div>
+                    <div class="spy-progress"><div class="spy-progress-bar" id="spy4-bar"></div></div>
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy4-box" sw-scrollspy-offset="8" id="spy4-nav" hidden>
+                        <a href="#spy4-a">Briefing</a>
+                        <a href="#spy4-b">Design</a>
+                        <a href="#spy4-c">Dev</a>
+                        <a href="#spy4-d">Testes</a>
+                        <a href="#spy4-e">Deploy</a>
+                    </nav>
+                    <div id="spy4-box" style="height:12rem;overflow-y:auto;border:1px solid var(--sw-bor);border-radius:var(--sw-r-m);padding:0 1.2rem;">
+                        <section id="spy4-a" style="padding:1.5rem 0"><h4>Briefing</h4><p class="t-mut">Alinhamento inicial com o cliente.</p></section>
+                        <section id="spy4-b" style="padding:1.5rem 0"><h4>Design</h4><p class="t-mut">Wireframes e identidade visual.</p></section>
+                        <section id="spy4-c" style="padding:1.5rem 0"><h4>Desenvolvimento</h4><p class="t-mut">Implementação do projeto.</p></section>
+                        <section id="spy4-d" style="padding:1.5rem 0"><h4>Testes</h4><p class="t-mut">QA e ajustes finais.</p></section>
+                        <section id="spy4-e" style="padding:1.5rem 0"><h4>Deploy</h4><p class="t-mut">Publicação em produção.</p></section>
+                    </div>
+                </div>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const nav = document.querySelector('#meu-menu');
+const steps = document.querySelectorAll('.step');
+const bar = document.querySelector('.progress-bar');
+
+nav.addEventListener('sw:scrollspy:change', (e) => {
+    const links = [...nav.querySelectorAll('a')];
+    const idx = links.indexOf(e.detail.link);
+    steps.forEach((s, i) => s.classList.toggle('is-act', i === idx));
+    bar.style.width = `${((idx + 1) / links.length) * 100}%`;
+});
+</script></pre>
+            </div>
+
+            <script>
+                (function () {
+                    var nav = document.getElementById('spy4-nav');
+                    var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+                    var steps = document.querySelectorAll('#spy4-steps .spy-step');
+                    var bar = document.getElementById('spy4-bar');
+                    nav.addEventListener('sw:scrollspy:change', function (e) {
+                        var idx = links.indexOf(e.detail.link);
+                        if (idx < 0) return;
+                        steps.forEach(function (s, i) { s.classList.toggle('is-act', i === idx); });
+                        bar.style.width = ((idx + 1) / links.length * 100) + '%';
+                    });
+                })();
+            </script>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Página inteira (sem <code class="t-p">sw-scrollspy-tgt</code>)</h3>
+                <p class="t-p t-mut mb-4">Sem <code>sw-scrollspy-tgt</code>, o espião observa o scroll da <strong>janela inteira</strong> em vez de um container — útil pra um sumário fixo ao lado de um artigo longo. Use <code>sw-scrollspy-offset</code> igual à altura do seu cabeçalho fixo, se houver.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-scrollspy sw-scrollspy-offset="80" style="position:sticky; top:80px;">
+    <a href="#introducao">Introdução</a>
+    <a href="#instalacao">Instalação</a>
+    <a href="#uso">Uso</a>
+</nav>
+
+<article>
+    <section id="introducao">...</section>
+    <section id="instalacao">...</section>
+    <section id="uso">...</section>
+</article>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">6. Smooth Scroll isolado</h3>
                 <div class="demo-wrap p-6">
                     <a sw-scroll href="#ref-scroll" sw-scroll-offset="100" sw-btn class="sw-btn-out">Ir para a referência ↓</a>
                 </div>
