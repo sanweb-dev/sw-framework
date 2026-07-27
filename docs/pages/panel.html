@@ -58,78 +58,65 @@
             </div>
 
             <!-- Panel direita -->
-            <div class="pnl" id="pan-right" sw-panel>
-                <div class="pnl-ovl"></div>
-                <div class="pnl-box">
-                    <div class="pnl-hdr">
-                        <h3 class="t-m f-bd">Painel Lateral</h3>
-                        <button class="pnl-cls" aria-label="Fechar"><i class="sw-x"></i></button>
+            <div class="sw-panel" id="pan-right">
+                <div class="pnl-hdr">
+                    <h3 class="t-m f-bd">Painel Lateral</h3>
+                    <button class="pnl-cls" sw-panel-close aria-label="Fechar"></button>
+                </div>
+                <div class="pnl-bdy">
+                    <p class="t-g mb-4">Este é um painel deslizante da direita. Ideal para filtros, carrinho,
+                        configurações e detalhes.</p>
+                    <p class="t-pp f-bd t-mut mb-4">FILTROS</p>
+                    <div style="display:flex;flex-direction:column;gap:1rem">
+                        <label class="flx alc gap-2"><input type="checkbox" checked> Disponível</label>
+                        <label class="flx alc gap-2"><input type="checkbox"> Em promoção</label>
+                        <label class="flx alc gap-2"><input type="checkbox"> Frete grátis</label>
                     </div>
-                    <div class="pnl-bdy">
-                        <p class="t-g mb-4">Este é um painel deslizante da direita. Ideal para filtros, carrinho,
-                            configurações e detalhes.</p>
-                        <div class="dvd mb-4">FILTROS</div>
-                        <div style="display:flex;flex-direction:column;gap:1rem">
-                            <label class="flx alc gap-2"><input type="checkbox" checked> Disponível</label>
-                            <label class="flx alc gap-2"><input type="checkbox"> Em promoção</label>
-                            <label class="flx alc gap-2"><input type="checkbox"> Frete grátis</label>
-                        </div>
-                    </div>
-                    <div class="pnl-ftr">
-                        <button sw-btn class="sw-btn-pri pnl-cls" style="flex:1">Aplicar</button>
-                        <button sw-btn class="sw-btn-out pnl-cls">Limpar</button>
-                    </div>
+                </div>
+                <div class="pnl-ftr">
+                    <button sw-btn class="sw-btn-pri" sw-panel-close style="flex:1">Aplicar</button>
+                    <button sw-btn class="sw-btn-out" sw-panel-close>Limpar</button>
                 </div>
             </div>
 
             <!-- Panel baixo -->
-            <div class="pnl is-bot" id="pan-bottom" sw-panel>
-                <div class="pnl-ovl"></div>
-                <div class="pnl-box">
-                    <div class="pnl-hdr">
-                        <h3 class="t-m f-bd">Painel Inferior</h3>
-                        <button class="pnl-cls" aria-label="Fechar"><i class="sw-x"></i></button>
-                    </div>
-                    <div class="pnl-bdy">
-                        <p class="t-g mb-3">Painel deslizante de baixo - ideal para confirmações mobile, filtros e menus
-                            de
-                            ação.</p>
-                        <div class="flx gap-2 flex-wrap">
-                            <button sw-btn class="sw-btn-suc">Confirmar</button>
-                            <button sw-btn class="sw-btn-err sw-btn-out">Cancelar</button>
-                        </div>
+            <div class="sw-panel is-bot" id="pan-bottom">
+                <div class="pnl-hdr">
+                    <h3 class="t-m f-bd">Painel Inferior</h3>
+                    <button class="pnl-cls" sw-panel-close aria-label="Fechar"></button>
+                </div>
+                <div class="pnl-bdy">
+                    <p class="t-g mb-3">Painel deslizante de baixo - ideal para confirmações mobile, filtros e menus
+                        de ação.</p>
+                    <div class="flx gap-2 flex-wrap">
+                        <button sw-btn class="sw-btn-suc" sw-panel-close>Confirmar</button>
+                        <button sw-btn class="sw-btn-err sw-btn-out" sw-panel-close>Cancelar</button>
                     </div>
                 </div>
             </div>
 
             <!-- Panel esquerda -->
-            <div class="pnl is-lft" id="pan-left" sw-panel>
-                <div class="pnl-ovl"></div>
-                <div class="pnl-box">
-                    <div class="pnl-hdr">
-                        <h3 class="t-m f-bd">Painel Esquerda</h3>
-                        <button class="pnl-cls" aria-label="Fechar"><i class="sw-x"></i></button>
-                    </div>
-                    <div class="pnl-bdy">
-                        <p class="t-g">Painel deslizante da esquerda. Mesmo comportamento da sidebar, mas sem
-                            persistência.
-                        </p>
-                    </div>
+            <div class="sw-panel is-lft" id="pan-left">
+                <div class="pnl-hdr">
+                    <h3 class="t-m f-bd">Painel Esquerda</h3>
+                    <button class="pnl-cls" sw-panel-close aria-label="Fechar"></button>
+                </div>
+                <div class="pnl-bdy">
+                    <p class="t-g">Painel deslizante da esquerda. Mesmo comportamento da sidebar, mas sem
+                        persistência.
+                    </p>
                 </div>
             </div>
 
             <!-- Panel topo -->
-            <div class="pnl is-top" id="pan-top" sw-panel>
-                <div class="pnl-ovl"></div>
-                <div class="pnl-box">
-                    <div class="pnl-hdr">
-                        <h3 class="t-m f-bd">Painel Superior</h3>
-                        <button class="pnl-cls" aria-label="Fechar"><i class="sw-x"></i></button>
-                    </div>
-                    <div class="pnl-bdy">
-                        <p class="t-g">Painel deslizante do topo - ideal para notificações, alertas e banners de ação.
-                        </p>
-                    </div>
+            <div class="sw-panel is-top" id="pan-top">
+                <div class="pnl-hdr">
+                    <h3 class="t-m f-bd">Painel Superior</h3>
+                    <button class="pnl-cls" sw-panel-close aria-label="Fechar"></button>
+                </div>
+                <div class="pnl-bdy">
+                    <p class="t-g">Painel deslizante do topo - ideal para notificações, alertas e banners de ação.
+                    </p>
                 </div>
             </div>
 
@@ -140,29 +127,27 @@
 <!-- Botão de abertura -->
 <button sw-panel-open="#meu-panel">Abrir Painel</button>
 
-<!-- Panel (posição padrão: direita) -->
-<div class="pnl" id="meu-panel" sw-panel>
-  <div class="pnl-ovl"></div>
-  <div class="pnl-box">
+<!-- Panel (posição padrão: direita) — .sw-panel já é a caixa deslizante,
+     sem wrapper nem overlay separados. -->
+<div class="sw-panel" id="meu-panel">
 
-    <!-- Cabeçalho -->
-    <div class="pnl-hdr">
-      <h3 class="t-m f-bd">Título</h3>
-      <button class="pnl-cls"><i class="sw-x"></i></button>
-    </div>
-
-    <!-- Corpo (scrollvel) -->
-    <div class="pnl-bdy">
-      <p>Conteúdo do painel...</p>
-    </div>
-
-    <!-- Rodapé opcional -->
-    <div class="pnl-ftr">
-      <button sw-btn class="sw-btn-pri pnl-cls">Salvar</button>
-      <button sw-btn class="pnl-cls">Cancelar</button>
-    </div>
-
+  <!-- Cabeçalho -->
+  <div class="pnl-hdr">
+    <h3 class="t-m f-bd">Título</h3>
+    <button class="pnl-cls" sw-panel-close aria-label="Fechar"></button>
   </div>
+
+  <!-- Corpo (scrollável, ocupa o espaço entre header e footer) -->
+  <div class="pnl-bdy">
+    <p>Conteúdo do painel...</p>
+  </div>
+
+  <!-- Rodapé opcional -->
+  <div class="pnl-ftr">
+    <button sw-btn class="sw-btn-pri" sw-panel-close>Salvar</button>
+    <button sw-btn sw-panel-close>Cancelar</button>
+  </div>
+
 </div>
 </script></pre>
             </div>
@@ -172,16 +157,16 @@
                 <h3 class="t-m f-bd mb-4">3. Posições</h3>
                 <pre swcode="html"><script type="text/plain">
 <!-- Direita (padrão) -->
-<div class="pnl" sw-panel>...</div>
+<div class="sw-panel">...</div>
 
 <!-- Esquerda -->
-<div class="pnl is-lft" sw-panel>...</div>
+<div class="sw-panel is-lft">...</div>
 
 <!-- Baixo (bottom sheet) -->
-<div class="pnl is-bot" sw-panel>...</div>
+<div class="sw-panel is-bot">...</div>
 
 <!-- Cima -->
-<div class="pnl is-top" sw-panel>...</div>
+<div class="sw-panel is-top">...</div>
 </script></pre>
             </div>
 
@@ -190,29 +175,68 @@
                 <h3 class="t-m f-bd mb-4">4. Tamanhos</h3>
                 <pre swcode="html"><script type="text/plain">
 <!-- SM (240px) -->
-<div class="pnl" sw-panel>
-  <div class="pnl-ovl"></div>
-  <div class="pnl-box is-sm">...</div>
-</div>
+<div class="sw-panel is-sm">...</div>
 
-<!-- Normal (320px - padrão) -->
-<div class="pnl" sw-panel>
-  <div class="pnl-ovl"></div>
-  <div class="pnl-box">...</div>
-</div>
+<!-- Normal (450px - padrão) -->
+<div class="sw-panel">...</div>
 
 <!-- LG (480px) -->
-<div class="pnl" sw-panel>
-  <div class="pnl-ovl"></div>
-  <div class="pnl-box is-lg">...</div>
-</div>
+<div class="sw-panel is-lg">...</div>
 
 <!-- Full width -->
-<div class="pnl" sw-panel>
-  <div class="pnl-ovl"></div>
-  <div class="pnl-box is-fl">...</div>
-</div>
+<div class="sw-panel is-fl">...</div>
 </script></pre>
+                <p class="t-p t-mut mt-4">Precisa de um valor exato em vez dos nomes prontos? Use <code>--sw-panel-sz</code> direto no <code>style</code> — aceita <code>px</code>, <code>rem</code> ou <code>%</code>.</p>
+            </div>
+
+            <!-- TAMANHO POR PORCENTAGEM + VELOCIDADE -->
+            <div class="doc-card sec mb-6" id="porcentagem">
+                <h3 class="t-m f-bd mb-4">5. Tamanho por Porcentagem & Velocidade</h3>
+                <p class="t-p t-mut mb-6">Defina <code>--sw-panel-sz</code> com qualquer porcentagem da tela, e <code>--sw-panel-spd</code> pra controlar a velocidade da animação de abrir/fechar (padrão <code>0.35s</code>).</p>
+                <div class="demo-wrap">
+                    <button sw-btn class="sw-btn-out" sw-panel-open="#pan-20">20% da tela</button>
+                    <button sw-btn class="sw-btn-out" sw-panel-open="#pan-60">60% da tela</button>
+                    <button sw-btn class="sw-btn-out" sw-panel-open="#pan-80">80% da tela</button>
+                    <button sw-btn class="sw-btn-out" sw-panel-open="#pan-slow">Animação lenta (1.2s)</button>
+                </div>
+
+                <div class="sw-panel" id="pan-20" style="--sw-panel-sz:20%">
+                    <div class="pnl-hdr"><h3 class="t-m f-bd">20%</h3><button class="pnl-cls" sw-panel-close aria-label="Fechar"></button></div>
+                    <div class="pnl-bdy"><p class="t-g"><code>style="--sw-panel-sz:20%"</code></p></div>
+                </div>
+                <div class="sw-panel" id="pan-60" style="--sw-panel-sz:60%">
+                    <div class="pnl-hdr"><h3 class="t-m f-bd">60%</h3><button class="pnl-cls" sw-panel-close aria-label="Fechar"></button></div>
+                    <div class="pnl-bdy"><p class="t-g"><code>style="--sw-panel-sz:60%"</code></p></div>
+                </div>
+                <div class="sw-panel" id="pan-80" style="--sw-panel-sz:80%">
+                    <div class="pnl-hdr"><h3 class="t-m f-bd">80%</h3><button class="pnl-cls" sw-panel-close aria-label="Fechar"></button></div>
+                    <div class="pnl-bdy"><p class="t-g"><code>style="--sw-panel-sz:80%"</code></p></div>
+                </div>
+                <div class="sw-panel" id="pan-slow" style="--sw-panel-spd:1.2s">
+                    <div class="pnl-hdr"><h3 class="t-m f-bd">Lento</h3><button class="pnl-cls" sw-panel-close aria-label="Fechar"></button></div>
+                    <div class="pnl-bdy"><p class="t-g"><code>style="--sw-panel-spd:1.2s"</code></p></div>
+                </div>
+
+                <pre swcode="html" class="mt-6"><script type="text/plain">
+<div class="sw-panel" style="--sw-panel-sz:60%">...</div>
+<div class="sw-panel" style="--sw-panel-spd:1.2s">...</div>
+<!-- Nos painéis is-bot/is-top, --sw-panel-sz controla a altura em vez da largura -->
+</script></pre>
+
+                <div class="l gap-4 mt-6">
+                    <div class="co12 co6-m">
+                        <div class="doc-card mb-0 h-100">
+                            <p class="f-bd t-p mb-2">📱 Responsivo</p>
+                            <p class="t-p t-mut mb-0">Abaixo de 640px de largura de tela, o painel ignora <code>--sw-panel-sz</code> e as classes <code>.is-sm/.is-lg</code> — abre sempre em tela cheia, pra não ficar apertado no celular.</p>
+                        </div>
+                    </div>
+                    <div class="co12 co6-m">
+                        <div class="doc-card mb-0 h-100">
+                            <p class="f-bd t-p mb-2">🌗 Dia & Noite</p>
+                            <p class="t-p t-mut mb-0">O painel usa os mesmos tokens de tema do resto do framework (<code>--sw-bg</code>, <code>--sw-txt-mut</code>, <code>--sw-bor-glow</code>) — troque o tema no botão do canto que ele se adapta automaticamente, sem nenhuma configuração extra.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- API JS -->
@@ -222,12 +246,12 @@
 const panel = document.querySelector('#meu-panel');
 
 // Abrir / fechar
-SWPanel.show('#meu-panel');
-SWPanel.hide('#meu-panel');
+SW.Panel.show('#meu-panel');
+SW.Panel.hide('#meu-panel');
 
 // Eventos
-panel.addEventListener('yd:panel:open',  () => console.log('Painel aberto'));
-panel.addEventListener('yd:panel:close', () => console.log('Painel fechado'));
+panel.addEventListener('sw:panel:open',  () => console.log('Painel aberto'));
+panel.addEventListener('sw:panel:close', () => console.log('Painel fechado'));
 </pre>
             </div>
 
@@ -244,69 +268,74 @@ panel.addEventListener('yd:panel:close', () => console.log('Painel fechado'));
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>sw-panel</code></td>
+                            <td><code>.sw-panel</code></td>
                             <td>div</td>
-                            <td>Ativa SWPanel no elemento</td>
+                            <td>Container/caixa deslizante do painel — já é o elemento posicionado, sem wrapper.</td>
                         </tr>
                         <tr>
                             <td><code>sw-panel-open="#id"</code></td>
                             <td>button</td>
-                            <td>Botão de abertura por seletor</td>
+                            <td>Botão de abertura por seletor.</td>
                         </tr>
                         <tr>
-                            <td><code>.pnl</code></td>
-                            <td>div</td>
-                            <td>Container do painel</td>
-                        </tr>
-                        <tr>
-                            <td><code>.pnl-ovl</code></td>
-                            <td>div</td>
-                            <td>Overlay de fundo - fecha ao clicar</td>
-                        </tr>
-                        <tr>
-                            <td><code>.pnl-box</code></td>
-                            <td>div</td>
-                            <td>Caixa interna do painel (conteúdo)</td>
+                            <td><code>sw-panel-close</code></td>
+                            <td>button</td>
+                            <td>Atributo — qualquer botão dentro do painel com isso fecha ao clicar.</td>
                         </tr>
                         <tr>
                             <td><code>.pnl-hdr</code></td>
                             <td>div</td>
-                            <td>Cabeçalho do painel</td>
+                            <td>Cabeçalho do painel (opcional).</td>
                         </tr>
                         <tr>
                             <td><code>.pnl-bdy</code></td>
                             <td>div</td>
-                            <td>Área de conteúdo com scroll</td>
+                            <td>Área de conteúdo com scroll — cresce pra preencher o espaço entre header e footer.</td>
                         </tr>
                         <tr>
                             <td><code>.pnl-ftr</code></td>
                             <td>div</td>
-                            <td>Rodapé fixo do painel</td>
+                            <td>Rodapé do painel (opcional).</td>
                         </tr>
                         <tr>
                             <td><code>.pnl-cls</code></td>
                             <td>button</td>
-                            <td>Botão de fechamento dentro do painel</td>
+                            <td>Estilo do botão X — combine com <code>sw-panel-close</code> pra funcionar.</td>
                         </tr>
                         <tr>
                             <td><code>.is-lft / .is-bot / .is-top</code></td>
-                            <td>.pnl</td>
-                            <td>Posição do painel (padrão: direita)</td>
+                            <td>.sw-panel</td>
+                            <td>Posição do painel (padrão: direita).</td>
                         </tr>
                         <tr>
-                            <td><code>.pnl-box.is-sm / .is-lg / .is-fl</code></td>
-                            <td>.pnl-box</td>
-                            <td>Tamanhos: pequeno / grande / full</td>
+                            <td><code>.is-sm / .is-lg / .is-fl</code></td>
+                            <td>.sw-panel</td>
+                            <td>Tamanhos prontos: pequeno (240px) / grande (480px) / full (100%).</td>
                         </tr>
                         <tr>
-                            <td><code>.is-act</code></td>
-                            <td>.pnl</td>
-                            <td>Estado aberto - adicionado automaticamente pelo JS</td>
+                            <td><code>--sw-panel-sz</code></td>
+                            <td>.sw-panel (style)</td>
+                            <td>Largura (ou altura, em <code>.is-bot/.is-top</code>) exata — aceita px, rem ou %. Abaixo de 640px de tela, é ignorado (vira tela cheia).</td>
                         </tr>
                         <tr>
-                            <td><code>yd:panel:open / yd:panel:close</code></td>
+                            <td><code>--sw-panel-spd</code></td>
+                            <td>.sw-panel (style)</td>
+                            <td>Duração da animação de abrir/fechar (padrão <code>0.35s</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-active</code></td>
+                            <td>.sw-panel</td>
+                            <td>Estado aberto — adicionado automaticamente pelo JS.</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw:panel:open / sw:panel:close</code></td>
                             <td>evento</td>
-                            <td>Eventos customizados disparados pelo componente</td>
+                            <td>Eventos customizados disparados pelo componente.</td>
+                        </tr>
+                        <tr>
+                            <td>Clique fora / Esc</td>
+                            <td>—</td>
+                            <td>Fecha o painel automaticamente.</td>
                         </tr>
                     </tbody>
                 </table>

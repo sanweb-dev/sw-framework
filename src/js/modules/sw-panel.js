@@ -33,6 +33,10 @@
       if (!panel.hasAttribute('tabindex')) panel.setAttribute('tabindex', '-1');
       panel._swKeydown = (event) => { if (event.key === 'Escape') SWPanel.hide(panel); };
       window.addEventListener('keydown', panel._swKeydown);
+      panel._swOutsideClick = (event) => {
+        if (!panel.contains(event.target) && !trigger?.contains?.(event.target)) SWPanel.hide(panel);
+      };
+      window.setTimeout(() => document.addEventListener('click', panel._swOutsideClick), 0);
       SW.Overlay.lock();
       window.requestAnimationFrame(() => (panel.querySelector('[autofocus], [sw-panel-close], button, input, select, textarea, a[href]') || panel).focus({ preventScroll: true }));
       SW.emit(panel, 'sw:panel:open');
@@ -44,6 +48,7 @@
       panel.classList.remove('is-active');
       panel.setAttribute('aria-hidden', 'true');
       window.removeEventListener('keydown', panel._swKeydown);
+      document.removeEventListener('click', panel._swOutsideClick);
       SW.Overlay.unlock();
       panel._swPreviousFocus?.focus?.({ preventScroll: true });
       SW.emit(panel, 'sw:panel:close');
