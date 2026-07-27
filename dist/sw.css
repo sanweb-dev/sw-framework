@@ -6713,6 +6713,17 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-pagination-it.is-act { background: var(--sw-pri); color: #fff; font-weight: 600; }
 .sw-pagination-it.is-sep { cursor: default; opacity: .5; }
 .sw-pagination-it.is-dis { opacity: .35; pointer-events: none; }
+.sw-pagination-it { transition: background .15s var(--sw-ease), color .15s var(--sw-ease); }
+
+/* Tamanhos */
+.sw-pagination.is-sm .sw-pagination-it { min-width: 2.8rem; height: 2.8rem; font-size: 1.3rem; padding: 0 .5rem; }
+.sw-pagination.is-lg .sw-pagination-it { min-width: 4.4rem; height: 4.4rem; font-size: 1.7rem; padding: 0 1rem; }
+
+/* .is-pil — cantos totalmente arredondados */
+.sw-pagination.is-pil .sw-pagination-it { border-radius: var(--sw-r-fl); }
+
+/* .is-gst — ghost: item ativo sem fundo sólido, só cor + sublinhado */
+.sw-pagination.is-gst .sw-pagination-it.is-act { background: none; color: var(--sw-pri); text-decoration: underline; text-underline-offset: .3rem; text-decoration-thickness: .2rem; }
 .sw-table-row-hid { display: none !important; }
 
 /* ---------- Rating ---------- */

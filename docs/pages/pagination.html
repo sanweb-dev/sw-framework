@@ -28,7 +28,8 @@
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <h3 class="t-m f-bd mb-4">1. Padrão</h3>
+                <p class="t-p t-mut mb-4">Reticências inteligentes — sempre mostra primeira, última e as vizinhas da página atual (<code>sw-pagination-delta</code>).</p>
                 <div class="demo-wrap p-6">
                     <nav sw-pagination sw-pagination-total="120" sw-pagination-per="10" sw-pagination-cur="4" sw-pagination-delta="2"></nav>
                 </div>
@@ -42,17 +43,67 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Com botões de início/fim <code class="t-p">sw-pagination-ends</code></h3>
+                <p class="t-p t-mut mb-4">Adiciona <code>«</code>/<code>»</code> nas pontas, pra pular direto pra primeira/última página — além do <code>‹</code>/<code>›</code> de página anterior/próxima.</p>
+                <div class="demo-wrap p-6">
+                    <nav sw-pagination sw-pagination-ends sw-pagination-total="500" sw-pagination-per="10" sw-pagination-cur="12" sw-pagination-delta="2"></nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-pagination sw-pagination-ends sw-pagination-total="500" sw-pagination-per="10" sw-pagination-cur="12"></nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Pill <code class="t-p">.is-pil</code></h3>
+                <div class="demo-wrap p-6">
+                    <nav sw-pagination class="is-pil" sw-pagination-ends sw-pagination-total="120" sw-pagination-per="10" sw-pagination-cur="4" sw-pagination-delta="2"></nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-pagination class="is-pil" sw-pagination-total="120" sw-pagination-per="10"></nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Ghost <code class="t-p">.is-gst</code></h3>
+                <p class="t-p t-mut mb-4">Sem fundo sólido na página ativa — só cor e sublinhado. Visual mais discreto.</p>
+                <div class="demo-wrap p-6">
+                    <nav sw-pagination class="is-gst" sw-pagination-total="120" sw-pagination-per="10" sw-pagination-cur="4" sw-pagination-delta="2"></nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-pagination class="is-gst" sw-pagination-total="120" sw-pagination-per="10"></nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Tamanhos <code class="t-p">.is-sm</code> / <code class="t-p">.is-lg</code></h3>
+                <div class="demo-wrap p-6 flx f-cl gap-4">
+                    <nav sw-pagination class="is-sm" sw-pagination-total="60" sw-pagination-per="10" sw-pagination-cur="2"></nav>
+                    <nav sw-pagination sw-pagination-total="60" sw-pagination-per="10" sw-pagination-cur="2"></nav>
+                    <nav sw-pagination class="is-lg" sw-pagination-total="60" sw-pagination-per="10" sw-pagination-cur="2"></nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-pagination class="is-sm" sw-pagination-total="60" sw-pagination-per="10"></nav>
+<nav sw-pagination class="is-lg" sw-pagination-total="60" sw-pagination-per="10"></nav>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo/Classe</th><th>Padrão</th><th>Descrição</th></tr></thead>
                         <tbody>
                             <tr><td><code>sw-pagination-total</code></td><td><code>1</code></td><td>Total de registros.</td></tr>
                             <tr><td><code>sw-pagination-per</code></td><td><code>10</code></td><td>Registros por página.</td></tr>
                             <tr><td><code>sw-pagination-cur</code></td><td><code>1</code></td><td>Página atual.</td></tr>
                             <tr><td><code>sw-pagination-delta</code></td><td><code>2</code></td><td>Quantas páginas vizinhas mostrar de cada lado.</td></tr>
+                            <tr><td><code>sw-pagination-ends</code></td><td>—</td><td>Presente = mostra botões <code>«</code>/<code>»</code> de pular pro início/fim.</td></tr>
+                            <tr><td><code>.is-pil</code></td><td>—</td><td>Itens com cantos totalmente arredondados.</td></tr>
+                            <tr><td><code>.is-gst</code></td><td>—</td><td>Ghost — página ativa sem fundo sólido.</td></tr>
+                            <tr><td><code>.is-sm</code> / <code>.is-lg</code></td><td>—</td><td>Tamanho pequeno/grande dos itens.</td></tr>
                             <tr><td><code>sw:pagination:change</code></td><td>—</td><td>Evento — <code>detail.page</code>.</td></tr>
+                            <tr><td><code>SW.Pagination</code></td><td>—</td><td>Registrado em <code>window.SW.Pagination</code> (instância fica em <code>el._swPagination</code>, com <code>.goto(page)</code>).</td></tr>
                         </tbody>
                     </table>
                 </div>

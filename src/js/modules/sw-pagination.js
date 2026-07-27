@@ -9,6 +9,7 @@
       this.per = parseInt(el.getAttribute('sw-pagination-per'), 10) || 10;
       this.cur = parseInt(el.getAttribute('sw-pagination-cur'), 10) || 1;
       this.delta = parseInt(el.getAttribute('sw-pagination-delta'), 10) || 2;
+      this.ends = el.hasAttribute('sw-pagination-ends');
       this.pages = Math.ceil(this.total / this.per);
       this._render();
     }
@@ -16,6 +17,7 @@
     _render() {
       const { cur, pages } = this;
       const items = [];
+      if (this.ends) items.push({ label: '&#171;', page: 1, cls: `is-arr${cur === 1 ? ' is-dis' : ''}` });
       items.push({ label: '&#8249;', page: cur - 1, cls: `is-arr${cur === 1 ? ' is-dis' : ''}` });
 
       const range = this._range(1, pages);
@@ -27,6 +29,7 @@
       });
 
       items.push({ label: '&#8250;', page: cur + 1, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
+      if (this.ends) items.push({ label: '&#187;', page: pages, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
 
       this.el.innerHTML = items.map((it) => {
         if (it.cls === 'is-sep') return `<span class="sw-pagination-it is-sep">${it.label}</span>`;
