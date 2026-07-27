@@ -294,32 +294,44 @@ img[sw-lazy].is-ldd { opacity: 1; }
 [sw-drag] { touch-action: none; }
 
 /* ---------- Material Input (fld-mat) ---------- */
+/* A label fica sempre acima do campo, nunca sobrepondo o texto digitado — "flutuante" aqui
+   quer dizer que ela é um elemento próprio posicionado ali, não que anima de grande pra
+   pequena. Só a cor muda com foco/preenchido; o destaque visual do campo (linha, borda,
+   fundo) é o que de fato varia entre as 4 variantes. */
 .fld-mat { position: relative; margin-bottom: var(--sw-s-g); }
-.fld-mat-inp { width: 100%; padding: 1.6rem 1.2rem .6rem; border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); background: var(--sw-sur); color: var(--sw-txt); font: inherit; transition: border-color .2s var(--sw-ease); }
-.fld-mat-inp:focus { outline: none; border-color: var(--sw-pri); }
-.fld-mat-lbl { position: absolute; left: 1.2rem; top: 1.6rem; color: var(--sw-txt-mut); font-size: 1.6rem; pointer-events: none; transition: all .18s var(--sw-ease); transform-origin: left top; }
+.fld-mat-inp { width: 100%; padding: 2.2rem 1.2rem .6rem; border: none; border-bottom: 1px solid var(--sw-bor); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; background: transparent; color: var(--sw-txt); font: inherit; transition: background .2s var(--sw-ease); }
+.fld-mat-inp:focus { outline: none; }
+.fld-mat-lbl { position: absolute; left: 1.2rem; top: .6rem; color: var(--sw-txt-mut); font-size: 1.2rem; font-weight: 600; pointer-events: none; transition: color .15s var(--sw-ease); }
 .fld-mat-inp:focus + .fld-mat-lbl,
-.fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { top: .5rem; font-size: 1.1rem; color: var(--sw-pri); }
+.fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { color: var(--sw-pri); }
 .fld-mat-hint { display: block; margin-top: .4rem; font-size: 1.2rem; color: var(--sw-txt-mut); }
 .fld-mat-msg { display: block; margin-top: .4rem; font-size: 1.2rem; color: var(--sw-err); min-height: 1.6rem; }
-.fld-mat.is-err .fld-mat-inp { border-color: var(--sw-err); }
-.fld-mat.is-ok .fld-mat-inp { border-color: var(--sw-suc); }
-.fld-mat-inp:disabled { opacity: .55; cursor: not-allowed; background: var(--sw-sur-hover); }
-.fld-mat-inp:is(textarea) { height: auto; min-height: 9rem; padding-top: 1.8rem; resize: vertical; }
+.fld-mat.is-err .fld-mat-lbl { color: var(--sw-err); }
+.fld-mat.is-err .fld-mat-inp { border-bottom-color: var(--sw-err); }
+.fld-mat.is-ok .fld-mat-lbl { color: var(--sw-suc); }
+.fld-mat.is-ok .fld-mat-inp { border-bottom-color: var(--sw-suc); }
+.fld-mat-inp:disabled { opacity: .55; cursor: not-allowed; }
+.fld-mat-inp:is(textarea) { height: auto; min-height: 9rem; resize: vertical; }
 
-/* .fld-mat-out — contorno, sem preenchimento */
-.fld-mat-out .fld-mat-inp { background: transparent; }
-.fld-mat-out .fld-mat-inp:focus { box-shadow: 0 0 0 1px var(--sw-pri); }
+/* Padrão — sublinhado que "cresce" do centro ao focar */
+.fld-mat::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--sw-pri); transform: scaleX(0); transition: transform .2s var(--sw-ease); pointer-events: none; }
+.fld-mat:focus-within::after { transform: scaleX(1); }
+.fld-mat.is-err::after { background: var(--sw-err); }
+.fld-mat.is-ok::after { background: var(--sw-suc); }
 
-/* .fld-mat-fil — preenchido, só a borda inferior destaca */
-.fld-mat-fil .fld-mat-inp { background: var(--sw-sur-hover); border: none; border-bottom: 2px solid var(--sw-bor); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; }
-.fld-mat-fil .fld-mat-inp:focus { border-bottom-color: var(--sw-pri); }
+/* .fld-mat-out — contorno completo, sem preenchimento */
+.fld-mat-out .fld-mat-inp { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); background: transparent; }
+.fld-mat-out:focus-within .fld-mat-inp { border-color: var(--sw-pri); box-shadow: 0 0 0 3px var(--sw-pri-glow); }
+.fld-mat-out.is-err .fld-mat-inp { border-color: var(--sw-err); }
+.fld-mat-out.is-ok .fld-mat-inp { border-color: var(--sw-suc); }
+.fld-mat-out::after { display: none; }
 
-/* .fld-mat-sta — label estática, sempre pequena e fixa acima (sem animação de flutuar) */
+/* .fld-mat-fil — fundo preenchido, sublinhado como indicador */
+.fld-mat-fil .fld-mat-inp { background: var(--sw-sur-hover); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; }
+
+/* .fld-mat-sta — label estática, numa linha própria acima do campo (não sobreposta) */
 .fld-mat-sta { display: flex; flex-direction: column; }
-.fld-mat-sta .fld-mat-lbl,
-.fld-mat-sta .fld-mat-inp:focus + .fld-mat-lbl,
-.fld-mat-sta .fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { position: static; order: -1; top: auto; left: auto; margin-bottom: .4rem; font-size: 1.2rem; color: var(--sw-txt-mut); }
+.fld-mat-sta .fld-mat-lbl { position: static; order: -1; margin-bottom: .4rem; }
 .fld-mat-sta .fld-mat-inp { padding-top: 1.2rem; }
 
 /* .fld-mat-ico — ícone à esquerda, label/texto deslocados */
