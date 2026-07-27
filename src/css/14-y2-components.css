@@ -147,8 +147,13 @@ img[sw-lazy].is-ldd { opacity: 1; }
 
 /* --- Cabeçalho (marca + toggle interno) --- */
 [sw-sidebar-hdr] { display: flex; align-items: center; gap: 1rem; padding: 1.6rem; border-bottom: 1px solid var(--sw-bor); flex-shrink: 0; min-height: 6.4rem; transition: justify-content .3s var(--sw-ease); }
-[sw-sidebar-hdr-ico] { font-size: 2.2rem; color: var(--sw-pri); flex-shrink: 0; filter: drop-shadow(0 0 .8rem var(--sw-pri-glow)); transition: transform .3s var(--sw-ease); }
+[sw-sidebar-hdr-ico] {
+  font-size: 2.2rem; color: var(--sw-pri); flex-shrink: 0; border-radius: 50%; padding: .6rem; margin: -.6rem;
+  filter: drop-shadow(0 0 .8rem var(--sw-pri-glow));
+  transition: transform .3s var(--sw-ease), background .18s var(--sw-ease);
+}
 [sw-sidebar-hdr]:hover [sw-sidebar-hdr-ico] { transform: scale(1.08) rotate(-4deg); }
+[sw-sidebar-mode="collapse"] [sw-sidebar-hdr-ico]:hover { background: var(--sw-pri-glow); }
 [sw-sidebar-hdr-ttl] {
   font-weight: 800; font-size: 1.6rem; color: var(--sw-txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   opacity: 1; max-width: 16rem; transition: opacity .18s var(--sw-ease), max-width .3s var(--sw-ease);
@@ -156,14 +161,14 @@ img[sw-lazy].is-ldd { opacity: 1; }
 [sw-sidebar][col] [sw-sidebar-hdr-ttl] { opacity: 0; max-width: 0; }
 [sw-sidebar-tgl] {
   margin-left: auto; width: 3.2rem; height: 3.2rem; flex-shrink: 0; border-radius: 50%; border: none;
-  background: transparent; color: var(--sw-txt-mut); cursor: pointer;
+  background: transparent; color: var(--sw-txt-mut); cursor: pointer; opacity: 1;
   display: flex; align-items: center; justify-content: center;
-  transition: background .18s var(--sw-ease), color .18s var(--sw-ease), transform .35s var(--sw-ease), margin-left .3s var(--sw-ease);
+  transition: background .18s var(--sw-ease), color .18s var(--sw-ease), transform .35s var(--sw-ease), margin-left .3s var(--sw-ease), opacity .2s var(--sw-ease), max-width .3s var(--sw-ease);
 }
 [sw-sidebar-tgl]:hover { background: var(--sw-pri-glow); color: var(--sw-pri); }
 [sw-sidebar-tgl]:active { transform: scale(0.88) rotate(180deg); }
-[sw-sidebar][col] [sw-sidebar-tgl] { margin-left: 0; transform: rotate(180deg); }
-[sw-sidebar][col] [sw-sidebar-tgl]:active { transform: scale(0.88) rotate(0deg); }
+/* Colapsada: sem botão dedicado — só o ícone da marca, centralizado, clicável pra expandir */
+[sw-sidebar][col] [sw-sidebar-tgl] { opacity: 0; max-width: 0; margin-left: 0; pointer-events: none; }
 [sw-sidebar][col] [sw-sidebar-hdr] { justify-content: center; }
 
 /* --- Navegação --- */

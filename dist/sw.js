@@ -3788,10 +3788,17 @@
 
         if (mode === 'collapse') {
           start === 'icons' ? el.setAttribute('col', '') : el.removeAttribute('col');
-          el.querySelector('[sw-sidebar-tgl]')?.addEventListener('click', () => {
+          const toggle = () => {
             el.hasAttribute('col') ? el.removeAttribute('col') : el.setAttribute('col', '');
             SW.emit(el, 'sw:sidebar:toggle');
-          });
+          };
+          // Botão dedicado (se existir) ou o próprio ícone do cabeçalho — qualquer um alterna
+          el.querySelector('[sw-sidebar-tgl]')?.addEventListener('click', toggle);
+          const icon = el.querySelector('[sw-sidebar-hdr-ico]');
+          if (icon) {
+            icon.style.cursor = 'pointer';
+            icon.addEventListener('click', toggle);
+          }
         }
 
         if (mode === 'hover') {

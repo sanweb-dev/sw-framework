@@ -97,13 +97,12 @@
             <!-- MODO 3: COLLAPSE -->
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-2">3. Collapse <code class="TprinD">mode="collapse"</code></h3>
-                <p class="t-p t-mut mb-4">Botão interno no cabeçalho alterna entre expandida (ícone + texto) e colapsada (só ícones). Use <code>sw-sidebar-start="icons"</code> pra começar já colapsada.</p>
+                <p class="t-p t-mut mb-4">Clique no ícone da marca no cabeçalho pra alternar entre expandida (ícone + texto) e colapsada (só ícones, centralizado). Use <code>sw-sidebar-start="icons"</code> pra começar já colapsada.</p>
                 <div class="demo-wrap p-0" style="display:flex;height:30rem;overflow:hidden;border-radius:var(--sw-r-g);position:relative">
                     <aside sw-sidebar sw-sidebar-mode="collapse" style="position:relative">
                         <div sw-sidebar-hdr>
                             <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
                             <span sw-sidebar-hdr-ttl>Meu App</span>
-                            <button sw-sidebar-tgl aria-label="Colapsar"><i class="swi swi-chevron-left"></i></button>
                         </div>
                         <nav sw-sidebar-mn>
                             <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
@@ -112,14 +111,13 @@
                             <a sw-sidebar-it href="#"><i class="swi swi-cog"></i><span sw-sidebar-lbl>Preferências</span></a>
                         </nav>
                     </aside>
-                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Clique no ‹ no cabeçalho pra colapsar</div>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Clique no ícone da marca pra colapsar</div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <aside sw-sidebar sw-sidebar-mode="collapse">
     <div sw-sidebar-hdr>
         <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
         <span sw-sidebar-hdr-ttl>Meu App</span>
-        <button sw-sidebar-tgl><i class="swi swi-chevron-left"></i></button>
     </div>
     <nav sw-sidebar-mn>
         <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
@@ -211,7 +209,8 @@
                             <tr><td><code>[col]</code></td><td>aside</td><td>Colapsa pra só ícones (modo collapse/hover) — adicionado automaticamente pelo JS.</td></tr>
                             <tr><td><code>sw-sidebar-hdr</code></td><td>div</td><td>Cabeçalho com marca — opcional.</td></tr>
                             <tr><td><code>sw-sidebar-hdr-ico / -ttl</code></td><td>i / span</td><td>Ícone e título da marca no cabeçalho.</td></tr>
-                            <tr><td><code>sw-sidebar-tgl</code></td><td>button</td><td>Botão interno que alterna colapsado/expandido (modo collapse).</td></tr>
+                            <tr><td><code>sw-sidebar-hdr-ico</code></td><td>i</td><td>Ícone da marca — no modo collapse, clicar nele alterna colapsado/expandido.</td></tr>
+                            <tr><td><code>sw-sidebar-tgl</code></td><td>button</td><td>Botão dedicado opcional pra alternar colapsado/expandido (modo collapse) — some sozinho quando colapsada, já que o ícone da marca cobre a mesma função.</td></tr>
                             <tr><td><code>sw-sidebar-mn</code></td><td>nav</td><td>Container da navegação.</td></tr>
                             <tr><td><code>sw-sidebar-grp-ttl</code></td><td>span</td><td>Título de grupo/seção dentro do menu.</td></tr>
                             <tr><td><code>sw-sidebar-it</code></td><td>a</td><td>Item de navegação — clique marca como ativo automaticamente.</td></tr>
