@@ -180,8 +180,8 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-carousel-trk > * { position: absolute; inset: 0; transition: opacity var(--sw-car-dur, .6s) var(--sw-ease), transform var(--sw-car-dur, .6s) var(--sw-ease); }
 .sw-carousel-trk > .is-act { position: relative; }
 .sw-carousel-dts { display: flex; gap: .5rem; justify-content: center; margin-top: var(--sw-s-p); }
-.sw-carousel-dot { width: .8rem; height: .8rem; border-radius: 50%; border: none; background: var(--sw-bor); cursor: pointer; padding: 0; }
-.sw-carousel-dot.is-act { background: var(--sw-pri); }
+.sw-carousel-dot { width: .8rem; height: .8rem; border-radius: 999px; border: none; background: var(--sw-bor); cursor: pointer; padding: 0; transition: width .25s var(--sw-ease), background .25s var(--sw-ease); }
+.sw-carousel-dot.is-act { width: 2rem; background: var(--sw-pri); }
 .sw-carousel-prv, .sw-carousel-nxt { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--sw-sur); border: 1px solid var(--sw-bor); color: var(--sw-txt); font-size: 1.6rem; line-height: 1; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background .15s var(--sw-ease); }
 .sw-carousel-prv:hover, .sw-carousel-nxt:hover { background: var(--sw-sur-hover); }
 

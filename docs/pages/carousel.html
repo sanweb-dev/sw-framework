@@ -10,13 +10,19 @@
     <style>
         /* Só pra deixar as demos desta página legíveis — não faz parte do framework. */
         .fx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1.6rem; }
-        .fx-cell { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); padding: 1.6rem; }
-        .fx-cell-lbl { display: block; margin-bottom: 1rem; }
-        .fx-cell .sw-carousel-trk { min-height: 5rem; }
-        .fx-cell blockquote { margin: 0; font-size: 1.4rem; }
-        .fx-cell-nav { display: flex; justify-content: center; gap: .8rem; margin-top: 1.2rem; }
-        .crsl-card blockquote { margin: 0 0 1.6rem; font-size: 1.7rem; font-style: italic; line-height: 1.5; }
-        .crsl-person { display: flex; align-items: center; gap: 1rem; }
+        .fx-cell { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); padding: 1.6rem; text-align: center; }
+        .fx-cell-lbl { display: block; margin-bottom: 1rem; color: var(--sw-txt-mut); }
+        .fx-cell .sw-carousel-trk { min-height: 7.5rem; }
+        .fx-word { display: block; font-size: 2.6rem; font-weight: 800; line-height: 1.25; }
+        .fx-word + span { display: block; font-size: 1.2rem; color: var(--sw-txt-mut); margin-top: .3rem; }
+        .fx-word.c1 { color: var(--sw-suc); }
+        .fx-word.c2 { color: var(--sw-pri); }
+        .fx-word.c3 { color: var(--sw-sec); }
+        .fx-word.c4 { color: var(--sw-inf); }
+        .fx-word.c5 { color: var(--sw-err); }
+        .crsl-quote-ico { display: block; text-align: center; font-size: 3.6rem; line-height: 1; font-family: Georgia, serif; color: var(--sw-pri); opacity: .4; margin-bottom: -.8rem; }
+        .crsl-card blockquote { margin: 0 0 1.6rem; font-size: 1.7rem; font-style: italic; line-height: 1.5; text-align: center; }
+        .crsl-person { display: flex; align-items: center; justify-content: center; gap: 1rem; }
         .crsl-avatar { width: 4rem; height: 4rem; border-radius: 50%; background: var(--sw-grad-pri); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.6rem; flex-shrink: 0; }
         .crsl-person strong { display: block; font-size: 1.4rem; }
         .crsl-role { font-size: 1.2rem; color: var(--sw-txt-mut); }
@@ -45,6 +51,7 @@
                 <h3 class="t-m f-bd mb-4">1. Depoimentos</h3>
                 <p class="t-p t-mut mb-4">Container com <code>.sw-carousel-trk</code> (os itens) e, opcionalmente, <code>.sw-carousel-dts</code> (pontinhos, preenchidos sozinhos pelo JS) e <code>.sw-carousel-prv</code>/<code>.sw-carousel-nxt</code> (setas). O conteúdo de cada item é livre — aqui um cartão com avatar, nome e cargo. Autoplay de 4s, arraste/swipe sempre ativo.</p>
                 <div class="demo-wrap p-6">
+                    <span class="crsl-quote-ico">&rdquo;</span>
                     <div sw-carousel sw-carousel-auto="4000" sw-carousel-effect="fade" style="min-height:12rem;position:relative;">
                         <div class="sw-carousel-trk" style="position:relative;min-height:10rem;">
                             <div class="crsl-card">
@@ -91,80 +98,106 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">2. Efeitos de animação <code class="t-p">sw-carousel-effect</code></h3>
-                <p class="t-p t-mut mb-4">Sem autoplay aqui — clique na seta de cada card pra ver o efeito específico rodar.</p>
+                <p class="t-p t-mut mb-4">Cada card gira sozinho no automático — repare como o mesmo texto entra de um jeito diferente em cada um.</p>
                 <div class="fx-grid">
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">slide-left (padrão)</code>
-                        <div sw-carousel sw-carousel-effect="slide-left">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="slide-left" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c1">Slide 1</span><span>Entrada da direita</span></div>
+                                <div><span class="fx-word c1">Slide 2</span><span>Entrada da direita</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">slide-right</code>
-                        <div sw-carousel sw-carousel-effect="slide-right">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="slide-right" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c2">Slide 1</span><span>Entrada da esquerda</span></div>
+                                <div><span class="fx-word c2">Slide 2</span><span>Entrada da esquerda</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">slide-up</code>
-                        <div sw-carousel sw-carousel-effect="slide-up">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="slide-up" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c3">Slide 1</span><span>Entrada de baixo</span></div>
+                                <div><span class="fx-word c3">Slide 2</span><span>Entrada de baixo</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">slide-down</code>
-                        <div sw-carousel sw-carousel-effect="slide-down">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="slide-down" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c4">Slide 1</span><span>Entrada de cima</span></div>
+                                <div><span class="fx-word c4">Slide 2</span><span>Entrada de cima</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">zoom-in</code>
-                        <div sw-carousel sw-carousel-effect="zoom-in">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="zoom-in" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c5">Slide 1</span><span>Cresce ao entrar</span></div>
+                                <div><span class="fx-word c5">Slide 2</span><span>Cresce ao entrar</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">zoom-out</code>
-                        <div sw-carousel sw-carousel-effect="zoom-out">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="zoom-out" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c1">Slide 1</span><span>Encolhe ao entrar</span></div>
+                                <div><span class="fx-word c1">Slide 2</span><span>Encolhe ao entrar</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">bounce</code>
-                        <div sw-carousel sw-carousel-effect="bounce">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="bounce" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c2">Slide 1</span><span>Elástico</span></div>
+                                <div><span class="fx-word c2">Slide 2</span><span>Elástico</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">flip</code>
-                        <div sw-carousel sw-carousel-effect="flip">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="flip" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c3">Slide 1</span><span>Rotação 3D</span></div>
+                                <div><span class="fx-word c3">Slide 2</span><span>Rotação 3D</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                     <div class="fx-cell">
                         <code class="fx-cell-lbl t-pp">fade</code>
-                        <div sw-carousel sw-carousel-effect="fade">
-                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
-                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        <div sw-carousel sw-carousel-effect="fade" sw-carousel-auto="2600">
+                            <div class="sw-carousel-trk">
+                                <div><span class="fx-word c4">Slide 1</span><span>Transição suave</span></div>
+                                <div><span class="fx-word c4">Slide 2</span><span>Transição suave</span></div>
+                            </div>
+                            <div class="sw-carousel-dts"></div>
                         </div>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0 mt-6"><script type="text/plain">
-<div sw-carousel sw-carousel-effect="flip">
+<div sw-carousel sw-carousel-effect="flip" sw-carousel-auto="2600">
     <div class="sw-carousel-trk">
-        <blockquote>Texto A</blockquote>
-        <blockquote>Texto B</blockquote>
+        <div>Slide 1</div>
+        <div>Slide 2</div>
     </div>
-    <button class="sw-carousel-prv">‹</button>
-    <button class="sw-carousel-nxt">›</button>
+    <div class="sw-carousel-dts"></div>
 </div>
 </script></pre>
             </div>
