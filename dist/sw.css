@@ -6615,6 +6615,24 @@ span.sw-card-pop {
 .sw-acc-it.is-act .sw-acc-hdr::after { transform: rotate(-135deg); }
 .sw-acc-bdy { height: 0; overflow: hidden; transition: height .25s var(--sw-ease); }
 .sw-acc-bdy-in { padding: var(--sw-s-m); }
+.sw-acc-hdr-ttl { display: flex; align-items: center; gap: .8rem; }
+.sw-acc-hdr-ttl .swi { font-size: 1.8rem; color: var(--sw-pri); flex-shrink: 0; }
+
+/* .is-flush — sem bordas/cantos, só uma linha divisória entre itens (estilo FAQ minimal) */
+[sw-accordion].is-flush { border: none; }
+[sw-accordion].is-flush .sw-acc-it { border: none; border-bottom: 1px solid var(--sw-bor); border-radius: 0; margin-bottom: 0; }
+[sw-accordion].is-flush .sw-acc-it:last-child { border-bottom: none; }
+[sw-accordion].is-flush .sw-acc-hdr { background: none; padding-left: 0; padding-right: 0; }
+[sw-accordion].is-flush .sw-acc-bdy-in { padding-left: 0; padding-right: 0; padding-top: 0; }
+
+/* .is-plus — ícone + gira até virar × em vez da seta chevron */
+[sw-accordion].is-plus .sw-acc-hdr::after { content: '+'; width: auto; height: auto; border: none; font-size: 2.2rem; font-weight: 300; line-height: 1; transform: none; }
+[sw-accordion].is-plus .sw-acc-it.is-act .sw-acc-hdr::after { transform: rotate(45deg); }
+
+/* .is-card — itens com sombra, espaçados, com borda de destaque quando ativo */
+[sw-accordion].is-card .sw-acc-it { margin-bottom: var(--sw-s-m); box-shadow: var(--sw-sha); border-left: 3px solid transparent; transition: border-color .2s var(--sw-ease); }
+[sw-accordion].is-card .sw-acc-it.is-act { border-left-color: var(--sw-pri); }
+[sw-accordion].is-card .sw-acc-it.is-act .sw-acc-hdr { background: color-mix(in srgb, var(--sw-pri) 10%, var(--sw-sur)); color: var(--sw-pri); }
 
 /* ---------- Scroll to top ---------- */
 [sw-top] { position: fixed; right: var(--sw-s-m); bottom: var(--sw-s-m); width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--sw-pri); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--sw-sha); opacity: 0; pointer-events: none; transform: translateY(1rem); transition: opacity .25s var(--sw-ease), transform .25s var(--sw-ease); z-index: var(--sw-z-nvb); }

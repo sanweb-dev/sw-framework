@@ -74,6 +74,75 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Flush (estilo FAQ minimal)</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-flush</code>, sem cantos nem caixa — só uma linha fina separando as perguntas.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-accordion class="is-flush">
+                        <div class="sw-acc-it is-act">
+                            <div class="sw-acc-hdr">Como faço o build do projeto?</div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Rode <code>node build.js</code> na raiz do framework.</div></div>
+                        </div>
+                        <div class="sw-acc-it">
+                            <div class="sw-acc-hdr">Onde ficam os arquivos compilados?</div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Em <code>dist/</code>, espelhados em <code>docs/dist/</code> para as páginas de documentação.</div></div>
+                        </div>
+                        <div class="sw-acc-it">
+                            <div class="sw-acc-hdr">Posso usar sem o build?</div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Sim, basta incluir os arquivos já compilados em <code>dist/</code>.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-accordion class="is-flush">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Plus/× e com ícones no título <code class="t-p">.is-plus</code></h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-plus</code>, o indicador vira um <code>+</code> que gira até formar um <code>×</code> ao abrir. Use <code>.sw-acc-hdr-ttl</code> pra colocar um ícone antes do título.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-accordion class="is-plus">
+                        <div class="sw-acc-it">
+                            <div class="sw-acc-hdr"><span class="sw-acc-hdr-ttl"><i class="swi swi-check-shield"></i> Segurança dos dados</span></div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Nenhum dado é enviado a servidores externos — tudo roda no seu próprio ambiente.</div></div>
+                        </div>
+                        <div class="sw-acc-it">
+                            <div class="sw-acc-hdr"><span class="sw-acc-hdr-ttl"><i class="swi swi-credit-card"></i> Cobrança</span></div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">O framework é gratuito e sem dependências pagas.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-accordion class="is-plus">
+    <div class="sw-acc-it">
+        <div class="sw-acc-hdr"><span class="sw-acc-hdr-ttl"><i class="swi swi-check-shield"></i> Título</span></div>
+        <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Conteúdo</div></div>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Card (elevado) <code class="t-p">.is-card</code></h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-card</code>, os itens ganham sombra, mais espaço entre si e uma borda de destaque na lateral quando ativos.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-accordion class="is-card">
+                        <div class="sw-acc-it is-act">
+                            <div class="sw-acc-hdr">Plano Básico</div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Ideal pra quem está começando — recursos essenciais.</div></div>
+                        </div>
+                        <div class="sw-acc-it">
+                            <div class="sw-acc-hdr">Plano Pro</div>
+                            <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Todos os recursos, com suporte prioritário.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-accordion class="is-card">...</div>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
@@ -85,6 +154,10 @@
                             <tr><td><code>.sw-acc-it</code></td><td>Cada item — adicione <code>.is-act</code> pra começar aberto.</td></tr>
                             <tr><td><code>.sw-acc-hdr</code></td><td>Cabeçalho clicável (toggle).</td></tr>
                             <tr><td><code>.sw-acc-bdy</code> / <code>.sw-acc-bdy-in</code></td><td>Wrapper animado + conteúdo interno (padding fica no interno).</td></tr>
+                            <tr><td><code>.sw-acc-hdr-ttl</code></td><td>Envolve título + ícone opcional dentro do cabeçalho.</td></tr>
+                            <tr><td><code>.is-flush</code></td><td>Sem caixa/cantos — só linha divisória (estilo FAQ).</td></tr>
+                            <tr><td><code>.is-plus</code></td><td>Indicador <code>+</code> que gira até formar <code>×</code>.</td></tr>
+                            <tr><td><code>.is-card</code></td><td>Itens com sombra, mais espaço e borda de destaque quando ativos.</td></tr>
                             <tr><td><code>sw:accordion:open</code> / <code>sw:accordion:close</code></td><td>Eventos disparados no item.</td></tr>
                             <tr><td><code>SW.Accordion.open(container, index)</code></td><td>API — abre um item programaticamente.</td></tr>
                         </tbody>
