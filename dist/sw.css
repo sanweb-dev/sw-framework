@@ -6707,7 +6707,7 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-carousel-prv:hover, .sw-carousel-nxt:hover { background: var(--sw-sur-hover); }
 
 /* ---------- Pagination ---------- */
-.sw-pagination { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+[sw-pagination] { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
 .sw-pagination-it { display: inline-flex; align-items: center; justify-content: center; min-width: 3.4rem; height: 3.4rem; padding: 0 .8rem; border-radius: var(--sw-r-m); color: var(--sw-txt); cursor: pointer; user-select: none; }
 .sw-pagination-it:hover:not(.is-act):not(.is-sep):not(.is-dis) { background: var(--sw-sur-hover); }
 .sw-pagination-it.is-act { background: var(--sw-pri); color: #fff; font-weight: 600; }
@@ -6716,14 +6716,14 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-pagination-it { transition: background .15s var(--sw-ease), color .15s var(--sw-ease); }
 
 /* Tamanhos */
-.sw-pagination.is-sm .sw-pagination-it { min-width: 2.8rem; height: 2.8rem; font-size: 1.3rem; padding: 0 .5rem; }
-.sw-pagination.is-lg .sw-pagination-it { min-width: 4.4rem; height: 4.4rem; font-size: 1.7rem; padding: 0 1rem; }
+[sw-pagination].is-sm .sw-pagination-it { min-width: 2.8rem; height: 2.8rem; font-size: 1.3rem; padding: 0 .5rem; }
+[sw-pagination].is-lg .sw-pagination-it { min-width: 4.4rem; height: 4.4rem; font-size: 1.7rem; padding: 0 1rem; }
 
 /* .is-pil — cantos totalmente arredondados */
-.sw-pagination.is-pil .sw-pagination-it { border-radius: var(--sw-r-fl); }
+[sw-pagination].is-pil .sw-pagination-it { border-radius: var(--sw-r-fl); }
 
 /* .is-gst — ghost: item ativo sem fundo sólido, só cor + sublinhado */
-.sw-pagination.is-gst .sw-pagination-it.is-act { background: none; color: var(--sw-pri); text-decoration: underline; text-underline-offset: .3rem; text-decoration-thickness: .2rem; }
+[sw-pagination].is-gst .sw-pagination-it.is-act { background: none; color: var(--sw-pri); text-decoration: underline; text-underline-offset: .3rem; text-decoration-thickness: .2rem; }
 .sw-table-row-hid { display: none !important; }
 
 /* ---------- Rating ---------- */
