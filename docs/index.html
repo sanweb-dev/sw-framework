@@ -207,7 +207,7 @@
     /* -- Stats bar ------------------------------------------ */
     .stats-bar {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 1.6rem;
       margin-bottom: 6rem;
     }
@@ -242,6 +242,12 @@
       letter-spacing: 0.1em;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media (max-width: 992px) {
+      .stats-bar {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     @media (max-width: 768px) {
@@ -318,20 +324,28 @@ export const acelera = true;
       <!-- STATS -->
       <div class="stats-bar">
         <div class="stat-it">
-          <span class="stat-num">0.1.0</span>
-          <span class="stat-lbl">Versão Alpha</span>
+          <span class="stat-num">82</span>
+          <span class="stat-lbl">Componentes</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">42</span>
+          <span class="stat-lbl">Módulos JS</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">26</span>
+          <span class="stat-lbl">Efeitos de Animação</span>
+        </div>
+        <div class="stat-it">
+          <span class="stat-num">2658</span>
+          <span class="stat-lbl">Ícones SVG</span>
         </div>
         <div class="stat-it">
           <span class="stat-num">0</span>
           <span class="stat-lbl">Dependências</span>
         </div>
         <div class="stat-it">
-          <span class="stat-num">12</span>
-          <span class="stat-lbl">Colunas Grid</span>
-        </div>
-        <div class="stat-it">
-          <span class="stat-num">40</span>
-          <span class="stat-lbl">40 presets</span>
+          <span class="stat-num">0.1.0</span>
+          <span class="stat-lbl">Versão Alpha</span>
         </div>
       </div>
 
