@@ -3,6 +3,7 @@
   'use strict';
 
   const posMap = { bot: 'bottom', lft: 'left', rgt: 'right', top: 'top' };
+  const thmMap = { dia: 'lgt', noite: 'drk' };
   let tipEl = null;
   let timer = null;
 
@@ -41,6 +42,7 @@
         const delay = parseInt(el.getAttribute('sw-tooltip-delay'), 10) || 250;
         const html = el.getAttribute('sw-tooltip-html') === 'true';
         const clr = el.getAttribute('sw-tooltip-clr') || '';
+        const thm = thmMap[el.getAttribute('sw-tooltip-thm')] || '';
         const follow = el.getAttribute('sw-tooltip-follow') === 'true';
         let lastX = 0;
         let lastY = 0;
@@ -55,7 +57,7 @@
           window.clearTimeout(timer);
           timer = window.setTimeout(() => {
             if (html) tipEl.innerHTML = text; else tipEl.textContent = text;
-            tipEl.className = `sw-tooltip is-${pos}${clr ? ` is-${clr}` : ''}${follow ? ' is-follow' : ''}`;
+            tipEl.className = `sw-tooltip is-${pos}${clr ? ` is-${clr}` : ''}${thm ? ` is-${thm}` : ''}${follow ? ' is-follow' : ''}`;
             document.body.appendChild(tipEl);
             follow ? placeCursor(tipEl) : place(el, tipEl, pos);
             tipEl.classList.add('is-vis');

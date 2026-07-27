@@ -51,7 +51,6 @@
                     <button sw-btn class="sw-btn-out" sw-tooltip="Deu certo!" sw-tooltip-clr="suc">Sucesso</button>
                     <button sw-btn class="sw-btn-out" sw-tooltip="Informação útil" sw-tooltip-clr="inf">Info</button>
                     <button sw-btn class="sw-btn-out" sw-tooltip="Cuidado com isso" sw-tooltip-clr="err">Erro</button>
-                    <button sw-btn class="sw-btn-out" sw-tooltip="Sempre clara, nos dois temas" sw-tooltip-clr="lgt">Clara</button>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <button sw-tooltip="Cor primária" sw-tooltip-clr="pri">Primária</button>
@@ -59,7 +58,21 @@
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">3. Atraso e conteúdo em HTML</h3>
+                <h3 class="t-m f-bd mb-4">3. Modelo dia/noite fixo <code class="t-p">sw-tooltip-thm</code></h3>
+                <p class="t-p t-mut mb-4">Por padrão a dica se adapta ao tema atual do site (claro/escuro). Com <code>sw-tooltip-thm="dia"</code> ou <code>sw-tooltip-thm="noite"</code>, o modelo fica travado — não muda mesmo se o tema geral do site (o botão de sol/lua, <code>sw-day</code>) for trocado. Alterne o tema no canto da tela e passe o mouse de novo pra ver.</p>
+                <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Acompanha o tema do site">Padrão (acompanha)</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Sempre clara, mesmo no tema escuro" sw-tooltip-thm="dia">Sempre dia</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Sempre escura, mesmo no tema claro" sw-tooltip-thm="noite">Sempre noite</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-tooltip="Sempre clara" sw-tooltip-thm="dia">Sempre dia</button>
+<button sw-tooltip="Sempre escura" sw-tooltip-thm="noite">Sempre noite</button>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Atraso e conteúdo em HTML</h3>
                 <p class="t-p t-mut mb-4"><code>sw-tooltip-delay</code> controla o tempo (ms) antes de exibir. <code>sw-tooltip-html="true"</code> interpreta o texto como HTML.</p>
                 <div class="demo-wrap p-6 flx alc gap-4 f-wr">
                     <button sw-btn class="sw-btn-out" sw-tooltip="Aparece na hora" sw-tooltip-delay="0">Sem atraso</button>
@@ -82,7 +95,8 @@
                             <tr><td><code>sw-tooltip-pos</code></td><td><code>top</code></td><td><code>top | bottom | left | right</code></td></tr>
                             <tr><td><code>sw-tooltip-delay</code></td><td><code>250</code></td><td>ms antes de exibir.</td></tr>
                             <tr><td><code>sw-tooltip-html</code></td><td><code>false</code></td><td>Interpreta o texto como HTML.</td></tr>
-                            <tr><td><code>sw-tooltip-clr</code></td><td>—</td><td>Variante de cor: <code>pri | sec | suc | inf | err | lgt</code>.</td></tr>
+                            <tr><td><code>sw-tooltip-clr</code></td><td>—</td><td>Variante de cor: <code>pri | sec | suc | inf | err</code>.</td></tr>
+                            <tr><td><code>sw-tooltip-thm</code></td><td>—</td><td><code>dia | noite</code> — trava o modelo claro/escuro da dica, independente do tema geral do site (<code>sw-day</code>).</td></tr>
                             <tr><td><code>sw-tooltip-follow</code></td><td><code>false</code></td><td>Tooltip acompanha o cursor em vez de fixar na borda do elemento.</td></tr>
                             <tr><td><code>SW.Tooltip.create/update/destroy(el, opts)</code></td><td>—</td><td>API programática.</td></tr>
                         </tbody>

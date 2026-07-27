@@ -6738,6 +6738,7 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-tooltip.is-err { background: var(--sw-err); color: #fff; }
 .sw-tooltip.is-inf { background: var(--sw-inf); color: #fff; }
 .sw-tooltip.is-lgt { background: #fff; color: #0d131d; box-shadow: var(--sw-sha), 0 0 0 1px var(--sw-bor); }
+.sw-tooltip.is-drk { background: #0d131d; color: #f3efdf; box-shadow: var(--sw-sha), 0 0 0 1px rgba(0, 0, 0, .4); }
 
 /* ---------- LGPD ---------- */
 .sw-lgpd { position: fixed; left: var(--sw-s-m); right: var(--sw-s-m); bottom: var(--sw-s-m); display: flex; align-items: center; gap: var(--sw-s-m); padding: var(--sw-s-m) var(--sw-s-g); background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g); box-shadow: var(--sw-sha-g); transform: translateY(150%); transition: transform .45s var(--sw-ease); z-index: var(--sw-z-m); flex-wrap: wrap; }
