@@ -70,6 +70,140 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Vertical</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-vrt</code>, a barra de abas vai pra esquerda em coluna.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-vrt">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Geral</button>
+                            <button class="sw-tabs-it">Notificações</button>
+                            <button class="sw-tabs-it">Privacidade</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Configurações gerais da conta.</div>
+                        <div class="sw-tabs-pnl">Preferências de notificação.</div>
+                        <div class="sw-tabs-pnl">Controles de privacidade.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-vrt">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Rolagem com Setas (muitas abas)</h3>
+                <p class="t-p t-mut mb-4">Quando as abas não cabem na largura disponível, setas de rolagem aparecem nas pontas automaticamente. Redimensione a janela ou veja num container estreito:</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs style="max-width:36rem">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Visão Geral</button>
+                            <button class="sw-tabs-it">Relatórios</button>
+                            <button class="sw-tabs-it">Faturamento</button>
+                            <button class="sw-tabs-it">Integrações</button>
+                            <button class="sw-tabs-it">Segurança</button>
+                            <button class="sw-tabs-it">Equipe</button>
+                            <button class="sw-tabs-it">API</button>
+                            <button class="sw-tabs-it">Avançado</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Visão geral da conta.</div>
+                        <div class="sw-tabs-pnl">Relatórios detalhados.</div>
+                        <div class="sw-tabs-pnl">Faturas e cobrança.</div>
+                        <div class="sw-tabs-pnl">Integrações conectadas.</div>
+                        <div class="sw-tabs-pnl">Configurações de segurança.</div>
+                        <div class="sw-tabs-pnl">Membros da equipe.</div>
+                        <div class="sw-tabs-pnl">Chaves de API.</div>
+                        <div class="sw-tabs-pnl">Opções avançadas.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Sem classe extra — a rolagem aparece sozinha quando o container é estreito
+     demais pra caber todas as abas -->
+<div sw-tabs style="max-width:36rem">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Slide (indicador deslizante)</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-slide</code>, uma barrinha com brilho desliza suavemente até a aba ativa.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-slide">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Resumo</button>
+                            <button class="sw-tabs-it">Detalhes</button>
+                            <button class="sw-tabs-it">Histórico</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Resumo geral da conta.</div>
+                        <div class="sw-tabs-pnl">Detalhes completos.</div>
+                        <div class="sw-tabs-pnl">Histórico de atividades.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-slide">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">6. Boxed (cápsula deslizante)</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-boxed</code>, um fundo em cápsula desliza atrás da aba ativa — estilo segmented control.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-boxed">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Dia</button>
+                            <button class="sw-tabs-it">Semana</button>
+                            <button class="sw-tabs-it">Mês</button>
+                            <button class="sw-tabs-it">Ano</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Dados do dia.</div>
+                        <div class="sw-tabs-pnl">Dados da semana.</div>
+                        <div class="sw-tabs-pnl">Dados do mês.</div>
+                        <div class="sw-tabs-pnl">Dados do ano.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-boxed">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">7. Glow (brilho neon)</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-glow</code>, a aba ativa ganha um brilho pulsante ao redor.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-glow">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Painel</button>
+                            <button class="sw-tabs-it">Alertas</button>
+                            <button class="sw-tabs-it">Config</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Conteúdo do painel.</div>
+                        <div class="sw-tabs-pnl">Alertas recentes.</div>
+                        <div class="sw-tabs-pnl">Configurações do sistema.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-glow">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">8. Gradiente (elevação)</h3>
+                <p class="t-p t-mut mb-4">Com <code>.is-gradient</code>, a aba ativa sobe com fundo em gradiente e sombra.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-gradient">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Início</button>
+                            <button class="sw-tabs-it">Produtos</button>
+                            <button class="sw-tabs-it">Sobre</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Página inicial.</div>
+                        <div class="sw-tabs-pnl">Catálogo de produtos.</div>
+                        <div class="sw-tabs-pnl">Sobre a empresa.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-gradient">...</div>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
@@ -82,6 +216,10 @@
                             <tr><td><code>.sw-tabs-pnl</code></td><td>Painel de conteúdo de cada aba.</td></tr>
                             <tr><td><code>.is-pill</code></td><td>Variante com abas em formato pílula.</td></tr>
                             <tr><td><code>.is-vrt</code></td><td>Variante vertical — nav à esquerda.</td></tr>
+                            <tr><td><code>.is-slide</code></td><td>Indicador em barra desliza suavemente até a aba ativa.</td></tr>
+                            <tr><td><code>.is-boxed</code></td><td>Cápsula de fundo desliza atrás da aba ativa (segmented control).</td></tr>
+                            <tr><td><code>.is-glow</code></td><td>Aba ativa com brilho neon pulsante.</td></tr>
+                            <tr><td><code>.is-gradient</code></td><td>Aba ativa com fundo em gradiente e elevação.</td></tr>
                             <tr><td><code>sw-tabs-idx</code> (no botão)</td><td>Força o índice/id do painel associado.</td></tr>
                             <tr><td><code>sw:tabs:change</code></td><td>Evento disparado ao trocar de aba — <code>detail.key</code>, <code>detail.btn</code>, <code>detail.panel</code>.</td></tr>
                             <tr><td><code>SW.Tabs.show(container, key)</code></td><td>API — ativa uma aba programaticamente.</td></tr>

@@ -10,19 +10,72 @@
 .sw-tabs-it { flex: none; padding: var(--sw-s-p) var(--sw-s-m); background: none; border: none; border-bottom: 2px solid transparent; color: var(--sw-txt-mut); font: inherit; font-weight: 600; cursor: pointer; transition: color .2s var(--sw-ease), border-color .2s var(--sw-ease); }
 .sw-tabs-it:hover { color: var(--sw-txt); }
 .sw-tabs-it.is-act { color: var(--sw-pri); border-bottom-color: var(--sw-pri); }
-.sw-tabs.is-pill .sw-tabs-nav { border-bottom: none; gap: var(--sw-s-pp); }
-.sw-tabs.is-pill .sw-tabs-it { border-radius: var(--sw-r-fl); border-bottom: none; }
-.sw-tabs.is-pill .sw-tabs-it.is-act { background: var(--sw-pri); color: #fff; }
+[sw-tabs].is-pill .sw-tabs-nav { border-bottom: none; gap: var(--sw-s-pp); }
+[sw-tabs].is-pill .sw-tabs-it { border-radius: var(--sw-r-fl); border-bottom: none; }
+[sw-tabs].is-pill .sw-tabs-it.is-act { background: var(--sw-pri); color: #fff; }
 .sw-tabs-arr { display: none; position: absolute; top: 0; bottom: 0; width: 2.8rem; align-items: center; justify-content: center; background: var(--sw-sur); border: none; color: var(--sw-txt); cursor: pointer; z-index: 1; }
 .sw-tabs-arr.is-vis { display: flex; }
 .sw-tabs-arr-prv { left: 0; }
 .sw-tabs-arr-nxt { right: 0; }
 .sw-tabs-pnl { display: none; padding-top: var(--sw-s-m); }
 .sw-tabs-pnl.is-act { display: block; }
-.sw-tabs.is-vrt { display: flex; gap: var(--sw-s-m); }
-.sw-tabs.is-vrt .sw-tabs-nav { flex-direction: column; border-bottom: none; border-right: 1px solid var(--sw-bor); }
-.sw-tabs.is-vrt .sw-tabs-it { border-bottom: none; border-right: 2px solid transparent; text-align: left; }
-.sw-tabs.is-vrt .sw-tabs-it.is-act { border-right-color: var(--sw-pri); }
+[sw-tabs].is-vrt { display: flex; gap: var(--sw-s-m); }
+[sw-tabs].is-vrt .sw-tabs-nav { flex-direction: column; border-bottom: none; border-right: 1px solid var(--sw-bor); }
+[sw-tabs].is-vrt .sw-tabs-it { border-bottom: none; border-right: 2px solid transparent; text-align: left; }
+[sw-tabs].is-vrt .sw-tabs-it.is-act { border-right-color: var(--sw-pri); }
+
+/* ---------- Tabs — variantes com efeito ---------- */
+.sw-tabs-ind { display: none; }
+
+/* .is-slide — barra indicadora desliza suavemente até a aba ativa */
+[sw-tabs].is-slide .sw-tabs-nav { position: relative; }
+[sw-tabs].is-slide .sw-tabs-it.is-act { border-bottom-color: transparent; }
+[sw-tabs].is-slide .sw-tabs-ind {
+  display: block; position: absolute; left: 0; bottom: -1px; height: 2px;
+  background: var(--sw-pri); border-radius: var(--sw-r-fl);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--sw-pri) 70%, transparent);
+  transition: transform .3s var(--sw-ease), width .3s var(--sw-ease), height .3s var(--sw-ease);
+  will-change: transform, width;
+}
+[sw-tabs].is-slide.is-vrt .sw-tabs-ind { left: auto; right: -1px; bottom: auto; top: 0; width: 2px; height: 0; }
+
+/* .is-boxed — fundo em cápsula desliza atrás da aba ativa (estilo segmented control) */
+[sw-tabs].is-boxed .sw-tabs-nav { position: relative; border-bottom: none; background: var(--sw-sur); padding: .4rem; border-radius: var(--sw-r-fl); gap: 0; }
+[sw-tabs].is-boxed .sw-tabs-it { position: relative; z-index: 1; border-bottom: none; border-radius: var(--sw-r-fl); }
+[sw-tabs].is-boxed .sw-tabs-it.is-act { color: #fff; }
+[sw-tabs].is-boxed .sw-tabs-ind {
+  display: block; position: absolute; top: .4rem; bottom: .4rem; left: 0; z-index: 0;
+  background: var(--sw-pri); border-radius: var(--sw-r-fl);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--sw-pri) 40%, transparent);
+  transition: transform .3s var(--sw-ease), width .3s var(--sw-ease);
+  will-change: transform, width;
+}
+[sw-tabs].is-boxed.is-vrt .sw-tabs-nav { padding: .4rem; }
+[sw-tabs].is-boxed.is-vrt .sw-tabs-ind { top: 0; left: .4rem; right: .4rem; bottom: auto; height: 0; }
+
+/* .is-glow — aba ativa ganha brilho neon pulsante */
+[sw-tabs].is-glow .sw-tabs-it { border-radius: var(--sw-r-m); transition: color .2s var(--sw-ease), background .2s var(--sw-ease), box-shadow .2s var(--sw-ease); }
+[sw-tabs].is-glow .sw-tabs-it:hover { background: var(--sw-sur-hover); }
+[sw-tabs].is-glow .sw-tabs-it.is-act {
+  background: color-mix(in srgb, var(--sw-pri) 16%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sw-pri) 45%, transparent), 0 0 16px color-mix(in srgb, var(--sw-pri) 55%, transparent);
+  animation: sw-tabs-glow-pulse 2.4s ease-in-out infinite;
+}
+@keyframes sw-tabs-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--sw-pri) 45%, transparent), 0 0 12px color-mix(in srgb, var(--sw-pri) 45%, transparent); }
+  50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--sw-pri) 60%, transparent), 0 0 22px color-mix(in srgb, var(--sw-pri) 70%, transparent); }
+}
+
+/* .is-gradient — aba ativa com gradiente e leve elevação no hover */
+[sw-tabs].is-gradient .sw-tabs-nav { border-bottom: none; gap: var(--sw-s-pp); }
+[sw-tabs].is-gradient .sw-tabs-it { border-bottom: none; border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; transition: transform .2s var(--sw-ease), color .2s var(--sw-ease), background .2s var(--sw-ease); }
+[sw-tabs].is-gradient .sw-tabs-it:hover { transform: translateY(-2px); }
+[sw-tabs].is-gradient .sw-tabs-it.is-act {
+  color: #fff;
+  background: linear-gradient(135deg, var(--sw-pri), var(--sw-sec, var(--sw-pri)));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--sw-pri) 35%, transparent);
+}
 
 /* ---------- Accordion ---------- */
 .sw-acc-it { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); margin-bottom: var(--sw-s-p); overflow: hidden; }

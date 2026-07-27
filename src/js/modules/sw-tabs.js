@@ -11,6 +11,33 @@
       this._initNavScroll();
       const first = el.querySelector('.sw-tabs-it.is-act') || el.querySelector('.sw-tabs-it');
       if (first) this._activate(first, false);
+      if (this._hasIndicator()) {
+        window.addEventListener('resize', () => this._updateIndicator(), { passive: true });
+      }
+    }
+
+    _hasIndicator() {
+      return this.el.classList.contains('is-slide') || this.el.classList.contains('is-boxed');
+    }
+
+    _updateIndicator() {
+      if (!this._hasIndicator()) return;
+      const nav = this.el.querySelector('.sw-tabs-nav');
+      const active = nav?.querySelector('.sw-tabs-it.is-act');
+      if (!nav || !active) return;
+      let ind = nav.querySelector('.sw-tabs-ind');
+      if (!ind) {
+        ind = document.createElement('span');
+        ind.className = 'sw-tabs-ind';
+        nav.insertBefore(ind, nav.firstChild);
+      }
+      if (this.el.classList.contains('is-vrt')) {
+        ind.style.transform = `translateY(${active.offsetTop}px)`;
+        ind.style.height = `${active.offsetHeight}px`;
+      } else {
+        ind.style.transform = `translateX(${active.offsetLeft}px)`;
+        ind.style.width = `${active.offsetWidth}px`;
+      }
     }
 
     _initNavScroll() {
@@ -106,6 +133,7 @@
         panel = this.el.querySelectorAll('.sw-tabs-pnl')[buttons.indexOf(btn)];
       }
       if (panel) panel.classList.add('is-act');
+      this._updateIndicator();
       if (emit) SW.emit(this.el, 'sw:tabs:change', { key, btn, panel });
     }
 
