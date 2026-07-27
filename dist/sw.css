@@ -6625,8 +6625,23 @@ span.sw-card-pop {
 [sw-accordion].is-card .sw-acc-it.is-act .sw-acc-hdr { background: color-mix(in srgb, var(--sw-pri) 10%, var(--sw-sur)); color: var(--sw-pri); }
 
 /* ---------- Scroll to top ---------- */
-[sw-top] { position: fixed; right: var(--sw-s-m); bottom: var(--sw-s-m); width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--sw-pri); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--sw-sha); opacity: 0; pointer-events: none; transform: translateY(1rem); transition: opacity .25s var(--sw-ease), transform .25s var(--sw-ease); z-index: var(--sw-z-nvb); }
+[sw-top] { position: fixed; right: var(--sw-s-m); bottom: var(--sw-s-m); width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--sw-pri); color: #fff; border: none; display: flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; box-shadow: var(--sw-sha); opacity: 0; pointer-events: none; transform: translateY(1rem); transition: opacity .25s var(--sw-ease), transform .25s var(--sw-ease), background .15s var(--sw-ease); z-index: var(--sw-z-nvb); }
 [sw-top].is-vis { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+/* Cores */
+[sw-top].is-pri { background: var(--sw-pri); }
+[sw-top].is-suc { background: var(--sw-suc); }
+[sw-top].is-sec { background: var(--sw-sec); }
+[sw-top].is-drk { background: #0d131d; color: #fff; }
+
+/* Formas */
+[sw-top].is-sq { border-radius: var(--sw-r-m); }
+[sw-top].is-pil { width: auto; padding: 0 1.6rem; border-radius: var(--sw-r-fl); font-size: 1.3rem; font-weight: 600; white-space: nowrap; }
+
+/* Posições — padrão é inferior-direita (br) */
+[sw-top].is-bl { right: auto; left: var(--sw-s-m); }
+[sw-top].is-tr { bottom: auto; top: var(--sw-s-m); }
+[sw-top].is-tl { bottom: auto; top: var(--sw-s-m); right: auto; left: var(--sw-s-m); }
 
 /* ---------- Preloader ---------- */
 [sw-pre] { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--sw-bg); z-index: var(--sw-z-m); transition: opacity .5s var(--sw-ease); }

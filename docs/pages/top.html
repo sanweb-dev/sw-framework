@@ -7,6 +7,13 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        /* Só pra pré-visualizar variantes sem competir com o botão real (que é fixed) — não faz parte do framework. */
+        .top-swatches { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; }
+        .top-swatch { display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+        .top-swatch code { font-size: 1.1rem; }
+        .top-preview-frame { position: relative; height: 16rem; border: 1px dashed var(--sw-bor); border-radius: var(--sw-r-m); background: var(--sw-sur); }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -24,22 +31,97 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Back to Top <span class="TprinD">[sw-top]</span></h1>
-                <p class="t-g t-mut mb-0">Botão flutuante que aparece após 300px de rolagem e leva ao topo com scroll suave. Role esta página pra ver o botão no canto inferior direito.</p>
+                <p class="t-g t-mut mb-0">Botão flutuante que aparece após 300px de rolagem e leva ao topo com scroll suave. Role esta página pra ver o botão de verdade no canto inferior direito.</p>
             </section>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Uso</h3>
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">1. Uso</h3>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <button sw-top aria-label="Voltar ao topo">
     <span sw-icon="Arrows/arrow-circle-up"></span>
 </button>
 </script></pre>
-                <div class="tbl is-str mt-4">
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Cores</h3>
+                <p class="t-p t-mut mb-4">Pré-visualização estática abaixo (o botão real é <code>position:fixed</code> — pra comparar vários de uma vez sem sobrepor, estes ficam fixados no lugar só aqui na demo).</p>
+                <div class="demo-wrap p-6">
+                    <div class="top-swatches">
+                        <div class="top-swatch">
+                            <button sw-top class="is-pri" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                            <code>.is-pri</code>
+                        </div>
+                        <div class="top-swatch">
+                            <button sw-top class="is-suc" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                            <code>.is-suc</code>
+                        </div>
+                        <div class="top-swatch">
+                            <button sw-top class="is-sec" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                            <code>.is-sec</code>
+                        </div>
+                        <div class="top-swatch">
+                            <button sw-top class="is-drk" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                            <code>.is-drk</code>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-top class="is-suc">...</button>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Formas</h3>
+                <div class="demo-wrap p-6">
+                    <div class="top-swatches">
+                        <div class="top-swatch">
+                            <button sw-top class="is-sq" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                            <code>.is-sq</code>
+                        </div>
+                        <div class="top-swatch">
+                            <button sw-top class="is-pil" style="position:static!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span> Topo</button>
+                            <code>.is-pil</code>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-top class="is-sq">...</button>
+<button sw-top class="is-pil"><span sw-icon="..."></span> Topo</button>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Posições</h3>
+                <p class="t-p t-mut mb-4">Por padrão fica no canto inferior direito. Use <code>.is-bl</code>/<code>.is-tr</code>/<code>.is-tl</code> pra outros cantos.</p>
+                <div class="demo-wrap p-6">
+                    <div class="top-preview-frame">
+                        <button sw-top style="position:absolute!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                        <button sw-top class="is-bl" style="position:absolute!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                        <button sw-top class="is-tr" style="position:absolute!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                        <button sw-top class="is-tl" style="position:absolute!important;opacity:1!important;transform:none!important;pointer-events:none!important;" aria-hidden="true"><span sw-icon="Arrows/arrow-circle-up"></span></button>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-top class="is-tl">...</button> <!-- topo-esquerda -->
+<button sw-top class="is-tr">...</button> <!-- topo-direita -->
+<button sw-top class="is-bl">...</button> <!-- baixo-esquerda -->
+<button sw-top>...</button>               <!-- baixo-direita (padrão) -->
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
                     <table>
                         <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>[sw-top]</code></td><td>Ativa o botão — fica fixo no canto inferior direito.</td></tr>
+                            <tr><td><code>[sw-top]</code></td><td>Ativa o botão — fica fixo, canto inferior direito por padrão.</td></tr>
                             <tr><td><code>.is-vis</code></td><td>Classe adicionada automaticamente após 300px de scroll (controla a visibilidade via CSS).</td></tr>
+                            <tr><td><code>.is-pri</code> / <code>.is-suc</code> / <code>.is-sec</code> / <code>.is-drk</code></td><td>Variantes de cor.</td></tr>
+                            <tr><td><code>.is-sq</code></td><td>Cantos quadrados em vez de circular.</td></tr>
+                            <tr><td><code>.is-pil</code></td><td>Formato pílula — largura automática, aceita texto ao lado do ícone.</td></tr>
+                            <tr><td><code>.is-bl</code> / <code>.is-tr</code> / <code>.is-tl</code></td><td>Reposiciona pro canto inferior-esquerda / superior-direita / superior-esquerda.</td></tr>
                         </tbody>
                     </table>
                 </div>
