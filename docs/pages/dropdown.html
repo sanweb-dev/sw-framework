@@ -28,10 +28,10 @@
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <h3 class="t-m f-bd mb-4">1. Padrão</h3>
                 <div class="demo-wrap p-6">
                     <div sw-dropdown>
-                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Opções ▾</button>
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Opções <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
                         <div class="sw-dropdown-mn">
                             <div class="sw-dropdown-it">Editar</div>
                             <div class="sw-dropdown-it">Duplicar</div>
@@ -42,12 +42,110 @@
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <div sw-dropdown>
-    <button class="sw-dropdown-tgl">Opções ▾</button>
+    <button class="sw-dropdown-tgl">Opções <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
     <div class="sw-dropdown-mn">
         <div class="sw-dropdown-it">Editar</div>
         <div class="sw-dropdown-it is-dis">Arquivar</div>
     </div>
 </div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Com ícones, cabeçalho, divisor e item de perigo</h3>
+                <p class="t-p t-mut mb-4">Itens aceitam <code>&lt;i class="swi swi-*"&gt;</code> à esquerda, <code>.sw-dropdown-hdr</code> como rótulo de seção, <code>.sw-dropdown-div</code> como linha divisória e <code>.is-dgr</code> para ações destrutivas.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-dropdown>
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Conta <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-hdr">Conta</div>
+                            <div class="sw-dropdown-it"><i class="swi swi-user"></i> Perfil</div>
+                            <div class="sw-dropdown-it"><i class="swi swi-cog"></i> Configurações</div>
+                            <hr class="sw-dropdown-div">
+                            <div class="sw-dropdown-hdr">Perigo</div>
+                            <div class="sw-dropdown-it is-dgr"><i class="swi swi-trash"></i> Excluir conta</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="sw-dropdown-mn">
+    <div class="sw-dropdown-hdr">Conta</div>
+    <div class="sw-dropdown-it"><i class="swi swi-user"></i> Perfil</div>
+    <hr class="sw-dropdown-div">
+    <div class="sw-dropdown-it is-dgr"><i class="swi swi-trash"></i> Excluir conta</div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Alinhado à direita <code class="t-p">.is-rgt</code></h3>
+                <p class="t-p t-mut mb-4">Útil quando o botão está perto da borda direita e o menu não pode transbordar.</p>
+                <div class="demo-wrap p-6" style="display:flex; justify-content:flex-end;">
+                    <div sw-dropdown class="is-rgt">
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Mais <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it">Compartilhar</div>
+                            <div class="sw-dropdown-it">Exportar</div>
+                            <div class="sw-dropdown-it">Excluir</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-dropdown class="is-rgt">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Dropup <code class="t-p">.is-up</code></h3>
+                <p class="t-p t-mut mb-4">O menu abre para cima — ideal quando o botão está no rodapé da tela.</p>
+                <div class="demo-wrap p-6" style="display:flex; align-items:flex-end; min-height:16rem;">
+                    <div sw-dropdown class="is-up">
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Ações <i class="swi swi-chevron-up sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it">Novo item</div>
+                            <div class="sw-dropdown-it">Importar</div>
+                            <div class="sw-dropdown-it">Configurações</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-dropdown class="is-up">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Zoom <code class="t-p">.is-zoom</code></h3>
+                <p class="t-p t-mut mb-4">Entrada com efeito de zoom a partir do canto do botão, em vez do deslize padrão. Combine com <code>.is-rgt</code>/<code>.is-up</code> e a origem do zoom se ajusta sozinha.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-dropdown class="is-zoom">
+                        <button sw-btn class="sw-btn-pri sw-dropdown-tgl">Criar <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it"><i class="swi swi-file"></i> Documento</div>
+                            <div class="sw-dropdown-it"><i class="swi swi-folder"></i> Pasta</div>
+                            <div class="sw-dropdown-it"><i class="swi swi-link"></i> Link</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-dropdown class="is-zoom">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">6. Tintado <code class="t-p">.is-tint</code></h3>
+                <p class="t-p t-mut mb-4">Painel com um leve tom da cor primária no fundo e na borda — bom pra destacar um menu de contexto principal.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-dropdown class="is-tint is-zoom">
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Filtrar <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it">Todos</div>
+                            <div class="sw-dropdown-it">Ativos</div>
+                            <div class="sw-dropdown-it">Arquivados</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-dropdown class="is-tint">...</div>
 </script></pre>
             </div>
 
@@ -61,6 +159,14 @@
                             <tr><td><code>.sw-dropdown-tgl</code></td><td>Elemento que abre/fecha o menu.</td></tr>
                             <tr><td><code>.sw-dropdown-mn</code></td><td>Painel do menu.</td></tr>
                             <tr><td><code>.sw-dropdown-it</code></td><td>Item — clicar fecha o menu (a menos que tenha <code>.is-dis</code>).</td></tr>
+                            <tr><td><code>.sw-dropdown-it.is-dgr</code></td><td>Item de ação destrutiva (vermelho).</td></tr>
+                            <tr><td><code>.sw-dropdown-hdr</code></td><td>Rótulo de seção não clicável dentro do menu.</td></tr>
+                            <tr><td><code>.sw-dropdown-div</code></td><td>Linha divisória entre grupos de itens.</td></tr>
+                            <tr><td><code>.sw-dropdown-arr</code></td><td>Ícone de seta no botão — gira 180° quando o menu abre.</td></tr>
+                            <tr><td><code>.is-rgt</code></td><td>Alinha o menu à direita do botão.</td></tr>
+                            <tr><td><code>.is-up</code></td><td>Dropup — menu abre para cima.</td></tr>
+                            <tr><td><code>.is-zoom</code></td><td>Entrada com zoom a partir do canto do botão.</td></tr>
+                            <tr><td><code>.is-tint</code></td><td>Painel com leve tom da cor primária.</td></tr>
                             <tr><td><code>sw:dropdown:open</code> / <code>sw:dropdown:close</code></td><td>Eventos disparados no container.</td></tr>
                             <tr><td><code>SW.Dropdown.open(el)</code> / <code>.close(el)</code></td><td>API programática.</td></tr>
                         </tbody>
