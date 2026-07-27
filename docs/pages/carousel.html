@@ -7,6 +7,15 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        /* Só pra deixar as demos desta página legíveis — não faz parte do framework. */
+        .fx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1.6rem; }
+        .fx-cell { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); padding: 1.6rem; }
+        .fx-cell-lbl { display: block; margin-bottom: 1rem; }
+        .fx-cell .sw-carousel-trk { min-height: 5rem; }
+        .fx-cell blockquote { margin: 0; font-size: 1.4rem; }
+        .fx-cell-nav { display: flex; justify-content: center; gap: .8rem; margin-top: 1.2rem; }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -24,11 +33,12 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Text Carousel <span class="TprinD">[sw-carousel]</span></h1>
-                <p class="t-g t-mut mb-0">Troca de textos/depoimentos com 8 efeitos de transição (slide, zoom, bounce, flip), swipe e autoplay.</p>
+                <p class="t-g t-mut mb-0">Troca de textos/depoimentos com 9 efeitos de transição (slide × 4 direções, zoom × 2, bounce, flip, fade), swipe e autoplay.</p>
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <h3 class="t-m f-bd mb-4">1. Básico</h3>
+                <p class="t-p t-mut mb-4">Container com <code>.sw-carousel-trk</code> (os itens) e, opcionalmente, <code>.sw-carousel-dts</code> (pontinhos, preenchidos sozinhos pelo JS) e <code>.sw-carousel-prv</code>/<code>.sw-carousel-nxt</code> (setas). Aqui com autoplay de 3s e arraste/swipe habilitado por padrão.</p>
                 <div class="demo-wrap p-6">
                     <div sw-carousel sw-carousel-auto="3000" sw-carousel-effect="slide-left" style="min-height:8rem;position:relative;">
                         <div class="sw-carousel-trk" style="position:relative;min-height:6rem;">
@@ -36,7 +46,11 @@
                             <blockquote style="margin:0">"Zero dependências, zero dor de cabeça." — Cliente B</blockquote>
                             <blockquote style="margin:0">"A documentação viva ajudou demais no onboarding." — Cliente C</blockquote>
                         </div>
-                        <div class="sw-carousel-dts mt-4"></div>
+                        <div class="flx alc jcc gap-3 mt-4">
+                            <button class="sw-carousel-prv">‹</button>
+                            <div class="sw-carousel-dts" style="margin-top:0"></div>
+                            <button class="sw-carousel-nxt">›</button>
+                        </div>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
@@ -45,8 +59,112 @@
         <blockquote>Depoimento 1</blockquote>
         <blockquote>Depoimento 2</blockquote>
     </div>
+    <button class="sw-carousel-prv">‹</button>
+    <button class="sw-carousel-nxt">›</button>
     <div class="sw-carousel-dts"></div>
 </div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Os 9 efeitos <code class="t-p">sw-carousel-effect</code></h3>
+                <p class="t-p t-mut mb-4">Sem autoplay aqui — clique na seta de cada card pra ver o efeito específico rodar.</p>
+                <div class="fx-grid">
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">slide-left (padrão)</code>
+                        <div sw-carousel sw-carousel-effect="slide-left">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">slide-right</code>
+                        <div sw-carousel sw-carousel-effect="slide-right">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">slide-up</code>
+                        <div sw-carousel sw-carousel-effect="slide-up">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">slide-down</code>
+                        <div sw-carousel sw-carousel-effect="slide-down">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">zoom-in</code>
+                        <div sw-carousel sw-carousel-effect="zoom-in">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">zoom-out</code>
+                        <div sw-carousel sw-carousel-effect="zoom-out">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">bounce</code>
+                        <div sw-carousel sw-carousel-effect="bounce">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">flip</code>
+                        <div sw-carousel sw-carousel-effect="flip">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                    <div class="fx-cell">
+                        <code class="fx-cell-lbl t-pp">fade</code>
+                        <div sw-carousel sw-carousel-effect="fade">
+                            <div class="sw-carousel-trk"><blockquote>Texto A</blockquote><blockquote>Texto B</blockquote></div>
+                        <div class="fx-cell-nav"><button class="sw-carousel-prv">‹</button><button class="sw-carousel-nxt">›</button></div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0 mt-6"><script type="text/plain">
+<div sw-carousel sw-carousel-effect="flip">
+    <div class="sw-carousel-trk">
+        <blockquote>Texto A</blockquote>
+        <blockquote>Texto B</blockquote>
+    </div>
+    <button class="sw-carousel-prv">‹</button>
+    <button class="sw-carousel-nxt">›</button>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Sem loop <code class="t-p">sw-carousel-loop="false"</code></h3>
+                <p class="t-p t-mut mb-4">Trava no primeiro e no último item — clicar em "próximo" no último não volta pro início.</p>
+                <div class="demo-wrap p-6">
+                    <div sw-carousel sw-carousel-loop="false" sw-carousel-effect="fade" style="min-height:6rem;position:relative;">
+                        <div class="sw-carousel-trk" style="position:relative;min-height:5rem;">
+                            <blockquote style="margin:0">1 de 3 — início.</blockquote>
+                            <blockquote style="margin:0">2 de 3 — meio.</blockquote>
+                            <blockquote style="margin:0">3 de 3 — fim, não volta ao clicar em "›" de novo.</blockquote>
+                        </div>
+                        <div class="flx alc jcc gap-3 mt-4">
+                            <button class="sw-carousel-prv">‹</button>
+                            <div class="sw-carousel-dts" style="margin-top:0"></div>
+                            <button class="sw-carousel-nxt">›</button>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-carousel sw-carousel-loop="false">...</div>
 </script></pre>
             </div>
 
@@ -54,13 +172,16 @@
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo/Classe</th><th>Padrão</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>sw-carousel-effect</code></td><td><code>slide-left</code></td><td><code>slide-left|right|up|down · zoom-in|out · bounce · flip · fade</code></td></tr>
+                            <tr><td><code>.sw-carousel-trk</code></td><td>—</td><td>Obrigatório. Cada filho direto vira um item do carrossel.</td></tr>
+                            <tr><td><code>sw-carousel-effect</code></td><td><code>slide-left</code></td><td><code>slide-left|right|up|down · zoom-in|out · bounce · flip · fade</code>. Pode ser sobrescrito por item com <code>sw-carousel-effect</code> no próprio elemento.</td></tr>
                             <tr><td><code>sw-carousel-dur</code></td><td><code>600</code></td><td>Duração da transição em ms.</td></tr>
                             <tr><td><code>sw-carousel-loop</code></td><td><code>true</code></td><td>Volta ao primeiro item após o último.</td></tr>
-                            <tr><td><code>sw-carousel-auto</code></td><td><code>0</code></td><td>Intervalo de autoplay em ms.</td></tr>
-                            <tr><td><code>.sw-carousel-dts</code></td><td>—</td><td>Container de dots (opcional, gerado automaticamente).</td></tr>
+                            <tr><td><code>sw-carousel-auto</code></td><td><code>0</code></td><td>Intervalo de autoplay em ms (0 = desligado). Pausa sozinho no hover.</td></tr>
+                            <tr><td><code>.sw-carousel-dts</code></td><td>—</td><td>Container de dots (opcional) — deixe vazio, o JS preenche sozinho.</td></tr>
+                            <tr><td><code>.sw-carousel-prv</code> / <code>.sw-carousel-nxt</code></td><td>—</td><td>Setas de navegação manual (opcional).</td></tr>
+                            <tr><td>Arraste/swipe</td><td>—</td><td>Sempre ativo — arraste horizontalmente (mouse ou touch) pra trocar de item.</td></tr>
                             <tr><td><code>sw:carousel:change</code></td><td>—</td><td>Evento — <code>detail.index</code>.</td></tr>
                             <tr><td><code>SW.Carousel.next/prev/goTo/pause/resume(el)</code></td><td>—</td><td>API programática.</td></tr>
                         </tbody>

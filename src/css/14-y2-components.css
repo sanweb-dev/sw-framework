@@ -182,7 +182,8 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-carousel-dts { display: flex; gap: .5rem; justify-content: center; margin-top: var(--sw-s-p); }
 .sw-carousel-dot { width: .8rem; height: .8rem; border-radius: 50%; border: none; background: var(--sw-bor); cursor: pointer; padding: 0; }
 .sw-carousel-dot.is-act { background: var(--sw-pri); }
-.sw-carousel-prv, .sw-carousel-nxt { background: none; border: none; color: var(--sw-txt); cursor: pointer; }
+.sw-carousel-prv, .sw-carousel-nxt { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--sw-sur); border: 1px solid var(--sw-bor); color: var(--sw-txt); font-size: 1.6rem; line-height: 1; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background .15s var(--sw-ease); }
+.sw-carousel-prv:hover, .sw-carousel-nxt:hover { background: var(--sw-sur-hover); }
 
 /* ---------- Pagination ---------- */
 .sw-pagination { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }

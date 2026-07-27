@@ -27,11 +27,14 @@
     _build() {
       this.el.style.setProperty('--sw-car-dur', `${this.dur}ms`);
       this.items.forEach((it, i) => {
+        it.style.transition = 'none';
         it.style.opacity = i === 0 ? '1' : '0';
         it.style.visibility = i === 0 ? 'visible' : 'hidden';
         it.style.transform = 'none';
         it.classList.toggle('is-act', i === 0);
       });
+      void this.trk.offsetHeight;
+      this.items.forEach((it) => { it.style.transition = ''; });
       if (this.dts) {
         this.dts.innerHTML = '';
         this.items.forEach((_, i) => {
