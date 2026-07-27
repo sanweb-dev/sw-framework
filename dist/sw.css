@@ -1185,6 +1185,8 @@ a:focus-visible,
 }
 
 .sw-modal-content, .mdl-box {
+  display: flex;
+  flex-direction: column;
   background: var(--sw-bg);
   border: 1px solid var(--sw-bor-glow);
   border-radius: var(--sw-r-gg);
@@ -1216,10 +1218,10 @@ a:focus-visible,
 .mdl-cls::before { transform: translate(-50%, -50%) rotate(45deg); }
 .mdl-cls::after { transform: translate(-50%, -50%) rotate(-45deg); }
 
-.mdl-bdy { color: var(--sw-txt-mut); line-height: 1.6; max-height: 60vh; overflow-y: auto; }
+.mdl-bdy { flex: 1; color: var(--sw-txt-mut); line-height: 1.6; max-height: 60vh; overflow-y: auto; }
 .mdl-bdy p:last-child { margin-bottom: 0; }
 
-.mdl-ftr { display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap; }
+.mdl-ftr { display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap; flex-shrink: 0; }
 
 /* --- Tamanhos (.is-pp / .is-p / .is-g / .is-gg / .is-fl) --- */
 .sw-modal.is-pp .mdl-box, .sw-modal.is-pp .sw-modal-content { max-width: 32rem; }
