@@ -101,7 +101,7 @@
                         </div>
                         <div>
                             <label class="t-p f-bd mb-1 block">Dinheiro (sem R$)</label>
-                            <input class="inp" id="inp-valor" placeholder="0,00">
+                            <input class="inp" sw-mask="valor" placeholder="0,00">
                         </div>
                         <div>
                             <label class="t-p f-bd mb-1 block">Processo Judicial</label>
@@ -233,13 +233,6 @@ SWMask.addMask('processo', '#######-##.####.#.##.####');
 
         </main>
     </div>
-    <script>
-        document.getElementById('inp-valor').addEventListener('input', function () {
-            var d = this.value.replace(/\D/g, '');
-            if (!d) { this.value = ''; return; }
-            this.value = d.replace(/(\d)(\d{2})$/, '$1,$2').replace(/(?=(\d{3})+(\D))\B/g, '.');
-        });
-    </script>
 </body>
 
 </html>
