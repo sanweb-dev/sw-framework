@@ -614,7 +614,7 @@ a:focus-visible,
   border-radius: var(--sw-r-gg);
   max-width: 600px;
   width: 100%;
-  padding: 2.5rem;
+  padding: 2rem;
   box-shadow: var(--sw-sha-g);
   transform: scale(0.92);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -632,7 +632,7 @@ a:focus-visible,
   width: 3.2rem; height: 3.2rem; border-radius: 50%; border: none; background: transparent;
   color: var(--sw-txt-mut); cursor: pointer; position: relative; flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
-  top: -20px; right: -20px;
+  top: -15px; right: -15px;
 }
 .mdl-cls:hover { background: var(--sw-bg-); color: var(--sw-txt); }
 .mdl-cls::before, .mdl-cls::after {
