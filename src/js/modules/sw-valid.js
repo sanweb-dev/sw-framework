@@ -9,6 +9,7 @@
     constructor(form) {
       this.form = form;
       this.form.noValidate = true;
+      this.live = form.getAttribute('sw-valid-live') || 'true';
       this.fields().forEach((field) => this.bind(field));
       this.form.addEventListener('submit', (event) => {
         if (!this.check({ focus: true })) {
@@ -17,6 +18,16 @@
           return;
         }
         if (!SW.emit(this.form, 'sw:valid-submit', { form: this.form })) event.preventDefault();
+      });
+      this.form.addEventListener('reset', () => {
+        this.fields().forEach((field) => {
+          field.classList.remove('is-invalid', 'is-valid');
+          field.removeAttribute('aria-invalid');
+          delete field.dataset.swValidTouched;
+          const error = field.id ? this.form.querySelector(`#${CSS.escape(field.id)}-error`) : null;
+          if (error) { error.hidden = true; error.textContent = ''; }
+        });
+        delete this.form.dataset.swValidState;
       });
     }
 
@@ -32,17 +43,21 @@
     bind(field) {
       if (field._swValidInit) return;
       field._swValidInit = true;
+      if (this.live === 'false') return; // sw-valid-live="false" — só valida no submit
+
       field.addEventListener('blur', () => {
         field.dataset.swValidTouched = 'true';
         this.validateField(field);
         this.updateState();
       });
-      field.addEventListener('input', () => {
-        if (field.dataset.swValidTouched === 'true' || field.getAttribute('aria-invalid') === 'true') {
-          this.validateField(field);
-          this.updateState();
-        }
-      });
+      if (this.live !== 'blur') {
+        field.addEventListener('input', () => {
+          if (field.dataset.swValidTouched === 'true' || field.getAttribute('aria-invalid') === 'true') {
+            this.validateField(field);
+            this.updateState();
+          }
+        });
+      }
       field.addEventListener('change', () => {
         field.dataset.swValidTouched = 'true';
         this.validateField(field);

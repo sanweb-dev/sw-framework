@@ -28,18 +28,38 @@
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <h3 class="t-m f-bd mb-4">1. Demo completa</h3>
+                <p class="t-p t-mut mb-4">Preencha e envie pra ver a validação em tempo real. O submit só passa se todos os campos estiverem válidos — inclusive a confirmação de senha, que não é uma constraint nativa do HTML5, então usa <code>setCustomValidity()</code> (também nativo, só que via JS).</p>
                 <div class="demo-wrap p-6">
-                    <form sw-valid class="flx fld-col gap-4" style="max-width:32rem">
+                    <form sw-valid id="demoForm" class="flx f-cl gap-4" style="max-width:32rem">
                         <div class="sw-form-group">
                             <label class="sw-label">Nome</label>
-                            <input class="sw-input" name="nome" required minlength="3">
+                            <input class="sw-input" name="nome" required minlength="3" placeholder="Mínimo 3 caracteres">
                         </div>
                         <div class="sw-form-group">
                             <label class="sw-label">E-mail</label>
-                            <input class="sw-input" type="email" name="email" required>
+                            <input class="sw-input" type="email" name="email" required placeholder="email@exemplo.com">
                         </div>
-                        <button sw-btn class="sw-btn-pri" type="submit">Enviar</button>
+                        <div class="sw-form-group">
+                            <label class="sw-label">Senha</label>
+                            <input class="sw-input" type="password" id="senha" name="senha" required minlength="6" placeholder="Mínimo 6 caracteres">
+                        </div>
+                        <div class="sw-form-group">
+                            <label class="sw-label">Confirmar senha</label>
+                            <input class="sw-input" type="password" name="senha2" required data-sw-error="As senhas não coincidem." placeholder="Repita a senha">
+                        </div>
+                        <div class="sw-form-group">
+                            <label class="sw-label">Site <span class="t-pp t-mut">(opcional)</span></label>
+                            <input class="sw-input" type="url" name="site" placeholder="https://meusite.com">
+                        </div>
+                        <div class="sw-form-group">
+                            <label class="sw-label">Idade</label>
+                            <input class="sw-input" type="number" name="idade" required min="18" max="120" placeholder="Entre 18 e 120">
+                        </div>
+                        <div class="flx gap-2">
+                            <button sw-btn class="sw-btn-pri" type="submit">Criar conta</button>
+                            <button sw-btn class="sw-btn-out" type="reset">Limpar</button>
+                        </div>
                     </form>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
@@ -48,22 +68,131 @@
         <label class="sw-label">E-mail</label>
         <input class="sw-input" type="email" name="email" required>
     </div>
+
+    <div class="sw-form-group">
+        <label class="sw-label">Senha</label>
+        <input class="sw-input" type="password" id="senha" name="senha" required minlength="6">
+    </div>
+    <div class="sw-form-group">
+        <label class="sw-label">Confirmar senha</label>
+        <input class="sw-input" type="password" name="senha2" required
+               data-sw-error="As senhas não coincidem.">
+    </div>
+
     <button sw-btn class="sw-btn-pri" type="submit">Enviar</button>
 </form>
+
+<script>
+// Confirmação de senha não é uma constraint nativa — combine com setCustomValidity(),
+// que É nativo, pra manter tudo dentro do checkValidity() que o sw-valid já usa.
+const senha = document.getElementById('senha');
+const senha2 = document.querySelector('[name="senha2"]');
+function checarSenhas() {
+    senha2.setCustomValidity(senha2.value !== senha.value ? 'x' : '');
+}
+senha.addEventListener('input', checarSenhas);
+senha2.addEventListener('input', checarSenhas);
+</script>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Regras nativas disponíveis</h3>
+                <p class="t-p t-mut mb-4">Nenhuma é do SW — são constraints padrão do HTML5. O <code>[sw-valid]</code> só cuida de <em>quando</em> e <em>como</em> mostrar o erro.</p>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Valida</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>required</code></td><td>Campo obrigatório (não vazio).</td></tr>
+                            <tr><td><code>type="email"</code></td><td>Formato de e-mail válido.</td></tr>
+                            <tr><td><code>type="url"</code></td><td>URL iniciada com protocolo (<code>http://</code>, <code>https://</code>...).</td></tr>
+                            <tr><td><code>type="number" min max</code></td><td>Valor numérico dentro do intervalo.</td></tr>
+                            <tr><td><code>minlength</code> / <code>maxlength</code></td><td>Tamanho mínimo/máximo do texto.</td></tr>
+                            <tr><td><code>pattern</code></td><td>Expressão regular customizada.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Modos de validação <code class="t-p">sw-valid-live</code></h3>
+                <p class="t-p t-mut mb-4">Por padrão (<code>true</code>), valida a cada tecla digitada depois que o campo já foi tocado uma vez, além do <code>blur</code>. Ajuste com <code>sw-valid-live</code>:</p>
+                <div class="tbl is-str mb-6">
+                    <table>
+                        <thead><tr><th>Valor</th><th>Comportamento</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>"true"</code> (padrão)</td><td>Valida a cada tecla + ao sair do campo.</td></tr>
+                            <tr><td><code>"blur"</code></td><td>Valida só ao sair do campo (sem feedback por tecla).</td></tr>
+                            <tr><td><code>"false"</code></td><td>Valida só ao tentar enviar o formulário.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="demo-wrap p-6 flx gap-4 f-wr">
+                    <form sw-valid sw-valid-live="true" class="flx f-cl gap-2" style="min-width:20rem">
+                        <p class="t-p f-bd mb-0">live="true"</p>
+                        <div class="sw-form-group"><label class="sw-label">E-mail</label><input class="sw-input" type="email" name="e1" required></div>
+                        <button sw-btn class="sw-btn-out" type="submit">Enviar</button>
+                    </form>
+                    <form sw-valid sw-valid-live="blur" class="flx f-cl gap-2" style="min-width:20rem">
+                        <p class="t-p f-bd mb-0">live="blur"</p>
+                        <div class="sw-form-group"><label class="sw-label">E-mail</label><input class="sw-input" type="email" name="e2" required></div>
+                        <button sw-btn class="sw-btn-out" type="submit">Enviar</button>
+                    </form>
+                    <form sw-valid sw-valid-live="false" class="flx f-cl gap-2" style="min-width:20rem">
+                        <p class="t-p f-bd mb-0">live="false"</p>
+                        <div class="sw-form-group"><label class="sw-label">E-mail</label><input class="sw-input" type="email" name="e3" required></div>
+                        <button sw-btn class="sw-btn-out" type="submit">Enviar</button>
+                    </form>
+                </div>
+                <pre swcode="html" class="m-0 mt-6"><script type="text/plain">
+<form sw-valid sw-valid-live="blur">...</form>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Mensagem de erro customizada <code class="t-p">data-sw-error</code></h3>
+                <p class="t-p t-mut mb-4">Sem isso, a mensagem é a padrão do navegador (varia por idioma/navegador). Com <code>data-sw-error</code> no campo, você define o texto.</p>
+                <div class="demo-wrap p-6">
+                    <form sw-valid class="flx f-cl gap-2" style="max-width:28rem">
+                        <div class="sw-form-group">
+                            <label class="sw-label">CPF</label>
+                            <input class="sw-input" name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" data-sw-error="Use o formato 000.000.000-00." placeholder="000.000.000-00">
+                        </div>
+                        <button sw-btn class="sw-btn-out" type="submit">Validar</button>
+                    </form>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<input class="sw-input" name="cpf" required
+       pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+       data-sw-error="Use o formato 000.000.000-00.">
 </script></pre>
             </div>
 
             <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
-                <div class="tbl is-str">
+                <h3 class="t-m f-bd mb-4">5. API e eventos</h3>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+// Validar um formulário programaticamente (retorna true/false)
+const ok = SW.Valid.check(document.querySelector('#meuForm'));
+
+// Eventos disparados no <form>
+form.addEventListener('sw:valid-submit', (e) => {
+    console.log('Formulário válido, pronto pra enviar');
+});
+form.addEventListener('sw:valid-error', (e) => {
+    console.log('Tem campo inválido — envio bloqueado');
+});
+</script></pre>
+                <div class="tbl is-str mt-6">
                     <table>
                         <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
                         <tbody>
                             <tr><td><code>form[sw-valid]</code></td><td>Ativa a validação no submit e no blur/input de cada campo.</td></tr>
+                            <tr><td><code>sw-valid-live</code></td><td><code>true</code> (padrão) | <code>blur</code> | <code>false</code> — controla quando a validação roda antes do submit.</td></tr>
                             <tr><td><code>required, type=, pattern, min, max, minlength, maxlength</code></td><td>Regras nativas do HTML5 — use como sempre usou.</td></tr>
                             <tr><td><code>data-sw-error</code> (no campo)</td><td>Mensagem de erro customizada — sobrepõe a mensagem padrão do navegador.</td></tr>
                             <tr><td><code>.is-invalid</code> / <code>.is-valid</code></td><td>Classes aplicadas automaticamente no campo.</td></tr>
                             <tr><td><code>.sw-form-error</code></td><td>Elemento gerado com a mensagem de erro (role="alert").</td></tr>
+                            <tr><td>Reset do formulário</td><td>Limpar (<code>type="reset"</code>) também limpa os estados/mensagens de validação.</td></tr>
                             <tr><td><code>sw:valid-error</code> / <code>sw:valid-submit</code></td><td>Eventos disparados no formulário.</td></tr>
                             <tr><td><code>SW.Valid.check(form)</code></td><td>API — valida programaticamente, retorna boolean.</td></tr>
                         </tbody>
@@ -72,6 +201,19 @@
             </div>
         </main>
     </div>
+
+    <script>
+        (function () {
+            var senha = document.getElementById('senha');
+            var senha2 = document.querySelector('#demoForm [name="senha2"]');
+            if (!senha || !senha2) return;
+            function checarSenhas() {
+                senha2.setCustomValidity(senha2.value !== senha.value ? 'x' : '');
+            }
+            senha.addEventListener('input', checarSenhas);
+            senha2.addEventListener('input', checarSenhas);
+        })();
+    </script>
 </body>
 
 </html>
