@@ -140,16 +140,6 @@
 /* ==========================================================================
    6. SW-FX INTERACTIONS & TEXT EFFECTS
    ========================================================================== */
-[sw-typewriter]::after {
-  content: '|';
-  display: inline-block;
-  margin-left: 0.15em;
-  animation: sw-blink 1s var(--sw-ease) infinite;
-}
-[sw-typewriter][data-sw-typewriter-state="idle"]::after {
-  opacity: 0;
-}
-
 .sw-split-word {
   display: inline-block;
   white-space: nowrap;
