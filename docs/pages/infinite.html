@@ -36,7 +36,7 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">1. Demo ao vivo — role até o fim</h3>
-                <p class="t-p t-mut mb-4">Endpoint fake só pra esta demo (sem backend real). Role a página pra baixo: carrega mais posts automaticamente, com indicador de carregamento, até acabar — aí mostra o aviso de fim de lista.</p>
+                <p class="t-p t-mut mb-4">Endpoint fake só pra esta demo (sem backend real). Role a página pra baixo: carrega mais posts automaticamente, com indicador de carregamento, até acabar — aí mostra o aviso de fim de lista. <em>(Em telas baixas o suficiente, pode carregar sozinho antes mesmo de rolar — é o comportamento real do componente: ele sempre confere se já está perto do fim assim que inicializa.)</em></p>
                 <div class="demo-wrap p-6">
                     <div id="inf-list">
                         <article class="demo-infinite-it"><b>Post #1</b>Item inicial, já veio pronto no HTML.</article>
@@ -62,12 +62,14 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">2. Estado de erro <code class="t-p">sw:infinite:error</code></h3>
-                <p class="t-p t-mut mb-4">Se o fetch falhar (endpoint fora do ar, erro de rede), o componente dispara <code>sw:infinite:error</code> com a página que falhou — dá pra escutar e mostrar um aviso, como abaixo (aqui simulado propositalmente).</p>
+                <p class="t-p t-mut mb-4">Se o fetch falhar (endpoint fora do ar, erro de rede), o componente dispara <code>sw:infinite:error</code> com a página que falhou — dá pra escutar e mostrar um aviso. Clique pra simular (não dispara sozinho — é só pra você ver o evento acontecendo sob controle):</p>
                 <div class="demo-wrap p-6">
                     <div id="inf-err-list">
                         <article class="demo-infinite-it"><b>Post #1</b>Este endpoint sempre falha, de propósito.</article>
                     </div>
-                    <div sw-infinite sw-infinite-url="/__sw-demo-infinite-fail?page={page}" sw-infinite-target="#inf-err-list" sw-infinite-offset="400" id="inf-err-demo"></div>
+                    <div class="flx jcc mt-4">
+                        <button sw-btn class="sw-btn-out" id="inf-err-btn" type="button">Simular carregamento (vai falhar de propósito)</button>
+                    </div>
                     <p class="demo-infinite-err" id="inf-err-msg" hidden>⚠ Falha ao carregar a página <span id="inf-err-page"></span>.</p>
                 </div>
                 <pre swcode="js" class="m-0"><script type="text/plain">
@@ -125,13 +127,43 @@ document.querySelector('[sw-infinite]').addEventListener('sw:infinite:error', (e
             };
         })();
 
-        document.getElementById('inf-demo').addEventListener('sw:infinite:end', function () {
-            document.getElementById('inf-end-msg').hidden = false;
-        });
-        document.getElementById('inf-err-demo').addEventListener('sw:infinite:error', function (e) {
-            document.getElementById('inf-err-page').textContent = e.detail.page;
-            document.getElementById('inf-err-msg').hidden = false;
-        });
+        // Guards defensivos: se o usuário sair desta página (navegação sw-mpa) antes do fetch fake
+        // resolver, o evento ainda pode chegar aqui com os elementos já fora do DOM — sem isso,
+        // dava TypeError ao tentar setar .textContent/.hidden em null.
+        var infDemo = document.getElementById('inf-demo');
+        if (infDemo) {
+            infDemo.addEventListener('sw:infinite:end', function () {
+                var msg = document.getElementById('inf-end-msg');
+                if (msg) msg.hidden = false;
+            });
+        }
+
+        // Demo de erro: só cria o [sw-infinite] (e só dispara o fetch) quando o botão é clicado —
+        // nada roda sozinho em segundo plano, então não tem como "surpreender" com um erro no
+        // console antes do usuário pedir.
+        var errBtn = document.getElementById('inf-err-btn');
+        if (errBtn) {
+            errBtn.addEventListener('click', function () {
+                var msgEl = document.getElementById('inf-err-msg');
+                if (msgEl) msgEl.hidden = true;
+
+                var el = document.createElement('div');
+                el.setAttribute('sw-infinite', '');
+                el.setAttribute('sw-infinite-url', '/__sw-demo-infinite-fail?page={page}');
+                el.setAttribute('sw-infinite-target', '#inf-err-list');
+                el.setAttribute('sw-infinite-offset', '999999'); // sempre "perto do fim" -> dispara na hora, sem depender de rolagem
+                el.style.display = 'none';
+                el.addEventListener('sw:infinite:error', function (e) {
+                    var pageEl = document.getElementById('inf-err-page');
+                    var msg = document.getElementById('inf-err-msg');
+                    if (pageEl) pageEl.textContent = e.detail.page;
+                    if (msg) msg.hidden = false;
+                    el.remove();
+                });
+                document.body.appendChild(el);
+                window.SW.Infinite.initAll(document.body);
+            });
+        }
     </script>
 </body>
 
