@@ -753,8 +753,64 @@ a:focus-visible,
 .pnl-cls::before { transform: translate(-50%, -50%) rotate(45deg); }
 .pnl-cls::after { transform: translate(-50%, -50%) rotate(-45deg); }
 
-.sw-lightbox-content { max-width: 90vw; max-height: 90vh; padding: 0; background: transparent; border: 0; box-shadow: none; }
-.sw-lightbox img { max-height: 85vh; border-radius: var(--sw-r-g); box-shadow: var(--sw-sha-g); }
+/* --- 🖼️ LIGHTBOX (.sw-lightbox-ovl) — galeria em overlay, grupos, legenda, zoom, autoplay --- */
+.sw-lightbox-ovl {
+  position: fixed; inset: 0; z-index: 10001;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.sw-lightbox-ovl.is-open { opacity: 1; pointer-events: auto; }
+
+.sw-lightbox-wrap { max-width: 90vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; }
+.sw-lightbox-wrap.has-zoom .sw-lightbox-img { cursor: zoom-in; }
+.sw-lightbox-wrap.is-zoom { max-width: none; max-height: none; overflow: auto; }
+.sw-lightbox-wrap.is-zoom .sw-lightbox-img { max-width: none; max-height: none; width: auto; cursor: zoom-out; transform: scale(1.6); transition: transform 0.25s ease; }
+
+.sw-lightbox-img {
+  max-width: 90vw; max-height: 80vh; object-fit: contain;
+  border-radius: var(--sw-r-g); box-shadow: var(--sw-sha-g);
+  transition: opacity 0.25s ease;
+}
+
+.sw-lightbox-ldr {
+  position: absolute; top: 50%; left: 50%; width: 4rem; height: 4rem; margin: -2rem 0 0 -2rem;
+  border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%;
+  opacity: 0; pointer-events: none;
+}
+.sw-lightbox-ldr.is-vis { opacity: 1; animation: sw-spin 0.8s linear infinite; }
+
+.sw-lightbox-cls {
+  position: absolute; top: 2rem; right: 2rem; width: 4.4rem; height: 4.4rem; border-radius: 50%;
+  border: none; background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer;
+  transition: background 0.15s;
+}
+.sw-lightbox-cls:hover { background: rgba(255, 255, 255, 0.18); }
+.sw-lightbox-cls::before, .sw-lightbox-cls::after {
+  content: ''; position: absolute; top: 50%; left: 50%; width: 1.8rem; height: 2px; background: currentColor;
+}
+.sw-lightbox-cls::before { transform: translate(-50%, -50%) rotate(45deg); }
+.sw-lightbox-cls::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+.sw-lightbox-prv, .sw-lightbox-nxt {
+  position: absolute; top: 50%; transform: translateY(-50%); width: 5rem; height: 5rem; border-radius: 50%;
+  border: none; background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer; font-size: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.sw-lightbox-prv:hover, .sw-lightbox-nxt:hover { background: rgba(255, 255, 255, 0.18); }
+.sw-lightbox-prv { left: 2rem; }
+.sw-lightbox-nxt { right: 2rem; }
+
+.sw-lightbox-cap { position: absolute; bottom: 3rem; left: 2rem; right: 2rem; text-align: center; color: #fff; font-size: 1.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); }
+.sw-lightbox-cnt { position: absolute; top: 2rem; left: 2rem; color: rgba(255, 255, 255, 0.75); font-size: 1.3rem; font-family: var(--sw-f-mon); }
+
+@media (max-width: 640px) {
+  .sw-lightbox-prv, .sw-lightbox-nxt { width: 4rem; height: 4rem; font-size: 1.6rem; }
+  .sw-lightbox-cls { top: 1.2rem; right: 1.2rem; }
+  .sw-lightbox-cap { bottom: 1.6rem; font-size: 1.3rem; }
+}
 .sw-table-controls { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.2rem; }
 .sw-table-search { width: 100%; }
 .sw-table-count { font-size: 1.3rem; }
