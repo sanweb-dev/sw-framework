@@ -55,7 +55,7 @@
           window.clearTimeout(timer);
           timer = window.setTimeout(() => {
             if (html) tipEl.innerHTML = text; else tipEl.textContent = text;
-            tipEl.className = `sw-tooltip is-${pos}${clr ? ` is-${clr}` : ''}`;
+            tipEl.className = `sw-tooltip is-${pos}${clr ? ` is-${clr}` : ''}${follow ? ' is-follow' : ''}`;
             document.body.appendChild(tipEl);
             follow ? placeCursor(tipEl) : place(el, tipEl, pos);
             tipEl.classList.add('is-vis');

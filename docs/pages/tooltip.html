@@ -42,6 +42,36 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Cores <code class="t-p">sw-tooltip-clr</code></h3>
+                <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Padrão (invertida do tema)">Padrão</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Cor primária" sw-tooltip-clr="pri">Primária</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Cor secundária" sw-tooltip-clr="sec">Secundária</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Deu certo!" sw-tooltip-clr="suc">Sucesso</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Informação útil" sw-tooltip-clr="inf">Info</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Cuidado com isso" sw-tooltip-clr="err">Erro</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Sempre clara, nos dois temas" sw-tooltip-clr="lgt">Clara</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-tooltip="Cor primária" sw-tooltip-clr="pri">Primária</button>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Atraso e conteúdo em HTML</h3>
+                <p class="t-p t-mut mb-4"><code>sw-tooltip-delay</code> controla o tempo (ms) antes de exibir. <code>sw-tooltip-html="true"</code> interpreta o texto como HTML.</p>
+                <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Aparece na hora" sw-tooltip-delay="0">Sem atraso</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Espera 1 segundo" sw-tooltip-delay="1000">1s de atraso</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="<b>Negrito</b> e <i>itálico</i> funcionam" sw-tooltip-html="true">Com HTML</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-tooltip="Espera 1s" sw-tooltip-delay="1000">Atraso</button>
+<button sw-tooltip="<b>Negrito</b>" sw-tooltip-html="true">HTML</button>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
@@ -52,7 +82,7 @@
                             <tr><td><code>sw-tooltip-pos</code></td><td><code>top</code></td><td><code>top | bottom | left | right</code></td></tr>
                             <tr><td><code>sw-tooltip-delay</code></td><td><code>250</code></td><td>ms antes de exibir.</td></tr>
                             <tr><td><code>sw-tooltip-html</code></td><td><code>false</code></td><td>Interpreta o texto como HTML.</td></tr>
-                            <tr><td><code>sw-tooltip-clr</code></td><td>—</td><td>Variante de cor (ex.: <code>pri</code>, <code>err</code>).</td></tr>
+                            <tr><td><code>sw-tooltip-clr</code></td><td>—</td><td>Variante de cor: <code>pri | sec | suc | inf | err | lgt</code>.</td></tr>
                             <tr><td><code>sw-tooltip-follow</code></td><td><code>false</code></td><td>Tooltip acompanha o cursor em vez de fixar na borda do elemento.</td></tr>
                             <tr><td><code>SW.Tooltip.create/update/destroy(el, opts)</code></td><td>—</td><td>API programática.</td></tr>
                         </tbody>

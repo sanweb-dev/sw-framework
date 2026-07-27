@@ -6724,8 +6724,20 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-textlimit-cnt.is-err { color: var(--sw-err); }
 
 /* ---------- Tooltip ---------- */
-.sw-tooltip { position: absolute; top: -9999px; left: -9999px; max-width: 24rem; padding: .6rem 1rem; background: var(--sw-bg___, #000); color: var(--sw-bg__, #fff); font-size: 1.3rem; line-height: 1.4; border-radius: var(--sw-r-p); opacity: 0; pointer-events: none; transition: opacity .15s var(--sw-ease); z-index: var(--sw-z-m); }
+.sw-tooltip { position: absolute; top: -9999px; left: -9999px; max-width: 24rem; padding: .6rem 1rem; background: var(--sw-bg___, #000); color: var(--sw-txt-inv, #fff); font-size: 1.3rem; line-height: 1.4; border-radius: var(--sw-r-p); box-shadow: var(--sw-sha); opacity: 0; pointer-events: none; transition: opacity .15s var(--sw-ease); z-index: var(--sw-z-m); }
 .sw-tooltip.is-vis { opacity: 1; }
+.sw-tooltip::after { content: ''; position: absolute; width: .8rem; height: .8rem; background: inherit; }
+.sw-tooltip.is-top::after { bottom: -.3rem; left: 50%; transform: translateX(-50%) rotate(45deg); }
+.sw-tooltip.is-bottom::after { top: -.3rem; left: 50%; transform: translateX(-50%) rotate(45deg); }
+.sw-tooltip.is-left::after { right: -.3rem; top: 50%; transform: translateY(-50%) rotate(45deg); }
+.sw-tooltip.is-right::after { left: -.3rem; top: 50%; transform: translateY(-50%) rotate(45deg); }
+.sw-tooltip.is-follow::after { display: none; }
+.sw-tooltip.is-pri { background: var(--sw-pri); color: #fff; }
+.sw-tooltip.is-sec { background: var(--sw-sec); color: #fff; }
+.sw-tooltip.is-suc { background: var(--sw-suc); color: #fff; }
+.sw-tooltip.is-err { background: var(--sw-err); color: #fff; }
+.sw-tooltip.is-inf { background: var(--sw-inf); color: #fff; }
+.sw-tooltip.is-lgt { background: #fff; color: #0d131d; box-shadow: var(--sw-sha), 0 0 0 1px var(--sw-bor); }
 
 /* ---------- LGPD ---------- */
 .sw-lgpd { position: fixed; left: var(--sw-s-m); right: var(--sw-s-m); bottom: var(--sw-s-m); display: flex; align-items: center; gap: var(--sw-s-m); padding: var(--sw-s-m) var(--sw-s-g); background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g); box-shadow: var(--sw-sha-g); transform: translateY(150%); transition: transform .45s var(--sw-ease); z-index: var(--sw-z-m); flex-wrap: wrap; }
