@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
     <style>
-        /* Só pra esta demo — simula um backend fake pra poder mostrar o componente rolando de verdade. */
-        .demo-infinite-it { padding: 1.2rem 1.6rem; border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); margin-bottom: .8rem; }
-        .demo-infinite-it b { display: block; margin-bottom: .2rem; }
-        .demo-infinite-end { text-align: center; padding: var(--sw-s-m); color: var(--sw-txt-mut); font-size: 1.3rem; }
-        .demo-infinite-err { text-align: center; padding: var(--sw-s-m); color: var(--sw-err); font-size: 1.3rem; }
+        /* Só pra esta demo — caixa com scroll próprio, do jeito que existia em y2.sanweb.com.br/docs/pages/infinite.html */
+        .inf-demo { max-height: 30rem; overflow-y: auto; border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g); padding: 1.6rem; }
+        .inf-post { padding: 1.6rem 0; border-bottom: 1px solid var(--sw-bor); }
+        .inf-post:last-child { border-bottom: none; }
+        .inf-post p:first-child { font-weight: 700; margin-bottom: .2rem; }
+        .inf-steps { background: var(--sw-sur); border-radius: var(--sw-r-g); padding: 2rem; font-size: 1.4rem; }
+        .inf-steps > div { display: flex; align-items: center; gap: 1.2rem; margin-bottom: .8rem; }
+        .inf-steps > div:last-child { margin-bottom: 0; }
     </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
@@ -31,59 +34,82 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Infinite Scroll <span class="TprinD">[sw-infinite]</span></h1>
-                <p class="t-g t-mut mb-0">Carrega mais conteúdo automaticamente quando o usuário se aproxima do fim da página. O endpoint deve devolver HTML puro (um elemento por item) — página vazia sinaliza fim da lista. Monitora o scroll da <strong>janela</strong> (não um container isolado).</p>
+                <p class="t-g t-mut mb-0">Carrega mais conteúdo automaticamente ao se aproximar do fim da página — via AJAX, com URL de template.</p>
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo ao vivo — role até o fim</h3>
-                <p class="t-p t-mut mb-4">Endpoint fake só pra esta demo (sem backend real). Role a página pra baixo: carrega mais posts automaticamente, com indicador de carregamento, até acabar — aí mostra o aviso de fim de lista. <em>(Em telas baixas o suficiente, pode carregar sozinho antes mesmo de rolar — é o comportamento real do componente: ele sempre confere se já está perto do fim assim que inicializa.)</em></p>
+                <h3 class="t-m f-bd mb-4">1. Demo — role até o fim</h3>
                 <div class="demo-wrap p-6">
-                    <div id="inf-list">
-                        <article class="demo-infinite-it"><b>Post #1</b>Item inicial, já veio pronto no HTML.</article>
-                        <article class="demo-infinite-it"><b>Post #2</b>Item inicial, já veio pronto no HTML.</article>
-                        <article class="demo-infinite-it"><b>Post #3</b>Item inicial, já veio pronto no HTML.</article>
+                    <div class="inf-demo">
+                        <div id="inf-list">
+                            <div class="inf-post"><p>Post #1 — Introdução ao SW</p><p class="t-pp t-mut">Framework CSS + JS sem dependências.</p></div>
+                            <div class="inf-post"><p>Post #2 — Componentes CSS</p><p class="t-pp t-mut">Botões, badges, chips e muito mais.</p></div>
+                            <div class="inf-post"><p>Post #3 — Módulos JavaScript</p><p class="t-pp t-mut">Dezenas de módulos prontos pra usar.</p></div>
+                        </div>
+                        <div id="inf-sentinel" class="t-pp t-mut" style="padding:1.6rem;text-align:center">Role para carregar mais…</div>
                     </div>
-                    <div sw-infinite sw-infinite-url="/__sw-demo-infinite?page={page}" sw-infinite-target="#inf-list" sw-infinite-offset="400" id="inf-demo"></div>
-                    <p class="demo-infinite-end" id="inf-end-msg" hidden>— Fim da lista, não há mais posts —</p>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div id="lista">
-    <article>Item inicial 1</article>
-    <article>Item inicial 2</article>
-</div>
+<div id="lista"><!-- itens aqui --></div>
 <div sw-infinite
      sw-infinite-url="/api/posts?page={page}"
      sw-infinite-target="#lista"
      sw-infinite-offset="300">
 </div>
 </script></pre>
-                <p class="t-mut mt-2">O trecho <code>{page}</code> na URL é substituído pelo número da página atual a cada carregamento. O endpoint precisa devolver HTML puro — um elemento por item — e uma resposta vazia quando não houver mais páginas.</p>
+                <p class="t-mut mt-2">A demo acima usa uma pequena caixa com scroll próprio e dados falsos só pra ilustrar — o componente de verdade (<code>[sw-infinite]</code>, código acima) monitora o scroll da <strong>janela</strong>, não de um container isolado.</p>
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Estado de erro <code class="t-p">sw:infinite:error</code></h3>
-                <p class="t-p t-mut mb-4">Se o fetch falhar (endpoint fora do ar, erro de rede), o componente dispara <code>sw:infinite:error</code> com a página que falhou — dá pra escutar e mostrar um aviso. Clique pra simular (não dispara sozinho — é só pra você ver o evento acontecendo sob controle):</p>
-                <div class="demo-wrap p-6">
-                    <div id="inf-err-list">
-                        <article class="demo-infinite-it"><b>Post #1</b>Este endpoint sempre falha, de propósito.</article>
-                    </div>
-                    <div class="flx jcc mt-4">
-                        <button sw-btn class="sw-btn-out" id="inf-err-btn" type="button">Simular carregamento (vai falhar de propósito)</button>
-                    </div>
-                    <p class="demo-infinite-err" id="inf-err-msg" hidden>⚠ Falha ao carregar a página <span id="inf-err-page"></span>.</p>
+                <h3 class="t-m f-bd mb-4">2. Como funciona</h3>
+                <p class="t-g t-mut mb-4">O componente monitora o scroll da <code>window</code>. Quando a distância até o fim da página cai abaixo de <code>sw-infinite-offset</code>, faz um <code>fetch</code> na URL com <code>{page}</code> substituído pelo número atual. O HTML retornado é inserido no <code>sw-infinite-target</code>.</p>
+                <div class="inf-steps">
+                    <div><span sw-badge class="sw-badge-pri">1</span><span>Usuário rola a página</span></div>
+                    <div><span sw-badge class="sw-badge-pri">2</span><span>O componente calcula a distância até o fim — se menor que o offset, dispara</span></div>
+                    <div><span sw-badge class="sw-badge-pri">3</span><span>Fetch na URL, com <code>{page}</code> substituído</span></div>
+                    <div><span sw-badge class="sw-badge-pri">4</span><span>HTML da resposta é inserido no target</span></div>
+                    <div><span sw-badge class="sw-badge-suc">5</span><span>Se a resposta vier vazia, dispara <code>sw:infinite:end</code> — fim da lista</span></div>
                 </div>
-                <pre swcode="js" class="m-0"><script type="text/plain">
-document.querySelector('[sw-infinite]').addEventListener('sw:infinite:error', (e) => {
-    console.log('Falhou na página', e.detail.page);
-});
-</script></pre>
             </div>
 
             <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
-                <div class="tbl is-str">
+                <h3 class="t-m f-bd mb-4">3. URL de template e eventos</h3>
+                <p class="t-p t-mut mb-4">Use <code>{page}</code> na URL — o componente substitui pelo número da página atual a cada carregamento.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Paginação simples -->
+<div sw-infinite
+     sw-infinite-url="/api/posts?page={page}"
+     sw-infinite-target="#lista">
+</div>
+
+<!-- Com offset e página inicial customizados -->
+<div sw-infinite
+     sw-infinite-url="/api/posts?page={page}"
+     sw-infinite-target="#lista"
+     sw-infinite-offset="500"
+     sw-infinite-start="2">
+</div>
+</script></pre>
+                <p class="t-p t-mut mt-4 mb-4">O servidor deve devolver <strong>HTML puro</strong> (elementos prontos pra inserir) — ou uma resposta vazia quando não houver mais itens.</p>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const el = document.querySelector('[sw-infinite]');
+
+el.addEventListener('sw:infinite:load', (e) => {
+    console.log('Página carregada:', e.detail.page);
+    console.log('Itens adicionados:', e.detail.items.length);
+});
+
+el.addEventListener('sw:infinite:end', () => {
+    console.log('Não há mais itens');
+});
+
+el.addEventListener('sw:infinite:error', (e) => {
+    console.warn('Erro na página:', e.detail.page);
+});
+</script></pre>
+                <div class="tbl is-str mt-6">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo/Evento</th><th>Padrão</th><th>Descrição</th></tr></thead>
                         <tbody>
                             <tr><td><code>sw-infinite-url</code></td><td>—</td><td>URL do endpoint, com <code>{page}</code> como placeholder.</td></tr>
                             <tr><td><code>sw-infinite-target</code></td><td><code>body</code></td><td>Seletor onde os novos itens são anexados.</td></tr>
@@ -101,69 +127,39 @@ document.querySelector('[sw-infinite]').addEventListener('sw:infinite:error', (e
     </div>
 
     <script>
-        // Backend fake só pra esta página de docs — intercepta só as URLs da demo, o resto passa direto.
+        // Demo isolada da seção 1 — IntersectionObserver escopado à própria caixa (root), sem depender
+        // do scroll da janela. Não usa [sw-infinite] de verdade (que só monitora a window) — é só uma
+        // simulação visual, autocontida, pra poder rolar dentro da caixinha em vez da página inteira.
         (function () {
-            var originalFetch = window.fetch;
-            window.fetch = function (url, opts) {
-                var isDemo = typeof url === 'string' && url.indexOf('/__sw-demo-infinite') === 0;
-                if (!isDemo) return originalFetch.apply(this, arguments);
+            var sentinel = document.getElementById('inf-sentinel');
+            var list = document.getElementById('inf-list');
+            if (!sentinel || !list) return;
+            var container = sentinel.closest('.inf-demo');
+            var page = 1;
+            var max = 4;
+            var loading = false;
 
-                var fail = url.indexOf('/__sw-demo-infinite-fail') === 0;
-                var page = parseInt(new URL(url, location.href).searchParams.get('page'), 10) || 1;
+            var obs = new IntersectionObserver(function (entries) {
+                if (!entries[0].isIntersecting || loading || page >= max) return;
+                loading = true;
+                sentinel.textContent = 'Carregando…';
+                window.setTimeout(function () {
+                    page += 1;
+                    var start = (page - 1) * 3 + 1;
+                    for (var i = 0; i < 3; i += 1) {
+                        var n = start + i;
+                        var div = document.createElement('div');
+                        div.className = 'inf-post';
+                        div.innerHTML = '<p>Post #' + n + ' — Novos conteúdos</p><p class="t-pp t-mut">Carregado dinamicamente na página ' + page + '.</p>';
+                        list.appendChild(div);
+                    }
+                    sentinel.textContent = page >= max ? 'Todos os posts foram carregados.' : 'Role para carregar mais…';
+                    loading = false;
+                }, 500);
+            }, { root: container, rootMargin: '0px 0px 80px 0px', threshold: 0 });
 
-                return new Promise(function (resolve, reject) {
-                    setTimeout(function () {
-                        if (fail) { reject(new Error('demo fetch fail')); return; }
-                        var html = '';
-                        if (page <= 3) {
-                            for (var i = 0; i < 3; i += 1) {
-                                var n = (page - 1) * 3 + i + 4;
-                                html += '<article class="demo-infinite-it"><b>Post #' + n + '</b>Carregado da página ' + page + ' do endpoint fake.</article>';
-                            }
-                        }
-                        resolve(new Response(html, { status: 200 }));
-                    }, 700);
-                });
-            };
+            obs.observe(sentinel);
         })();
-
-        // Guards defensivos: se o usuário sair desta página (navegação sw-mpa) antes do fetch fake
-        // resolver, o evento ainda pode chegar aqui com os elementos já fora do DOM — sem isso,
-        // dava TypeError ao tentar setar .textContent/.hidden em null.
-        var infDemo = document.getElementById('inf-demo');
-        if (infDemo) {
-            infDemo.addEventListener('sw:infinite:end', function () {
-                var msg = document.getElementById('inf-end-msg');
-                if (msg) msg.hidden = false;
-            });
-        }
-
-        // Demo de erro: só cria o [sw-infinite] (e só dispara o fetch) quando o botão é clicado —
-        // nada roda sozinho em segundo plano, então não tem como "surpreender" com um erro no
-        // console antes do usuário pedir.
-        var errBtn = document.getElementById('inf-err-btn');
-        if (errBtn) {
-            errBtn.addEventListener('click', function () {
-                var msgEl = document.getElementById('inf-err-msg');
-                if (msgEl) msgEl.hidden = true;
-
-                var el = document.createElement('div');
-                el.setAttribute('sw-infinite', '');
-                el.setAttribute('sw-infinite-url', '/__sw-demo-infinite-fail?page={page}');
-                el.setAttribute('sw-infinite-target', '#inf-err-list');
-                el.setAttribute('sw-infinite-offset', '999999'); // sempre "perto do fim" -> dispara na hora, sem depender de rolagem
-                el.style.display = 'none';
-                el.addEventListener('sw:infinite:error', function (e) {
-                    var pageEl = document.getElementById('inf-err-page');
-                    var msg = document.getElementById('inf-err-msg');
-                    if (pageEl) pageEl.textContent = e.detail.page;
-                    if (msg) msg.hidden = false;
-                    el.remove();
-                });
-                document.body.appendChild(el);
-                window.SW.Infinite.initAll(document.body);
-            });
-        }
     </script>
 </body>
 
