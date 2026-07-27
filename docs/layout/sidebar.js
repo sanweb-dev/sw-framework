@@ -47,7 +47,33 @@
       stp: "Charts/ranking-list",
       tml: "Time/big-clock",
       prog: "Abstract/circular-connection",
-      alert: "Safe/alarm"
+      alert: "Safe/alarm",
+      tabs: "Components/table-file",
+      acc: "Components/checklist",
+      drp: "Arrows/arrow-down",
+      tip: "Character/info",
+      sdb: "Edit/layout-four",
+      sld: "Edit/picture-one",
+      car: "Components/carousel",
+      typ: "Edit/edit-one",
+      pag: "Arrows/to-right",
+      spy: "Sports/target-one",
+      inf: "Arrows/cycle-movement",
+      top: "Arrows/arrow-circle-up",
+      pre: "Base/loading",
+      valid: "Character/check-one",
+      mask: "Hardware/hashtag-key",
+      upl: "Arrows/upload-one",
+      tlm: "Hardware/dashboard-one",
+      txa: "Character/font-size-two",
+      mat: "Edit/edit-one",
+      prl: "Edit/layers",
+      rat: "Brand/star-one",
+      drg: "Arrows/move-in",
+      lgpd: "Safe/shield",
+      cot: "Money/dollar",
+      ins: "Base/share",
+      crop: "Base/zoom-in"
     };
 
     const sidebarHtml = `
@@ -63,7 +89,7 @@
 
       <!-- INÍCIO -->
       <div class="nav-group is-open" data-group="ini">
-        <div class="nav-group-title">INÍCIO <span>▼</span></div>
+        <div class="nav-group-title">INÍCIO <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}index.html" class="nav-it ${currentPath === 'index.html' ? 'is-active is-act' : ''}" data-doc-link data-page="index">
             <span sw-icon="${iconPaths.dash}"></span> <span>Dashboard</span>
@@ -78,8 +104,8 @@
       </div>
 
       <!-- FOUNDATION -->
-      <div class="nav-group is-open" data-group="fou">
-        <div class="nav-group-title">FOUNDATION <span>▼</span></div>
+      <div class="nav-group" data-group="fou">
+        <div class="nav-group-title">FOUNDATION <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/layout_grid.html" class="nav-it ${currentPath === 'layout_grid.html' ? 'is-active is-act' : ''}" data-doc-link data-page="layout_grid">
             <span sw-icon="${iconPaths.grid}"></span> <span>Layout & Grid</span>
@@ -97,8 +123,8 @@
       </div>
 
       <!-- COMPONENTES & ELEMENTOS SW -->
-      <div class="nav-group is-open" data-group="com">
-        <div class="nav-group-title">COMPONENTES SW <span>▼</span></div>
+      <div class="nav-group" data-group="com">
+        <div class="nav-group-title">COMPONENTES SW <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/btn.html" class="nav-it ${currentPath === 'btn.html' ? 'is-active is-act' : ''}" data-doc-link data-page="btn">
             <span sw-icon="${iconPaths.btn}"></span> <span>Botões</span>
@@ -143,14 +169,17 @@
             <span sw-icon="${iconPaths.tool}"></span> <span>Utilitários CSS</span>
           </a>
           <a href="${root}pages/icones.html" class="nav-it ${currentPath === 'icones.html' ? 'is-active is-act' : ''}" data-doc-link data-page="icones">
-            <span sw-icon="${iconPaths.badge}"></span> <span>Ícones</span>
+            <span sw-icon="${iconPaths.badge}"></span> <span>Ícones (Fonte)</span>
+          </a>
+          <a href="${root}pages/icones_svg.html" class="nav-it ${currentPath === 'icones_svg.html' ? 'is-active is-act' : ''}" data-doc-link data-page="icones_svg">
+            <span sw-icon="${iconPaths.sld}"></span> <span>Ícones SVG</span>
           </a>
         </div>
       </div>
 
       <!-- INTERFACE JS -->
-      <div class="nav-group is-open" data-group="ljs">
-        <div class="nav-group-title">INTERFACE JS <span>▼</span></div>
+      <div class="nav-group" data-group="ljs">
+        <div class="nav-group-title">INTERFACE JS <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/modal.html" class="nav-it ${currentPath === 'modal.html' ? 'is-active is-act' : ''}" data-doc-link data-page="modal">
             <span sw-icon="${iconPaths.modal}"></span> <span>Modal Acessível</span>
@@ -164,12 +193,106 @@
           <a href="${root}pages/select.html" class="nav-it ${currentPath === 'select.html' ? 'is-active is-act' : ''}" data-doc-link data-page="select">
             <span sw-icon="${iconPaths.form}"></span> <span>Select</span>
           </a>
+          <a href="${root}pages/sidebar.html" class="nav-it ${currentPath === 'sidebar.html' ? 'is-active is-act' : ''}" data-doc-link data-page="sidebar">
+            <span sw-icon="${iconPaths.sdb}"></span> <span>Sidebar</span>
+          </a>
+          <a href="${root}pages/tabs.html" class="nav-it ${currentPath === 'tabs.html' ? 'is-active is-act' : ''}" data-doc-link data-page="tabs">
+            <span sw-icon="${iconPaths.tabs}"></span> <span>Tabs</span>
+          </a>
+          <a href="${root}pages/accordion.html" class="nav-it ${currentPath === 'accordion.html' ? 'is-active is-act' : ''}" data-doc-link data-page="accordion">
+            <span sw-icon="${iconPaths.acc}"></span> <span>Accordion</span>
+          </a>
+          <a href="${root}pages/dropdown.html" class="nav-it ${currentPath === 'dropdown.html' ? 'is-active is-act' : ''}" data-doc-link data-page="dropdown">
+            <span sw-icon="${iconPaths.drp}"></span> <span>Dropdown</span>
+          </a>
+          <a href="${root}pages/tooltip.html" class="nav-it ${currentPath === 'tooltip.html' ? 'is-active is-act' : ''}" data-doc-link data-page="tooltip">
+            <span sw-icon="${iconPaths.tip}"></span> <span>Tooltip</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- MÍDIA & DISPLAY -->
+      <div class="nav-group" data-group="mid">
+        <div class="nav-group-title">MÍDIA & DISPLAY <i class="swi swi-chevron-down"></i></div>
+        <div class="nav-group-content">
+          <a href="${root}pages/slider.html" class="nav-it ${currentPath === 'slider.html' ? 'is-active is-act' : ''}" data-doc-link data-page="slider">
+            <span sw-icon="${iconPaths.sld}"></span> <span>Slider</span>
+          </a>
+          <a href="${root}pages/carousel.html" class="nav-it ${currentPath === 'carousel.html' ? 'is-active is-act' : ''}" data-doc-link data-page="carousel">
+            <span sw-icon="${iconPaths.car}"></span> <span>Text Carousel</span>
+          </a>
+          <a href="${root}pages/typewriter.html" class="nav-it ${currentPath === 'typewriter.html' ? 'is-active is-act' : ''}" data-doc-link data-page="typewriter">
+            <span sw-icon="${iconPaths.typ}"></span> <span>Typewriter</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- NAVEGAÇÃO JS -->
+      <div class="nav-group" data-group="nav">
+        <div class="nav-group-title">NAVEGAÇÃO JS <i class="swi swi-chevron-down"></i></div>
+        <div class="nav-group-content">
+          <a href="${root}pages/pagination.html" class="nav-it ${currentPath === 'pagination.html' ? 'is-active is-act' : ''}" data-doc-link data-page="pagination">
+            <span sw-icon="${iconPaths.pag}"></span> <span>Pagination</span>
+          </a>
+          <a href="${root}pages/scrollspy.html" class="nav-it ${currentPath === 'scrollspy.html' ? 'is-active is-act' : ''}" data-doc-link data-page="scrollspy">
+            <span sw-icon="${iconPaths.spy}"></span> <span>ScrollSpy & Scroll</span>
+          </a>
+          <a href="${root}pages/infinite.html" class="nav-it ${currentPath === 'infinite.html' ? 'is-active is-act' : ''}" data-doc-link data-page="infinite">
+            <span sw-icon="${iconPaths.inf}"></span> <span>Infinite Scroll</span>
+          </a>
+          <a href="${root}pages/top.html" class="nav-it ${currentPath === 'top.html' ? 'is-active is-act' : ''}" data-doc-link data-page="top">
+            <span sw-icon="${iconPaths.top}"></span> <span>Back to Top</span>
+          </a>
+          <a href="${root}pages/preload.html" class="nav-it ${currentPath === 'preload.html' ? 'is-active is-act' : ''}" data-doc-link data-page="preload">
+            <span sw-icon="${iconPaths.pre}"></span> <span>Preloader</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- FORMS JS -->
+      <div class="nav-group" data-group="frm">
+        <div class="nav-group-title">FORMS JS <i class="swi swi-chevron-down"></i></div>
+        <div class="nav-group-content">
+          <a href="${root}pages/validation.html" class="nav-it ${currentPath === 'validation.html' ? 'is-active is-act' : ''}" data-doc-link data-page="validation">
+            <span sw-icon="${iconPaths.valid}"></span> <span>Validação</span>
+          </a>
+          <a href="${root}pages/mask.html" class="nav-it ${currentPath === 'mask.html' ? 'is-active is-act' : ''}" data-doc-link data-page="mask">
+            <span sw-icon="${iconPaths.mask}"></span> <span>Máscara de Input</span>
+          </a>
+          <a href="${root}pages/matinp.html" class="nav-it ${currentPath === 'matinp.html' ? 'is-active is-act' : ''}" data-doc-link data-page="matinp">
+            <span sw-icon="${iconPaths.mat}"></span> <span>Material Input</span>
+          </a>
+          <a href="${root}pages/upload.html" class="nav-it ${currentPath === 'upload.html' ? 'is-active is-act' : ''}" data-doc-link data-page="upload">
+            <span sw-icon="${iconPaths.upl}"></span> <span>File Upload</span>
+          </a>
+          <a href="${root}pages/textlimit.html" class="nav-it ${currentPath === 'textlimit.html' ? 'is-active is-act' : ''}" data-doc-link data-page="textlimit">
+            <span sw-icon="${iconPaths.tlm}"></span> <span>Text Limit</span>
+          </a>
+          <a href="${root}pages/textarea.html" class="nav-it ${currentPath === 'textarea.html' ? 'is-active is-act' : ''}" data-doc-link data-page="textarea">
+            <span sw-icon="${iconPaths.txa}"></span> <span>Auto Textarea</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- EFEITOS JS -->
+      <div class="nav-group" data-group="efx">
+        <div class="nav-group-title">EFEITOS JS <i class="swi swi-chevron-down"></i></div>
+        <div class="nav-group-content">
+          <a href="${root}pages/parallax.html" class="nav-it ${currentPath === 'parallax.html' ? 'is-active is-act' : ''}" data-doc-link data-page="parallax">
+            <span sw-icon="${iconPaths.prl}"></span> <span>Parallax</span>
+          </a>
+          <a href="${root}pages/rating.html" class="nav-it ${currentPath === 'rating.html' ? 'is-active is-act' : ''}" data-doc-link data-page="rating">
+            <span sw-icon="${iconPaths.rat}"></span> <span>Rating / Stars</span>
+          </a>
+          <a href="${root}pages/draggable.html" class="nav-it ${currentPath === 'draggable.html' ? 'is-active is-act' : ''}" data-doc-link data-page="draggable">
+            <span sw-icon="${iconPaths.drg}"></span> <span>Draggable</span>
+          </a>
         </div>
       </div>
 
       <!-- ANIMAÇÕES & MOTION -->
-      <div class="nav-group is-open" data-group="fx">
-        <div class="nav-group-title">ANIMAÇÕES & SW-FX <span>▼</span></div>
+      <div class="nav-group" data-group="fx">
+        <div class="nav-group-title">ANIMAÇÕES & SW-FX <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/animacoes.html" class="nav-it ${currentPath === 'animacoes.html' ? 'is-active is-act' : ''}" data-doc-link data-page="animacoes">
             <span sw-icon="${iconPaths.motion}"></span> <span>40 Presets Motion</span>
@@ -184,8 +307,8 @@
       </div>
 
       <!-- SW MÓDULOS -->
-      <div class="nav-group is-open" data-group="mod">
-        <div class="nav-group-title">SW MÓDULOS <span>▼</span></div>
+      <div class="nav-group" data-group="mod">
+        <div class="nav-group-title">SW MÓDULOS <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/swcode.html" class="nav-it ${currentPath === 'swcode.html' ? 'is-active is-act' : ''}" data-doc-link data-page="swcode">
             <span sw-icon="${iconPaths.tool}"></span> <span>SWCode (Syntax)</span>
@@ -198,6 +321,27 @@
           </a>
           <a href="${root}pages/swalert.html" class="nav-it ${currentPath === 'swalert.html' ? 'is-active is-act' : ''}" data-doc-link data-page="swalert">
             <span sw-icon="${iconPaths.alert}"></span> <span>SWAlert</span>
+          </a>
+          <a href="${root}pages/table.html" class="nav-it ${currentPath === 'table.html' ? 'is-active is-act' : ''}" data-doc-link data-page="table">
+            <span sw-icon="${iconPaths.tbl}"></span> <span>Table (AJAX)</span>
+          </a>
+          <a href="${root}pages/editor.html" class="nav-it ${currentPath === 'editor.html' ? 'is-active is-act' : ''}" data-doc-link data-page="editor">
+            <span sw-icon="${iconPaths.typ}"></span> <span>Editor de Texto</span>
+          </a>
+          <a href="${root}pages/content.html" class="nav-it ${currentPath === 'content.html' ? 'is-active is-act' : ''}" data-doc-link data-page="content">
+            <span sw-icon="${iconPaths.prog}"></span> <span>Content</span>
+          </a>
+          <a href="${root}pages/cropper.html" class="nav-it ${currentPath === 'cropper.html' ? 'is-active is-act' : ''}" data-doc-link data-page="cropper">
+            <span sw-icon="${iconPaths.crop}"></span> <span>Cropper</span>
+          </a>
+          <a href="${root}pages/lgpd.html" class="nav-it ${currentPath === 'lgpd.html' ? 'is-active is-act' : ''}" data-doc-link data-page="lgpd">
+            <span sw-icon="${iconPaths.lgpd}"></span> <span>LGPD Consent</span>
+          </a>
+          <a href="${root}pages/cotacao.html" class="nav-it ${currentPath === 'cotacao.html' ? 'is-active is-act' : ''}" data-doc-link data-page="cotacao">
+            <span sw-icon="${iconPaths.cot}"></span> <span>Cotação</span>
+          </a>
+          <a href="${root}pages/instagram.html" class="nav-it ${currentPath === 'instagram.html' ? 'is-active is-act' : ''}" data-doc-link data-page="instagram">
+            <span sw-icon="${iconPaths.ins}"></span> <span>Instagram</span>
           </a>
         </div>
       </div>
@@ -213,12 +357,21 @@
     aside.innerHTML = sidebarHtml;
     window.SW?.Icon?.initAll(aside);
 
-    // Accordion toggle
+    // Accordion toggle — só um grupo aberto por vez, seta chevron-down/up conforme o estado
     aside.querySelectorAll('.nav-group-title').forEach((title) => {
       title.addEventListener('click', (e) => {
         e.preventDefault();
         const group = title.parentElement;
-        group.classList.toggle('is-open');
+        const isOpening = !group.classList.contains('is-open');
+        aside.querySelectorAll('.nav-group.is-open').forEach((openGroup) => {
+          if (openGroup === group) return;
+          openGroup.classList.remove('is-open');
+          const icon = openGroup.querySelector('.nav-group-title i');
+          icon?.classList.replace('swi-chevron-up', 'swi-chevron-down');
+        });
+        group.classList.toggle('is-open', isOpening);
+        const icon = title.querySelector('i');
+        icon?.classList.replace(isOpening ? 'swi-chevron-down' : 'swi-chevron-up', isOpening ? 'swi-chevron-up' : 'swi-chevron-down');
       });
     });
 
