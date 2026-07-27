@@ -5157,6 +5157,33 @@ span.sw-card-pop {
 }
 [sw-prg-circ] span { position: relative; z-index: 1; }
 
+/* Registra --sw-prg-val como <number> animável — sem isso o navegador não consegue
+   fazer transition entre dois valores (variável seria tratada só como texto). */
+@property --sw-prg-val {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* [sw-prg-animate]: preenche do 0 até o valor real quando entra na tela (via SWProgress) */
+[sw-prg-circ][sw-prg-animate] { transition: --sw-prg-val 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* --- Variantes visuais do anel --- */
+[sw-prg-circ].is-grad {
+  background: conic-gradient(from -90deg, var(--sw-pri) calc(var(--sw-prg-val) * 1% * 0.5), var(--sw-sec) calc(var(--sw-prg-val) * 1%), var(--sw-bg) 0);
+}
+[sw-prg-circ].is-suc { background: conic-gradient(var(--sw-suc) calc(var(--sw-prg-val) * 1%), var(--sw-bg) 0); }
+[sw-prg-circ].is-ale { background: conic-gradient(var(--sw-ale) calc(var(--sw-prg-val) * 1%), var(--sw-bg) 0); }
+[sw-prg-circ].is-err { background: conic-gradient(var(--sw-err) calc(var(--sw-prg-val) * 1%), var(--sw-bg) 0); }
+
+[sw-prg-circ].is-glow { box-shadow: 0 0 2.4rem color-mix(in srgb, var(--sw-pri) 55%, transparent); }
+[sw-prg-circ].is-glow.is-suc { box-shadow: 0 0 2.4rem color-mix(in srgb, var(--sw-suc) 55%, transparent); }
+[sw-prg-circ].is-glow.is-ale { box-shadow: 0 0 2.4rem color-mix(in srgb, var(--sw-ale) 55%, transparent); }
+[sw-prg-circ].is-glow.is-err { box-shadow: 0 0 2.4rem color-mix(in srgb, var(--sw-err) 55%, transparent); }
+
+[sw-prg-circ].is-thin::before { inset: 6%; }
+[sw-prg-circ].is-thick::before { inset: 20%; }
+
 /* --- 💀 SKELETON ([sw-skl]) --- */
 [sw-skl] {
   display: block; border-radius: var(--sw-r-p);

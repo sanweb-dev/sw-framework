@@ -19,7 +19,7 @@ const jsFiles = [
   ...['sw-code.js', 'sw-icon.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js', 'sw-chip.js',
     'sw-tabs.js', 'sw-accordion.js', 'sw-top.js', 'sw-pre.js', 'sw-dropdown.js', 'sw-lazy.js', 'sw-slider.js', 'sw-carousel.js', 'sw-pagination.js', 'sw-rating.js', 'sw-typewriter.js',
     'sw-textlimit.js', 'sw-tooltip.js', 'sw-parallax.js', 'sw-lgpd.js', 'sw-textarea.js', 'sw-scrollspy.js', 'sw-scroll.js', 'sw-drag.js', 'sw-matinp.js', 'sw-sidebar.js',
-    'sw-editor.js', 'sw-cotacao.js', 'sw-instagram.js', 'sw-infinite.js', 'sw-upload.js', 'sw-content.js', 'sw-cropper.js']
+    'sw-editor.js', 'sw-cotacao.js', 'sw-instagram.js', 'sw-infinite.js', 'sw-upload.js', 'sw-content.js', 'sw-cropper.js', 'sw-progress.js']
     .map((file) => path.join(root, 'src', 'js', 'modules', file)),
 ];
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');

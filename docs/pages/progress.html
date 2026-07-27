@@ -73,7 +73,7 @@
 </script></pre>
             </div>
 
-            <div class="doc-card">
+            <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-2">4. Circular</h3>
                 <div class="demo-wrap p-6 flx alc gap-4">
                     <div sw-prg-circ style="--sw-prg-val:72"><span>72%</span></div>
@@ -85,18 +85,55 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">5. Circular Animado (role a tela até aqui)</h3>
+                <p class="t-p t-mut mb-6">Com <code>sw-prg-animate</code>, o anel preenche do 0 até o valor real — e o número conta junto — assim que entra na tela. Role a página pra ver de novo.</p>
+                <div class="demo-wrap p-6 flx alc gap-6 f-wr">
+                    <div sw-prg-circ sw-prg-animate style="--sw-prg-val:72"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-suc" style="--sw-prg-val:94"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-ale" style="--sw-prg-val:58"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-err" style="--sw-prg-val:23"><span>0%</span></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-prg-circ sw-prg-animate style="--sw-prg-val:72"><span>0%</span></div>
+<!-- sw-prg-duration="1400" (ms) · sw-prg-suffix="%" (troque ou remova o sufixo) -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">6. Anel — Gradiente, Glow e Espessura</h3>
+                <div class="demo-wrap p-6 flx alc gap-6 f-wr">
+                    <div sw-prg-circ sw-prg-animate class="is-grad" style="--sw-prg-val:80"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-suc is-glow" style="--sw-prg-val:88"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-thin" style="--sw-prg-val:65"><span>0%</span></div>
+                    <div sw-prg-circ sw-prg-animate class="is-thick is-ale" style="--sw-prg-val:40"><span>0%</span></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-prg-circ sw-prg-animate class="is-grad" style="--sw-prg-val:80"><span>0%</span></div>
+<div sw-prg-circ sw-prg-animate class="is-suc is-glow" style="--sw-prg-val:88"><span>0%</span></div>
+<div sw-prg-circ sw-prg-animate class="is-thin" style="--sw-prg-val:65"><span>0%</span></div>
+<div sw-prg-circ sw-prg-animate class="is-thick is-ale" style="--sw-prg-val:40"><span>0%</span></div>
+</script></pre>
+            </div>
+
             <div class="doc-card mt-8">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Classe</th><th>Tipo</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Classe/Atributo</th><th>Tipo</th><th>Descrição</th></tr></thead>
                         <tbody>
                             <tr><td><code>[sw-prg]</code></td><td>Base</td><td>Trilho da barra linear.</td></tr>
                             <tr><td><code>.sw-prg-bar</code></td><td>Elemento</td><td>Preenchimento — controle a largura via <code>style="width:N%"</code>.</td></tr>
                             <tr><td><code>.sw-prg-pp, .sw-prg-g</code></td><td>Tamanho</td><td>Fino ou grosso. Sem classe = padrão.</td></tr>
-                            <tr><td><code>.is-suc, .is-ale, .is-err</code></td><td>Cor</td><td>No <code>.sw-prg-bar</code> — muda a cor do preenchimento.</td></tr>
-                            <tr><td><code>.sw-prg-strp, .sw-prg-anim</code></td><td>Estilo</td><td>Listras diagonais, opcionalmente animadas.</td></tr>
-                            <tr><td><code>[sw-prg-circ]</code></td><td>Base</td><td>Progresso circular via <code>--sw-prg-val</code> (0-100).</td></tr>
+                            <tr><td><code>.is-suc, .is-ale, .is-err</code></td><td>Cor</td><td>Na barra ou no anel — muda a cor do preenchimento.</td></tr>
+                            <tr><td><code>.sw-prg-strp, .sw-prg-anim</code></td><td>Estilo</td><td>Listras diagonais, opcionalmente animadas (barra linear).</td></tr>
+                            <tr><td><code>[sw-prg-circ]</code></td><td>Base</td><td>Progresso circular via <code>--sw-prg-val</code> (0-100) e <code>--sw-prg-sz</code> (diâmetro).</td></tr>
+                            <tr><td><code>sw-prg-animate</code></td><td>Comportamento</td><td>Anima do 0 até <code>--sw-prg-val</code> ao entrar na tela, com contagem do número.</td></tr>
+                            <tr><td><code>sw-prg-duration</code></td><td>Opção</td><td>Duração da animação em ms (padrão 1400).</td></tr>
+                            <tr><td><code>sw-prg-suffix</code></td><td>Opção</td><td>Sufixo do número contado (padrão "%").</td></tr>
+                            <tr><td><code>.is-grad</code></td><td>Estilo</td><td>Anel com gradiente entre cor primária e secundária.</td></tr>
+                            <tr><td><code>.is-glow</code></td><td>Estilo</td><td>Brilho ao redor do anel, na cor ativa.</td></tr>
+                            <tr><td><code>.is-thin, .is-thick</code></td><td>Estilo</td><td>Espessura do traço do anel.</td></tr>
                         </tbody>
                     </table>
                 </div>
