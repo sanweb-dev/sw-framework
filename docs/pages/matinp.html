@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Material Input - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">Material Input</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Material Input <span class="TprinD">[sw-matinp]</span></h1>
+                <p class="t-g t-mut mb-0">Input com label flutuante estilo Material Design, com validação e máscara embutidas — um pacote fechado, sem precisar combinar <code>sw-valid</code> + <code>sw-mask</code> manualmente.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6 flx fld-col gap-2" style="max-width:32rem">
+                    <div class="fld-mat">
+                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="Nome completo" sw-matinp-req sw-matinp-minlen="3">
+                    </div>
+                    <div class="fld-mat">
+                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="Telefone" sw-matinp-mask="telefone" sw-matinp-req>
+                    </div>
+                    <div class="fld-mat">
+                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="E-mail" sw-matinp-email sw-matinp-hint="Usaremos só para contato.">
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="fld-mat">
+    <input class="fld-mat-inp" type="text" placeholder=" "
+           sw-matinp sw-matinp-label="Telefone"
+           sw-matinp-mask="telefone" sw-matinp-req>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-matinp-label</code></td><td>Texto da label flutuante (criada automaticamente).</td></tr>
+                            <tr><td><code>sw-matinp-mask</code></td><td><code>telefone | cpf | cnpj | cep | data | hora | cartao</code></td></tr>
+                            <tr><td><code>sw-matinp-req / -email / -url / -minlen / -maxlen / -min / -max / -match / -regex</code></td><td>Regras de validação — mesma sintaxe do <code>sw-valid</code>, mas prefixadas com <code>sw-matinp-</code>.</td></tr>
+                            <tr><td><code>sw-matinp-msg-*</code></td><td>Mensagem de erro customizada por regra (ex.: <code>sw-matinp-msg-req</code>).</td></tr>
+                            <tr><td><code>sw-matinp-hint</code></td><td>Texto de ajuda abaixo do campo.</td></tr>
+                            <tr><td><code>sw-matinp-validate</code></td><td><code>blur</code> (padrão) · <code>input</code> · <code>change</code></td></tr>
+                            <tr><td><code>sw:matinp:valid / :invalid / :change</code></td><td>Eventos no input.</td></tr>
+                            <tr><td><code>el._swMatinp.validate()/.getValue()/.setValue()/.reset()</code></td><td>API na instância.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

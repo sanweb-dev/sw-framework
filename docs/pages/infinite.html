@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Infinite Scroll - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Navegação JS</span>
+                <span class="brc-it is-cur" aria-current="page">Infinite Scroll</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Infinite Scroll <span class="TprinD">[sw-infinite]</span></h1>
+                <p class="t-g t-mut mb-0">Carrega mais conteúdo automaticamente quando o usuário se aproxima do fim da página. O endpoint deve devolver HTML puro (um elemento por item) — página vazia sinaliza fim da lista.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">Uso</h3>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div id="lista">
+    <article>Item inicial 1</article>
+    <article>Item inicial 2</article>
+</div>
+<div sw-infinite
+     sw-infinite-url="/api/posts?page={page}"
+     sw-infinite-target="#lista"
+     sw-infinite-offset="300">
+</div>
+</script></pre>
+                <p class="t-mut mt-2">O trecho <code>{page}</code> na URL é substituído pelo número da página atual a cada carregamento.</p>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-infinite-url</code></td><td>—</td><td>URL do endpoint, com <code>{page}</code> como placeholder.</td></tr>
+                            <tr><td><code>sw-infinite-target</code></td><td><code>body</code></td><td>Seletor onde os novos itens são anexados.</td></tr>
+                            <tr><td><code>sw-infinite-offset</code></td><td><code>300</code></td><td>Distância (px) do fim da página que dispara o carregamento.</td></tr>
+                            <tr><td><code>sw-infinite-start</code></td><td><code>1</code></td><td>Página inicial.</td></tr>
+                            <tr><td><code>sw:infinite:load</code></td><td>—</td><td><code>detail.page</code>, <code>detail.items</code>.</td></tr>
+                            <tr><td><code>sw:infinite:end</code></td><td>—</td><td>Disparado quando o endpoint devolve vazio.</td></tr>
+                            <tr><td><code>sw:infinite:error</code></td><td>—</td><td><code>detail.page</code> — falha na requisição.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

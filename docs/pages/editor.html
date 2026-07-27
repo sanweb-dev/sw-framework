@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editor de Texto - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">Editor de Texto</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h1 class="t-xxg f-bd mb-2">Editor de Texto <span class="TprinD">[sw-editor]</span></h1>
+                <p class="t-g t-mut mb-0">Editor rico (contentEditable) com toolbar de formatação, view de HTML, tela cheia e redimensionamento — sem dependências externas.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <textarea sw-editor sw-editor-height="180" name="conteudo"><p>Escreva algo <strong>importante</strong> aqui.</p></textarea>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<textarea sw-editor sw-editor-height="180" name="conteudo">
+    <p>Conteúdo inicial em HTML</p>
+</textarea>
+<!-- O valor final vai num <textarea class="sw-editor-hidden"> gerado automaticamente,
+     com o mesmo "name" — pronto pra submeter no form. -->
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-editor-height</code></td><td><code>150</code></td><td>Altura inicial em px.</td></tr>
+                            <tr><td><code>sw-editor-min</code> / <code>-max</code></td><td><code>100</code> / <code>800</code></td><td>Limites do redimensionamento manual.</td></tr>
+                            <tr><td><code>sw-editor-resizable</code></td><td><code>true</code></td><td><code>false</code> esconde a alça de redimensionar.</td></tr>
+                            <tr><td><code>sw-editor-placeholder</code></td><td>—</td><td>Placeholder exibido com a área vazia.</td></tr>
+                            <tr><td><code>el._swEditor</code> (via <code>querySelector</code> + instância)</td><td>—</td><td><code>getValue()/setValue(html)</code> na instância criada.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

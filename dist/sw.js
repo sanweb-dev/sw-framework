@@ -1218,8 +1218,13 @@
       this.table = table;
       this.tbody = table.tBodies[0];
       this.rows = Array.from(this.tbody.rows);
+      this.per = parseInt(table.getAttribute('sw-table-per'), 10) || 0;
+      this.page = 1;
+      this.ajaxUrl = table.getAttribute('sw-table-url') || null;
       this.buildControls();
       this.bindSort();
+      if (this.per) this.buildPagination();
+      if (this.ajaxUrl) this.loadPage(1);
     }
     buildControls() {
       const controls = document.createElement('div');
@@ -1253,6 +1258,47 @@
       input.addEventListener('input', () => this.filter(input.value));
       this.updateCount(this.rows.length);
     }
+    buildPagination() {
+      this.pager = document.createElement('nav');
+      this.pager.className = 'sw-table-pager sw-pagination';
+      this.table.parentNode.parentNode.insertBefore(this.pager, this.table.parentNode.nextSibling);
+      this.renderPage();
+    }
+    renderPage() {
+      const visibleRows = this.rows.filter((row) => !row.hidden);
+      const totalPages = Math.max(1, Math.ceil(visibleRows.length / this.per));
+      this.page = Math.min(this.page, totalPages);
+      this.rows.forEach((row) => { if (!row.hidden) row.classList.add('sw-table-row-hid'); });
+      visibleRows.slice((this.page - 1) * this.per, this.page * this.per).forEach((row) => row.classList.remove('sw-table-row-hid'));
+      if (!this.pager) return;
+      this.pager.innerHTML = '';
+      this.pager.setAttribute('sw-pagination', '');
+      this.pager.setAttribute('sw-pagination-total', String(visibleRows.length));
+      this.pager.setAttribute('sw-pagination-per', String(this.per));
+      this.pager.setAttribute('sw-pagination-cur', String(this.page));
+      this.pager._swPagination = null;
+      SW.Pagination?.initAll(this.pager.parentNode);
+      this.pager.addEventListener('sw:pagination:change', (event) => {
+        this.page = event.detail.page;
+        this.ajaxUrl ? this.loadPage(this.page) : this.renderPage();
+      }, { once: false });
+    }
+    async loadPage(page) {
+      if (!this.ajaxUrl) return;
+      this.page = page;
+      const url = new URL(this.ajaxUrl, window.location.href);
+      url.searchParams.set('page', page);
+      url.searchParams.set('per', this.per || 10);
+      const response = await fetch(url.href, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      const html = await response.text();
+      const scratch = document.createElement('tbody');
+      scratch.innerHTML = html;
+      this.tbody.replaceChildren(...scratch.children);
+      this.rows = Array.from(this.tbody.rows);
+      this.bindSort();
+      SW.emit(this.table, 'sw:table:page', { page });
+      if (this.pager) this.renderPage();
+    }
     filter(value) {
       const term = String(value).toLocaleLowerCase().trim();
       let visible = 0;
@@ -1262,6 +1308,7 @@
         if (matches) visible += 1;
       });
       this.updateCount(visible);
+      if (this.per) { this.page = 1; this.renderPage(); }
     }
     updateCount(visible) { this.count.textContent = `${visible} de ${this.rows.length} registros`; }
     bindSort() {
@@ -1813,4 +1860,2677 @@
 
   window.SW?.register('SWChip', SWChip);
   if (window.SW) window.SW.Chip = SWChip;
+})();
+
+/* SW Framework Tabs — [sw-tabs] container, .sw-tabs-it (nav), .sw-tabs-pnl (paineis) */
+(function () {
+  'use strict';
+
+  class SWTabs {
+    constructor(el) {
+      if (el._swTabs) return;
+      el._swTabs = this;
+      this.el = el;
+      this._bind();
+      this._initNavScroll();
+      const first = el.querySelector('.sw-tabs-it.is-act') || el.querySelector('.sw-tabs-it');
+      if (first) this._activate(first, false);
+    }
+
+    _initNavScroll() {
+      if (this.el.classList.contains('is-vrt') || this.el.classList.contains('is-btm')) return;
+      const nav = this.el.querySelector('.sw-tabs-nav');
+      if (!nav) return;
+      if (!nav.parentElement.classList.contains('sw-tabs-nav-wrap')) {
+        const wrap = document.createElement('div');
+        wrap.className = 'sw-tabs-nav-wrap';
+        nav.parentNode.insertBefore(wrap, nav);
+        wrap.appendChild(nav);
+      }
+      const wrap = nav.parentElement;
+      if (!wrap.querySelector('.sw-tabs-arr')) {
+        const prev = document.createElement('button');
+        prev.type = 'button';
+        prev.className = 'sw-tabs-arr sw-tabs-arr-prv';
+        prev.setAttribute('aria-label', 'Anterior');
+        prev.innerHTML = '&#8249;';
+        const next = document.createElement('button');
+        next.type = 'button';
+        next.className = 'sw-tabs-arr sw-tabs-arr-nxt';
+        next.setAttribute('aria-label', 'Próximo');
+        next.innerHTML = '&#8250;';
+        wrap.appendChild(prev);
+        wrap.appendChild(next);
+        const step = () => Math.max(nav.clientWidth * 0.6, 120);
+        prev.addEventListener('click', () => nav.scrollBy({ left: -step(), behavior: 'smooth' }));
+        next.addEventListener('click', () => nav.scrollBy({ left: step(), behavior: 'smooth' }));
+      }
+      const prevBtn = wrap.querySelector('.sw-tabs-arr-prv');
+      const nextBtn = wrap.querySelector('.sw-tabs-arr-nxt');
+      const check = () => {
+        const overflow = nav.scrollWidth > nav.clientWidth + 2;
+        const atStart = nav.scrollLeft < 2;
+        const atEnd = nav.scrollLeft >= nav.scrollWidth - nav.clientWidth - 2;
+        prevBtn?.classList.toggle('is-vis', overflow && !atStart);
+        nextBtn?.classList.toggle('is-vis', overflow && !atEnd);
+      };
+      nav.addEventListener('scroll', check, { passive: true });
+      window.addEventListener('resize', check, { passive: true });
+      const active = nav.querySelector('.sw-tabs-it.is-act');
+      if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
+      window.setTimeout(check, 50);
+    }
+
+    _bind() {
+      this.el.addEventListener('click', (event) => {
+        const btn = event.target.closest('.sw-tabs-it');
+        if (!btn || btn.closest('[sw-tabs]') !== this.el) return;
+        this._activate(btn);
+      });
+      this.el.addEventListener('keydown', (event) => {
+        const btn = event.target.closest('.sw-tabs-it');
+        if (!btn) return;
+        const items = SW.$('.sw-tabs-it:not([disabled])', this.el);
+        const idx = items.indexOf(btn);
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          event.preventDefault();
+          const next = items[(idx + 1) % items.length];
+          next?.focus();
+          if (next) this._activate(next);
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          const prev = items[(idx - 1 + items.length) % items.length];
+          prev?.focus();
+          if (prev) this._activate(prev);
+        }
+      });
+    }
+
+    _activate(btn, emit = true) {
+      const key = btn.getAttribute('sw-tabs-idx') || btn.getAttribute('href')?.replace('#', '');
+      this.el.querySelectorAll('.sw-tabs-it').forEach((item) => {
+        item.classList.remove('is-act');
+        item.setAttribute('aria-selected', 'false');
+        item.setAttribute('tabindex', '-1');
+      });
+      this.el.querySelectorAll('.sw-tabs-pnl').forEach((panel) => panel.classList.remove('is-act'));
+
+      btn.classList.add('is-act');
+      btn.setAttribute('aria-selected', 'true');
+      btn.setAttribute('tabindex', '0');
+
+      let panel;
+      if (key !== undefined && key !== null && key !== '' && !Number.isNaN(Number(key))) {
+        panel = this.el.querySelectorAll('.sw-tabs-pnl')[Number(key)];
+      } else if (key) {
+        panel = this.el.querySelector(`#${key}, [sw-tabs-pnl="${key}"]`);
+      } else {
+        const buttons = SW.$('.sw-tabs-it', this.el);
+        panel = this.el.querySelectorAll('.sw-tabs-pnl')[buttons.indexOf(btn)];
+      }
+      if (panel) panel.classList.add('is-act');
+      if (emit) SW.emit(this.el, 'sw:tabs:change', { key, btn, panel });
+    }
+
+    static initAll(root = document) {
+      SW.$('[sw-tabs]', root).forEach((el) => new SWTabs(el));
+    }
+
+    static show(container, key) {
+      const el = typeof container === 'string' ? document.querySelector(container) : container;
+      const btn = el?.querySelector(`[sw-tabs-idx="${key}"], #${key}`);
+      if (el?._swTabs && btn) el._swTabs._activate(btn);
+    }
+  }
+
+  window.SW?.register('SWTabs', SWTabs);
+  if (window.SW) window.SW.Tabs = SWTabs;
+})();
+
+/* SW Framework Accordion — [sw-accordion] container, .sw-acc-it > .sw-acc-hdr + .sw-acc-bdy */
+(function () {
+  'use strict';
+
+  class SWAccordion {
+    constructor(el) {
+      if (el._swAccordion) return;
+      el._swAccordion = this;
+      this.el = el;
+      this.multi = el.getAttribute('sw-accordion-multi') === 'true';
+      this._bind();
+      this._initAria();
+    }
+
+    _bind() {
+      this.el.addEventListener('click', (event) => {
+        const hdr = event.target.closest('.sw-acc-hdr');
+        if (!hdr) return;
+        const item = hdr.closest('.sw-acc-it');
+        if (!item || item.closest('[sw-accordion]') !== this.el) return;
+        this.toggle(item);
+      });
+      this.el.addEventListener('keydown', (event) => {
+        const hdr = event.target.closest('.sw-acc-hdr');
+        if (!hdr || (event.key !== 'Enter' && event.key !== ' ')) return;
+        event.preventDefault();
+        hdr.click();
+      });
+    }
+
+    _initAria() {
+      this.el.querySelectorAll('.sw-acc-it').forEach((item) => {
+        const hdr = item.querySelector('.sw-acc-hdr');
+        const bdy = item.querySelector('.sw-acc-bdy');
+        if (!hdr || !bdy) return;
+        const id = bdy.id || `_swacc-${Math.random().toString(36).slice(2, 8)}`;
+        bdy.id = id;
+        hdr.setAttribute('aria-controls', id);
+        hdr.setAttribute('role', 'button');
+        hdr.setAttribute('tabindex', '0');
+        const isOpen = item.classList.contains('is-act');
+        hdr.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (isOpen) bdy.style.height = 'auto';
+      });
+    }
+
+    _measure(bdy) {
+      const prev = bdy.style.cssText;
+      bdy.style.cssText += ';transition:none!important;height:auto!important;';
+      const height = bdy.scrollHeight;
+      bdy.style.cssText = prev;
+      void bdy.offsetHeight;
+      return height;
+    }
+
+    open(item) {
+      if (!this.multi) {
+        this.el.querySelectorAll('.sw-acc-it.is-act').forEach((other) => {
+          if (other !== item) this.close(other);
+        });
+      }
+      item.classList.add('is-act');
+      const bdy = item.querySelector('.sw-acc-bdy');
+      if (bdy) {
+        const height = this._measure(bdy);
+        bdy.style.height = '0';
+        void bdy.offsetHeight;
+        bdy.style.height = `${height}px`;
+        bdy.addEventListener('transitionend', () => {
+          if (item.classList.contains('is-act')) bdy.style.height = 'auto';
+        }, { once: true });
+      }
+      item.querySelector('.sw-acc-hdr')?.setAttribute('aria-expanded', 'true');
+      SW.emit(item, 'sw:accordion:open', { item });
+    }
+
+    close(item) {
+      const bdy = item.querySelector('.sw-acc-bdy');
+      if (bdy) {
+        bdy.style.height = `${bdy.scrollHeight}px`;
+        void bdy.offsetHeight;
+        bdy.style.height = '0';
+      }
+      item.classList.remove('is-act');
+      item.querySelector('.sw-acc-hdr')?.setAttribute('aria-expanded', 'false');
+      SW.emit(item, 'sw:accordion:close', { item });
+    }
+
+    toggle(item) {
+      if (item.classList.contains('is-act')) this.close(item);
+      else this.open(item);
+    }
+
+    static initAll(root = document) {
+      SW.$('[sw-accordion]', root).forEach((el) => new SWAccordion(el));
+    }
+
+    static open(container, index) {
+      const el = typeof container === 'string' ? document.querySelector(container) : container;
+      const item = el?.querySelectorAll('.sw-acc-it')[index];
+      if (el?._swAccordion && item) el._swAccordion.open(item);
+    }
+  }
+
+  window.SW?.register('SWAccordion', SWAccordion);
+  if (window.SW) window.SW.Accordion = SWAccordion;
+})();
+
+/* SW Framework Scroll-to-Top — [sw-top] no botão; fica .is-vis após 300px de scroll */
+(function () {
+  'use strict';
+  let bound = false;
+
+  const SWTop = {
+    initAll(root = document) {
+      SW.$('[sw-top]', root).forEach((btn) => {
+        if (btn._swTop) return;
+        btn._swTop = true;
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: SW.Utils?.reducedMotion() ? 'auto' : 'smooth' }));
+      });
+
+      if (bound) return;
+      bound = true;
+      const update = () => {
+        const visible = window.scrollY > 300;
+        document.querySelectorAll('[sw-top]').forEach((btn) => btn.classList.toggle('is-vis', visible));
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+  };
+
+  window.SW?.register('SWTop', SWTop);
+  if (window.SW) window.SW.Top = SWTop;
+})();
+
+/* SW Framework Preloader — [sw-pre] no elemento de tela cheia; some após load */
+(function () {
+  'use strict';
+
+  const SWPre = {
+    initAll(root = document) {
+      SW.$('[sw-pre]', root).forEach((el) => {
+        if (el._swPre) return;
+        el._swPre = true;
+        const hide = () => {
+          el.classList.add('is-out');
+          window.setTimeout(() => el.remove(), 600);
+        };
+        if (document.readyState === 'complete') window.setTimeout(hide, 200);
+        else window.addEventListener('load', () => window.setTimeout(hide, 200), { once: true });
+      });
+    }
+  };
+
+  window.SW?.register('SWPre', SWPre);
+  if (window.SW) window.SW.Pre = SWPre;
+})();
+
+/* SW Framework Dropdown — [sw-dropdown] > .sw-dropdown-tgl + .sw-dropdown-mn */
+(function () {
+  'use strict';
+
+  const SWDropdown = {
+    initAll(root = document) {
+      SW.$('[sw-dropdown]', root).forEach((el) => {
+        if (el._swDropdown) return;
+        el._swDropdown = true;
+
+        const toggle = el.querySelector('.sw-dropdown-tgl');
+        const menu = el.querySelector('.sw-dropdown-mn');
+        if (!toggle || !menu) return;
+
+        const open = () => { el.classList.add('is-open'); SW.emit(el, 'sw:dropdown:open'); };
+        const close = () => { el.classList.remove('is-open'); SW.emit(el, 'sw:dropdown:close'); };
+
+        toggle.addEventListener('click', (event) => {
+          event.stopPropagation();
+          el.classList.contains('is-open') ? close() : open();
+        });
+        menu.addEventListener('click', (event) => {
+          if (event.target.closest('.sw-dropdown-it:not(.is-dis)')) close();
+        });
+        document.addEventListener('click', (event) => {
+          if (!el.contains(event.target)) close();
+        });
+        el.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') close();
+        });
+      });
+    },
+
+    open(el) { (typeof el === 'string' ? document.querySelector(el) : el)?.classList.add('is-open'); },
+    close(el) { (typeof el === 'string' ? document.querySelector(el) : el)?.classList.remove('is-open'); }
+  };
+
+  window.SW?.register('SWDropdown', SWDropdown);
+  if (window.SW) window.SW.Dropdown = SWDropdown;
+})();
+
+/* SW Framework Lazy Load — <img sw-lazy sw-lazy-src="real.jpg" src="placeholder.jpg"> */
+(function () {
+  'use strict';
+  let observer = null;
+
+  function load(img) {
+    const src = img.getAttribute('sw-lazy-src');
+    if (!src) return;
+    const probe = new Image();
+    probe.onload = () => { img.src = src; img.classList.add('is-ldd'); SW.emit(img, 'sw:lazy:loaded'); };
+    probe.onerror = () => { img.classList.add('is-err'); SW.emit(img, 'sw:lazy:error'); };
+    probe.src = src;
+  }
+
+  const SWLazy = {
+    initAll(root = document) {
+      if (!observer) {
+        observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            load(entry.target);
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '200px' });
+      }
+      SW.$('img[sw-lazy]', root).forEach((img) => {
+        if (img._swLazy) return;
+        img._swLazy = true;
+        observer.observe(img);
+      });
+    }
+  };
+
+  window.SW?.register('SWLazy', SWLazy);
+  if (window.SW) window.SW.Lazy = SWLazy;
+})();
+
+/* SW Framework Slider — [sw-slider] > .sw-slider-trk > .sw-slider-it, .sw-slider-prv/-nxt, .sw-slider-dot-grp */
+(function () {
+  'use strict';
+
+  class SWSliderInst {
+    constructor(el) {
+      this.el = el;
+      this.trk = el.querySelector('.sw-slider-trk');
+      this.items = Array.from(el.querySelectorAll('.sw-slider-it'));
+      this.btnPrv = el.querySelector('.sw-slider-prv');
+      this.btnNxt = el.querySelector('.sw-slider-nxt');
+      this.dotWrap = el.querySelector('.sw-slider-dot-grp');
+      this.btnPly = el.querySelector('.sw-slider-ply');
+
+      this.show = Math.max(1, parseInt(el.getAttribute('sw-slider-show'), 10) || 1);
+      this.loop = el.getAttribute('sw-slider-loop') !== 'false';
+      this.auto = parseInt(el.getAttribute('sw-slider-auto'), 10) || 0;
+      this.hoverRun = el.getAttribute('sw-slider-hover') === 'run';
+      this.effect = el.getAttribute('sw-slider-effect') || 'slide';
+      this.dur = el.getAttribute('sw-slider-dur') || null;
+      this.scroll = Math.min(this.show, Math.max(1, parseInt(el.getAttribute('sw-slider-scroll'), 10) || this.show));
+
+      this.total = this.items.length;
+      this.pages = this.loop
+        ? Math.ceil(this.total / this.scroll)
+        : Math.max(1, Math.floor((this.total - this.show) / this.scroll) + 1);
+      this.page = 0;
+      this._paused = false;
+      this._timer = null;
+      this._busy = false;
+      this._infinite = false;
+
+      if (!this.trk || !this.total) return;
+
+      this._setupInfinite();
+      this._buildDots();
+      this._bind();
+      this._layout(false);
+      if (this.auto > 0) this._timerStart();
+    }
+
+    _setupInfinite() {
+      if (!this.loop || this.effect === 'zoom') return;
+      this._infinite = true;
+      const appCount = this.show + Math.max(0, this.pages * this.scroll - this.total);
+      this.items.slice(-this.scroll).slice().reverse()
+        .forEach((it) => this.trk.insertBefore(it.cloneNode(true), this.trk.firstChild));
+      this.items.slice(0, appCount)
+        .forEach((it) => this.trk.appendChild(it.cloneNode(true)));
+      this._extPos = 1;
+    }
+
+    _buildDots() {
+      if (!this.dotWrap) return;
+      this.dotWrap.innerHTML = '';
+      this.dots = Array.from({ length: this.pages }, (_, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sw-slider-dot';
+        btn.setAttribute('aria-label', `Página ${i + 1}`);
+        btn.addEventListener('click', () => this._goTo(i));
+        this.dotWrap.appendChild(btn);
+        return btn;
+      });
+    }
+
+    _timerStart() {
+      window.clearInterval(this._timer);
+      this._timer = window.setInterval(() => this._step(1), this.auto);
+    }
+
+    _timerStop() {
+      window.clearInterval(this._timer);
+      this._timer = null;
+    }
+
+    _bind() {
+      this.btnPrv?.addEventListener('click', (event) => { event.preventDefault(); this._step(-1); });
+      this.btnNxt?.addEventListener('click', (event) => { event.preventDefault(); this._step(1); });
+
+      this.btnPly?.addEventListener('click', (event) => {
+        event.preventDefault();
+        this._paused = !this._paused;
+        this._paused ? this._timerStop() : this._timerStart();
+        this.btnPly.classList.toggle('is-paused', this._paused);
+      });
+
+      if (this.auto > 0 && !this.hoverRun) {
+        this.el.addEventListener('mouseenter', () => { if (!this._paused) this._timerStop(); });
+        this.el.addEventListener('mouseleave', () => { if (!this._paused) this._timerStart(); });
+      }
+
+      let startX = 0;
+      this.el.addEventListener('touchstart', (event) => { startX = event.touches[0].clientX; }, { passive: true });
+      this.el.addEventListener('touchend', (event) => {
+        const diff = startX - event.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) this._step(diff > 0 ? 1 : -1);
+      });
+
+      this.el.setAttribute('tabindex', '0');
+      this.el.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') { event.preventDefault(); this._step(-1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); this._step(1); }
+      });
+
+      if (window.ResizeObserver) {
+        this._ro = new ResizeObserver(() => this._layout(false));
+        this._ro.observe(this.el);
+      } else {
+        window.addEventListener('resize', () => this._layout(false), { passive: true });
+      }
+    }
+
+    _step(dir) {
+      if (this._busy) return;
+      if (this._infinite) {
+        if (this.el.clientWidth === 0) return;
+        this._busy = true;
+        this._extPos += dir;
+        this._layout(true);
+        const done = () => {
+          this.trk.removeEventListener('transitionend', done);
+          if (this._extPos === 0) { this._extPos = this.pages; this._layout(false); }
+          else if (this._extPos === this.pages + 1) { this._extPos = 1; this._layout(false); }
+          this._busy = false;
+        };
+        this.trk.addEventListener('transitionend', done);
+        const durMs = this.dur ? (this.dur.includes('ms') ? parseFloat(this.dur) : parseFloat(this.dur) * 1000) : 500;
+        window.setTimeout(() => { if (this._busy) done(); }, durMs + 100);
+      } else {
+        let next = this.page + dir;
+        if (this.loop) next = ((next % this.pages) + this.pages) % this.pages;
+        else next = Math.max(0, Math.min(next, this.pages - 1));
+        this._goTo(next);
+      }
+    }
+
+    _goTo(page) {
+      if (this._infinite) this._extPos = page + 1;
+      this.page = page;
+      this._layout(true);
+      SW.emit(this.el, 'sw:slider:change', { page });
+    }
+
+    _layout(animate) {
+      if (this.effect === 'zoom') { this._layoutZoom(); return; }
+      const width = this.el.clientWidth;
+      if (width === 0) return;
+
+      const itemW = width / this.show;
+      this.trk.querySelectorAll('.sw-slider-it').forEach((it) => { it.style.width = `${itemW}px`; });
+
+      const pos = this._infinite ? this._extPos : this.page;
+      const offset = pos * this.scroll * itemW;
+      const customTr = this.dur ? `transform ${this.dur} cubic-bezier(.4,0,.2,1)` : '';
+
+      if (!animate) {
+        this.trk.style.transition = 'none';
+        this.trk.style.transform = `translateX(-${offset}px)`;
+        void this.trk.getBoundingClientRect();
+        this.trk.style.transition = customTr;
+      } else {
+        if (customTr) this.trk.style.transition = customTr;
+        this.trk.style.transform = `translateX(-${offset}px)`;
+      }
+
+      if (this._infinite) this.page = (((this._extPos - 1) % this.pages) + this.pages) % this.pages;
+      this.dots?.forEach((dot, i) => dot.classList.toggle('is-act', i === this.page));
+    }
+
+    _layoutZoom() {
+      const prevIdx = this.items.findIndex((it) => it.classList.contains('is-act'));
+      const fadeDur = this.dur || null;
+      const incoming = this.items[this.page];
+      incoming.classList.remove('is-out');
+      if (fadeDur) incoming.style.transition = `opacity ${fadeDur} ease`;
+      incoming.style.setProperty('--kb-anim', `sw-slider-kb-${(this.page % 4) + 1}`);
+      const child = incoming.firstElementChild;
+      if (child) {
+        child.style.animation = 'none';
+        void incoming.getBoundingClientRect();
+        child.style.animation = '';
+      }
+      incoming.classList.add('is-act');
+
+      if (prevIdx !== -1 && prevIdx !== this.page) {
+        const outgoing = this.items[prevIdx];
+        if (fadeDur) outgoing.style.transition = `opacity ${fadeDur} ease`;
+        outgoing.classList.remove('is-act');
+        outgoing.classList.add('is-out');
+        outgoing.addEventListener('transitionend', () => outgoing.classList.remove('is-out'), { once: true });
+      }
+      this.dots?.forEach((dot, i) => dot.classList.toggle('is-act', i === this.page));
+    }
+  }
+
+  class SWSlider {
+    static initAll(root = document) {
+      SW.$('[sw-slider]', root).forEach((el) => {
+        if (el._swSlider) return;
+        el._swSlider = new SWSliderInst(el);
+      });
+    }
+
+    static next(el) { el._swSlider?._step(1); }
+    static prev(el) { el._swSlider?._step(-1); }
+    static goTo(el, idx) { el._swSlider?._goTo(idx); }
+  }
+
+  window.SW?.register('SWSlider', SWSlider);
+  if (window.SW) window.SW.Slider = SWSlider;
+})();
+
+/* SW Framework Text Carousel — [sw-carousel] > .sw-carousel-trk > itens; troca com efeitos (fade/slide/zoom/bounce/flip) */
+(function () {
+  'use strict';
+
+  class SWCarouselInst {
+    constructor(el) {
+      this.el = el;
+      this.trk = el.querySelector('.sw-carousel-trk');
+      if (!this.trk) return;
+      this.items = Array.from(this.trk.children);
+      if (!this.items.length) return;
+      this.cur = 0;
+      this.busy = false;
+      this.effect = el.getAttribute('sw-carousel-effect') || (el.classList.contains('is-fde') ? 'fade' : 'slide-left');
+      this.dur = parseInt(el.getAttribute('sw-carousel-dur'), 10) || 600;
+      this.loop = el.getAttribute('sw-carousel-loop') !== 'false';
+      this.auto = parseInt(el.getAttribute('sw-carousel-auto'), 10) || 0;
+      this.timer = null;
+      this.dts = el.querySelector('.sw-carousel-dts');
+      this.prv = el.querySelector('.sw-carousel-prv');
+      this.nxt = el.querySelector('.sw-carousel-nxt');
+      this._build();
+      this._bind();
+      if (this.auto) this._resume();
+    }
+
+    _build() {
+      this.el.style.setProperty('--sw-car-dur', `${this.dur}ms`);
+      this.items.forEach((it, i) => {
+        it.style.opacity = i === 0 ? '1' : '0';
+        it.style.visibility = i === 0 ? 'visible' : 'hidden';
+        it.style.transform = 'none';
+        it.classList.toggle('is-act', i === 0);
+      });
+      if (this.dts) {
+        this.dts.innerHTML = '';
+        this.items.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = `sw-carousel-dot${i === 0 ? ' is-act' : ''}`;
+          dot.setAttribute('aria-label', `Slide ${i + 1}`);
+          dot.addEventListener('click', () => this._goTo(i));
+          this.dts.appendChild(dot);
+        });
+      }
+    }
+
+    _bind() {
+      this.prv?.addEventListener('click', () => this._go(-1));
+      this.nxt?.addEventListener('click', () => this._go(1));
+      let sx = 0;
+      this.el.addEventListener('pointerdown', (event) => { sx = event.clientX; });
+      this.el.addEventListener('pointerup', (event) => {
+        const dx = event.clientX - sx;
+        if (Math.abs(dx) > 40) this._go(dx < 0 ? 1 : -1);
+      });
+      if (this.auto) {
+        this.el.addEventListener('mouseenter', () => this._pause());
+        this.el.addEventListener('mouseleave', () => this._resume());
+      }
+    }
+
+    _go(dir) {
+      let next = this.cur + dir;
+      if (this.loop) next = (next + this.items.length) % this.items.length;
+      else if (next < 0 || next >= this.items.length) return;
+      this._goTo(next);
+    }
+
+    _goTo(idx) {
+      if (this.busy || idx === this.cur) return;
+      this.busy = true;
+      const prev = this.cur;
+      const out = this.items[prev];
+      const inn = this.items[idx];
+      const eff = inn.getAttribute('sw-carousel-effect') || this.effect;
+
+      out.style.position = 'absolute';
+      inn.style.position = 'relative';
+      inn.style.transition = 'none';
+      inn.style.visibility = 'visible';
+      inn.style.opacity = '0';
+      inn.style.zIndex = '1';
+      out.style.zIndex = '0';
+      this._setStart(inn, eff);
+
+      void inn.getBoundingClientRect();
+      inn.style.transition = '';
+      inn.style.opacity = '1';
+      inn.style.transform = 'none';
+
+      out.style.opacity = '0';
+      this._setOut(out, eff);
+
+      this.cur = idx;
+      if (this.dts) Array.from(this.dts.children).forEach((dot, i) => dot.classList.toggle('is-act', i === idx));
+      SW.emit(this.el, 'sw:carousel:change', { index: idx });
+
+      window.setTimeout(() => {
+        out.style.visibility = 'hidden';
+        out.style.transform = 'none';
+        out.style.zIndex = '';
+        inn.style.zIndex = '';
+        out.classList.remove('is-act');
+        inn.classList.add('is-act');
+        out.style.position = '';
+        inn.style.position = '';
+        this.busy = false;
+      }, this.dur);
+    }
+
+    _setStart(item, eff) {
+      const map = {
+        'slide-left': 'translateX(100%)', 'slide-right': 'translateX(-100%)',
+        'slide-up': 'translateY(100%)', 'slide-down': 'translateY(-100%)',
+        'zoom-in': 'scale(0.85)', 'zoom-out': 'scale(1.15)',
+        bounce: 'scale(0.7) translateY(40px)', flip: 'rotateY(90deg)'
+      };
+      item.style.transform = map[eff] || 'none';
+    }
+
+    _setOut(item, eff) {
+      const map = {
+        'slide-left': 'translateX(-100%)', 'slide-right': 'translateX(100%)',
+        'slide-up': 'translateY(-100%)', 'slide-down': 'translateY(100%)',
+        'zoom-in': 'scale(1.15)', 'zoom-out': 'scale(0.85)',
+        bounce: 'scale(0.7) translateY(-40px)', flip: 'rotateY(-90deg)'
+      };
+      item.style.transform = map[eff] || 'none';
+    }
+
+    _pause() { window.clearInterval(this.timer); this.timer = null; }
+    _resume() {
+      if (!this.auto) return;
+      this._pause();
+      this.timer = window.setInterval(() => this._go(1), this.auto);
+    }
+  }
+
+  class SWCarousel {
+    static initAll(root = document) {
+      SW.$('[sw-carousel]', root).forEach((el) => {
+        if (el._swCarousel) return;
+        el._swCarousel = new SWCarouselInst(el);
+      });
+    }
+
+    static next(el) { el._swCarousel?._go(1); }
+    static prev(el) { el._swCarousel?._go(-1); }
+    static goTo(el, idx) { el._swCarousel?._goTo(idx); }
+    static pause(el) { el._swCarousel?._pause(); }
+    static resume(el) { el._swCarousel?._resume(); }
+  }
+
+  window.SW?.register('SWCarousel', SWCarousel);
+  if (window.SW) window.SW.Carousel = SWCarousel;
+})();
+
+/* SW Framework Pagination — <nav sw-pagination sw-pagination-total sw-pagination-per sw-pagination-cur sw-pagination-delta> */
+(function () {
+  'use strict';
+
+  class SWPaginationInst {
+    constructor(el) {
+      this.el = el;
+      this.total = parseInt(el.getAttribute('sw-pagination-total'), 10) || 1;
+      this.per = parseInt(el.getAttribute('sw-pagination-per'), 10) || 10;
+      this.cur = parseInt(el.getAttribute('sw-pagination-cur'), 10) || 1;
+      this.delta = parseInt(el.getAttribute('sw-pagination-delta'), 10) || 2;
+      this.pages = Math.ceil(this.total / this.per);
+      this._render();
+    }
+
+    _render() {
+      const { cur, pages } = this;
+      const items = [];
+      items.push({ label: '&#8249;', page: cur - 1, cls: `is-arr${cur === 1 ? ' is-dis' : ''}` });
+
+      const range = this._range(1, pages);
+      let last = 0;
+      range.forEach((p) => {
+        if (last && p - last > 1) items.push({ label: '&hellip;', cls: 'is-sep' });
+        items.push({ label: p, page: p, cls: p === cur ? 'is-act' : '' });
+        last = p;
+      });
+
+      items.push({ label: '&#8250;', page: cur + 1, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
+
+      this.el.innerHTML = items.map((it) => {
+        if (it.cls === 'is-sep') return `<span class="sw-pagination-it is-sep">${it.label}</span>`;
+        return `<a class="sw-pagination-it ${it.cls || ''}" data-page="${it.page || ''}" role="button" tabindex="0">${it.label}</a>`;
+      }).join('');
+
+      this.el.querySelectorAll('.sw-pagination-it[data-page]').forEach((a) => {
+        a.addEventListener('click', () => this._go(parseInt(a.getAttribute('data-page'), 10)));
+        a.addEventListener('keydown', (event) => { if (event.key === 'Enter') this._go(parseInt(a.getAttribute('data-page'), 10)); });
+      });
+    }
+
+    _range(start, end) {
+      const { cur, delta } = this;
+      const set = new Set([start, end]);
+      for (let i = Math.max(start, cur - delta); i <= Math.min(end, cur + delta); i += 1) set.add(i);
+      return [...set].sort((a, b) => a - b);
+    }
+
+    _go(page) {
+      if (page < 1 || page > this.pages || page === this.cur) return;
+      this.cur = page;
+      this.el.setAttribute('sw-pagination-cur', page);
+      this._render();
+      SW.emit(this.el, 'sw:pagination:change', { page });
+    }
+
+    goto(page) { this._go(page); }
+  }
+
+  class SWPagination {
+    static initAll(root = document) {
+      SW.$('[sw-pagination]', root).forEach((el) => {
+        if (el._swPagination) return;
+        el._swPagination = new SWPaginationInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWPagination', SWPagination);
+  if (window.SW) window.SW.Pagination = SWPagination;
+})();
+
+/* SW Framework Rating — [sw-rating="4.5"] só leitura · [sw-rating class="is-int"] interativo, sw-rating-max */
+(function () {
+  'use strict';
+
+  class SWRatingInst {
+    constructor(el) {
+      this.el = el;
+      this.max = parseInt(el.getAttribute('sw-rating-max'), 10) || 5;
+      this.value = parseFloat(el.getAttribute('sw-rating-val')) || 0;
+      this._inp = el.querySelector('input[type="hidden"]');
+      this._render();
+    }
+
+    _render(hov = -1) {
+      this.el.innerHTML = Array.from({ length: this.max }, (_, i) => {
+        const active = hov >= 0 ? i < hov : i < this.value;
+        return `<span class="sw-rating-str${active ? ' is-on' : ''}" data-v="${i + 1}" role="button" tabindex="0" aria-label="Nota ${i + 1}">★</span>`;
+      }).join('');
+      this.el.querySelectorAll('.sw-rating-str').forEach((star) => {
+        const v = parseInt(star.getAttribute('data-v'), 10);
+        star.addEventListener('mouseenter', () => this._render(v));
+        star.addEventListener('mouseleave', () => this._render());
+        star.addEventListener('click', () => this._set(v));
+        star.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') this._set(v); });
+      });
+    }
+
+    _set(val) {
+      this.value = val;
+      if (this._inp) this._inp.value = val;
+      this._render();
+      SW.emit(this.el, 'sw:rating:change', { value: val });
+    }
+
+    getValue() { return this.value; }
+    setValue(v) { this._set(Number(v)); }
+  }
+
+  class SWRating {
+    static initAll(root = document) {
+      SW.$('[sw-rating]', root).forEach((el) => {
+        if (el._swRating) return;
+        const raw = el.getAttribute('sw-rating');
+        const max = parseInt(el.getAttribute('sw-rating-max'), 10) || 5;
+        if (raw !== '' && raw !== null && !Number.isNaN(parseFloat(raw))) {
+          el._swRating = true;
+          SWRating._renderStatic(el, parseFloat(raw), max);
+        } else {
+          el._swRating = new SWRatingInst(el);
+        }
+      });
+    }
+
+    static _renderStatic(el, val, max) {
+      el.innerHTML = Array.from({ length: max }, (_, i) => {
+        const full = i + 1 <= Math.floor(val);
+        const half = !full && i + 0.5 < val;
+        const cls = full ? ' is-on' : half ? ' is-half' : '';
+        return `<span class="sw-rating-str${cls}" aria-hidden="true">★</span>`;
+      }).join('');
+    }
+  }
+
+  window.SW?.register('SWRating', SWRating);
+  if (window.SW) window.SW.Rating = SWRating;
+})();
+
+/* SW Framework Typewriter — [sw-typewriter sw-typewriter-words='["A","B"]'] */
+(function () {
+  'use strict';
+
+  class SWTypewriterInst {
+    constructor(el) {
+      const raw = el.getAttribute('sw-typewriter-words') || el.textContent.trim();
+      let words;
+      try { words = JSON.parse(raw); } catch (_) { words = raw.split(',').map((w) => w.trim()); }
+      this.words = words.filter(Boolean);
+      this.speed = parseInt(el.getAttribute('sw-typewriter-speed'), 10) || 100;
+      this.back = parseInt(el.getAttribute('sw-typewriter-back'), 10) || 50;
+      this.delay = parseInt(el.getAttribute('sw-typewriter-delay'), 10) || 1500;
+      this.loop = el.getAttribute('sw-typewriter-loop') !== 'false';
+      this.cur = el.getAttribute('sw-typewriter-cur') ?? '|';
+      this.wordIdx = 0;
+      this.charIdx = 0;
+      this.del = false;
+
+      if (!this.words.length) return;
+      el.textContent = '';
+      el.innerHTML = `<span class="sw-typewriter-txt"></span><span class="sw-typewriter-cur" aria-hidden="true">${this.cur}</span>`;
+      this._txt = el.querySelector('.sw-typewriter-txt');
+      this._run();
+    }
+
+    _run() {
+      const word = this.words[this.wordIdx];
+      if (this.del) {
+        this._txt.textContent = word.slice(0, --this.charIdx);
+        if (this.charIdx === 0) {
+          this.del = false;
+          this.wordIdx = (this.wordIdx + 1) % this.words.length;
+          window.setTimeout(() => this._run(), 300);
+          return;
+        }
+        window.setTimeout(() => this._run(), this.back);
+        return;
+      }
+      this._txt.textContent = word.slice(0, ++this.charIdx);
+      if (this.charIdx === word.length) {
+        if (!this.loop && this.wordIdx === this.words.length - 1) return;
+        this.del = true;
+        window.setTimeout(() => this._run(), this.delay);
+        return;
+      }
+      window.setTimeout(() => this._run(), this.speed);
+    }
+  }
+
+  class SWTypewriter {
+    static initAll(root = document) {
+      SW.$('[sw-typewriter]', root).forEach((el) => {
+        if (el._swTypewriter) return;
+        el._swTypewriter = true;
+        new SWTypewriterInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWTypewriter', SWTypewriter);
+  if (window.SW) window.SW.Typewriter = SWTypewriter;
+})();
+
+/* SW Framework Textlimit — <textarea sw-textlimit sw-textlimit-max="200" sw-textlimit-txt="{count}/{max}"> */
+(function () {
+  'use strict';
+
+  const SWTextlimit = {
+    initAll(root = document) {
+      SW.$('[sw-textlimit]', root).forEach((el) => {
+        if (el._swTextlimit) return;
+        el._swTextlimit = true;
+        const max = parseInt(el.getAttribute('sw-textlimit-max'), 10) || parseInt(el.getAttribute('maxlength'), 10) || 150;
+        const tpl = el.getAttribute('sw-textlimit-txt') || '{count}/{max}';
+        el.setAttribute('maxlength', max);
+
+        const counter = document.createElement('span');
+        counter.className = 'sw-textlimit-cnt';
+        el.insertAdjacentElement('afterend', counter);
+
+        const update = () => {
+          const n = el.value.length;
+          const rem = max - n;
+          counter.textContent = tpl.replace('{count}', n).replace('{max}', max).replace('{remaining}', rem);
+          counter.classList.toggle('is-ale', rem >= 0 && rem <= Math.ceil(max * 0.2));
+          counter.classList.toggle('is-err', rem < 0);
+        };
+        el.addEventListener('input', update);
+        update();
+      });
+    }
+  };
+
+  window.SW?.register('SWTextlimit', SWTextlimit);
+  if (window.SW) window.SW.Textlimit = SWTextlimit;
+})();
+
+/* SW Framework Tooltip — [sw-tooltip="Texto"] sw-tooltip-pos/-delay/-html/-clr/-follow */
+(function () {
+  'use strict';
+
+  const posMap = { bot: 'bottom', lft: 'left', rgt: 'right', top: 'top' };
+  let tipEl = null;
+  let timer = null;
+
+  function ensure() {
+    if (tipEl) return;
+    tipEl = document.createElement('div');
+    tipEl.className = 'sw-tooltip';
+    document.body.appendChild(tipEl);
+  }
+
+  function place(el, tip, pos) {
+    const r = el.getBoundingClientRect();
+    const tr = tip.getBoundingClientRect();
+    const sy = window.scrollY;
+    let top;
+    let left;
+    switch (pos) {
+      case 'bottom': top = r.bottom + sy + 8; left = r.left + r.width / 2 - tr.width / 2; break;
+      case 'left': top = r.top + sy + r.height / 2 - tr.height / 2; left = r.left - tr.width - 8; break;
+      case 'right': top = r.top + sy + r.height / 2 - tr.height / 2; left = r.right + 8; break;
+      default: top = r.top + sy - tr.height - 8; left = r.left + r.width / 2 - tr.width / 2;
+    }
+    tip.style.top = `${top}px`;
+    tip.style.left = `${Math.max(4, Math.min(left, window.innerWidth - tr.width - 4))}px`;
+  }
+
+  const SWTooltip = {
+    initAll(root = document) {
+      ensure();
+      SW.$('[sw-tooltip]', root).forEach((el) => {
+        if (el._swTooltip) return;
+        el._swTooltip = true;
+        const text = el.getAttribute('sw-tooltip');
+        const posRaw = el.getAttribute('sw-tooltip-pos') || 'top';
+        const pos = posMap[posRaw] || posRaw;
+        const delay = parseInt(el.getAttribute('sw-tooltip-delay'), 10) || 250;
+        const html = el.getAttribute('sw-tooltip-html') === 'true';
+        const clr = el.getAttribute('sw-tooltip-clr') || '';
+        const follow = el.getAttribute('sw-tooltip-follow') === 'true';
+        let lastX = 0;
+        let lastY = 0;
+
+        const placeCursor = (tip) => {
+          const tr = tip.getBoundingClientRect();
+          tip.style.top = `${lastY + window.scrollY - tr.height - 12}px`;
+          tip.style.left = `${Math.max(4, Math.min(lastX + window.scrollX - tr.width / 2, window.innerWidth - tr.width - 4))}px`;
+        };
+
+        const show = () => {
+          window.clearTimeout(timer);
+          timer = window.setTimeout(() => {
+            if (html) tipEl.innerHTML = text; else tipEl.textContent = text;
+            tipEl.className = `sw-tooltip is-${pos}${clr ? ` is-${clr}` : ''}`;
+            document.body.appendChild(tipEl);
+            follow ? placeCursor(tipEl) : place(el, tipEl, pos);
+            tipEl.classList.add('is-vis');
+          }, delay);
+        };
+        const hide = () => {
+          window.clearTimeout(timer);
+          tipEl?.classList.remove('is-vis');
+        };
+        const onMove = (event) => {
+          lastX = event.clientX;
+          lastY = event.clientY;
+          if (!tipEl?.classList.contains('is-vis')) return;
+          placeCursor(tipEl);
+        };
+
+        el.addEventListener('mouseenter', (event) => { lastX = event.clientX; lastY = event.clientY; show(); });
+        el.addEventListener('mouseleave', hide);
+        el.addEventListener('focus', show);
+        el.addEventListener('blur', hide);
+        if (follow) el.addEventListener('mousemove', onMove);
+      });
+    },
+
+    create(el, opts = {}) {
+      el.setAttribute('sw-tooltip', opts.text || '');
+      if (opts.pos !== undefined) el.setAttribute('sw-tooltip-pos', opts.pos);
+      if (opts.color !== undefined) el.setAttribute('sw-tooltip-clr', opts.color);
+      if (opts.html !== undefined) el.setAttribute('sw-tooltip-html', opts.html ? 'true' : 'false');
+      if (opts.delay !== undefined) el.setAttribute('sw-tooltip-delay', opts.delay);
+      el._swTooltip = false;
+      SWTooltip.initAll(el.parentElement || document);
+    },
+
+    destroy(el) {
+      el._swTooltip = false;
+      el.removeAttribute('sw-tooltip');
+    },
+
+    update(el, text) {
+      el.setAttribute('sw-tooltip', text);
+      el._swTooltip = false;
+      SWTooltip.initAll(el.parentElement || document);
+    }
+  };
+
+  window.SW?.register('SWTooltip', SWTooltip);
+  if (window.SW) window.SW.Tooltip = SWTooltip;
+})();
+
+/* SW Framework Parallax — [sw-parallax] sw-parallax-type="background|element|mouse|fixed" -speed -dir -inv -range -mobile */
+(function () {
+  'use strict';
+
+  let items = [];
+  let bound = false;
+  let ticking = false;
+
+  function cap(v, range) { return range ? Math.max(-range, Math.min(range, v)) : v; }
+
+  function bindMouse(el, speed, dir, inv, range) {
+    el.addEventListener('mousemove', (event) => {
+      const r = el.getBoundingClientRect();
+      const ox = cap((event.clientX - r.left - r.width / 2) * speed * (inv ? -1 : 1), range);
+      const oy = cap((event.clientY - r.top - r.height / 2) * speed * (inv ? -1 : 1), range);
+      const tx = dir !== 'vertical' ? ox : 0;
+      const ty = dir !== 'horizontal' ? oy : 0;
+      el.style.transform = `translate(${tx}px,${ty}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.5s var(--sw-ease)';
+      el.style.transform = '';
+      window.setTimeout(() => { el.style.transition = ''; }, 500);
+    });
+  }
+
+  function tick() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => {
+      items.forEach(({ el, speed, type, dir, inv, range }) => {
+        const r = el.getBoundingClientRect();
+        const center = r.top + r.height / 2 - window.innerHeight / 2;
+        const off = cap(center * speed * (inv ? -1 : 1), range);
+        if (type === 'background') {
+          if (dir === 'horizontal') el.style.backgroundPositionX = `calc(50% + ${off}px)`;
+          else el.style.backgroundPositionY = `calc(50% + ${off}px)`;
+        } else {
+          const tx = dir === 'horizontal' || dir === 'both' ? off : 0;
+          const ty = dir === 'vertical' || dir === 'both' ? off : 0;
+          el.style.transform = `translate(${tx}px,${ty}px)`;
+        }
+      });
+      ticking = false;
+    });
+  }
+
+  const SWParallax = {
+    initAll(root = document) {
+      SW.$('[sw-parallax]', root).forEach((el) => {
+        if (el._swParallax) return;
+        if (el.getAttribute('sw-parallax-mobile') === 'false' && window.innerWidth <= 768) return;
+        el._swParallax = true;
+        const type = el.getAttribute('sw-parallax-type') || 'background';
+        const speed = parseFloat(el.getAttribute('sw-parallax-speed')) || 0.4;
+        const dir = el.getAttribute('sw-parallax-dir') || 'vertical';
+        const inv = el.getAttribute('sw-parallax-inv') === 'true';
+        const range = parseFloat(el.getAttribute('sw-parallax-range')) || 0;
+
+        if (type === 'mouse') {
+          bindMouse(el, speed, dir, inv, range);
+        } else if (type === 'fixed') {
+          el.style.backgroundAttachment = 'fixed';
+          el.style.backgroundSize = el.style.backgroundSize || 'cover';
+          el.style.backgroundPosition = el.style.backgroundPosition || 'center';
+        } else {
+          items.push({ el, speed, type, dir, inv, range });
+        }
+      });
+      if (items.length && !bound) {
+        bound = true;
+        window.addEventListener('scroll', tick, { passive: true });
+        tick();
+      }
+    }
+  };
+
+  window.SW?.register('SWParallax', SWParallax);
+  if (window.SW) window.SW.Parallax = SWParallax;
+})();
+
+/* SW Framework LGPD/Cookies — <div sw-lgpd sw-lgpd-msg sw-lgpd-modelo> ou SW.Lgpd.init({...}) */
+(function () {
+  'use strict';
+
+  const SWLgpd = {
+    initAll(root = document) {
+      SW.$('[sw-lgpd]', root).forEach((el) => {
+        if (el._swLgpd) return;
+        el._swLgpd = true;
+        SWLgpd.init({
+          msg: el.getAttribute('sw-lgpd-msg') || 'Usamos cookies para melhorar sua experiência.',
+          accept: el.getAttribute('sw-lgpd-ok') || 'Aceitar',
+          reject: el.getAttribute('sw-lgpd-nao') || null,
+          link: el.getAttribute('sw-lgpd-link') || '',
+          modelo: parseInt(el.getAttribute('sw-lgpd-modelo'), 10) || 1,
+          days: parseInt(el.getAttribute('sw-lgpd-dias'), 10) || 365,
+          key: el.getAttribute('sw-lgpd-key') || 'sw_lgpd'
+        });
+        el.remove();
+      });
+    },
+
+    init(opts = {}) {
+      const cfg = {
+        msg: 'Usamos cookies para melhorar sua experiência.',
+        accept: 'Aceitar',
+        reject: null,
+        link: '',
+        linkTxt: 'Saiba mais',
+        modelo: 1,
+        days: 365,
+        key: 'sw_lgpd',
+        onAccept: null,
+        onReject: null,
+        ...opts
+      };
+
+      if (window.localStorage.getItem(cfg.key)) return;
+      document.querySelectorAll('[sw-lgpd]').forEach((el) => el.remove());
+
+      const bar = document.createElement('div');
+      bar._swLgpd = true;
+      bar.setAttribute('sw-lgpd', '');
+      bar.className = 'sw-lgpd';
+      if (cfg.modelo > 1) bar.classList.add(`is-m${cfg.modelo}`);
+
+      const linkHtml = cfg.link ? ` <a href="${cfg.link}" target="_blank" rel="noopener">${cfg.linkTxt}</a>` : '';
+      const icon = '<svg class="sw-lgpd-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>';
+      const rejectBtn = cfg.reject ? `<button sw-btn class="sw-btn-out sw-lgpd-rej">${cfg.reject}</button>` : '';
+      bar.innerHTML = `${icon}<p class="sw-lgpd-txt">${cfg.msg}${linkHtml}</p><div class="sw-lgpd-act">${rejectBtn}<button sw-btn class="sw-btn-pri sw-lgpd-ok">${cfg.accept}</button></div>`;
+      document.body.appendChild(bar);
+      void bar.offsetHeight;
+      window.requestAnimationFrame(() => bar.classList.add('is-vis'));
+
+      const close = (accepted) => {
+        bar.classList.remove('is-vis');
+        window.setTimeout(() => bar.remove(), 450);
+        if (accepted) {
+          const exp = new Date();
+          exp.setDate(exp.getDate() + cfg.days);
+          window.localStorage.setItem(cfg.key, exp.toISOString());
+          cfg.onAccept?.();
+        } else {
+          cfg.onReject?.();
+        }
+      };
+      bar.querySelector('.sw-lgpd-ok')?.addEventListener('click', () => close(true));
+      bar.querySelector('.sw-lgpd-rej')?.addEventListener('click', () => close(false));
+    },
+
+    clear(key = 'sw_lgpd') { window.localStorage.removeItem(key); }
+  };
+
+  window.SW?.register('SWLgpd', SWLgpd);
+  if (window.SW) window.SW.Lgpd = SWLgpd;
+})();
+
+/* SW Framework Textarea auto-resize — <textarea sw-textarea sw-textarea-min sw-textarea-max> */
+(function () {
+  'use strict';
+
+  const SWTextarea = {
+    initAll(root = document) {
+      SW.$('[sw-textarea]', root).forEach((el) => {
+        if (el._swTextarea) return;
+        el._swTextarea = true;
+        const min = parseInt(el.getAttribute('sw-textarea-min'), 10) || parseInt(el.style.minHeight, 10) || 60;
+        const max = parseInt(el.getAttribute('sw-textarea-max'), 10) || 0;
+        el.style.overflow = 'hidden';
+        el.style.resize = 'none';
+        el.style.minHeight = `${min}px`;
+
+        const resize = () => {
+          el.style.height = 'auto';
+          let h = el.scrollHeight;
+          if (max && h > max) { h = max; el.style.overflow = 'auto'; }
+          else el.style.overflow = 'hidden';
+          el.style.height = `${h}px`;
+        };
+        el.addEventListener('input', resize);
+        resize();
+      });
+    }
+  };
+
+  window.SW?.register('SWTextarea', SWTextarea);
+  if (window.SW) window.SW.Textarea = SWTextarea;
+})();
+
+/* SW Framework Scrollspy — <nav sw-scrollspy sw-scrollspy-offset sw-scrollspy-tgt><a href="#sec">...</a></nav> */
+(function () {
+  'use strict';
+
+  const SWScrollspy = {
+    initAll(root = document) {
+      SW.$('[sw-scrollspy]', root).forEach((nav) => {
+        if (nav._swScrollspy) return;
+        nav._swScrollspy = true;
+        const offset = parseInt(nav.getAttribute('sw-scrollspy-offset'), 10) || 80;
+        const tgtSel = nav.getAttribute('sw-scrollspy-tgt');
+        const container = tgtSel ? document.querySelector(tgtSel) : null;
+        const scroller = container || window;
+        const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+        const targets = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+        let ticking = false;
+        const tick = () => {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(() => {
+            const refTop = container ? container.getBoundingClientRect().top : 0;
+            let cur = -1;
+            targets.forEach((t, i) => { if (t.getBoundingClientRect().top - refTop <= offset) cur = i; });
+            const atBottom = container
+              ? container.scrollTop + container.clientHeight >= container.scrollHeight - 4
+              : window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+            if (atBottom && targets.length) cur = targets.length - 1;
+            links.forEach((a, i) => {
+              const active = i === cur;
+              a.classList.toggle('is-act', active);
+              a.setAttribute('aria-current', active ? 'true' : 'false');
+              if (active) SW.emit(nav, 'sw:scrollspy:change', { id: targets[i]?.id, link: a });
+            });
+            ticking = false;
+          });
+        };
+
+        links.forEach((a, i) => {
+          a.addEventListener('click', (event) => {
+            event.preventDefault();
+            const target = targets[i];
+            if (!target) return;
+            if (container) {
+              const top = target.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+              container.scrollTo({ top: top - offset + 1, behavior: 'smooth' });
+            } else {
+              const top = target.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: top - offset + 1, behavior: 'smooth' });
+            }
+          });
+        });
+
+        scroller.addEventListener('scroll', tick, { passive: true });
+        tick();
+      });
+    }
+  };
+
+  window.SW?.register('SWScrollspy', SWScrollspy);
+  if (window.SW) window.SW.Scrollspy = SWScrollspy;
+})();
+
+/* SW Framework Smooth Scroll — <a sw-scroll href="#secao"> ou sw-scroll-target/-offset · SW.Scroll.to('#sel', offset) */
+(function () {
+  'use strict';
+
+  const SWScroll = {
+    initAll(root = document) {
+      SW.$('[sw-scroll]', root).forEach((el) => {
+        if (el._swScroll) return;
+        el._swScroll = true;
+        el.addEventListener('click', (event) => {
+          const sel = el.getAttribute('sw-scroll-target') || el.getAttribute('href');
+          const offset = parseInt(el.getAttribute('sw-scroll-offset'), 10) || 80;
+          if (!sel || !sel.startsWith('#')) return;
+          event.preventDefault();
+          SWScroll.to(sel, offset);
+        });
+      });
+    },
+
+    to(sel, offset = 80) {
+      const target = typeof sel === 'string' ? document.querySelector(sel) : sel;
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: SW.Utils?.reducedMotion() ? 'auto' : 'smooth' });
+      SW.emit(target, 'sw:scroll:arrived');
+    }
+  };
+
+  window.SW?.register('SWScroll', SWScroll);
+  if (window.SW) window.SW.Scroll = SWScroll;
+})();
+
+/* SW Framework Drag — [sw-drag] sw-drag-handle/-axis/-bounds */
+(function () {
+  'use strict';
+
+  class SWDragInst {
+    constructor(el) {
+      this.el = el;
+      this.handle = el.getAttribute('sw-drag-handle') ? el.querySelector(el.getAttribute('sw-drag-handle')) : el;
+      this.axis = el.getAttribute('sw-drag-axis') || 'both';
+      this.bounds = el.getAttribute('sw-drag-bounds') || null;
+
+      if (!this.handle) return;
+      if (el.style.position === '' || el.style.position === 'static') el.style.position = 'absolute';
+
+      this.handle.style.cursor = 'grab';
+      this.handle.addEventListener('mousedown', (event) => this._start(event));
+      this.handle.addEventListener('touchstart', (event) => this._start(event), { passive: false });
+    }
+
+    _start(event) {
+      event.preventDefault();
+      const pt = event.touches ? event.touches[0] : event;
+      const ox = pt.clientX - this.el.offsetLeft;
+      const oy = pt.clientY - this.el.offsetTop;
+      this.handle.style.cursor = 'grabbing';
+      SW.emit(this.el, 'sw:drag:start');
+
+      const move = (ev) => {
+        const p = ev.touches ? ev.touches[0] : ev;
+        let nx = p.clientX - ox;
+        let ny = p.clientY - oy;
+
+        if (this.bounds === 'parent') {
+          const par = this.el.parentElement;
+          nx = Math.max(0, Math.min(nx, par.offsetWidth - this.el.offsetWidth));
+          ny = Math.max(0, Math.min(ny, par.offsetHeight - this.el.offsetHeight));
+        } else if (this.bounds === 'window') {
+          nx = Math.max(0, Math.min(nx, window.innerWidth - this.el.offsetWidth));
+          ny = Math.max(0, Math.min(ny, window.innerHeight - this.el.offsetHeight));
+        }
+
+        if (this.axis !== 'y') this.el.style.left = `${nx}px`;
+        if (this.axis !== 'x') this.el.style.top = `${ny}px`;
+        SW.emit(this.el, 'sw:drag:move', { x: nx, y: ny });
+      };
+      const end = () => {
+        this.handle.style.cursor = 'grab';
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', end);
+        document.removeEventListener('touchmove', move);
+        document.removeEventListener('touchend', end);
+        SW.emit(this.el, 'sw:drag:end');
+      };
+
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', end);
+      document.addEventListener('touchmove', move, { passive: false });
+      document.addEventListener('touchend', end);
+    }
+  }
+
+  class SWDrag {
+    static initAll(root = document) {
+      SW.$('[sw-drag]', root).forEach((el) => {
+        if (el._swDrag) return;
+        el._swDrag = new SWDragInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWDrag', SWDrag);
+  if (window.SW) window.SW.Drag = SWDrag;
+})();
+
+/* SW Framework Material Input — <div class="fld-mat"><input sw-matinp sw-matinp-label="Nome" sw-matinp-req ...></div> */
+(function () {
+  'use strict';
+
+  const masks = {
+    telefone: (v) => applyPattern(v.replace(/\D/g, ''), v.replace(/\D/g, '').length <= 10 ? '(##) ####-####' : '(##) #####-####'),
+    cpf: (v) => applyPattern(v.replace(/\D/g, ''), '###.###.###-##'),
+    cnpj: (v) => applyPattern(v.replace(/\D/g, ''), '##.###.###/####-##'),
+    cep: (v) => applyPattern(v.replace(/\D/g, ''), '#####-###'),
+    data: (v) => applyPattern(v.replace(/\D/g, ''), '##/##/####'),
+    hora: (v) => applyPattern(v.replace(/\D/g, ''), '##:##'),
+    cartao: (v) => applyPattern(v.replace(/\D/g, ''), '#### #### #### ####')
+  };
+
+  function applyPattern(digits, pattern) {
+    let i = 0;
+    return pattern.split('').map((c) => (c === '#' ? (digits[i++] ?? '') : (i < digits.length ? c : ''))).join('');
+  }
+
+  const rules = {
+    req: (v, _p, el) => v.trim() !== '' || (el.getAttribute('sw-matinp-msg-req') || 'Campo obrigatório.'),
+    email: (v, _p, el) => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || (el.getAttribute('sw-matinp-msg-email') || 'E-mail inválido.'),
+    url: (v, _p, el) => !v || /^https?:\/\/.+/.test(v) || (el.getAttribute('sw-matinp-msg-url') || 'URL inválida.'),
+    minlen: (v, p, el) => !v || v.length >= parseInt(p, 10) || (el.getAttribute('sw-matinp-msg-minlen') || `Mínimo ${p} caracteres.`),
+    maxlen: (v, p, el) => !v || v.length <= parseInt(p, 10) || (el.getAttribute('sw-matinp-msg-maxlen') || `Máximo ${p} caracteres.`),
+    min: (v, p, el) => !v || parseFloat(v) >= parseFloat(p) || (el.getAttribute('sw-matinp-msg-min') || `Valor mínimo: ${p}.`),
+    max: (v, p, el) => !v || parseFloat(v) <= parseFloat(p) || (el.getAttribute('sw-matinp-msg-max') || `Valor máximo: ${p}.`),
+    match: (v, p, el) => {
+      const other = document.querySelector(p);
+      return !other || v === other.value || (el.getAttribute('sw-matinp-msg-match') || 'Os valores não coincidem.');
+    },
+    regex: (v, p, el) => {
+      try { return !v || new RegExp(p).test(v) || (el.getAttribute('sw-matinp-msg-regex') || 'Formato inválido.'); }
+      catch (_) { return true; }
+    }
+  };
+
+  class SWMatinpInst {
+    constructor(el) {
+      this._inp = el;
+      this._wrap = el.closest('.fld-mat') || el.parentElement;
+      this._mask = el.getAttribute('sw-matinp-mask') || null;
+      this._validateOn = el.getAttribute('sw-matinp-validate') || 'blur';
+      el._swMatinp = this;
+      this._build();
+      this._bindEvents();
+    }
+
+    _build() {
+      const el = this._inp;
+      const wrap = this._wrap;
+      if (!el.placeholder) el.placeholder = ' ';
+
+      let lbl = wrap.querySelector('.fld-mat-lbl');
+      if (!lbl && el.getAttribute('sw-matinp-label')) {
+        lbl = document.createElement('label');
+        lbl.className = 'fld-mat-lbl';
+        lbl.textContent = el.getAttribute('sw-matinp-label');
+        if (el.id) lbl.setAttribute('for', el.id);
+        el.insertAdjacentElement('afterend', lbl);
+      }
+
+      const hintText = el.getAttribute('sw-matinp-hint');
+      if (hintText) {
+        let hint = wrap.querySelector('.fld-mat-hint');
+        if (!hint) {
+          hint = document.createElement('span');
+          hint.className = 'fld-mat-hint';
+          wrap.appendChild(hint);
+        }
+        hint.textContent = hintText;
+        this._hint = hint;
+      }
+
+      let msg = wrap.querySelector('.fld-mat-msg');
+      if (!msg) {
+        msg = document.createElement('span');
+        msg.className = 'fld-mat-msg';
+        msg.setAttribute('aria-live', 'polite');
+        wrap.appendChild(msg);
+      }
+      this._msg = msg;
+    }
+
+    _bindEvents() {
+      const el = this._inp;
+      if (this._mask && masks[this._mask]) {
+        el.addEventListener('input', () => {
+          const pos = el.selectionStart;
+          el.value = masks[this._mask](el.value);
+          try { el.setSelectionRange(pos, pos); } catch (_) { /* posição fora do range em alguns navegadores */ }
+          SW.emit(el, 'sw:matinp:change', { value: el.value });
+        });
+      }
+
+      if (this._validateOn === 'input') {
+        el.addEventListener('input', () => { this.validate(); SW.emit(el, 'sw:matinp:change', { value: el.value }); });
+      } else if (this._validateOn === 'change') {
+        el.addEventListener('change', () => this.validate());
+      } else {
+        el.addEventListener('blur', () => this.validate());
+        el.addEventListener('input', () => {
+          if (this._wrap.classList.contains('is-err')) this.validate();
+          SW.emit(el, 'sw:matinp:change', { value: el.value });
+        });
+      }
+    }
+
+    validate() {
+      const el = this._inp;
+      const val = el.value;
+      let error = '';
+      for (const [rule, fn] of Object.entries(rules)) {
+        if (!el.hasAttribute(`sw-matinp-${rule}`)) continue;
+        const param = el.getAttribute(`sw-matinp-${rule}`) || '';
+        const res = fn(val, param, el);
+        if (res !== true) { error = res; break; }
+      }
+      if (error) {
+        this.setError(error);
+        SW.emit(el, 'sw:matinp:invalid', { value: val, error });
+        return false;
+      }
+      this.clearError();
+      if (val !== '') {
+        this._wrap.classList.add('is-ok');
+        SW.emit(el, 'sw:matinp:valid', { value: val });
+      }
+      return true;
+    }
+
+    setError(msg) {
+      this._wrap.classList.add('is-err');
+      this._wrap.classList.remove('is-ok');
+      if (this._msg) this._msg.textContent = msg;
+      if (this._hint) this._hint.style.display = 'none';
+    }
+
+    clearError() {
+      this._wrap.classList.remove('is-err');
+      if (this._msg) this._msg.textContent = '';
+      if (this._hint) this._hint.style.display = '';
+    }
+
+    getValue() { return this._inp.value; }
+    setValue(v) { this._inp.value = v; this.validate(); }
+    reset() { this._inp.value = ''; this.clearError(); this._wrap.classList.remove('is-ok'); }
+  }
+
+  class SWMatinp {
+    static initAll(root = document) {
+      SW.$('[sw-matinp]', root).forEach((el) => {
+        if (el._swMatinp) return;
+        new SWMatinpInst(el);
+      });
+    }
+
+    static addRule(name, fn) { rules[name] = fn; }
+  }
+
+  window.SW?.register('SWMatinp', SWMatinp);
+  if (window.SW) window.SW.Matinp = SWMatinp;
+})();
+
+/* SW Framework Sidebar — <aside sw-sidebar sw-sidebar-mode="fixed|toggle|collapse|hover">
+   Botão externo: [sw-sidebar-open="#id"] · Overlay: [sw-sidebar-ovl]
+   Submenu: <a sw-sidebar-sub>...</a> seguido de <div sw-sidebar-sub-items>...</div> */
+(function () {
+  'use strict';
+
+  function initSubmenus(sdb) {
+    SW.$('[sw-sidebar-sub]', sdb).forEach((trigger) => {
+      if (trigger._swSidebarSub) return;
+      trigger._swSidebarSub = true;
+      const items = trigger.nextElementSibling;
+      if (!items || !items.hasAttribute('sw-sidebar-sub-items')) return;
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (sdb.hasAttribute('col')) return;
+        const isOpen = items.hasAttribute('open');
+        if (isOpen) { items.removeAttribute('open'); trigger.removeAttribute('open'); }
+        else { items.setAttribute('open', ''); trigger.setAttribute('open', ''); }
+        SW.emit(sdb, 'sw:sidebar:submenu', { trigger, items, open: !isOpen });
+      });
+    });
+  }
+
+  const SWSidebar = {
+    initAll(root = document) {
+      SW.$('[sw-sidebar]', root).forEach((el) => {
+        if (el._swSidebar) return;
+        el._swSidebar = true;
+
+        const mode = el.getAttribute('sw-sidebar-mode') || 'toggle';
+        const start = el.getAttribute('sw-sidebar-start') || 'open';
+
+        if (mode === 'fixed') { initSubmenus(el); return; }
+
+        if (mode === 'toggle') {
+          const overlay = document.querySelector('[sw-sidebar-ovl]');
+          if (overlay && !overlay._swSidebarOvl) {
+            overlay._swSidebarOvl = true;
+            overlay.addEventListener('click', () => SWSidebar.close(el));
+          }
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !el.hasAttribute('hid')) SWSidebar.close(el);
+          });
+        }
+
+        if (mode === 'collapse') {
+          start === 'icons' ? el.setAttribute('col', '') : el.removeAttribute('col');
+          el.querySelector('[sw-sidebar-tgl]')?.addEventListener('click', () => {
+            el.hasAttribute('col') ? el.removeAttribute('col') : el.setAttribute('col', '');
+            SW.emit(el, 'sw:sidebar:toggle');
+          });
+        }
+
+        if (mode === 'hover') {
+          el.setAttribute('col', '');
+          el.addEventListener('mouseenter', () => { el.removeAttribute('col'); SW.emit(el, 'sw:sidebar:open'); });
+          el.addEventListener('mouseleave', () => { el.setAttribute('col', ''); SW.emit(el, 'sw:sidebar:close'); });
+        }
+
+        initSubmenus(el);
+      });
+
+      SW.$('[sw-sidebar-open]', root).forEach((btn) => {
+        if (btn._swSidebarBtn) return;
+        btn._swSidebarBtn = true;
+        btn.addEventListener('click', () => {
+          const sdb = document.querySelector(btn.getAttribute('sw-sidebar-open'));
+          if (!sdb) return;
+          sdb.hasAttribute('hid') ? SWSidebar.open(sdb) : SWSidebar.close(sdb);
+        });
+      });
+    },
+
+    open(sdb) {
+      sdb = typeof sdb === 'string' ? document.querySelector(sdb) : sdb;
+      const overlay = document.querySelector('[sw-sidebar-ovl]');
+      sdb?.removeAttribute('hid');
+      overlay?.setAttribute('vis', '');
+      SW.emit(sdb, 'sw:sidebar:open');
+    },
+
+    close(sdb) {
+      sdb = typeof sdb === 'string' ? document.querySelector(sdb) : sdb;
+      const overlay = document.querySelector('[sw-sidebar-ovl]');
+      sdb?.setAttribute('hid', '');
+      overlay?.removeAttribute('vis');
+      SW.emit(sdb, 'sw:sidebar:close');
+    }
+  };
+
+  window.SW?.register('SWSidebar', SWSidebar);
+  if (window.SW) window.SW.Sidebar = SWSidebar;
+})();
+
+/* SW Framework Rich Text Editor — <textarea sw-editor sw-editor-height sw-editor-min sw-editor-max sw-editor-resizable> */
+(function () {
+  'use strict';
+
+  class SWEditorInst {
+    constructor(el) {
+      this.el = el;
+      this.name = el.getAttribute('name') || el.getAttribute('sw-editor-name') || 'content';
+      this.ph = el.getAttribute('sw-editor-placeholder') || '';
+      this.h = parseInt(el.getAttribute('sw-editor-height'), 10) || 150;
+      this.minH = parseInt(el.getAttribute('sw-editor-min'), 10) || 100;
+      this.maxH = parseInt(el.getAttribute('sw-editor-max'), 10) || 800;
+      this.rzbl = el.getAttribute('sw-editor-resizable') !== 'false';
+      this.val = el.value || '';
+      this._render();
+      this._bind();
+    }
+
+    _render() {
+      const box = document.createElement('div');
+      box.className = 'sw-editor-box';
+
+      const tb = document.createElement('div');
+      tb.className = 'sw-editor-tb';
+
+      const fmtGrp = document.createElement('div');
+      fmtGrp.className = 'sw-editor-grp';
+      const fmt = document.createElement('select');
+      fmt.className = 'sw-editor-fmt';
+      fmt.title = 'Formato do bloco';
+      fmt.innerHTML = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].map((t) => `<option value="${t}">${t}</option>`).join('');
+      fmtGrp.appendChild(fmt);
+      tb.appendChild(fmtGrp);
+
+      const groups = [
+        [['bold', 'swi-bold', 'Negrito (Ctrl+B)'], ['italic', 'swi-italic', 'Itálico (Ctrl+I)'], ['underline', 'swi-underline', 'Sublinhado (Ctrl+U)'], ['strikeThrough', 'swi-strikethrough', 'Tachado']],
+        [['foreColor', 'swi-font-color', 'Cor da fonte'], ['backColor', 'swi-highlight', 'Cor de fundo'], ['clean', 'swi-eraser', 'Limpar formatação']],
+        [['justifyLeft', 'swi-align-left', 'Alinhar esquerda'], ['justifyCenter', 'swi-align-middle', 'Centralizar'], ['justifyRight', 'swi-align-right', 'Alinhar direita'], ['justifyFull', 'swi-align-justify', 'Justificar']],
+        [['insertUnorderedList', 'swi-list-ul', 'Lista'], ['insertOrderedList', 'swi-list-ol', 'Lista numerada'], ['hr', 'swi-minus', 'Linha horizontal'], ['link', 'swi-link', 'Link (Ctrl+K)'], ['image', 'swi-image', 'Imagem'], ['code', 'swi-code', 'Ver HTML'], ['fullscreen', 'swi-expand', 'Tela cheia']]
+      ];
+      groups.forEach((grp) => {
+        const g = document.createElement('div');
+        g.className = 'sw-editor-grp';
+        grp.forEach(([cmd, icon, title]) => {
+          g.innerHTML += `<button type="button" class="sw-editor-btn" data-cmd="${cmd}" title="${title}"><i class="swi ${icon}"></i></button>`;
+        });
+        tb.appendChild(g);
+      });
+
+      const fgI = document.createElement('input');
+      fgI.type = 'color'; fgI.className = 'sw-editor-fg'; fgI.value = '#e53e3e';
+      fgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
+      const bgI = document.createElement('input');
+      bgI.type = 'color'; bgI.className = 'sw-editor-bg'; bgI.value = '#ffff00';
+      bgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
+      tb.appendChild(fgI);
+      tb.appendChild(bgI);
+
+      window.setTimeout(() => {
+        const fgBtn = tb.querySelector('[data-cmd="foreColor"]');
+        if (fgBtn) {
+          fgBtn.style.position = 'relative';
+          fgBtn.appendChild(fgI);
+          fgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
+        }
+        const bgBtn = tb.querySelector('[data-cmd="backColor"]');
+        if (bgBtn) {
+          bgBtn.style.position = 'relative';
+          bgBtn.appendChild(bgI);
+          bgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
+        }
+      }, 0);
+
+      const wrap = document.createElement('div');
+      wrap.className = 'sw-editor-wrap';
+      const ed = document.createElement('div');
+      ed.className = 'sw-editor-ed';
+      ed.contentEditable = 'true';
+      ed.style.minHeight = `${this.h}px`;
+      if (this.ph) ed.setAttribute('placeholder', this.ph);
+      ed.innerHTML = this.val || '<p><br></p>';
+
+      const code = document.createElement('textarea');
+      code.className = 'sw-editor-code';
+      code.value = ed.innerHTML;
+      code.spellcheck = false;
+
+      wrap.appendChild(ed);
+      wrap.appendChild(code);
+
+      const hidden = document.createElement('textarea');
+      hidden.className = 'sw-editor-hidden';
+      hidden.name = this.name;
+      hidden.style.display = 'none';
+      hidden.value = ed.innerHTML;
+
+      const rz = document.createElement('div');
+      rz.className = 'sw-editor-rz';
+      rz.innerHTML = '<i class="swi swi-minus"></i>';
+      if (!this.rzbl) rz.style.display = 'none';
+
+      const stat = document.createElement('div');
+      stat.className = 'sw-editor-stat';
+      stat.innerHTML = '<span class="sw-editor-chars">0 caracteres · 0 palavras</span>';
+
+      box.appendChild(tb);
+      box.appendChild(wrap);
+      box.appendChild(rz);
+      box.appendChild(stat);
+      box.appendChild(hidden);
+
+      this.el.parentNode.insertBefore(box, this.el.nextSibling);
+      this.el.style.display = 'none';
+
+      this.box = box; this.tb = tb; this.wrap = wrap;
+      this.ed = ed; this.code = code; this.hidden = hidden;
+      this.fmt = fmt; this.fgI = fgI; this.bgI = bgI;
+      this.rz = rz; this.stat = stat;
+      this._updateStatus();
+    }
+
+    _bind() {
+      this._sel = null;
+      const saveSel = () => {
+        const s = window.getSelection();
+        if (s && s.rangeCount) { try { this._sel = s.getRangeAt(0).cloneRange(); } catch (_) { this._sel = null; } }
+      };
+      const restSel = () => {
+        if (!this._sel) return;
+        try { const s = window.getSelection(); s.removeAllRanges(); s.addRange(this._sel); } catch (_) { /* seleção fora do documento */ }
+      };
+
+      this.ed.addEventListener('mouseup', saveSel);
+      this.ed.addEventListener('keyup', saveSel);
+      this.ed.addEventListener('focus', saveSel);
+      this.fgI.addEventListener('mousedown', saveSel);
+      this.bgI.addEventListener('mousedown', saveSel);
+
+      this.tb.addEventListener('mousedown', (event) => {
+        const btn = event.target.closest('.sw-editor-btn');
+        if (!btn) return;
+        const cmd = btn.getAttribute('data-cmd');
+        saveSel();
+        if (cmd === 'foreColor' || cmd === 'backColor') return;
+        event.preventDefault();
+        this._exec(cmd, restSel);
+        window.setTimeout(() => { this.ed.focus(); this._updateBtns(); }, 0);
+      });
+
+      this.fmt.addEventListener('change', () => {
+        document.execCommand('formatBlock', false, this.fmt.value);
+        this._sync(); this.ed.focus(); this._updateBtns();
+      });
+
+      this.fgI.addEventListener('input', () => {
+        this.ed.focus(); restSel();
+        document.execCommand('foreColor', false, this.fgI.value);
+        this._sync();
+      });
+      this.bgI.addEventListener('input', () => {
+        this.ed.focus(); restSel();
+        document.execCommand('hiliteColor', false, this.bgI.value);
+        this._sync();
+      });
+
+      this.ed.addEventListener('input', () => { this._sync(); this._updateStatus(); });
+      this.ed.addEventListener('keyup', () => this._updateBtns());
+      this.ed.addEventListener('mouseup', () => this._updateBtns());
+      this.ed.addEventListener('keydown', (event) => this._shortcuts(event, restSel));
+      this.code.addEventListener('input', () => { this._sync(); this._updateStatus(); });
+
+      if (this.rzbl) this._bindResize();
+    }
+
+    _bindResize() {
+      let startY = 0;
+      let startH = 0;
+      const move = (event) => {
+        const h = Math.max(this.minH, Math.min(this.maxH, startH + event.clientY - startY));
+        this.wrap.style.height = `${h}px`;
+        this.ed.style.minHeight = `${h}px`;
+      };
+      const up = () => {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', up);
+        this.box.classList.remove('sw-editor-resizing');
+        document.body.style.userSelect = '';
+      };
+      this.rz.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        startY = event.clientY;
+        startH = this.wrap.offsetHeight;
+        this.box.classList.add('sw-editor-resizing');
+        document.body.style.userSelect = 'none';
+        document.addEventListener('mousemove', move);
+        document.addEventListener('mouseup', up);
+      });
+    }
+
+    _exec(cmd, restSel) {
+      if (cmd === 'code') {
+        const show = this.code.style.display !== 'block';
+        if (show) {
+          this.code.value = this.ed.innerHTML;
+          this.code.style.minHeight = `${this.ed.offsetHeight}px`;
+          this.ed.style.display = 'none';
+          this.code.style.display = 'block';
+          this.box.classList.add('sw-editor-codeview');
+        } else {
+          this.ed.innerHTML = this.code.value;
+          this.code.style.display = 'none';
+          this.ed.style.display = '';
+          this.box.classList.remove('sw-editor-codeview');
+        }
+        this._sync(); this._updateBtns(); return;
+      }
+      if (cmd === 'clean') { document.execCommand('removeFormat'); document.execCommand('unlink'); this._sync(); return; }
+      if (cmd === 'hr') { document.execCommand('insertHorizontalRule'); this._sync(); return; }
+      if (cmd === 'link') { const u = window.prompt('URL do link:'); if (u) { this.ed.focus(); restSel(); document.execCommand('createLink', false, u); } this._sync(); return; }
+      if (cmd === 'image') { const u = window.prompt('URL da imagem:'); if (u) { this.ed.focus(); restSel(); document.execCommand('insertImage', false, u); } this._sync(); return; }
+      if (cmd === 'fullscreen') {
+        const on = !this.box.classList.contains('sw-editor-fullscreen');
+        this.box.classList.toggle('sw-editor-fullscreen', on);
+        document.body.style.overflow = on ? 'hidden' : '';
+        this.wrap.style.height = on ? 'calc(100vh - 10rem)' : '';
+        this._updateBtns(); return;
+      }
+      if (cmd === 'undo' || cmd === 'redo') { document.execCommand(cmd); this._sync(); return; }
+      this.ed.focus();
+      if (this._sel) restSel();
+      document.execCommand(cmd);
+      this._sync();
+    }
+
+    _sync() {
+      if (this.code.style.display === 'block') {
+        this.hidden.value = this.code.value;
+      } else {
+        this.hidden.value = this.ed.innerHTML;
+        this.code.value = this.ed.innerHTML;
+      }
+    }
+
+    _updateStatus() {
+      const t = this.ed.innerText || '';
+      const w = t.trim() ? t.trim().split(/\s+/).length : 0;
+      this.stat.querySelector('.sw-editor-chars').textContent = `${t.length} caracteres · ${w} palavras`;
+    }
+
+    _updateBtns() {
+      this.tb.querySelectorAll('.sw-editor-btn').forEach((b) => b.classList.remove('is-act'));
+      ['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'].forEach((cmd) => {
+        try { if (document.queryCommandState(cmd)) this.tb.querySelector(`[data-cmd="${cmd}"]`)?.classList.add('is-act'); } catch (_) { /* comando indisponível neste contexto */ }
+      });
+      if (this.code.style.display === 'block') this.tb.querySelector('[data-cmd="code"]')?.classList.add('is-act');
+      if (this.box.classList.contains('sw-editor-fullscreen')) this.tb.querySelector('[data-cmd="fullscreen"]')?.classList.add('is-act');
+      try { const fb = document.queryCommandValue('formatBlock'); if (fb) this.fmt.value = fb.toUpperCase(); } catch (_) { /* comando indisponível neste contexto */ }
+    }
+
+    _shortcuts(event, restSel) {
+      if (!event.ctrlKey && !event.metaKey) return;
+      const k = event.key.toLowerCase();
+      const map = { b: 'bold', i: 'italic', u: 'underline', k: 'link', z: 'undo', y: 'redo' };
+      const fmts = { 0: 'P', 1: 'H1', 2: 'H2', 3: 'H3', 4: 'H4', 5: 'H5', 6: 'H6' };
+      if (map[k]) { event.preventDefault(); this._exec(map[k], restSel); this._sync(); }
+      else if (fmts[k]) { event.preventDefault(); document.execCommand('formatBlock', false, fmts[k]); this._sync(); }
+    }
+
+    getValue() { return this.hidden.value; }
+    setValue(html) { this.ed.innerHTML = html || '<p><br></p>'; this._sync(); this._updateStatus(); }
+  }
+
+  class SWEditor {
+    static initAll(root = document) {
+      SW.$('[sw-editor]', root).forEach((el) => {
+        if (el._swEditor) return;
+        el._swEditor = new SWEditorInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWEditor', SWEditor);
+  if (window.SW) window.SW.Editor = SWEditor;
+})();
+
+/* SW Framework Cotação — <div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-tipo="c" sw-cotacao-mode="cards|table" sw-cotacao-auto="30000">
+   Usa a API pública da AwesomeAPI (awesomeapi.com.br), sem token. */
+(function () {
+  'use strict';
+
+  class SWCotacaoInst {
+    constructor(el) {
+      this.el = el;
+      this.pares = (el.getAttribute('sw-cotacao-pares') || 'USD-BRL,EUR-BRL').split(',').map((p) => p.trim());
+      this.tipo = el.getAttribute('sw-cotacao-tipo') || 'c';
+      this.mode = el.getAttribute('sw-cotacao-mode') || 'cards';
+      this.auto = parseInt(el.getAttribute('sw-cotacao-auto'), 10) || 0;
+      this._fetch();
+      if (this.auto > 0) window.setInterval(() => this._fetch(), this.auto);
+    }
+
+    _fetch() {
+      const pairs = this.pares.join(',');
+      fetch(`https://economia.awesomeapi.com.br/last/${pairs}`)
+        .then((r) => r.json())
+        .then((data) => this._render(data))
+        .catch(() => { this.el.innerHTML = '<p class="sw-text-mut">Cotação indisponível.</p>'; });
+    }
+
+    _render(data) {
+      const vals = Object.values(data);
+      if (this.mode === 'table') {
+        const rows = vals.map((v) => {
+          const pct = parseFloat(v.pctChange || 0);
+          const cls = pct >= 0 ? 'is-up' : 'is-dwn';
+          const sign = pct >= 0 ? '▲' : '▼';
+          const bid = parseFloat(v.bid || 0);
+          const ask = parseFloat(v.ask || 0);
+          const high = parseFloat(v.high || 0);
+          const low = parseFloat(v.low || 0);
+          const dec = bid < 1 ? 6 : bid < 10 ? 4 : 2;
+          return `<tr><td class="sw-cotacao-tcod">${v.code}/${v.codein}</td><td class="sw-cotacao-tval">R$ ${bid.toFixed(dec)}</td><td class="sw-cotacao-tval">R$ ${ask.toFixed(dec)}</td><td class="sw-cotacao-tpct ${cls}">${sign} ${Math.abs(pct).toFixed(2)}%</td><td class="sw-cotacao-tval">R$ ${high.toFixed(dec)}</td><td class="sw-cotacao-tval">R$ ${low.toFixed(dec)}</td></tr>`;
+        }).join('');
+        this.el.innerHTML = `<table class="sw-cotacao-table"><thead><tr><th>Par</th><th>Compra</th><th>Venda</th><th>Variação</th><th>Máx 24h</th><th>Mín 24h</th></tr></thead><tbody>${rows}</tbody></table>`;
+      } else {
+        const items = vals.map((v) => {
+          const val = parseFloat(this.tipo === 'c' ? v.bid : v.ask);
+          const pct = parseFloat(v.pctChange || 0);
+          const cls = pct >= 0 ? 'is-up' : 'is-dwn';
+          const sign = pct >= 0 ? '▲' : '▼';
+          return `<div class="sw-cotacao-it"><span class="sw-cotacao-par">${v.code}/${v.codein}</span><span class="sw-cotacao-val ${cls}">R$ ${val.toFixed(4)}</span><span class="sw-cotacao-sub ${cls}">${sign} ${Math.abs(pct).toFixed(2)}%</span></div>`;
+        }).join('');
+        this.el.innerHTML = `<div class="sw-cotacao-wrap">${items}</div>`;
+      }
+    }
+  }
+
+  class SWCotacao {
+    static initAll(root = document) {
+      SW.$('[sw-cotacao]', root).forEach((el) => {
+        if (el._swCotacao) return;
+        el._swCotacao = new SWCotacaoInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWCotacao', SWCotacao);
+  if (window.SW) window.SW.Cotacao = SWCotacao;
+})();
+
+/* SW Framework Instagram — <div sw-instagram sw-instagram-user="..." sw-instagram-proxy="/instagram.php" sw-instagram-cols="3" sw-instagram-limit="12">
+   ou modo legado: sw-instagram-urls="url1,url2" sw-instagram-mode="embed|iframe" */
+(function () {
+  'use strict';
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function fmt(n) {
+    n = parseInt(n, 10) || 0;
+    if (n >= 1000000) return `${(n / 1000000).toFixed(1).replace('.0', '')}M`;
+    if (n >= 1000) return `${(n / 1000).toFixed(1).replace('.0', '')}K`;
+    return n;
+  }
+  function code(url) {
+    const m = url.match(/instagram\.com\/(?:p|reel|tv)\/([A-Za-z0-9_-]+)/);
+    return m ? m[1] : null;
+  }
+  function loadEmbedScript() {
+    if (window.instgrm?.Embeds) { window.instgrm.Embeds.process(); return; }
+    if (window._swInstaLoading) return;
+    window._swInstaLoading = true;
+    const s = document.createElement('script');
+    s.src = 'https://www.instagram.com/embed.js';
+    s.async = true;
+    document.body.appendChild(s);
+  }
+
+  class SWInstagramInst {
+    constructor(el) {
+      this.el = el;
+      this.cols = parseInt(el.getAttribute('sw-instagram-cols'), 10) || 3;
+      this.gap = el.getAttribute('sw-instagram-gap') || '.4rem';
+      this.limit = parseInt(el.getAttribute('sw-instagram-limit'), 10) || 12;
+      el.style.setProperty('--sw-instagram-cols', this.cols);
+      el.style.setProperty('--sw-instagram-gap', this.gap);
+
+      const user = el.getAttribute('sw-instagram-user');
+      const jsonUrl = el.getAttribute('sw-instagram-json');
+      const proxy = el.getAttribute('sw-instagram-proxy') || '/dist/sw-instagram.php';
+
+      if (user || jsonUrl) {
+        this._proxy = jsonUrl ? null : proxy;
+        el.classList.add('sw-instagram-grid');
+        this._showSkeletons();
+        const src = jsonUrl ? jsonUrl : `${proxy}?user=${encodeURIComponent(user)}&limit=${this.limit}`;
+        fetch(src)
+          .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+          .then((data) => this._renderFeed(data))
+          .catch(() => this._renderError());
+        return;
+      }
+
+      this.urls = (el.getAttribute('sw-instagram-urls') || el.getAttribute('sw-instagram-url') || '').split(',').map((u) => u.trim()).filter(Boolean);
+      this.mode = el.getAttribute('sw-instagram-mode') || 'embed';
+
+      if (!this.urls.length) {
+        el.innerHTML = '<p class="sw-text-mut" style="padding:1rem">Nenhuma URL configurada.</p>';
+        return;
+      }
+
+      el.classList.add('sw-instagram-grid');
+
+      if (this.mode === 'iframe') {
+        el.innerHTML = this.urls.map((url) => {
+          const c = code(url);
+          return c ? `<div class="sw-instagram-it is-iframe"><iframe src="https://www.instagram.com/p/${c}/embed/" scrolling="no" frameborder="0" allowtransparency="true" loading="lazy" title="Post Instagram"></iframe></div>` : '';
+        }).join('');
+      } else {
+        el.innerHTML = this.urls.map((url) => `<div class="sw-instagram-it"><blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" style="min-width:unset!important;max-width:100%!important;width:100%!important;margin:0!important"></blockquote></div>`).join('');
+        loadEmbedScript();
+      }
+    }
+
+    _showSkeletons() {
+      this.el.innerHTML = Array(Math.min(this.limit, 9)).fill(0).map(() => '<div class="sw-instagram-it"><div class="sw-instagram-skl"></div></div>').join('');
+    }
+
+    _renderFeed(data) {
+      if (data.error || !data.posts?.length) { this._renderError(data.error); return; }
+      const posts = data.posts.slice(0, this.limit);
+      let html = '<div class="sw-instagram-feed">';
+      if (data.user) {
+        const ig = `https://instagram.com/${data.user}`;
+        const avatarSrc = this._imgUrl(data.avatar);
+        html += `<div class="sw-instagram-hdr">${avatarSrc ? `<img class="sw-instagram-avatar" src="${avatarSrc}" alt="@${data.user}" loading="lazy">` : ''}<div class="sw-instagram-hdr-info"><span class="sw-instagram-uname">@${data.user}</span>${data.name && data.name !== data.user ? `<span class="sw-instagram-fullname">${esc(data.name)}</span>` : ''}${data.followers ? `<span class="sw-instagram-fol">${fmt(data.followers)} seguidores</span>` : ''}</div><a class="sw-instagram-hdr-lnk" href="${ig}" target="_blank" rel="noopener noreferrer" title="Ver no Instagram"><i class="swi swi-link-external"></i></a></div>`;
+      }
+      html += '<div class="sw-instagram-cards">';
+      posts.forEach((p) => {
+        const cap = esc(p.caption || '');
+        const img = this._imgUrl(p.image || p.thumb || '');
+        html += `<a class="sw-instagram-it is-card" href="${p.url}" target="_blank" rel="noopener noreferrer"><div class="sw-instagram-img"><img src="${img}" alt="${cap.substring(0, 80)}" loading="lazy" onerror="this.style.display='none'"><div class="sw-instagram-ovl">${cap ? `<p class="sw-instagram-cap">${cap}</p>` : ''}<div class="sw-instagram-stats">${p.likes ? `<span>♥ ${fmt(p.likes)}</span>` : ''}${p.comments ? `<span>💬 ${fmt(p.comments)}</span>` : ''}</div></div>${p.is_video ? '<div class="sw-instagram-vid">▶</div>' : ''}</div></a>`;
+      });
+      html += '</div></div>';
+      this.el.innerHTML = html;
+    }
+
+    _renderError(msg = 'Não foi possível carregar o feed.') {
+      this.el.innerHTML = `<p class="sw-text-mut" style="padding:1rem;grid-column:1/-1;text-align:center">${esc(msg)}</p>`;
+    }
+
+    _imgUrl(src) {
+      if (!src) return '';
+      if (src.startsWith('?img=') && this._proxy) return this._proxy + src;
+      return src;
+    }
+  }
+
+  class SWInstagram {
+    static initAll(root = document) {
+      SW.$('[sw-instagram]', root).forEach((el) => {
+        if (el._swInstagram) return;
+        el._swInstagram = new SWInstagramInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWInstagram', SWInstagram);
+  if (window.SW) window.SW.Instagram = SWInstagram;
+})();
+
+/* SW Framework Infinite Scroll — <div sw-infinite sw-infinite-url="/api/posts?page={page}" sw-infinite-target="#lista" sw-infinite-per sw-infinite-offset>
+   Eventos: sw:infinite:load { page, items } · sw:infinite:end · sw:infinite:error { page } */
+(function () {
+  'use strict';
+
+  class SWInfiniteInst {
+    constructor(el) {
+      this.el = el;
+      this.url = el.getAttribute('sw-infinite-url');
+      this.target = document.querySelector(el.getAttribute('sw-infinite-target') || 'body');
+      this.offset = parseInt(el.getAttribute('sw-infinite-offset'), 10) || 300;
+      this.page = parseInt(el.getAttribute('sw-infinite-start'), 10) || 1;
+      this.loading = false;
+      this.done = false;
+
+      window.addEventListener('scroll', () => this._check(), { passive: true });
+      this._check();
+    }
+
+    _check() {
+      if (this.loading || this.done) return;
+      const dist = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
+      if (dist <= this.offset) this._load();
+    }
+
+    _load() {
+      this.loading = true;
+      const url = this.url.replace('{page}', this.page);
+
+      const spin = document.createElement('div');
+      spin.className = 'sw-infinite-loader';
+      spin.textContent = 'Carregando…';
+      this.target.appendChild(spin);
+
+      fetch(url)
+        .then((r) => r.text())
+        .then((html) => {
+          spin.remove();
+          const tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          const items = Array.from(tmp.children);
+
+          if (!items.length) {
+            this.done = true;
+            SW.emit(this.el, 'sw:infinite:end');
+            return;
+          }
+
+          const frag = document.createDocumentFragment();
+          items.forEach((it) => frag.appendChild(it));
+          this.target.appendChild(frag);
+          SW.reinit(this.target);
+          this.page += 1;
+          SW.emit(this.el, 'sw:infinite:load', { page: this.page, items });
+        })
+        .catch(() => {
+          spin.remove();
+          SW.emit(this.el, 'sw:infinite:error', { page: this.page });
+        })
+        .finally(() => { this.loading = false; });
+    }
+  }
+
+  class SWInfinite {
+    static initAll(root = document) {
+      SW.$('[sw-infinite]', root).forEach((el) => {
+        if (el._swInfinite) return;
+        el._swInfinite = new SWInfiniteInst(el);
+      });
+    }
+  }
+
+  window.SW?.register('SWInfinite', SWInfinite);
+  if (window.SW) window.SW.Infinite = SWInfinite;
+})();
+
+/* SW Framework Upload — <div sw-upload sw-upload-accept sw-upload-max sw-upload-size sw-upload-txt><input type="file"></div>
+   Eventos: sw:upload:add { files } · sw:upload:remove { index } · API: SW.Upload.getFiles(el) */
+(function () {
+  'use strict';
+
+  function fmtSize(bytes) {
+    if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    return `${(bytes / 1024).toFixed(0)} KB`;
+  }
+
+  class SWUploadInst {
+    constructor(el) {
+      this.el = el;
+      this.input = el.querySelector('input[type="file"]');
+      this.accept = el.getAttribute('sw-upload-accept') || this.input?.accept || '*';
+      this.max = parseInt(el.getAttribute('sw-upload-max'), 10) || 0;
+      this.maxSize = parseInt(el.getAttribute('sw-upload-size'), 10) || 10 * 1024 * 1024;
+      this.txt = el.getAttribute('sw-upload-txt') || 'Arraste ou <strong>clique aqui</strong>';
+      this.files = [];
+      el._swUploadInst = this;
+
+      this._build();
+      this._bind();
+    }
+
+    _build() {
+      if (!this.input) {
+        this.input = document.createElement('input');
+        this.input.type = 'file';
+        this.el.appendChild(this.input);
+      }
+      this.input.style.display = 'none';
+      if (this.accept !== '*') this.input.accept = this.accept;
+      if (this.max !== 1) this.input.multiple = true;
+
+      this.zone = document.createElement('div');
+      this.zone.className = 'sw-upload-zone';
+      this.zone.innerHTML = `<i class="swi swi-image-add sw-upload-ico"></i><p class="sw-upload-txt">${this.txt}</p><p class="sw-upload-sub">Tamanho máx: ${fmtSize(this.maxSize)}</p>`;
+      this.el.insertBefore(this.zone, this.input);
+
+      this.prev = document.createElement('div');
+      this.prev.className = 'sw-upload-prev';
+      this.el.appendChild(this.prev);
+
+      this.errEl = document.createElement('div');
+      this.errEl.className = 'sw-upload-err';
+      this.el.appendChild(this.errEl);
+    }
+
+    _bind() {
+      this.zone.addEventListener('click', () => this.input.click());
+      this.input.addEventListener('change', () => this._add(Array.from(this.input.files)));
+      this.zone.addEventListener('dragover', (event) => { event.preventDefault(); this.zone.classList.add('is-ov'); });
+      this.zone.addEventListener('dragleave', () => this.zone.classList.remove('is-ov'));
+      this.zone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        this.zone.classList.remove('is-ov');
+        this._add(Array.from(event.dataTransfer.files));
+      });
+    }
+
+    _add(newFiles) {
+      this.errEl.textContent = '';
+      const errors = [];
+      newFiles.forEach((f) => {
+        if (this.max && this.files.length >= this.max) { errors.push(`Máximo de ${this.max} arquivo(s).`); return; }
+        if (f.size > this.maxSize) { errors.push(`"${f.name}" excede ${fmtSize(this.maxSize)}.`); return; }
+        this.files.push(f);
+      });
+      if (errors.length) this.errEl.textContent = errors[0];
+      this._renderPrev();
+      SW.emit(this.el, 'sw:upload:add', { files: this.files });
+    }
+
+    _renderPrev() {
+      this.prev.innerHTML = '';
+      this.files.forEach((f, i) => {
+        const item = document.createElement('div');
+        item.className = 'sw-upload-item';
+        if (f.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(f);
+          img.onload = () => URL.revokeObjectURL(img.src);
+          item.appendChild(img);
+        } else {
+          item.innerHTML = `<div class="sw-upload-item-name">${f.name}</div>`;
+        }
+        const rm = document.createElement('div');
+        rm.className = 'sw-upload-item-rm';
+        rm.addEventListener('click', (event) => { event.stopPropagation(); this._remove(i); });
+        item.appendChild(rm);
+        this.prev.appendChild(item);
+      });
+    }
+
+    _remove(i) {
+      this.files.splice(i, 1);
+      this._renderPrev();
+      SW.emit(this.el, 'sw:upload:remove', { index: i });
+    }
+
+    clear() { this.files = []; this._renderPrev(); }
+  }
+
+  class SWUpload {
+    static initAll(root = document) {
+      SW.$('[sw-upload]', root).forEach((el) => {
+        if (el._swUpload) return;
+        el._swUpload = true;
+        new SWUploadInst(el);
+      });
+    }
+
+    static getFiles(el) {
+      return (typeof el === 'string' ? document.querySelector(el) : el)?._swUploadInst?.files || [];
+    }
+  }
+
+  window.SW?.register('SWUpload', SWUpload);
+  if (window.SW) window.SW.Upload = SWUpload;
+})();
+
+/* SW Framework Content — <div sw-content="/api/posts" sw-content-tmpl="#tmpl" sw-content-empty sw-content-err sw-content-trigger="load|click|visible" sw-content-paginate>
+   <template>...{{campo}}...</template></div> — fetch JSON, interpola em <template>. API: SW.Content.load(el) */
+(function () {
+  'use strict';
+
+  class SWContentInst {
+    constructor(el) {
+      this.el = el;
+      this.url = el.getAttribute('sw-content');
+      this.tmplSel = el.getAttribute('sw-content-tmpl') || null;
+      this.emptyMsg = el.getAttribute('sw-content-empty') || '';
+      this.errMsg = el.getAttribute('sw-content-err') || 'Erro ao carregar conteúdo.';
+      this.trigger = el.getAttribute('sw-content-trigger') || 'load';
+      this.paginate = el.hasAttribute('sw-content-paginate');
+      this.page = 1;
+      this.loading = false;
+      this.tmpl = this.tmplSel ? document.querySelector(this.tmplSel) : el.querySelector('template');
+      this._bind();
+    }
+
+    _bind() {
+      if (this.trigger === 'load') this.load();
+      if (this.trigger === 'click') {
+        const btn = document.querySelector(this.el.getAttribute('sw-content-btn') || '[sw-content-load]');
+        btn?.addEventListener('click', () => this.load());
+      }
+      if (this.trigger === 'visible') {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { observer.disconnect(); this.load(); }
+        });
+        observer.observe(this.el);
+      }
+    }
+
+    async load(page = this.page) {
+      if (this.loading) return;
+      this.loading = true;
+      this.page = page;
+
+      let url = this.url;
+      if (this.paginate) url += `${url.includes('?') ? '&' : '?'}page=${page}`;
+
+      try {
+        const res = await fetch(url, { headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' } });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        this._render(json);
+      } catch (_) {
+        this._showErr();
+      } finally {
+        this.loading = false;
+      }
+    }
+
+    _render(json) {
+      const list = Array.isArray(json) ? json : Array.isArray(json.dados) ? json.dados : [json];
+      const container = document.createElement('div');
+
+      if (!list.length) {
+        if (this.emptyMsg) container.innerHTML = `<p class="sw-text-mut" style="padding:1rem">${this.emptyMsg}</p>`;
+      } else {
+        list.forEach((item) => {
+          const node = this._renderItem(item);
+          if (node) container.appendChild(node);
+        });
+      }
+
+      if (this.paginate && json.paginas > 1) container.appendChild(this._buildPager(json));
+
+      const keep = this.el.querySelector('template');
+      this.el.innerHTML = '';
+      if (keep) this.el.appendChild(keep);
+      this.el.appendChild(container);
+      SW.reinit(container);
+
+      SW.emit(this.el, 'sw:content:loaded', { dados: json });
+    }
+
+    _renderItem(item) {
+      if (!this.tmpl) return null;
+      const clone = this.tmpl.content.cloneNode(true);
+      this._interpolate(clone, item);
+      const wrap = document.createElement('div');
+      wrap.appendChild(clone);
+      return wrap.firstElementChild || wrap;
+    }
+
+    _interpolate(node, data) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent = node.textContent.replace(/\{\{(\w+)\}\}/g, (_, k) => data[k] ?? '');
+        return;
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        Array.from(node.attributes).forEach((attr) => {
+          attr.value = attr.value.replace(/\{\{(\w+)\}\}/g, (_, k) => data[k] ?? '');
+        });
+      }
+      node.childNodes.forEach((c) => this._interpolate(c, data));
+    }
+
+    _buildPager(json) {
+      const div = document.createElement('div');
+      div.className = 'sw-content-pager';
+      if (json.pagina > 1) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('sw-btn', '');
+        btn.className = 'sw-btn-sm';
+        btn.textContent = '← Anterior';
+        btn.addEventListener('click', () => this.load(json.pagina - 1));
+        div.appendChild(btn);
+      }
+      const info = document.createElement('span');
+      info.className = 'sw-text-mut';
+      info.textContent = `Página ${json.pagina} de ${json.paginas}`;
+      div.appendChild(info);
+      if (json.pagina < json.paginas) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('sw-btn', '');
+        btn.className = 'sw-btn-sm';
+        btn.textContent = 'Próxima →';
+        btn.addEventListener('click', () => this.load(json.pagina + 1));
+        div.appendChild(btn);
+      }
+      return div;
+    }
+
+    _showErr() {
+      this.el.innerHTML = `<p class="sw-text-err" style="padding:1rem">${this.errMsg}</p>`;
+    }
+  }
+
+  class SWContent {
+    static initAll(root = document) {
+      SW.$('[sw-content]', root).forEach((el) => {
+        if (el._swContent) return;
+        el._swContent = new SWContentInst(el);
+      });
+    }
+
+    static load(el) { el._swContent?.load(); }
+  }
+
+  window.SW?.register('SWContent', SWContent);
+  if (window.SW) window.SW.Content = SWContent;
+})();
+
+/* SW Framework Cropper — sem dependências externas (canvas nativo)
+   <div sw-cropper sw-cropper-ratio="1" sw-cropper-upload="/api/imgs/upload" sw-cropper-ref sw-cropper-local sw-cropper-tipo sw-cropper-out="#img">
+     <input type="file" accept="image/*" sw-cropper-input>
+     <button type="button" sw-cropper-btn>Cortar e Enviar</button>
+     <canvas sw-cropper-canvas></canvas>
+   </div>
+   Eventos: sw:cropper:ready · sw:cropper:done { url, thumb, id } · sw:cropper:error { erro } */
+(function () {
+  'use strict';
+
+  class SWCropperInst {
+    constructor(el) {
+      this.el = el;
+      this.ratio = parseFloat(el.getAttribute('sw-cropper-ratio') ?? '1');
+      this.url = el.getAttribute('sw-cropper-upload') || '/api/imgs/upload';
+      this.refId = el.getAttribute('sw-cropper-ref') || '';
+      this.local = el.getAttribute('sw-cropper-local') || '';
+      this.tipo = el.getAttribute('sw-cropper-tipo') || 'avatar';
+      this.outSel = el.getAttribute('sw-cropper-out') || null;
+
+      this.input = el.querySelector('[sw-cropper-input]');
+      this.btnCrop = el.querySelector('[sw-cropper-btn]');
+      this.canvas = el.querySelector('[sw-cropper-canvas]');
+      this.img = new Image();
+      this.box = null; // { x, y, w, h } em coordenadas do canvas
+
+      this._bind();
+    }
+
+    _bind() {
+      this.input?.addEventListener('change', (event) => this._onFile(event));
+      this.btnCrop?.addEventListener('click', () => this._crop());
+    }
+
+    _onFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        this.img.onload = () => this._setup();
+        this.img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    _setup() {
+      if (!this.canvas) return;
+      const maxW = this.canvas.parentElement?.clientWidth || this.img.width;
+      const scale = Math.min(1, maxW / this.img.width);
+      this.canvas.width = this.img.width * scale;
+      this.canvas.height = this.img.height * scale;
+      this.canvas.style.display = 'block';
+      this._scale = scale;
+
+      const w = Math.min(this.canvas.width, this.canvas.height * this.ratio);
+      const h = w / this.ratio;
+      this.box = { x: (this.canvas.width - w) / 2, y: (this.canvas.height - h) / 2, w, h };
+
+      this._draw();
+      this._bindDrag();
+      SW.emit(this.el, 'sw:cropper:ready');
+    }
+
+    _draw() {
+      const ctx = this.canvas.getContext('2d');
+      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
+      ctx.save();
+      ctx.fillStyle = 'rgba(0,0,0,.45)';
+      ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      ctx.clearRect(this.box.x, this.box.y, this.box.w, this.box.h);
+      ctx.drawImage(this.img, this.box.x / this._scale, this.box.y / this._scale, this.box.w / this._scale, this.box.h / this._scale, this.box.x, this.box.y, this.box.w, this.box.h);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(this.box.x, this.box.y, this.box.w, this.box.h);
+      ctx.restore();
+    }
+
+    _bindDrag() {
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      let origX = 0;
+      let origY = 0;
+
+      const pos = (event) => {
+        const r = this.canvas.getBoundingClientRect();
+        const p = event.touches ? event.touches[0] : event;
+        return { x: (p.clientX - r.left) * (this.canvas.width / r.width), y: (p.clientY - r.top) * (this.canvas.height / r.height) };
+      };
+
+      const down = (event) => {
+        const p = pos(event);
+        if (p.x < this.box.x || p.x > this.box.x + this.box.w || p.y < this.box.y || p.y > this.box.y + this.box.h) return;
+        dragging = true;
+        startX = p.x; startY = p.y;
+        origX = this.box.x; origY = this.box.y;
+      };
+      const move = (event) => {
+        if (!dragging) return;
+        const p = pos(event);
+        this.box.x = Math.max(0, Math.min(this.canvas.width - this.box.w, origX + (p.x - startX)));
+        this.box.y = Math.max(0, Math.min(this.canvas.height - this.box.h, origY + (p.y - startY)));
+        this._draw();
+      };
+      const up = () => { dragging = false; };
+
+      this.canvas.addEventListener('mousedown', down);
+      this.canvas.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', up);
+      this.canvas.addEventListener('touchstart', down, { passive: true });
+      this.canvas.addEventListener('touchmove', move, { passive: true });
+      window.addEventListener('touchend', up);
+    }
+
+    async _crop() {
+      if (!this.box) return;
+      const out = document.createElement('canvas');
+      out.width = 800;
+      out.height = 800 / this.ratio;
+      const ctx = out.getContext('2d');
+      ctx.drawImage(this.img, this.box.x / this._scale, this.box.y / this._scale, this.box.w / this._scale, this.box.h / this._scale, 0, 0, out.width, out.height);
+      const dataUrl = out.toDataURL('image/webp', 0.88);
+
+      const csrf = document.querySelector('meta[name="csrf-token"]')?.content || window._csrf || '';
+      const fd = new FormData();
+      fd.append('dataUrl', dataUrl);
+      fd.append('ref_id', this.refId);
+      fd.append('local', this.local);
+      fd.append('tipo', this.tipo);
+
+      try {
+        const res = await fetch(this.url, { method: 'POST', headers: { 'X-CSRF-Token': csrf, 'X-Requested-With': 'XMLHttpRequest' }, body: fd });
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.erro || 'Erro no upload');
+
+        if (this.outSel) {
+          document.querySelectorAll(this.outSel).forEach((el) => { el.src = `${json.thumb || json.img}?t=${Date.now()}`; });
+        }
+        SW.emit(this.el, 'sw:cropper:done', { url: json.img, thumb: json.thumb, id: json.id });
+      } catch (err) {
+        SW.emit(this.el, 'sw:cropper:error', { erro: err.message });
+      }
+    }
+  }
+
+  class SWCropper {
+    static initAll(root = document) {
+      SW.$('[sw-cropper]', root).forEach((el) => {
+        if (el._swCropper) return;
+        el._swCropper = new SWCropperInst(el);
+      });
+    }
+
+    static get(el) { return el._swCropper; }
+  }
+
+  window.SW?.register('SWCropper', SWCropper);
+  if (window.SW) window.SW.Cropper = SWCropper;
 })();

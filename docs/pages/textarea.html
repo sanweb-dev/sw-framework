@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Auto Textarea - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">Auto Textarea</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Auto Textarea <span class="TprinD">[sw-textarea]</span></h1>
+                <p class="t-g t-mut mb-0">Cresce automaticamente conforme o conteúdo digitado, com altura mínima e máxima configuráveis.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <textarea sw-textarea sw-textarea-min="60" sw-textarea-max="240" class="sw-input" placeholder="Digite algo e veja crescer..."></textarea>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<textarea sw-textarea sw-textarea-min="60" sw-textarea-max="240"></textarea>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-textarea-min</code></td><td><code>60</code></td><td>Altura mínima em px.</td></tr>
+                            <tr><td><code>sw-textarea-max</code></td><td>—</td><td>Altura máxima em px (depois disso, rola normalmente).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

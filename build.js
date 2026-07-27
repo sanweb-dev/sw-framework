@@ -8,7 +8,7 @@ const VERSION = '0.1.0-alpha.1';
 const root = __dirname;
 const distDir = path.join(root, 'dist');
 const docsDistDir = path.join(root, 'docs', 'dist');
-const cssFiles = ['01-tokens.css', '02-reset.css', '03-layout.css', '04-components.css', '05-forms.css', '06-animations.css', '07-transitions.css', '08-utilities.css', '09-chromatic.css', '10-daynight.css', '11-cards.css', '12-misc.css', '13-icons.css'].map((file) => path.join(root, 'src', 'css', file));
+const cssFiles = ['01-tokens.css', '02-reset.css', '03-layout.css', '04-components.css', '05-forms.css', '06-animations.css', '07-transitions.css', '08-utilities.css', '09-chromatic.css', '10-daynight.css', '11-cards.css', '12-misc.css', '13-icons.css', '14-y2-components.css'].map((file) => path.join(root, 'src', 'css', file));
 const iconFontSrcDir = path.join(root, 'src', 'fonts');
 const iconFontFiles = ['swicons.eot', 'swicons.svg', 'swicons.ttf', 'swicons.woff', 'swicons.woff2'];
 const jsFiles = [
@@ -16,7 +16,10 @@ const jsFiles = [
   path.join(root, 'src', 'js', 'core', 'sw-utils.js'),
   path.join(root, 'src', 'js', 'modules', 'sw-day.js'),
   path.join(root, 'src', 'js', 'modules', 'sw-trans.js'),
-  ...['sw-code.js', 'sw-icon.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js', 'sw-chip.js']
+  ...['sw-code.js', 'sw-icon.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js', 'sw-chip.js',
+    'sw-tabs.js', 'sw-accordion.js', 'sw-top.js', 'sw-pre.js', 'sw-dropdown.js', 'sw-lazy.js', 'sw-slider.js', 'sw-carousel.js', 'sw-pagination.js', 'sw-rating.js', 'sw-typewriter.js',
+    'sw-textlimit.js', 'sw-tooltip.js', 'sw-parallax.js', 'sw-lgpd.js', 'sw-textarea.js', 'sw-scrollspy.js', 'sw-scroll.js', 'sw-drag.js', 'sw-matinp.js', 'sw-sidebar.js',
+    'sw-editor.js', 'sw-cotacao.js', 'sw-instagram.js', 'sw-infinite.js', 'sw-upload.js', 'sw-content.js', 'sw-cropper.js']
     .map((file) => path.join(root, 'src', 'js', 'modules', file)),
 ];
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');

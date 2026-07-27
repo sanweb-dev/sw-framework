@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dropdown - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Layout JS</span>
+                <span class="brc-it is-cur" aria-current="page">Dropdown</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Dropdown <span class="TprinD">[sw-dropdown]</span></h1>
+                <p class="t-g t-mut mb-0">Menu suspenso standalone — fecha ao clicar fora, no item, ou com Esc.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-dropdown>
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Opções ▾</button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it">Editar</div>
+                            <div class="sw-dropdown-it">Duplicar</div>
+                            <div class="sw-dropdown-it is-dis">Arquivar (desabilitado)</div>
+                            <div class="sw-dropdown-it">Excluir</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-dropdown>
+    <button class="sw-dropdown-tgl">Opções ▾</button>
+    <div class="sw-dropdown-mn">
+        <div class="sw-dropdown-it">Editar</div>
+        <div class="sw-dropdown-it is-dis">Arquivar</div>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-dropdown]</code></td><td>Container raiz.</td></tr>
+                            <tr><td><code>.sw-dropdown-tgl</code></td><td>Elemento que abre/fecha o menu.</td></tr>
+                            <tr><td><code>.sw-dropdown-mn</code></td><td>Painel do menu.</td></tr>
+                            <tr><td><code>.sw-dropdown-it</code></td><td>Item — clicar fecha o menu (a menos que tenha <code>.is-dis</code>).</td></tr>
+                            <tr><td><code>sw:dropdown:open</code> / <code>sw:dropdown:close</code></td><td>Eventos disparados no container.</td></tr>
+                            <tr><td><code>SW.Dropdown.open(el)</code> / <code>.close(el)</code></td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

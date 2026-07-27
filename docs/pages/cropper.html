@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cropper - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">Cropper</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h1 class="t-xxg f-bd mb-2">Cropper <span class="TprinD">[sw-cropper]</span></h1>
+                <p class="t-g t-mut mb-0">Recorte de imagem antes do upload, com canvas nativo — o SW não depende de bibliotecas externas como Cropper.js, então essa versão desenha e arrasta a área de corte na mão.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6" style="max-width:40rem">
+                    <div sw-cropper sw-cropper-ratio="1" sw-cropper-upload="#" class="flx fld-col gap-3">
+                        <input type="file" accept="image/*" sw-cropper-input class="sw-input">
+                        <canvas sw-cropper-canvas></canvas>
+                        <button type="button" sw-cropper-btn sw-btn class="sw-btn-pri">Cortar e Enviar</button>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cropper sw-cropper-ratio="1" sw-cropper-upload="/api/imgs/upload" sw-cropper-out="#avatar-preview">
+    <input type="file" accept="image/*" sw-cropper-input>
+    <canvas sw-cropper-canvas></canvas>
+    <button type="button" sw-cropper-btn>Cortar e Enviar</button>
+</div>
+</script></pre>
+                <p class="t-mut mt-2">Selecione uma imagem e arraste a área destacada pra escolher o recorte. Neste demo o upload aponta pra <code>#</code>, então o clique em "Cortar e Enviar" não conclui de verdade — plugue uma URL real via <code>sw-cropper-upload</code>.</p>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-cropper-ratio</code></td><td><code>1</code></td><td>Proporção largura/altura do recorte.</td></tr>
+                            <tr><td><code>sw-cropper-upload</code></td><td><code>/api/imgs/upload</code></td><td>Endpoint que recebe o POST com <code>dataUrl</code> (FormData).</td></tr>
+                            <tr><td><code>sw-cropper-ref</code> / <code>-local</code> / <code>-tipo</code></td><td>—</td><td>Campos extras enviados junto (id de referência, contexto, tipo).</td></tr>
+                            <tr><td><code>sw-cropper-out</code></td><td>—</td><td>Seletor de <code>&lt;img&gt;</code> a atualizar após o upload.</td></tr>
+                            <tr><td><code>[sw-cropper-input]</code></td><td>—</td><td><code>&lt;input type="file"&gt;</code> que dispara a seleção da imagem.</td></tr>
+                            <tr><td><code>[sw-cropper-canvas]</code></td><td>—</td><td>Canvas onde a imagem e a área de corte são desenhadas (arraste para mover).</td></tr>
+                            <tr><td><code>[sw-cropper-btn]</code></td><td>—</td><td>Botão que executa o corte e envia.</td></tr>
+                            <tr><td><code>sw:cropper:ready / :done / :error</code></td><td>—</td><td>Eventos — <code>:done</code> traz <code>detail.url/.thumb/.id</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

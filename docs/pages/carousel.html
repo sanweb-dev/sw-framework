@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Text Carousel - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Mídia & Display</span>
+                <span class="brc-it is-cur" aria-current="page">Text Carousel</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Text Carousel <span class="TprinD">[sw-carousel]</span></h1>
+                <p class="t-g t-mut mb-0">Troca de textos/depoimentos com 8 efeitos de transição (slide, zoom, bounce, flip), swipe e autoplay.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-carousel sw-carousel-auto="3000" sw-carousel-effect="slide-left" style="min-height:8rem;position:relative;">
+                        <div class="sw-carousel-trk" style="position:relative;min-height:6rem;">
+                            <blockquote style="margin:0">"O SW deixou nosso frontend muito mais rápido de montar." — Cliente A</blockquote>
+                            <blockquote style="margin:0">"Zero dependências, zero dor de cabeça." — Cliente B</blockquote>
+                            <blockquote style="margin:0">"A documentação viva ajudou demais no onboarding." — Cliente C</blockquote>
+                        </div>
+                        <div class="sw-carousel-dts mt-4"></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-carousel sw-carousel-auto="3000" sw-carousel-effect="slide-left">
+    <div class="sw-carousel-trk">
+        <blockquote>Depoimento 1</blockquote>
+        <blockquote>Depoimento 2</blockquote>
+    </div>
+    <div class="sw-carousel-dts"></div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-carousel-effect</code></td><td><code>slide-left</code></td><td><code>slide-left|right|up|down · zoom-in|out · bounce · flip · fade</code></td></tr>
+                            <tr><td><code>sw-carousel-dur</code></td><td><code>600</code></td><td>Duração da transição em ms.</td></tr>
+                            <tr><td><code>sw-carousel-loop</code></td><td><code>true</code></td><td>Volta ao primeiro item após o último.</td></tr>
+                            <tr><td><code>sw-carousel-auto</code></td><td><code>0</code></td><td>Intervalo de autoplay em ms.</td></tr>
+                            <tr><td><code>.sw-carousel-dts</code></td><td>—</td><td>Container de dots (opcional, gerado automaticamente).</td></tr>
+                            <tr><td><code>sw:carousel:change</code></td><td>—</td><td>Evento — <code>detail.index</code>.</td></tr>
+                            <tr><td><code>SW.Carousel.next/prev/goTo/pause/resume(el)</code></td><td>—</td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Slider - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Mídia & Display</span>
+                <span class="brc-it is-cur" aria-current="page">Slider</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Slider <span class="TprinD">[sw-slider]</span></h1>
+                <p class="t-g t-mut mb-0">Slider de imagens/conteúdo com loop infinito, autoplay, dots, arrows, swipe e efeito zoom (Ken Burns).</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-slider sw-slider-auto="3500" style="border-radius: var(--sw-r-g); overflow: hidden;">
+                        <div class="sw-slider-trk">
+                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-pri);color:#fff;font-size:2rem;font-weight:700;">Slide 1</div>
+                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);color:#fff;font-size:2rem;font-weight:700;">Slide 2</div>
+                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-suc);color:#fff;font-size:2rem;font-weight:700;">Slide 3</div>
+                        </div>
+                        <button class="sw-slider-prv">‹</button>
+                        <button class="sw-slider-nxt">›</button>
+                        <div class="sw-slider-dot-grp"></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-slider sw-slider-auto="3500">
+    <div class="sw-slider-trk">
+        <div class="sw-slider-it">Slide 1</div>
+        <div class="sw-slider-it">Slide 2</div>
+    </div>
+    <button class="sw-slider-prv">‹</button>
+    <button class="sw-slider-nxt">›</button>
+    <div class="sw-slider-dot-grp"></div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-slider-show</code></td><td><code>1</code></td><td>Quantos itens visíveis por página.</td></tr>
+                            <tr><td><code>sw-slider-loop</code></td><td><code>true</code></td><td>Loop infinito (clona itens nas pontas).</td></tr>
+                            <tr><td><code>sw-slider-auto</code></td><td><code>0</code></td><td>Intervalo de autoplay em ms (0 = desligado).</td></tr>
+                            <tr><td><code>sw-slider-hover</code></td><td>—</td><td><code>run</code> mantém o autoplay rodando mesmo com hover.</td></tr>
+                            <tr><td><code>sw-slider-effect</code></td><td><code>slide</code></td><td><code>slide | zoom</code> (zoom = efeito Ken Burns, sem loop clonado).</td></tr>
+                            <tr><td><code>sw-slider-dur</code></td><td>—</td><td>Duração customizada da transição (ex.: <code>600ms</code>).</td></tr>
+                            <tr><td><code>sw:slider:change</code></td><td>—</td><td>Evento disparado ao trocar de página — <code>detail.page</code>.</td></tr>
+                            <tr><td><code>SW.Slider.next/prev/goTo(el, idx)</code></td><td>—</td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

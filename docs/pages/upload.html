@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">File Upload</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">File Upload <span class="TprinD">[sw-upload]</span></h1>
+                <p class="t-g t-mut mb-0">Zona de drag & drop com preview de imagens, limite de arquivos e tamanho máximo.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-upload sw-upload-accept="image/*" sw-upload-max="5" sw-upload-size="3145728">
+                        <input type="file" name="files[]" accept="image/*">
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-upload sw-upload-accept="image/*" sw-upload-max="5" sw-upload-size="3145728">
+    <input type="file" name="files[]" accept="image/*">
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-upload-accept</code></td><td><code>*</code></td><td>Tipos aceitos (mesma sintaxe do <code>accept</code> nativo).</td></tr>
+                            <tr><td><code>sw-upload-max</code></td><td>ilimitado</td><td>Número máximo de arquivos.</td></tr>
+                            <tr><td><code>sw-upload-size</code></td><td><code>10485760</code> (10MB)</td><td>Tamanho máximo por arquivo, em bytes.</td></tr>
+                            <tr><td><code>sw-upload-txt</code></td><td>—</td><td>Texto da zona de drop (aceita HTML simples).</td></tr>
+                            <tr><td><code>sw:upload:add</code> / <code>sw:upload:remove</code></td><td>—</td><td>Eventos — <code>detail.files</code> / <code>detail.index</code>.</td></tr>
+                            <tr><td><code>SW.Upload.getFiles(el)</code></td><td>—</td><td>Retorna o array de <code>File</code> selecionados.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

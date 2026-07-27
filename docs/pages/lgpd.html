@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LGPD Consent - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">LGPD Consent</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h1 class="t-xxg f-bd mb-2">LGPD Consent <span class="TprinD">SW.Lgpd</span></h1>
+                <p class="t-g t-mut mb-0">Banner de consentimento de cookies. Guarda a escolha no <code>localStorage</code> por um número de dias configurável.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo (clique para exibir)</h3>
+                <div class="demo-wrap p-6">
+                    <button sw-btn class="sw-btn-out" onclick="localStorage.removeItem('sw_lgpd_demo'); SW.Lgpd.init({ msg:'Usamos cookies para melhorar sua experiência.', accept:'Aceitar', reject:'Recusar', key:'sw_lgpd_demo' })">Mostrar banner de cookies</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Via atributo, some sozinho após inicializar -->
+<div sw-lgpd sw-lgpd-msg="Usamos cookies..." sw-lgpd-ok="Aceitar" sw-lgpd-nao="Recusar"></div>
+
+<!-- Ou via JS -->
+<script>
+SW.Lgpd.init({
+  msg: 'Usamos cookies para melhorar sua experiência.',
+  accept: 'Aceitar',
+  reject: 'Recusar',
+  days: 365,
+  onAccept: () => console.log('aceitou')
+});
+</script>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Opção</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>msg</code></td><td>—</td><td>Texto do banner.</td></tr>
+                            <tr><td><code>accept</code> / <code>reject</code></td><td><code>Aceitar</code> / null</td><td>Rótulos dos botões — sem <code>reject</code>, só mostra Aceitar.</td></tr>
+                            <tr><td><code>link</code> / <code>linkTxt</code></td><td>—</td><td>Link "Saiba mais" para a política de privacidade.</td></tr>
+                            <tr><td><code>days</code></td><td><code>365</code></td><td>Dias até pedir consentimento de novo.</td></tr>
+                            <tr><td><code>key</code></td><td><code>sw_lgpd</code></td><td>Chave no localStorage.</td></tr>
+                            <tr><td><code>onAccept</code> / <code>onReject</code></td><td>—</td><td>Callbacks.</td></tr>
+                            <tr><td><code>SW.Lgpd.clear(key)</code></td><td>—</td><td>Limpa o consentimento salvo (útil pra testar de novo).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

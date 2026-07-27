@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Layout JS</span>
+                <span class="brc-it is-cur" aria-current="page">Sidebar</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Sidebar <span class="TprinD">[sw-sidebar]</span></h1>
+                <p class="t-g t-mut mb-0">Menu lateral com 4 modos: fixo, toggle (drawer com overlay), colapsável (só ícones) e hover. Suporta submenus em accordion.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Modo colapsável (demo isolada)</h3>
+                <div class="demo-wrap p-0" style="display:flex;height:22rem;overflow:hidden;border-radius:var(--sw-r-g);">
+                    <aside sw-sidebar sw-sidebar-mode="collapse" style="position:relative">
+                        <button sw-sidebar-tgl class="sw-btn sw-btn-out m-2">☰</button>
+                        <nav class="flx fld-col gap-1 p-2">
+                            <a href="#" class="p-2">🏠 Início</a>
+                            <a href="#" sw-sidebar-sub class="p-2">📁 Projetos ▾</a>
+                            <div sw-sidebar-sub-items class="flx fld-col gap-1 pl-6">
+                                <a href="#" class="p-2">Projeto A</a>
+                                <a href="#" class="p-2">Projeto B</a>
+                            </div>
+                            <a href="#" class="p-2">⚙️ Config</a>
+                        </nav>
+                    </aside>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg)">Conteúdo</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<aside sw-sidebar sw-sidebar-mode="collapse">
+    <button sw-sidebar-tgl>☰</button>
+    <nav>
+        <a href="#" sw-sidebar-sub>Projetos ▾</a>
+        <div sw-sidebar-sub-items>
+            <a href="#">Projeto A</a>
+        </div>
+    </nav>
+</aside>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Modo toggle (drawer + overlay)</h3>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-sidebar-open="#minha-sidebar">Abrir menu</button>
+<div sw-sidebar-ovl></div>
+<aside id="minha-sidebar" sw-sidebar sw-sidebar-mode="toggle" hid>...</aside>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-sidebar-mode</code></td><td><code>toggle</code> (padrão) · <code>fixed</code> · <code>collapse</code> · <code>hover</code></td></tr>
+                            <tr><td><code>sw-sidebar-start</code></td><td>No modo <code>collapse</code>: <code>open | icons</code> — estado inicial.</td></tr>
+                            <tr><td><code>[hid]</code></td><td>Atributo que esconde a sidebar (modo toggle).</td></tr>
+                            <tr><td><code>[col]</code></td><td>Atributo que colapsa pra só ícones (modo collapse/hover).</td></tr>
+                            <tr><td><code>[sw-sidebar-tgl]</code></td><td>Botão interno que alterna colapsado/expandido.</td></tr>
+                            <tr><td><code>[sw-sidebar-open="#id"]</code></td><td>Botão externo que abre/fecha a sidebar de <code>id</code>.</td></tr>
+                            <tr><td><code>[sw-sidebar-ovl]</code></td><td>Overlay — fecha a sidebar ao clicar fora (modo toggle).</td></tr>
+                            <tr><td><code>[sw-sidebar-sub]</code> + <code>[sw-sidebar-sub-items]</code></td><td>Item pai (irmão seguinte) com submenu em accordion.</td></tr>
+                            <tr><td><code>SW.Sidebar.open(sel)</code> / <code>.close(sel)</code></td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

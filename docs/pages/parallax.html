@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Parallax - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Efeitos JS</span>
+                <span class="brc-it is-cur" aria-current="page">Parallax</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Parallax <span class="TprinD">[sw-parallax]</span></h1>
+                <p class="t-g t-mut mb-0">Efeito parallax por scroll (background ou elemento) ou por movimento do mouse.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Mouse (mexa o cursor sobre o card)</h3>
+                <div class="demo-wrap p-6" style="overflow:hidden;">
+                    <div sw-parallax sw-parallax-type="mouse" sw-parallax-speed="0.3" style="height:12rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);border-radius:var(--sw-r-g);color:#fff;font-weight:700;">Mexa o mouse aqui</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-parallax sw-parallax-type="mouse" sw-parallax-speed="0.3">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-parallax-type</code></td><td><code>background</code></td><td><code>background | element | mouse | fixed</code></td></tr>
+                            <tr><td><code>sw-parallax-speed</code></td><td><code>0.4</code></td><td>Intensidade do deslocamento.</td></tr>
+                            <tr><td><code>sw-parallax-dir</code></td><td><code>vertical</code></td><td><code>vertical | horizontal | both</code></td></tr>
+                            <tr><td><code>sw-parallax-inv</code></td><td><code>false</code></td><td>Inverte a direção do movimento.</td></tr>
+                            <tr><td><code>sw-parallax-range</code></td><td>—</td><td>Limita o deslocamento máximo em px.</td></tr>
+                            <tr><td><code>sw-parallax-mobile</code></td><td><code>true</code></td><td><code>false</code> desativa em telas ≤768px.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

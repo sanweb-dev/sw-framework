@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tabs - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Layout JS</span>
+                <span class="brc-it is-cur" aria-current="page">Tabs</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Tabs <span class="TprinD">[sw-tabs]</span></h1>
+                <p class="t-g t-mut mb-0">Abas com navegação por teclado, rolagem com setas quando não cabem, e variantes pill/vertical.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Padrão</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs>
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Perfil</button>
+                            <button class="sw-tabs-it">Segurança</button>
+                            <button class="sw-tabs-it">Notificações</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Conteúdo da aba <strong>Perfil</strong>.</div>
+                        <div class="sw-tabs-pnl">Conteúdo da aba <strong>Segurança</strong>.</div>
+                        <div class="sw-tabs-pnl">Conteúdo da aba <strong>Notificações</strong>.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs>
+    <div class="sw-tabs-nav">
+        <button class="sw-tabs-it">Perfil</button>
+        <button class="sw-tabs-it">Segurança</button>
+    </div>
+    <div class="sw-tabs-pnl">Conteúdo 1</div>
+    <div class="sw-tabs-pnl">Conteúdo 2</div>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Pill</h3>
+                <div class="demo-wrap p-6">
+                    <div sw-tabs class="is-pill">
+                        <div class="sw-tabs-nav">
+                            <button class="sw-tabs-it">Mensal</button>
+                            <button class="sw-tabs-it">Anual</button>
+                        </div>
+                        <div class="sw-tabs-pnl">Plano mensal.</div>
+                        <div class="sw-tabs-pnl">Plano anual — 2 meses grátis.</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tabs class="is-pill">...</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-tabs]</code></td><td>Container raiz — inicializa o componente.</td></tr>
+                            <tr><td><code>.sw-tabs-nav</code></td><td>Barra de botões das abas.</td></tr>
+                            <tr><td><code>.sw-tabs-it</code></td><td>Botão de cada aba (ordem casa com os painéis).</td></tr>
+                            <tr><td><code>.sw-tabs-pnl</code></td><td>Painel de conteúdo de cada aba.</td></tr>
+                            <tr><td><code>.is-pill</code></td><td>Variante com abas em formato pílula.</td></tr>
+                            <tr><td><code>.is-vrt</code></td><td>Variante vertical — nav à esquerda.</td></tr>
+                            <tr><td><code>sw-tabs-idx</code> (no botão)</td><td>Força o índice/id do painel associado.</td></tr>
+                            <tr><td><code>sw:tabs:change</code></td><td>Evento disparado ao trocar de aba — <code>detail.key</code>, <code>detail.btn</code>, <code>detail.panel</code>.</td></tr>
+                            <tr><td><code>SW.Tabs.show(container, key)</code></td><td>API — ativa uma aba programaticamente.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

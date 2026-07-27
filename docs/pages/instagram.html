@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">JS Módulos</span>
+                <span class="brc-it is-cur" aria-current="page">Instagram</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h1 class="t-xxg f-bd mb-2">Instagram <span class="TprinD">[sw-instagram]</span></h1>
+                <p class="t-g t-mut mb-0">Galeria de posts do Instagram. Três modos: feed via proxy próprio (<code>sw-instagram-user</code>), embed oficial por URL, ou JSON estático.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Modo Feed (requer um proxy no seu backend)</h3>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-instagram sw-instagram-user="sanweb.dev" sw-instagram-proxy="/api/instagram.php" sw-instagram-cols="3" sw-instagram-limit="9"></div>
+</script></pre>
+                <p class="t-mut mt-2">O proxy deve devolver JSON no formato <code>{ user, avatar, followers, posts: [{ url, image, caption, likes, comments }] }</code>. Sem token de API — o Instagram não oferece feed público direto por CORS.</p>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Modo Embed (posts públicos por URL, sem proxy)</h3>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-instagram sw-instagram-urls="https://www.instagram.com/p/CODIGO1/,https://www.instagram.com/p/CODIGO2/"></div>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-instagram-user</code> + <code>sw-instagram-proxy</code></td><td>Modo feed via backend próprio.</td></tr>
+                            <tr><td><code>sw-instagram-json</code></td><td>URL de um JSON estático já no formato do feed.</td></tr>
+                            <tr><td><code>sw-instagram-urls</code></td><td>Modo legado — lista de URLs de posts públicos (embed oficial).</td></tr>
+                            <tr><td><code>sw-instagram-mode</code></td><td><code>embed</code> (script oficial) ou <code>iframe</code>.</td></tr>
+                            <tr><td><code>sw-instagram-cols</code> / <code>-gap</code></td><td>Colunas e espaçamento do grid (modo feed).</td></tr>
+                            <tr><td><code>sw-instagram-limit</code></td><td>Máximo de posts exibidos.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

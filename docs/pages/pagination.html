@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Navegação JS</span>
+                <span class="brc-it is-cur" aria-current="page">Pagination</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Pagination <span class="TprinD">[sw-pagination]</span></h1>
+                <p class="t-g t-mut mb-0">Paginação com reticências inteligentes — sempre mostra primeira, última e vizinhas da página atual.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <div class="demo-wrap p-6">
+                    <nav sw-pagination sw-pagination-total="120" sw-pagination-per="10" sw-pagination-cur="4" sw-pagination-delta="2"></nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-pagination
+     sw-pagination-total="120"
+     sw-pagination-per="10"
+     sw-pagination-cur="1"
+     sw-pagination-delta="2">
+</nav>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-pagination-total</code></td><td><code>1</code></td><td>Total de registros.</td></tr>
+                            <tr><td><code>sw-pagination-per</code></td><td><code>10</code></td><td>Registros por página.</td></tr>
+                            <tr><td><code>sw-pagination-cur</code></td><td><code>1</code></td><td>Página atual.</td></tr>
+                            <tr><td><code>sw-pagination-delta</code></td><td><code>2</code></td><td>Quantas páginas vizinhas mostrar de cada lado.</td></tr>
+                            <tr><td><code>sw:pagination:change</code></td><td>—</td><td>Evento — <code>detail.page</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="t-mut mt-4">Usado automaticamente pela <a href="table.html">Table (AJAX)</a> quando <code>sw-table-per</code> é definido.</p>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

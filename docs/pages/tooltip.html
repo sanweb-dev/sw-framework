@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tooltip - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Layout JS</span>
+                <span class="brc-it is-cur" aria-current="page">Tooltip</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">Tooltip <span class="TprinD">[sw-tooltip]</span></h1>
+                <p class="t-g t-mut mb-0">Dica flutuante via JS — mais inteligente que o <code>.tip</code> só-CSS: reposiciona nas bordas da tela e pode seguir o cursor.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Posições</h3>
+                <div class="demo-wrap p-6 flx alc gap-4 f-wr">
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Topo (padrão)">Top</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Embaixo" sw-tooltip-pos="bottom">Bottom</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="À esquerda" sw-tooltip-pos="left">Left</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="À direita" sw-tooltip-pos="right">Right</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Eu sigo o mouse" sw-tooltip-follow="true">Follow cursor</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-tooltip="Texto da dica" sw-tooltip-pos="bottom">Passe o mouse</button>
+<button sw-tooltip="Sigo o cursor" sw-tooltip-follow="true">Follow</button>
+</script></pre>
+            </div>
+
+            <div class="doc-card">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-tooltip</code></td><td>—</td><td>Texto da dica (ativa o componente).</td></tr>
+                            <tr><td><code>sw-tooltip-pos</code></td><td><code>top</code></td><td><code>top | bottom | left | right</code></td></tr>
+                            <tr><td><code>sw-tooltip-delay</code></td><td><code>250</code></td><td>ms antes de exibir.</td></tr>
+                            <tr><td><code>sw-tooltip-html</code></td><td><code>false</code></td><td>Interpreta o texto como HTML.</td></tr>
+                            <tr><td><code>sw-tooltip-clr</code></td><td>—</td><td>Variante de cor (ex.: <code>pri</code>, <code>err</code>).</td></tr>
+                            <tr><td><code>sw-tooltip-follow</code></td><td><code>false</code></td><td>Tooltip acompanha o cursor em vez de fixar na borda do elemento.</td></tr>
+                            <tr><td><code>SW.Tooltip.create/update/destroy(el, opts)</code></td><td>—</td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

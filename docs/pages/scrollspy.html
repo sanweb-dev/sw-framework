@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ScrollSpy & Smooth Scroll - SW Docs</title>
+  <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Navegação JS</span>
+                <span class="brc-it is-cur" aria-current="page">ScrollSpy & Smooth Scroll</span>
+            </nav>
+
+            <section class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h1 class="t-xxg f-bd mb-2">ScrollSpy <span class="TprinD">[sw-scrollspy]</span></h1>
+                <p class="t-g t-mut mb-0">Destaca o link do menu conforme a seção visível e faz scroll suave até ela ao clicar. Funciona na página inteira ou dentro de um container com <code>sw-scrollspy-tgt</code>.</p>
+            </section>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Demo (rolagem dentro de um container)</h3>
+                <div class="demo-wrap p-6 flx gap-4">
+                    <nav sw-scrollspy sw-scrollspy-tgt="#spy-box" sw-scrollspy-offset="8" class="flx fld-col gap-2" style="min-width:12rem;">
+                        <a href="#spy-a">Seção A</a>
+                        <a href="#spy-b">Seção B</a>
+                        <a href="#spy-c">Seção C</a>
+                    </nav>
+                    <div id="spy-box" style="height:16rem;overflow-y:auto;border:1px solid var(--sw-bor);border-radius:var(--sw-r-m);padding:0 1.2rem;flex:1">
+                        <section id="spy-a" style="padding:2rem 0"><h4>Seção A</h4><p class="t-mut">Conteúdo A.</p></section>
+                        <section id="spy-b" style="padding:2rem 0"><h4>Seção B</h4><p class="t-mut">Conteúdo B.</p></section>
+                        <section id="spy-c" style="padding:2rem 0"><h4>Seção C</h4><p class="t-mut">Conteúdo C.</p></section>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-scrollspy sw-scrollspy-tgt="#lista" sw-scrollspy-offset="80">
+    <a href="#sec1">Seção 1</a>
+    <a href="#sec2">Seção 2</a>
+</nav>
+<div id="lista">
+    <section id="sec1">...</section>
+    <section id="sec2">...</section>
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Smooth Scroll isolado</h3>
+                <div class="demo-wrap p-6">
+                    <a sw-scroll href="#ref-scroll" sw-scroll-offset="100" sw-btn class="sw-btn-out">Ir para a referência ↓</a>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<a sw-scroll href="#secao" sw-scroll-offset="80">Ir para a seção</a>
+<!-- ou via JS: SW.Scroll.to('#secao', 80) -->
+</script></pre>
+            </div>
+
+            <div class="doc-card" id="ref-scroll">
+                <h3 class="t-m f-bd mb-2">Referência</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sw-scrollspy-offset</code></td><td><code>80</code></td><td>Distância do topo considerada "seção ativa".</td></tr>
+                            <tr><td><code>sw-scrollspy-tgt</code></td><td>window</td><td>Seletor do container rolável (opcional).</td></tr>
+                            <tr><td><code>sw-scroll</code> / <code>sw-scroll-offset</code></td><td>—</td><td>Link/botão avulso com scroll suave até <code>href</code> ou <code>sw-scroll-target</code>.</td></tr>
+                            <tr><td><code>sw:scrollspy:change</code></td><td>—</td><td>Evento — <code>detail.id</code>, <code>detail.link</code>.</td></tr>
+                            <tr><td><code>SW.Scroll.to(sel, offset)</code></td><td>—</td><td>API programática.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
