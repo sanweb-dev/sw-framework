@@ -7,6 +7,17 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        /* Só pra deixar as demos desta página legíveis — não faz parte do framework. */
+        .sw-slider-trk, .sw-slider-it { height: 100%; }
+        .slide { height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: 700; }
+        .slide.is-pri { background: var(--sw-grad-pri); }
+        .slide.is-sec { background: var(--sw-grad-sec); }
+        .slide.is-suc { background: var(--sw-grad-suc); }
+        .slide.is-err { background: var(--sw-grad-err); }
+        .slide.is-mut { background: var(--sw-sur); color: var(--sw-txt); font-size: 1.6rem; border-right: 1px solid var(--sw-bor); }
+        .demo-lbl { display: inline-flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -24,17 +35,36 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Slider <span class="TprinD">[sw-slider]</span></h1>
-                <p class="t-g t-mut mb-0">Slider de imagens/conteúdo com loop infinito, autoplay, dots, arrows, swipe e efeito zoom (Ken Burns).</p>
+                <p class="t-g t-mut mb-0">Carrossel de imagens/conteúdo com loop infinito, autoplay, dots, setas, swipe e efeito zoom (Ken Burns).</p>
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+                <h3 class="t-m f-bd mb-2">Estrutura básica</h3>
+                <p class="t-p t-mut mb-4">Todo slider segue o mesmo esqueleto — o que muda entre as variantes abaixo são só os atributos no container e a presença (ou não) das peças opcionais.</p>
+                <div class="tbl is-str">
+                    <table>
+                        <thead><tr><th>Peça</th><th>Obrigatória?</th><th>Papel</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>[sw-slider]</code></td><td>Sim</td><td>Container raiz. Precisa de uma altura definida (CSS/inline) — os itens acompanham essa altura.</td></tr>
+                            <tr><td><code>.sw-slider-trk</code></td><td>Sim</td><td>Trilho — o elemento que efetivamente desliza/troca de opacidade.</td></tr>
+                            <tr><td><code>.sw-slider-it</code></td><td>Sim (2+)</td><td>Cada slide. O conteúdo de dentro é livre — texto, imagem, o que quiser.</td></tr>
+                            <tr><td><code>.sw-slider-prv</code> / <code>.sw-slider-nxt</code></td><td>Opcional</td><td>Setas de navegação manual.</td></tr>
+                            <tr><td><code>.sw-slider-dot-grp</code></td><td>Opcional</td><td>Deixe a <code>&lt;div&gt;</code> vazia — o JS preenche os pontinhos sozinho, um por página.</td></tr>
+                            <tr><td><code>.sw-slider-ply</code></td><td>Opcional</td><td>Botão de play/pause manual do autoplay.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">1. Básico</h3>
+                <p class="t-p t-mut mb-4">O mínimo pra funcionar: container com altura, trilho, itens. Aqui com autoplay de 3.5s.</p>
                 <div class="demo-wrap p-6">
-                    <div sw-slider sw-slider-auto="3500" style="border-radius: var(--sw-r-g); overflow: hidden;">
+                    <div sw-slider sw-slider-auto="3500" style="height:24rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-pri);color:#fff;font-size:2rem;font-weight:700;">Slide 1</div>
-                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);color:#fff;font-size:2rem;font-weight:700;">Slide 2</div>
-                            <div class="sw-slider-it" style="height:24rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-suc);color:#fff;font-size:2rem;font-weight:700;">Slide 3</div>
+                            <div class="sw-slider-it"><div class="slide is-pri">Slide 1</div></div>
+                            <div class="sw-slider-it"><div class="slide is-sec">Slide 2</div></div>
+                            <div class="sw-slider-it"><div class="slide is-suc">Slide 3</div></div>
                         </div>
                         <button class="sw-slider-prv">‹</button>
                         <button class="sw-slider-nxt">›</button>
@@ -42,10 +72,11 @@
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-slider sw-slider-auto="3500">
+<div sw-slider sw-slider-auto="3500" style="height:24rem">
     <div class="sw-slider-trk">
         <div class="sw-slider-it">Slide 1</div>
         <div class="sw-slider-it">Slide 2</div>
+        <div class="sw-slider-it">Slide 3</div>
     </div>
     <button class="sw-slider-prv">‹</button>
     <button class="sw-slider-nxt">›</button>
@@ -55,14 +86,14 @@
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Autoplay sem pausar no hover + play/pause manual</h3>
-                <p class="t-p t-mut mb-4">Com <code>sw-slider-hover="run"</code> o autoplay continua mesmo com o mouse em cima. O botão <code>.sw-slider-ply</code> alterna play/pause manualmente.</p>
+                <h3 class="t-m f-bd mb-4">2. Autoplay, pausa no hover e play/pause manual</h3>
+                <p class="t-p t-mut mb-4">Por padrão, se <code>sw-slider-auto</code> estiver ligado, passar o mouse em cima pausa o avanço automático. <code>sw-slider-hover="run"</code> desliga essa pausa. O botão <code>.sw-slider-ply</code> (opcional) dá controle manual, independente do hover.</p>
                 <div class="demo-wrap p-6">
                     <div sw-slider sw-slider-auto="2500" sw-slider-hover="run" style="height:20rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it" style="height:20rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-pri);color:#fff;font-size:2rem;font-weight:700;">A</div>
-                            <div class="sw-slider-it" style="height:20rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);color:#fff;font-size:2rem;font-weight:700;">B</div>
-                            <div class="sw-slider-it" style="height:20rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-err);color:#fff;font-size:2rem;font-weight:700;">C</div>
+                            <div class="sw-slider-it"><div class="slide is-pri">A</div></div>
+                            <div class="sw-slider-it"><div class="slide is-sec">B</div></div>
+                            <div class="sw-slider-it"><div class="slide is-err">C</div></div>
                         </div>
                         <button class="sw-slider-prv">‹</button>
                         <button class="sw-slider-nxt">›</button>
@@ -71,40 +102,45 @@
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-slider sw-slider-auto="2500" sw-slider-hover="run">
-    ...
+<div sw-slider sw-slider-auto="2500" sw-slider-hover="run" style="height:20rem">
+    <div class="sw-slider-trk">...</div>
+    <button class="sw-slider-prv">‹</button>
+    <button class="sw-slider-nxt">›</button>
     <button class="sw-slider-ply"></button>
+    <div class="sw-slider-dot-grp"></div>
 </div>
 </script></pre>
             </div>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">3. Múltiplos itens visíveis <code class="t-p">sw-slider-show</code></h3>
-                <p class="t-p t-mut mb-4">Com <code>sw-slider-show="3"</code>, mostra 3 itens por página. Por padrão cada clique avança uma página inteira (de 3 em 3) — some <code>sw-slider-scroll="1"</code> pra avançar item por item, mesmo com 3 visíveis ao mesmo tempo.</p>
-                <p class="t-p f-bd mb-2">3 em 3 (padrão)</p>
+                <h3 class="t-m f-bd mb-4">3. Itens visíveis e velocidade de avanço</h3>
+                <p class="t-p t-mut mb-4"><code>sw-slider-show</code> controla quantos itens aparecem por vez. <code>sw-slider-scroll</code> controla quantos itens andam a cada clique/troca — por padrão é igual a <code>show</code> (avança página inteira). Compare os dois abaixo, ambos mostrando 3 itens:</p>
+
+                <p class="demo-lbl t-p"><strong>3 em 3</strong> <span class="t-pp t-mut">(padrão — sem <code>sw-slider-scroll</code>)</span></p>
                 <div class="demo-wrap p-6 mb-6">
                     <div sw-slider sw-slider-show="3" style="height:14rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">1</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">2</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">3</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">4</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);font-size:1.6rem;font-weight:700;">5</div>
+                            <div class="sw-slider-it"><div class="slide is-mut">1</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">2</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">3</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">4</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">5</div></div>
                         </div>
                         <button class="sw-slider-prv">‹</button>
                         <button class="sw-slider-nxt">›</button>
                         <div class="sw-slider-dot-grp"></div>
                     </div>
                 </div>
-                <p class="t-p f-bd mb-2">1 em 1 <code class="t-pp">sw-slider-scroll="1"</code></p>
+
+                <p class="demo-lbl t-p"><strong>1 em 1</strong> <span class="t-pp t-mut">(com <code>sw-slider-scroll="1"</code>)</span></p>
                 <div class="demo-wrap p-6">
                     <div sw-slider sw-slider-show="3" sw-slider-scroll="1" style="height:14rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">1</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">2</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">3</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">4</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);font-size:1.6rem;font-weight:700;">5</div>
+                            <div class="sw-slider-it"><div class="slide is-mut">1</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">2</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">3</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">4</div></div>
+                            <div class="sw-slider-it"><div class="slide is-mut">5</div></div>
                         </div>
                         <button class="sw-slider-prv">‹</button>
                         <button class="sw-slider-nxt">›</button>
@@ -122,19 +158,19 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">4. Efeito Zoom (Ken Burns) <code class="t-p">sw-slider-effect="zoom"</code></h3>
-                <p class="t-p t-mut mb-4">Cada slide dá um leve zoom/pan enquanto fica em tela, com crossfade entre eles — sem o deslize lateral padrão.</p>
+                <p class="t-p t-mut mb-4">Em vez de deslizar pro lado, os slides ficam empilhados: o atual dá um leve zoom/pan enquanto some em crossfade pro próximo. Ignora <code>sw-slider-loop</code> (não clona itens).</p>
                 <div class="demo-wrap p-6">
                     <div sw-slider sw-slider-effect="zoom" sw-slider-auto="3500" style="height:20rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-pri);color:#fff;font-size:2rem;font-weight:700;">Zoom 1</div></div>
-                            <div class="sw-slider-it"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);color:#fff;font-size:2rem;font-weight:700;">Zoom 2</div></div>
-                            <div class="sw-slider-it"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-suc);color:#fff;font-size:2rem;font-weight:700;">Zoom 3</div></div>
+                            <div class="sw-slider-it"><div class="slide is-pri">Zoom 1</div></div>
+                            <div class="sw-slider-it"><div class="slide is-sec">Zoom 2</div></div>
+                            <div class="sw-slider-it"><div class="slide is-suc">Zoom 3</div></div>
                         </div>
                         <div class="sw-slider-dot-grp"></div>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-slider sw-slider-effect="zoom" sw-slider-auto="3500">
+<div sw-slider sw-slider-effect="zoom" sw-slider-auto="3500" style="height:20rem">
     <div class="sw-slider-trk">
         <div class="sw-slider-it"><img src="foto1.jpg" alt=""></div>
         <div class="sw-slider-it"><img src="foto2.jpg" alt=""></div>
@@ -146,13 +182,13 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">5. Sem loop <code class="t-p">sw-slider-loop="false"</code></h3>
-                <p class="t-p t-mut mb-4">Para no primeiro e no último slide, em vez de voltar pro início.</p>
+                <p class="t-p t-mut mb-4">Trava no primeiro e no último slide — as setas somem/desabilitam a ida além das pontas em vez de voltar pro início.</p>
                 <div class="demo-wrap p-6">
                     <div sw-slider sw-slider-loop="false" style="height:14rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-pri);color:#fff;font-size:1.8rem;font-weight:700;">Início</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-sec);color:#fff;font-size:1.8rem;font-weight:700;">Meio</div>
-                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-grad-err);color:#fff;font-size:1.8rem;font-weight:700;">Fim</div>
+                            <div class="sw-slider-it"><div class="slide is-pri">Início</div></div>
+                            <div class="sw-slider-it"><div class="slide is-sec">Meio</div></div>
+                            <div class="sw-slider-it"><div class="slide is-err">Fim</div></div>
                         </div>
                         <button class="sw-slider-prv">‹</button>
                         <button class="sw-slider-nxt">›</button>
@@ -160,7 +196,7 @@
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-slider sw-slider-loop="false">...</div>
+<div sw-slider sw-slider-loop="false" style="height:14rem">...</div>
 </script></pre>
             </div>
 
@@ -170,14 +206,13 @@
                     <table>
                         <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>sw-slider-show</code></td><td><code>1</code></td><td>Quantos itens visíveis por página.</td></tr>
-                            <tr><td><code>sw-slider-loop</code></td><td><code>true</code></td><td>Loop infinito (clona itens nas pontas).</td></tr>
                             <tr><td><code>sw-slider-auto</code></td><td><code>0</code></td><td>Intervalo de autoplay em ms (0 = desligado).</td></tr>
-                            <tr><td><code>sw-slider-hover</code></td><td>—</td><td><code>run</code> mantém o autoplay rodando mesmo com hover.</td></tr>
-                            <tr><td><code>sw-slider-effect</code></td><td><code>slide</code></td><td><code>slide | zoom</code> (zoom = efeito Ken Burns, sem loop clonado).</td></tr>
-                            <tr><td><code>sw-slider-dur</code></td><td>—</td><td>Duração customizada da transição (ex.: <code>600ms</code>).</td></tr>
+                            <tr><td><code>sw-slider-hover</code></td><td>—</td><td><code>run</code> mantém o autoplay rodando mesmo com o mouse em cima.</td></tr>
+                            <tr><td><code>sw-slider-show</code></td><td><code>1</code></td><td>Quantos itens visíveis por vez.</td></tr>
                             <tr><td><code>sw-slider-scroll</code></td><td>= <code>show</code></td><td>Quantos itens avança por clique/troca de página.</td></tr>
-                            <tr><td><code>.sw-slider-ply</code></td><td>—</td><td>Botão de play/pause manual (ganha <code>.is-paused</code>).</td></tr>
+                            <tr><td><code>sw-slider-effect</code></td><td><code>slide</code></td><td><code>slide | zoom</code> — zoom é o efeito Ken Burns, sem loop clonado.</td></tr>
+                            <tr><td><code>sw-slider-loop</code></td><td><code>true</code></td><td>Loop infinito (clona itens nas pontas). Ignorado no efeito zoom.</td></tr>
+                            <tr><td><code>sw-slider-dur</code></td><td>—</td><td>Duração customizada da transição (ex.: <code>600ms</code>).</td></tr>
                             <tr><td><code>sw:slider:change</code></td><td>—</td><td>Evento disparado ao trocar de página — <code>detail.page</code>.</td></tr>
                             <tr><td><code>SW.Slider.next/prev/goTo(el, idx)</code></td><td>—</td><td>API programática.</td></tr>
                         </tbody>
