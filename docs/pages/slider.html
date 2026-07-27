@@ -80,8 +80,9 @@
 
             <div class="doc-card mb-8">
                 <h3 class="t-m f-bd mb-4">3. Múltiplos itens visíveis <code class="t-p">sw-slider-show</code></h3>
-                <p class="t-p t-mut mb-4">Com <code>sw-slider-show="3"</code>, mostra 3 itens por página em vez de 1.</p>
-                <div class="demo-wrap p-6">
+                <p class="t-p t-mut mb-4">Com <code>sw-slider-show="3"</code>, mostra 3 itens por página. Por padrão cada clique avança uma página inteira (de 3 em 3) — some <code>sw-slider-scroll="1"</code> pra avançar item por item, mesmo com 3 visíveis ao mesmo tempo.</p>
+                <p class="t-p f-bd mb-2">3 em 3 (padrão)</p>
+                <div class="demo-wrap p-6 mb-6">
                     <div sw-slider sw-slider-show="3" style="height:14rem; border-radius: var(--sw-r-g); overflow: hidden;">
                         <div class="sw-slider-trk">
                             <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">1</div>
@@ -95,8 +96,27 @@
                         <div class="sw-slider-dot-grp"></div>
                     </div>
                 </div>
+                <p class="t-p f-bd mb-2">1 em 1 <code class="t-pp">sw-slider-scroll="1"</code></p>
+                <div class="demo-wrap p-6">
+                    <div sw-slider sw-slider-show="3" sw-slider-scroll="1" style="height:14rem; border-radius: var(--sw-r-g); overflow: hidden;">
+                        <div class="sw-slider-trk">
+                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">1</div>
+                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">2</div>
+                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">3</div>
+                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);border-right:1px solid var(--sw-bor);font-size:1.6rem;font-weight:700;">4</div>
+                            <div class="sw-slider-it" style="height:14rem;display:flex;align-items:center;justify-content:center;background:var(--sw-sur);font-size:1.6rem;font-weight:700;">5</div>
+                        </div>
+                        <button class="sw-slider-prv">‹</button>
+                        <button class="sw-slider-nxt">›</button>
+                        <div class="sw-slider-dot-grp"></div>
+                    </div>
+                </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- 3 em 3 -->
 <div sw-slider sw-slider-show="3">...</div>
+
+<!-- 1 em 1, mostrando 3 -->
+<div sw-slider sw-slider-show="3" sw-slider-scroll="1">...</div>
 </script></pre>
             </div>
 
