@@ -1713,6 +1713,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 
 /* --- 📝 GRUPO DE FORMULÁRIO (.sw-form-group) --- */
 .sw-form-group {
+  position: relative;
   margin-bottom: 1.8rem;
   display: flex;
   flex-direction: column;
@@ -1938,9 +1939,18 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 }
 
 .sw-form-error {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  max-width: 100%;
+  margin-top: .3rem;
   font-size: 1.2rem;
   color: var(--sw-err);
   font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sw-form-error[hidden] {
