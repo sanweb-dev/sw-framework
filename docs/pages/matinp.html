@@ -7,6 +7,13 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+        @media (max-width: 900px) { .g3 { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .g3 { grid-template-columns: 1fr; } }
+        #apiOut, #evtLog { font-family: var(--sw-f-mon); font-size: 1.3rem; background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); padding: 1rem 1.2rem; }
+        #evtLog { min-height: 7rem; max-height: 14rem; overflow-y: auto; }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -28,24 +35,207 @@
             </section>
 
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
-                <div class="demo-wrap p-6 flx f-cl gap-2" style="max-width:32rem">
-                    <div class="fld-mat">
-                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="Nome completo" sw-matinp-req sw-matinp-minlen="3">
-                    </div>
-                    <div class="fld-mat">
-                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="Telefone" sw-matinp-mask="telefone" sw-matinp-req>
-                    </div>
-                    <div class="fld-mat">
-                        <input class="fld-mat-inp" type="text" placeholder=" " sw-matinp sw-matinp-label="E-mail" sw-matinp-email sw-matinp-hint="Usaremos só para contato.">
+                <h3 class="t-m f-bd mb-4">1. Variantes de estilo</h3>
+                <p class="t-p t-mut mb-4">Aplique a classe no <code>.fld-mat</code> (wrapper).</p>
+                <div class="demo-wrap p-6">
+                    <div class="g3">
+                        <div class="fld-mat">
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="v1">
+                            <label class="fld-mat-lbl" for="v1">Padrão</label>
+                        </div>
+                        <div class="fld-mat fld-mat-out">
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="v2">
+                            <label class="fld-mat-lbl" for="v2">Outline</label>
+                        </div>
+                        <div class="fld-mat fld-mat-fil">
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="v3">
+                            <label class="fld-mat-lbl" for="v3">Filled</label>
+                        </div>
+                        <div class="fld-mat fld-mat-sta">
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="v4">
+                            <label class="fld-mat-lbl" for="v4">Estática</label>
+                        </div>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div class="fld-mat">
-    <input class="fld-mat-inp" type="text" placeholder=" "
-           sw-matinp sw-matinp-label="Telefone"
-           sw-matinp-mask="telefone" sw-matinp-req>
+<div class="fld-mat fld-mat-out">...</div>  <!-- contorno -->
+<div class="fld-mat fld-mat-fil">...</div>  <!-- preenchido -->
+<div class="fld-mat fld-mat-sta">...</div>  <!-- label estática, sem flutuar -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">2. Com ícone <code class="t-p">.fld-mat-ico</code></h3>
+                <div class="demo-wrap p-6">
+                    <div class="g3">
+                        <div class="fld-mat fld-mat-ico fld-mat-out">
+                            <i class="swi swi-user fld-mat-ico-el"></i>
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="ico1">
+                            <label class="fld-mat-lbl" for="ico1">Usuário</label>
+                        </div>
+                        <div class="fld-mat fld-mat-ico fld-mat-out">
+                            <i class="swi swi-lock fld-mat-ico-el"></i>
+                            <input class="fld-mat-inp" type="password" placeholder=" " id="ico2">
+                            <label class="fld-mat-lbl" for="ico2">Senha</label>
+                        </div>
+                        <div class="fld-mat fld-mat-ico">
+                            <i class="swi swi-envelope fld-mat-ico-el"></i>
+                            <input class="fld-mat-inp" type="email" placeholder=" " id="ico3">
+                            <label class="fld-mat-lbl" for="ico3">E-mail</label>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="fld-mat fld-mat-ico fld-mat-out">
+    <i class="swi swi-user fld-mat-ico-el"></i>
+    <input class="fld-mat-inp" type="text" placeholder=" " id="usuario">
+    <label class="fld-mat-lbl" for="usuario">Usuário</label>
 </div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">3. Validação com sw-matinp</h3>
+                <p class="t-p t-mut mb-4">Adicione <code>sw-matinp</code> no input e use os atributos de validação. O módulo JS cria a label (se não existir), hint e mensagem de erro automaticamente.</p>
+                <div class="demo-wrap p-6">
+                    <div class="g3">
+                        <div class="fld-mat fld-mat-out">
+                            <input class="fld-mat-inp" type="text" placeholder=" " id="vl1" sw-matinp sw-matinp-label="Nome (obrigatório, mín. 3)" sw-matinp-req sw-matinp-minlen="3" sw-matinp-hint="Digite seu nome completo">
+                        </div>
+                        <div class="fld-mat fld-mat-out">
+                            <input class="fld-mat-inp" type="email" placeholder=" " id="vl2" sw-matinp sw-matinp-label="E-mail válido" sw-matinp-req sw-matinp-email sw-matinp-hint="exemplo@dominio.com">
+                        </div>
+                        <div class="fld-mat fld-mat-out">
+                            <input class="fld-mat-inp" type="password" placeholder=" " id="vl3" sw-matinp sw-matinp-label="Senha (mín. 8 chars)" sw-matinp-req sw-matinp-minlen="8" sw-matinp-msg-minlen="A senha precisa de pelo menos 8 caracteres.">
+                        </div>
+                        <div class="fld-mat fld-mat-out">
+                            <input class="fld-mat-inp" type="password" placeholder=" " id="vl4" sw-matinp sw-matinp-label="Confirmar senha" sw-matinp-req sw-matinp-match="#vl3" sw-matinp-msg-match="As senhas não coincidem.">
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="fld-mat fld-mat-out">
+    <input class="fld-mat-inp" type="text" placeholder=" " id="nome"
+           sw-matinp sw-matinp-label="Nome"
+           sw-matinp-req sw-matinp-minlen="3"
+           sw-matinp-hint="Digite seu nome completo">
+</div>
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">4. Máscaras automáticas</h3>
+                <p class="t-p t-mut mb-4">Use <code>sw-matinp-mask</code> pra formatação automática enquanto digita.</p>
+                <div class="demo-wrap p-6">
+                    <div class="g3">
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk1" sw-matinp sw-matinp-label="Telefone" sw-matinp-mask="telefone"></div>
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk2" sw-matinp sw-matinp-label="CPF" sw-matinp-mask="cpf"></div>
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk3" sw-matinp sw-matinp-label="CNPJ" sw-matinp-mask="cnpj"></div>
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk4" sw-matinp sw-matinp-label="CEP" sw-matinp-mask="cep"></div>
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk5" sw-matinp sw-matinp-label="Data (DD/MM/AAAA)" sw-matinp-mask="data"></div>
+                        <div class="fld-mat fld-mat-out"><input class="fld-mat-inp" type="text" placeholder=" " id="mk6" sw-matinp sw-matinp-label="Cartão de crédito" sw-matinp-mask="cartao"></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<input class="fld-mat-inp" type="text" placeholder=" "
+       sw-matinp sw-matinp-label="Telefone" sw-matinp-mask="telefone">
+<!-- Máscaras disponíveis: telefone | cpf | cnpj | cep | data | hora | cartao -->
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">5. Estados visuais</h3>
+                <div class="demo-wrap p-6">
+                    <div class="g3">
+                        <div>
+                            <p class="t-pp t-mut mb-2">Normal</p>
+                            <div class="fld-mat fld-mat-out">
+                                <input class="fld-mat-inp" type="text" placeholder=" " id="st1">
+                                <label class="fld-mat-lbl" for="st1">Campo normal</label>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-2">Válido <code class="t-pp">.is-ok</code></p>
+                            <div class="fld-mat fld-mat-out is-ok">
+                                <input class="fld-mat-inp" type="text" placeholder=" " id="st2" value="João Silva">
+                                <label class="fld-mat-lbl" for="st2">Nome validado</label>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-2">Erro <code class="t-pp">.is-err</code></p>
+                            <div class="fld-mat fld-mat-out is-err">
+                                <input class="fld-mat-inp" type="email" placeholder=" " id="st3" value="email-invalido">
+                                <label class="fld-mat-lbl" for="st3">E-mail inválido</label>
+                                <span class="fld-mat-msg">E-mail inválido.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-2">Com hint</p>
+                            <div class="fld-mat fld-mat-out">
+                                <input class="fld-mat-inp" type="text" placeholder=" " id="st4">
+                                <label class="fld-mat-lbl" for="st4">Usuário</label>
+                                <span class="fld-mat-hint">Letras e números, sem espaços.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-2">Desabilitado</p>
+                            <div class="fld-mat fld-mat-out">
+                                <input class="fld-mat-inp" type="text" placeholder=" " id="st5" disabled value="Valor fixo">
+                                <label class="fld-mat-lbl" for="st5">Campo bloqueado</label>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="t-pp t-mut mb-2">Textarea</p>
+                            <div class="fld-mat fld-mat-out">
+                                <textarea class="fld-mat-inp" placeholder=" " id="st6"></textarea>
+                                <label class="fld-mat-lbl" for="st6">Mensagem</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">6. API JavaScript</h3>
+                <div class="demo-wrap p-6 flx f-cl gap-4">
+                    <div class="fld-mat fld-mat-out" style="max-width:36rem">
+                        <input class="fld-mat-inp" type="text" placeholder=" " id="apiInp" sw-matinp sw-matinp-label="Campo controlado via JS" sw-matinp-req sw-matinp-minlen="3">
+                    </div>
+                    <div class="flx gap-2 f-wr">
+                        <button sw-btn class="sw-btn-sm sw-btn-pri" id="apiValidate">validate()</button>
+                        <button sw-btn class="sw-btn-sm sw-btn-inf" id="apiGetValue">getValue()</button>
+                        <button sw-btn class="sw-btn-sm sw-btn-sec" id="apiSetValue">setValue('SW')</button>
+                        <button sw-btn class="sw-btn-sm sw-btn-ale" id="apiSetError">setError()</button>
+                        <button sw-btn class="sw-btn-sm sw-btn-gst" id="apiReset">reset()</button>
+                    </div>
+                    <p id="apiOut" class="m-0">→ resultado aqui</p>
+                </div>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const inst = document.querySelector('#meuInput')._swMatinp;
+
+inst.validate()           // → true/false — executa validação
+inst.getValue()           // → string com o valor atual
+inst.setValue('texto')    // → preenche e valida
+inst.setError('msg')      // → exibe erro manual
+inst.clearError()         // → limpa estado de erro
+inst.reset()               // → limpa campo e estados
+</script></pre>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">7. Eventos</h3>
+                <div class="demo-wrap p-6">
+                    <div class="fld-mat fld-mat-out mb-4" style="max-width:36rem">
+                        <input class="fld-mat-inp" type="email" placeholder=" " id="evtInp" sw-matinp sw-matinp-label="Digite um e-mail" sw-matinp-email>
+                    </div>
+                    <div id="evtLog"></div>
+                </div>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const inp = document.querySelector('#email');
+
+inp.addEventListener('sw:matinp:valid',   e => console.log('Válido:', e.detail.value));
+inp.addEventListener('sw:matinp:invalid', e => console.log('Inválido:', e.detail.error));
+inp.addEventListener('sw:matinp:change',  e => console.log('Mudou:', e.detail.value));
 </script></pre>
             </div>
 
@@ -53,22 +243,55 @@
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo/Classe</th><th>Descrição</th></tr></thead>
                         <tbody>
+                            <tr><td><code>.fld-mat</code></td><td>Wrapper obrigatório.</td></tr>
+                            <tr><td><code>.fld-mat-inp</code></td><td>Input/textarea.</td></tr>
+                            <tr><td><code>.fld-mat-lbl</code></td><td>Label flutuante (criada automaticamente).</td></tr>
+                            <tr><td><code>.fld-mat-out</code></td><td>Variante outline (contorno, sem preenchimento).</td></tr>
+                            <tr><td><code>.fld-mat-fil</code></td><td>Variante filled (preenchida, só borda inferior).</td></tr>
+                            <tr><td><code>.fld-mat-sta</code></td><td>Label estática (sempre no topo, sem animação).</td></tr>
+                            <tr><td><code>.fld-mat-ico</code></td><td>Com ícone à esquerda (use <code>.fld-mat-ico-el</code> no <code>&lt;i&gt;</code>).</td></tr>
                             <tr><td><code>sw-matinp-label</code></td><td>Texto da label flutuante (criada automaticamente).</td></tr>
                             <tr><td><code>sw-matinp-mask</code></td><td><code>telefone | cpf | cnpj | cep | data | hora | cartao</code></td></tr>
                             <tr><td><code>sw-matinp-req / -email / -url / -minlen / -maxlen / -min / -max / -match / -regex</code></td><td>Regras de validação — mesma sintaxe do <code>sw-valid</code>, mas prefixadas com <code>sw-matinp-</code>.</td></tr>
                             <tr><td><code>sw-matinp-msg-*</code></td><td>Mensagem de erro customizada por regra (ex.: <code>sw-matinp-msg-req</code>).</td></tr>
                             <tr><td><code>sw-matinp-hint</code></td><td>Texto de ajuda abaixo do campo.</td></tr>
                             <tr><td><code>sw-matinp-validate</code></td><td><code>blur</code> (padrão) · <code>input</code> · <code>change</code></td></tr>
+                            <tr><td><code>.is-ok</code> / <code>.is-err</code></td><td>Estados visuais no wrapper.</td></tr>
                             <tr><td><code>sw:matinp:valid / :invalid / :change</code></td><td>Eventos no input.</td></tr>
-                            <tr><td><code>el._swMatinp.validate()/.getValue()/.setValue()/.reset()</code></td><td>API na instância.</td></tr>
+                            <tr><td><code>el._swMatinp.validate()/.getValue()/.setValue()/.setError()/.clearError()/.reset()</code></td><td>API na instância.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        (function () {
+            var apiInp = document.getElementById('apiInp');
+            var apiOut = document.getElementById('apiOut');
+            function inst() { return apiInp._swMatinp; }
+            document.getElementById('apiValidate').addEventListener('click', () => { apiOut.textContent = '→ validate(): ' + inst().validate(); });
+            document.getElementById('apiGetValue').addEventListener('click', () => { apiOut.textContent = '→ getValue(): "' + inst().getValue() + '"'; });
+            document.getElementById('apiSetValue').addEventListener('click', () => { inst().setValue('SW'); apiOut.textContent = '→ setValue(\'SW\') aplicado'; });
+            document.getElementById('apiSetError').addEventListener('click', () => { inst().setError('Erro definido manualmente.'); apiOut.textContent = '→ setError() aplicado'; });
+            document.getElementById('apiReset').addEventListener('click', () => { inst().reset(); apiOut.textContent = '→ reset() aplicado'; });
+
+            var evtInp = document.getElementById('evtInp');
+            var evtLog = document.getElementById('evtLog');
+            function log(line) {
+                var p = document.createElement('div');
+                p.textContent = line;
+                evtLog.appendChild(p);
+                evtLog.scrollTop = evtLog.scrollHeight;
+            }
+            evtInp.addEventListener('sw:matinp:valid', (e) => log('Válido: ' + e.detail.value));
+            evtInp.addEventListener('sw:matinp:invalid', (e) => log('Inválido: ' + e.detail.error));
+            evtInp.addEventListener('sw:matinp:change', (e) => log('Mudou: ' + e.detail.value));
+        })();
+    </script>
 </body>
 
 </html>

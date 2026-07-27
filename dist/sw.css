@@ -6836,6 +6836,28 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .fld-mat-msg { display: block; margin-top: .4rem; font-size: 1.2rem; color: var(--sw-err); min-height: 1.6rem; }
 .fld-mat.is-err .fld-mat-inp { border-color: var(--sw-err); }
 .fld-mat.is-ok .fld-mat-inp { border-color: var(--sw-suc); }
+.fld-mat-inp:disabled { opacity: .55; cursor: not-allowed; background: var(--sw-sur-hover); }
+.fld-mat-inp:is(textarea) { height: auto; min-height: 9rem; padding-top: 1.8rem; resize: vertical; }
+
+/* .fld-mat-out — contorno, sem preenchimento */
+.fld-mat-out .fld-mat-inp { background: transparent; }
+.fld-mat-out .fld-mat-inp:focus { box-shadow: 0 0 0 1px var(--sw-pri); }
+
+/* .fld-mat-fil — preenchido, só a borda inferior destaca */
+.fld-mat-fil .fld-mat-inp { background: var(--sw-sur-hover); border: none; border-bottom: 2px solid var(--sw-bor); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; }
+.fld-mat-fil .fld-mat-inp:focus { border-bottom-color: var(--sw-pri); }
+
+/* .fld-mat-sta — label estática, sempre pequena e fixa acima (sem animação de flutuar) */
+.fld-mat-sta { display: flex; flex-direction: column; }
+.fld-mat-sta .fld-mat-lbl,
+.fld-mat-sta .fld-mat-inp:focus + .fld-mat-lbl,
+.fld-mat-sta .fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { position: static; order: -1; top: auto; left: auto; margin-bottom: .4rem; font-size: 1.2rem; color: var(--sw-txt-mut); }
+.fld-mat-sta .fld-mat-inp { padding-top: 1.2rem; }
+
+/* .fld-mat-ico — ícone à esquerda, label/texto deslocados */
+.fld-mat-ico .fld-mat-inp { padding-left: 4.2rem; }
+.fld-mat-ico .fld-mat-lbl { left: 4.2rem; }
+.fld-mat-ico-el { position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--sw-txt-mut); font-size: 1.8rem; pointer-events: none; z-index: 1; }
 
 /* ---------- Sidebar ---------- */
 [sw-sidebar] {
