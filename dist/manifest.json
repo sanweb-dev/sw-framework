@@ -1,14 +1,14 @@
 {
   "version": "0.1.0-alpha.1",
-  "generatedAt": "2026-07-27T16:39:25.433Z",
+  "generatedAt": "2026-07-27T16:48:03.475Z",
   "files": {
     "sw.css": {
-      "bytes": 358723,
-      "sha256": "b9dbea0086fee90b6f76b8ce9ebe8536c62f22dad3370cc5099780d1b1bd9939"
+      "bytes": 361439,
+      "sha256": "4728ae1620b559715fca33b843f355430aa70c7876ae222439bc26d7019ea2cc"
     },
     "sw.min.css": {
-      "bytes": 296086,
-      "sha256": "7538ff55838ead8e9aaae98a4863a4d37898fe29ce453ac8b0f178fd0185886a"
+      "bytes": 298444,
+      "sha256": "0354ffb48b9ef9e0a72f82447c531fd94cfb30d62f9249347fc3b245c8eb6763"
     },
     "sw-mpa.js": {
       "bytes": 2788,
@@ -19,12 +19,12 @@
       "sha256": "cd64cc5cc6d90e2071bf68d36d427e027607b3883a08e585d5be6741ac87b011"
     },
     "sw.js": {
-      "bytes": 200819,
-      "sha256": "cce738e2243f3a7fc445ccc54888dd2cad016c6d72914a6f1cfcdf72f4d830b8"
+      "bytes": 201449,
+      "sha256": "5119118fc3098c836d100cca918a28518d03030195c5f9e8132ced89db96ea67"
     },
     "sw.min.js": {
-      "bytes": 194217,
-      "sha256": "12c352c0bedf95dedf1cd1ea0e5a3e45a455a57f91134a9381758cb6946f7ab8"
+      "bytes": 194846,
+      "sha256": "d20aef0ca32d5e48e82e51fc9611a6ba9cde491117684761945336710f32a3bb"
     },
     "sw-fx.js": {
       "bytes": 15471,

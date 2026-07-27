@@ -3750,6 +3750,20 @@
     });
   }
 
+  // Clique num item comum (sem submenu) marca ele como ativo dentro do mesmo [sw-sidebar-mn]
+  function initActiveState(sdb) {
+    SW.$('[sw-sidebar-mn]', sdb).forEach((mn) => {
+      if (mn._swSidebarAct) return;
+      mn._swSidebarAct = true;
+      mn.addEventListener('click', (event) => {
+        const it = event.target.closest('[sw-sidebar-it]');
+        if (!it || it.hasAttribute('sw-sidebar-sub') || !mn.contains(it)) return;
+        SW.$('[sw-sidebar-it][act]', mn).forEach((el) => el.removeAttribute('act'));
+        it.setAttribute('act', '');
+      });
+    });
+  }
+
   const SWSidebar = {
     initAll(root = document) {
       SW.$('[sw-sidebar]', root).forEach((el) => {
@@ -3759,7 +3773,7 @@
         const mode = el.getAttribute('sw-sidebar-mode') || 'toggle';
         const start = el.getAttribute('sw-sidebar-start') || 'open';
 
-        if (mode === 'fixed') { initSubmenus(el); return; }
+        if (mode === 'fixed') { initSubmenus(el); initActiveState(el); return; }
 
         if (mode === 'toggle') {
           const overlay = document.querySelector('[sw-sidebar-ovl]');
@@ -3787,6 +3801,7 @@
         }
 
         initSubmenus(el);
+        initActiveState(el);
       });
 
       SW.$('[sw-sidebar-open]', root).forEach((btn) => {

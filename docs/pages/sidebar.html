@@ -24,45 +24,178 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Sidebar <span class="TprinD">[sw-sidebar]</span></h1>
-                <p class="t-g t-mut mb-0">Menu lateral com 4 modos: fixo, toggle (drawer com overlay), colapsável (só ícones) e hover. Suporta submenus em accordion.</p>
+                <p class="t-g t-mut mb-0">Menu lateral com 4 modos de comportamento — fixo, toggle (drawer com overlay), colapsável (só ícones) e hover — cabeçalho com marca, grupos, submenus em accordion e estado ativo automático ao clicar.</p>
             </section>
 
+            <!-- MODO 1: FIXED -->
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Modo colapsável (demo isolada)</h3>
-                <div class="demo-wrap p-0" style="display:flex;height:22rem;overflow:hidden;border-radius:var(--sw-r-g);">
-                    <aside sw-sidebar sw-sidebar-mode="collapse" style="position:relative">
-                        <button sw-sidebar-tgl class="sw-btn sw-btn-out m-2">☰</button>
-                        <nav class="flx fld-col gap-1 p-2">
-                            <a href="#" class="p-2">🏠 Início</a>
-                            <a href="#" sw-sidebar-sub class="p-2">📁 Projetos ▾</a>
-                            <div sw-sidebar-sub-items class="flx fld-col gap-1 pl-6">
-                                <a href="#" class="p-2">Projeto A</a>
-                                <a href="#" class="p-2">Projeto B</a>
-                            </div>
-                            <a href="#" class="p-2">⚙️ Config</a>
+                <h3 class="t-m f-bd mb-2">1. Fixed <code class="TprinD">mode="fixed"</code></h3>
+                <p class="t-p t-mut mb-4">Sempre visível, sem botão de fechar — ideal pra painéis admin onde o menu é permanente.</p>
+                <div class="demo-wrap p-0" style="display:flex;height:34rem;overflow:hidden;border-radius:var(--sw-r-g);position:relative">
+                    <aside sw-sidebar sw-sidebar-mode="fixed" style="position:relative">
+                        <div sw-sidebar-hdr>
+                            <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+                            <span sw-sidebar-hdr-ttl>Meu App</span>
+                        </div>
+                        <nav sw-sidebar-mn>
+                            <span sw-sidebar-grp-ttl>Principal</span>
+                            <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-user"></i><span sw-sidebar-lbl>Usuários</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-chart"></i><span sw-sidebar-lbl>Relatórios</span></a>
+                            <span sw-sidebar-grp-ttl>Sistema</span>
+                            <a sw-sidebar-it href="#"><i class="swi swi-cog"></i><span sw-sidebar-lbl>Preferências</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-log-out"></i><span sw-sidebar-lbl>Sair</span></a>
                         </nav>
                     </aside>
-                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg)">Conteúdo</div>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Conteúdo da página</div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<aside sw-sidebar sw-sidebar-mode="collapse">
-    <button sw-sidebar-tgl>☰</button>
-    <nav>
-        <a href="#" sw-sidebar-sub>Projetos ▾</a>
-        <div sw-sidebar-sub-items>
-            <a href="#">Projeto A</a>
-        </div>
+<aside sw-sidebar sw-sidebar-mode="fixed">
+    <div sw-sidebar-hdr>
+        <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+        <span sw-sidebar-hdr-ttl>Meu App</span>
+    </div>
+    <nav sw-sidebar-mn>
+        <span sw-sidebar-grp-ttl>Principal</span>
+        <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+        <a sw-sidebar-it href="#"><i class="swi swi-user"></i><span sw-sidebar-lbl>Usuários</span></a>
     </nav>
 </aside>
 </script></pre>
             </div>
 
+            <!-- MODO 2: TOGGLE -->
             <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Modo toggle (drawer + overlay)</h3>
+                <h3 class="t-m f-bd mb-2">2. Toggle <code class="TprinD">mode="toggle"</code> (padrão)</h3>
+                <p class="t-p t-mut mb-4">Sidebar oculta por padrão — abre como drawer real sobre a página, com overlay que fecha ao clicar fora ou ESC. Clique no botão abaixo pra testar de verdade.</p>
+                <div class="demo-wrap">
+                    <button sw-btn class="sw-btn-pri" sw-sidebar-open="#sdb-toggle">☰ Abrir Menu</button>
+                </div>
+                <div sw-sidebar-ovl></div>
+                <aside id="sdb-toggle" sw-sidebar sw-sidebar-mode="toggle" hid>
+                    <div sw-sidebar-hdr>
+                        <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+                        <span sw-sidebar-hdr-ttl>Meu App</span>
+                    </div>
+                    <nav sw-sidebar-mn>
+                        <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+                        <a sw-sidebar-it href="#"><i class="swi swi-user"></i><span sw-sidebar-lbl>Usuários</span></a>
+                        <a sw-sidebar-it href="#"><i class="swi swi-chart"></i><span sw-sidebar-lbl>Relatórios</span></a>
+                        <a sw-sidebar-it href="#"><i class="swi swi-cog"></i><span sw-sidebar-lbl>Preferências</span></a>
+                    </nav>
+                </aside>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<button sw-sidebar-open="#minha-sidebar">Abrir menu</button>
+<button sw-sidebar-open="#meu-menu">Abrir Menu</button>
 <div sw-sidebar-ovl></div>
-<aside id="minha-sidebar" sw-sidebar sw-sidebar-mode="toggle" hid>...</aside>
+<aside id="meu-menu" sw-sidebar sw-sidebar-mode="toggle" hid>
+    <div sw-sidebar-hdr>...</div>
+    <nav sw-sidebar-mn>...</nav>
+</aside>
+</script></pre>
+            </div>
+
+            <!-- MODO 3: COLLAPSE -->
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">3. Collapse <code class="TprinD">mode="collapse"</code></h3>
+                <p class="t-p t-mut mb-4">Botão interno no cabeçalho alterna entre expandida (ícone + texto) e colapsada (só ícones). Use <code>sw-sidebar-start="icons"</code> pra começar já colapsada.</p>
+                <div class="demo-wrap p-0" style="display:flex;height:30rem;overflow:hidden;border-radius:var(--sw-r-g);position:relative">
+                    <aside sw-sidebar sw-sidebar-mode="collapse" style="position:relative">
+                        <div sw-sidebar-hdr>
+                            <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+                            <span sw-sidebar-hdr-ttl>Meu App</span>
+                            <button sw-sidebar-tgl aria-label="Colapsar"><i class="swi swi-chevron-left"></i></button>
+                        </div>
+                        <nav sw-sidebar-mn>
+                            <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-user"></i><span sw-sidebar-lbl>Usuários</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-shield"></i><span sw-sidebar-lbl>Permissões</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-cog"></i><span sw-sidebar-lbl>Preferências</span></a>
+                        </nav>
+                    </aside>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Clique no ‹ no cabeçalho pra colapsar</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<aside sw-sidebar sw-sidebar-mode="collapse">
+    <div sw-sidebar-hdr>
+        <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+        <span sw-sidebar-hdr-ttl>Meu App</span>
+        <button sw-sidebar-tgl><i class="swi swi-chevron-left"></i></button>
+    </div>
+    <nav sw-sidebar-mn>
+        <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+    </nav>
+</aside>
+</script></pre>
+            </div>
+
+            <!-- MODO 4: HOVER -->
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">4. Hover <code class="TprinD">mode="hover"</code></h3>
+                <p class="t-p t-mut mb-4">Começa colapsada (só ícones) e expande automaticamente ao passar o mouse por cima — sem clique nenhum.</p>
+                <div class="demo-wrap p-0" style="display:flex;height:26rem;overflow:hidden;border-radius:var(--sw-r-g);position:relative">
+                    <aside sw-sidebar sw-sidebar-mode="hover" style="position:relative">
+                        <div sw-sidebar-hdr>
+                            <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+                            <span sw-sidebar-hdr-ttl>Meu App</span>
+                        </div>
+                        <nav sw-sidebar-mn>
+                            <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-bell"></i><span sw-sidebar-lbl>Notificações</span></a>
+                            <a sw-sidebar-it href="#"><i class="swi swi-lock"></i><span sw-sidebar-lbl>Segurança</span></a>
+                        </nav>
+                    </aside>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Passe o mouse sobre a sidebar ao lado</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<aside sw-sidebar sw-sidebar-mode="hover">
+    <div sw-sidebar-hdr>...</div>
+    <nav sw-sidebar-mn>...</nav>
+</aside>
+</script></pre>
+            </div>
+
+            <!-- SUBMENU -->
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-2">5. Submenu <code class="TprinD">sw-sidebar-sub</code></h3>
+                <p class="t-p t-mut mb-4">Item pai com <code>sw-sidebar-sub</code> + seta <code>sw-sidebar-arrow</code>, seguido do irmão <code>sw-sidebar-sub-items</code> com os subitens. Clique em "Configurações" pra expandir.</p>
+                <div class="demo-wrap p-0" style="display:flex;height:34rem;overflow:hidden;border-radius:var(--sw-r-g);position:relative">
+                    <aside sw-sidebar sw-sidebar-mode="fixed" style="position:relative">
+                        <div sw-sidebar-hdr>
+                            <i sw-sidebar-hdr-ico class="swi swi-grid"></i>
+                            <span sw-sidebar-hdr-ttl>Meu App</span>
+                        </div>
+                        <nav sw-sidebar-mn>
+                            <a sw-sidebar-it act href="#"><i class="swi swi-grid"></i><span sw-sidebar-lbl>Dashboard</span></a>
+                            <a sw-sidebar-it sw-sidebar-sub href="#">
+                                <i class="swi swi-cog"></i><span sw-sidebar-lbl>Configurações</span>
+                                <i sw-sidebar-arrow class="swi swi-chevron-right"></i>
+                            </a>
+                            <div sw-sidebar-sub-items>
+                                <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Perfil</span></a>
+                                <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Segurança</span></a>
+                                <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Notificações</span></a>
+                            </div>
+                            <a sw-sidebar-it sw-sidebar-sub href="#">
+                                <i class="swi swi-user"></i><span sw-sidebar-lbl>Usuários</span>
+                                <i sw-sidebar-arrow class="swi swi-chevron-right"></i>
+                            </a>
+                            <div sw-sidebar-sub-items>
+                                <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Listar</span></a>
+                                <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Grupos</span></a>
+                            </div>
+                        </nav>
+                    </aside>
+                    <div class="flx alc jcc" style="flex:1;background:var(--sw-bg);color:var(--sw-txt-mut)">Conteúdo</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<a sw-sidebar-it sw-sidebar-sub href="#">
+    <i class="swi swi-cog"></i>
+    <span sw-sidebar-lbl>Configurações</span>
+    <i sw-sidebar-arrow class="swi swi-chevron-right"></i>
+</a>
+<div sw-sidebar-sub-items>
+    <a sw-sidebar-it href="#"><span sw-sidebar-lbl>Perfil</span></a>
+</div>
 </script></pre>
             </div>
 
@@ -70,17 +203,26 @@
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo</th><th>Elemento</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>sw-sidebar-mode</code></td><td><code>toggle</code> (padrão) · <code>fixed</code> · <code>collapse</code> · <code>hover</code></td></tr>
-                            <tr><td><code>sw-sidebar-start</code></td><td>No modo <code>collapse</code>: <code>open | icons</code> — estado inicial.</td></tr>
-                            <tr><td><code>[hid]</code></td><td>Atributo que esconde a sidebar (modo toggle).</td></tr>
-                            <tr><td><code>[col]</code></td><td>Atributo que colapsa pra só ícones (modo collapse/hover).</td></tr>
-                            <tr><td><code>[sw-sidebar-tgl]</code></td><td>Botão interno que alterna colapsado/expandido.</td></tr>
-                            <tr><td><code>[sw-sidebar-open="#id"]</code></td><td>Botão externo que abre/fecha a sidebar de <code>id</code>.</td></tr>
-                            <tr><td><code>[sw-sidebar-ovl]</code></td><td>Overlay — fecha a sidebar ao clicar fora (modo toggle).</td></tr>
-                            <tr><td><code>[sw-sidebar-sub]</code> + <code>[sw-sidebar-sub-items]</code></td><td>Item pai (irmão seguinte) com submenu em accordion.</td></tr>
-                            <tr><td><code>SW.Sidebar.open(sel)</code> / <code>.close(sel)</code></td><td>API programática.</td></tr>
+                            <tr><td><code>sw-sidebar-mode</code></td><td>aside</td><td><code>toggle</code> (padrão) · <code>fixed</code> · <code>collapse</code> · <code>hover</code></td></tr>
+                            <tr><td><code>sw-sidebar-start</code></td><td>aside</td><td>No modo <code>collapse</code>: <code>open | icons</code> — estado inicial.</td></tr>
+                            <tr><td><code>[hid]</code></td><td>aside</td><td>Esconde a sidebar (modo toggle).</td></tr>
+                            <tr><td><code>[col]</code></td><td>aside</td><td>Colapsa pra só ícones (modo collapse/hover) — adicionado automaticamente pelo JS.</td></tr>
+                            <tr><td><code>sw-sidebar-hdr</code></td><td>div</td><td>Cabeçalho com marca — opcional.</td></tr>
+                            <tr><td><code>sw-sidebar-hdr-ico / -ttl</code></td><td>i / span</td><td>Ícone e título da marca no cabeçalho.</td></tr>
+                            <tr><td><code>sw-sidebar-tgl</code></td><td>button</td><td>Botão interno que alterna colapsado/expandido (modo collapse).</td></tr>
+                            <tr><td><code>sw-sidebar-mn</code></td><td>nav</td><td>Container da navegação.</td></tr>
+                            <tr><td><code>sw-sidebar-grp-ttl</code></td><td>span</td><td>Título de grupo/seção dentro do menu.</td></tr>
+                            <tr><td><code>sw-sidebar-it</code></td><td>a</td><td>Item de navegação — clique marca como ativo automaticamente.</td></tr>
+                            <tr><td><code>[act]</code></td><td>[sw-sidebar-it]</td><td>Marca o item como ativo (pode vir no HTML ou ser setado pelo clique).</td></tr>
+                            <tr><td><code>sw-sidebar-lbl</code></td><td>span</td><td>Texto do item — some sozinho quando a sidebar colapsa.</td></tr>
+                            <tr><td><code>sw-sidebar-sub</code> + <code>sw-sidebar-arrow</code></td><td>a / i</td><td>Item pai com submenu — a seta gira ao abrir.</td></tr>
+                            <tr><td><code>sw-sidebar-sub-items</code></td><td>div</td><td>Container dos subitens — irmão seguinte do item pai.</td></tr>
+                            <tr><td><code>sw-sidebar-open="#id"</code></td><td>button</td><td>Botão externo que abre/fecha a sidebar de <code>id</code>.</td></tr>
+                            <tr><td><code>sw-sidebar-ovl</code></td><td>div</td><td>Overlay — fecha a sidebar ao clicar fora (modo toggle).</td></tr>
+                            <tr><td><code>sw:sidebar:open / :close / :toggle / :submenu</code></td><td>evento</td><td>Disparados pelo componente.</td></tr>
+                            <tr><td><code>SW.Sidebar.open(sel)</code> / <code>.close(sel)</code></td><td>JS</td><td>API programática.</td></tr>
                         </tbody>
                     </table>
                 </div>
