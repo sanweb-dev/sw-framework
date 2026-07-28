@@ -151,3 +151,71 @@ html[data-sw-trans-direction="back"]::view-transition-new(root) {
   [sw-trans-overlay] { transition-duration: 0.01ms; }
   .sw-trans-overlay__indicator { animation: none; border-color: var(--sw-pri); }
 }
+
+/* ==========================================================================
+   PAGE TRANSITION OVERLAY ENGINE ([sw-trans] / [y2transi])
+   ========================================================================== */
+.sw-trans-ovl,
+.y2transi-ovl {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: var(--sw-pri, #3b82f6);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.sw-trans-ovl.is-slide.is-in,  .y2transi-ovl.is-slide.is-in  { animation: _pgt-sld-in .45s cubic-bezier(.7, 0, .3, 1) forwards; }
+.sw-trans-ovl.is-slide.is-out, .y2transi-ovl.is-slide.is-out { animation: _pgt-sld-out .45s cubic-bezier(.7, 0, .3, 1) both; }
+
+.sw-trans-ovl.is-up.is-in,  .y2transi-ovl.is-up.is-in  { animation: _pgt-up-in .45s cubic-bezier(.7, 0, .3, 1) forwards; }
+.sw-trans-ovl.is-up.is-out, .y2transi-ovl.is-up.is-out { animation: _pgt-up-out .45s cubic-bezier(.7, 0, .3, 1) both; }
+
+.sw-trans-ovl.is-down.is-in,  .y2transi-ovl.is-down.is-in  { animation: _pgt-dn-in .45s cubic-bezier(.7, 0, .3, 1) forwards; }
+.sw-trans-ovl.is-down.is-out, .y2transi-ovl.is-down.is-out { animation: _pgt-dn-out .45s cubic-bezier(.7, 0, .3, 1) both; }
+
+.sw-trans-ovl.is-fade.is-in,  .y2transi-ovl.is-fade.is-in  { animation: _pgt-fde-in .35s ease forwards; }
+.sw-trans-ovl.is-fade.is-out, .y2transi-ovl.is-fade.is-out { animation: _pgt-fde-out .35s ease both; }
+
+.sw-trans-ovl.is-zoom.is-in,  .y2transi-ovl.is-zoom.is-in  { animation: _pgt-zm-in .4s cubic-bezier(.4, 0, .2, 1) forwards; }
+.sw-trans-ovl.is-zoom.is-out, .y2transi-ovl.is-zoom.is-out { animation: _pgt-zm-out .4s cubic-bezier(.4, 0, .2, 1) both; }
+
+.sw-trans-ovl.is-circle.is-in,  .y2transi-ovl.is-circle.is-in  { opacity: 1; animation: _pgt-cir-in .55s cubic-bezier(.4, 0, .2, 1) forwards; }
+.sw-trans-ovl.is-circle.is-out, .y2transi-ovl.is-circle.is-out { opacity: 1; animation: _pgt-cir-out .55s cubic-bezier(.4, 0, .2, 1) both; }
+
+@keyframes _pgt-sld-in  { from { transform: translateX(-101%); opacity: 1; } to { transform: translateX(0);     opacity: 1; } }
+@keyframes _pgt-sld-out { from { transform: translateX(0);     opacity: 1; } to { transform: translateX(101%); opacity: 1; } }
+
+@keyframes _pgt-up-in  { from { transform: translateY(101%);  opacity: 1; } to { transform: translateY(0);     opacity: 1; } }
+@keyframes _pgt-up-out { from { transform: translateY(0);     opacity: 1; } to { transform: translateY(-101%); opacity: 1; } }
+
+@keyframes _pgt-dn-in  { from { transform: translateY(-101%); opacity: 1; } to { transform: translateY(0);    opacity: 1; } }
+@keyframes _pgt-dn-out { from { transform: translateY(0);     opacity: 1; } to { transform: translateY(101%); opacity: 1; } }
+
+@keyframes _pgt-fde-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes _pgt-fde-out { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes _pgt-zm-in  { from { transform: scale(0);   opacity: 0; } to { transform: scale(1);   opacity: 1; } }
+@keyframes _pgt-zm-out { from { transform: scale(1);   opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+
+@keyframes _pgt-cir-in  { from { clip-path: circle(0%   at 50% 50%); } to { clip-path: circle(150% at 50% 50%); } }
+@keyframes _pgt-cir-out { from { clip-path: circle(150% at 50% 50%); } to { clip-path: circle(0%   at 50% 50%); } }
+
+/* ── curtain / wave (onda de curva SVG líquida inspirada em DesignCourse / GSAP) ── */
+.sw-trans-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sw-trans-ovl.is-curtain,
+.sw-trans-ovl.is-wave,
+.y2transi-ovl.is-curtain,
+.y2transi-ovl.is-wave {
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+

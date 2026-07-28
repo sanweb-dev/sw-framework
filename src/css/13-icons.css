@@ -1068,3 +1068,34 @@
 .swi-insta:before { content: "\ea05"; }
 .swi-cursor:before { content: "\eb95"; }
 .swi-form:before { content: "\ea5e"; }
+
+/* Conveniências e aliases para animações e paridade Y2 / Smooll */
+.swi-heart:before, .y2-heart:before { content: "\ebaa"; }
+.swi-cloud:before, .y2-cloud:before { content: "\eb5e"; }
+.swi-star:before, .y2-star:before { content: "\ec18"; }
+.swi-bell:before, .y2-bell:before { content: "\eb10"; }
+.swi-zap:before, .swi-flash:before, .y2-flash:before, .y2-zap:before { content: "\e9dd"; }
+.swi-wind:before, .y2-wind:before { content: "\ec77"; }
+.swi-sparkles:before, .y2-sparkles:before { content: "\ec14"; }
+.swi-bounce:before, .swi-arrow-down:before, .y2-down-arrow:before { content: "\e9be"; }
+.swi-arrow-up:before, .y2-up-arrow:before { content: "\e9c2"; }
+.swi-arrow-left:before, .y2-arrow-from-right:before { content: "\e9bb"; }
+.swi-arrow-right:before, .y2-arrow-from-left:before { content: "\e9bc"; }
+.swi-eye:before, .y2-eye:before { content: "\eb92"; }
+.swi-expand:before, .y2-expand:before { content: "\eb8f"; }
+.swi-expand-alt:before, .y2-expand-alt:before { content: "\eb90"; }
+.swi-sync:before, .y2-sync:before { content: "\ec24"; }
+.swi-sun:before, .y2-sun:before { content: "\ec20"; }
+.swi-moon:before, .y2-moon:before { content: "\ebc0"; }
+.swi-palette:before, .y2-palette:before { content: "\ebc8"; }
+.swi-party:before, .y2-party:before { content: "\ec92"; }
+.swi-box:before, .y2-box:before { content: "\eb23"; }
+.swi-timer:before, .y2-timer:before { content: "\ec45"; }
+.swi-chevrons-left:before { content: "\eb45"; }
+.swi-chevrons-right:before { content: "\eb46"; }
+.swi-maximize:before { content: "\eb8f"; }
+.swi-minimize:before { content: "\eb90"; }
+.swi-refresh-cw:before { content: "\ebd9"; }
+.swi-repeat:before { content: "\ebdc"; }
+.swi-arrow-down-circle:before { content: "\e9bf"; }
+

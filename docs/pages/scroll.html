@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Mount/Unmount - SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        /* ---- Scroll progress bar ---- */
+        #scr-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sw-pri, #3b82f6), var(--sw-sec, #8b5cf6));
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* ---- Scene layout ---- */
+        .scr-scene {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 4rem;
+            position: relative;
+        }
+
+        .scr-scene+.scr-scene {
+            border-top: 1px solid var(--sw-bor, #2a2a32);
+        }
+
+        /* ---- Demo cards ---- */
+        .scr-card {
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 1.6rem;
+            padding: 2.4rem 2rem;
+            text-align: center;
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 1.3rem;
+            color: var(--sw-txt-bas, #e2e8f0);
+            min-width: 14rem;
+            min-height: 9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .scr-card i {
+            font-size: 3.2rem !important;
+            color: var(--sw-pri, #3b82f6);
+        }
+
+        .scr-card .lbl {
+            font-size: 1.1rem;
+            color: var(--sw-txt-mut, #94a3b8);
+            font-weight: 400;
+            font-family: inherit;
+        }
+
+        /* ---- Section header ---- */
+        .scr-h {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .scr-h .num {
+            display: inline-block;
+            width: 3.6rem;
+            height: 3.6rem;
+            border-radius: 50%;
+            background: var(--sw-pri, #3b82f6);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 3.6rem;
+            text-align: center;
+            margin-bottom: 1.6rem;
+        }
+
+        /* ---- Direction note chip ---- */
+        .dir-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid var(--sw-pri, #3b82f6);
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-pri, #3b82f6);
+            font-family: monospace;
+            margin: 0.4rem;
+        }
+
+        /* ---- Code badge ---- */
+        .code-attr {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ec4899;
+            font-family: monospace;
+            font-size: 1.15rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        /* ---- Real world demo ---- */
+        .fake-hero {
+            width: 100%;
+            max-width: 80rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 2.4rem;
+            padding: 6rem 4rem;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .fake-card {
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 1.6rem;
+            padding: 2.4rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            text-align: left;
+        }
+
+        /* ---- Scroll indicator ---- */
+        .scroll-hint {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .scroll-hint .arrow {
+            animation: sw-bounce 1s var(--sw-spring, ease) infinite;
+        }
+
+        /* ---- Stagger grid ---- */
+        .stagger-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.6rem;
+            width: 100%;
+            max-width: 80rem;
+        }
+
+        @media (max-width: 768px) {
+            .stagger-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .scr-scene {
+                padding: 6rem 2rem;
+            }
+        }
+
+        /* ---- Types grid ---- */
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+            gap: 1.2rem;
+            width: 100%;
+            max-width: 90rem;
+        }
+
+        /* ---- bg accent ---- */
+        .scene-dark {
+            background: #0d0d11;
+        }
+
+        .scene-grad {
+            background: linear-gradient(160deg, rgba(59, 130, 246, 0.08) 0%, var(--sw-bg-bas, #0a0a0c) 60%);
+        }
+
+        .scene-grad2 {
+            background: linear-gradient(160deg, rgba(139, 92, 246, 0.08) 0%, var(--sw-bg-bas, #0a0a0c) 60%);
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div id="scr-bar"></div>
+
+    <div class="doc-shell">
+        <main class="doc-main" style="padding: 0; max-width: 100%;">
+            <nav class="brc mb-6" aria-label="Breadcrumb" style="padding: 2rem 4rem 0 4rem;">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">Scroll Animações</span>
+            </nav>
+
+            <!-- ===================================
+                 CENA 0: HERO
+                 =================================== -->
+            <div class="scr-scene scene-grad">
+                <span class="doc-tag">Scroll Engine</span>
+                <h1 class="t-xxg f-bk t-ct mb-4">
+                    Scroll <span class="TprinD">Mount/Unmount</span>
+                </h1>
+                <p class="t-g t-mut t-ct mb-8" style="max-width:55rem">
+                    Elementos <strong>montam</strong> ao entrar na viewport e <strong>desmontam</strong> ao sair.
+                    Bidirecional - funciona tanto descendo quanto subindo o scroll.
+                </p>
+
+                <div class="flx f-wr gap-3 j-ct mb-8">
+                    <div class="dir-chip"><i class="swi swi-arrow-down"></i> Scroll down &rarr; monta</div>
+                    <div class="dir-chip"><i class="swi swi-arrow-up"></i> Scroll up &rarr; desmonta</div>
+                    <div class="dir-chip"><i class="swi swi-zap"></i> 14 tipos de animação</div>
+                    <div class="dir-chip"><i class="swi swi-palette"></i> Delays combináveis</div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<!-- Tudo que precisa: um atributo declarativo -->
+<div data-sw-scr="up">Sobe ao entrar</div>
+<div data-sw-scr="3dl" class="dly-3">3D com delay</div>
+<div data-sw-scr="blur" class="spd-s">Blur lento</div>
+</script></pre>
+
+                <div class="scroll-hint">
+                    <span class="t-pp t-mut">Role para ver</span>
+                    <i class="swi swi-arrow-down arrow t-mut" style="font-size:2rem"></i>
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA 1: TODOS OS TIPOS
+                 =================================== -->
+            <div class="scr-scene">
+                <div class="scr-h" data-sw-scr="up">
+                    <div class="num">1</div>
+                    <h2 class="t-xg f-bd mb-2">14 Tipos de Animação</h2>
+                    <p class="t-mut t-g">Cada elemento usa <code>data-sw-scr</code> com um tipo diferente. Role para
+                        cima para vê-los desmontando.</p>
+                </div>
+
+                <div class="types-grid">
+                    <div class="scr-card" data-sw-scr="up">
+                        <i class="swi swi-arrow-up" style="color:#3b82f6"></i>
+                        up
+                        <span class="code-attr">data-sw-scr="up"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="down">
+                        <i class="swi swi-arrow-down" style="color:#8b5cf6"></i>
+                        down
+                        <span class="code-attr">data-sw-scr="down"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="left">
+                        <i class="swi swi-arrow-left" style="color:#ef4444"></i>
+                        left
+                        <span class="code-attr">data-sw-scr="left"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="right">
+                        <i class="swi swi-arrow-right" style="color:#f59e0b"></i>
+                        right
+                        <span class="code-attr">data-sw-scr="right"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="in">
+                        <i class="swi swi-maximize" style="color:#14b8a6"></i>
+                        in
+                        <span class="code-attr">data-sw-scr="in"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="out">
+                        <i class="swi swi-minimize" style="color:#f97316"></i>
+                        out
+                        <span class="code-attr">data-sw-scr="out"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="fade">
+                        <i class="swi swi-eye" style="color:#a855f7"></i>
+                        fade
+                        <span class="code-attr">data-sw-scr="fade"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="blur">
+                        <i class="swi swi-search" style="color:#06b6d4"></i>
+                        blur
+                        <span class="code-attr">data-sw-scr="blur"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="pop">
+                        <i class="swi swi-star" style="color:#f59e0b"></i>
+                        pop
+                        <span class="code-attr">data-sw-scr="pop"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="3dl">
+                        <i class="swi swi-box" style="color:#3b82f6"></i>
+                        3dl
+                        <span class="code-attr">data-sw-scr="3dl"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="3dr">
+                        <i class="swi swi-box" style="color:#6366f1"></i>
+                        3dr
+                        <span class="code-attr">data-sw-scr="3dr"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="flip">
+                        <i class="swi swi-refresh-cw" style="color:#10b981"></i>
+                        flip
+                        <span class="code-attr">data-sw-scr="flip"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="skew-l">
+                        <i class="swi swi-chevrons-right" style="color:#ec4899"></i>
+                        skew-l
+                        <span class="code-attr">data-sw-scr="skew-l"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="skew-r">
+                        <i class="swi swi-chevrons-left" style="color:#8b5cf6"></i>
+                        skew-r
+                        <span class="code-attr">data-sw-scr="skew-r"</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA 2: STAGGER (CASCATA)
+                 =================================== -->
+            <div class="scr-scene scene-grad2">
+                <div class="scr-h">
+                    <div class="num" data-sw-scr="in">2</div>
+                    <h2 class="t-xg f-bd mb-2" data-sw-scr="up">Stagger - Cascata com <code>dly-*</code></h2>
+                    <p class="t-mut t-g" data-sw-scr="up">Combine <code>data-sw-scr</code> com as classes de delay para
+                        criar entradas em sequência.</p>
+                </div>
+
+                <div class="stagger-grid">
+                    <div class="scr-card" data-sw-scr="up">
+                        <i class="swi swi-star" style="font-size:3.2rem;color:#f59e0b"></i>
+                        .dly-1
+                        <span class="lbl">0.1s</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="transition-delay:0.15s">
+                        <i class="swi swi-star" style="font-size:3.2rem;color:#f59e0b"></i>
+                        .dly-2
+                        <span class="lbl">0.2s</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="transition-delay:0.3s">
+                        <i class="swi swi-star" style="font-size:3.2rem;color:#f59e0b"></i>
+                        .dly-3
+                        <span class="lbl">0.3s</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="transition-delay:0.45s">
+                        <i class="swi swi-star" style="font-size:3.2rem;color:#f59e0b"></i>
+                        .dly-5
+                        <span class="lbl">0.5s</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="left">
+                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        left
+                        <span class="lbl">dly-1</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="left" style="transition-delay:0.2s">
+                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        left
+                        <span class="lbl">dly-3</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="left" style="transition-delay:0.4s">
+                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        left
+                        <span class="lbl">dly-5</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="left" style="transition-delay:0.6s">
+                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        left
+                        <span class="lbl">dly-7</span>
+                    </div>
+                </div>
+
+                <pre swcode="html"><script type="text/plain">
+<div data-sw-scr="up">Card 1</div>
+<div data-sw-scr="up" class="dly-2">Card 2</div>
+<div data-sw-scr="up" class="dly-4">Card 3</div>
+<div data-sw-scr="up" class="dly-6">Card 4</div>
+</script></pre>
+            </div>
+
+            <!-- ===================================
+                 CENA 3: BIDIRECIONAL EXPLICADO
+                 =================================== -->
+            <div class="scr-scene scene-dark">
+                <div class="scr-h">
+                    <div class="num" data-sw-scr="pop" style="background:#8b5cf6">3</div>
+                    <h2 class="t-xg f-bd mb-2 t-ct" data-sw-scr="up" style="color:white">Bidirecional</h2>
+                    <p data-sw-scr="fade" style="color:#94a3b8;max-width:50rem;text-align:center">
+                        Scroll para <strong style="color:#8b5cf6">baixo</strong>: elementos entram da direção
+                        definida.<br>
+                        Scroll para <strong style="color:#ef4444">cima</strong>: elementos saem suavemente.
+                    </p>
+                </div>
+
+                <div class="flx f-wr gap-g j-ct" style="width:100%;max-width:80rem">
+
+                    <div style="flex:1;min-width:24rem">
+                        <p class="t-pp f-bd mb-4" style="color:#3b82f6;letter-spacing:0.1em">SCROLL &rarr; ENTRADA
+                        </p>
+                        <div class="scr-card mb-4" data-sw-scr="up" style="background:rgba(59,130,246,0.12);border-color:#3b82f6">
+                            <i class="swi swi-arrow-up" style="color:#3b82f6"></i> Entra subindo
+                        </div>
+                        <div class="scr-card mb-4" data-sw-scr="left" style="background:rgba(59,130,246,0.12);border-color:#3b82f6;transition-delay:0.15s">
+                            <i class="swi swi-arrow-left" style="color:#3b82f6"></i> Entra da direita
+                        </div>
+                        <div class="scr-card" data-sw-scr="pop" style="background:rgba(59,130,246,0.12);border-color:#3b82f6;transition-delay:0.3s">
+                            <i class="swi swi-star" style="color:#3b82f6"></i> Pop spring
+                        </div>
+                    </div>
+
+                    <div style="flex:1;min-width:24rem">
+                        <p class="t-pp f-bd mb-4" style="color:#ef4444;letter-spacing:0.1em">SCROLL &rarr; SAÍDA</p>
+                        <div class="scr-card mb-4" data-sw-scr="3dl" style="background:rgba(239,68,68,0.12);border-color:#ef4444">
+                            <i class="swi swi-box" style="color:#ef4444"></i> Sai para cima
+                        </div>
+                        <div class="scr-card mb-4" data-sw-scr="blur" style="background:rgba(239,68,68,0.12);border-color:#ef4444;transition-delay:0.15s">
+                            <i class="swi swi-search" style="color:#ef4444"></i> Borrão ao sair
+                        </div>
+                        <div class="scr-card" data-sw-scr="in" style="background:rgba(239,68,68,0.12);border-color:#ef4444;transition-delay:0.3s">
+                            <i class="swi swi-maximize" style="color:#ef4444"></i> Encolhe ao sair
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA 4: TEXTO EM CASCATA
+                 =================================== -->
+            <div class="scr-scene">
+                <div style="width:100%;max-width:80rem">
+                    <p class="t-pp f-bd t-mut mb-4" data-sw-scr="fade" style="letter-spacing:0.1em">TEXTO COM STAGGER
+                    </p>
+
+                    <h2 class="t-xxg f-bk mb-4" data-sw-scr="up">
+                        Cada linha
+                    </h2>
+                    <h2 class="t-xxg f-bk mb-4 TsecuD" data-sw-scr="up" style="transition-delay:0.15s;color:#8b5cf6">
+                        entra separada
+                    </h2>
+                    <h2 class="t-xxg f-bk mb-4 TprinD" data-sw-scr="up" style="transition-delay:0.3s;color:#3b82f6">
+                        criando ritmo.
+                    </h2>
+
+                    <p class="t-g t-mut mb-8" data-sw-scr="fade" style="transition-delay:0.45s;max-width:50rem">
+                        Combine com <code>data-sw-scr</code> em parágrafos para criar um efeito de leitura natural. O
+                        segredo é usar delays curtos (0.1-0.2s) entre elementos de texto.
+                    </p>
+
+                    <div class="flx gap-4 f-wr">
+                        <div class="dir-chip" data-sw-scr="up" style="transition-delay:0.5s">
+                            <i class="swi swi-star"></i> Sem JS extra
+                        </div>
+                        <div class="dir-chip" data-sw-scr="up" style="transition-delay:0.65s">
+                            <i class="swi swi-star"></i> Só um atributo
+                        </div>
+                        <div class="dir-chip" data-sw-scr="up" style="transition-delay:0.8s">
+                            <i class="swi swi-star"></i> Acessível
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA 5: EXEMPLO REAL - LANDING PAGE
+                 =================================== -->
+            <div class="scr-scene scene-grad">
+                <div class="scr-h">
+                    <div class="num" data-sw-scr="pop">5</div>
+                    <h2 class="t-xg f-bd mb-2" data-sw-scr="up">Exemplo Real - Seção de Serviços</h2>
+                    <p class="t-mut" data-sw-scr="fade">Isso é como você usaria em um site real.</p>
+                </div>
+
+                <div style="width:100%;max-width:90rem">
+                    <!-- Fake hero -->
+                    <div class="fake-hero mb-8" data-sw-scr="in">
+                        <p class="t-pp f-bd mb-2" style="color:#3b82f6;letter-spacing:0.15em">NOSSOS SERVIÇOS</p>
+                        <h3 class="t-gg f-bk mb-2" style="color:white">Tudo que você precisa</h3>
+                        <p style="color:rgba(255,255,255,0.7);font-size:1.4rem">para lançar seu produto digital.</p>
+                    </div>
+
+                    <!-- Service cards grid -->
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem">
+                        <div class="fake-card" data-sw-scr="up">
+                            <i class="swi swi-palette" style="font-size:3.2rem;color:#3b82f6"></i>
+                            <h4 class="t-m f-bd mt-4 mb-2">Design UI</h4>
+                            <p class="t-mut t-p">Interfaces bonitas que convertem.</p>
+                        </div>
+                        <div class="fake-card" data-sw-scr="up" style="transition-delay:0.12s">
+                            <i class="swi swi-box" style="font-size:3.2rem;color:#8b5cf6"></i>
+                            <h4 class="t-m f-bd mt-4 mb-2">Desenvolvimento</h4>
+                            <p class="t-mut t-p">Frontend e backend de alta performance.</p>
+                        </div>
+                        <div class="fake-card" data-sw-scr="up" style="transition-delay:0.24s">
+                            <i class="swi swi-zap" style="font-size:3.2rem;color:#10b981"></i>
+                            <h4 class="t-m f-bd mt-4 mb-2">Lançamento</h4>
+                            <p class="t-mut t-p">Deploy, SEO e monitoramento incluídos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats row -->
+                    <div class="flx gap-6 j-ct mt-8 f-wr">
+                        <div class="t-ct" data-sw-scr="pop">
+                            <div class="t-gg f-bk" style="color:#3b82f6">200+</div>
+                            <div class="t-mut t-p">Projetos</div>
+                        </div>
+                        <div class="t-ct" data-sw-scr="pop" style="transition-delay:0.15s">
+                            <div class="t-gg f-bk" style="color:#8b5cf6">98%</div>
+                            <div class="t-mut t-p">Satisfação</div>
+                        </div>
+                        <div class="t-ct" data-sw-scr="pop" style="transition-delay:0.3s">
+                            <div class="t-gg f-bk" style="color:#10b981">5 anos</div>
+                            <div class="t-mut t-p">Experiência</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA 6: VELOCIDADES
+                 =================================== -->
+            <div class="scr-scene">
+                <div class="scr-h">
+                    <div class="num" data-sw-scr="in">6</div>
+                    <h2 class="t-xg f-bd mb-2" data-sw-scr="up">Velocidades <code>spd-*</code></h2>
+                    <p class="t-mut" data-sw-scr="fade">Combine com as mesmas classes de velocidade do sistema de
+                        animações.</p>
+                </div>
+
+                <div class="flx f-wr gap-6 j-ct">
+                    <div class="scr-card" data-sw-scr="up" style="min-width:16rem">
+                        <i class="swi swi-zap" style="font-size:3.6rem;color:#3b82f6"></i>
+                        .spd-f
+                        <span class="lbl">0.25s - rápido</span>
+                        <span class="code-attr" style="font-size:1rem">data-sw-scr="up" class="spd-f"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="min-width:16rem;transition-delay:0.15s">
+                        <i class="swi swi-clock" style="font-size:3.6rem;color:#8b5cf6"></i>
+                        base
+                        <span class="lbl">0.55s - padrão</span>
+                        <span class="code-attr" style="font-size:1rem">data-sw-scr="up"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="min-width:16rem;transition-delay:0.3s">
+                        <i class="swi swi-cloud" style="font-size:3.6rem;color:#10b981"></i>
+                        .spd-s
+                        <span class="lbl">0.9s - lento</span>
+                        <span class="code-attr" style="font-size:1rem">data-sw-scr="up" class="spd-s"</span>
+                    </div>
+                    <div class="scr-card" data-sw-scr="up" style="min-width:16rem;transition-delay:0.45s">
+                        <i class="swi swi-wind" style="font-size:3.6rem;color:#06b6d4"></i>
+                        .spd-xs
+                        <span class="lbl">1.6s - dramático</span>
+                        <span class="code-attr" style="font-size:1rem">data-sw-scr="up" class="spd-xs"</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================
+                 CENA FINAL: REFERÊNCIA
+                 =================================== -->
+            <div class="scr-scene scene-dark" style="min-height:auto;padding:8rem 4rem">
+                <h2 class="t-xg f-bd t-ct mb-6" data-sw-scr="up" style="color:white">Referência Rápida</h2>
+
+                <div data-sw-scr="in" style="max-width:70rem;width:100%">
+                    <pre swcode="html"><script type="text/plain">
+<!-- TIPOS disponíveis em data-sw-scr -->
+up - down - left - right - in - out - fade - blur - pop - 3dl - 3dr - flip - skew-l - skew-r
+
+<!-- COMBINAÇÕES -->
+<div data-sw-scr="up">Básico</div>
+<div data-sw-scr="left" class="dly-3">Com delay 0.3s</div>
+<div data-sw-scr="in"   class="spd-s">Lento (0.9s)</div>
+<div data-sw-scr="pop"  style="transition-delay: 0.2s">Delay inline</div>
+
+<!-- STAGGER manual em lista -->
+<ul>
+    <li data-sw-scr="left">Item 1</li>
+    <li data-sw-scr="left" style="transition-delay:.1s">Item 2</li>
+    <li data-sw-scr="left" style="transition-delay:.2s">Item 3</li>
+</ul>
+</script></pre>
+                </div>
+
+                <div class="flx gap-4 j-ct mt-8 f-wr">
+                    <a href="animacoes.html" class="sw-btn sw-btn-pri" data-sw-scr="up">
+                        <i class="swi swi-sparkles mr-2"></i> Ver todas animações
+                    </a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Scroll progress bar
+        var bar = document.getElementById('scr-bar');
+        window.addEventListener('scroll', function () {
+            var total = document.body.scrollHeight - window.innerHeight;
+            var pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+            bar.style.width = pct + '%';
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

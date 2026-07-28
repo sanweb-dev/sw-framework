@@ -55,27 +55,32 @@
                     <div>
                         <p class="t-pp t-mut mb-3">Cada botão navega para outra página com um efeito diferente:</p>
                         <div class="flx gap-3 flw">
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="slide" sw-btn class="sw-btn-pri">
-                                <i class="yd sw-chevron-right"></i> Slide
+                            <a href="transitions.html" sw-trans sw-trans-effect="slide" class="sw-btn sw-btn-pri">
+                                <i class="swi swi-arrow-right mr-2"></i> Slide
                             </a>
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="up" sw-btn class="sw-btn-pri"
-                                style="background:var(--sw-sec,#7c3aed);border-color:var(--sw-sec,#7c3aed)">
-                                <i class="yd sw-chevron-up"></i> Up
+                            <a href="transitions.html" sw-trans sw-trans-effect="up" class="sw-btn sw-btn-pri"
+                                style="background:#8b5cf6;border-color:#8b5cf6">
+                                <i class="swi swi-arrow-up mr-2"></i> Up
                             </a>
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="down" sw-btn class="sw-btn-pri"
+                            <a href="transitions.html" sw-trans sw-trans-effect="down" class="sw-btn sw-btn-pri"
                                 style="background:#0891b2;border-color:#0891b2">
-                                <i class="yd sw-chevron-down"></i> Down
+                                <i class="swi swi-arrow-down mr-2"></i> Down
                             </a>
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="fade" sw-btn class="sw-btn-suc">
-                                <i class="yd sw-eye"></i> Fade
+                            <a href="transitions.html" sw-trans sw-trans-effect="fade" class="sw-btn sw-btn-pri"
+                                style="background:#10b981;border-color:#10b981">
+                                <i class="swi swi-eye mr-2"></i> Fade
                             </a>
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="zoom" sw-btn class="sw-btn-pri"
+                            <a href="transitions.html" sw-trans sw-trans-effect="zoom" class="sw-btn sw-btn-pri"
                                 style="background:#f59e0b;border-color:#f59e0b">
-                                <i class="yd sw-zoom-in"></i> Zoom
+                                <i class="swi swi-maximize mr-2"></i> Zoom
                             </a>
-                            <a href="pagetransition.html" sw-trans sw-trans-effect="circle" sw-btn class="sw-btn-pri"
+                            <a href="transitions.html" sw-trans sw-trans-effect="circle" class="sw-btn sw-btn-pri"
                                 style="background:#ef4444;border-color:#ef4444">
-                                <i class="yd sw-circle"></i> Circle
+                                <i class="swi swi-sparkles mr-2"></i> Circle
+                            </a>
+                            <a href="transitions.html" sw-trans sw-trans-effect="curtain" class="sw-btn sw-btn-pri"
+                                style="background:#ec4899;border-color:#ec4899">
+                                <i class="swi swi-wind mr-2"></i> SVG Wave / Curtain
                             </a>
                         </div>
                     </div>
@@ -167,6 +172,11 @@
                         <p class="t-pp t-mut mb-3">Revelar circular do centro com clip-path. Criativo e fluido.</p>
                         <code class="t-pri">sw-trans-effect="circle"</code>
                     </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">curtain / wave</p>
+                        <p class="t-pp t-mut mb-3">Onda líquida em curva Bezier SVG que varre a tela com efeito fluido de cortina.</p>
+                        <code class="t-pri">sw-trans-effect="curtain"</code>
+                    </div>
                 </div>
                 <pre swcode="html"><script type="text/plain">
 <a href="/p1" sw-trans sw-trans-effect="slide">Slide</a>
@@ -175,6 +185,7 @@
 <a href="/p4" sw-trans sw-trans-effect="fade">Fade</a>
 <a href="/p5" sw-trans sw-trans-effect="zoom">Zoom</a>
 <a href="/p6" sw-trans sw-trans-effect="circle">Circle</a>
+<a href="/p7" sw-trans sw-trans-effect="curtain">SVG Wave Curtain</a>
 </script></pre>
             </div>
 

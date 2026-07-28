@@ -463,7 +463,158 @@
   SWTrans.overlayDepth = 0;
   window.SW?.register('SWTrans', SWTrans);
   if (window.SW) window.SW.Trans = SWTrans;
+
+  /* Page Transition Engine (sw-trans / y2transi) */
+  class SWTransi {
+    static _ovl = null;
+    static _busy = false;
+
+    static initAll(root = document) {
+      SWTransi._ensure();
+      const scope = (root && root.querySelectorAll) ? root : document;
+      scope.querySelectorAll('[sw-trans], [sw-trans-effect], [y2transi], [Y2Transi]').forEach((el) => {
+        if (el._swPgt) return;
+        el._swPgt = true;
+        el.addEventListener('click', (e) => {
+          const href = el.getAttribute('href');
+          if (!href || href.startsWith('#') || href.startsWith('javascript') || el.target === '_blank') return;
+          e.preventDefault();
+          if (SWTransi._busy) return;
+          SWTransi._busy = true;
+          const effect = el.getAttribute('sw-trans-effect') || el.getAttribute('y2transi-effect') || 'slide';
+          const dur = parseInt(el.getAttribute('sw-trans-dur') || el.getAttribute('y2transi-dur') || 400);
+          const color = el.getAttribute('sw-trans-color') || el.getAttribute('y2transi-color');
+          if (color) SWTransi._ovl.style.background = color;
+          SWTransi._in(effect, dur, () => { window.location.href = href; });
+        });
+      });
+
+      if (!window._swTransiLoaded) {
+        window._swTransiLoaded = true;
+        const eff = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
+        if (eff) {
+          SWTransi._ensure();
+          const dur = parseInt(sessionStorage.getItem('sw_pgt_dur') || sessionStorage.getItem('y2_pgt_dur') || 400);
+          sessionStorage.removeItem('sw_pgt_effect');
+          sessionStorage.removeItem('y2_pgt_effect');
+          sessionStorage.removeItem('sw_pgt_dur');
+          sessionStorage.removeItem('y2_pgt_dur');
+          SWTransi._out(eff, dur);
+        }
+      }
+    }
+
+    static _ensure() {
+      if (SWTransi._ovl) return;
+      const ovl = document.createElement('div');
+      ovl.className = 'sw-trans-ovl y2transi-ovl';
+      ovl.innerHTML = `<svg class="sw-trans-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="sw-trans-svg-path" d="M 0 100 V 100 Q 50 100 100 100 V 100 Z" fill="var(--sw-pri, #3b82f6)"></path></svg>`;
+      if (sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect')) {
+        ovl.style.cssText = 'opacity:1;pointer-events:none';
+      }
+      document.body.prepend(ovl);
+      SWTransi._ovl = ovl;
+    }
+
+    static _in(effect, dur, cb) {
+      const ovl = SWTransi._ovl;
+      sessionStorage.setItem('sw_pgt_effect', effect);
+      sessionStorage.setItem('sw_pgt_dur', dur);
+
+      if (effect === 'curtain' || effect === 'wave') {
+        ovl.style.cssText = '';
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        SWTransi._animateCurtainIn(dur, cb);
+      } else {
+        ovl.style.animationDuration = `${dur}ms`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        setTimeout(cb, dur);
+      }
+    }
+
+    static _out(effect, dur) {
+      const ovl = SWTransi._ovl;
+      if (effect === 'curtain' || effect === 'wave') {
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
+        SWTransi._animateCurtainOut(dur, () => {
+          ovl.className = 'sw-trans-ovl y2transi-ovl';
+          SWTransi._busy = false;
+        });
+      } else {
+        ovl.style.cssText = '';
+        ovl.style.animationDuration = `${dur}ms`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
+        setTimeout(() => {
+          ovl.className = 'sw-trans-ovl y2transi-ovl';
+          SWTransi._busy = false;
+        }, dur);
+      }
+    }
+
+    static _animateCurtainIn(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          const valY = 100 - (progress * 100);
+          const curveY = 100 - (progress * 165);
+          path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
+        } else {
+          const progress = (ease - 0.5) * 2;
+          const valY = 50 - (progress * 50);
+          const curveY = -65 + (progress * 65);
+          path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
+        }
+        if (p < 1) requestAnimationFrame(tick);
+        else {
+          path.setAttribute('d', 'M 0 100 V 0 Q 50 0 100 0 V 100 Z');
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    static _animateCurtainOut(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          const curveY = progress * 165;
+          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - progress * 100} Z`);
+        } else {
+          const progress = (ease - 0.5) * 2;
+          const curveY = 165 - (progress * 165);
+          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - (50 + progress * 50)} Z`);
+        }
+        if (p < 1) requestAnimationFrame(tick);
+        else {
+          path.setAttribute('d', 'M 0 0 V 0 Q 50 0 100 0 V 0 Z');
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+  }
+
+  window.SWTransi = SWTransi;
+  window.Y2Transi = SWTransi;
+  if (window.SW && window.SW.register) window.SW.register('SWTransi', SWTransi);
+
+  if (document.readyState !== 'loading') {
+    SWTransi.initAll(document);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => SWTransi.initAll(document));
+  }
 })();
+
 
 /* ==========================================================================
    SW FRAMEWORK — SW-CODE.JS (SYNTAX HIGHLIGHTER ZERO-DEPENDÊNCIA)
@@ -5768,65 +5919,105 @@
 })();
 
 /* SW Framework Anime — Scroll Reveal & Scroll Mount/Unmount
-   Atributos: class="reveal-*" · [sw-anime-rev] · [sw-anime-mnt] · [data-sw-scr] · [y2anime-rev] · [y2anime-mnt] */
+   Atributos: class="reveal-*" · [sw-anime-rev] · [sw-anime-mnt] · [data-sw-scr] · [data-y2-scr]
+   ─────────────────────────────────────────────────────────────────────────────
+   IMPORTANTE: O observer só é registrado APÓS dois frames de animação para
+   garantir que o browser já finalizou o layout. Assim elementos fora da
+   viewport nunca disparam no carregamento inicial. */
 (function () {
   'use strict';
 
   class SWAnime {
     static _revObs = null;
-    static _scrObs = null;
+    static _mntObs = null;
 
-    static initAll(root = document) {
-      const scope = root.querySelectorAll ? root : document;
+    /* ── Registra os observers com delay de 2 frames ─────────────────── */
+    static initAll(root) {
+      const scope = (root && root.querySelectorAll) ? root : document;
 
-      // Reveal unidirecional: adiciona is-revealed e para de observar
-      scope.querySelectorAll('[class*="reveal-"], [sw-anime-rev], [y2anime-rev]').forEach((el) => {
-        if (el._swRev || el._y2Rev) return;
-        el._swRev = true;
-        el._y2Rev = true;
-        SWAnime._getRevObs().observe(el);
-      });
+      // Espera 2 frames para o browser terminar o layout antes de observar
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
 
-      // Scroll mount/unmount: bidirecional
-      scope.querySelectorAll('[sw-anime-mnt], [y2anime-mnt], [data-sw-scr], [data-y2-scr]').forEach((el) => {
-        if (el._swMnt || el._y2Mnt) return;
-        el._swMnt = true;
-        el._y2Mnt = true;
-        SWAnime._getScrObs().observe(el);
+          // Reveal unidirecional (anima uma vez)
+          scope.querySelectorAll('[class*="reveal-"]:not([sw-anime-mnt]):not([sw-scroll-once])').forEach(function (el) {
+            if (el._swRev) return;
+            el._swRev = true;
+            SWAnime._getRevObs().observe(el);
+          });
+
+          scope.querySelectorAll('[sw-anime-rev]').forEach(function (el) {
+            if (el._swRev) return;
+            el._swRev = true;
+            SWAnime._getRevObs().observe(el);
+          });
+
+          // Scroll-once (anima uma vez, como reveal, mas declarado com atributo)
+          scope.querySelectorAll('[sw-scroll-once]').forEach(function (el) {
+            if (el._swOnce) return;
+            el._swOnce = true;
+            SWAnime._getRevObs().observe(el);
+          });
+
+          // Mount/unmount bidirecional
+          scope.querySelectorAll('[sw-anime-mnt], [y2anime-mnt], [data-sw-scr], [data-y2-scr]').forEach(function (el) {
+            if (el._swMnt) return;
+            el._swMnt = true;
+            SWAnime._getMntObs().observe(el);
+          });
+
+        });
       });
     }
 
+    /* ── Observer de reveal (unidirecional, anima 1x) ────────────────── */
     static _getRevObs() {
       if (!SWAnime._revObs) {
-        SWAnime._revObs = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
+        SWAnime._revObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
             if (!e.isIntersecting) return;
-            e.target.classList.add('is-revealed', 'is-visible');
+            e.target.classList.add('is-revealed');
             SWAnime._revObs.unobserve(e.target);
           });
-        }, { threshold: 0.01, rootMargin: '0px 0px 50px 0px' });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
       }
       return SWAnime._revObs;
     }
 
-    static _getScrObs() {
-      if (!SWAnime._scrObs) {
-        SWAnime._scrObs = new IntersectionObserver((entries) => {
-          entries.forEach((e) => e.target.classList.toggle('is-revealed', e.isIntersecting));
-        }, { threshold: 0.01, rootMargin: '0px 0px 50px 0px' });
+    /* ── Observer de mount/unmount (bidirecional) ────────────────────── */
+    static _getMntObs() {
+      if (!SWAnime._mntObs) {
+        SWAnime._mntObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-revealed');
+            } else {
+              e.target.classList.remove('is-revealed');
+            }
+          });
+        }, {
+          threshold: 0.05,
+          rootMargin: '0px'
+        });
       }
-      return SWAnime._scrObs;
+      return SWAnime._mntObs;
     }
   }
 
   window.SWAnime = SWAnime;
   window.Y2Anime = SWAnime;
-  if (window.SW?.register) window.SW.register('SWAnime', SWAnime);
+  if (window.SW && window.SW.register) window.SW.register('SWAnime', SWAnime);
   if (window.SW) window.SW.Anime = SWAnime;
 
+  // Inicia após o DOM pronto
   if (document.readyState !== 'loading') {
     SWAnime.initAll(document);
   } else {
-    document.addEventListener('DOMContentLoaded', () => SWAnime.initAll(document));
+    document.addEventListener('DOMContentLoaded', function () {
+      SWAnime.initAll(document);
+    });
   }
 })();

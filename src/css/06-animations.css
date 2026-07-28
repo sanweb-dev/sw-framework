@@ -29,6 +29,11 @@
 /* ==========================================================================
    1. REVEAL — Scroll Reveal via IntersectionObserver
    ========================================================================== */
+.no-trans {
+  transition: none !important;
+  animation: none !important;
+}
+
 [class*="reveal-"],
 [class*="sw-rev-"] {
   opacity: 0;

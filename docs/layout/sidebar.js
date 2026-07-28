@@ -227,10 +227,19 @@
         </div>
       </div>
 
-      <!-- NAVEGAÇÃO JS -->
+      <!-- NAVEGAÇÃO JS & ANIMAÇÕES -->
       <div class="nav-group" data-group="nav">
-        <div class="nav-group-title">NAVEGAÇÃO JS <i class="swi swi-chevron-down"></i></div>
+        <div class="nav-group-title">ANIMAÇÕES & SCROLL <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
+          <a href="${root}pages/animacoes.html" class="nav-it ${currentPath === 'animacoes.html' ? 'is-active is-act' : ''}" data-doc-link data-page="animacoes">
+            <span sw-icon="${iconPaths.motion}"></span> <span>Animações & Efeitos</span>
+          </a>
+          <a href="${root}pages/scroll.html" class="nav-it ${currentPath === 'scroll.html' ? 'is-active is-act' : ''}" data-doc-link data-page="scroll">
+            <span sw-icon="${iconPaths.motion}"></span> <span>Scroll Animações</span>
+          </a>
+          <a href="${root}pages/transitions.html" class="nav-it ${currentPath === 'transitions.html' ? 'is-active is-act' : ''}" data-doc-link data-page="transitions">
+            <span sw-icon="${iconPaths.trans}"></span> <span>Page Transitions</span>
+          </a>
           <a href="${root}pages/pagination.html" class="nav-it ${currentPath === 'pagination.html' ? 'is-active is-act' : ''}" data-doc-link data-page="pagination">
             <span sw-icon="${iconPaths.pag}"></span> <span>Pagination</span>
           </a>
