@@ -239,9 +239,33 @@
                 </div>
             </div>
 
+            <!-- ABRIR COM AJAX -->
+            <div class="doc-card sec mb-6" id="ajax">
+                <h3 class="t-m f-bd mb-4">6. Abrir com conteúdo via AJAX</h3>
+                <p class="t-p t-mut mb-6">Um botão com <code>sw-ajax</code> (a URL/arquivo a buscar) e
+                    <code>sw-ajax-target="panel"</code> busca o conteúdo e o coloca dentro de um painel, que
+                    é criado automaticamente se você não apontar um já existente via <code>sw-panel="#id"</code> —
+                    depois disso o painel abre sozinho. Segue a mesma restrição de mesma origem do resto do
+                    <code>sw-ajax</code>.</p>
+                <div class="demo-wrap">
+                    <button sw-btn class="sw-btn-pri" sw-ajax="tabela.html" sw-ajax-extract="h2"
+                        sw-ajax-target="panel">Abrir painel com AJAX</button>
+                </div>
+                <pre swcode="html" class="mt-4"><script type="text/plain">
+<button
+    sw-ajax="tabela.html"
+    sw-ajax-extract="h2"
+    sw-ajax-target="panel">
+    Abrir painel com AJAX
+</button>
+<!-- Sem sw-panel="#id" apontado, um <aside class="sw-panel"> é criado
+     e reaproveitado automaticamente a cada clique. -->
+</script></pre>
+            </div>
+
             <!-- API JS -->
             <div class="doc-card sec mb-6" id="api">
-                <h3 class="t-m f-bd mb-4">5. API JavaScript</h3>
+                <h3 class="t-m f-bd mb-4">7. API JavaScript</h3>
                 <pre swcode="js">
 const panel = document.querySelector('#meu-panel');
 
@@ -336,6 +360,11 @@ panel.addEventListener('sw:panel:close', () => console.log('Painel fechado'));
                             <td>Clique fora / Esc</td>
                             <td>—</td>
                             <td>Fecha o painel automaticamente.</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-ajax-target="panel"</code></td>
+                            <td>button/link com <code>sw-ajax</code></td>
+                            <td>Busca conteúdo via AJAX e abre num painel (cria um automaticamente se <code>sw-panel="#id"</code> não for informado).</td>
                         </tr>
                     </tbody>
                 </table>

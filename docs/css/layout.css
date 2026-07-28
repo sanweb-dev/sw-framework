@@ -201,6 +201,11 @@ body {
 
 .nav-group-title i {
   font-size: 1.8rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-group.is-open .nav-group-title i {
+  transform: rotate(180deg);
 }
 
 .nav-group-content {

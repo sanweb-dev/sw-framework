@@ -294,16 +294,31 @@ img[sw-lazy].is-ldd { opacity: 1; }
 [sw-drag] { touch-action: none; }
 
 /* ---------- Material Input (fld-mat) ---------- */
-/* A label fica sempre acima do campo, nunca sobrepondo o texto digitado — "flutuante" aqui
-   quer dizer que ela é um elemento próprio posicionado ali, não que anima de grande pra
-   pequena. Só a cor muda com foco/preenchido; o destaque visual do campo (linha, borda,
-   fundo) é o que de fato varia entre as 4 variantes. */
+/* Efeito "flutuante" de verdade, igual ao Material Kit (creative-tim): a label nasce
+   grande, sentada dentro do campo como se fosse o valor; ao focar ou preencher, encolhe
+   e sobe pra cima da borda. Na variante .fld-mat-out (contorno), o fundo atrás da label
+   flutuada corta ("notch") o traço da borda por trás do texto — mesma técnica já usada
+   em .fld-flt (05-forms.css) pro outro sistema de formulário do framework. */
 .fld-mat { position: relative; margin-bottom: var(--sw-s-g); }
-.fld-mat-inp { width: 100%; padding: 2.2rem 1.2rem .6rem; border: none; border-bottom: 1px solid var(--sw-bor); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; background: transparent; color: var(--sw-txt); font: inherit; transition: background .2s var(--sw-ease); }
+.fld-mat-inp { width: 100%; padding: 1.7rem 1.2rem .5rem; border: none; border-bottom: 1px solid var(--sw-bor); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; background: transparent; color: var(--sw-txt); font: inherit; transition: background .2s var(--sw-ease); }
 .fld-mat-inp:focus { outline: none; }
-.fld-mat-lbl { position: absolute; left: 1.2rem; top: .6rem; color: var(--sw-txt-mut); font-size: 1.2rem; font-weight: 600; pointer-events: none; transition: color .15s var(--sw-ease); }
+.fld-mat-lbl {
+  /* top fixo (não 50%): a label é posicionada em relação à altura inteira do .fld-mat, que
+     pode ficar mais alta que o campo por causa do hint/mensagem de erro abaixo — 50% nesse
+     caso centralizaria errado, mais pra baixo do que o campo de verdade. Valor fixo alinha
+     sempre com o texto do campo, igual à técnica original do Material Kit. */
+  position: absolute; left: 1.2rem; top: 1.6rem;
+  color: var(--sw-txt-mut); font-size: 1.4rem; font-weight: 500; pointer-events: none;
+  padding: 0 .4rem; margin: 0; background: transparent; line-height: 1;
+  white-space: nowrap; max-width: calc(100% - 2.4rem); overflow: hidden; text-overflow: ellipsis;
+  transition: top .18s var(--sw-ease), font-size .18s var(--sw-ease), font-weight .18s var(--sw-ease), color .15s var(--sw-ease), background .18s var(--sw-ease), transform .18s var(--sw-ease);
+}
+.fld-mat-inp:is(textarea) ~ .fld-mat-lbl { top: 1.7rem; }
 .fld-mat-inp:focus + .fld-mat-lbl,
-.fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { color: var(--sw-pri); }
+.fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl {
+  /* translateY(-50%): centraliza o TEXTO em cima da linha (top:0), não só encosta o topo dele nela */
+  top: 0; transform: translateY(-50%); font-size: 1.1rem; font-weight: 700; color: var(--sw-pri);
+}
 .fld-mat-hint { display: block; margin-top: .4rem; font-size: 1.2rem; color: var(--sw-txt-mut); }
 .fld-mat-msg { display: block; margin-top: .4rem; font-size: 1.2rem; color: var(--sw-err); min-height: 1.6rem; }
 .fld-mat.is-err .fld-mat-lbl { color: var(--sw-err); }
@@ -319,114 +334,113 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .fld-mat.is-err::after { background: var(--sw-err); }
 .fld-mat.is-ok::after { background: var(--sw-suc); }
 
-/* .fld-mat-out — contorno completo, sem preenchimento */
+/* .fld-mat-out — contorno completo, sem preenchimento; label flutuada "corta" a borda */
 .fld-mat-out .fld-mat-inp { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); background: transparent; }
 .fld-mat-out:focus-within .fld-mat-inp { border-color: var(--sw-pri); box-shadow: 0 0 0 3px var(--sw-pri-glow); }
 .fld-mat-out.is-err .fld-mat-inp { border-color: var(--sw-err); }
 .fld-mat-out.is-ok .fld-mat-inp { border-color: var(--sw-suc); }
 .fld-mat-out::after { display: none; }
+.fld-mat-out .fld-mat-inp:focus + .fld-mat-lbl,
+.fld-mat-out .fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { background: var(--fm-bg-foc, var(--sw-sur)); }
 
 /* .fld-mat-fil — fundo preenchido, sublinhado como indicador */
 .fld-mat-fil .fld-mat-inp { background: var(--sw-sur-hover); border-radius: var(--sw-r-m) var(--sw-r-m) 0 0; }
 
-/* .fld-mat-sta — label estática, numa linha própria acima do campo (não sobreposta) */
+/* .fld-mat-sta — label estática, numa linha própria acima do campo (não flutua) */
 .fld-mat-sta { display: flex; flex-direction: column; }
-.fld-mat-sta .fld-mat-lbl { position: static; order: -1; margin-bottom: .4rem; }
+.fld-mat-sta .fld-mat-lbl { position: static; top: auto; transform: none; order: -1; margin-bottom: .4rem; font-size: 1.2rem; font-weight: 600; }
 .fld-mat-sta .fld-mat-inp { padding-top: 1.2rem; }
+.fld-mat-sta .fld-mat-inp:focus + .fld-mat-lbl,
+.fld-mat-sta .fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { font-size: 1.2rem; font-weight: 600; }
 
 /* .fld-mat-ico — ícone à esquerda, label/texto deslocados */
 .fld-mat-ico .fld-mat-inp { padding-left: 4.2rem; }
 .fld-mat-ico .fld-mat-lbl { left: 4.2rem; }
+.fld-mat-ico .fld-mat-inp:focus + .fld-mat-lbl,
+.fld-mat-ico .fld-mat-inp:not(:placeholder-shown) + .fld-mat-lbl { left: 1.2rem; }
 .fld-mat-ico-el { position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--sw-txt-mut); font-size: 1.8rem; pointer-events: none; z-index: 1; }
 
-/* ---------- Sidebar ---------- */
+/* ---------- Sidebar (porte 1:1 do y2.sanweb.com.br) ---------- */
 [sw-sidebar] {
-  display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 9000;
-  background: var(--sw-sur); border-right: 1px solid var(--sw-bor); width: 26rem;
-  box-shadow: var(--sw-sha);
-  transition: width .3s var(--sw-ease), transform .35s var(--sw-ease), box-shadow .3s var(--sw-ease);
+  position: fixed; top: 0; left: 0; bottom: 0; width: 26rem;
+  background: var(--sw-sur); border-right: 1px solid var(--sw-bor); z-index: var(--sw-z-nvb, 100);
+  display: flex; flex-direction: column;
+  transition: transform .35s var(--sw-ease), width .3s, border-color .3s;
+  box-shadow: var(--sw-sha-g);
 }
-[sw-sidebar][col] { width: 7rem; }
-[sw-sidebar][hid] { transform: translateX(-100%); box-shadow: none; }
-[sw-sidebar-ovl] {
-  position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
-  opacity: 0; pointer-events: none; transition: opacity .3s var(--sw-ease); z-index: calc(var(--sw-z-nvb) - 1);
-}
-[sw-sidebar-ovl][vis] { opacity: 1; pointer-events: auto; }
+[sw-sidebar][hid] { transform: translateX(-100%); }
+[sw-sidebar][col] { width: 7.2rem; }
 
-/* --- Cabeçalho (marca + toggle interno) --- */
-[sw-sidebar-hdr] { display: flex; align-items: center; gap: 1rem; padding: 1.6rem; border-bottom: 1px solid var(--sw-bor); flex-shrink: 0; min-height: 6.4rem; transition: justify-content .3s var(--sw-ease); }
-[sw-sidebar-hdr-ico] {
-  font-size: 2.2rem; color: var(--sw-pri); flex-shrink: 0; border-radius: 50%; padding: .6rem; margin: -.6rem;
-  filter: drop-shadow(0 0 .8rem var(--sw-pri-glow));
-  transition: transform .3s var(--sw-ease), background .18s var(--sw-ease);
+/* Header */
+[sw-sidebar-hdr] {
+  height: 6.4rem; display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 0 2rem; border-bottom: 1px solid var(--sw-bor); flex-shrink: 0; position: relative;
 }
-[sw-sidebar-hdr]:hover [sw-sidebar-hdr-ico] { transform: scale(1.08) rotate(-4deg); }
-[sw-sidebar-mode="collapse"] [sw-sidebar-hdr-ico]:hover { background: var(--sw-pri-glow); }
 [sw-sidebar-hdr-ttl] {
-  font-weight: 800; font-size: 1.6rem; color: var(--sw-txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  opacity: 1; max-width: 16rem; transition: opacity .18s var(--sw-ease), max-width .3s var(--sw-ease);
+  font-size: 1.8rem; font-weight: 700; color: var(--sw-txt); white-space: nowrap; overflow: hidden;
+  transition: opacity .2s;
 }
-[sw-sidebar][col] [sw-sidebar-hdr-ttl] { opacity: 0; max-width: 0; }
+[sw-sidebar-hdr-ico] { font-size: 2.4rem; flex-shrink: 0; display: flex; align-items: center; }
+[sw-sidebar][col] [sw-sidebar-hdr-ttl] { display: none; }
+[sw-sidebar][col] [sw-sidebar-hdr] { justify-content: center; padding: 0; gap: 1rem; }
 [sw-sidebar-tgl] {
-  margin-left: auto; width: 3.2rem; height: 3.2rem; flex-shrink: 0; border-radius: 50%; border: none;
-  background: transparent; color: var(--sw-txt-mut); cursor: pointer; opacity: 1;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .18s var(--sw-ease), color .18s var(--sw-ease), transform .35s var(--sw-ease), margin-left .3s var(--sw-ease), opacity .2s var(--sw-ease), max-width .3s var(--sw-ease);
+  position: absolute; right: 1rem; background: transparent; border: none; color: var(--sw-txt-mut);
+  font-size: 2rem; cursor: pointer; padding: .5rem; line-height: 1; transition: color .2s;
 }
-[sw-sidebar-tgl]:hover { background: var(--sw-pri-glow); color: var(--sw-pri); }
-[sw-sidebar-tgl]:active { transform: scale(0.88) rotate(180deg); }
-/* Colapsada: sem botão dedicado — só o ícone da marca, centralizado, clicável pra expandir */
-[sw-sidebar][col] [sw-sidebar-tgl] { opacity: 0; max-width: 0; margin-left: 0; pointer-events: none; }
-[sw-sidebar][col] [sw-sidebar-hdr] { justify-content: center; }
+[sw-sidebar-tgl]:hover { color: var(--sw-pri); }
 
-/* --- Navegação --- */
-[sw-sidebar-mn] { display: flex; flex-direction: column; gap: .3rem; padding: 1.2rem; overflow-y: auto; overflow-x: hidden; flex: 1; }
-[sw-sidebar-grp-ttl] {
-  padding: 1.4rem 1.2rem .4rem; font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--sw-txt-mut); white-space: nowrap; overflow: hidden;
-  opacity: 1; max-height: 3rem; transition: opacity .15s var(--sw-ease), max-height .25s var(--sw-ease), padding .25s var(--sw-ease);
-}
-[sw-sidebar][col] [sw-sidebar-grp-ttl] { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
+/* Menu / Nav */
+[sw-sidebar-mn] { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 1.2rem 0; scrollbar-width: thin; }
 
 [sw-sidebar-it] {
-  position: relative; display: flex; align-items: center; gap: 1.2rem; padding: 1rem 1.2rem 1rem 1.4rem;
-  border-radius: var(--sw-r-m); color: var(--sw-txt-mut); text-decoration: none; white-space: nowrap; cursor: pointer;
-  border-left: 3px solid transparent;
-  transition: background .2s var(--sw-ease), color .2s var(--sw-ease), border-color .2s var(--sw-ease), transform .2s var(--sw-ease), padding-left .2s var(--sw-ease);
+  display: flex; align-items: center; gap: 1.2rem; padding: 1.1rem 2rem;
+  color: var(--sw-txt-mut); text-decoration: none !important; transition: all .2s;
+  position: relative; cursor: pointer;
 }
-[sw-sidebar-it]:hover { background: var(--sw-sur-hover); color: var(--sw-txt); transform: translateX(2px); }
-[sw-sidebar-it][act] {
-  background: linear-gradient(90deg, var(--sw-pri-glow), transparent);
-  color: var(--sw-pri); font-weight: 700; border-left-color: var(--sw-pri);
+[sw-sidebar-it]:hover { background: var(--sw-sur-hover); color: var(--sw-txt); }
+[sw-sidebar-it][act] { background: var(--sw-pri-glow); color: var(--sw-pri); font-weight: 600; }
+[sw-sidebar-it][act]::before {
+  content: ''; position: absolute; left: 0; top: .5rem; bottom: .5rem; width: .4rem;
+  background: var(--sw-pri); border-radius: 0 .4rem .4rem 0;
 }
-[sw-sidebar-it] > i, [sw-sidebar-it] > .swi { font-size: 1.8rem; flex-shrink: 0; width: 1.8rem; text-align: center; transition: transform .2s var(--sw-ease); }
-[sw-sidebar-it]:hover > i, [sw-sidebar-it]:hover > .swi { transform: scale(1.12); }
-[sw-sidebar-it][act] > i, [sw-sidebar-it][act] > .swi { filter: drop-shadow(0 0 .6rem var(--sw-pri-glow)); }
-[sw-sidebar-lbl] {
-  overflow: hidden; text-overflow: ellipsis; flex: 1;
-  opacity: 1; max-width: 16rem; transition: opacity .15s var(--sw-ease), max-width .25s var(--sw-ease);
-}
-[sw-sidebar][col] [sw-sidebar-lbl] { opacity: 0; max-width: 0; }
-[sw-sidebar][col] [sw-sidebar-it] { justify-content: center; padding-left: 1.2rem; }
-[sw-sidebar][col] [sw-sidebar-it]:hover { transform: scale(1.06); }
+[sw-sidebar-it] i, [sw-sidebar-it] .swi { font-size: 1.8rem; width: 2.4rem; text-align: center; flex-shrink: 0; opacity: .8; }
+[sw-sidebar-lbl] { white-space: nowrap; transition: opacity .2s; }
+[sw-sidebar][col] [sw-sidebar-lbl] { display: none; }
+[sw-sidebar][col] [sw-sidebar-it] { justify-content: center; padding: 1rem 0; gap: 0; }
+[sw-sidebar][col] [sw-sidebar-it] i, [sw-sidebar][col] [sw-sidebar-it] .swi { font-size: 2.2rem; width: 2.2rem; flex-shrink: 0; }
+[sw-sidebar][col] [sw-sidebar-it][act]::before { display: none; }
 
+/* Separador e título de grupo */
+[sw-sidebar-grp-ttl] {
+  display: block; padding: 1.2rem 2rem .4rem; font-size: 1.1rem; font-weight: 700;
+  color: var(--sw-txt-mut); text-transform: uppercase; letter-spacing: .1em; white-space: nowrap;
+  transition: opacity .2s;
+}
+[sw-sidebar][col] [sw-sidebar-grp-ttl] { display: none; }
+
+/* Submenu */
+[sw-sidebar-sub] { cursor: pointer; user-select: none; }
 [sw-sidebar-arrow] {
-  margin-left: auto; flex-shrink: 0; font-size: 1.2rem; opacity: 1; max-width: 2rem;
-  transition: transform .25s var(--sw-ease), opacity .15s var(--sw-ease), max-width .25s var(--sw-ease);
+  margin-left: auto; font-size: 1.2rem; flex-shrink: 0; transition: transform .25s;
+  display: inline-flex; align-items: center; opacity: .6;
 }
 [sw-sidebar-it][open] [sw-sidebar-arrow] { transform: rotate(90deg); }
-[sw-sidebar][col] [sw-sidebar-arrow] { opacity: 0; max-width: 0; }
-
-[sw-sidebar-sub-items] {
-  display: flex; flex-direction: column; gap: .2rem; margin-left: 2.7rem; padding-left: .7rem;
-  border-left: 1px dashed var(--sw-bor);
-  max-height: 0; overflow: hidden; opacity: 0;
-  transition: max-height .3s var(--sw-ease), opacity .25s var(--sw-ease) .05s;
-}
-[sw-sidebar-sub-items][open] { max-height: 40rem; opacity: 1; }
-[sw-sidebar-sub-items] [sw-sidebar-it] { padding-left: 1.2rem; }
+[sw-sidebar-sub-items] { max-height: 0; overflow: hidden; transition: max-height .3s var(--sw-ease); }
+[sw-sidebar-sub-items][open] { max-height: 60rem; }
+[sw-sidebar-sub-items] [sw-sidebar-it] { padding-left: 4.4rem; font-size: 1.3rem; opacity: .85; }
+[sw-sidebar-sub-items] [sw-sidebar-it]:hover { opacity: 1; }
 [sw-sidebar][col] [sw-sidebar-sub-items] { display: none; }
+[sw-sidebar][col] [sw-sidebar-arrow] { display: none; }
+
+/* Footer */
+[sw-sidebar-ftr] { padding: 1rem 0; border-top: 1px solid var(--sw-bor); flex-shrink: 0; }
+
+/* Overlay */
+[sw-sidebar-ovl] {
+  position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  z-index: calc(var(--sw-z-nvb, 100) - 1); opacity: 0; visibility: hidden; transition: all .35s;
+}
+[sw-sidebar-ovl][vis] { opacity: 1; visibility: visible; }
 
 /* ---------- Editor ---------- */
 .sw-editor-box { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); overflow: hidden; background: var(--sw-sur); }

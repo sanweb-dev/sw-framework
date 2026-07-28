@@ -7,6 +7,29 @@
   <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+        .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+        @media (max-width: 900px) { .g3 { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .g3 { grid-template-columns: 1fr; } }
+
+        .evt-log {
+            background: var(--sw-sur-hover);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m);
+            padding: 1.2rem 1.6rem;
+            font-family: var(--sw-f-mon, monospace);
+            font-size: 1.3rem;
+            color: var(--sw-txt-mut);
+            margin-top: 1.2rem;
+            min-height: 4rem;
+            display: flex;
+            align-items: center;
+        }
+        .evt-log .key { color: var(--sw-pri); font-weight: 600; }
+        .evt-log .val { color: var(--sw-suc); }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
@@ -24,34 +47,162 @@
             <section class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">File Upload <span class="TprinD">[sw-upload]</span></h1>
-                <p class="t-g t-mut mb-0">Zona de drag & drop com preview de imagens, limite de arquivos e tamanho máximo.</p>
+                <p class="t-g t-mut mb-0">Zona de drag & drop com preview de imagens, múltiplos arquivos, limite de tamanho e validação de tipo — sem dependências externas.</p>
             </section>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
+            <!-- VARIAÇÕES -->
+            <div class="doc-card sec mb-8" id="variacoes">
+                <h3 class="t-m f-bd mb-2">1. Variações</h3>
+                <p class="t-p t-mut mb-4">Arraste arquivos ou clique para selecionar. Preview automático para imagens, nome do arquivo para outros tipos.</p>
                 <div class="demo-wrap p-6">
-                    <div sw-upload sw-upload-accept="image/*" sw-upload-max="5" sw-upload-size="3145728">
-                        <input type="file" name="files[]" accept="image/*">
+                    <div class="g3" style="width:100%">
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Galeria de Imagens</p>
+                            <p class="t-pp t-mut mb-2">Até 4 imagens — qualquer tamanho</p>
+                            <div sw-upload
+                                 sw-upload-accept="image/*"
+                                 sw-upload-max="4"
+                                 sw-upload-txt="Arraste imagens ou &lt;strong&gt;clique&lt;/strong&gt;">
+                                <input type="file" name="galeria[]" accept="image/*" multiple>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Documento (PDF)</p>
+                            <p class="t-pp t-mut mb-2">1 arquivo — máx 5 MB</p>
+                            <div sw-upload
+                                 sw-upload-accept=".pdf,.doc,.docx"
+                                 sw-upload-max="1"
+                                 sw-upload-size="5242880"
+                                 sw-upload-txt="Solte o documento aqui">
+                                <input type="file" name="documento" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="t-p f-bd mb-2">Qualquer Arquivo</p>
+                            <p class="t-pp t-mut mb-2">Vários — máx 2 MB cada</p>
+                            <div sw-upload
+                                 sw-upload-size="2097152"
+                                 sw-upload-txt="Arraste ou &lt;strong&gt;clique aqui&lt;/strong&gt;">
+                                <input type="file" name="arquivos[]" multiple>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-upload sw-upload-accept="image/*" sw-upload-max="5" sw-upload-size="3145728">
-    <input type="file" name="files[]" accept="image/*">
+<!-- Galeria de imagens (máx 4) -->
+<div sw-upload
+     sw-upload-accept="image/*"
+     sw-upload-max="4"
+     sw-upload-txt="Arraste imagens ou <strong>clique</strong>">
+  <input type="file" name="galeria[]" accept="image/*" multiple>
+</div>
+
+<!-- Documento único (máx 5 MB) -->
+<div sw-upload
+     sw-upload-accept=".pdf,.doc,.docx"
+     sw-upload-max="1"
+     sw-upload-size="5242880">
+  <input type="file" name="documento" accept=".pdf,.doc,.docx">
+</div>
+
+<!-- Qualquer arquivo (máx 2 MB cada) -->
+<div sw-upload sw-upload-size="2097152">
+  <input type="file" name="arquivos[]" multiple>
 </div>
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- EVENTO AO VIVO -->
+            <div class="doc-card sec mb-8" id="evento">
+                <h3 class="t-m f-bd mb-2">2. Evento em Tempo Real</h3>
+                <p class="t-p t-mut mb-4">Cada arquivo adicionado ou removido dispara um evento no wrapper com os dados do arquivo.</p>
+                <div class="demo-wrap p-6">
+                    <div style="max-width:480px">
+                        <div sw-upload
+                             sw-upload-accept="image/*"
+                             sw-upload-max="3"
+                             sw-upload-txt="Selecione até 3 imagens"
+                             id="upl-evt">
+                            <input type="file" name="imgs[]" accept="image/*" multiple>
+                        </div>
+                        <div class="evt-log" id="log-evt">
+                            <span class="t-mut">Selecione um arquivo para ver o evento...</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var upl = document.getElementById('upl-evt');
+                        var log = document.getElementById('log-evt');
+                        if (!upl || !log) return;
+                        upl.addEventListener('sw:upload:add', function (e) {
+                            var f = e.detail.files[e.detail.files.length - 1];
+                            log.innerHTML = '<span class="key">sw:upload:add</span> &nbsp; ' +
+                                '<span class="key">name:</span> <span class="val">"' + f.name + '"</span> &nbsp; ' +
+                                '<span class="key">size:</span> <span class="val">' + (f.size / 1024).toFixed(1) + ' KB</span>';
+                        });
+                        upl.addEventListener('sw:upload:remove', function (e) {
+                            log.innerHTML = '<span class="key">sw:upload:remove</span> &nbsp; ' +
+                                '<span class="key">index:</span> <span class="val">' + e.detail.index + '</span>';
+                        });
+                    });
+                </script>
+                <pre swcode="js">
+const upl = document.querySelector('[sw-upload]');
+
+upl.addEventListener('sw:upload:add', e => {
+  const files = e.detail.files; // todos os arquivos no momento
+  console.log('último adicionado:', files[files.length - 1].name);
+});
+
+upl.addEventListener('sw:upload:remove', e => {
+  console.log('índice removido:', e.detail.index);
+});
+</pre>
+            </div>
+
+            <!-- ENVIO -->
+            <div class="doc-card sec mb-8" id="envio">
+                <h3 class="t-m f-bd mb-2">3. Envio via FormData</h3>
+                <p class="t-p t-mut mb-4">Use <code>SW.Upload.getFiles(el)</code> para recuperar os arquivos e montar um <code>FormData</code> para envio via <code>fetch</code>.</p>
+                <pre swcode="js">
+const upl = document.querySelector('[sw-upload]');
+
+document.querySelector('#btn-enviar').addEventListener('click', () => {
+  const files = SW.Upload.getFiles(upl);
+
+  if (!files.length) {
+    alert('Selecione ao menos um arquivo.');
+    return;
+  }
+
+  const form = new FormData();
+  files.forEach(f => form.append('files[]', f));
+
+  fetch('/upload', { method: 'POST', body: form })
+    .then(r => r.json())
+    .then(data => console.log('Enviado:', data));
+});
+</pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Referência</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>Atributo / API</th><th>Padrão</th><th>Descrição</th></tr></thead>
                         <tbody>
-                            <tr><td><code>sw-upload-accept</code></td><td><code>*</code></td><td>Tipos aceitos (mesma sintaxe do <code>accept</code> nativo).</td></tr>
+                            <tr><td><code>sw-upload</code></td><td>—</td><td>Ativa o upload no wrapper.</td></tr>
+                            <tr><td><code>sw-upload-accept</code></td><td><code>*</code></td><td>Tipos aceitos (mesma sintaxe do <code>accept</code> nativo) — ex: <code>image/*</code>, <code>.pdf</code>.</td></tr>
                             <tr><td><code>sw-upload-max</code></td><td>ilimitado</td><td>Número máximo de arquivos.</td></tr>
                             <tr><td><code>sw-upload-size</code></td><td><code>10485760</code> (10MB)</td><td>Tamanho máximo por arquivo, em bytes.</td></tr>
-                            <tr><td><code>sw-upload-txt</code></td><td>—</td><td>Texto da zona de drop (aceita HTML simples).</td></tr>
-                            <tr><td><code>sw:upload:add</code> / <code>sw:upload:remove</code></td><td>—</td><td>Eventos — <code>detail.files</code> / <code>detail.index</code>.</td></tr>
+                            <tr><td><code>sw-upload-txt</code></td><td>texto padrão</td><td>Texto da zona de drop (aceita HTML simples).</td></tr>
+                            <tr><td><code>sw:upload:add</code> / <code>sw:upload:remove</code></td><td>—</td><td>Eventos — <code>detail.files</code> (array completo) / <code>detail.index</code>.</td></tr>
                             <tr><td><code>SW.Upload.getFiles(el)</code></td><td>—</td><td>Retorna o array de <code>File</code> selecionados.</td></tr>
                         </tbody>
                     </table>
