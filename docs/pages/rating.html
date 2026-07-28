@@ -4,12 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Rating / Stars - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.4rem;
+            align-items: center
+        }
+
+        .demo-lbl {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem
+        }
+
+        /* Card de produto para o exemplo real */
+        .prod-card {
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2rem;
+            min-width: 20rem;
+            max-width: 26rem
+        }
+
+        .prod-img {
+            width: 100%;
+            height: 14rem;
+            border-radius: .8rem;
+            object-fit: cover;
+            background: var(--sw-bg-sur, #1e1e24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 1.2rem
+        }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
+        .ref-table th, .ref-table td { text-align: left; padding: .8rem 1rem; border-bottom: 1px solid var(--sw-bor); }
+        .ref-table th { font-weight: 600; color: var(--sw-txt-bas); font-size: 1.2rem; text-transform: uppercase; letter-spacing: .05em; }
+        .ref-table td { color: var(--sw-txt-sec); }
+        .ref-table code { background: var(--sw-bg-sec); padding: .15rem .4rem; border-radius: 3px; font-size: 1.2rem; }
+    </style>
 </head>
 
 <body>
@@ -17,54 +69,360 @@
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
-                <span class="brc-it">Efeitos JS</span>
+                <span class="brc-it">JS Módulos</span>
                 <span class="brc-it is-cur" aria-current="page">Rating / Stars</span>
             </nav>
 
-            <section class="mb-8">
-                <span class="doc-tag">JS Component</span>
-                <h1 class="t-xxg f-bd mb-2">Rating <span class="TprinD">[sw-rating]</span></h1>
-                <p class="t-g t-mut mb-0">Avaliação por estrelas — modo leitura (valor fixo, com meia-estrela) ou interativo (clicável).</p>
-            </section>
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h1 class="t-xxg f-bd mb-2">Rating / Stars <span class="TprinD">[sw-rating]</span></h1>
+                <p class="t-g t-mut mb-0">Avaliação por estrelas — read-only com meia estrela, interativo com hover e teclado, cores, tamanhos e integração nativa com formulários.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Somente leitura</h3>
-                <div class="demo-wrap p-6 flx alc gap-6">
-                    <div sw-rating="4.5"></div>
-                    <div sw-rating="3" sw-rating-max="10"></div>
+            <!-- 1. READ-ONLY -->
+            <div class="doc-card sec mb-6" id="readonly">
+                <h3 class="t-m f-bd mb-4">1. Read-only — <code>sw-rating="4.5"</code></h3>
+                <p class="t-g t-mut mb-4">Passe o valor diretamente como conteúdo do atributo <code>sw-rating</code>. Suporta meia estrela — qualquer decimal a partir de .5 preenche a metade.</p>
+                <div class="demo-wrap">
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">5.0</span>
+                        <div sw-rating="5"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">4.5</span>
+                        <div sw-rating="4.5"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">3.7</span>
+                        <div sw-rating="3.7"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">2.0</span>
+                        <div sw-rating="2"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">0.5</span>
+                        <div sw-rating="0.5"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Com contador</span>
+                        <div style="display:flex;align-items:center;gap:.6rem">
+                            <div sw-rating="4.5"></div>
+                            <span class="sw-rating-cnt">(127)</span>
+                        </div>
+                    </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Valor no atributo: inteiro ou decimal -->
+<div sw-rating="5"></div>
 <div sw-rating="4.5"></div>
-<div sw-rating="3" sw-rating-max="10"></div>
+<div sw-rating="3.7"></div>
+
+<!-- Com contador de avaliações -->
+<div sw-rating="4.5"></div>
+<span class="sw-rating-cnt">(127 avaliações)</span>
 </script></pre>
             </div>
 
-            <div class="doc-card mb-8">
+            <!-- 2. INTERATIVO -->
+            <div class="doc-card sec mb-6" id="interativo">
                 <h3 class="t-m f-bd mb-4">2. Interativo</h3>
-                <div class="demo-wrap p-6">
-                    <div sw-rating class="is-int"></div>
+                <p class="t-g t-mut mb-4">Atributo <code>sw-rating</code> vazio (sem valor) + classe <code>is-int</code>. Suporte completo a hover, clique e navegação por teclado (Enter / Espaço). Clique na estrela selecionada para deselecionar.</p>
+                <div class="demo-wrap">
+                    <div>
+                        <p class="t-p t-mut mb-2">5 estrelas (padrão):</p>
+                        <div sw-rating class="is-int" id="rat-a"></div>
+                        <p class="t-pp t-mut mt-2" id="rat-a-val" style="min-height:1.8rem"></p>
+                    </div>
+                    <div>
+                        <p class="t-p t-mut mb-2">Valor inicial = 3:</p>
+                        <div sw-rating sw-rating-val="3" class="is-int" id="rat-b"></div>
+                        <p class="t-pp t-mut mt-2" id="rat-b-val" style="min-height:1.8rem"></p>
+                    </div>
+                    <div>
+                        <p class="t-p t-mut mb-2">10 estrelas:</p>
+                        <div sw-rating sw-rating-max="10" class="is-int is-sm" id="rat-c"></div>
+                        <p class="t-pp t-mut mt-2" id="rat-c-val" style="min-height:1.8rem"></p>
+                    </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Interativo - sw-rating sem valor -->
 <div sw-rating class="is-int"></div>
-<!-- ouça sw:rating:change para pegar o valor escolhido -->
+
+<!-- Com valor inicial -->
+<div sw-rating sw-rating-val="3" class="is-int"></div>
+
+<!-- 10 estrelas -->
+<div sw-rating sw-rating-max="10" class="is-int"></div>
+</script></pre>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        [['rat-a', 'rat-a-val'], ['rat-b', 'rat-b-val'], ['rat-c', 'rat-c-val']].forEach(function (pair) {
+                            var id = pair[0], out = pair[1];
+                            var el = document.getElementById(id);
+                            if (el) el.addEventListener('sw:rating:change', function (e) {
+                                document.getElementById(out).textContent = 'Nota: ' + e.detail.value + ' ✨';
+                            });
+                        });
+                    });
+                </script>
+            </div>
+
+            <!-- 3. FORMULÁRIO -->
+            <div class="doc-card sec mb-6" id="form">
+                <h3 class="t-m f-bd mb-4">3. Em Formulário</h3>
+                <p class="t-g t-mut mb-4">Inclua um <code>&lt;input type="hidden"&gt;</code> dentro do elemento. O valor é atualizado automaticamente a cada clique e enviado junto com o formulário.</p>
+                <div class="demo-wrap">
+                    <form id="frm-rat" onsubmit="handleRatSubmit(event)" style="display:flex;flex-direction:column;gap:1.6rem">
+                        <div>
+                            <label class="t-p f-bd mb-2" style="display:block">Avalie este produto</label>
+                            <div sw-rating class="is-int is-lg">
+                                <input type="hidden" name="nota" value="0">
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn is-pri">Enviar avaliação</button>
+                            <span id="rat-form-ok" class="t-suc ml-3" style="display:none;font-size:1.4rem">Enviado! Veja o console.</span>
+                        </div>
+                    </form>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<form method="POST" action="/avaliar">
+  <div sw-rating class="is-int">
+    <input type="hidden" name="nota" value="0">
+  </div>
+  <button type="submit">Enviar</button>
+</form>
+</script></pre>
+                <script>
+                    function handleRatSubmit(e) {
+                        e.preventDefault();
+                        var nota = new FormData(e.target).get('nota');
+                        console.log('Nota enviada:', nota);
+                        var ok = document.getElementById('rat-form-ok');
+                        ok.style.display = 'inline';
+                        setTimeout(function () { ok.style.display = 'none'; }, 3000);
+                    }
+                </script>
+            </div>
+
+            <!-- 4. TAMANHOS -->
+            <div class="doc-card sec mb-6" id="tamanhos">
+                <h3 class="t-m f-bd mb-4">4. Tamanhos</h3>
+                <div class="demo-wrap">
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">SM</span>
+                        <div sw-rating="4" class="is-sm"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Normal</span>
+                        <div sw-rating="4"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">LG</span>
+                        <div sw-rating="4" class="is-lg"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">SM interativo</span>
+                        <div sw-rating class="is-sm is-int"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">LG interativo</span>
+                        <div sw-rating class="is-lg is-int"></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-rating="4" class="is-sm"></div>   <!-- pequeno -->
+<div sw-rating="4"></div>                 <!-- normal (padrão) -->
+<div sw-rating="4" class="is-lg"></div>   <!-- grande -->
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
-                <div class="tbl is-str">
-                    <table>
-                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
-                        <tbody>
-                            <tr><td><code>sw-rating="4.5"</code></td><td>Com valor no atributo → modo leitura, suporta meia-estrela.</td></tr>
-                            <tr><td><code>sw-rating</code> (vazio)</td><td>Sem valor → modo interativo.</td></tr>
-                            <tr><td><code>sw-rating-max</code></td><td>Total de estrelas (padrão 5).</td></tr>
-                            <tr><td><code>sw:rating:change</code></td><td>Evento — <code>detail.value</code>.</td></tr>
-                            <tr><td><code>el._swRating.getValue()/.setValue(n)</code></td><td>API na instância.</td></tr>
-                        </tbody>
-                    </table>
+            <!-- 5. CORES -->
+            <div class="doc-card sec mb-6" id="cores">
+                <h3 class="t-m f-bd mb-4">5. Cores</h3>
+                <p class="t-g t-mut mb-4">Por padrão as estrelas ativas são amarelas (dourado). Use as classes de cor no elemento para mudar.</p>
+                <div class="demo-wrap">
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Padrão (dourado)</span>
+                        <div sw-rating="4"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Primário</span>
+                        <div sw-rating="4" class="is-pri"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Sucesso</span>
+                        <div sw-rating="4" class="is-suc"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Erro</span>
+                        <div sw-rating="4" class="is-err"></div>
+                    </div>
+                    <div class="demo-lbl">
+                        <span class="t-pp t-mut">Primário interativo</span>
+                        <div sw-rating class="is-pri is-int"></div>
+                    </div>
                 </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-rating="4"></div>                      <!-- dourado (padrão) -->
+<div sw-rating="4" class="is-pri"></div>       <!-- cor primária -->
+<div sw-rating="4" class="is-suc"></div>       <!-- sucesso (verde) -->
+<div sw-rating="4" class="is-err"></div>       <!-- erro (vermelho) -->
+</script></pre>
             </div>
+
+            <!-- 6. API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">6. API JavaScript</h3>
+                <p class="t-g t-mut mb-4">Acesse a instância via <code>el._swRating</code> (ou <code>el._swRat</code>) para ler ou definir o valor por código.</p>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+// Obter instância (elementos interativos)
+const el   = document.querySelector('[sw-rating].is-int');
+const inst = el._swRating;
+
+// Ler nota atual
+console.log(inst.getValue()); // ex: 4
+
+// Definir nota por código
+inst.setValue(5);
+
+// Ouvir evento de mudança
+el.addEventListener('sw:rating:change', (e) => {
+    console.log('Nova nota:', e.detail.value);
+});
+</script></pre>
+                <div class="demo-wrap" style="flex-direction:column;align-items:flex-start;gap:1.2rem">
+                    <div>
+                        <p class="t-p t-mut mb-2">Rating controlado por código:</p>
+                        <div sw-rating class="is-int is-lg" id="rat-api"></div>
+                    </div>
+                    <div class="flx gap-2 f-wr" style="display:flex;gap:0.8rem;flex-wrap:wrap">
+                        <button class="btn is-sec" onclick="setRat(1)">★ 1</button>
+                        <button class="btn is-sec" onclick="setRat(2)">★ 2</button>
+                        <button class="btn is-sec" onclick="setRat(3)">★ 3</button>
+                        <button class="btn is-sec" onclick="setRat(4)">★ 4</button>
+                        <button class="btn is-sec" onclick="setRat(5)">★ 5</button>
+                        <button class="btn is-out" onclick="setRat(0)">Limpar</button>
+                    </div>
+                    <p class="t-p t-mut" id="rat-api-val" style="min-height:1.8rem"></p>
+                </div>
+                <script>
+                    function setRat(v) {
+                        var el = document.getElementById('rat-api');
+                        if (el && (el._swRating || el._swRat)) {
+                            var inst = el._swRating || el._swRat;
+                            inst.setValue(v);
+                            document.getElementById('rat-api-val').textContent = v > 0 ? 'Nota definida: ' + v + ' ★' : 'Limpo via setValue(0)';
+                        }
+                    }
+                </script>
+            </div>
+
+            <!-- 7. EXEMPLO REAL -->
+            <div class="doc-card sec mb-6" id="real">
+                <h3 class="t-m f-bd mb-4">7. Exemplo Real — Card de Produto</h3>
+                <div class="demo-wrap">
+                    <div class="prod-card">
+                        <div class="prod-img">🎧</div>
+                        <p class="f-bd t-p mb-1">Fone Bluetooth Pro X</p>
+                        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem">
+                            <div sw-rating="4.5"></div>
+                            <span class="sw-rating-cnt">(2.341)</span>
+                        </div>
+                        <p class="t-xxg f-bk TprinD mb-3">R$ 349,90</p>
+                        <button class="btn is-pri" style="width:100%">Comprar</button>
+                    </div>
+                    <div class="prod-card">
+                        <p class="f-bd t-p mb-3">Deixe sua avaliação</p>
+                        <p class="t-p t-mut mb-2">Como você avalia este produto?</p>
+                        <div sw-rating class="is-int is-lg" id="rat-prod" style="margin-bottom:1.2rem"></div>
+                        <p class="t-pp t-mut mb-3" id="rat-prod-txt" style="min-height:1.8rem"></p>
+                        <button class="btn is-pri" style="width:100%">Enviar avaliação</button>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var msgs = ['', 'Péssimo 😞', 'Ruim 😟', 'Ok 😐', 'Bom 🙂', 'Excelente! 😍'];
+                        var el = document.getElementById('rat-prod');
+                        if (el) el.addEventListener('sw:rating:change', function (e) {
+                            document.getElementById('rat-prod-txt').textContent = msgs[e.detail.value] || '';
+                        });
+                    });
+                </script>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Referência de Atributos</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Classe</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-rating="4.5"</code></td>
+                            <td>—</td>
+                            <td>Read-only — valor no atributo (inteiro ou decimal com .5)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-rating</code> (vazio)</td>
+                            <td>—</td>
+                            <td>Interativo — clicável, com hover e navegação por teclado</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-rating-max</code></td>
+                            <td><code>5</code></td>
+                            <td>Número de estrelas (ex: 5 ou 10)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-rating-val</code></td>
+                            <td><code>0</code></td>
+                            <td>Valor inicial para o modo interativo</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-int</code></td>
+                            <td>—</td>
+                            <td>Classe para ativar o estilo cursor pointer nas estrelas</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-sm / .is-lg</code></td>
+                            <td>—</td>
+                            <td>Tamanhos pequeno (1.6rem) e grande (3.0rem)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.is-pri / .is-suc / .is-err</code></td>
+                            <td>—</td>
+                            <td>Cores alternativas das estrelas (primário, verde, vermelho)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.sw-rating-cnt</code></td>
+                            <td>—</td>
+                            <td>Elemento irmão para exibir contagem de avaliações</td>
+                        </tr>
+                        <tr>
+                            <td><code>el._swRating.getValue()</code></td>
+                            <td>—</td>
+                            <td>Retorna a nota atual (modo interativo)</td>
+                        </tr>
+                        <tr>
+                            <td><code>el._swRating.setValue(n)</code></td>
+                            <td>—</td>
+                            <td>Define a nota por código</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw:rating:change</code></td>
+                            <td>—</td>
+                            <td>Evento ao alterar nota — <code>e.detail.value</code> contém o valor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </main>
     </div>
 </body>

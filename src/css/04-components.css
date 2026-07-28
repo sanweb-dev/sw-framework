@@ -4,7 +4,7 @@
    ========================================================================== */
 
 /* --- 🔘 BOTÕES ([sw-btn] — atributo canônico, .sw-btn aceito como alias) --- */
-[sw-btn], .sw-btn {
+[sw-btn], .sw-btn, .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25,18 +25,18 @@
   user-select: none;
 }
 
-[sw-btn]:focus-visible, .sw-btn:focus-visible,
+[sw-btn]:focus-visible, .sw-btn:focus-visible, .btn:focus-visible,
 a:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--sw-pri);
   outline-offset: 3px;
 }
 
-[sw-btn]:hover, .sw-btn:hover {
+[sw-btn]:hover, .sw-btn:hover, .btn:hover {
   transform: translateY(-2px);
 }
 
-[sw-btn][disabled], .sw-btn[disabled], [sw-btn].sw-btn-dis, .sw-btn.sw-btn-dis {
+[sw-btn][disabled], .sw-btn[disabled], .btn[disabled], [sw-btn].sw-btn-dis, .sw-btn.sw-btn-dis {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none !important;
@@ -44,22 +44,22 @@ a:focus-visible,
 }
 
 /* --- Cores semânticas (gradiente + sombra colorida, estilo Material Kit) --- */
-.sw-btn-pri, .sw-btn-primary  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-pri); }
-.sw-btn-suc, .sw-btn-success  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-suc); }
-.sw-btn-err, .sw-btn-danger   { background: var(--sw-grad-err); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-err); }
-.sw-btn-ale, .sw-btn-warning  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-ale); }
-.sw-btn-inf, .sw-btn-info     { background: var(--sw-grad-inf); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-inf); }
-.sw-btn-drk                   { background: var(--sw-grad-drk); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-drk); }
-.sw-btn-lit                   { background: var(--sw-grad-lit); color: #1a2636; border-color: transparent; box-shadow: var(--sw-sha-lit); }
+.sw-btn-pri, .sw-btn-primary, .btn.is-pri  { background: var(--sw-grad-pri); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-pri); }
+.sw-btn-suc, .sw-btn-success, .btn.is-suc  { background: var(--sw-grad-suc); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-suc); }
+.sw-btn-err, .sw-btn-danger, .btn.is-err   { background: var(--sw-grad-err); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-err); }
+.sw-btn-ale, .sw-btn-warning, .btn.is-ale  { background: var(--sw-grad-ale); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-ale); }
+.sw-btn-inf, .sw-btn-info, .btn.is-inf     { background: var(--sw-grad-inf); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-inf); }
+.sw-btn-drk, .btn.is-drk                   { background: var(--sw-grad-drk); color: #fff; border-color: transparent; box-shadow: var(--sw-sha-drk); }
+.sw-btn-lit, .btn.is-lit                   { background: var(--sw-grad-lit); color: #1a2636; border-color: transparent; box-shadow: var(--sw-sha-lit); }
 
-.sw-btn-pri:hover, .sw-btn-primary:hover,
-.sw-btn-suc:hover, .sw-btn-success:hover,
-.sw-btn-err:hover, .sw-btn-danger:hover,
-.sw-btn-ale:hover, .sw-btn-warning:hover,
-.sw-btn-inf:hover, .sw-btn-info:hover,
+.sw-btn-pri:hover, .sw-btn-primary:hover, .btn.is-pri:hover,
+.sw-btn-suc:hover, .sw-btn-success:hover, .btn.is-suc:hover,
+.sw-btn-err:hover, .sw-btn-danger:hover, .btn.is-err:hover,
+.sw-btn-ale:hover, .sw-btn-warning:hover, .btn.is-ale:hover,
+.sw-btn-inf:hover, .sw-btn-info:hover, .btn.is-inf:hover,
 .sw-btn-drk:hover, .sw-btn-lit:hover { filter: brightness(1.08); }
 
-.sw-btn-sec, .sw-btn-secondary {
+.sw-btn-sec, .sw-btn-secondary, .btn.is-sec {
   background: var(--sw-grad-sec);
   color: #fff;
   border-color: transparent;

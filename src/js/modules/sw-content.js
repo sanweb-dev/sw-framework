@@ -1,5 +1,5 @@
 /* SW Framework Content — <div sw-content="/api/posts" sw-content-tmpl="#tmpl" sw-content-empty sw-content-err sw-content-trigger="load|click|visible" sw-content-paginate>
-   <template>...{{campo}}...</template></div> — fetch JSON, interpola em <template>. API: SW.Content.load(el) */
+   <template>...{{campo}}...</template></div> — fetch JSON, interpola em <template>. API: SWContent.load(el) */
 (function () {
   'use strict';
 
@@ -15,6 +15,7 @@
       this.page = 1;
       this.loading = false;
       this.tmpl = this.tmplSel ? document.querySelector(this.tmplSel) : el.querySelector('template');
+      el._swContentInst = this;
       this._bind();
     }
 
@@ -53,7 +54,7 @@
     }
 
     _render(json) {
-      const list = Array.isArray(json) ? json : Array.isArray(json.dados) ? json.dados : [json];
+      const list = Array.isArray(json) ? json : Array.isArray(json.dados) ? json.dados : Array.isArray(json.data) ? json.data : [json];
       const container = document.createElement('div');
 
       if (!list.length) {
@@ -65,7 +66,10 @@
         });
       }
 
-      if (this.paginate && json.paginas > 1) container.appendChild(this._buildPager(json));
+      const pagina = json.pagina ?? json.page ?? json.current_page ?? 1;
+      const paginas = json.paginas ?? json.pages ?? json.last_page ?? 1;
+
+      if (this.paginate && paginas > 1) container.appendChild(this._buildPager(pagina, paginas));
 
       const keep = this.el.querySelector('template');
       this.el.innerHTML = '';
@@ -98,29 +102,29 @@
       node.childNodes.forEach((c) => this._interpolate(c, data));
     }
 
-    _buildPager(json) {
+    _buildPager(pagina, paginas) {
       const div = document.createElement('div');
       div.className = 'sw-content-pager';
-      if (json.pagina > 1) {
+      if (pagina > 1) {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.setAttribute('sw-btn', '');
         btn.className = 'sw-btn-sm';
         btn.textContent = '← Anterior';
-        btn.addEventListener('click', () => this.load(json.pagina - 1));
+        btn.addEventListener('click', () => this.load(pagina - 1));
         div.appendChild(btn);
       }
       const info = document.createElement('span');
       info.className = 'sw-text-mut';
-      info.textContent = `Página ${json.pagina} de ${json.paginas}`;
+      info.textContent = `Página ${pagina} de ${paginas}`;
       div.appendChild(info);
-      if (json.pagina < json.paginas) {
+      if (pagina < paginas) {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.setAttribute('sw-btn', '');
         btn.className = 'sw-btn-sm';
         btn.textContent = 'Próxima →';
-        btn.addEventListener('click', () => this.load(json.pagina + 1));
+        btn.addEventListener('click', () => this.load(pagina + 1));
         div.appendChild(btn);
       }
       return div;
@@ -139,7 +143,7 @@
       });
     }
 
-    static load(el) { el._swContent?.load(); }
+    static load(el) { (el._swContentInst || el._swContent)?.load(); }
   }
 
   window.SW?.register('SWContent', SWContent);

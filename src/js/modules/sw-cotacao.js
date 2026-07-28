@@ -6,10 +6,11 @@
   class SWCotacaoInst {
     constructor(el) {
       this.el = el;
-      this.pares = (el.getAttribute('sw-cotacao-pares') || 'USD-BRL,EUR-BRL').split(',').map((p) => p.trim());
-      this.tipo = el.getAttribute('sw-cotacao-tipo') || 'c';
-      this.mode = el.getAttribute('sw-cotacao-mode') || 'cards';
-      this.auto = parseInt(el.getAttribute('sw-cotacao-auto'), 10) || 0;
+      const paresAttr = el.getAttribute('sw-cotacao-pares') || el.getAttribute('sw-cota-pares') || 'USD-BRL,EUR-BRL';
+      this.pares = paresAttr.split(',').map((p) => p.trim());
+      this.tipo = el.getAttribute('sw-cotacao-tipo') || el.getAttribute('sw-cota-tipo') || 'c';
+      this.mode = el.getAttribute('sw-cotacao-mode') || el.getAttribute('sw-cota-mode') || 'cards';
+      this.auto = parseInt(el.getAttribute('sw-cotacao-auto') || el.getAttribute('sw-cota-auto') || '0', 10);
       this._fetch();
       if (this.auto > 0) window.setInterval(() => this._fetch(), this.auto);
     }
@@ -19,11 +20,15 @@
       fetch(`https://economia.awesomeapi.com.br/last/${pairs}`)
         .then((r) => r.json())
         .then((data) => this._render(data))
-        .catch(() => { this.el.innerHTML = '<p class="sw-text-mut">Cotação indisponível.</p>'; });
+        .catch(() => { this.el.innerHTML = '<p class="sw-text-mut">Cotação indisponível no momento.</p>'; });
     }
 
     _render(data) {
       const vals = Object.values(data);
+      if (!vals.length) {
+        this.el.innerHTML = '<p class="sw-text-mut">Nenhuma cotação encontrada.</p>';
+        return;
+      }
       if (this.mode === 'table') {
         const rows = vals.map((v) => {
           const pct = parseFloat(v.pctChange || 0);
@@ -36,14 +41,15 @@
           const dec = bid < 1 ? 6 : bid < 10 ? 4 : 2;
           return `<tr><td class="sw-cotacao-tcod">${v.code}/${v.codein}</td><td class="sw-cotacao-tval">R$ ${bid.toFixed(dec)}</td><td class="sw-cotacao-tval">R$ ${ask.toFixed(dec)}</td><td class="sw-cotacao-tpct ${cls}">${sign} ${Math.abs(pct).toFixed(2)}%</td><td class="sw-cotacao-tval">R$ ${high.toFixed(dec)}</td><td class="sw-cotacao-tval">R$ ${low.toFixed(dec)}</td></tr>`;
         }).join('');
-        this.el.innerHTML = `<table class="sw-cotacao-table"><thead><tr><th>Par</th><th>Compra</th><th>Venda</th><th>Variação</th><th>Máx 24h</th><th>Mín 24h</th></tr></thead><tbody>${rows}</tbody></table>`;
+        this.el.innerHTML = `<table class="sw-cotacao-table"><thead><tr><th>Par</th><th>Compra (Bid)</th><th>Venda (Ask)</th><th>Variação</th><th>Máx 24h</th><th>Mín 24h</th></tr></thead><tbody>${rows}</tbody></table>`;
       } else {
         const items = vals.map((v) => {
           const val = parseFloat(this.tipo === 'c' ? v.bid : v.ask);
           const pct = parseFloat(v.pctChange || 0);
           const cls = pct >= 0 ? 'is-up' : 'is-dwn';
           const sign = pct >= 0 ? '▲' : '▼';
-          return `<div class="sw-cotacao-it"><span class="sw-cotacao-par">${v.code}/${v.codein}</span><span class="sw-cotacao-val ${cls}">R$ ${val.toFixed(4)}</span><span class="sw-cotacao-sub ${cls}">${sign} ${Math.abs(pct).toFixed(2)}%</span></div>`;
+          const label = this.tipo === 'c' ? 'Compra' : 'Venda';
+          return `<div class="sw-cotacao-it"><span class="sw-cotacao-par">${v.code} / ${v.codein} (${label})</span><span class="sw-cotacao-val ${cls}">R$ ${val.toFixed(val < 1 ? 4 : 2)}</span><span class="sw-cotacao-sub ${cls}">${sign} ${Math.abs(pct).toFixed(2)}%</span></div>`;
         }).join('');
         this.el.innerHTML = `<div class="sw-cotacao-wrap">${items}</div>`;
       }
@@ -52,7 +58,7 @@
 
   class SWCotacao {
     static initAll(root = document) {
-      SW.$('[sw-cotacao]', root).forEach((el) => {
+      SW.$('[sw-cotacao], [sw-cota]', root).forEach((el) => {
         if (el._swCotacao) return;
         el._swCotacao = new SWCotacaoInst(el);
       });
@@ -61,4 +67,5 @@
 
   window.SW?.register('SWCotacao', SWCotacao);
   if (window.SW) window.SW.Cotacao = SWCotacao;
+  window.SWCotacao = SWCotacao;
 })();

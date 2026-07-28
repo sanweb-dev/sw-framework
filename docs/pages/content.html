@@ -3,64 +3,243 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Content - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>SWContent — Fetch JSON + Templates | SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas, #1e1e24);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: var(--sw-bg-bas, #1e1e24);
+            border-radius: var(--sw-r-g, 8px);
+            border: 1px solid var(--sw-bor, #2a2a32);
+        }
+        .flow-box {
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 8px;
+            padding: .8rem 1.4rem;
+            font-size: 1.3rem;
+            font-family: var(--sw-f-mon, monospace);
+            text-align: center;
+        }
+        .flow-arrow { color: var(--sw-pri, #6366f1); font-size: 2rem; font-weight: 700 }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
     <div class="doc-shell">
         <main class="doc-main">
+
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">JS Módulos</span>
-                <span class="brc-it is-cur" aria-current="page">Content</span>
+                <span class="brc-it is-cur" aria-current="page">SWContent</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h1 class="t-xxg f-bd mb-2">Content <span class="TprinD">[sw-content]</span></h1>
-                <p class="t-g t-mut mb-0">Busca um endpoint JSON e renderiza cada item interpolando <code>{{campo}}</code> dentro de um <code>&lt;template&gt;</code>. Diferente do <a href="swajax.html">SWAjax</a> (que injeta fragmentos HTML prontos), aqui o servidor devolve dados puros e o template define a apresentação.</p>
-            </section>
+                <h1 class="t-xxg f-bd mb-2">SW<span class="TprinD">Content</span></h1>
+                <p class="t-g t-mut">Busca dados JSON de qualquer endpoint e renderiza automaticamente em um <code>&lt;template&gt;</code> HTML com interpolação <code>{{campo}}</code>. Sem escrever JavaScript — apenas declarando atributos no HTML.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">Uso</h3>
+            <!-- COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">Como funciona</h3>
+                <div class="flow-diagram mb-4">
+                    <div class="flow-box">Atributo<br><code>sw-content="/api/posts"</code></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">fetch JSON<br><code>GET /api/posts</code></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">Clona <code>&lt;template&gt;</code><br>preenche <code>{{campo}}</code></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">Insere no DOM</div>
+                </div>
+                <p class="t-mut t-p">A API pode retornar um <strong>array simples</strong> ou um objeto estruturado com <code>{ dados: [], total, pagina, paginas }</code> para paginação automática.</p>
+            </div>
+
+            <!-- 1. USO BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Uso básico</h3>
+                <p class="t-mut mb-4">Adicione <code>sw-content</code> com a URL do endpoint JSON. O <code>&lt;template&gt;</code> interno define o layout de cada item.</p>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-content="/api/posts" sw-content-empty="Nenhum post encontrado." sw-content-paginate>
+<div sw-content="/api/posts">
     <template>
-        <article class="sw-card p-4 mb-2">
-            <h3>{{titulo}}</h3>
-            <p>{{resumo}}</p>
-            <span class="t-mut">por {{autor}}</span>
+        <article style="border:1px solid var(--sw-bor);border-radius:8px;padding:1.6rem;margin-bottom:1rem">
+            <h4>{{titulo}}</h4>
+            <p style="color:var(--sw-txt-mut)">{{resumo}}</p>
+            <small>por {{autor}}</small>
         </article>
     </template>
 </div>
 </script></pre>
-                <p class="t-mut mt-2">O endpoint pode devolver um array simples, ou <code>{ dados: [...], pagina, paginas }</code> quando <code>sw-content-paginate</code> estiver ativo.</p>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- 2. TEMPLATE EXTERNO -->
+            <div class="doc-card sec mb-6" id="tmpl-ext">
+                <h3 class="t-m f-bd mb-4">2. Template externo</h3>
+                <p class="t-mut mb-4">Use <code>sw-content-tmpl</code> apontando para um <code>&lt;template&gt;</code> em qualquer lugar da página. Útil quando múltiplos blocos compartilham o mesmo layout de card.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Template reutilizável -->
+<template id="card-post">
+    <div class="post-card">
+        <img src="{{thumb}}" alt="{{titulo}}">
+        <h4>{{titulo}}</h4>
+        <p>{{resumo}}</p>
+        <a href="/posts/{{slug}}">Ler mais →</a>
+    </div>
+</template>
+
+<!-- Bloco 1 — Últimos posts -->
+<div sw-content="/api/posts?limit=3" sw-content-tmpl="#card-post"></div>
+
+<!-- Bloco 2 — Posts em destaque -->
+<div sw-content="/api/posts?status=A&limit=6" sw-content-tmpl="#card-post"></div>
+</script></pre>
+            </div>
+
+            <!-- 3. MENSAGENS DE VAZIO E ERRO -->
+            <div class="doc-card sec mb-6" id="estados">
+                <h3 class="t-m f-bd mb-4">3. Estado vazio e erro</h3>
+                <p class="t-mut mb-4">Personalize a mensagem caso a lista venha vazia ou ocorra uma falha de conexão.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-content="/api/posts"
+     sw-content-empty="Nenhum post publicado ainda."
+     sw-content-err="Não foi possível carregar os posts.">
+    <template>
+        <article>{{titulo}}</article>
+    </template>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. TRIGGERS DE CARREGAMENTO -->
+            <div class="doc-card sec mb-6" id="triggers">
+                <h3 class="t-m f-bd mb-4">4. Triggers de carregamento</h3>
+                <div class="tbl is-str mb-4">
+                    <table>
+                        <thead>
+                            <tr><th>Valor</th><th>Comportamento</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>load</code></td><td>Carrega automaticamente ao iniciar (padrão).</td></tr>
+                            <tr><td><code>click</code></td><td>Carrega ao clicar em um botão configurado via <code>sw-content-btn</code>.</td></tr>
+                            <tr><td><code>visible</code></td><td>Carrega quando o elemento entra na tela (Intersection Observer / Lazy Load).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Lazy Load: carrega só ao rolar a página até ele -->
+<div sw-content="/api/posts" sw-content-trigger="visible">
+    <template><article>{{titulo}}</article></template>
+</div>
+
+<!-- Sob demanda: carrega ao clicar no botão -->
+<button id="btn-carregar" type="button" class="sw-btn">Carregar posts</button>
+<div sw-content="/api/posts" sw-content-trigger="click" sw-content-btn="#btn-carregar">
+    <template><article>{{titulo}}</article></template>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 5. PAGINAÇÃO AUTOMÁTICA -->
+            <div class="doc-card sec mb-6" id="paginacao">
+                <h3 class="t-m f-bd mb-4">5. Paginação automática</h3>
+                <p class="t-mut mb-4">Adicione o atributo <code>sw-content-paginate</code>. O módulo injeta os botões <code>← Anterior</code> e <code>Próxima →</code> automaticamente com suporte a endpoints PHP/Laravel.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-content="/api/posts?limit=10" sw-content-paginate>
+    <template>
+        <article>
+            <h4>{{titulo}}</h4>
+            <p>{{resumo}}</p>
+        </article>
+    </template>
+</div>
+</script></pre>
+                <p class="t-mut mt-2 mb-2">Formato esperado na resposta da sua API JSON (PHP / Laravel / Node):</p>
+                <pre swcode="json" class="m-0"><script type="text/plain">
+{
+  "dados":   [ { "titulo": "Post A", "resumo": "..." } ],
+  "total":   42,
+  "pagina":  1,
+  "paginas": 5
+}
+</script></pre>
+            </div>
+
+            <!-- 6. API JAVASCRIPT -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">6. API JavaScript</h3>
+                <pre swcode="js" class="m-0">
+// Recarregar bloco via JS
+const el = document.querySelector('[sw-content]');
+SWContent.load(el);
+
+// Recarregar ao alterar um filtro
+document.querySelector('#filtro').addEventListener('change', e => {
+    el.setAttribute('sw-content', '/api/posts?tipo=' + e.target.value);
+    SWContent.load(el);
+});
+
+// Escutar evento após renderizar
+el.addEventListener('sw:content:loaded', e => {
+    console.log('Dados carregados:', e.detail.dados);
+});
+</pre>
+            </div>
+
+            <!-- 7. INTERPOLAÇÃO EM ATRIBUTOS -->
+            <div class="doc-card sec mb-6" id="interpolacao">
+                <h3 class="t-m f-bd mb-4">7. Interpolação em atributos HTML</h3>
+                <p class="t-mut mb-4">O marcador <code>{{campo}}</code> funciona perfeitamente em textos e em <strong>atributos HTML</strong> — como <code>href</code>, <code>src</code>, <code>class</code>, <code>data-*</code>, etc.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<template>
+    <a href="/posts/{{slug}}" class="card card-{{tipo}}">
+        <img src="/storage/{{thumb}}" alt="{{titulo}}" loading="lazy">
+        <span data-id="{{id}}">{{titulo}}</span>
+    </a>
+</template>
+</script></pre>
+            </div>
+
+            <!-- 8. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">8. Quick Reference</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr><th>Atributo / Método</th><th>Onde</th><th>Descrição</th></tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-content</code></td><td>—</td><td>URL do endpoint JSON.</td></tr>
-                            <tr><td><code>sw-content-tmpl</code></td><td>&lt;template&gt; interno</td><td>Seletor de um template externo, se preferir.</td></tr>
-                            <tr><td><code>sw-content-empty</code> / <code>-err</code></td><td>—</td><td>Mensagens pra lista vazia / erro de requisição.</td></tr>
-                            <tr><td><code>sw-content-trigger</code></td><td><code>load</code></td><td><code>load | click | visible</code> (Intersection Observer).</td></tr>
-                            <tr><td><code>sw-content-btn</code></td><td><code>[sw-content-load]</code></td><td>Seletor do botão, no modo <code>click</code>.</td></tr>
-                            <tr><td><code>sw-content-paginate</code></td><td>—</td><td>Ativa botões Anterior/Próxima com base em <code>json.pagina/.paginas</code>.</td></tr>
-                            <tr><td><code>sw:content:loaded</code></td><td>—</td><td>Evento — <code>detail.dados</code>.</td></tr>
-                            <tr><td><code>SW.Content.load(el)</code></td><td>—</td><td>Força recarregar.</td></tr>
+                            <tr><td><code>sw-content="/api/..."</code></td><td>div/section</td><td>Ativa o módulo e define o endpoint JSON.</td></tr>
+                            <tr><td><code>sw-content-tmpl="#sel"</code></td><td>div</td><td>Seletor do <code>&lt;template&gt;</code> (padrão: filho direto).</td></tr>
+                            <tr><td><code>sw-content-trigger</code></td><td>div</td><td><code>load</code> | <code>click</code> | <code>visible</code> (padrão: <code>load</code>).</td></tr>
+                            <tr><td><code>sw-content-btn="#sel"</code></td><td>div</td><td>Seletor do botão que dispara a busca no modo <code>click</code>.</td></tr>
+                            <tr><td><code>sw-content-empty="msg"</code></td><td>div</td><td>Mensagem quando a lista vier vazia.</td></tr>
+                            <tr><td><code>sw-content-err="msg"</code></td><td>div</td><td>Mensagem exibida em caso de erro de rede.</td></tr>
+                            <tr><td><code>sw-content-paginate</code></td><td>div</td><td>Ativa botões de paginação automática.</td></tr>
+                            <tr><td><code>{{campo}}</code></td><td>template</td><td>Interpolação substituída pelo campo correspondente do JSON.</td></tr>
+                            <tr><td><code>SWContent.load(el)</code></td><td>JS API</td><td>Força a recarga do bloco de conteúdo.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

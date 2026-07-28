@@ -10,6 +10,45 @@
     <script src="../dist/sw.min.js" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2rem;
+            margin-bottom: .8rem;
+        }
+        .info-box {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: color-mix(in srgb, var(--sw-pri) 8%, transparent);
+            border: 1px solid color-mix(in srgb, var(--sw-pri) 25%, transparent);
+            border-radius: var(--sw-r-g, 8px); padding: 1.4rem 1.6rem;
+        }
+        .info-box svg { flex-shrink: 0; color: var(--sw-pri); margin-top: .1rem; }
+        .info-box p { margin: 0; font-size: 1.4rem; color: var(--sw-txt-sec); line-height: 1.6; }
+        .warn-box {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: color-mix(in srgb, #f59e0b 8%, transparent);
+            border: 1px solid color-mix(in srgb, #f59e0b 30%, transparent);
+            border-radius: var(--sw-r-g, 8px); padding: 1.4rem 1.6rem;
+        }
+        .warn-box svg { flex-shrink: 0; color: #f59e0b; margin-top: .1rem; }
+        .warn-box p { margin: 0; font-size: 1.4rem; color: var(--sw-txt-sec); line-height: 1.6; }
+        .ok-box {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: color-mix(in srgb, #10b981 8%, transparent);
+            border: 1px solid color-mix(in srgb, #10b981 25%, transparent);
+            border-radius: var(--sw-r-g, 8px); padding: 1.4rem 1.6rem;
+        }
+        .ok-box svg { flex-shrink: 0; color: #10b981; margin-top: .1rem; }
+        .ok-box p { margin: 0; font-size: 1.4rem; color: var(--sw-txt-sec); line-height: 1.6; }
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
+        .ref-table th, .ref-table td { text-align: left; padding: .8rem 1rem; border-bottom: 1px solid var(--sw-bor); }
+        .ref-table th { font-weight: 600; color: var(--sw-txt-bas); font-size: 1.2rem; text-transform: uppercase; letter-spacing: .05em; }
+        .ref-table td { color: var(--sw-txt-sec); }
+        .ref-table code { background: var(--sw-bg-sec); padding: .15rem .4rem; border-radius: 3px; font-size: 1.2rem; }
+    </style>
 </head>
 
 <body>
@@ -21,43 +60,355 @@
                 <span class="brc-it is-cur" aria-current="page">Instagram</span>
             </nav>
 
-            <section class="mb-8">
+            <!-- INTRO -->
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
                 <h1 class="t-xxg f-bd mb-2">Instagram <span class="TprinD">[sw-instagram]</span></h1>
-                <p class="t-g t-mut mb-0">Galeria de posts do Instagram. Três modos: feed via proxy próprio (<code>sw-instagram-user</code>), embed oficial por URL, ou JSON estático.</p>
-            </section>
-
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Modo Feed (requer um proxy no seu backend)</h3>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-instagram sw-instagram-user="sanweb.dev" sw-instagram-proxy="/api/instagram.php" sw-instagram-cols="3" sw-instagram-limit="9"></div>
-</script></pre>
-                <p class="t-mut mt-2">O proxy deve devolver JSON no formato <code>{ user, avatar, followers, posts: [{ url, image, caption, likes, comments }] }</code>. Sem token de API — o Instagram não oferece feed público direto por CORS.</p>
+                <p class="t-g t-mut mb-0">
+                    Exibe o feed do Instagram de forma nativa via proxy PHP server-side, sem token de API, sem pacotes externos.
+                    Também suporta JSON estático e embed oficial do Meta por URL.
+                </p>
             </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Modo Embed (posts públicos por URL, sem proxy)</h3>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-instagram sw-instagram-urls="https://www.instagram.com/p/CODIGO1/,https://www.instagram.com/p/CODIGO2/"></div>
-</script></pre>
-            </div>
+            <!-- 1. COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">1. Como Funciona — Os 3 Modos</h3>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
-                <div class="tbl is-str">
-                    <table>
-                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
-                        <tbody>
-                            <tr><td><code>sw-instagram-user</code> + <code>sw-instagram-proxy</code></td><td>Modo feed via backend próprio.</td></tr>
-                            <tr><td><code>sw-instagram-json</code></td><td>URL de um JSON estático já no formato do feed.</td></tr>
-                            <tr><td><code>sw-instagram-urls</code></td><td>Modo legado — lista de URLs de posts públicos (embed oficial).</td></tr>
-                            <tr><td><code>sw-instagram-mode</code></td><td><code>embed</code> (script oficial) ou <code>iframe</code>.</td></tr>
-                            <tr><td><code>sw-instagram-cols</code> / <code>-gap</code></td><td>Colunas e espaçamento do grid (modo feed).</td></tr>
-                            <tr><td><code>sw-instagram-limit</code></td><td>Máximo de posts exibidos.</td></tr>
-                        </tbody>
-                    </table>
+                <div class="warn-box mb-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <p>
+                        A Instagram Basic Display API foi <strong>desativada em dezembro de 2024</strong>.
+                        A oEmbed pública requer token desde 2020. <strong>Não existe acesso direto pelo browser</strong> (CORS bloqueado).
+                        O SWInstagram resolve isso via <strong>proxy PHP server-side</strong> — seu servidor faz a requisição,
+                        o browser nunca toca diretamente no Instagram.
+                    </p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr));gap:1.2rem">
+                    <div style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-m,4px);padding:1.6rem">
+                        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem">
+                            <span class="bdg is-pri" style="font-size:1.1rem">MODO 1</span>
+                            <strong>Proxy PHP</strong>
+                        </div>
+                        <p class="t-p t-mut" style="margin:0">Copie <code>sw-instagram.php</code> para seu projeto.
+                        Informe <code>sw-instagram-user</code>. O PHP busca e cacheia por 1h. Cards nativos com imagem, legenda e stats.</p>
+                    </div>
+                    <div style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-m,4px);padding:1.6rem">
+                        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem">
+                            <span class="bdg is-suc" style="font-size:1.1rem">MODO 2</span>
+                            <strong>JSON Estático</strong>
+                        </div>
+                        <p class="t-p t-mut" style="margin:0">Crie um <code>feed.json</code> manualmente
+                        ou via cron. 100% confiável, sem depender do Instagram. Ideal para produção crítica.</p>
+                    </div>
+                    <div style="border:1px solid var(--sw-bor);border-radius:var(--sw-r-m,4px);padding:1.6rem">
+                        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem">
+                            <span class="bdg" style="font-size:1.1rem">MODO 3</span>
+                            <strong>Embed Oficial</strong>
+                        </div>
+                        <p class="t-p t-mut" style="margin:0">URLs individuais de posts via <code>sw-instagram-urls</code>.
+                        Usa o <code>embed.js</code> do Instagram — renderiza o card nativo completo por post.</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- 2. MODO PROXY PHP -->
+            <div class="doc-card sec mb-6" id="proxy">
+                <h3 class="t-m f-bd mb-1">2. Modo Proxy PHP — Feed Automático</h3>
+                <p class="t-mut t-p mb-4">
+                    A forma mais prática. Copie <code>sw-instagram.php</code> para seu projeto, aponte o atributo
+                    <code>sw-instagram-proxy</code> e informe o username. O PHP busca no Instagram, cacheia por 1h
+                    e serve para o JS. <strong>Zero token, zero configuração.</strong>
+                </p>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">Passo 1 — Copie o proxy</h4>
+
+                <pre swcode="bash" class="m-0"><script type="text/plain">
+# Copie sw-instagram.php para seu projeto
+# O arquivo já vem na pasta dist/ do SW
+cp dist/sw-instagram.php /seu-projeto/api/sw-instagram.php
+</script></pre>
+
+                <div class="ok-box mt-3 mb-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <p>O proxy cria automaticamente a pasta <code>cache/instagram/</code> ao lado do PHP.
+                    Certifique-se que o PHP tem <code>cURL</code> habilitado (padrão na maioria dos servidores).</p>
+                </div>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">Passo 2 — Use no HTML</h4>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-instagram
+     sw-instagram-user="sanweb.dev"
+     sw-instagram-proxy="/api/sw-instagram.php"
+     sw-instagram-cols="3"
+     sw-instagram-limit="9">
+</div>
+</script></pre>
+
+                <h4 class="t-m mt-5 mb-2" style="font-size:1.5rem">Demo ao vivo (modo demo)</h4>
+                <p class="t-mut t-pp mb-3">Preview visual com dados simulados de <strong>@sanweb.dev</strong>:</p>
+
+                <div class="demo-wrap mb-4">
+                    <div sw-instagram
+                         sw-instagram-demo
+                         sw-instagram-user="sanweb.dev"
+                         sw-instagram-cols="3"
+                         sw-instagram-limit="9">
+                    </div>
+                </div>
+
+                <h4 class="t-m mt-5 mb-2" style="font-size:1.5rem">Atributos do modo proxy</h4>
+                <table class="ref-table">
+                    <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>sw-instagram-user</code></td><td>—</td><td>Username do Instagram (sem @)</td></tr>
+                        <tr><td><code>sw-instagram-proxy</code></td><td><code>/dist/sw-instagram.php</code></td><td>Caminho do proxy PHP no seu servidor</td></tr>
+                        <tr><td><code>sw-instagram-limit</code></td><td><code>12</code></td><td>Máximo de posts a exibir (até 50)</td></tr>
+                        <tr><td><code>sw-instagram-cols</code></td><td><code>3</code></td><td>Colunas da grade</td></tr>
+                        <tr><td><code>sw-instagram-gap</code></td><td><code>.4rem</code></td><td>Espaçamento entre os cards</td></tr>
+                    </tbody>
+                </table>
+
+                <h4 class="t-m mt-5 mb-2" style="font-size:1.5rem">API do proxy PHP</h4>
+                <pre swcode="bash" class="m-0"><script type="text/plain">
+# Busca feed de um usuário (GET)
+GET /api/sw-instagram.php?user=nasa&limit=9
+
+# Resposta JSON
+{
+  "user": "nasa",
+  "name": "NASA",
+  "avatar": "sw-instagram.php?img=https://...",
+  "followers": 98300000,
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/CODIGO/",
+      "image": "sw-instagram.php?img=https://...",
+      "caption": "Texto do post...",
+      "likes": 12400,
+      "comments": 342,
+      "is_video": false,
+      "timestamp": 1714000000
+    }
+  ],
+  "fetched": 1714001000,
+  "cached": true
+}
+</script></pre>
+
+                <div class="info-box mt-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <p>O proxy faz <strong>proxy de imagens</strong> automaticamente — as URLs das imagens apontam para o seu servidor,
+                    evitando que o Instagram bloqueie hotlinking direto. Cache de imagens por 24h.</p>
+                </div>
+
+                <div class="warn-box mt-3">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <p>
+                        O proxy faz scraping sem autenticação. <strong>Pode parar de funcionar</strong>
+                        se o Instagram mudar a estrutura interna.
+                        Use o Modo 2 (JSON estático) como fallback confiável.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. MODO JSON ESTÁTICO -->
+            <div class="doc-card sec mb-6" id="json">
+                <h3 class="t-m f-bd mb-1">3. Modo JSON Estático — 100% Confiável</h3>
+                <p class="t-mut t-p mb-4">
+                    Mantenha um <code>feed.json</code> com os dados dos posts.
+                    Pode ser atualizado manualmente, por cron job ou qualquer processo.
+                    Zero dependência do Instagram em tempo real.
+                </p>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Aponta para um JSON local ou remoto -->
+<div sw-instagram
+     sw-instagram-json="/data/instagram.json"
+     sw-instagram-cols="3"
+     sw-instagram-limit="6">
+</div>
+</script></pre>
+
+                <h4 class="t-m mt-5 mb-2" style="font-size:1.5rem">Formato do JSON</h4>
+                <pre swcode="json" class="m-0"><script type="text/plain">
+{
+  "user": "meu_perfil",
+  "name": "Meu Nome",
+  "avatar": "https://meusite.com/img/avatar.jpg",
+  "followers": 1500,
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/CODIGO1/",
+      "image": "https://meusite.com/img/post1.jpg",
+      "caption": "Legenda do post aqui 🌟",
+      "likes": 248,
+      "comments": 12,
+      "is_video": false
+    },
+    {
+      "url": "https://www.instagram.com/reel/CODIGO2/",
+      "image": "https://meusite.com/img/reel1.jpg",
+      "caption": "Meu reel 🎥",
+      "likes": 980,
+      "comments": 45,
+      "is_video": true
+    }
+  ]
+}
+</script></pre>
+
+                <div class="ok-box mt-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <p>
+                        <strong>Dica pro:</strong> combine o proxy PHP com um cron job. O PHP gera o JSON e salva em
+                        <code>/data/instagram.json</code>. O componente aponta para esse arquivo.
+                        Se o Instagram bloquear, o JSON antigo ainda serve o conteúdo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. MODO EMBED OFICIAL -->
+            <div class="doc-card sec mb-6" id="embed">
+                <h3 class="t-m f-bd mb-1">4. Modo Embed Oficial — Posts por URL</h3>
+                <p class="t-mut t-p mb-4">
+                    Para incorporar posts específicos pelo link. Usa o <code>embed.js</code> do Instagram
+                    e renderiza o card nativo completo. Não precisa de proxy nem JSON.
+                </p>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">Modo embed (padrão)</h4>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-instagram
+     sw-instagram-urls="https://www.instagram.com/p/POST_1/,
+                        https://www.instagram.com/p/POST_2/,
+                        https://www.instagram.com/reel/REEL_1/"
+     sw-instagram-cols="3">
+</div>
+</script></pre>
+
+                <h4 class="t-m mt-5 mb-2" style="font-size:1.5rem">Modo iframe</h4>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-instagram
+     sw-instagram-urls="https://www.instagram.com/p/POST_1/,
+                        https://www.instagram.com/p/POST_2/"
+     sw-instagram-cols="2"
+     sw-instagram-mode="iframe">
+</div>
+</script></pre>
+                <p class="t-mut t-pp mt-2">Modo iframe não carrega <code>embed.js</code>, mas pode ser bloqueado pelo navegador dependendo de cookies de terceiros.</p>
+            </div>
+
+            <!-- 5. DEMO COM VARIAÇÕES -->
+            <div class="doc-card sec mb-6" id="demos">
+                <h3 class="t-m f-bd mb-4">5. Variações Visuais</h3>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">4 colunas, 8 posts</h4>
+                <div class="demo-wrap mb-5">
+                    <div sw-instagram
+                         sw-instagram-demo
+                         sw-instagram-user="minha.marca"
+                         sw-instagram-cols="4"
+                         sw-instagram-limit="8"
+                         sw-instagram-gap=".3rem">
+                    </div>
+                </div>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">2 colunas, 4 posts, gap grande</h4>
+                <div class="demo-wrap mb-5">
+                    <div sw-instagram
+                         sw-instagram-demo
+                         sw-instagram-user="portfolio.design"
+                         sw-instagram-cols="2"
+                         sw-instagram-limit="4"
+                         sw-instagram-gap="1rem">
+                    </div>
+                </div>
+
+                <h4 class="t-m mb-2" style="font-size:1.5rem">5 colunas, sem header (feed compacto)</h4>
+                <div class="demo-wrap">
+                    <div sw-instagram
+                         sw-instagram-demo
+                         sw-instagram-cols="5"
+                         sw-instagram-limit="5"
+                         sw-instagram-gap=".2rem">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. COMPARATIVO -->
+            <div class="doc-card sec mb-6" id="comp">
+                <h3 class="t-m f-bd mb-4">6. Comparativo dos Modos</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Proxy PHP</th>
+                            <th>JSON Estático</th>
+                            <th>Embed URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Automático</td><td>✅ Sim</td><td>⚙️ Via cron</td><td>✅ Sim</td></tr>
+                        <tr><td>Confiabilidade</td><td>⚠️ Pode ser bloqueado</td><td>✅ 100%</td><td>⚠️ Depende do Instagram</td></tr>
+                        <tr><td>Velocidade</td><td>✅ Cache 1h</td><td>✅ Arquivo estático</td><td>⚠️ Carrega embed.js</td></tr>
+                        <tr><td>Design customizável</td><td>✅ Cards SW nativos</td><td>✅ Cards SW nativos</td><td>❌ Layout do Instagram</td></tr>
+                        <tr><td>Requer PHP</td><td>✅ Sim</td><td>❌ Não</td><td>❌ Não</td></tr>
+                        <tr><td>Dados de perfil</td><td>✅ Nome, avatar, followers</td><td>✅ Se incluir no JSON</td><td>❌ Por post apenas</td></tr>
+                        <tr><td>Proxy de imagens</td><td>✅ Automático</td><td>❌ Você hospeda</td><td>✅ Nativo do embed</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 7. REFERÊNCIA -->
+            <div class="doc-card sec mb-6" id="ref">
+                <h3 class="t-m f-bd mb-4">7. Quick Reference — Todos os Atributos</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Atributo</th><th>Modo</th><th>Padrão</th><th>Descrição</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>sw-instagram</code></td><td>todos</td><td>—</td><td>Ativa o componente no elemento</td></tr>
+                        <tr><td><code>sw-instagram-user</code></td><td>proxy</td><td>—</td><td>Username do Instagram (sem @)</td></tr>
+                        <tr><td><code>sw-instagram-proxy</code></td><td>proxy</td><td><code>/dist/sw-instagram.php</code></td><td>Caminho do proxy PHP</td></tr>
+                        <tr><td><code>sw-instagram-json</code></td><td>json</td><td>—</td><td>URL do JSON estático</td></tr>
+                        <tr><td><code>sw-instagram-urls</code></td><td>embed</td><td>—</td><td>URLs de posts separadas por vírgula</td></tr>
+                        <tr><td><code>sw-instagram-mode</code></td><td>embed</td><td><code>embed</code></td><td><code>embed</code> ou <code>iframe</code></td></tr>
+                        <tr><td><code>sw-instagram-limit</code></td><td>proxy/json</td><td><code>12</code></td><td>Máximo de posts a renderizar</td></tr>
+                        <tr><td><code>sw-instagram-cols</code></td><td>todos</td><td><code>3</code></td><td>Colunas da grade</td></tr>
+                        <tr><td><code>sw-instagram-gap</code></td><td>todos</td><td><code>.4rem</code></td><td>Espaçamento entre posts</td></tr>
+                        <tr><td><code>sw-instagram-demo</code></td><td>demo</td><td>—</td><td>Ativa modo demo com dados simulados</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 8. JAVASCRIPT API -->
+            <div class="doc-card sec" id="js">
+                <h3 class="t-m f-bd mb-4">8. JavaScript API</h3>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+// Inicializar manualmente (automático via SW.initAll)
+SWInstagram.initAll();
+
+// Inicializar em contexto específico
+SWInstagram.initAll(document.getElementById('minha-secao'));
+
+// Via SW namespace
+SW.Instagram.initAll();
+</script></pre>
+            </div>
+
         </main>
     </div>
 </body>

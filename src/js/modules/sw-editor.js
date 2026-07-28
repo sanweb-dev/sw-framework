@@ -1,4 +1,4 @@
-/* SW Framework Rich Text Editor — <textarea sw-editor sw-editor-height sw-editor-min sw-editor-max sw-editor-resizable> */
+/* SW Framework Rich Text Editor — <textarea sw-editor sw-editor-simple sw-editor-height sw-editor-min sw-editor-max sw-editor-resizable> */
 (function () {
   'use strict';
 
@@ -6,11 +6,12 @@
     constructor(el) {
       this.el = el;
       this.name = el.getAttribute('name') || el.getAttribute('sw-editor-name') || 'content';
-      this.ph = el.getAttribute('sw-editor-placeholder') || '';
+      this.ph = el.getAttribute('sw-editor-placeholder') || el.getAttribute('placeholder') || '';
       this.h = parseInt(el.getAttribute('sw-editor-height'), 10) || 150;
       this.minH = parseInt(el.getAttribute('sw-editor-min'), 10) || 100;
       this.maxH = parseInt(el.getAttribute('sw-editor-max'), 10) || 800;
       this.rzbl = el.getAttribute('sw-editor-resizable') !== 'false';
+      this.isSimple = el.hasAttribute('sw-editor-simple') || el.getAttribute('sw-editor-mode') === 'simple';
       this.val = el.value || '';
       this._render();
       this._bind();
@@ -18,58 +19,97 @@
 
     _render() {
       const box = document.createElement('div');
-      box.className = 'sw-editor-box';
+      box.className = 'sw-editor-box' + (this.isSimple ? ' is-simple' : '');
 
       const tb = document.createElement('div');
       tb.className = 'sw-editor-tb';
 
-      const fmtGrp = document.createElement('div');
-      fmtGrp.className = 'sw-editor-grp';
-      const fmt = document.createElement('select');
-      fmt.className = 'sw-editor-fmt';
-      fmt.title = 'Formato do bloco';
-      fmt.innerHTML = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].map((t) => `<option value="${t}">${t}</option>`).join('');
-      fmtGrp.appendChild(fmt);
-      tb.appendChild(fmtGrp);
+      if (!this.isSimple) {
+        const fmtGrp = document.createElement('div');
+        fmtGrp.className = 'sw-editor-grp';
+        const fmt = document.createElement('select');
+        fmt.className = 'sw-editor-fmt';
+        fmt.title = 'Formato do bloco';
+        fmt.innerHTML = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].map((t) => `<option value="${t}">${t}</option>`).join('');
+        fmtGrp.appendChild(fmt);
+        tb.appendChild(fmtGrp);
+        this.fmt = fmt;
+      }
 
-      const groups = [
-        [['bold', 'swi-bold', 'Negrito (Ctrl+B)'], ['italic', 'swi-italic', 'Itálico (Ctrl+I)'], ['underline', 'swi-underline', 'Sublinhado (Ctrl+U)'], ['strikeThrough', 'swi-strikethrough', 'Tachado']],
-        [['foreColor', 'swi-font-color', 'Cor da fonte'], ['backColor', 'swi-highlight', 'Cor de fundo'], ['clean', 'swi-eraser', 'Limpar formatação']],
-        [['justifyLeft', 'swi-align-left', 'Alinhar esquerda'], ['justifyCenter', 'swi-align-middle', 'Centralizar'], ['justifyRight', 'swi-align-right', 'Alinhar direita'], ['justifyFull', 'swi-align-justify', 'Justificar']],
-        [['insertUnorderedList', 'swi-list-ul', 'Lista'], ['insertOrderedList', 'swi-list-ol', 'Lista numerada'], ['hr', 'swi-minus', 'Linha horizontal'], ['link', 'swi-link', 'Link (Ctrl+K)'], ['image', 'swi-image', 'Imagem'], ['code', 'swi-code', 'Ver HTML'], ['fullscreen', 'swi-expand', 'Tela cheia']]
-      ];
+      const groups = this.isSimple
+        ? [
+          [
+            ['bold', '<b>B</b>', 'Negrito (Ctrl+B)'],
+            ['italic', '<i>I</i>', 'Itálico (Ctrl+I)'],
+            ['underline', '<u>U</u>', 'Sublinhado (Ctrl+U)'],
+            ['strikeThrough', '<s>S</s>', 'Tachado']
+          ]
+        ]
+        : [
+          [
+            ['bold', '<i class="swi swi-bold"></i>', 'Negrito (Ctrl+B)'],
+            ['italic', '<i class="swi swi-italic"></i>', 'Itálico (Ctrl+I)'],
+            ['underline', '<i class="swi swi-underline"></i>', 'Sublinhado (Ctrl+U)'],
+            ['strikeThrough', '<i class="swi swi-strikethrough"></i>', 'Tachado']
+          ],
+          [
+            ['foreColor', '<i class="swi swi-font-color"></i>', 'Cor da fonte'],
+            ['backColor', '<i class="swi swi-highlight"></i>', 'Cor de fundo'],
+            ['clean', '<i class="swi swi-eraser"></i>', 'Limpar formatação']
+          ],
+          [
+            ['justifyLeft', '<i class="swi swi-align-left"></i>', 'Alinhar esquerda'],
+            ['justifyCenter', '<i class="swi swi-align-middle"></i>', 'Centralizar'],
+            ['justifyRight', '<i class="swi swi-align-right"></i>', 'Alinhar direita'],
+            ['justifyFull', '<i class="swi swi-align-justify"></i>', 'Justificar']
+          ],
+          [
+            ['insertUnorderedList', '<i class="swi swi-list-ul"></i>', 'Lista'],
+            ['insertOrderedList', '<i class="swi swi-list-ol"></i>', 'Lista numerada'],
+            ['hr', '<i class="swi swi-minus"></i>', 'Linha horizontal'],
+            ['link', '<i class="swi swi-link"></i>', 'Link (Ctrl+K)'],
+            ['image', '<i class="swi swi-image"></i>', 'Imagem'],
+            ['code', '<i class="swi swi-code"></i>', 'Ver HTML'],
+            ['fullscreen', '<i class="swi swi-expand"></i>', 'Tela cheia']
+          ]
+        ];
+
       groups.forEach((grp) => {
         const g = document.createElement('div');
         g.className = 'sw-editor-grp';
-        grp.forEach(([cmd, icon, title]) => {
-          g.innerHTML += `<button type="button" class="sw-editor-btn" data-cmd="${cmd}" title="${title}"><i class="swi ${icon}"></i></button>`;
+        grp.forEach(([cmd, content, title]) => {
+          g.innerHTML += `<button type="button" class="sw-editor-btn" data-cmd="${cmd}" title="${title}">${content}</button>`;
         });
         tb.appendChild(g);
       });
 
-      const fgI = document.createElement('input');
-      fgI.type = 'color'; fgI.className = 'sw-editor-fg'; fgI.value = '#e53e3e';
-      fgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
-      const bgI = document.createElement('input');
-      bgI.type = 'color'; bgI.className = 'sw-editor-bg'; bgI.value = '#ffff00';
-      bgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
-      tb.appendChild(fgI);
-      tb.appendChild(bgI);
+      if (!this.isSimple) {
+        const fgI = document.createElement('input');
+        fgI.type = 'color'; fgI.className = 'sw-editor-fg'; fgI.value = '#e53e3e';
+        fgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
+        const bgI = document.createElement('input');
+        bgI.type = 'color'; bgI.className = 'sw-editor-bg'; bgI.value = '#ffff00';
+        bgI.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;pointer-events:none';
+        tb.appendChild(fgI);
+        tb.appendChild(bgI);
+        this.fgI = fgI;
+        this.bgI = bgI;
 
-      window.setTimeout(() => {
-        const fgBtn = tb.querySelector('[data-cmd="foreColor"]');
-        if (fgBtn) {
-          fgBtn.style.position = 'relative';
-          fgBtn.appendChild(fgI);
-          fgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
-        }
-        const bgBtn = tb.querySelector('[data-cmd="backColor"]');
-        if (bgBtn) {
-          bgBtn.style.position = 'relative';
-          bgBtn.appendChild(bgI);
-          bgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
-        }
-      }, 0);
+        window.setTimeout(() => {
+          const fgBtn = tb.querySelector('[data-cmd="foreColor"]');
+          if (fgBtn) {
+            fgBtn.style.position = 'relative';
+            fgBtn.appendChild(fgI);
+            fgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
+          }
+          const bgBtn = tb.querySelector('[data-cmd="backColor"]');
+          if (bgBtn) {
+            bgBtn.style.position = 'relative';
+            bgBtn.appendChild(bgI);
+            bgI.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer';
+          }
+        }, 0);
+      }
 
       const wrap = document.createElement('div');
       wrap.className = 'sw-editor-wrap';
@@ -114,7 +154,6 @@
 
       this.box = box; this.tb = tb; this.wrap = wrap;
       this.ed = ed; this.code = code; this.hidden = hidden;
-      this.fmt = fmt; this.fgI = fgI; this.bgI = bgI;
       this.rz = rz; this.stat = stat;
       this._updateStatus();
     }
@@ -133,8 +172,8 @@
       this.ed.addEventListener('mouseup', saveSel);
       this.ed.addEventListener('keyup', saveSel);
       this.ed.addEventListener('focus', saveSel);
-      this.fgI.addEventListener('mousedown', saveSel);
-      this.bgI.addEventListener('mousedown', saveSel);
+      if (this.fgI) this.fgI.addEventListener('mousedown', saveSel);
+      if (this.bgI) this.bgI.addEventListener('mousedown', saveSel);
 
       this.tb.addEventListener('mousedown', (event) => {
         const btn = event.target.closest('.sw-editor-btn');
@@ -147,21 +186,27 @@
         window.setTimeout(() => { this.ed.focus(); this._updateBtns(); }, 0);
       });
 
-      this.fmt.addEventListener('change', () => {
-        document.execCommand('formatBlock', false, this.fmt.value);
-        this._sync(); this.ed.focus(); this._updateBtns();
-      });
+      if (this.fmt) {
+        this.fmt.addEventListener('change', () => {
+          document.execCommand('formatBlock', false, this.fmt.value);
+          this._sync(); this.ed.focus(); this._updateBtns();
+        });
+      }
 
-      this.fgI.addEventListener('input', () => {
-        this.ed.focus(); restSel();
-        document.execCommand('foreColor', false, this.fgI.value);
-        this._sync();
-      });
-      this.bgI.addEventListener('input', () => {
-        this.ed.focus(); restSel();
-        document.execCommand('hiliteColor', false, this.bgI.value);
-        this._sync();
-      });
+      if (this.fgI) {
+        this.fgI.addEventListener('input', () => {
+          this.ed.focus(); restSel();
+          document.execCommand('foreColor', false, this.fgI.value);
+          this._sync();
+        });
+      }
+      if (this.bgI) {
+        this.bgI.addEventListener('input', () => {
+          this.ed.focus(); restSel();
+          document.execCommand('hiliteColor', false, this.bgI.value);
+          this._sync();
+        });
+      }
 
       this.ed.addEventListener('input', () => { this._sync(); this._updateStatus(); });
       this.ed.addEventListener('keyup', () => this._updateBtns());
@@ -254,7 +299,9 @@
       });
       if (this.code.style.display === 'block') this.tb.querySelector('[data-cmd="code"]')?.classList.add('is-act');
       if (this.box.classList.contains('sw-editor-fullscreen')) this.tb.querySelector('[data-cmd="fullscreen"]')?.classList.add('is-act');
-      try { const fb = document.queryCommandValue('formatBlock'); if (fb) this.fmt.value = fb.toUpperCase(); } catch (_) { /* comando indisponível neste contexto */ }
+      if (this.fmt) {
+        try { const fb = document.queryCommandValue('formatBlock'); if (fb) this.fmt.value = fb.toUpperCase(); } catch (_) { /* comando indisponível neste contexto */ }
+      }
     }
 
     _shortcuts(event, restSel) {
@@ -263,7 +310,7 @@
       const map = { b: 'bold', i: 'italic', u: 'underline', k: 'link', z: 'undo', y: 'redo' };
       const fmts = { 0: 'P', 1: 'H1', 2: 'H2', 3: 'H3', 4: 'H4', 5: 'H5', 6: 'H6' };
       if (map[k]) { event.preventDefault(); this._exec(map[k], restSel); this._sync(); }
-      else if (fmts[k]) { event.preventDefault(); document.execCommand('formatBlock', false, fmts[k]); this._sync(); }
+      else if (fmts[k] && this.fmt) { event.preventDefault(); document.execCommand('formatBlock', false, fmts[k]); this._sync(); }
     }
 
     getValue() { return this.hidden.value; }

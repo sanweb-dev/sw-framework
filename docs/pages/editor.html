@@ -3,13 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Editor de Texto - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>Editor de Texto — SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas, #1e1e24);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -17,41 +27,93 @@
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
-                <span class="brc-it">JS Módulos</span>
-                <span class="brc-it is-cur" aria-current="page">Editor de Texto</span>
+                <span class="brc-it">Forms JS</span>
+                <span class="brc-it is-cur" aria-current="page">Editor de Texto SWEditor</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h1 class="t-xxg f-bd mb-2">Editor de Texto <span class="TprinD">[sw-editor]</span></h1>
-                <p class="t-g t-mut mb-0">Editor rico (contentEditable) com toolbar de formatação, view de HTML, tela cheia e redimensionamento — sem dependências externas.</p>
-            </section>
+                <h1 class="t-xxg f-bd mb-2">Editor de Texto <span class="TprinD">SWEditor</span></h1>
+                <p class="t-g t-mut">Editor de texto rico (contentEditable) leve, nativo e responsivo. Suporta modo completo (com cores, alinhamento, código HTML e tela cheia) e modo simples (apenas <b>B</b>, <i>I</i>, <u>U</u>, <s>S</s>).</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
-                <div class="demo-wrap p-6">
-                    <textarea sw-editor sw-editor-height="180" name="conteudo"><p>Escreva algo <strong>importante</strong> aqui.</p></textarea>
+            <!-- 1. MODO SIMPLES (B, I, U, S) -->
+            <div class="doc-card sec mb-6" id="simple">
+                <h3 class="t-m f-bd mb-2">1. Modo Simples (B, I, U, S)</h3>
+                <p class="t-g t-mut mb-4">Adicione o atributo <code>sw-editor-simple</code> no <code>&lt;textarea&gt;</code> para exibir uma toolbar minimalista apenas com <b>Negrito (B)</b>, <i>Itálico (I)</i>, <u>Sublinhado (U)</u> e <s>Tachado (S)</s>.</p>
+                <div class="demo-wrap">
+                    <textarea sw-editor sw-editor-simple name="comentario" sw-editor-placeholder="Escreva um comentário simples..." sw-editor-height="120"></textarea>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<textarea sw-editor sw-editor-height="180" name="conteudo">
-    <p>Conteúdo inicial em HTML</p>
+<textarea sw-editor sw-editor-simple name="comentario" sw-editor-height="120">
+    Texto com <b>negrito</b> e <i>itálico</i> simples.
 </textarea>
-<!-- O valor final vai num <textarea class="sw-editor-hidden"> gerado automaticamente,
-     com o mesmo "name" — pronto pra submeter no form. -->
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- 2. MODO COMPLETO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-2">2. Modo Completo</h3>
+                <p class="t-g t-mut mb-4">Com o atributo <code>sw-editor</code> padrão, ativa a toolbar completa com formatação de bloco (H1–H6), cores de texto/fundo, alinhamentos, listas, links, imagens, modo código HTML e tela cheia.</p>
+                <div class="demo-wrap">
+                    <textarea sw-editor name="conteudo" sw-editor-placeholder="Escreva seu artigo completo aqui..." sw-editor-height="200"></textarea>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<textarea sw-editor name="conteudo" sw-editor-height="200">
+    <p>Escreva algo <strong>importante</strong> aqui.</p>
+</textarea>
+</script></pre>
+            </div>
+
+            <!-- 3. EM FORMULÁRIO REAL -->
+            <div class="doc-card sec mb-6" id="form">
+                <h3 class="t-m f-bd mb-2">3. Uso em Formulário Real</h3>
+                <p class="t-g t-mut mb-4">O editor gera automaticamente um campo <code>&lt;textarea class="sw-editor-hidden"&gt;</code> mantendo o valor HTML sincronizado e pronto para submeter via <code>POST</code> ou <code>FormData</code>.</p>
+                <div class="demo-wrap">
+                    <form id="frm-editor" onsubmit="handleEditorSubmit(event)" style="display:flex;flex-direction:column;gap:1.6rem">
+                        <div>
+                            <label class="t-p f-bd mb-1" style="display:block">Título do Post</label>
+                            <input class="inp" type="text" name="titulo" placeholder="Digite o título..." style="width:100%">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1" style="display:block">Conteúdo (Modo Simples)</label>
+                            <textarea sw-editor sw-editor-simple name="body" sw-editor-height="140"></textarea>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:1.2rem">
+                            <button type="submit" swbtn class="swbtn-pri">Salvar Post</button>
+                            <span id="ed-ok" class="Tsuc" style="display:none;font-size:1.4rem">Salvo! Confira o console (F12).</span>
+                        </div>
+                    </form>
+                </div>
+                <script>
+                function handleEditorSubmit(e) {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    console.log('Título:', fd.get('titulo'));
+                    console.log('Conteúdo (HTML):', fd.get('body'));
+                    document.getElementById('ed-ok').style.display = 'inline';
+                    setTimeout(() => document.getElementById('ed-ok').style.display = 'none', 3000);
+                }
+                </script>
+            </div>
+
+            <!-- 4. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">4. Quick Reference</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr><th>Atributo / Método</th><th>Padrão</th><th>Descrição</th></tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-editor-height</code></td><td><code>150</code></td><td>Altura inicial em px.</td></tr>
+                            <tr><td><code>sw-editor</code></td><td>—</td><td>Ativa o editor rich text no elemento <code>&lt;textarea&gt;</code>.</td></tr>
+                            <tr><td><code>sw-editor-simple</code></td><td>—</td><td>Ativa a toolbar minimalista apenas com <b>B</b>, <i>I</i>, <u>U</u> e <s>S</s>.</td></tr>
+                            <tr><td><code>sw-editor-placeholder</code></td><td>—</td><td>Texto exibido com o campo vazio.</td></tr>
+                            <tr><td><code>sw-editor-height</code></td><td><code>150</code></td><td>Altura inicial do editor em pixels.</td></tr>
                             <tr><td><code>sw-editor-min</code> / <code>-max</code></td><td><code>100</code> / <code>800</code></td><td>Limites do redimensionamento manual.</td></tr>
-                            <tr><td><code>sw-editor-resizable</code></td><td><code>true</code></td><td><code>false</code> esconde a alça de redimensionar.</td></tr>
-                            <tr><td><code>sw-editor-placeholder</code></td><td>—</td><td>Placeholder exibido com a área vazia.</td></tr>
-                            <tr><td><code>el._swEditor</code> (via <code>querySelector</code> + instância)</td><td>—</td><td><code>getValue()/setValue(html)</code> na instância criada.</td></tr>
+                            <tr><td><code>sw-editor-resizable</code></td><td><code>true</code></td><td>Exibe ou oculta a alça de redimensionamento.</td></tr>
+                            <tr><td><code>inst.getValue()</code></td><td>—</td><td>Retorna o conteúdo HTML atual.</td></tr>
+                            <tr><td><code>inst.setValue(html)</code></td><td>—</td><td>Define o conteúdo HTML via JavaScript.</td></tr>
                         </tbody>
                     </table>
                 </div>

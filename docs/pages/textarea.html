@@ -3,13 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Auto Textarea - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>Auto Textarea — SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas, var(--sw-bg-surface, #1e1e24));
+            border: 1px solid var(--sw-bor, var(--sw-border-color, #2a2a32));
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem
+        }
+
+        @media(max-width:700px) { .g2 { grid-template-columns: 1fr } }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -18,37 +37,118 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">Forms JS</span>
-                <span class="brc-it is-cur" aria-current="page">Auto Textarea</span>
+                <span class="brc-it is-cur" aria-current="page">Auto Textarea SWTextarea</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Auto Textarea <span class="TprinD">[sw-textarea]</span></h1>
-                <p class="t-g t-mut mb-0">Cresce automaticamente conforme o conteúdo digitado, com altura mínima e máxima configuráveis.</p>
-            </section>
+                <p class="t-g t-mut mb-0">Redimensionamento vertical automático para textareas — o campo expande para baixo suavemente conforme você digita novas linhas, com limites de altura mínima e máxima configuráveis.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
-                <div class="demo-wrap p-6">
-                    <textarea sw-textarea sw-textarea-min="60" sw-textarea-max="240" class="sw-input" placeholder="Digite algo e veja crescer..."></textarea>
+            <!-- DEMO 1 -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo — Crescimento Vertical Automático</h3>
+                <p class="t-g t-mut mb-4">Adicione o atributo <code>sw-textarea</code> em qualquer <code>&lt;textarea&gt;</code>. Digite várias linhas ou aperte Enter para ver a altura ajustar automaticamente.</p>
+                <div class="demo-wrap">
+                    <div class="g2">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Sem limite máximo (cresce livremente)</label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textarea sw-textarea-min="60"
+                                placeholder="Digite várias linhas aqui... o campo vai crescendo para baixo." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Com limite máximo (min: 60px, max: 160px)</label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textarea sw-textarea-min="60" sw-textarea-max="160"
+                                placeholder="Ao atingir 160px de altura, ativa a barra de rolagem." style="width:100%"></textarea>
+                        </div>
+                    </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<textarea sw-textarea sw-textarea-min="60" sw-textarea-max="240"></textarea>
+<!-- Cresce sem limite de altura -->
+<textarea sw-textarea sw-textarea-min="60" placeholder="Digite..."></textarea>
+
+<!-- Cresce até no máximo 160px (depois ativa scrollbar) -->
+<textarea sw-textarea sw-textarea-min="60" sw-textarea-max="160"></textarea>
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- DEMO COMBINADO -->
+            <div class="doc-card sec mb-6" id="combo">
+                <h3 class="t-m f-bd mb-4">2. Combo: Auto-Resize + Contador de Caracteres</h3>
+                <p class="t-g t-mut mb-4">Você pode combinar <code>sw-textarea</code> (redimensionamento vertical) com <code>sw-textlimit</code> (limite de caracteres) no mesmo campo!</p>
+                <div class="demo-wrap">
+                    <div class="g2">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Auto-resize + Contador à direita</label>
+                            <textarea class="sw-input" rows="3"
+                                sw-textarea sw-textarea-min="80" sw-textarea-max="200"
+                                sw-textlimit sw-textlimit-max="200"
+                                placeholder="Auto-resize vertical + limite de 200 caracteres..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Auto-resize + Contador centralizado</label>
+                            <textarea class="sw-input" rows="3"
+                                sw-textarea sw-textarea-min="80" sw-textarea-max="200"
+                                sw-textlimit sw-textlimit-max="150"
+                                sw-textlimit-center
+                                placeholder="Texto e contador expandindo a partir do centro..." style="width:100%"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Combo Auto-resize + Contador -->
+<textarea sw-textarea sw-textarea-min="80" sw-textarea-max="200"
+          sw-textlimit sw-textlimit-max="200"
+          placeholder="Digite..."></textarea>
+
+<!-- Combo Auto-resize + Expansão Centralizada -->
+<textarea sw-textarea sw-textarea-min="80" sw-textarea-max="200"
+          sw-textlimit sw-textlimit-max="150"
+          sw-textlimit-center></textarea>
+</script></pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Referência de Atributos</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Atributo</th>
+                                <th>Padrão</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-textarea-min</code></td><td><code>60</code></td><td>Altura mínima em px.</td></tr>
-                            <tr><td><code>sw-textarea-max</code></td><td>—</td><td>Altura máxima em px (depois disso, rola normalmente).</td></tr>
+                            <tr>
+                                <td><code>sw-textarea</code></td>
+                                <td>—</td>
+                                <td>Ativa o redimensionamento vertical automático ao digitar.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textarea-min</code></td>
+                                <td><code>60</code></td>
+                                <td>Altura mínima inicial em pixels (ou via <code>min-height</code> CSS).</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textarea-max</code></td>
+                                <td><code>0</code> (sem limite)</td>
+                                <td>Altura máxima em pixels. Ao atingir este limite, a barra de rolagem vertical é exibida.</td>
+                            </tr>
+                            <tr>
+                                <td><code>SW.Textarea.initAll()</code></td>
+                                <td>—</td>
+                                <td>Método JS para reinicializar novos textareas dinâmicos na página.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

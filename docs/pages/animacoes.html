@@ -3,26 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Animações - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animações & Efeitos - SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
 
     <style>
         .sec {
-            scroll-margin-top: 10rem
+            scroll-margin-top: 10rem;
         }
 
         .demo-box {
-            background: var(--sw-bg-sec);
-            border: 1px solid var(--sw-bor);
-            border-radius: var(--sw-r-m);
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-m, 6px);
             padding: 1.6rem 1.2rem;
             text-align: center;
             font-size: 1.2rem;
             font-weight: 700;
-            font-family: var(--sw-f-mon);
-            color: var(--sw-txt-bas);
+            font-family: monospace;
+            color: var(--sw-txt-bas, #e2e8f0);
             cursor: pointer;
             user-select: none;
             min-height: 9rem;
@@ -31,29 +32,29 @@
             align-items: center;
             justify-content: center;
             gap: .6rem;
+            transition: border-color .2s, transform .2s, box-shadow .2s;
+        }
+
+        .demo-box:hover {
+            border-color: var(--sw-pri, #3b82f6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         .demo-box i {
             font-size: 2.4rem;
-            color: var(--prin7);
+            color: var(--sw-pri, #3b82f6);
         }
 
         .demo-lbl {
             font-size: 1.05rem;
-            color: var(--sw-txt-mut);
+            color: var(--sw-txt-mut, #94a3b8);
             font-weight: 400;
         }
 
         .demo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-            gap: .8rem;
-            margin-bottom: 1.6rem;
-        }
-
-        .demo-grid-5 {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
             gap: .8rem;
             margin-bottom: 1.6rem;
         }
@@ -68,18 +69,18 @@
         .cat-label {
             font-size: 1.15rem;
             font-weight: 700;
-            color: var(--sw-txt-mut);
+            color: var(--sw-txt-mut, #94a3b8);
             text-transform: uppercase;
             letter-spacing: .08em;
             padding-bottom: .8rem;
-            border-bottom: 2px solid var(--sw-bor);
+            border-bottom: 2px solid var(--sw-bor, #2a2a32);
             margin-bottom: 1.2rem;
             margin-top: 2rem;
         }
 
         .reveal-playground {
-            background: var(--sw-bg-sec);
-            border-radius: var(--sw-r-g);
+            background: var(--sw-bg-sec, #16161a);
+            border-radius: var(--sw-r-g, 8px);
             padding: 3rem 2rem;
             display: flex;
             gap: 1rem;
@@ -91,19 +92,70 @@
         }
 
         .rev-box {
-            background: var(--prin13);
-            border: 2px solid var(--prin7);
-            border-radius: var(--sw-r-m);
+            background: rgba(59, 130, 246, 0.12);
+            border: 2px solid var(--sw-pri, #3b82f6);
+            border-radius: var(--sw-r-m, 6px);
             padding: 1.2rem 1.6rem;
             font-weight: 700;
-            font-family: var(--sw-f-mon);
-            color: var(--prin7);
+            font-family: monospace;
+            color: var(--sw-pri, #3b82f6);
             font-size: 1.3rem;
+        }
+
+        /* ESTILO DA TABELA DE ATRIBUTOS (Fiel ao Smooll Docs) */
+        .attr-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.2rem;
+            background: var(--sw-bg-sec, #16161a);
+            border-radius: var(--sw-r-m, 6px);
+            overflow: hidden;
+            border: 1px solid var(--sw-bor, #2a2a32);
+            margin: 1.6rem 0;
+        }
+
+        .attr-table th {
+            padding: 1.2rem 1.6rem;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--sw-txt-mut, #94a3b8);
+            border-bottom: 1px solid var(--sw-bor, #2a2a32);
+        }
+
+        .attr-table td {
+            padding: 1.2rem 1.6rem;
+            border-bottom: 1px solid var(--sw-bor, #2a2a32);
+            vertical-align: top;
+            line-height: 1.6;
+            color: var(--sw-txt-bas, #e2e8f0);
+            font-size: 1.2rem;
+        }
+
+        .attr-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .attr-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .attr-table code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--sw-pri, #3b82f6);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
     </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -115,424 +167,306 @@
                 <span class="brc-it is-cur" aria-current="page">Animações</span>
             </nav>
 
-            <span class="doc-tag">Features</span>
-            <h2 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Framework</span></h2>
-            <p class="t-g t-mut mb-8">4 camadas: <strong>Reveal</strong> (scroll trigger) - <strong>Timed</strong>
-                (one-shot) - <strong>Loop</strong> (infinito) - <strong>Micro</strong> (hover). Clique nos demos para
-                repetir.</p>
+            <span class="doc-tag">Declarative Engine & CSS Presets</span>
+            <h1 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Catálogo Completo</span></h1>
+            <p class="t-g t-mut mb-8">Sistema unificado de animações e efeitos baseados em <strong>Smooll Engine & SW CSS Presets</strong>: <strong>1. Reveal</strong> (Scroll Trigger) — <strong>2. Timed</strong> (One-Shot) — <strong>3. Loop</strong> (Infinito) — <strong>4. Micro</strong> (Hover Interativo) — <strong>5. Stagger & Personalização</strong>.</p>
+
+            <!-- PARÂMETROS E ATRIBUTOS -->
+            <div class="doc-card sec mb-6 reveal-up" id="parametros">
+                <h3 class="t-g f-bd mb-2">📋 Atributos & Parâmetros Declarativos</h3>
+                <p class="t-mut mb-4">Adicione os atributos declarativos ou as classes utilitárias no HTML para animar qualquer elemento automaticamente ao rolar a página.</p>
+                
+                <table class="attr-table">
+                    <thead>
+                        <tr>
+                            <th style="width:32%">Atributo / Classe</th>
+                            <th style="width:14%">Tipo</th>
+                            <th style="width:14%">Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>class="reveal-*"</code> / <code>sw-anime-rev</code></td><td>string</td><td>—</td><td>Ativa o scroll reveal ao entrar na viewport.</td></tr>
+                        <tr><td><code>class="ani-*"</code> / <code>sw-animate</code></td><td>string</td><td>—</td><td>Efeito de animação one-shot (up, down, in, flip, wipe, 3d, pop).</td></tr>
+                        <tr><td><code>class="loop-*"</code></td><td>string</td><td>—</td><td>Animação em loop contínuo (spin, pulse, float, bounce, glow).</td></tr>
+                        <tr><td><code>class="hov-*"</code></td><td>string</td><td>—</td><td>Interação no hover do mouse (lift, grow, shake, tada, flip).</td></tr>
+                        <tr><td><code>sw-trigger="scroll"</code></td><td>string</td><td>—</td><td>Dispara a animação via scroll observer.</td></tr>
+                        <tr><td><code>sw-scroll-once="true"</code></td><td>boolean</td><td>false</td><td>Anima uma única vez no scroll (sem replay ao subir).</td></tr>
+                        <tr><td><code>sw-stagger</code> / <code>dly-*</code></td><td>número</td><td>0</td><td>Delay crescente em cascata para elementos filhos ou sequenciais.</td></tr>
+                        <tr><td><code>sw-from-x</code> / <code>sw-from-y</code></td><td>px</td><td>0</td><td>Posição X/Y inicial personalizada.</td></tr>
+                        <tr><td><code>sw-from-scale</code></td><td>número</td><td>1</td><td>Escala inicial (ex: 0 para expandir, 2 para encolher).</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- 1. REVEAL -->
-            <div class="doc-card sec mb-6" id="reveal">
-                <h3 class="t-g f-bd mb-2">1. Reveal - Scroll Trigger</h3>
-                <p class="t-mut mb-4">Elementos entram na tela ao serem detectados pelo scroll via
-                    <code>IntersectionObserver</code>. Adicione <code>class="reveal-*"</code> - o SW observa
-                    automaticamente.
-                </p>
+            <div class="doc-card sec mb-6 reveal-up" id="reveal">
+                <h3 class="t-g f-bd mb-2">1. Reveal — Scroll Trigger</h3>
+                <p class="t-mut mb-4">Elementos entram na tela ao serem detectados pelo scroll via <code>IntersectionObserver</code>. Adicione a classe <code>reveal-*</code> ou o atributo <code>sw-anime-rev</code> — o SW observa e ativa automaticamente.</p>
 
                 <div class="reveal-playground" id="revPlayground">
-                    <div class="rev-box" data-rev="reveal-up">.reveal-up</div>
-                    <div class="rev-box" data-rev="reveal-down">.reveal-down</div>
-                    <div class="rev-box" data-rev="reveal-left">.reveal-left</div>
-                    <div class="rev-box" data-rev="reveal-right">.reveal-right</div>
-                    <div class="rev-box" data-rev="reveal-in">.reveal-in</div>
-                    <div class="rev-box" data-rev="reveal-out">.reveal-out</div>
-                    <div class="rev-box" data-rev="reveal-blur">.reveal-blur</div>
+                    <div class="rev-box reveal-up" data-rev="reveal-up">.reveal-up</div>
+                    <div class="rev-box reveal-down" data-rev="reveal-down">.reveal-down</div>
+                    <div class="rev-box reveal-left" data-rev="reveal-left">.reveal-left</div>
+                    <div class="rev-box reveal-right" data-rev="reveal-right">.reveal-right</div>
+                    <div class="rev-box reveal-in" data-rev="reveal-in">.reveal-in</div>
+                    <div class="rev-box reveal-out" data-rev="reveal-out">.reveal-out</div>
+                    <div class="rev-box reveal-blur" data-rev="reveal-blur">.reveal-blur</div>
                 </div>
-                <button sw-btn class="sw-btn-pri mb-6" onclick="replayReveal()"><i class="yd sw-refresh mr-2"></i> Repetir
-                    animações</button>
+                <button type="button" class="sw-btn sw-btn-pri mb-6" onclick="replayReveal()"><i class="swi swi-refresh mr-2"></i> Repetir animações de reveal</button>
 
-                <p class="cat-label">Velocidade + Delay</p>
+                <p class="cat-label">Demo Real de Scroll Reveal (desça a página para ver animar)</p>
                 <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-up spd-f" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-f<div class="demo-lbl">0.25s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i class="yd sw-flash"></i>base<div
-                            class="demo-lbl">0.55s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up spd-s" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-s<div class="demo-lbl">0.9s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up spd-xs" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
-                    </div>
-                </div>
-                <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-up dly-1" onclick="replay(this)"><i
-                            class="yd sw-timer"></i>.dly-1<div class="demo-lbl">0.1s delay</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-3" onclick="replay(this)"><i
-                            class="yd sw-timer"></i>.dly-3<div class="demo-lbl">0.3s delay</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-5" onclick="replay(this)"><i
-                            class="yd sw-timer"></i>.dly-5<div class="demo-lbl">0.5s delay</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-8" onclick="replay(this)"><i
-                            class="yd sw-timer"></i>.dly-8<div class="demo-lbl">1.2s delay</div>
-                    </div>
+                    <div class="demo-box reveal-up"><i class="swi swi-arrow-up"></i>.reveal-up<div class="demo-lbl">sobe ao rolar</div></div>
+                    <div class="demo-box reveal-down"><i class="swi swi-arrow-down"></i>.reveal-down<div class="demo-lbl">desce ao rolar</div></div>
+                    <div class="demo-box reveal-left"><i class="swi swi-arrow-left"></i>.reveal-left<div class="demo-lbl">vem da direita</div></div>
+                    <div class="demo-box reveal-right"><i class="swi swi-arrow-right"></i>.reveal-right<div class="demo-lbl">vem da esquerda</div></div>
+                    <div class="demo-box reveal-in"><i class="swi swi-maximize"></i>.reveal-in<div class="demo-lbl">zoom in</div></div>
+                    <div class="demo-box reveal-out"><i class="swi swi-minimize"></i>.reveal-out<div class="demo-lbl">zoom out</div></div>
+                    <div class="demo-box reveal-blur"><i class="swi swi-eye"></i>.reveal-blur<div class="demo-lbl">foca ao rolar</div></div>
                 </div>
 
-                <pre swcode="html"><script type="text/plain">
-<!-- Reveal: o SW detecta class="reveal-*" automaticamente -->
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Reveal: ativado automaticamente ao rolar a página -->
 <div class="reveal-up">Sobe ao entrar na tela</div>
 <div class="reveal-left spd-s dly-3">Vem da esquerda, lento + delay 0.3s</div>
 <div class="reveal-in">Zoom de entrada</div>
-<div class="reveal-blur">Desfoca &mdash; foca</div>
+<div class="reveal-blur">Desfoca e foca</div>
 </script></pre>
             </div>
 
             <!-- 2. TIMED -->
-            <div class="doc-card sec mb-6" id="timed">
-                <h3 class="t-g f-bd mb-2">2. Timed - One-Shot</h3>
-                <p class="t-mut mb-4">Roda uma vez. Ideal para modais, popups e notificações. <strong>Clique para
-                        repetir.</strong></p>
+            <div class="doc-card sec mb-6 reveal-up" id="timed">
+                <h3 class="t-g f-bd mb-2">2. Timed — One-Shot</h3>
+                <p class="t-mut mb-4">Roda uma vez ao carregar ou disparar. Ideal para modais, popups, notificações e alertas. <strong>Clique no card para repetir.</strong></p>
 
-                <p class="cat-label">Direção</p>
+                <p class="cat-label">Direções e Tipos Clássicos</p>
                 <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-fade" onclick="replay(this)"><i
-                            class="yd sw-eye"></i>.ani-fade</div>
-                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i
-                            class="yd sw-up-arrow"></i>.ani-up</div>
-                    <div class="demo-box" data-timed="ani-down" onclick="replay(this)"><i
-                            class="yd sw-down-arrow"></i>.ani-down</div>
-                    <div class="demo-box" data-timed="ani-left" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-right"></i>.ani-left</div>
-                    <div class="demo-box" data-timed="ani-right" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-left"></i>.ani-right</div>
-                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="yd sw-expand"></i>.ani-in
-                    </div>
-                    <div class="demo-box" data-timed="ani-out" onclick="replay(this)"><i
-                            class="yd sw-expand-alt"></i>.ani-out</div>
-                    <div class="demo-box" data-timed="ani-flip" onclick="replay(this)"><i
-                            class="yd sw-sync"></i>.ani-flip</div>
-                    <div class="demo-box" data-timed="ani-drop" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-top"></i>.ani-drop</div>
+                    <div class="demo-box" data-timed="ani-fade" onclick="replay(this)"><i class="swi swi-eye"></i>.ani-fade</div>
+                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i class="swi swi-arrow-up"></i>.ani-up</div>
+                    <div class="demo-box" data-timed="ani-down" onclick="replay(this)"><i class="swi swi-arrow-down"></i>.ani-down</div>
+                    <div class="demo-box" data-timed="ani-left" onclick="replay(this)"><i class="swi swi-arrow-left"></i>.ani-left</div>
+                    <div class="demo-box" data-timed="ani-right" onclick="replay(this)"><i class="swi swi-arrow-right"></i>.ani-right</div>
+                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="swi swi-maximize"></i>.ani-in</div>
+                    <div class="demo-box" data-timed="ani-out" onclick="replay(this)"><i class="swi swi-minimize"></i>.ani-out</div>
+                    <div class="demo-box" data-timed="ani-flip" onclick="replay(this)"><i class="swi swi-refresh-cw"></i>.ani-flip</div>
+                    <div class="demo-box" data-timed="ani-drop" onclick="replay(this)"><i class="swi swi-arrow-down-circle"></i>.ani-drop</div>
                 </div>
 
-                <p class="cat-label">Velocidade (aplica em qualquer ani-*)</p>
-                <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-in spd-f" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-f<div class="demo-lbl">0.25s fast</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="yd sw-flash"></i>base<div
-                            class="demo-lbl">0.55s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-in spd-s" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-s<div class="demo-lbl">0.9s slow</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-in spd-xs" onclick="replay(this)"><i
-                            class="yd sw-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
-                    </div>
-                </div>
-
-                <pre swcode="html"><script type="text/plain">
-<div class="ani-up">Sobe uma vez</div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="ani-up">Sobe uma vez ao carregar</div>
 <div class="ani-in spd-f">Zoom rápido</div>
 <div class="ani-left spd-s dly-3">Vem da direita, lento, delay 0.3s</div>
-<div class="ani-flip">Vira no eixo X</div>
+<div class="ani-flip">Gira no eixo X</div>
 </script></pre>
             </div>
 
             <!-- 2b. TIMED AVANÇADO -->
-            <div class="doc-card sec mb-6" id="timed-adv">
-                <h3 class="t-g f-bd mb-2">2b. Timed Avançado - 11 modelos exclusivos</h3>
-                <p class="t-mut mb-4">Clip-path, 3D perspectiva, skew, roll, pop spring e mais. <strong>Clique para
-                        repetir.</strong></p>
+            <div class="doc-card sec mb-6 reveal-up" id="timed-adv">
+                <h3 class="t-g f-bd mb-2">2b. Timed Avançado — 11 Modelos Exclusivos</h3>
+                <p class="t-mut mb-4">Clip-path wipes, 3D perspectiva, skew, roll, pop spring e zoom blur. <strong>Clique para testar.</strong></p>
 
                 <p class="cat-label">Clip-path Wipes (revela direcional sem fade)</p>
                 <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-wipe-l" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-right"></i>.ani-wipe-l<div class="demo-lbl">wipe</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-wipe-r" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-left"></i>.ani-wipe-r<div class="demo-lbl">wipe</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-wipe-t" onclick="replay(this)"><i
-                            class="yd sw-up-arrow"></i>.ani-wipe-t<div class="demo-lbl">wipe</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-wipe-b" onclick="replay(this)"><i
-                            class="yd sw-down-arrow"></i>.ani-wipe-b<div class="demo-lbl">wipe</div>
-                    </div>
+                    <div class="demo-box" data-timed="ani-wipe-l" onclick="replay(this)"><i class="swi swi-arrow-left"></i>.ani-wipe-l<div class="demo-lbl">wipe esquerda</div></div>
+                    <div class="demo-box" data-timed="ani-wipe-r" onclick="replay(this)"><i class="swi swi-arrow-right"></i>.ani-wipe-r<div class="demo-lbl">wipe direita</div></div>
+                    <div class="demo-box" data-timed="ani-wipe-t" onclick="replay(this)"><i class="swi swi-arrow-up"></i>.ani-wipe-t<div class="demo-lbl">wipe topo</div></div>
+                    <div class="demo-box" data-timed="ani-wipe-b" onclick="replay(this)"><i class="swi swi-arrow-down"></i>.ani-wipe-b<div class="demo-lbl">wipe base</div></div>
                 </div>
 
                 <p class="cat-label">3D Perspectiva</p>
                 <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-3d-l" onclick="replay(this)"><i
-                            class="yd sw-box"></i>.ani-3d-l<div class="demo-lbl">rotateY -90°</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-3d-r" onclick="replay(this)"><i
-                            class="yd sw-box"></i>.ani-3d-r<div class="demo-lbl">rotateY +90°</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-3d-t" onclick="replay(this)"><i
-                            class="yd sw-box"></i>.ani-3d-t<div class="demo-lbl">rotateX 80°</div>
-                    </div>
+                    <div class="demo-box" data-timed="ani-3d-l" onclick="replay(this)"><i class="swi swi-box"></i>.ani-3d-l<div class="demo-lbl">rotateY -90°</div></div>
+                    <div class="demo-box" data-timed="ani-3d-r" onclick="replay(this)"><i class="swi swi-box"></i>.ani-3d-r<div class="demo-lbl">rotateY +90°</div></div>
+                    <div class="demo-box" data-timed="ani-3d-t" onclick="replay(this)"><i class="swi swi-box"></i>.ani-3d-t<div class="demo-lbl">rotateX 80°</div></div>
                 </div>
 
                 <p class="cat-label">Skew + Roll + Pop + Swing</p>
                 <div class="demo-grid">
-                    <div class="demo-box" data-timed="ani-skew-l" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-right"></i>.ani-skew-l<div class="demo-lbl">inclina entrada</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-skew-r" onclick="replay(this)"><i
-                            class="yd sw-arrow-from-left"></i>.ani-skew-r<div class="demo-lbl">inclina entrada</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-roll" onclick="replay(this)"><i
-                            class="yd sw-sync"></i>.ani-roll<div class="demo-lbl">gira + desliza</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-pop" onclick="replay(this)"><i class="yd sw-star"></i>.ani-pop
-                        <div class="demo-lbl">spring overshoot</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-zoom-blur" onclick="replay(this)"><i
-                            class="yd sw-eye"></i>.ani-zoom-blur<div class="demo-lbl">zoom + desfoca</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-swing" onclick="replay(this)"><i
-                            class="yd sw-bell"></i>.ani-swing<div class="demo-lbl">pêndulo</div>
-                    </div>
+                    <div class="demo-box" data-timed="ani-skew-l" onclick="replay(this)"><i class="swi swi-chevrons-left"></i>.ani-skew-l<div class="demo-lbl">inclina entrada</div></div>
+                    <div class="demo-box" data-timed="ani-skew-r" onclick="replay(this)"><i class="swi swi-chevrons-right"></i>.ani-skew-r<div class="demo-lbl">inclina entrada</div></div>
+                    <div class="demo-box" data-timed="ani-roll" onclick="replay(this)"><i class="swi swi-repeat"></i>.ani-roll<div class="demo-lbl">gira + desliza</div></div>
+                    <div class="demo-box" data-timed="ani-pop" onclick="replay(this)"><i class="swi swi-star"></i>.ani-pop<div class="demo-lbl">spring overshoot</div></div>
+                    <div class="demo-box" data-timed="ani-zoom-blur" onclick="replay(this)"><i class="swi swi-search"></i>.ani-zoom-blur<div class="demo-lbl">zoom + desfoca</div></div>
+                    <div class="demo-box" data-timed="ani-swing" onclick="replay(this)"><i class="swi swi-bell"></i>.ani-swing<div class="demo-lbl">pêndulo</div></div>
                 </div>
 
-                <pre swcode="html"><script type="text/plain">
+                <pre swcode="html" class="m-0"><script type="text/plain">
 <div class="ani-wipe-l">Aparece com wipe da direita</div>
 <div class="ani-3d-l spd-s">Gira em 3D, lento</div>
-<div class="ani-pop">Spring com overshoot</div>
+<div class="ani-pop">Spring com efeito de mola</div>
 <div class="ani-zoom-blur dly-3">Zoom + blur com delay</div>
 </script></pre>
             </div>
 
             <!-- 3. LOOP -->
-            <div class="doc-card sec mb-6" id="loop">
-                <h3 class="t-g f-bd mb-2">3. Loop - Animação Infinita</h3>
-                <p class="t-mut mb-4">Anima continuamente. Ideal para ícones, loaders e decorações.</p>
+            <div class="doc-card sec mb-6 reveal-up" id="loop">
+                <h3 class="t-g f-bd mb-2">3. Loop — Animação Infinita</h3>
+                <p class="t-mut mb-4">Anima continuamente sem parar. Ideal para spinners, badges, ícones de destaque e loaders.</p>
 
                 <p class="cat-label">Loop Clássicos (10)</p>
                 <div class="demo-grid-loop">
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-refresh loop-spin"></i>.loop-spin</div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-refresh loop-spin-r"></i>.loop-spin-r
-                        <div class="demo-lbl">reverso</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-heart loop-pulse"
-                            style="color:var(--verm)"></i>.loop-pulse</div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-cloud loop-float"
-                            style="color:var(--azul)"></i>.loop-float<div class="demo-lbl">flutua</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-cloud loop-float-r"
-                            style="color:var(--cian)"></i>.loop-float-r<div class="demo-lbl">flutua</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-fade"
-                            style="color:var(--gold)"></i>.loop-fade<div class="demo-lbl">pisca</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-bell loop-shake"
-                            style="color:var(--lara)"></i>.loop-shake</div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-down-arrow loop-bounce"
-                            style="color:var(--secu7)"></i>.loop-bounce</div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-glow"
-                            style="color:var(--gold);--sw-glow-color:var(--gold)"></i>.loop-glow<div class="demo-lbl">
-                            brilho pulsante</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-flash loop-flicker"
-                            style="color:var(--aler)"></i>.loop-flicker<div class="demo-lbl">efeito neon</div>
-                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh-cw loop-spin"></i>.loop-spin</div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh-cw loop-spin-r"></i>.loop-spin-r<div class="demo-lbl">reverso</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-heart loop-pulse" style="color:#ef4444"></i>.loop-pulse</div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-cloud loop-float" style="color:#3b82f6"></i>.loop-float<div class="demo-lbl">flutua</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-cloud loop-float-r" style="color:#06b6d4"></i>.loop-float-r<div class="demo-lbl">flutua reverso</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-star loop-fade" style="color:#f59e0b"></i>.loop-fade<div class="demo-lbl">pisca suave</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-bell loop-shake" style="color:#f97316"></i>.loop-shake</div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-arrow-down loop-bounce" style="color:#10b981"></i>.loop-bounce</div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-sun loop-glow" style="color:#f59e0b;--sw-glow-color:#f59e0b"></i>.loop-glow<div class="demo-lbl">brilho pulsante</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-zap loop-flicker" style="color:#ec4899"></i>.loop-flicker<div class="demo-lbl">efeito neon</div></div>
                 </div>
 
                 <p class="cat-label">Loop Avançados (6)</p>
                 <div class="demo-grid-loop">
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-wind loop-breathe"
-                            style="color:var(--ceu);font-size:2.8rem"></i>.loop-breathe<div class="demo-lbl">respira
-                            suave</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-bell loop-swing"
-                            style="color:var(--gold);font-size:2.8rem;transform-origin:top center"></i>.loop-swing<div
-                            class="demo-lbl">pêndulo</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-box loop-jello"
-                            style="color:var(--viol);font-size:2.8rem"></i>.loop-jello<div class="demo-lbl">elástico
-                            jello</div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-heart loop-hbeat"
-                            style="color:var(--verm);font-size:2.8rem"></i>.loop-hbeat<div class="demo-lbl">batimento
-                        </div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-flash loop-rubber"
-                            style="color:var(--lara);font-size:2.8rem"></i>.loop-rubber<div class="demo-lbl">rubber band
-                        </div>
-                    </div>
-                    <div class="demo-box" style="cursor:default"><i class="yd sw-star loop-wave"
-                            style="color:var(--turq);font-size:2.8rem"></i>.loop-wave<div class="demo-lbl">onda diagonal
-                        </div>
-                    </div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-wind loop-breathe" style="color:#38bdf8;font-size:2.8rem"></i>.loop-breathe<div class="demo-lbl">respira suave</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-bell loop-swing" style="color:#f59e0b;font-size:2.8rem;transform-origin:top center"></i>.loop-swing<div class="demo-lbl">pêndulo</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-box loop-jello" style="color:#8b5cf6;font-size:2.8rem"></i>.loop-jello<div class="demo-lbl">elástico jello</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-heart loop-hbeat" style="color:#ef4444;font-size:2.8rem"></i>.loop-hbeat<div class="demo-lbl">batimento cardíaco</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-zap loop-rubber" style="color:#f97316;font-size:2.8rem"></i>.loop-rubber<div class="demo-lbl">rubber band</div></div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-sparkles loop-wave" style="color:#14b8a6;font-size:2.8rem"></i>.loop-wave<div class="demo-lbl">onda diagonal</div></div>
                 </div>
 
-                <pre swcode="html"><script type="text/plain">
-<i class="yd sw-refresh loop-spin"></i>
-<i class="yd sw-heart loop-pulse" style="color:var(--verm)"></i>
-<i class="yd sw-cloud loop-float"></i>
-
-<!-- Glow com cor customizada -->
-<i class="yd sw-star loop-glow" style="--sw-glow-color:var(--gold)"></i>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<i class="swi swi-refresh-cw loop-spin"></i>
+<i class="swi swi-heart loop-pulse" style="color:#ef4444"></i>
+<i class="swi swi-cloud loop-float"></i>
+<i class="swi swi-star loop-glow" style="--sw-glow-color:#f59e0b"></i>
 </script></pre>
             </div>
 
             <!-- 4. MICRO (HOVER) -->
-            <div class="doc-card sec mb-6" id="hover">
-                <h3 class="t-g f-bd mb-2">4. Micro - Hover</h3>
-                <p class="t-mut mb-4">Interações de hover via <code>transform</code> e <code>filter</code>. Sem JS.
-                    <strong>Passe o mouse.</strong>
-                </p>
+            <div class="doc-card sec mb-6 reveal-up" id="hover">
+                <h3 class="t-g f-bd mb-2">4. Micro — Interações de Hover</h3>
+                <p class="t-mut mb-4">Interações ao passar o mouse via <code>transform</code> e <code>filter</code> em CSS puro. Sem JavaScript. <strong>Passe o cursor sobre os boxes.</strong></p>
 
                 <p class="cat-label">Movimento</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-up"><i class="yd sw-up-arrow"></i>.hov-up</div>
-                    <div class="demo-box hov-down"><i class="yd sw-down-arrow"></i>.hov-down</div>
-                    <div class="demo-box hov-left"><i class="yd sw-arrow-from-right"></i>.hov-left</div>
-                    <div class="demo-box hov-right"><i class="yd sw-arrow-from-left"></i>.hov-right</div>
-                    <div class="demo-box hov-in"><i class="yd sw-expand"></i>.hov-in</div>
-                    <div class="demo-box hov-out"><i class="yd sw-expand-alt"></i>.hov-out</div>
-                    <div class="demo-box hov-lift"><i class="yd sw-layers"></i>.hov-lift<div class="demo-lbl">sobe +
-                            sombra</div>
-                    </div>
+                    <div class="demo-box hov-up"><i class="swi swi-arrow-up"></i>.hov-up</div>
+                    <div class="demo-box hov-down"><i class="swi swi-arrow-down"></i>.hov-down</div>
+                    <div class="demo-box hov-left"><i class="swi swi-arrow-left"></i>.hov-left</div>
+                    <div class="demo-box hov-right"><i class="swi swi-arrow-right"></i>.hov-right</div>
+                    <div class="demo-box hov-in"><i class="swi swi-maximize"></i>.hov-in</div>
+                    <div class="demo-box hov-out"><i class="swi swi-minimize"></i>.hov-out</div>
+                    <div class="demo-box hov-lift"><i class="swi swi-layers"></i>.hov-lift<div class="demo-lbl">sobe + sombra</div></div>
                 </div>
 
-                <p class="cat-label">Filtros</p>
+                <p class="cat-label">Filtros Visuais</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-bright" style="background:var(--prin14)"><i
-                            class="yd sw-sun"></i>.hov-bright</div>
-                    <div class="demo-box hov-dim" style="background:var(--prin14)"><i class="yd sw-moon"></i>.hov-dim
-                    </div>
-                    <div class="demo-box hov-sat" style="background:var(--prin14)"><i class="yd sw-palette"></i>.hov-sat
-                    </div>
-                    <div class="demo-box hov-glow"><i class="yd sw-star"
-                            style="--sw-glow-color:var(--prin7)"></i>.hov-glow</div>
+                    <div class="demo-box hov-bright" style="background:var(--sw-bg-sur, #1e1e24)"><i class="swi swi-sun"></i>.hov-bright</div>
+                    <div class="demo-box hov-dim" style="background:var(--sw-bg-sur, #1e1e24)"><i class="swi swi-moon"></i>.hov-dim</div>
+                    <div class="demo-box hov-sat" style="background:var(--sw-bg-sur, #1e1e24)"><i class="swi swi-palette"></i>.hov-sat</div>
+                    <div class="demo-box hov-glow"><i class="swi swi-star" style="--sw-glow-color:#3b82f6"></i>.hov-glow</div>
                 </div>
 
-                <p class="cat-label">Animações no hover</p>
+                <p class="cat-label">Animações no Hover</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-shake"><i class="yd sw-bell"></i>.hov-shake</div>
-                    <div class="demo-box hov-tada"><i class="yd sw-party"></i>.hov-tada</div>
-                    <div class="demo-box hov-pulse"><i class="yd sw-heart"></i>.hov-pulse</div>
-                    <div class="demo-box hov-bounce"><i class="yd sw-down-arrow"></i>.hov-bounce</div>
+                    <div class="demo-box hov-shake"><i class="swi swi-bell"></i>.hov-shake</div>
+                    <div class="demo-box hov-tada"><i class="swi swi-sparkles"></i>.hov-tada</div>
+                    <div class="demo-box hov-pulse"><i class="swi swi-heart"></i>.hov-pulse</div>
+                    <div class="demo-box hov-bounce"><i class="swi swi-arrow-down"></i>.hov-bounce</div>
                 </div>
 
                 <p class="cat-label">Hover Avançados</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-flip"><i class="yd sw-sync"></i>.hov-flip<div class="demo-lbl">rotateY 180
-                        </div>
-                    </div>
-                    <div class="demo-box hov-skew"><i class="yd sw-arrow-from-right"></i>.hov-skew<div class="demo-lbl">
-                            skewX</div>
-                    </div>
-                    <div class="demo-box hov-jello"><i class="yd sw-box"></i>.hov-jello<div class="demo-lbl">jello</div>
-                    </div>
-                    <div class="demo-box hov-rubber"><i class="yd sw-flash"></i>.hov-rubber<div class="demo-lbl">rubber
-                            band</div>
-                    </div>
-                    <div class="demo-box hov-roll"><i class="yd sw-refresh"></i>.hov-roll<div class="demo-lbl">gira +
-                            desliza</div>
-                    </div>
+                    <div class="demo-box hov-flip"><i class="swi swi-refresh-cw"></i>.hov-flip<div class="demo-lbl">rotateY 180°</div></div>
+                    <div class="demo-box hov-skew"><i class="swi swi-chevrons-right"></i>.hov-skew<div class="demo-lbl">skewX</div></div>
+                    <div class="demo-box hov-jello"><i class="swi swi-box"></i>.hov-jello<div class="demo-lbl">jello</div></div>
+                    <div class="demo-box hov-rubber"><i class="swi swi-zap"></i>.hov-rubber<div class="demo-lbl">rubber band</div></div>
+                    <div class="demo-box hov-roll"><i class="swi swi-repeat"></i>.hov-roll<div class="demo-lbl">gira + desliza</div></div>
                 </div>
 
-                <pre swcode="html"><script type="text/plain">
-<div class="hov-lift">Card com lift</div>
-<button class="hov-in hov-bright">Cresce e ilumina</button>
-<i class="yd sw-bell hov-shake"></i>
-<div class="hov-flip">Vira em 3D</div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="hov-lift">Card com sombra ao passar mouse</div>
+<button type="button" class="sw-btn sw-btn-pri hov-in hov-bright">Cresce e ilumina</button>
+<i class="swi swi-bell hov-shake"></i>
+<div class="hov-flip">Vira em 3D no hover</div>
 <div class="hov-jello">Jello elástico</div>
-
-<!-- Glow com cor customizada -->
-<div class="hov-glow" style="--sw-glow-color:var(--gold)">Glow dourado</div>
 </script></pre>
             </div>
 
-            <!-- SCROLL MOUNT/UNMOUNT -->
-            <div class="doc-card sec mb-6" id="scroll-mnt"
-                style="background:linear-gradient(135deg, var(--prin---), var(--sw-bg-sur))">
-                <h3 class="t-g f-bd mb-2">Scroll Mount/Unmount</h3>
-                <p class="t-mut mb-4">Sistema bidirecional: elementos <strong>montam</strong> ao entrar na viewport
-                    e <strong>desmontam</strong> ao sair. Use <code>y2anime-mnt</code> combinado com
-                    <code>class="reveal-*"</code>.
-                </p>
-                <pre swcode="html" class="mb-6"><script type="text/plain">
-<!-- y2anime-mnt = bidirecional (monta e desmonta ao rolar) -->
-<div class="reveal-up" y2anime-mnt>Sobe ao entrar, some ao sair</div>
-<div class="reveal-up dly-3" y2anime-mnt>Com delay</div>
-<div class="reveal-blur spd-s" y2anime-mnt>Blur, lento</div>
-<div class="reveal-in" y2anime-mnt>Zoom de entrada</div>
-</script></pre>
-                <a href="scroll.html" sw-btn class="sw-btn-pri">
-                    <i class="yd sw-arrow-to-right mr-2"></i> Ver demo completo do Scroll
-                </a>
-            </div>
-
-            <!-- 5. DELAYS -->
-            <div class="doc-card sec mb-6" id="delays">
-                <h3 class="t-g f-bd mb-4">5. Delays - .dly-1 a .dly-9</h3>
-                <p class="t-mut mb-4">Funciona com reveal, timed e loop. <strong>Clique "Replay" para ver a
-                        cascata.</strong></p>
-
-                <div class="flx gap-3 f-wr mb-4" id="delayDemo">
-                    <div class="demo-box" data-timed="ani-up dly-1" onclick="replay(this)" style="min-width:9rem">.dly-1
-                        <div class="demo-lbl">0.1s</div>
+            <!-- 5. SCROLL MOUNT/UNMOUNT & REPLAY -->
+            <div class="doc-card sec mb-6 reveal-up" id="scroll-mnt" style="background:linear-gradient(135deg, rgba(59,130,246,0.08), var(--sw-bg-sec, #16161a))">
+                <h3 class="t-g f-bd mb-2">5. Scroll Mount/Unmount & Replay ao Rolar</h3>
+                <p class="t-mut mb-4">Por padrão, elementos com <code>sw-trigger="scroll"</code> ou <code>sw-anime-mnt</code> montam ao entrar na tela e desmontam ao sair. Para animar <strong>somente na primeira vez</strong>, use <code>sw-scroll-once="true"</code>.</p>
+                
+                <div style="display:flex;flex-direction:column;gap:16px;margin:24px 0;">
+                    <div class="reveal-up" sw-anime-mnt style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:12px;padding:20px 24px;color:#fff;font-weight:700;font-size:1.4rem;">
+                        🚀 .reveal-up — desce a página: anima ao chegar no scroll. Sobe a página: desmonta e some.
                     </div>
-                    <div class="demo-box" data-timed="ani-up dly-2" onclick="replay(this)" style="min-width:9rem">.dly-2
-                        <div class="demo-lbl">0.2s</div>
+                    <div class="reveal-left dly-2" sw-anime-mnt style="background:linear-gradient(135deg,#8b5cf6,#ec4899);border-radius:12px;padding:20px 24px;color:#fff;font-weight:700;font-size:1.4rem;">
+                        ✨ .reveal-left — vem da esquerda com delay ao rolar o scroll.
                     </div>
-                    <div class="demo-box" data-timed="ani-up dly-3" onclick="replay(this)" style="min-width:9rem">.dly-3
-                        <div class="demo-lbl">0.3s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-4" onclick="replay(this)" style="min-width:9rem">.dly-4
-                        <div class="demo-lbl">0.4s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-5" onclick="replay(this)" style="min-width:9rem">.dly-5
-                        <div class="demo-lbl">0.5s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-6" onclick="replay(this)" style="min-width:9rem">.dly-6
-                        <div class="demo-lbl">0.7s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-7" onclick="replay(this)" style="min-width:9rem">.dly-7
-                        <div class="demo-lbl">0.9s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-8" onclick="replay(this)" style="min-width:9rem">.dly-8
-                        <div class="demo-lbl">1.2s</div>
-                    </div>
-                    <div class="demo-box" data-timed="ani-up dly-9" onclick="replay(this)" style="min-width:9rem">.dly-9
-                        <div class="demo-lbl">1.6s</div>
+                    <div class="reveal-in dly-4" sw-anime-mnt style="background:linear-gradient(135deg,#ec4899,#f97316);border-radius:12px;padding:20px 24px;color:#fff;font-weight:700;font-size:1.4rem;">
+                        🔍 .reveal-in — zoom de entrada ao rolar a página.
                     </div>
                 </div>
-                <button sw-btn class="sw-btn-sec" onclick="replayAll('#delayDemo .demo-box')">
-                    <i class="yd sw-refresh mr-2"></i> Replay Cascata
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Reanima toda vez que entra/sai da viewport (infinito no scroll) -->
+<div class="reveal-up" sw-anime-mnt>Sobe ao entrar, some ao sair</div>
+<div class="reveal-in" sw-anime-mnt>Zoom de entrada</div>
+
+<!-- Anima uma única vez na primeira rolagem -->
+<div class="reveal-up" sw-anime-mnt sw-scroll-once="true">Fica visível para sempre após a primeira entrada</div>
+</script></pre>
+            </div>
+
+            <!-- 6. STAGGER & DELAYS -->
+            <div class="doc-card sec mb-6 reveal-up" id="delays">
+                <h3 class="t-g f-bd mb-4">6. Stagger & Delays (.dly-1 a .dly-9)</h3>
+                <p class="t-mut mb-4">O delay cria sequências em cascata para grids, listas e menus. Clique no botão para testar.</p>
+
+                <div class="flx gap-3 f-wr mb-4" id="delayDemo" style="display:flex;gap:.8rem;flex-wrap:wrap">
+                    <div class="demo-box" data-timed="ani-up dly-1" onclick="replay(this)" style="min-width:9rem">.dly-1<div class="demo-lbl">0.1s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-2" onclick="replay(this)" style="min-width:9rem">.dly-2<div class="demo-lbl">0.2s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-3" onclick="replay(this)" style="min-width:9rem">.dly-3<div class="demo-lbl">0.3s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-4" onclick="replay(this)" style="min-width:9rem">.dly-4<div class="demo-lbl">0.4s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-5" onclick="replay(this)" style="min-width:9rem">.dly-5<div class="demo-lbl">0.5s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-6" onclick="replay(this)" style="min-width:9rem">.dly-6<div class="demo-lbl">0.7s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-7" onclick="replay(this)" style="min-width:9rem">.dly-7<div class="demo-lbl">0.9s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-8" onclick="replay(this)" style="min-width:9rem">.dly-8<div class="demo-lbl">1.2s</div></div>
+                    <div class="demo-box" data-timed="ani-up dly-9" onclick="replay(this)" style="min-width:9rem">.dly-9<div class="demo-lbl">1.6s</div></div>
+                </div>
+                <button type="button" class="sw-btn sw-btn-sec" onclick="replayAll('#delayDemo .demo-box')">
+                    <i class="swi swi-refresh mr-2"></i> Replay Cascata
                 </button>
 
-                <pre swcode="html" style="margin-top:1.6rem"><script type="text/plain">
-<!-- Cards em cascata com stagger de delay -->
-<div class="l gap-4">
-  <div class="co4-g reveal-up dly-1">Card 1</div>
-  <div class="co4-g reveal-up dly-3">Card 2</div>
-  <div class="co4-g reveal-up dly-5">Card 3</div>
+                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<!-- Stagger declarativo em elementos filhos -->
+<div sw-animate="fade-up" sw-stagger="0.1" sw-trigger="scroll">
+  <div>Item 1 (delay 0s)</div>
+  <div>Item 2 (delay 0.1s)</div>
+  <div>Item 3 (delay 0.2s)</div>
 </div>
 </script></pre>
             </div>
 
-            <!-- 6. VARIVEIS CSS -->
-            <div class="doc-card sec" id="vars">
-                <h3 class="t-g f-bd mb-4">6. Variveis CSS</h3>
-                <p class="t-mut mb-4">Override no seu <code>:root</code> para ajustar todo o sistema de animações.</p>
-                <pre swcode="css"><script type="text/plain">
+            <!-- 7. VARIÁVEIS CSS GLOBATION -->
+            <div class="doc-card sec reveal-up" id="vars">
+                <h3 class="t-g f-bd mb-4">7. Variáveis CSS Globais</h3>
+                <p class="t-mut mb-4">Override no seu <code>:root</code> para customizar todo o comportamento de animações no projeto.</p>
+                <pre swcode="css" class="m-0"><script type="text/plain">
 :root {
-    /* Curvas de easing */
-    --sw-ease:   cubic-bezier(0.25, 0.46, 0.45, 0.94); /* padrão */
-    --sw-spring: cubic-bezier(0.34, 1.56, 0.64, 1);    /* elástico */
-    --sw-sharp:  cubic-bezier(0.4,  0,    0.6,  1);     /* abrupto */
+    /* Curvas de animação */
+    --sw-ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94); /* padrão */
+    --sw-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);    /* elástico */
+    --sw-sharp:      cubic-bezier(0.4, 0, 0.6, 1);         /* abrupto */
 
     /* Durações */
-    --sw-spd-f:  0.25s;  /* .spd-f  &mdash; rápido */
-    --sw-spd:    0.55s;  /* base    &mdash; padrão */
-    --sw-spd-s:  0.9s;   /* .spd-s  &mdash; lento */
-    --sw-spd-xs: 1.6s;   /* .spd-xs &mdash; muito lento */
-    --sw-spd-lp: 3s;     /* loop    &mdash; contínuo */
+    --sw-spd-f:      0.25s;  /* .spd-f  — rápido */
+    --sw-spd:        0.55s;  /* base    — padrão */
+    --sw-spd-s:      0.9s;   /* .spd-s  — lento */
+    --sw-spd-xs:     1.6s;   /* .spd-xs — extra lento */
+    --sw-spd-lp:     3s;     /* loop    — contínuo */
 
     /* Distâncias de movimento */
-    --sw-dist:    5rem;   /* reveal pequeno (up/down) */
-    --sw-dist-lg: 10rem;  /* reveal grande (left/right) */
+    --sw-dist:       8rem;   /* reveal up/down */
+    --sw-dist-lg:    10rem;  /* reveal left/right */
 
-    /* Glow color (hov-glow, loop-glow) */
-    --sw-glow-color: var(--prin7);
+    /* Brilho personalizado */
+    --sw-glow-color: var(--sw-pri);
 }
 </script></pre>
             </div>
@@ -555,30 +489,15 @@
         function replayReveal() {
             var boxes = document.querySelectorAll('#revPlayground .rev-box');
             boxes.forEach(function (box) {
-                var cls = box.dataset.rev;
-                box.classList.remove('is-revealed', cls);
-                void box.offsetWidth;
-                box.classList.add(cls);
+                box.classList.remove('is-revealed');
             });
-            requestAnimationFrame(function () {
-                requestAnimationFrame(function () {
-                    boxes.forEach(function (box, i) {
-                        setTimeout(function () { box.classList.add('is-revealed'); }, i * 100);
-                    });
-                });
+            void document.body.offsetWidth;
+            boxes.forEach(function (box, i) {
+                setTimeout(function () {
+                    box.classList.add('is-revealed');
+                }, i * 90);
             });
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Impede que SWAnime observe os boxes do playground ao detectar reveal-* via reinit do ajax
-            document.querySelectorAll('#revPlayground .rev-box').forEach(function (el) {
-                el._y2Rev = true;
-            });
-            document.querySelectorAll('[data-timed]').forEach(function (el) {
-                el.dataset.timed.split(' ').filter(Boolean).forEach(function (c) { el.classList.add(c); });
-            });
-            replayReveal();
-        });
     </script>
 </body>
 

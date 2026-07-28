@@ -4,12 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Draggable - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 0;
+            margin-bottom: .8rem;
+            min-height: 26rem;
+            position: relative;
+            overflow: hidden
+        }
+
+        /* Cards arrastáveis */
+        .drag-card {
+            position: absolute;
+            width: 15rem;
+            border-radius: var(--sw-r-g, 8px);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+            user-select: none;
+            z-index: 1
+        }
+
+        .drag-card:active {
+            z-index: 99
+        }
+
+        .drag-body {
+            padding: 1.4rem 1.6rem
+        }
+
+        /* Handle header */
+        .drag-handle {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            padding: .9rem 1.2rem;
+            background: rgba(0, 0, 0, .15);
+            border-radius: var(--sw-r-g, 8px) var(--sw-r-g, 8px) 0 0;
+            cursor: grab
+        }
+
+        .drag-handle:active {
+            cursor: grabbing
+        }
+
+        /* Coordenadas ao vivo */
+        .coord-badge {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 1.2rem;
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 6px;
+            padding: .4rem .9rem;
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut, #94a3b8)
+        }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
+        .ref-table th, .ref-table td { text-align: left; padding: .8rem 1rem; border-bottom: 1px solid var(--sw-bor); }
+        .ref-table th { font-weight: 600; color: var(--sw-txt-bas); font-size: 1.2rem; text-transform: uppercase; letter-spacing: .05em; }
+        .ref-table td { color: var(--sw-txt-sec); }
+        .ref-table code { background: var(--sw-bg-sec); padding: .15rem .4rem; border-radius: 3px; font-size: 1.2rem; }
+    </style>
 </head>
 
 <body>
@@ -17,42 +86,253 @@
         <main class="doc-main">
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
-                <span class="brc-it">Efeitos JS</span>
+                <span class="brc-it">JS Módulos</span>
                 <span class="brc-it is-cur" aria-current="page">Draggable</span>
             </nav>
 
-            <section class="mb-8">
-                <span class="doc-tag">JS Component</span>
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
                 <h1 class="t-xxg f-bd mb-2">Draggable <span class="TprinD">[sw-drag]</span></h1>
-                <p class="t-g t-mut mb-0">Elemento arrastável livre, com eixo travado e limites de área (mouse e touch).</p>
-            </section>
+                <p class="t-g t-mut mb-0">Elementos arrastáveis com suporte a touch, restrição de eixo, limites de container ou janela, e alça (handle) personalizada.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo (arraste dentro do container)</h3>
-                <div class="demo-wrap p-6" style="position:relative;height:16rem;overflow:hidden;">
-                    <div sw-drag sw-drag-bounds="parent" style="left:1rem;top:1rem;width:9rem;height:6rem;display:flex;align-items:center;justify-content:center;background:var(--sw-pri);color:#fff;border-radius:var(--sw-r-m);font-weight:700;">Arraste-me</div>
+            <!-- 1. DEMO BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Demo — Arraste os cards</h3>
+                <p class="t-g t-mut mb-4">Adicione <code>sw-drag</code> em qualquer elemento. Funciona com mouse e touch. O elemento recebe <code>position: absolute</code> automaticamente se não possuir posicionamento.</p>
+                <div class="demo-wrap" id="demo-basic" style="min-height:28rem">
+                    <!-- Livre -->
+                    <div sw-drag class="drag-card" style="top:2rem;left:2rem;background:var(--sw-pri, #3b82f6);color:#fff">
+                        <div class="drag-body">
+                            <p class="f-bd mt-1 mb-1">Livre</p>
+                            <p class="t-pp" style="opacity:.85;font-size:1.3rem">Arraste em qualquer direção</p>
+                        </div>
+                    </div>
+                    <!-- Apenas X -->
+                    <div sw-drag sw-drag-axis="x" class="drag-card"
+                        style="top:2rem;left:50%;margin-left:-7.5rem;background:#10b981;color:#fff">
+                        <div class="drag-body">
+                            <p class="f-bd mt-1 mb-1">Só horizontal</p>
+                            <code style="font-size:1.2rem;opacity:.8">sw-drag-axis="x"</code>
+                        </div>
+                    </div>
+                    <!-- Apenas Y -->
+                    <div sw-drag sw-drag-axis="y" class="drag-card"
+                        style="top:2rem;right:2rem;background:#f59e0b;color:#fff">
+                        <div class="drag-body">
+                            <p class="f-bd mt-1 mb-1">Só vertical</p>
+                            <code style="font-size:1.2rem;opacity:.8">sw-drag-axis="y"</code>
+                        </div>
+                    </div>
+                    <!-- Bounds parent -->
+                    <div sw-drag sw-drag-bounds="parent" class="drag-card"
+                        style="bottom:2rem;left:2rem;background:#8b5cf6;color:#fff">
+                        <div class="drag-body">
+                            <p class="f-bd mt-1 mb-1">Limitado</p>
+                            <code style="font-size:1.2rem;opacity:.8">sw-drag-bounds="parent"</code>
+                        </div>
+                    </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-drag sw-drag-bounds="parent">Arraste-me</div>
-<!-- sw-drag-axis="x|y" trava um eixo · sw-drag-handle=".alça" limita a área de agarre -->
+<!-- Livre - move em qualquer direção -->
+<div sw-drag style="position:absolute;top:2rem;left:2rem">
+  Arraste
+</div>
+
+<!-- Restrito ao eixo X -->
+<div sw-drag sw-drag-axis="x">Só horizontal</div>
+
+<!-- Restrito ao eixo Y -->
+<div sw-drag sw-drag-axis="y">Só vertical</div>
+
+<!-- Limitado ao elemento pai -->
+<div sw-drag sw-drag-bounds="parent">Fica dentro</div>
+
+<!-- Limitado à janela -->
+<div sw-drag sw-drag-bounds="window">Fica na tela</div>
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
-                <div class="tbl is-str">
-                    <table>
-                        <thead><tr><th>Atributo</th><th>Descrição</th></tr></thead>
-                        <tbody>
-                            <tr><td><code>[sw-drag]</code></td><td>Ativa o arraste — requer <code>position: absolute/relative</code> (aplicado automaticamente se ausente).</td></tr>
-                            <tr><td><code>sw-drag-handle</code></td><td>Seletor da "alça" — só ela inicia o arraste.</td></tr>
-                            <tr><td><code>sw-drag-axis</code></td><td><code>x | y | both</code> (padrão).</td></tr>
-                            <tr><td><code>sw-drag-bounds</code></td><td><code>parent | window</code> — limita o movimento.</td></tr>
-                            <tr><td><code>sw:drag:start/move/end</code></td><td>Eventos — <code>move</code> traz <code>detail.x/.y</code>.</td></tr>
-                        </tbody>
-                    </table>
+            <!-- 2. HANDLE -->
+            <div class="doc-card sec mb-6" id="handle">
+                <h3 class="t-m f-bd mb-4">2. Handle de Arrastar — <code>sw-drag-handle</code></h3>
+                <p class="t-g t-mut mb-4">Com <code>sw-drag-handle</code> apenas o elemento indicado inicia o drag — o restante do card permanece clicável normalmente.</p>
+                <div class="demo-wrap" style="min-height:20rem">
+                    <div sw-drag sw-drag-handle=".drag-handle" sw-drag-bounds="parent" style="position:absolute;top:3rem;left:3rem;width:26rem;
+                                background:var(--sw-bg-sec, #16161a);border:1px solid var(--sw-bor, #2a2a32);
+                                border-radius:var(--sw-r-g, 8px);box-shadow:0 4px 18px rgba(0,0,0,.15)">
+                        <div class="drag-handle" style="background:var(--sw-bg-sur, #1e1e24);border-radius:var(--sw-r-g, 8px) var(--sw-r-g, 8px) 0 0">
+                            <span class="f-bd t-pp" style="color:var(--sw-txt-mut, #94a3b8)">⋮⋮ Arraste pelo header</span>
+                        </div>
+                        <div style="padding:1.6rem">
+                            <p class="f-bd t-p mb-1">Conteúdo do card</p>
+                            <p class="t-g t-mut t-p" style="margin-bottom:1rem">Esta área não inicia o drag. Botões, inputs e links dentro do card continuam funcionando normalmente.</p>
+                            <button class="btn is-sec" onclick="alert('Botão clicado!')">Clique aqui</button>
+                        </div>
+                    </div>
                 </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-drag sw-drag-handle=".meu-handle">
+  <!-- Só este elemento inicia o drag -->
+  <div class="meu-handle" style="cursor:grab;padding:1rem">
+    Arraste aqui
+  </div>
+  <!-- O resto não é arrastável -->
+  <div style="padding:1.6rem">
+    <p>Conteúdo normal</p>
+    <button>Botão clicável</button>
+  </div>
+</div>
+</script></pre>
             </div>
+
+            <!-- 3. BOUNDS WINDOW -->
+            <div class="doc-card sec mb-6" id="bounds">
+                <h3 class="t-m f-bd mb-4">3. Limites — <code>sw-drag-bounds</code></h3>
+                <p class="t-g t-mut mb-4">Dois valores disponíveis: <code>parent</code> limita ao elemento pai imediato e <code>window</code> limita à janela do navegador.</p>
+                <div class="demo-wrap" style="min-height:16rem;display:flex;align-items:center;justify-content:center;gap:3rem;padding:2rem">
+                    <div style="position:relative;width:20rem;height:12rem;border:2px dashed var(--sw-pri, #3b82f6);border-radius:var(--sw-r-g, 8px);background:rgba(59,130,246,.08)">
+                        <span class="t-pp" style="position:absolute;top:-2.2rem;left:0;font-size:1.2rem;color:var(--sw-pri, #3b82f6);font-weight:700">parent</span>
+                        <div sw-drag sw-drag-bounds="parent" style="position:absolute;top:1.5rem;left:1.5rem;
+                                   padding:.8rem 1.2rem;border-radius:.8rem;
+                                   background:var(--sw-pri, #3b82f6);color:#fff;font-weight:700;font-size:1.3rem;
+                                   box-shadow:0 2px 10px rgba(0,0,0,.2)">
+                            parent
+                        </div>
+                    </div>
+                    <div style="position:relative">
+                        <div sw-drag sw-drag-bounds="window" style="padding:.8rem 1.2rem;border-radius:.8rem;
+                                   background:#10b981;color:#fff;font-weight:700;font-size:1.3rem;
+                                   box-shadow:0 2px 10px rgba(0,0,0,.2)">
+                            window
+                        </div>
+                        <span class="t-pp" style="display:block;text-align:center;margin-top:.6rem;font-size:1.2rem;color:var(--sw-txt-mut, #94a3b8)">Arraste pela tela toda</span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Não sai do elemento pai -->
+<div style="position:relative;width:40rem;height:20rem">
+  <div sw-drag sw-drag-bounds="parent">
+    Fica dentro do pai
+  </div>
+</div>
+
+<!-- Não sai da janela do browser -->
+<div sw-drag sw-drag-bounds="window">
+  Fica na tela
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. EVENTOS -->
+            <div class="doc-card sec mb-6" id="eventos">
+                <h3 class="t-m f-bd mb-4">4. Eventos</h3>
+                <p class="t-g t-mut mb-4">Três eventos são emitidos no elemento: ao iniciar o arraste, durante o movimento (a cada frame) e ao soltar.</p>
+                <div class="demo-wrap" style="min-height:18rem;padding:2.4rem">
+                    <div sw-drag sw-drag-bounds="parent" id="drag-ev" style="position:absolute;top:3rem;left:3rem;
+                                padding:1.4rem 1.8rem;border-radius:var(--sw-r-g, 8px);
+                                background:var(--sw-pri, #3b82f6);color:#fff;
+                                box-shadow:0 4px 16px rgba(0,0,0,.2);
+                                font-weight:700">
+                        Arraste-me
+                    </div>
+                    <div class="coord-badge" id="ev-log" style="bottom:auto;top:1.2rem;right:1.2rem;line-height:2">
+                        <span id="ev-state" style="display:block">Aguardando drag…</span>
+                        <span id="ev-pos" style="display:block">x: — | y: —</span>
+                    </div>
+                </div>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+const el = document.querySelector('[sw-drag]');
+
+// Início do drag
+el.addEventListener('sw:drag:start', () => {
+    console.log('Drag iniciado');
+});
+
+// Durante o movimento - e.detail.x / e.detail.y
+el.addEventListener('sw:drag:move', (e) => {
+    console.log(`Posição: x=${e.detail.x} y=${e.detail.y}`);
+});
+
+// Solto
+el.addEventListener('sw:drag:end', () => {
+    console.log('Drag encerrado');
+});
+</script></pre>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var el = document.getElementById('drag-ev');
+                        var state = document.getElementById('ev-state');
+                        var pos = document.getElementById('ev-pos');
+                        if (!el) return;
+                        el.addEventListener('sw:drag:start', function () {
+                            state.textContent = '▶ drag:start';
+                            state.style.color = 'var(--sw-pri, #3b82f6)';
+                        });
+                        el.addEventListener('sw:drag:move', function (e) {
+                            state.textContent = '⚡ drag:move';
+                            state.style.color = '#10b981';
+                            pos.textContent = 'x: ' + Math.round(e.detail.x) + ' | y: ' + Math.round(e.detail.y);
+                        });
+                        el.addEventListener('sw:drag:end', function () {
+                            state.textContent = '⏹ drag:end';
+                            state.style.color = '#f59e0b';
+                        });
+                    });
+                </script>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Referência de Atributos</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo / Evento</th>
+                            <th>Padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-drag</code> (ou <code>y2drag</code>)</td>
+                            <td>—</td>
+                            <td>Ativa o arraste no elemento (suporta mouse e touch)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-drag-axis</code></td>
+                            <td><code>both</code></td>
+                            <td>Restringe o eixo: <code>x</code>, <code>y</code> ou <code>both</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-drag-bounds</code></td>
+                            <td>—</td>
+                            <td><code>parent</code> limita ao elemento pai, <code>window</code> limita à janela</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-drag-handle</code></td>
+                            <td>—</td>
+                            <td>Seletor CSS do handle — apenas este elemento inicia o drag</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw:drag:start</code></td>
+                            <td>—</td>
+                            <td>Emitido ao iniciar o arraste</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw:drag:move</code></td>
+                            <td>—</td>
+                            <td>Emitido a cada frame com coordenadas — <code>e.detail.x</code> e <code>e.detail.y</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw:drag:end</code></td>
+                            <td>—</td>
+                            <td>Emitido ao soltar o elemento</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </main>
     </div>
 </body>

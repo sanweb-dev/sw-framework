@@ -3,13 +3,88 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Cropper - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>SWCropper — Modelos de Recorte de Imagem | SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas, #1e1e24);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: var(--sw-bg-bas, #1e1e24);
+            border-radius: var(--sw-r-g, 8px);
+            border: 1px solid var(--sw-bor, #2a2a32);
+        }
+        .flow-box {
+            background: var(--sw-bg-sec, #16161a);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: 8px;
+            padding: .8rem 1.4rem;
+            font-size: 1.3rem;
+            font-family: var(--sw-f-mon, monospace);
+            text-align: center;
+        }
+        .flow-arrow { color: var(--sw-pri, #6366f1); font-size: 2rem; font-weight: 700 }
+
+        /* Box de Preview Circular (1:1) */
+        .cropper-prev-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--sw-pri, #6366f1);
+            background: var(--sw-bg-sec, #16161a);
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+        /* Box de Preview Banner (16:9) */
+        .cropper-prev-banner {
+            width: 160px;
+            height: 90px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid var(--sw-pri, #6366f1);
+            background: var(--sw-bg-sec, #16161a);
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+        /* Box de Preview Produto (4:3) */
+        .cropper-prev-prod {
+            width: 133px;
+            height: 100px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid var(--sw-pri, #6366f1);
+            background: var(--sw-bg-sec, #16161a);
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .result-img-out {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 2px solid var(--sw-bor, #2a2a32);
+            display: none;
+            margin-top: 1rem;
+        }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -18,52 +93,241 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">JS Módulos</span>
-                <span class="brc-it is-cur" aria-current="page">Cropper</span>
+                <span class="brc-it is-cur" aria-current="page">SWCropper — Modelos</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h1 class="t-xxg f-bd mb-2">Cropper <span class="TprinD">[sw-cropper]</span></h1>
-                <p class="t-g t-mut mb-0">Recorte de imagem antes do upload, com canvas nativo — o SW não depende de bibliotecas externas como Cropper.js, então essa versão desenha e arrasta a área de corte na mão.</p>
-            </section>
-
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
-                <div class="demo-wrap p-6" style="max-width:40rem">
-                    <div sw-cropper sw-cropper-ratio="1" sw-cropper-upload="#" class="flx fld-col gap-3">
-                        <input type="file" accept="image/*" sw-cropper-input class="sw-input">
-                        <canvas sw-cropper-canvas></canvas>
-                        <button type="button" sw-cropper-btn sw-btn class="sw-btn-pri">Cortar e Enviar</button>
-                    </div>
-                </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-cropper sw-cropper-ratio="1" sw-cropper-upload="/api/imgs/upload" sw-cropper-out="#avatar-preview">
-    <input type="file" accept="image/*" sw-cropper-input>
-    <canvas sw-cropper-canvas></canvas>
-    <button type="button" sw-cropper-btn>Cortar e Enviar</button>
-</div>
-</script></pre>
-                <p class="t-mut mt-2">Selecione uma imagem e arraste a área destacada pra escolher o recorte. Neste demo o upload aponta pra <code>#</code>, então o clique em "Cortar e Enviar" não conclui de verdade — plugue uma URL real via <code>sw-cropper-upload</code>.</p>
+                <h1 class="t-xxg f-bd mb-2">SW<span class="TprinD">Cropper</span> <span class="t-m t-mut">(Vários Modelos)</span></h1>
+                <p class="t-g t-mut">Diversos modelos práticos de recorte de imagem no navegador: Avatar Perfil (1:1), Banner/Capa (16:9), Imagem de Produto (4:3), Recorte Livre e Modal.</p>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- MODELO 1: AVATAR 1:1 -->
+            <div class="doc-card sec mb-6" id="m1">
+                <h3 class="t-m f-bd mb-2">Modelo 1: Avatar Perfil (Proporção 1:1 Quadrada / Circular)</h3>
+                <p class="t-mut mb-4">Ideal para fotos de perfil de usuários. Atualiza o círculo de preview em tempo real conforme você arrasta a área de corte.</p>
+
+                <div class="demo-wrap">
+                    <div sw-cropper
+                         sw-cropper-ratio="1"
+                         sw-cropper-upload="#"
+                         sw-cropper-ref="user-1"
+                         sw-cropper-local="users"
+                         sw-cropper-tipo="avatar"
+                         sw-cropper-preview="#prev-m1"
+                         sw-cropper-out="#result-m1"
+                         style="display:flex;flex-direction:column;gap:1.6rem;max-width:550px">
+
+                        <div style="display:flex;align-items:center;gap:2rem">
+                            <label sw-btn class="sw-btn-sec" style="cursor:pointer">
+                                📁 Escolher Foto de Perfil
+                                <input type="file" accept="image/*" sw-cropper-input style="display:none">
+                            </label>
+                            <div class="cropper-prev-circle" id="prev-m1" title="Preview Circular em tempo real"></div>
+                        </div>
+
+                        <canvas sw-cropper-canvas style="max-width:100%;border-radius:8px"></canvas>
+
+                        <button type="button" sw-btn class="sw-btn-pri" sw-cropper-btn>
+                            ✂️ Cortar e Salvar Avatar
+                        </button>
+                    </div>
+                    <img class="result-img-out" id="result-m1" style="width:100px;height:100px;border-radius:50%" alt="Resultado M1">
+                </div>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cropper
+     sw-cropper-ratio="1"
+     sw-cropper-upload="/api/imgs/upload"
+     sw-cropper-preview="#prev-avatar"
+     sw-cropper-out="#img-avatar">
+    <input type="file" accept="image/*" sw-cropper-input>
+    <div id="prev-avatar" style="width:100px;height:100px;border-radius:50%"></div>
+    <canvas sw-cropper-canvas></canvas>
+    <button type="button" sw-cropper-btn>Salvar Avatar</button>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MODELO 2: CAPA BANNER 16:9 -->
+            <div class="doc-card sec mb-6" id="m2">
+                <h3 class="t-m f-bd mb-2">Modelo 2: Banner / Capa de Artigo (Proporção 16:9 Widescreen)</h3>
+                <p class="t-mut mb-4">Ideal para banners de posts, cabeçalhos de perfil ou capas de produtos (`sw-cropper-ratio="1.777"`).</p>
+
+                <div class="demo-wrap">
+                    <div sw-cropper
+                         sw-cropper-ratio="1.777"
+                         sw-cropper-upload="#"
+                         sw-cropper-ref="post-10"
+                         sw-cropper-local="posts"
+                         sw-cropper-tipo="cover"
+                         sw-cropper-preview="#prev-m2"
+                         sw-cropper-out="#result-m2"
+                         style="display:flex;flex-direction:column;gap:1.6rem;max-width:600px">
+
+                        <div style="display:flex;align-items:center;gap:2rem">
+                            <label sw-btn class="sw-btn-sec" style="cursor:pointer">
+                                🖼️ Escolher Imagem de Capa
+                                <input type="file" accept="image/*" sw-cropper-input style="display:none">
+                            </label>
+                            <div class="cropper-prev-banner" id="prev-m2" title="Preview Widescreen 16:9"></div>
+                        </div>
+
+                        <canvas sw-cropper-canvas style="max-width:100%;border-radius:8px"></canvas>
+
+                        <button type="button" sw-btn class="sw-btn-pri" sw-cropper-btn>
+                            ✂️ Cortar e Salvar Banner 16:9
+                        </button>
+                    </div>
+                    <img class="result-img-out" id="result-m2" style="max-width:320px" alt="Resultado M2">
+                </div>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cropper
+     sw-cropper-ratio="1.777"
+     sw-cropper-upload="/api/imgs/upload"
+     sw-cropper-preview="#prev-banner"
+     sw-cropper-out="#img-banner">
+    <input type="file" accept="image/*" sw-cropper-input>
+    <div id="prev-banner" style="width:160px;height:90px"></div>
+    <canvas sw-cropper-canvas></canvas>
+    <button type="button" sw-cropper-btn>Salvar Capa 16:9</button>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MODELO 3: PRODUTO 4:3 -->
+            <div class="doc-card sec mb-6" id="m3">
+                <h3 class="t-m f-bd mb-2">Modelo 3: Foto de Produto / Galeria (Proporção 4:3)</h3>
+                <p class="t-mut mb-4">Padroniza fotos de catálogos de e-commerce e galerias (`sw-cropper-ratio="1.333"`).</p>
+
+                <div class="demo-wrap">
+                    <div sw-cropper
+                         sw-cropper-ratio="1.333"
+                         sw-cropper-upload="#"
+                         sw-cropper-ref="prod-5"
+                         sw-cropper-local="produtos"
+                         sw-cropper-tipo="foto"
+                         sw-cropper-preview="#prev-m3"
+                         sw-cropper-out="#result-m3"
+                         style="display:flex;flex-direction:column;gap:1.6rem;max-width:550px">
+
+                        <div style="display:flex;align-items:center;gap:2rem">
+                            <label sw-btn class="sw-btn-sec" style="cursor:pointer">
+                                📦 Escolher Imagem do Produto
+                                <input type="file" accept="image/*" sw-cropper-input style="display:none">
+                            </label>
+                            <div class="cropper-prev-prod" id="prev-m3" title="Preview 4:3"></div>
+                        </div>
+
+                        <canvas sw-cropper-canvas style="max-width:100%;border-radius:8px"></canvas>
+
+                        <button type="button" sw-btn class="sw-btn-pri" sw-cropper-btn>
+                            ✂️ Cortar Foto do Produto
+                        </button>
+                    </div>
+                    <img class="result-img-out" id="result-m3" style="max-width:240px" alt="Resultado M3">
+                </div>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cropper sw-cropper-ratio="1.333" sw-cropper-upload="/api/imgs/upload">
+    <input type="file" accept="image/*" sw-cropper-input>
+    <canvas sw-cropper-canvas></canvas>
+    <button type="button" sw-cropper-btn>Salvar Imagem 4:3</button>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MODELO 4: RECORTE LIVRE -->
+            <div class="doc-card sec mb-6" id="m4">
+                <h3 class="t-m f-bd mb-2">Modelo 4: Recorte Livre (Qualquer Proporção)</h3>
+                <p class="t-mut mb-4">Com <code>sw-cropper-ratio="0"</code>, a área de corte seleciona toda a extensão proporcional sem travar uma taxa fixa.</p>
+
+                <div class="demo-wrap">
+                    <div sw-cropper
+                         sw-cropper-ratio="0"
+                         sw-cropper-upload="#"
+                         sw-cropper-out="#result-m4"
+                         style="display:flex;flex-direction:column;gap:1.6rem;max-width:550px">
+
+                        <div>
+                            <label sw-btn class="sw-btn-sec" style="cursor:pointer">
+                                🔓 Escolher Imagem (Proporção Livre)
+                                <input type="file" accept="image/*" sw-cropper-input style="display:none">
+                            </label>
+                        </div>
+
+                        <canvas sw-cropper-canvas style="max-width:100%;border-radius:8px"></canvas>
+
+                        <button type="button" sw-btn class="sw-btn-pri" sw-cropper-btn>
+                            ✂️ Salvar Recorte Livre
+                        </button>
+                    </div>
+                    <img class="result-img-out" id="result-m4" style="max-width:300px" alt="Resultado M4">
+                </div>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cropper sw-cropper-ratio="0" sw-cropper-upload="/api/imgs/upload">
+    <input type="file" accept="image/*" sw-cropper-input>
+    <canvas sw-cropper-canvas></canvas>
+    <button type="button" sw-cropper-btn>Salvar Recorte Libre</button>
+</div>
+</script></pre>
+            </div>
+
+            <!-- MODELO 5: DENTRO DE UM MODAL -->
+            <div class="doc-card sec mb-6" id="m5">
+                <h3 class="t-m f-bd mb-2">Modelo 5: Recorte em Janela Modal</h3>
+                <p class="t-mut mb-4">Combinação do <code>SWCropper</code> com <code>SWModal</code> para alteração de fotos em popups limpos.</p>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Botão que abre o modal -->
+<button type="button" class="sw-btn" sw-modal-open="modal-avatar">
+    Alterar Foto de Perfil
+</button>
+
+<!-- Janela Modal com o Cropper -->
+<div sw-modal id="modal-avatar">
+    <div class="sw-modal-head">
+        <h3>Alterar Foto</h3>
+        <button sw-modal-close class="sw-modal-x">×</button>
+    </div>
+    <div class="sw-modal-body">
+        <div sw-cropper
+             sw-cropper-ratio="1"
+             sw-cropper-upload="/api/imgs/upload"
+             sw-cropper-out="#avatar-usuario">
+
+            <input type="file" accept="image/*" sw-cropper-input>
+            <canvas sw-cropper-canvas></canvas>
+        </div>
+    </div>
+    <div class="sw-modal-foot">
+        <button type="button" class="sw-btn sw-btn-pri" sw-cropper-btn>Salvar Foto</button>
+        <button type="button" class="sw-btn" sw-modal-close>Cancelar</button>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference — Atributos e Ratios</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr><th>Valor em sw-cropper-ratio</th><th>Formato</th><th>Uso Recomendado</th></tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-cropper-ratio</code></td><td><code>1</code></td><td>Proporção largura/altura do recorte.</td></tr>
-                            <tr><td><code>sw-cropper-upload</code></td><td><code>/api/imgs/upload</code></td><td>Endpoint que recebe o POST com <code>dataUrl</code> (FormData).</td></tr>
-                            <tr><td><code>sw-cropper-ref</code> / <code>-local</code> / <code>-tipo</code></td><td>—</td><td>Campos extras enviados junto (id de referência, contexto, tipo).</td></tr>
-                            <tr><td><code>sw-cropper-out</code></td><td>—</td><td>Seletor de <code>&lt;img&gt;</code> a atualizar após o upload.</td></tr>
-                            <tr><td><code>[sw-cropper-input]</code></td><td>—</td><td><code>&lt;input type="file"&gt;</code> que dispara a seleção da imagem.</td></tr>
-                            <tr><td><code>[sw-cropper-canvas]</code></td><td>—</td><td>Canvas onde a imagem e a área de corte são desenhadas (arraste para mover).</td></tr>
-                            <tr><td><code>[sw-cropper-btn]</code></td><td>—</td><td>Botão que executa o corte e envia.</td></tr>
-                            <tr><td><code>sw:cropper:ready / :done / :error</code></td><td>—</td><td>Eventos — <code>:done</code> traz <code>detail.url/.thumb/.id</code>.</td></tr>
+                            <tr><td><code>1</code></td><td>Quadrado 1:1</td><td>Avatares, fotos de perfil, ícones de usuário.</td></tr>
+                            <tr><td><code>1.777</code></td><td>Widescreen 16:9</td><td>Banners de artigos, capas de vídeo, headers.</td></tr>
+                            <tr><td><code>1.333</code></td><td>Foto Retangular 4:3</td><td>Catálogos de produtos, cards de imóveis, galerias.</td></tr>
+                            <tr><td><code>0</code></td><td>Proporção Livre</td><td>Qualquer formato flexível de recorte.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

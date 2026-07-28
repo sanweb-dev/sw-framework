@@ -3,13 +3,37 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Cotação - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>SWCotacao — Cotação de Moedas e Cripto | SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas, #1e1e24);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2rem;
+            margin-bottom: .8rem;
+        }
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut, #94a3b8);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 1rem;
+        }
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+        }
+        @media (max-width: 900px) { .g2 { grid-template-columns: 1fr } }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -18,49 +42,209 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">JS Módulos</span>
-                <span class="brc-it is-cur" aria-current="page">Cotação</span>
+                <span class="brc-it is-cur" aria-current="page">SWCotacao</span>
             </nav>
 
-            <section class="mb-8">
+            <!-- INTRO -->
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h1 class="t-xxg f-bd mb-2">Cotação <span class="TprinD">[sw-cotacao]</span></h1>
-                <p class="t-g t-mut mb-0">Widget de câmbio em tempo real via <a href="https://docs.awesomeapi.com.br/api-de-moedas" target="_blank" rel="noopener">AwesomeAPI</a> (pública, sem chave necessária).</p>
-            </section>
+                <h1 class="t-xxg f-bd mb-2">SW<span class="TprinD">Cotacao</span></h1>
+                <p class="t-g t-mut mb-0">Cotações de câmbio em tempo real via <strong>AwesomeAPI</strong> (awesomeapi.com.br) — API pública brasileira, sem token, sem configuração. Suporta moedas tradicionais, criptomoedas e atualização automática.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Cards</h3>
-                <div class="demo-wrap p-6">
-                    <div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL,BTC-BRL"></div>
+            <!-- 1. DEMO TABELA COMPLETA -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-1">1. Demo — Tabela Completa</h3>
+                <p class="t-mut t-p mb-4">Modo <code>sw-cotacao-mode="table"</code> — exibe preço de compra (bid), venda (ask), variação, máxima e mínima do dia. Atualiza a cada 60s.</p>
+
+                <div class="demo-wrap">
+                    <div sw-cotacao
+                         sw-cotacao-pares="USD-BRL,EUR-BRL,GBP-BRL,JPY-BRL,CHF-BRL,ARS-BRL,BTC-BRL,ETH-BRL"
+                         sw-cotacao-mode="table"
+                         sw-cotacao-auto="60000">
+                    </div>
                 </div>
+
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL,BTC-BRL"></div>
+<div sw-cotacao
+     sw-cotacao-pares="USD-BRL,EUR-BRL,GBP-BRL,JPY-BRL,CHF-BRL,ARS-BRL,BTC-BRL,ETH-BRL"
+     sw-cotacao-mode="table"
+     sw-cotacao-auto="60000">
+</div>
 </script></pre>
             </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">2. Tabela, com auto-refresh</h3>
-                <div class="demo-wrap p-6">
-                    <div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-mode="table" sw-cotacao-auto="60000"></div>
+            <!-- 2. DEMO CARDS -->
+            <div class="doc-card sec mb-6" id="cards">
+                <h3 class="t-m f-bd mb-1">2. Demo — Cards</h3>
+                <p class="t-mut t-p mb-4">Modo padrão <code>cards</code> — compacto, ideal para widgets e barras de cotação. Atualiza a cada 30s.</p>
+
+                <div class="demo-wrap">
+                    <div sw-cotacao
+                         sw-cotacao-pares="USD-BRL,EUR-BRL,BTC-BRL,ETH-BRL"
+                         sw-cotacao-auto="30000">
+                    </div>
                 </div>
+
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-mode="table" sw-cotacao-auto="60000"></div>
+<div sw-cotacao
+     sw-cotacao-pares="USD-BRL,EUR-BRL,BTC-BRL,ETH-BRL"
+     sw-cotacao-auto="30000">
+</div>
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- 3. COMPRA VS VENDA -->
+            <div class="doc-card sec mb-6" id="tipo">
+                <h3 class="t-m f-bd mb-1">3. Compra — Venda</h3>
+                <p class="t-mut t-p mb-4">Use <code>sw-cotacao-tipo</code> para escolher entre preço de compra (<code>c</code> - bid) ou venda (<code>v</code> - ask). O modo tabela sempre exibe os dois.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Compra (bid) — Padrão</p>
+                        <div class="demo-wrap mb-3">
+                            <div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-tipo="c"></div>
+                        </div>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-tipo="c"></div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Venda (ask)</p>
+                        <div class="demo-wrap mb-3">
+                            <div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-tipo="v"></div>
+                        </div>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-tipo="v"></div>
+</script></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. AUTO REFRESH -->
+            <div class="doc-card sec mb-6" id="auto">
+                <h3 class="t-m f-bd mb-1">4. Auto Refresh</h3>
+                <p class="t-mut t-p mb-4">Use <code>sw-cotacao-auto</code> com o intervalo em milissegundos. Omita ou use <code>0</code> para desativar.</p>
+
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Atualiza a cada 30 segundos -->
+<div sw-cotacao sw-cotacao-pares="USD-BRL" sw-cotacao-auto="30000"></div>
+
+<!-- Atualiza a cada 1 minuto -->
+<div sw-cotacao sw-cotacao-pares="USD-BRL,EUR-BRL" sw-cotacao-auto="60000"></div>
+
+<!-- Sem auto refresh — carrega uma vez -->
+<div sw-cotacao sw-cotacao-pares="USD-BRL"></div>
+</script></pre>
+            </div>
+
+            <!-- 5. PARES SUPORTADOS -->
+            <div class="doc-card sec mb-6" id="pares">
+                <h3 class="t-m f-bd mb-1">5. Pares Suportados</h3>
+                <p class="t-mut t-p mb-6">Todos os pares disponíveis via <strong>AwesomeAPI</strong>. Use o código no atributo <code>sw-cotacao-pares</code>, separados por vírgula.</p>
+
+                <p class="demo-label">Américas</p>
+                <div class="tbl is-str mb-6">
+                    <table>
+                        <thead>
+                            <tr><th>Código</th><th>Par</th><th>Nome</th><th>País / Região</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>USD-BRL</code></td><td>USD / BRL</td><td>Dólar Americano</td><td>Estados Unidos</td></tr>
+                            <tr><td><code>CAD-BRL</code></td><td>CAD / BRL</td><td>Dólar Canadense</td><td>Canadá</td></tr>
+                            <tr><td><code>ARS-BRL</code></td><td>ARS / BRL</td><td>Peso Argentino</td><td>Argentina</td></tr>
+                            <tr><td><code>CLP-BRL</code></td><td>CLP / BRL</td><td>Peso Chileno</td><td>Chile</td></tr>
+                            <tr><td><code>COP-BRL</code></td><td>COP / BRL</td><td>Peso Colombiano</td><td>Colômbia</td></tr>
+                            <tr><td><code>PEN-BRL</code></td><td>PEN / BRL</td><td>Sol Peruano</td><td>Peru</td></tr>
+                            <tr><td><code>UYU-BRL</code></td><td>UYU / BRL</td><td>Peso Uruguaio</td><td>Uruguai</td></tr>
+                            <tr><td><code>MXN-BRL</code></td><td>MXN / BRL</td><td>Peso Mexicano</td><td>México</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="demo-label">Europa</p>
+                <div class="tbl is-str mb-6">
+                    <table>
+                        <thead>
+                            <tr><th>Código</th><th>Par</th><th>Nome</th><th>País / Região</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>EUR-BRL</code></td><td>EUR / BRL</td><td>Euro</td><td>Zona Euro</td></tr>
+                            <tr><td><code>GBP-BRL</code></td><td>GBP / BRL</td><td>Libra Esterlina</td><td>Reino Unido</td></tr>
+                            <tr><td><code>CHF-BRL</code></td><td>CHF / BRL</td><td>Franco Suíço</td><td>Suíça</td></tr>
+                            <tr><td><code>NOK-BRL</code></td><td>NOK / BRL</td><td>Coroa Norueguesa</td><td>Noruega</td></tr>
+                            <tr><td><code>SEK-BRL</code></td><td>SEK / BRL</td><td>Coroa Sueca</td><td>Suécia</td></tr>
+                            <tr><td><code>DKK-BRL</code></td><td>DKK / BRL</td><td>Coroa Dinamarquesa</td><td>Dinamarca</td></tr>
+                            <tr><td><code>PLN-BRL</code></td><td>PLN / BRL</td><td>Złoty Polonês</td><td>Polônia</td></tr>
+                            <tr><td><code>RUB-BRL</code></td><td>RUB / BRL</td><td>Rublo Russo</td><td>Rússia</td></tr>
+                            <tr><td><code>TRY-BRL</code></td><td>TRY / BRL</td><td>Lira Turca</td><td>Turquia</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="demo-label">Ásia & Oceania</p>
+                <div class="tbl is-str mb-6">
+                    <table>
+                        <thead>
+                            <tr><th>Código</th><th>Par</th><th>Nome</th><th>País / Região</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>JPY-BRL</code></td><td>JPY / BRL</td><td>Iene Japonês</td><td>Japão</td></tr>
+                            <tr><td><code>CNY-BRL</code></td><td>CNY / BRL</td><td>Yuan Chinês</td><td>China</td></tr>
+                            <tr><td><code>AUD-BRL</code></td><td>AUD / BRL</td><td>Dólar Australiano</td><td>Austrália</td></tr>
+                            <tr><td><code>NZD-BRL</code></td><td>NZD / BRL</td><td>Dólar Neozelandês</td><td>Nova Zelândia</td></tr>
+                            <tr><td><code>SGD-BRL</code></td><td>SGD / BRL</td><td>Dólar de Singapura</td><td>Singapura</td></tr>
+                            <tr><td><code>HKD-BRL</code></td><td>HKD / BRL</td><td>Dólar de Hong Kong</td><td>Hong Kong</td></tr>
+                            <tr><td><code>KRW-BRL</code></td><td>KRW / BRL</td><td>Won Sul-Coreano</td><td>Coreia do Sul</td></tr>
+                            <tr><td><code>INR-BRL</code></td><td>INR / BRL</td><td>Rúpia Indiana</td><td>Índia</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="demo-label">Criptomoedas</p>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr><th>Código</th><th>Par</th><th>Nome</th></tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-cotacao-pares</code></td><td><code>USD-BRL,EUR-BRL</code></td><td>Pares de moeda separados por vírgula.</td></tr>
-                            <tr><td><code>sw-cotacao-tipo</code></td><td><code>c</code></td><td><code>c</code> (compra) ou <code>v</code> (venda) — só no modo cards.</td></tr>
-                            <tr><td><code>sw-cotacao-mode</code></td><td><code>cards</code></td><td><code>cards | table</code></td></tr>
-                            <tr><td><code>sw-cotacao-auto</code></td><td><code>0</code></td><td>Intervalo de atualização em ms (0 = desliga).</td></tr>
+                            <tr><td><code>BTC-BRL</code></td><td>BTC / BRL</td><td>Bitcoin</td></tr>
+                            <tr><td><code>ETH-BRL</code></td><td>ETH / BRL</td><td>Ethereum</td></tr>
+                            <tr><td><code>LTC-BRL</code></td><td>LTC / BRL</td><td>Litecoin</td></tr>
+                            <tr><td><code>XRP-BRL</code></td><td>XRP / BRL</td><td>Ripple</td></tr>
+                            <tr><td><code>DOGE-BRL</code></td><td>DOGE / BRL</td><td>Dogecoin</td></tr>
+                            <tr><td><code>SOL-BRL</code></td><td>SOL / BRL</td><td>Solana</td></tr>
+                            <tr><td><code>ADA-BRL</code></td><td>ADA / BRL</td><td>Cardano</td></tr>
+                            <tr><td><code>DOT-BRL</code></td><td>DOT / BRL</td><td>Polkadot</td></tr>
+                            <tr><td><code>MATIC-BRL</code></td><td>MATIC / BRL</td><td>Polygon</td></tr>
+                            <tr><td><code>LINK-BRL</code></td><td>LINK / BRL</td><td>Chainlink</td></tr>
+                            <tr><td><code>XLM-BRL</code></td><td>XLM / BRL</td><td>Stellar</td></tr>
+                            <tr><td><code>ATOM-BRL</code></td><td>ATOM / BRL</td><td>Cosmos</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- 6. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">6. Quick Reference</h3>
+                <div class="tbl is-str">
+                    <table>
+                        <thead>
+                            <tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>sw-cotacao</code></td><td>-</td><td>Ativa SWCotacao no elemento</td></tr>
+                            <tr><td><code>sw-cotacao-pares</code></td><td><code>USD-BRL,EUR-BRL</code></td><td>Pares separados por vírgula</td></tr>
+                            <tr><td><code>sw-cotacao-tipo</code></td><td><code>c</code></td><td>Tipo do preço no modo cards: <code>c</code> compra (bid) e <code>v</code> venda (ask)</td></tr>
+                            <tr><td><code>sw-cotacao-mode</code></td><td><code>cards</code></td><td>Layout: <code>cards</code> (compacto) e <code>table</code> (completo com bid, ask, variação, máx, mín)</td></tr>
+                            <tr><td><code>sw-cotacao-auto</code></td><td><code>0</code></td><td>Intervalo de atualização em ms (0 = desativado)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </main>
     </div>
 </body>

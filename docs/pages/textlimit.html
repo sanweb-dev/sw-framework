@@ -3,13 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Text Limit - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>Text Limit — SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas, var(--sw-bg-surface, #1e1e24));
+            border: 1px solid var(--sw-bor, var(--sw-border-color, #2a2a32));
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem
+        }
+
+        @media(max-width:700px) { .g2 { grid-template-columns: 1fr } }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -18,40 +37,218 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">Forms JS</span>
-                <span class="brc-it is-cur" aria-current="page">Text Limit</span>
+                <span class="brc-it is-cur" aria-current="page">Text Limit SWTextlimit</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Component</span>
                 <h1 class="t-xxg f-bd mb-2">Text Limit <span class="TprinD">[sw-textlimit]</span></h1>
-                <p class="t-g t-mut mb-0">Contador de caracteres para inputs e textareas, com aviso visual perto do limite.</p>
-            </section>
+                <p class="t-g t-mut mb-0">Contador de caracteres para inputs e textareas — alerta visual ao aproximar do limite, formato personalizável via template.</p>
+            </div>
 
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo</h3>
-                <div class="demo-wrap p-6">
-                    <textarea sw-textlimit sw-textlimit-max="80" class="sw-input" placeholder="Máximo de 80 caracteres..."></textarea>
+            <!-- DEMO 1 -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Demo — Digite nos campos</h3>
+                <p class="t-g t-mut mb-4">Adicione <code>sw-textlimit</code> e <code>sw-textlimit-max</code> no campo.
+                    O contador — inserido automaticamente logo abaixo — fica laranja ao atingir 80% e vermelho ao limite (100%).</p>
+                <div class="demo-wrap">
+                    <div class="g2">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Título do post</label>
+                            <input class="sw-input" type="text"
+                                sw-textlimit sw-textlimit-max="80"
+                                placeholder="Máximo 80 caracteres" style="width:100%">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Nome de usuário</label>
+                            <input class="sw-input" type="text"
+                                sw-textlimit sw-textlimit-max="30"
+                                placeholder="Máximo 30 caracteres" style="width:100%">
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Bio</label>
+                            <textarea class="sw-input" rows="3"
+                                sw-textlimit sw-textlimit-max="150"
+                                placeholder="Fale sobre você..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Post social</label>
+                            <textarea class="sw-input" rows="3"
+                                sw-textlimit sw-textlimit-max="280"
+                                placeholder="O que está acontecendo?" style="width:100%"></textarea>
+                        </div>
+                    </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
-<textarea sw-textlimit sw-textlimit-max="80"></textarea>
-<!-- template customizado -->
-<input sw-textlimit sw-textlimit-max="20" sw-textlimit-txt="Restam {remaining}">
+<!-- Input com limite -->
+<input type="text"
+       sw-textlimit
+       sw-textlimit-max="80"
+       placeholder="Máximo 80 caracteres">
+
+<!-- Textarea com limite -->
+<textarea sw-textlimit sw-textlimit-max="280"
+          placeholder="Máximo 280 caracteres"></textarea>
 </script></pre>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- FORMATOS -->
+            <div class="doc-card sec mb-6" id="formatos">
+                <h3 class="t-m f-bd mb-4">2. Formatos do Contador</h3>
+                <p class="t-g t-mut mb-4">Use <code>sw-textlimit-txt</code> para personalizar o texto com as variáveis
+                    <code>{count}</code>, <code>{max}</code> e <code>{remaining}</code>.</p>
+                <div class="demo-wrap">
+                    <div class="g2">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Padrão: <code>{count}/{max}</code></label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textlimit sw-textlimit-max="100"
+                                placeholder="Padrão..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Restante: <code>{remaining} restantes</code></label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textlimit sw-textlimit-max="100"
+                                sw-textlimit-txt="{remaining} restantes"
+                                placeholder="Restante..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Completo: <code>{count} de {max} chars</code></label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textlimit sw-textlimit-max="100"
+                                sw-textlimit-txt="{count} de {max} chars"
+                                placeholder="Completo..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Só contagem: <code>{count}</code></label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textlimit sw-textlimit-max="100"
+                                sw-textlimit-txt="{count}"
+                                placeholder="Só contagem..." style="width:100%"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Padrão: "42/100" -->
+<textarea sw-textlimit sw-textlimit-max="100"></textarea>
+
+<!-- Restante: "58 restantes" -->
+<textarea sw-textlimit sw-textlimit-max="100"
+          sw-textlimit-txt="{remaining} restantes"></textarea>
+
+<!-- Completo: "42 de 100 chars" -->
+<textarea sw-textlimit sw-textlimit-max="100"
+          sw-textlimit-txt="{count} de {max} chars"></textarea>
+
+<!-- Só contagem: "42" -->
+<textarea sw-textlimit sw-textlimit-max="100"
+          sw-textlimit-txt="{count}"></textarea>
+</script></pre>
+            </div>
+
+            <!-- CENTRALIZADO -->
+            <div class="doc-card sec mb-6" id="centralizado">
+                <h3 class="t-m f-bd mb-4">3. Expansão Centralizada</h3>
+                <p class="t-g t-mut mb-4">Use <code>sw-textlimit-align="center"</code> para centralizar o contador (fazendo o texto expandir para os dois lados conforme cresce) ou <code>sw-textlimit-center</code> para centralizar tanto o campo quanto o contador.</p>
+                <div class="demo-wrap">
+                    <div class="g2">
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Contador Centralizado: <code>sw-textlimit-align="center"</code></label>
+                            <textarea class="sw-input" rows="2"
+                                sw-textlimit sw-textlimit-max="100"
+                                sw-textlimit-align="center"
+                                sw-textlimit-txt="{count} de {max} caracteres"
+                                placeholder="Digite para ver o contador expandir do centro..." style="width:100%"></textarea>
+                        </div>
+                        <div>
+                            <label class="t-p f-bd mb-1 block">Campo e Contador Centralizados: <code>sw-textlimit-center</code></label>
+                            <input class="sw-input" type="text"
+                                sw-textlimit sw-textlimit-max="50"
+                                sw-textlimit-center
+                                sw-textlimit-txt="{remaining} restantes"
+                                placeholder="Texto e contador expandindo do centro..." style="width:100%">
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Contador expandindo a partir do centro -->
+<textarea sw-textlimit
+          sw-textlimit-max="100"
+          sw-textlimit-align="center"
+          sw-textlimit-txt="{count} de {max} caracteres"></textarea>
+
+<!-- Campo e contador centralizados -->
+<input type="text"
+       sw-textlimit
+       sw-textlimit-max="50"
+       sw-textlimit-center
+       sw-textlimit-txt="{remaining} restantes">
+</script></pre>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Referência de Atributos & Classes</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Atributo</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Atributo / Classe</th>
+                                <th>Padrão</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>sw-textlimit-max</code></td><td><code>150</code></td><td>Limite de caracteres (também aplica <code>maxlength</code>).</td></tr>
-                            <tr><td><code>sw-textlimit-txt</code></td><td><code>{count}/{max}</code></td><td>Template com <code>{count}</code>, <code>{max}</code>, <code>{remaining}</code>.</td></tr>
-                            <tr><td><code>.is-ale</code> / <code>.is-err</code></td><td>—</td><td>Classes automáticas no contador perto do limite / ultrapassado.</td></tr>
+                            <tr>
+                                <td><code>sw-textlimit</code></td>
+                                <td>—</td>
+                                <td>Ativa o contador automático no campo.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textlimit-max</code></td>
+                                <td><code>150</code></td>
+                                <td>Limite máximo de caracteres — define o atributo <code>maxlength</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textlimit-txt</code></td>
+                                <td><code>{count}/{max}</code></td>
+                                <td>Template do contador com <code>{count}</code>, <code>{max}</code>, <code>{remaining}</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textlimit-align</code></td>
+                                <td><code>right</code></td>
+                                <td>Alinhamento do contador: <code>center</code> (expande das pontas), <code>left</code> ou <code>right</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sw-textlimit-center</code></td>
+                                <td>—</td>
+                                <td>Centraliza tanto o conteúdo do campo quanto o contador abaixo.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.sw-textlimit-cnt</code></td>
+                                <td>—</td>
+                                <td>Elemento span inserido automaticamente após o campo.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-center</code> / <code>.is-left</code></td>
+                                <td>—</td>
+                                <td>Classes de alinhamento aplicadas ao contador span.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-ale</code></td>
+                                <td>—</td>
+                                <td>Aplicado ao contador quando restam &le; 20% dos caracteres (laranja/aviso).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.is-err</code></td>
+                                <td>—</td>
+                                <td>Aplicado ao contador ao atingir/ultrapassar o limite máximo.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

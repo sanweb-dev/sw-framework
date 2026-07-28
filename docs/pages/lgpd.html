@@ -3,13 +3,114 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LGPD Consent - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>SWLgpd — Cookie Consent (4 Modelos) | SW Docs</title>
+    <script src="../dist/sw-mpa.min.js"></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
     <link rel="stylesheet" href="../css/layout.css?v=9">
+    <style>
+        .sec { scroll-margin-top: 10rem }
+        .demo-wrap {
+            background: var(--sw-bg-bas, #1e1e24);
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+        .demo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut, #94a3b8);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: .8rem;
+        }
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+        }
+        @media (max-width: 900px) { .g2 { grid-template-columns: 1fr; } }
+
+        .model-card {
+            border: 1px solid var(--sw-bor, #2a2a32);
+            border-radius: var(--sw-r-g, 8px);
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .model-card:hover {
+            border-color: var(--sw-pri, #6366f1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .2);
+        }
+        .model-card-icon {
+            background: var(--sw-bg-sec, #16161a);
+            padding: 2.8rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            text-align: center;
+        }
+        .model-icon-wrap {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .model-icon-wrap svg { width: 2.8rem; height: 2.8rem; }
+        .model-card-info {
+            padding: 1.4rem 1.6rem;
+            border-top: 1px solid var(--sw-bor, #2a2a32);
+            background: var(--sw-bg-sur, #1e1e24);
+        }
+        .model-card-info h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--sw-txt-bas, #e2e8f0);
+            margin-bottom: .3rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+        }
+        .model-card-info p {
+            font-size: 1.3rem;
+            color: var(--sw-txt-mut, #94a3b8);
+            margin: 0;
+        }
+        .model-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            background: var(--sw-pri, #6366f1);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .model-tag {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: .2rem .8rem;
+            border-radius: 12px;
+            background: var(--sw-bg-sec, #16161a);
+            color: var(--sw-txt-mut, #94a3b8);
+            border: 1px solid var(--sw-bor, #2a2a32);
+        }
+        .model-desc {
+            font-size: 1.3rem;
+            color: var(--sw-txt-mut, #94a3b8);
+            max-width: 22rem;
+            line-height: 1.5;
+        }
+    </style>
     <script src="../dist/sw.min.js" defer></script>
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
 </head>
 
 <body>
@@ -18,54 +119,245 @@
             <nav class="brc mb-6" aria-label="Breadcrumb">
                 <a class="brc-it" href="../index.html">Home</a>
                 <span class="brc-it">JS Módulos</span>
-                <span class="brc-it is-cur" aria-current="page">LGPD Consent</span>
+                <span class="brc-it is-cur" aria-current="page">SWLgpd</span>
             </nav>
 
-            <section class="mb-8">
+            <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h1 class="t-xxg f-bd mb-2">LGPD Consent <span class="TprinD">SW.Lgpd</span></h1>
-                <p class="t-g t-mut mb-0">Banner de consentimento de cookies. Guarda a escolha no <code>localStorage</code> por um número de dias configurável.</p>
-            </section>
-
-            <div class="doc-card mb-8">
-                <h3 class="t-m f-bd mb-4">1. Demo (clique para exibir)</h3>
-                <div class="demo-wrap p-6">
-                    <button sw-btn class="sw-btn-out" onclick="localStorage.removeItem('sw_lgpd_demo'); SW.Lgpd.init({ msg:'Usamos cookies para melhorar sua experiência.', accept:'Aceitar', reject:'Recusar', key:'sw_lgpd_demo' })">Mostrar banner de cookies</button>
-                </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<!-- Via atributo, some sozinho após inicializar -->
-<div sw-lgpd sw-lgpd-msg="Usamos cookies..." sw-lgpd-ok="Aceitar" sw-lgpd-nao="Recusar"></div>
-
-<!-- Ou via JS -->
-<script>
-SW.Lgpd.init({
-  msg: 'Usamos cookies para melhorar sua experiência.',
-  accept: 'Aceitar',
-  reject: 'Recusar',
-  days: 365,
-  onAccept: () => console.log('aceitou')
-});
-</script>
-</script></pre>
+                <h1 class="t-xxg f-bd mb-2">SWLgpd <span class="TprinD">Cookie Consent (4 Modelos)</span></h1>
+                <p class="t-g t-mut mb-0">Banner de consentimento de cookies em conformidade com a LGPD/GDPR. Possui 4 modelos visuais, suporte a inicialização via HTML ou JavaScript, persistência em <code>localStorage</code> e callbacks de aceite/rejeição.</p>
             </div>
 
-            <div class="doc-card">
-                <h3 class="t-m f-bd mb-2">Referência</h3>
+            <!-- 1. DEMO AO VIVO -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-1">1. Demo ao Vivo (Testar os 4 Modelos)</h3>
+                <p class="t-mut t-p mb-4">Clique em qualquer um dos 4 modelos abaixo para ver o banner em ação na parte inferior da página.</p>
+
+                <div class="demo-wrap">
+                    <div style="display:flex;flex-wrap:wrap;gap:1.2rem">
+                        <button type="button" sw-btn class="sw-btn-pri" onclick="demoLgpd(1)">Modelo 1 — Barra Inferior</button>
+                        <button type="button" sw-btn class="sw-btn-inf" onclick="demoLgpd(2)">Modelo 2 — Card Flutuante</button>
+                        <button type="button" sw-btn class="sw-btn-ale" onclick="demoLgpd(3)">Modelo 3 — Compacto Central</button>
+                        <button type="button" sw-btn class="sw-btn-sec" onclick="demoLgpd(4)">Modelo 4 — Dark Contrastado</button>
+                    </div>
+                </div>
+
+                <script>
+                    function demoLgpd(modelo) {
+                        document.querySelectorAll('[sw-lgpd], .sw-lgpd').forEach(el => el.remove());
+                        const keys = ['sw_demo1', 'sw_demo2', 'sw_demo3', 'sw_demo4'];
+                        keys.forEach(k => localStorage.removeItem(k));
+                        const msgs = [
+                            'Usamos cookies para melhorar sua experiência de navegação.',
+                            'Este site usa cookies. Você pode aceitar ou recusar o uso de cookies não essenciais.',
+                            'Usamos cookies para personalizar conteúdo e analisar nosso tráfego.',
+                            'Utilizamos cookies para melhorar sua experiência. Leia nossa política de privacidade.'
+                        ];
+                        const lgpdApi = window.SWLgpd || window.SW?.Lgpd;
+                        if (lgpdApi) {
+                            lgpdApi.init({
+                                msg: msgs[modelo - 1],
+                                accept: 'Aceitar todos',
+                                reject: 'Rejeitar',
+                                link: '#',
+                                linkTxt: 'Saiba mais',
+                                modelo: modelo,
+                                days: 365,
+                                key: 'sw_demo' + modelo,
+                                onAccept: function () { if (window.SWAlert) SWAlert.ok('Consentimento salvo!'); },
+                                onReject: function () { if (window.SWAlert) SWAlert.ale('Cookies recusados.'); }
+                            });
+                        }
+                    }
+                </script>
+            </div>
+
+            <!-- 2. OS 4 MODELOS VISUAIS -->
+            <div class="doc-card sec mb-6" id="modelos">
+                <h3 class="t-m f-bd mb-1">2. Os 4 Modelos Visuais</h3>
+                <p class="t-mut t-p mb-6">Defina o modelo visual via <code>sw-lgpd-modelo="1"</code> no HTML ou <code>modelo: 1</code> via JavaScript.</p>
+
+                <div class="g2">
+                    <!-- Modelo 1 -->
+                    <div class="model-card">
+                        <div class="model-card-icon">
+                            <div class="model-icon-wrap" style="background:rgba(99,102,241,.12)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg>
+                            </div>
+                            <p class="model-desc">Barra fixa na parte inferior ocupando toda a largura da tela.</p>
+                        </div>
+                        <div class="model-card-info">
+                            <h4><span class="model-num">1</span> Barra inferior <span class="model-tag ml-1">Padrão</span></h4>
+                            <p>Máxima visibilidade e clareza para o usuário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Modelo 2 -->
+                    <div class="model-card">
+                        <div class="model-card-icon">
+                            <div class="model-icon-wrap" style="background:rgba(6,182,212,.12)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            </div>
+                            <p class="model-desc">Card no canto inferior esquerdo, flutuante e menos intrusivo.</p>
+                        </div>
+                        <div class="model-card-info">
+                            <h4><span class="model-num">2</span> Card flutuante</h4>
+                            <p>Excelente para sites com layouts densos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Modelo 3 -->
+                    <div class="model-card">
+                        <div class="model-card-icon">
+                            <div class="model-icon-wrap" style="background:rgba(245,158,11,.12)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                            </div>
+                            <p class="model-desc">Barra inferior centralizada e compacta com CTAs diretos.</p>
+                        </div>
+                        <div class="model-card-info">
+                            <h4><span class="model-num">3</span> Compacto centralizado</h4>
+                            <p>Layout limpo e minimalista.</p>
+                        </div>
+                    </div>
+
+                    <!-- Modelo 4 -->
+                    <div class="model-card">
+                        <div class="model-card-icon">
+                            <div class="model-icon-wrap" style="background:rgba(14,165,233,.12)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                    <line x1="12" y1="9" x2="12" y2="13" />
+                                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                                </svg>
+                            </div>
+                            <p class="model-desc">Fundo escuro fixo com alto contraste independente do tema da página.</p>
+                        </div>
+                        <div class="model-card-info">
+                            <h4><span class="model-num">4</span> Dark / High-Contrast</h4>
+                            <p>Garante elegância e leitura em qualquer tema.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. USO VIA ATRIBUTO HTML -->
+            <div class="doc-card sec mb-6" id="atributo">
+                <h3 class="t-m f-bd mb-1">3. Uso via Atributo HTML</h3>
+                <p class="t-mut t-p mb-6">Adicione <code>sw-lgpd</code> em qualquer elemento HTML. O banner é carregado e o elemento âncora é removido do DOM.</p>
+
+                <div class="g2">
+                    <div>
+                        <p class="demo-label">Barra Padrão (Modelo 1)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-lgpd
+     sw-lgpd-msg="Usamos cookies para melhorar sua experiência."
+     sw-lgpd-ok="Aceitar todos"
+     sw-lgpd-nao="Recusar">
+</div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Card Flutuante (Modelo 2)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-lgpd
+     sw-lgpd-modelo="2"
+     sw-lgpd-msg="Usamos cookies para personalizar o conteúdo."
+     sw-lgpd-ok="Aceitar"
+     sw-lgpd-link="/privacidade">
+</div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Compacto Central (Modelo 3)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-lgpd
+     sw-lgpd-modelo="3"
+     sw-lgpd-msg="Usamos cookies para otimizar sua navegação."
+     sw-lgpd-ok="OK">
+</div>
+</script></pre>
+                    </div>
+
+                    <div>
+                        <p class="demo-label">Dark Contrastado (Modelo 4)</p>
+                        <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-lgpd
+     sw-lgpd-modelo="4"
+     sw-lgpd-msg="Este site utiliza cookies essenciais."
+     sw-lgpd-ok="Entendi"
+     sw-lgpd-link="/politica">
+</div>
+</script></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. USO VIA JAVASCRIPT -->
+            <div class="doc-card sec mb-6" id="js">
+                <h3 class="t-m f-bd mb-1">4. Uso via JavaScript (SWLgpd.init)</h3>
+                <p class="t-mut t-p mb-4">Inicialize via JS com callbacks e controle de expiração.</p>
+
+                <pre swcode="js" class="m-0">
+SWLgpd.init({
+    msg: 'Usamos cookies para melhorar sua experiência.',
+    accept: 'Aceitar todos',
+    reject: 'Recusar',
+    link: '/privacidade',
+    linkTxt: 'Política de privacidade',
+    modelo: 2,          // 1 | 2 | 3 | 4
+    days: 365,          // dias até o consentimento expirar
+    key: 'meu_lgpd',    // chave no localStorage
+
+    onAccept() {
+        console.log('Consentimento aceito!');
+        carregarGoogleAnalytics();
+    },
+
+    onReject() {
+        console.log('Consentimento recusado.');
+    }
+});
+
+// Limpar consentimento para forçar reexibição do banner
+SWLgpd.clear('meu_lgpd');
+</pre>
+            </div>
+
+            <!-- 5. QUICK REFERENCE -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">5. Quick Reference</h3>
                 <div class="tbl is-str">
                     <table>
-                        <thead><tr><th>Opção</th><th>Padrão</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr><th>Atributo / Opção JS</th><th>Padrão</th><th>Descrição</th></tr>
+                        </thead>
                         <tbody>
-                            <tr><td><code>msg</code></td><td>—</td><td>Texto do banner.</td></tr>
-                            <tr><td><code>accept</code> / <code>reject</code></td><td><code>Aceitar</code> / null</td><td>Rótulos dos botões — sem <code>reject</code>, só mostra Aceitar.</td></tr>
-                            <tr><td><code>link</code> / <code>linkTxt</code></td><td>—</td><td>Link "Saiba mais" para a política de privacidade.</td></tr>
-                            <tr><td><code>days</code></td><td><code>365</code></td><td>Dias até pedir consentimento de novo.</td></tr>
-                            <tr><td><code>key</code></td><td><code>sw_lgpd</code></td><td>Chave no localStorage.</td></tr>
-                            <tr><td><code>onAccept</code> / <code>onReject</code></td><td>—</td><td>Callbacks.</td></tr>
-                            <tr><td><code>SW.Lgpd.clear(key)</code></td><td>—</td><td>Limpa o consentimento salvo (útil pra testar de novo).</td></tr>
+                            <tr><td><code>sw-lgpd</code> / <code>SWLgpd.init()</code></td><td>—</td><td>Ativa o módulo de consentimento LGPD.</td></tr>
+                            <tr><td><code>sw-lgpd-modelo</code> / <code>modelo</code></td><td><code>1</code></td><td>Modelo visual (1=Barra, 2=Flutuante, 3=Compacto, 4=Dark).</td></tr>
+                            <tr><td><code>sw-lgpd-msg</code> / <code>msg</code></td><td>'Usamos cookies...'</td><td>Mensagem de consentimento exibida.</td></tr>
+                            <tr><td><code>sw-lgpd-ok</code> / <code>accept</code></td><td>'Aceitar'</td><td>Texto do botão de aceite.</td></tr>
+                            <tr><td><code>sw-lgpd-nao</code> / <code>reject</code></td><td>null</td><td>Texto do botão de rejeição (oculto se vazio).</td></tr>
+                            <tr><td><code>sw-lgpd-link</code> / <code>link</code></td><td>''</td><td>URL para a Política de Privacidade.</td></tr>
+                            <tr><td><code>sw-lgpd-dias</code> / <code>days</code></td><td><code>365</code></td><td>Dias até a expiração do consentimento no <code>localStorage</code>.</td></tr>
+                            <tr><td><code>sw-lgpd-key</code> / <code>key</code></td><td>'sw_lgpd'</td><td>Chave onde a decisão é salva no <code>localStorage</code>.</td></tr>
+                            <tr><td><code>SWLgpd.clear(key)</code></td><td>—</td><td>Remove o registro do <code>localStorage</code> para retestar.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

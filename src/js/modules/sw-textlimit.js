@@ -1,4 +1,4 @@
-/* SW Framework Textlimit — <textarea sw-textlimit sw-textlimit-max="200" sw-textlimit-txt="{count}/{max}"> */
+/* SW Framework Textlimit — <textarea sw-textlimit sw-textlimit-max="200" sw-textlimit-txt="{count}/{max}" sw-textlimit-align="center"> */
 (function () {
   'use strict';
 
@@ -9,10 +9,19 @@
         el._swTextlimit = true;
         const max = parseInt(el.getAttribute('sw-textlimit-max'), 10) || parseInt(el.getAttribute('maxlength'), 10) || 150;
         const tpl = el.getAttribute('sw-textlimit-txt') || '{count}/{max}';
+        const align = el.getAttribute('sw-textlimit-align') || (el.hasAttribute('sw-textlimit-center') ? 'center' : '');
         el.setAttribute('maxlength', max);
+
+        if (el.hasAttribute('sw-textlimit-center')) {
+          el.style.textAlign = 'center';
+        }
 
         const counter = document.createElement('span');
         counter.className = 'sw-textlimit-cnt';
+        if (align) {
+          counter.style.textAlign = align;
+          counter.classList.add(`is-${align}`);
+        }
         el.insertAdjacentElement('afterend', counter);
 
         const update = () => {
