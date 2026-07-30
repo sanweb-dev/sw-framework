@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Forms Framework - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+  <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
 
     <style>
         .t-pri {
@@ -299,7 +299,7 @@
                         <div class="fld">
                             <label class="fld-lbl">Busca</label>
                             <div class="fld-grp has-ico-l">
-                                <i class="sw-search fld-ico-l"></i>
+                                <i class="swi swi-search fld-ico-l"></i>
                                 <input class="inp" type="text" placeholder="Buscar...">
                             </div>
                         </div>
@@ -307,22 +307,22 @@
                             <label class="fld-lbl">Senha com toggle</label>
                             <div class="fld-grp has-ico-r">
                                 <input class="inp" type="password" placeholder="........" id="pass-demo">
-                                <i class="sw-eye fld-ico-r is-btn"
-                                    onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'; this.classList.toggle('sw-eye'); this.classList.toggle('sw-eye-off');"></i>
+                                <i class="swi swi-show fld-ico-r is-btn"
+                                    onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password';"></i>
                             </div>
                         </div>
                         <div class="fld">
                             <label class="fld-lbl">E-mail com ícone</label>
                             <div class="fld-grp has-ico-l has-ico-r">
-                                <i class="sw-mail fld-ico-l"></i>
-                                <input class="inp is-suc" type="email" value="gabriel@y2.dev">
-                                <i class="sw-check fld-ico-r Tsuc"></i>
+                                <i class="swi swi-envelope fld-ico-l"></i>
+                                <input class="inp is-suc" type="email" value="gabriel@sw.dev">
+                                <i class="swi swi-check fld-ico-r Tsuc"></i>
                             </div>
                         </div>
                         <div class="fld">
                             <label class="fld-lbl">Usuário</label>
                             <div class="fld-grp has-ico-l">
-                                <i class="sw-user fld-ico-l"></i>
+                                <i class="swi swi-user fld-ico-l"></i>
                                 <input class="inp" type="text" placeholder="@username">
                             </div>
                         </div>
@@ -357,7 +357,7 @@
                         <div class="fld">
                             <label class="fld-lbl">Código de desconto</label>
                             <div class="fld-grp has-ico-l">
-                                <i class="sw-tag fld-ico-l"></i>
+                                <i class="swi swi-tag fld-ico-l"></i>
                                 <input class="inp" type="text" placeholder="PROMO2026">
                                 <span class="fld-adn is-btn">Aplicar</span>
                             </div>
@@ -368,7 +368,7 @@
                 <pre swcode="html" lines><script type="text/plain">
 <!-- Ícone absoluto -->
 <div class="fld-grp has-ico-l">
-  <i class="sw-search fld-ico-l"></i>
+  <i class="swi swi-search fld-ico-l"></i>
   <input class="inp" type="text">
 </div>
 
@@ -1112,10 +1112,10 @@
                         <div class="demo-wrap" style="padding:0.8rem">
                             <div class="fle">
                                 <input type="file" multiple accept="image/*,.pdf,.doc">
-                                <i class="sw-upload fle-ico"></i>
+                                <i class="swi swi-upload fle-ico"></i>
                                 <div class="fle-ttl">Arraste arquivos aqui</div>
                                 <div class="fle-sub">ou clique para selecionar<br>PNG, JPG, PDF até 10MB</div>
-                                <span class="fle-btn"><i class="sw-folder"></i> Selecionar arquivos</span>
+                                <span class="fle-btn"><i class="swi swi-folder"></i> Selecionar arquivos</span>
                             </div>
                         </div>
                     </div>
@@ -1127,7 +1127,7 @@
                                 <label class="fld-lbl">Foto de perfil</label>
                                 <div class="fle is-p">
                                     <input type="file" accept="image/*">
-                                    <i class="sw-image fle-ico"></i>
+                                    <i class="swi swi-image fle-ico"></i>
                                     <div>
                                         <div class="fle-ttl" style="font-size:1.4rem">Clique para enviar imagem</div>
                                         <div class="fle-sub">PNG, JPG até 2MB</div>
@@ -1140,7 +1140,7 @@
                                 <label class="fld-lbl">Anexar documento</label>
                                 <div class="fle is-p">
                                     <input type="file" accept=".pdf,.doc,.docx">
-                                    <i class="sw-file fle-ico"></i>
+                                    <i class="swi swi-file fle-ico"></i>
                                     <div>
                                         <div class="fle-ttl" style="font-size:1.4rem">Selecionar documento</div>
                                         <div class="fle-sub">PDF ou DOCX até 20MB</div>
@@ -1157,7 +1157,7 @@
                 <pre swcode="html" lines><script type="text/plain">
 <div class="fle">
   <input type="file" multiple>
-  <i class="sw-upload fle-ico"></i>
+  <i class="swi swi-upload fle-ico"></i>
   <div class="fle-ttl">Arraste arquivos aqui</div>
   <span class="fle-btn">Selecionar</span>
 </div>
@@ -1165,7 +1165,7 @@
 <!-- Compacto -->
 <div class="fle is-p">
   <input type="file">
-  <i class="sw-image fle-ico"></i>
+  <i class="swi swi-image fle-ico"></i>
   <div class="fle-ttl">Enviar foto</div>
 </div>
 </script></pre>
@@ -1185,11 +1185,11 @@
                             <p class="demo-label mb-2">Tamanho base</p>
                             <div class="seg">
                                 <input type="radio" name="view" id="v1" checked>
-                                <label for="v1"><i class="sw-grid"></i> Grade</label>
+                                <label for="v1"><i class="swi swi-grid"></i> Grade</label>
                                 <input type="radio" name="view" id="v2">
-                                <label for="v2"><i class="sw-list"></i> Lista</label>
+                                <label for="v2"><i class="swi swi-list-check"></i> Lista</label>
                                 <input type="radio" name="view" id="v3">
-                                <label for="v3"><i class="sw-map"></i> Mapa</label>
+                                <label for="v3"><i class="swi swi-map"></i> Mapa</label>
                             </div>
                         </div>
 
@@ -1397,7 +1397,7 @@
                                 <div class="fld">
                                     <label class="fld-lbl is-req">E-mail</label>
                                     <div class="fld-grp has-ico-l">
-                                        <i class="sw-mail fld-ico-l"></i>
+                                        <i class="swi swi-envelope fld-ico-l"></i>
                                         <input class="inp" type="email" placeholder="voce@empresa.com">
                                     </div>
                                 </div>
@@ -1529,7 +1529,7 @@
       <div class="fld">
         <label class="fld-lbl is-req">E-mail</label>
         <div class="fld-grp has-ico-l">
-          <i class="sw-mail fld-ico-l"></i>
+          <i class="swi swi-envelope fld-ico-l"></i>
           <input class="inp" type="email" placeholder="voce@empresa.com">
         </div>
       </div>

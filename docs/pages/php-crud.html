@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP CRUD Completo - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 50%;
+            background: var(--sw-pri, #3b82f6);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .step-head {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 1.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">CRUD Completo</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Exemplo Real</span>
+                <h2 class="t-xxg f-bd mb-2">CRUD <span class="TprinD">Completo</span></h2>
+                <p class="t-g t-mut mb-0">Exemplo real de gerenciamento de Produtos — SQL + Model + Controller +
+                    Rotas + Views + Ajax. Pronto para copiar e adaptar.</p>
+            </div>
+
+            <!-- 1. SQL -->
+            <div class="doc-card sec mb-6" id="sql">
+                <div class="step-head">
+                    <span class="step-num">1</span>
+                    <h3 class="t-m f-bd">SQL — Tabela</h3>
+                </div>
+                <pre swcode="sql" class="m-0"><script type="text/plain">
+CREATE TABLE produtos (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    nome        VARCHAR(200) NOT NULL,
+    descricao   TEXT,
+    preco       DECIMAL(10,2) NOT NULL DEFAULT 0,
+    estoque     INT NOT NULL DEFAULT 0,
+    categoria   VARCHAR(100),
+    imagem      VARCHAR(255),
+    ativo       TINYINT(1) NOT NULL DEFAULT 1,
+    criado_em   DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_ativo (ativo),
+    INDEX idx_categoria (categoria)
+);
+</script></pre>
+            </div>
+
+            <!-- 2. MODEL -->
+            <div class="doc-card sec mb-6" id="model">
+                <div class="step-head">
+                    <span class="step-num">2</span>
+                    <h3 class="t-m f-bd">Model</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// app/Models/Produto.php
+namespace App\Models;
+
+use SW\Core\Model;
+
+class Produto extends Model
+{
+    protected static string $tabela    = 'produtos';
+    protected static array  $fillable  = ['nome','descricao','preco','estoque','categoria','imagem','ativo'];
+    protected static bool   $timestamps = true;
+
+    public static function ativos(int $pp = 20): array
+    {
+        return static::paginar($pp, ['ativo' => 1], 'nome ASC');
+    }
+
+    public static function porCategoria(string $cat): array
+    {
+        return static::buscar(['categoria' => $cat, 'ativo' => 1], 'nome ASC');
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 3. CONTROLLER -->
+            <div class="doc-card sec mb-6" id="controller">
+                <div class="step-head">
+                    <span class="step-num">3</span>
+                    <h3 class="t-m f-bd">Controller (CRUD + Ajax)</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// app/Controllers/ProdutoController.php
+namespace App\Controllers;
+
+use SW\Core\Controller;
+use SW\Utils\Upload;
+use SW\Utils\Logger;
+use App\Models\Produto;
+
+class ProdutoController extends Controller
+{
+    private function uploader(): Upload
+    {
+        return new Upload([
+            'destino'   => __DIR__ . '/../../storage/uploads/produtos/',
+            'maxMB'     => 5,
+            'mimes'     => ['image/jpeg', 'image/png', 'image/webp'],
+            'largMax'   => 1200,
+            'thumb'     => ['larg' => 300, 'alt' => 300, 'pasta' => 'thumbs/'],
+        ]);
+    }
+
+    // GET /produtos
+    public function lista(): void
+    {
+        $busca = $this->req->input('q', '');
+        $cat   = $this->req->input('cat', '');
+
+        $qb = Produto::query()->where('ativo', 1)->orderBy('nome');
+        if ($busca) $qb->whereLike('nome', $busca);
+        if ($cat)   $qb->where('categoria', $cat);
+        $pag = $qb->paginar(20);
+
+        if ($this->req->isAjax()) {
+            $this->json(['ok' => true, 'dados' => $pag]);
+        }
+
+        $this->view('produtos/lista', compact('pag', 'busca', 'cat'));
+    }
+
+    // GET /produtos/novo  |  GET /produtos/:id/editar
+    public function form(?int $id = null): void
+    {
+        $this->requerPermissao('produtos.editar');
+        $produto = $id ? Produto::encontrarOuAbortar($id) : null;
+        $this->view('produtos/form', compact('produto'));
+    }
+
+    // POST /produtos  |  POST /produtos/:id
+    public function salvar(?int $id = null): void
+    {
+        $this->requerPermissao('produtos.editar');
+
+        $regras = [
+            'nome'       => 'required|min:2|max:200',
+            'preco'      => 'required|decimal',
+            'estoque'    => 'required|inteiro',
+            'categoria'  => 'nullable|max:100',
+            'descricao'  => 'nullable',
+            'imagem'     => 'nullable|arquivo|max_mb:5|mime:jpg,png,webp',
+        ];
+        // unique por nome, ignorando o próprio ao editar
+        $regras['nome'] .= $id ? "|unique:produtos,nome,{$id}" : '|unique:produtos,nome';
+
+        $dados = $this->validar($regras);
+
+        // Upload de imagem
+        if ($this->req->temArquivo('imagem')) {
+            if ($id) {
+                $atual = Produto::encontrar($id);
+                if ($atual['imagem']) $this->uploader()->deletar($atual['imagem']);
+            }
+            $res = $this->uploader()->salvar($this->req->file('imagem'));
+            if (!$res['ok']) $this->json(['ok' => false, 'mensagem' => $res['mensagem']], 422);
+            $dados['imagem'] = $res['arquivo'];
+        }
+
+        if ($id) {
+            Produto::atualizar($id, $dados);
+            Logger::info('Produto atualizado', ['produto_id' => $id]);
+            $msg = 'Produto atualizado com sucesso.';
+        } else {
+            $id  = Produto::criar($dados);
+            Logger::info('Produto criado', ['produto_id' => $id]);
+            $msg = 'Produto criado com sucesso.';
+        }
+
+        if ($this->req->isAjax()) {
+            $this->json(['ok' => true, 'mensagem' => $msg, 'id' => $id]);
+        }
+
+        \SW\Auth\Session::flash('ok', $msg);
+        $this->redirect('/produtos');
+    }
+
+    // DELETE /produtos/:id  (Ajax) | POST /produtos/:id/deletar (web)
+    public function deletar(int $id): void
+    {
+        $this->requerPermissao('produtos.deletar');
+        $produto = Produto::encontrarOuAbortar($id);
+
+        if ($produto['imagem']) {
+            $this->uploader()->deletar($produto['imagem']);
+        }
+
+        Produto::deletar($id);
+        Logger::aler('Produto excluído', ['produto_id' => $id]);
+
+        if ($this->req->isAjax()) {
+            $this->json(['ok' => true, 'mensagem' => 'Produto excluído.']);
+        }
+
+        \SW\Auth\Session::flash('ok', 'Produto excluído.');
+        $this->redirect('/produtos');
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 4. ROTAS -->
+            <div class="doc-card sec mb-6" id="rotas">
+                <div class="step-head">
+                    <span class="step-num">4</span>
+                    <h3 class="t-m f-bd">Rotas</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// routes/web.php
+use SW\Core\Router;
+use SW\Auth\Auth;
+use SW\Auth\RBAC;
+
+Router::middleware('auth', fn() => Auth::middleware());
+
+Router::grupo('/produtos', function () {
+    Router::get('',              'ProdutoController@lista');
+    Router::get('/novo',         'ProdutoController@form');
+    Router::post('',             'ProdutoController@salvar');
+    Router::get('/:id/editar',   'ProdutoController@form');
+    Router::post('/:id',         'ProdutoController@salvar');
+    Router::delete('/:id',       'ProdutoController@deletar');
+    Router::post('/:id/deletar', 'ProdutoController@deletar');  // fallback HTML form
+}, ['auth']);
+</script></pre>
+            </div>
+
+            <!-- 5. VIEW LISTA -->
+            <div class="doc-card sec mb-6" id="view-lista">
+                <div class="step-head">
+                    <span class="step-num">5</span>
+                    <h3 class="t-m f-bd">View — Lista com busca Ajax</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// app/Views/produtos/lista.php
+use SW\Core\View;
+use SW\Auth\Session;
+use SW\Auth\RBAC;
+View::layout('layouts/app', ['titulo' => 'Produtos']);
+?>
+
+<?php $flash = Session::pegarFlash('ok'); if ($flash): ?>
+  <div class="sw-alert sw-alert-suc mb-4"><?= View::e($flash) ?></div>
+<?php endif; ?>
+
+<div class="doc-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6rem">
+        <h2 class="t-m f-bd">Produtos <span class="bdg is-sec"><?= $pag['total'] ?></span></h2>
+        <?php if (RBAC::pode('produtos.editar')): ?>
+          <a href="/produtos/novo" class="sw-btn sw-btn-pri">+ Novo Produto</a>
+        <?php endif; ?>
+    </div>
+
+    <!-- Busca -->
+    <form id="form-busca" style="display:flex;gap:1rem;margin-bottom:1.6rem">
+        <input class="inp" name="q" placeholder="Buscar produto..." value="<?= View::e($busca) ?>">
+        <select class="inp" name="cat">
+            <option value="">Todas as categorias</option>
+            <option value="eletronicos" <?= $cat === 'eletronicos' ? 'selected' : '' ?>>Eletrônicos</option>
+            <option value="vestuario"   <?= $cat === 'vestuario'   ? 'selected' : '' ?>>Vestuário</option>
+        </select>
+        <button type="submit" class="sw-btn sw-btn-outline">Buscar</button>
+    </form>
+
+    <!-- Tabela -->
+    <div id="tabela-wrap">
+        <?php include __DIR__ . '/_tabela.php'; ?>
+    </div>
+</div>
+
+<script>
+document.getElementById('form-busca').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const params = new URLSearchParams(new FormData(this));
+    const res = await fetch('/produtos?' + params, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const json = await res.json();
+    renderTabela(json.dados);
+});
+
+function renderTabela(pag) {
+    const tbody = document.querySelector('#tabela-wrap tbody');
+    tbody.innerHTML = pag.dados.map(p => `
+        <tr>
+            <td>${p.nome}</td>
+            <td>R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</td>
+            <td>${p.estoque}</td>
+            <td>
+                <a href="/produtos/${p.id}/editar" class="sw-btn sw-btn-outline sw-btn-pp">Editar</a>
+                <button class="sw-btn sw-btn-err sw-btn-pp" onclick="deletar(${p.id}, this)">Excluir</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function deletar(id, btn) {
+    if (!confirm('Excluir este produto?')) return;
+    btn.disabled = true;
+    const res = await fetch('/produtos/' + id, {
+        method: 'DELETE',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const json = await res.json();
+    if (json.ok) btn.closest('tr').remove();
+    else alert(json.mensagem);
+}
+</script>
+</script></pre>
+            </div>
+
+            <!-- 6. VIEW FORM -->
+            <div class="doc-card sec mb-6" id="view-form">
+                <div class="step-head">
+                    <span class="step-num">6</span>
+                    <h3 class="t-m f-bd">View — Formulário (criar / editar)</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// app/Views/produtos/form.php
+use SW\Core\View;
+use SW\Auth\Session;
+$erros = Session::pegarFlash('erros') ?? [];
+$antigo = Session::pegarFlash('antigo') ?? [];
+$editando = !empty($produto);
+$titulo = $editando ? 'Editar Produto' : 'Novo Produto';
+View::layout('layouts/app', ['titulo' => $titulo]);
+?>
+
+<div class="doc-card" style="max-width:700px;margin:0 auto">
+    <h2 class="t-m f-bd mb-6"><?= $titulo ?></h2>
+
+    <form method="POST"
+          action="<?= $editando ? "/produtos/{$produto['id']}" : '/produtos' ?>"
+          enctype="multipart/form-data"
+          id="form-produto">
+        <input type="hidden" name="_csrf" value="<?= \SW\Auth\Session::csrf() ?>">
+
+        <div class="mb-4">
+            <label class="f-bd">Nome <span style="color:var(--sw-err)">*</span></label>
+            <input class="inp<?= isset($erros['nome']) ? ' is-err' : '' ?>"
+                   name="nome" value="<?= View::e($antigo['nome'] ?? $produto['nome'] ?? '') ?>">
+            <?php if (isset($erros['nome'])): ?>
+              <small style="color:var(--sw-err)"><?= View::e($erros['nome']) ?></small>
+            <?php endif; ?>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem" class="mb-4">
+            <div>
+                <label class="f-bd">Preço <span style="color:var(--sw-err)">*</span></label>
+                <input class="inp" name="preco" type="number" step="0.01"
+                       value="<?= View::e($antigo['preco'] ?? $produto['preco'] ?? '') ?>">
+                <?php if (isset($erros['preco'])): ?>
+                  <small style="color:var(--sw-err)"><?= View::e($erros['preco']) ?></small>
+                <?php endif; ?>
+            </div>
+            <div>
+                <label class="f-bd">Estoque <span style="color:var(--sw-err)">*</span></label>
+                <input class="inp" name="estoque" type="number"
+                       value="<?= View::e($antigo['estoque'] ?? $produto['estoque'] ?? 0) ?>">
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="f-bd">Categoria</label>
+            <select class="inp" name="categoria">
+                <option value="">Sem categoria</option>
+                <?php foreach (['eletronicos' => 'Eletrônicos', 'vestuario' => 'Vestuário'] as $v => $l): ?>
+                  <option value="<?= $v ?>" <?= ($produto['categoria'] ?? '') === $v ? 'selected' : '' ?>>
+                    <?= $l ?>
+                  </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="f-bd">Descrição</label>
+            <textarea class="inp" name="descricao" rows="4"><?=
+                View::e($antigo['descricao'] ?? $produto['descricao'] ?? '')
+            ?></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="f-bd">Imagem</label>
+            <?php if (!empty($produto['imagem'])): ?>
+              <div class="mb-2">
+                  <img src="/storage/uploads/produtos/thumbs/<?= View::e($produto['imagem']) ?>"
+                       style="width:80px;height:80px;object-fit:cover;border-radius:8px">
+              </div>
+            <?php endif; ?>
+            <input class="inp" type="file" name="imagem" accept="image/jpeg,image/png,image/webp">
+            <small class="t-mut">JPG, PNG ou WebP — máx. 5MB</small>
+        </div>
+
+        <div style="display:flex;gap:1rem;margin-top:2.4rem">
+            <button type="submit" class="sw-btn sw-btn-pri" id="btn-salvar">
+                <?= $editando ? 'Salvar Alterações' : 'Criar Produto' ?>
+            </button>
+            <a href="/produtos" class="sw-btn sw-btn-outline">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('form-produto').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-salvar');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    const fd = new FormData(this);
+
+    const res = await fetch(this.action, {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: fd,
+    });
+    const json = await res.json();
+
+    if (json.ok) {
+        location.href = '/produtos';
+    } else {
+        if (json.erros) {
+            Object.entries(json.erros).forEach(([campo, msg]) => {
+                const inp = document.querySelector(`[name="${campo}"]`);
+                if (inp) {
+                    inp.classList.add('is-err');
+                    const small = inp.nextElementSibling;
+                    if (small && small.tagName === 'SMALL') small.textContent = msg;
+                }
+            });
+        }
+        btn.disabled = false;
+        btn.textContent = '<?= $editando ? 'Salvar Alterações' : 'Criar Produto' ?>';
+    }
+});
+</script>
+</script></pre>
+            </div>
+
+            <!-- 7. RBAC -->
+            <div class="doc-card sec" id="rbac">
+                <div class="step-head">
+                    <span class="step-num">7</span>
+                    <h3 class="t-m f-bd">RBAC — Permissões do módulo</h3>
+                </div>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// bootstrap ou config/rbac.php
+RBAC::definir([
+    'admin'  => ['*'],
+    'editor' => ['produtos.editar', 'produtos.ver'],
+    'user'   => ['produtos.ver'],
+]);
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

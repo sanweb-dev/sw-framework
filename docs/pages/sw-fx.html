@@ -1,115 +1,201 @@
 <!DOCTYPE html>
-<html lang="pt-BR" sw-theme="dark">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Documentação do Módulo SW-FX — Efeitos Visuais Nativos, Typewriter, SplitText, Scroll Scrub, Marquee, Tilt 3D e Magnetismo.">
-  <title>Módulo SW-FX — SW Framework Documentação</title>
-  <script src="../dist/sw-mpa.min.js"></script>
-  <link rel="stylesheet" href="../dist/sw.min.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <script src="../layout/header.js" defer></script>
-  <script src="../layout/sidebar.js" defer></script>
+    <meta charset="UTF-8">
+    <title>SW-FX - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../dist/sw.compl.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        #fxTiltCard,
+        #fxMagneticBtn {
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="doc-shell">
-    <main class="doc-main">
-      <section class="docs-section">
-        <div class="docs-section-head">
-          <span class="doc-hero-ver">ANIMAÇÕES & SW-FX / 03</span>
-          <h1 class="docs-section-title">Módulo SW-FX (Interações Avançadas)</h1>
-          <p class="docs-section-desc">Efeitos visuais nativos, leves, sem GSAP, com suporte a <code>prefers-reduced-motion</code> e zero dependências externas.</p>
-        </div>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Foundation</span>
+                <span class="brc-it is-cur" aria-current="page">SW-FX</span>
+            </nav>
 
-        <div class="docs-grid docs-grid-3">
-          <article class="docs-specimen">
-            <h3>Typewriter Nativo</h3>
-            <p>Efeito de digitação com cursor piscante e velocidade configurável em <code>data-sw-speed</code>.</p>
-            <div class="docs-actions">
-              <button class="sw-btn sw-btn-outline" type="button" sw-typewriter data-sw-speed="40">SW-FX TYPEWRITER</button>
+            <div class="mb-8">
+                <span class="doc-tag">JS Module</span>
+                <h2 class="t-xxg f-bd mb-2">Módulo <span class="TprinD">SW-FX</span></h2>
+                <p class="t-g t-mut mb-0">Efeitos visuais nativos, leves, sem GSAP — typewriter, split text, scroll
+                    scrub, marquee, tilt 3D e magnetismo. Suporte a <code>prefers-reduced-motion</code>, zero
+                    dependências externas.</p>
             </div>
-            <div class="docs-code">
-              <pre><code>&lt;button sw-typewriter data-sw-speed="40"&gt;TEXTO TYPEWRITER&lt;/button&gt;</code></pre>
-            </div>
-          </article>
 
-          <article class="docs-specimen">
-            <h3>SplitText Acessível</h3>
-            <p>Divisão em palavras (<code>words</code>) e/ou caracteres (<code>chars</code>) com <code>aria-label</code> seguro.</p>
-            <h4 sw-split="words,chars" style="margin-block:1.6rem; color:var(--sw-pri);">SW-FX SPLIT TEXT</h4>
-            <div class="docs-code">
-              <pre><code>&lt;h4 sw-split="words,chars"&gt;SW-FX SPLIT TEXT&lt;/h4&gt;</code></pre>
+            <!-- 1. TYPEWRITER -->
+            <div class="doc-card sec mb-6" id="typewriter">
+                <h3 class="t-m f-bd mb-4">1. Typewriter Nativo — <code>sw-typewriter</code></h3>
+                <p class="t-g t-mut mb-4">Efeito de digitação com cursor piscante, disparado ao passar o mouse ou
+                    focar por teclado. Velocidade configurável em <code>data-sw-speed</code> (ms por caractere).</p>
+                <div class="demo-wrap" style="display:flex;justify-content:center;padding:2.4rem">
+                    <button class="sw-btn sw-btn-outline" type="button" sw-typewriter data-sw-speed="40">SW-FX
+                        TYPEWRITER</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-typewriter data-sw-speed="40">TEXTO TYPEWRITER</button>
+</script></pre>
             </div>
-          </article>
 
-          <article class="docs-specimen">
-            <h3>Scroll Scrub Nativo</h3>
-            <p>Transição guiada pelo scroll via <code>IntersectionObserver</code> e variável <code>--sw-scrub-progress</code>.</p>
-            <div sw-scrub style="padding:1.6rem; border:1px dashed var(--sw-pri); border-radius:1rem; text-align:center; font-weight:700;">
-              ELEMENTO COM SCROLL SCRUB
+            <!-- 2. SPLIT TEXT -->
+            <div class="doc-card sec mb-6" id="split">
+                <h3 class="t-m f-bd mb-4">2. SplitText Acessível — <code>sw-split</code></h3>
+                <p class="t-g t-mut mb-4">Divisão em palavras (<code>words</code>) e/ou caracteres (<code>chars</code>)
+                    com <code>aria-label</code> preservado no elemento original.</p>
+                <div class="demo-wrap" style="padding:2.4rem">
+                    <h4 sw-split="words,chars" class="t-xg f-bd" style="color:var(--sw-pri);margin:0">SW-FX SPLIT
+                        TEXT</h4>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<h4 sw-split="words,chars">SW-FX SPLIT TEXT</h4>
+</script></pre>
             </div>
-            <div class="docs-code">
-              <pre><code>&lt;div sw-scrub&gt;Scrub Progressivo&lt;/div&gt;</code></pre>
-            </div>
-          </article>
 
-          <article class="docs-specimen">
-            <h3>Marquee Contínuo</h3>
-            <p>Scroll contínuo com pausa automática ao passar o mouse ou focar por teclado.</p>
-            <div sw-marquee style="max-width:200px; padding:0.8rem; border:1px solid var(--doc-border); border-radius:0.8rem;">
-              <span style="padding:0 0.8rem;">★ SW-FX MARQUEE CONTINUO ★</span>
+            <!-- 3. SCROLL SCRUB -->
+            <div class="doc-card sec mb-6" id="scrub">
+                <h3 class="t-m f-bd mb-4">3. Scroll Scrub Nativo — <code>sw-scrub</code></h3>
+                <p class="t-g t-mut mb-4">Transição guiada pelo scroll via <code>IntersectionObserver</code>,
+                    controlada pela variável CSS <code>--sw-scrub-progress</code>.</p>
+                <div class="demo-wrap" style="padding:2.4rem">
+                    <div sw-scrub style="padding:1.6rem;border:1px dashed var(--sw-pri);border-radius:var(--sw-r-g, 8px);text-align:center;font-weight:700">
+                        ELEMENTO COM SCROLL SCRUB
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-scrub>Scrub Progressivo</div>
+</script></pre>
             </div>
-            <div class="docs-code">
-              <pre><code>&lt;div sw-marquee&gt;
-  &lt;span&gt;CONTEÚDO MARQUEE&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-            </div>
-          </article>
 
-          <article class="docs-specimen" sw-tilt>
-            <h3>Tilt 3D Sutil</h3>
-            <p>Inclinação 3D limitada a 6° para mouse e ponteiro fino.</p>
-            <p style="font-weight:700; color:var(--sw-pri);">Passe o ponteiro aqui (sw-tilt)</p>
-            <div class="docs-code">
-              <pre><code>&lt;div sw-tilt&gt;Card com Tilt&lt;/div&gt;</code></pre>
+            <!-- 4. MARQUEE -->
+            <div class="doc-card sec mb-6" id="marquee">
+                <h3 class="t-m f-bd mb-4">4. Marquee Contínuo — <code>sw-marquee</code></h3>
+                <p class="t-g t-mut mb-4">Scroll contínuo de texto, com pausa automática ao passar o mouse ou focar
+                    por teclado.</p>
+                <div class="demo-wrap" style="padding:1.2rem 0">
+                    <div sw-marquee class="t-pri f-bd">
+                        <span>★ SW-FX MARQUEE CONTÍNUO ★ </span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-marquee>
+  <span>CONTEÚDO MARQUEE</span>
+</div>
+</script></pre>
             </div>
-          </article>
 
-          <article class="docs-specimen">
-            <h3>Magnetismo Contido</h3>
-            <p>Atração magnética limitada a 8 px em torno do elemento.</p>
-            <div class="docs-actions">
-              <button class="sw-btn" type="button" sw-magnetic>sw-magnetic</button>
+            <!-- 5. TILT -->
+            <div class="doc-card sec mb-6" id="tilt">
+                <h3 class="t-m f-bd mb-4">5. Tilt 3D Sutil — <code>sw-tilt</code></h3>
+                <p class="t-g t-mut mb-4">Inclinação 3D pelo mouse, limitada a 6° — para mouse e ponteiro fino
+                    apenas.</p>
+                <div class="demo-wrap" style="display:flex;justify-content:center;padding:2.4rem">
+                    <div id="fxTiltCard" sw-card sw-tilt style="padding:2rem 3rem;font-weight:700;text-align:center">
+                        Passe o ponteiro aqui (sw-tilt)
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-tilt>Card com Tilt</div>
+</script></pre>
             </div>
-            <div class="docs-code">
-              <pre><code>&lt;button class="sw-btn" sw-magnetic&gt;Botão Magnético&lt;/button&gt;</code></pre>
-            </div>
-          </article>
-        </div>
 
-        <div class="docs-specimen" style="margin-top:3rem;">
-          <h3 class="docs-specimen-title">API JavaScript do SW-FX</h3>
-          <p>Dispare ou resete os efeitos programaticamente:</p>
-          <div class="docs-code">
-            <pre><code>// Dispara o efeito typewriter num elemento específico
+            <!-- 6. MAGNETISMO -->
+            <div class="doc-card sec mb-6" id="magnetic">
+                <h3 class="t-m f-bd mb-4">6. Magnetismo Contido — <code>sw-magnetic</code></h3>
+                <p class="t-g t-mut mb-4">Atração magnética limitada a 8px em torno do elemento.</p>
+                <div class="demo-wrap" style="display:flex;justify-content:center;padding:2.4rem">
+                    <button id="fxMagneticBtn" class="sw-btn" type="button" sw-magnetic>sw-magnetic</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button class="sw-btn" sw-magnetic>Botão Magnético</button>
+</script></pre>
+            </div>
+
+            <!-- 7. API JS -->
+            <div class="doc-card sec mb-6" id="api">
+                <h3 class="t-m f-bd mb-4">7. API JavaScript</h3>
+                <p class="t-g t-mut mb-4">Dispare ou resete os efeitos programaticamente:</p>
+                <pre swcode="js" class="m-0"><script type="text/plain">
+// Dispara o efeito typewriter num elemento específico
 SW.Fx.typewriter(element);
 
 // Dispara o efeito scramble num elemento específico
 SW.Fx.scramble(element);
 
 // Reseta todos os efeitos ativos
-SW.Fx.reset(document);</code></pre>
-          </div>
-        </div>
-      </section>
+SW.Fx.reset(document);
+</script></pre>
+            </div>
 
-      <footer class="doc-footer">
-        <a href="transitions.html">← Anterior: Transições MPA</a>
-        <a href="../index.html">Voltar ao Dashboard ↑</a>
-      </footer>
-    </main>
-  </div>
-  <script src="../dist/sw.min.js"></script>
-  <script src="../dist/sw-fx.min.js"></script>
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Gatilho</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-typewriter</code></td>
+                            <td>hover / focus</td>
+                            <td>Digitação com cursor piscante, velocidade em <code>data-sw-speed</code> (ms)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-scramble</code></td>
+                            <td>hover / focus</td>
+                            <td>Embaralha e resolve o texto ao interagir</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-split</code></td>
+                            <td>carregamento</td>
+                            <td>Divide em <code>words</code>, <code>chars</code> ou ambos</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-scrub</code></td>
+                            <td>scroll</td>
+                            <td>Expõe <code>--sw-scrub-progress</code> via <code>IntersectionObserver</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-marquee</code></td>
+                            <td>automático</td>
+                            <td>Ticker contínuo, pausa no hover/focus</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-tilt</code></td>
+                            <td>mouse fino</td>
+                            <td>Inclinação 3D limitada a 6°</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-magnetic</code></td>
+                            <td>mouse fino</td>
+                            <td>Atração magnética limitada a 8px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-/*! SW Framework 0.1.0-alpha.1 | Sandro Web Solutions | JavaScript */
+/*! SW Framework 0.0.1 | Sandro Web Solutions | JavaScript */
 /* SW Framework Core — Sandro Web Solutions */
 (function () {
   'use strict';
@@ -12,7 +12,7 @@
   let savedBodyOverflow = '';
 
   const SW = {
-    version: '0.1.0-alpha.1',
+    version: '0.0.1',
     _modules: new Map(),
 
     register(name, module) {
@@ -457,7 +457,13 @@
     static run(update, { skip = false } = {}) {
       if (typeof update !== 'function') return null;
       if (skip || SW.Utils.reducedMotion() || !document.startViewTransition) { update(); return null; }
-      return document.startViewTransition(update);
+      const transition = document.startViewTransition(update);
+      // .ready/.finished rejeitam com AbortError quando o browser pula ou interrompe
+      // a transição (ex.: uma navegação nova chega antes da anterior terminar) — isso
+      // é esperado, não um erro real, então silencia pra não virar unhandled rejection.
+      transition.ready?.catch(() => {});
+      transition.finished?.catch(() => {});
+      return transition;
     }
   }
   SWTrans.overlayDepth = 0;
@@ -481,11 +487,15 @@
           e.preventDefault();
           if (SWTransi._busy) return;
           SWTransi._busy = true;
+
           const effect = el.getAttribute('sw-trans-effect') || el.getAttribute('y2transi-effect') || 'slide';
-          const dur = parseInt(el.getAttribute('sw-trans-dur') || el.getAttribute('y2transi-dur') || 400);
-          const color = el.getAttribute('sw-trans-color') || el.getAttribute('y2transi-color');
-          if (color) SWTransi._ovl.style.background = color;
-          SWTransi._in(effect, dur, () => { window.location.href = href; });
+          const dur = parseInt(el.getAttribute('sw-trans-dur') || el.getAttribute('y2transi-dur') || 450);
+          const color = el.getAttribute('sw-trans-color') || el.getAttribute('y2transi-color') || '';
+
+          SWTransi._applyColor(color);
+          SWTransi._in(effect, dur, color, () => {
+            window.location.href = href;
+          });
         });
       });
 
@@ -494,12 +504,25 @@
         const eff = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
         if (eff) {
           SWTransi._ensure();
-          const dur = parseInt(sessionStorage.getItem('sw_pgt_dur') || sessionStorage.getItem('y2_pgt_dur') || 400);
-          sessionStorage.removeItem('sw_pgt_effect');
-          sessionStorage.removeItem('y2_pgt_effect');
-          sessionStorage.removeItem('sw_pgt_dur');
-          sessionStorage.removeItem('y2_pgt_dur');
-          SWTransi._out(eff, dur);
+          const dur = parseInt(sessionStorage.getItem('sw_pgt_dur') || sessionStorage.getItem('y2_pgt_dur') || 450);
+          const color = sessionStorage.getItem('sw_pgt_color') || '';
+
+          SWTransi._applyColor(color);
+
+          const runOut = () => {
+            sessionStorage.removeItem('sw_pgt_effect');
+            sessionStorage.removeItem('y2_pgt_effect');
+            sessionStorage.removeItem('sw_pgt_dur');
+            sessionStorage.removeItem('y2_pgt_dur');
+            sessionStorage.removeItem('sw_pgt_color');
+            SWTransi._out(eff, dur);
+          };
+
+          if (document.readyState === 'complete') {
+            setTimeout(runOut, 150);
+          } else {
+            window.addEventListener('load', () => setTimeout(runOut, 150), { once: true });
+          }
         }
       }
     }
@@ -508,44 +531,96 @@
       if (SWTransi._ovl) return;
       const ovl = document.createElement('div');
       ovl.className = 'sw-trans-ovl y2transi-ovl';
-      ovl.innerHTML = `<svg class="sw-trans-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="sw-trans-svg-path" d="M 0 100 V 100 Q 50 100 100 100 V 100 Z" fill="var(--sw-pri, #3b82f6)"></path></svg>`;
-      if (sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect')) {
-        ovl.style.cssText = 'opacity:1;pointer-events:none';
+      
+      const eff = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
+      const isPending = !!eff;
+      const isDrawPending = isPending && eff === 'draw';
+
+      if (isPending) {
+        ovl.style.cssText = 'display:block;opacity:1;pointer-events:none;';
+        ovl.classList.add('is-loading');
+      } else {
+        ovl.style.display = 'none';
       }
+
+      ovl.innerHTML = `
+        <svg class="sw-trans-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path class="sw-trans-svg-path" d="${isPending && (eff === 'curtain' || eff === 'wave') ? 'M 0 100 V 0 Q 50 0 100 0 V 100 Z' : 'M 0 100 V 100 Q 50 100 100 100 V 100 Z'}" fill="var(--sw-pri, #3b82f6)"></path>
+          <path class="sw-trans-svg-draw-path" pathLength="1" d="M -10 50 C 10 15, 30 85, 50 50 C 70 15, 90 85, 110 50"
+            style="stroke-dasharray:1;stroke-dashoffset:${isDrawPending ? '0' : '1'};stroke-width:${isDrawPending ? '260' : '1.5'};"></path>
+        </svg>
+        <div class="sw-trans-ptovl__inner">
+          <span class="sw-trans-ptovl__indicator"></span>
+          <span class="sw-trans-ptovl__message">Carregando...</span>
+        </div>
+      `;
       document.body.prepend(ovl);
       SWTransi._ovl = ovl;
     }
 
-    static _in(effect, dur, cb) {
+    static _applyColor(color) {
+      if (!SWTransi._ovl) return;
+      const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--sw-pri').trim() || '#3b82f6';
+      const c = color || defaultColor;
+      SWTransi._ovl.style.background = c;
+      const path = SWTransi._ovl.querySelector('.sw-trans-svg-path');
+      if (path) path.setAttribute('fill', c);
+      const drawPath = SWTransi._ovl.querySelector('.sw-trans-svg-draw-path');
+      if (drawPath) drawPath.style.stroke = c;
+    }
+
+    static _in(effect, dur, color, cb) {
       const ovl = SWTransi._ovl;
+      document.querySelectorAll('[sw-pre], [swpre], [y2pre], [Y2Pre]').forEach(el => el.remove());
+
       sessionStorage.setItem('sw_pgt_effect', effect);
       sessionStorage.setItem('sw_pgt_dur', dur);
+      if (color) sessionStorage.setItem('sw_pgt_color', color);
+
+      ovl.style.display = 'block';
+      ovl.style.pointerEvents = 'auto';
+      ovl.classList.add('is-loading');
 
       if (effect === 'curtain' || effect === 'wave') {
-        ovl.style.cssText = '';
-        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
         SWTransi._animateCurtainIn(dur, cb);
+      } else if (effect === 'draw') {
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
+        SWTransi._animateDrawIn(dur, cb);
       } else {
         ovl.style.animationDuration = `${dur}ms`;
-        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
         setTimeout(cb, dur);
       }
     }
 
     static _out(effect, dur) {
       const ovl = SWTransi._ovl;
+      ovl.style.display = 'block';
+      ovl.style.pointerEvents = 'none';
+
+      ovl.classList.remove('is-loading');
+
       if (effect === 'curtain' || effect === 'wave') {
         ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
         SWTransi._animateCurtainOut(dur, () => {
           ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
+          SWTransi._busy = false;
+        });
+      } else if (effect === 'draw') {
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
+        SWTransi._animateDrawOut(dur, () => {
+          ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
           SWTransi._busy = false;
         });
       } else {
-        ovl.style.cssText = '';
         ovl.style.animationDuration = `${dur}ms`;
         ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
         setTimeout(() => {
           ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
           SWTransi._busy = false;
         }, dur);
       }
@@ -561,16 +636,17 @@
         if (ease < 0.5) {
           const progress = ease * 2;
           const valY = 100 - (progress * 100);
-          const curveY = 100 - (progress * 165);
+          const curveY = 100 - (progress * 170);
           path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
         } else {
           const progress = (ease - 0.5) * 2;
           const valY = 50 - (progress * 50);
-          const curveY = -65 + (progress * 65);
+          const curveY = -70 + (progress * 70);
           path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
         }
-        if (p < 1) requestAnimationFrame(tick);
-        else {
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
           path.setAttribute('d', 'M 0 100 V 0 Q 50 0 100 0 V 100 Z');
           cb();
         }
@@ -581,22 +657,91 @@
     static _animateCurtainOut(dur, cb) {
       const path = SWTransi._ovl?.querySelector('.sw-trans-svg-path');
       if (!path) { setTimeout(cb, dur); return; }
+      path.setAttribute('d', 'M 0 0 V 100 Q 50 100 100 100 V 0 Z');
       const start = performance.now();
       function tick(now) {
         const p = Math.min(1, (now - start) / dur);
         const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         if (ease < 0.5) {
           const progress = ease * 2;
-          const curveY = progress * 165;
-          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - progress * 100} Z`);
+          const valY = progress * 50;
+          const curveY = progress * 170;
+          path.setAttribute('d', `M 0 0 V ${valY} Q 50 ${curveY} 100 ${valY} V 0 Z`);
         } else {
           const progress = (ease - 0.5) * 2;
-          const curveY = 165 - (progress * 165);
-          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - (50 + progress * 50)} Z`);
+          const valY = 50 + (progress * 50);
+          const curveY = 170 - (progress * 170);
+          path.setAttribute('d', `M 0 0 V ${valY} Q 50 ${curveY} 100 ${valY} V 0 Z`);
         }
-        if (p < 1) requestAnimationFrame(tick);
-        else {
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
           path.setAttribute('d', 'M 0 0 V 0 Q 50 0 100 0 V 0 Z');
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* draw: traço fino "desenha" um caminho ondulado de ponta a ponta e depois
+     * engrossa até virar um bloco sólido cobrindo a tela — mesma ideia do
+     * DrawSVG do GSAP (mostrada num vídeo de referência), refeita sem GSAP:
+     * fase 1 anima stroke-dashoffset (o traço nasce), fase 2 anima stroke-width
+     * (o traço engrossa até cobrir tudo). _out faz o caminho inverso. */
+    static _animateDrawIn(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-draw-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      path.style.strokeDasharray = '1';
+      path.style.strokeDashoffset = '1';
+      path.style.strokeWidth = '1.5';
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          path.style.strokeDashoffset = String(1 - progress);
+          path.style.strokeWidth = '1.5';
+        } else {
+          const progress = (ease - 0.5) * 2;
+          path.style.strokeDashoffset = '0';
+          path.style.strokeWidth = String(1.5 + progress * 258.5);
+        }
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          path.style.strokeDashoffset = '0';
+          path.style.strokeWidth = '260';
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    static _animateDrawOut(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-draw-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      path.style.strokeDasharray = '1';
+      path.style.strokeDashoffset = '0';
+      path.style.strokeWidth = '260';
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          path.style.strokeWidth = String(260 - progress * 258.5);
+          path.style.strokeDashoffset = '0';
+        } else {
+          const progress = (ease - 0.5) * 2;
+          path.style.strokeWidth = '1.5';
+          path.style.strokeDashoffset = String(progress);
+        }
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          path.style.strokeWidth = '1.5';
+          path.style.strokeDashoffset = '1';
           cb();
         }
       }
@@ -3123,28 +3268,39 @@
   if (window.SW) window.SW.Top = SWTop;
 })();
 
-/* SW Framework Preloader — [sw-pre] no elemento de tela cheia; some após load */
+/* SW Framework Preloader — [sw-pre], [swpre], [y2pre] no elemento de tela cheia; some após load */
 (function () {
   'use strict';
 
   const SWPre = {
     initAll(root = document) {
-      SW.$('[sw-pre]', root).forEach((el) => {
+      const scope = (root && root.querySelectorAll) ? root : document;
+      const isTransition = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
+      scope.querySelectorAll('[sw-pre], [swpre], [y2pre], [Y2Pre]').forEach((el) => {
         if (el._swPre) return;
         el._swPre = true;
+        if (isTransition) {
+          el.remove();
+          return;
+        }
         const hide = () => {
           el.classList.add('is-out');
-          window.setTimeout(() => el.remove(), 600);
+          window.setTimeout(() => { if (el.parentNode) el.remove(); }, 500);
         };
-        if (document.readyState === 'complete') window.setTimeout(hide, 200);
-        else window.addEventListener('load', () => window.setTimeout(hide, 200), { once: true });
+        if (document.readyState === 'complete') window.setTimeout(hide, 150);
+        else window.addEventListener('load', () => window.setTimeout(hide, 150), { once: true });
       });
     }
   };
 
+  window.SWPre = SWPre;
+  window.Y2Pre = SWPre;
   window.SW?.register('SWPre', SWPre);
   if (window.SW) window.SW.Pre = SWPre;
+  if (document.readyState !== 'loading') SWPre.initAll(document);
+  else document.addEventListener('DOMContentLoaded', () => SWPre.initAll(document));
 })();
+
 
 /* SW Framework Dropdown — [sw-dropdown] > .sw-dropdown-tgl + .sw-dropdown-mn */
 (function () {
@@ -4720,6 +4876,193 @@
 
   window.SW?.register('SWSidebar', SWSidebar);
   if (window.SW) window.SW.Sidebar = SWSidebar;
+})();
+
+/* SW Framework Navbar — <nav sw-navbar sw-navbar-mode="static|fixed|sticky" sw-navbar-fx="glass|grad">
+   Brand: [sw-navbar-brand] · Menu: [sw-navbar-mn] > [sw-navbar-it] · Toggle mobile: [sw-navbar-tgl]
+   Dropdown: [sw-navbar-it][sw-navbar-drop] + [sw-navbar-drop-mn] > [sw-navbar-drop-it]
+   Submenu aninhado (nível 3, abre pro lado): [sw-navbar-drop-it][has-sub] > [sw-navbar-drop-sub] */
+(function () {
+  'use strict';
+
+  // Cada navbar mobile (drawer lateral) ganha seu próprio overlay, criado sob
+  // demanda — evita depender de marcação extra e funciona mesmo com várias
+  // navbars de demonstração na mesma página (cada uma com seu overlay isolado).
+  function getOverlay(nav) {
+    if (nav._swNavbarOvl) return nav._swNavbarOvl;
+    const ovl = document.createElement('div');
+    ovl.setAttribute('sw-navbar-ovl', '');
+    document.body.appendChild(ovl);
+    ovl.addEventListener('click', () => setOpen(nav, false));
+    nav._swNavbarOvl = ovl;
+    return ovl;
+  }
+
+  function setOpen(nav, open) {
+    nav.toggleAttribute('open', open);
+    getOverlay(nav).toggleAttribute('vis', open);
+    SW.emit(nav, 'sw:navbar:toggle', { open });
+  }
+
+  function initToggle(nav) {
+    const btn = nav.querySelector('[sw-navbar-tgl]');
+    if (!btn || btn._swNavbarTgl) return;
+    btn._swNavbarTgl = true;
+    btn.addEventListener('click', () => setOpen(nav, !nav.hasAttribute('open')));
+  }
+
+  function closeAll(nav) {
+    SW.$('[sw-navbar-it][open]', nav).forEach((it) => it.removeAttribute('open'));
+    SW.$('[sw-navbar-drop-it][has-sub][open]', nav).forEach((it) => it.removeAttribute('open'));
+  }
+
+  function initDropdowns(nav) {
+    SW.$('[sw-navbar-it][sw-navbar-drop]', nav).forEach((trigger) => {
+      if (trigger._swNavbarDrop) return;
+      trigger._swNavbarDrop = true;
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        const isOpen = trigger.hasAttribute('open');
+        SW.$('[sw-navbar-it][open]', nav).forEach((it) => { if (it !== trigger) it.removeAttribute('open'); });
+        trigger.toggleAttribute('open', !isOpen);
+        SW.emit(trigger, 'sw:navbar:dropdown', { open: !isOpen });
+      });
+    });
+
+    // Submenu de nível 3 — gatilho é <div> (não <a>), por isso clicável e capaz
+    // de conter o [sw-navbar-drop-sub] como filho direto sem aninhar <a> em <a>.
+    SW.$('[sw-navbar-drop-it][has-sub]', nav).forEach((trigger) => {
+      if (trigger._swNavbarSub) return;
+      trigger._swNavbarSub = true;
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const isOpen = trigger.hasAttribute('open');
+        SW.$('[sw-navbar-drop-it][has-sub][open]', nav).forEach((it) => { if (it !== trigger) it.removeAttribute('open'); });
+        trigger.toggleAttribute('open', !isOpen);
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (nav.contains(event.target)) return;
+      closeAll(nav);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      closeAll(nav);
+      setOpen(nav, false);
+    });
+  }
+
+  // Clique num item de navegação (sem submenu) marca ele como ativo e fecha o menu mobile
+  function initActiveAndMobileClose(nav) {
+    SW.$('[sw-navbar-mn]', nav).forEach((mn) => {
+      if (mn._swNavbarAct) return;
+      mn._swNavbarAct = true;
+      mn.addEventListener('click', (event) => {
+        const it = event.target.closest('[sw-navbar-it]');
+        if (!it || it.hasAttribute('sw-navbar-drop') || !mn.contains(it)) return;
+        SW.$('[sw-navbar-it][act]', mn).forEach((el) => el.removeAttribute('act'));
+        it.setAttribute('act', '');
+        setOpen(nav, false);
+      });
+    });
+  }
+
+  // Encolhe/ganha blur e sombra depois de rolar — só nos modos fixed/sticky
+  // Acha o ancestral que realmente rola (útil quando a navbar fica dentro de um
+  // container com overflow, ex.: caixa de demonstração na doc) — cai pro window se nenhum.
+  function findScrollParent(el) {
+    let node = el.parentElement;
+    while (node) {
+      const style = getComputedStyle(node);
+      if (/(auto|scroll)/.test(style.overflowY)) return node;
+      node = node.parentElement;
+    }
+    return window;
+  }
+
+  function initScrollShrink(nav) {
+    const mode = nav.getAttribute('sw-navbar-mode');
+    if (mode !== 'fixed' && mode !== 'sticky') return;
+    const threshold = Number(nav.getAttribute('sw-navbar-shrink-at')) || 40;
+    const scroller = findScrollParent(nav);
+    const getY = () => (scroller === window ? window.scrollY : scroller.scrollTop);
+    const update = () => nav.toggleAttribute('scrolled', getY() > threshold);
+    update();
+    scroller.addEventListener('scroll', update, { passive: true });
+  }
+
+  const SWNavbar = {
+    initAll(root = document) {
+      SW.$('[sw-navbar]', root).forEach((nav) => {
+        if (nav._swNavbar) return;
+        nav._swNavbar = true;
+        initToggle(nav);
+        initDropdowns(nav);
+        initActiveAndMobileClose(nav);
+        initScrollShrink(nav);
+      });
+    }
+  };
+
+  window.SW?.register('SWNavbar', SWNavbar);
+  if (window.SW) window.SW.Navbar = SWNavbar;
+})();
+
+/* SW Framework Segmented Control — <div class="seg"> com <input type="radio"> + <label>
+   ou <div class="seg-it is-act"> — insere um .seg-thumb que desliza até o item ativo. */
+(function () {
+  'use strict';
+
+  function getActiveItem(seg) {
+    const checkedInput = seg.querySelector('input[type="radio"]:checked');
+    if (checkedInput) return checkedInput.nextElementSibling;
+    return seg.querySelector('.seg-it.is-act');
+  }
+
+  function moveThumb(seg, thumb) {
+    const active = getActiveItem(seg);
+    if (!active) { thumb.style.width = '0'; return; }
+    const segRect = seg.getBoundingClientRect();
+    const itemRect = active.getBoundingClientRect();
+    thumb.style.width = `${itemRect.width}px`;
+    thumb.style.transform = `translateX(${itemRect.left - segRect.left}px)`;
+  }
+
+  function ensureThumb(seg) {
+    let thumb = seg.querySelector(':scope > .seg-thumb');
+    if (!thumb) {
+      thumb = document.createElement('div');
+      thumb.className = 'seg-thumb';
+      seg.insertBefore(thumb, seg.firstChild);
+    }
+    return thumb;
+  }
+
+  const SWSeg = {
+    initAll(root = document) {
+      SW.$('.seg', root).forEach((seg) => {
+        const thumb = ensureThumb(seg);
+        if (!seg._swSeg) {
+          seg._swSeg = true;
+          seg.addEventListener('change', () => moveThumb(seg, thumb));
+          seg.addEventListener('click', (event) => {
+            if (event.target.closest('.seg-it')) moveThumb(seg, thumb);
+          });
+          window.addEventListener('resize', () => moveThumb(seg, thumb), { passive: true });
+        }
+        // Sem transição no posicionamento inicial — evita o thumb "deslizando"
+        // de x:0 até o item ativo assim que a página carrega.
+        thumb.style.transition = 'none';
+        moveThumb(seg, thumb);
+        requestAnimationFrame(() => { thumb.style.transition = ''; });
+      });
+    }
+  };
+
+  window.SW?.register('SWSeg', SWSeg);
+  if (window.SW) window.SW.Seg = SWSeg;
 })();
 
 /* SW Framework Rich Text Editor — <textarea sw-editor sw-editor-simple sw-editor-height sw-editor-min sw-editor-max sw-editor-resizable> */

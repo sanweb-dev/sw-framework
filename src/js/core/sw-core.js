@@ -11,7 +11,7 @@
   let savedBodyOverflow = '';
 
   const SW = {
-    version: '0.1.0-alpha.1',
+    version: '0.0.1',
     _modules: new Map(),
 
     register(name, module) {

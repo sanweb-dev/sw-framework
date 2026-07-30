@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP Setup - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">Setup</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Module</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">Setup</span></h2>
+                <p class="t-g t-mut mb-0">Framework PHP nativo — PSR-4, sem Composer, sem dependências externas. DB,
+                    Router, Auth, RBAC, Validator, Upload, Cache, Logger e View em um único módulo.</p>
+            </div>
+
+            <!-- 1. ESTRUTURA -->
+            <div class="doc-card sec mb-6" id="estrutura">
+                <h3 class="t-m f-bd mb-4">1. Estrutura de pastas</h3>
+                <pre swcode="bash" class="m-0"><script type="text/plain">
+meu-projeto/
+├── public/
+│   └── index.php          ← ponto de entrada
+├── app/
+│   ├── Controllers/
+│   ├── Models/
+│   └── Views/
+├── routes/
+│   └── web.php
+├── src/
+│   └── php/                ← SW PHP (Core, Auth, Utils)
+└── storage/
+    ├── cache/
+    └── logs/
+</script></pre>
+            </div>
+
+            <!-- 2. INSTALAÇÃO -->
+            <div class="doc-card sec mb-6" id="install">
+                <h3 class="t-m f-bd mb-4">2. Instalação (sem Composer)</h3>
+                <p class="t-g t-mut mb-4">Copie a pasta <code>src/php/</code> para o seu projeto e registre o
+                    autoload manual.</p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// public/index.php
+
+require '../src/php/Core/App.php';
+
+// Autoload PSR-4 (SW\ e App\)
+\SW\Core\App::autoload([
+    'SW\\'  => __DIR__ . '/../src/php/',
+    'App\\' => __DIR__ . '/../app/',
+]);
+
+// Bootstrap
+\SW\Core\App::iniciar([
+    'db' => [
+        'host'  => 'localhost',
+        'banco' => 'meu_db',
+        'user'  => 'root',
+        'pass'  => 'senha',
+    ],
+    'views'    => __DIR__ . '/../app/Views/',
+    'timezone' => 'America/Sao_Paulo',
+    'debug'    => true,
+    'sessao'   => true,
+]);
+
+// Rotas
+require '../routes/web.php';
+
+// Despacha
+\SW\Core\Router::despachar();
+</script></pre>
+            </div>
+
+            <!-- 3. CONFIGURAÇÃO -->
+            <div class="doc-card sec mb-6" id="config">
+                <h3 class="t-m f-bd mb-4">3. Opções de App::iniciar()</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Chave</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>db</code></td>
+                            <td>array</td>
+                            <td>Conexão MySQL: host, banco, user, pass, charset (utf8mb4)</td>
+                        </tr>
+                        <tr>
+                            <td><code>views</code></td>
+                            <td>string</td>
+                            <td>Caminho absoluto para a pasta de views</td>
+                        </tr>
+                        <tr>
+                            <td><code>timezone</code></td>
+                            <td>string</td>
+                            <td>Fuso horário (padrão: America/Sao_Paulo)</td>
+                        </tr>
+                        <tr>
+                            <td><code>debug</code></td>
+                            <td>bool</td>
+                            <td>Exibe erros e stack trace (padrão: false)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sessao</code></td>
+                            <td>bool</td>
+                            <td>Inicia sessão automaticamente (padrão: true)</td>
+                        </tr>
+                        <tr>
+                            <td><code>cors</code></td>
+                            <td>array</td>
+                            <td>Configura CORS: <code>['origens' => 'https://meusite.com']</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 4. APACHE -->
+            <div class="doc-card sec mb-6" id="htaccess">
+                <h3 class="t-m f-bd mb-4">4. .htaccess (Apache)</h3>
+                <pre swcode="apache" class="m-0"><script type="text/plain">
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+</script></pre>
+                <p class="t-g t-mut mt-4">Para Nginx, redirecione todas as rotas para <code>index.php</code> com
+                    <code>try_files $uri $uri/ /index.php?$query_string;</code>.</p>
+            </div>
+
+            <!-- 5. SQL BASE -->
+            <div class="doc-card sec" id="sql">
+                <h3 class="t-m f-bd mb-4">5. SQL base recomendado</h3>
+                <pre swcode="sql" class="m-0"><script type="text/plain">
+-- Tabela de usuários (usada por Auth + RBAC)
+CREATE TABLE usuarios (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    nome       VARCHAR(150) NOT NULL,
+    email      VARCHAR(200) NOT NULL UNIQUE,
+    senha      VARCHAR(255) NOT NULL,
+    nivel      ENUM('admin','editor','user') NOT NULL DEFAULT 'user',
+    ativo      TINYINT(1) NOT NULL DEFAULT 1,
+    criado_em  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de logs (usada por Logger)
+CREATE TABLE logs (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    nivel      VARCHAR(10)  NOT NULL DEFAULT 'info',
+    canal      VARCHAR(50)  NOT NULL DEFAULT 'app',
+    mensagem   TEXT NOT NULL,
+    contexto   JSON,
+    usuario_id INT,
+    ip         VARCHAR(45),
+    criado_em  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_nivel (nivel),
+    INDEX idx_canal (canal),
+    INDEX idx_criado (criado_em)
+);
+
+-- Tabela de "lembrar-me" (opcional, para Auth::gerarToken)
+CREATE TABLE sessoes_lembrar (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    token      VARCHAR(64) NOT NULL UNIQUE,
+    expira_em  DATETIME NOT NULL,
+    INDEX idx_token (token)
+);
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

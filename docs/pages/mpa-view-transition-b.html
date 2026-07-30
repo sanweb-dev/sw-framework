@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-sw-mpa-demo style="scrollbar-gutter: stable;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Transition Nativa — Menu Fixo - SW Docs</title>
+  <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+
+    <style>
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div sw-pre>
+        <div class="sw-pre-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="doc-shell">
+        <main class="doc-main" sw-morph="mpa-demo-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">View Transition Nativa — Menu Fixo</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">CSS Nativo</span>
+                <h2 class="t-xxg f-bd mb-2">Menu <span class="TprinD">Fixo</span></h2>
+                <p class="t-g t-mut">O <code>&lt;main&gt;</code> desta página tem <code>sw-morph="mpa-demo-main"</code> —
+                    por isso só o conteúdo abaixo troca ao navegar. O menu do lado não se mexe.</p>
+            </div>
+
+            <div class="doc-card demo-wrap">
+                <a href="mpa-view-transition.html" class="sw-btn sw-btn-sec">
+                    <i class="swi swi-arrow-to-left mr-2"></i> Voltar
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

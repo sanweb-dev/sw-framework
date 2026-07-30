@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Tipografia & Icones - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+  <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
     <script src="../dist/sw.min.js" defer></script>
     <style>
         .tipo-row {
@@ -160,6 +160,9 @@
                                 <p class="sw-f1 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f1 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Base UI</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f1">Texto em Poppins</p>
+</script></pre>
                             </div>
                         </div>
                         <!-- Roboto -->
@@ -167,11 +170,14 @@
                             <div style="padding: 1.6rem; background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); height: 100%;">
                                 <div class="flx j-sb alc mb-2">
                                     <p class="t-pp f-bd t-mut" style="letter-spacing: .05em; text-transform: uppercase;">.sw-f2 — Roboto</p>
-                                    <span class="t-pp f-bd" style="background: var(--sw-pri-glow); color: var(--sw-pri); padding: .2rem .8rem; border-radius: 999px;">100-900</span>
+                                    <span class="t-pp f-bd" style="background: var(--sw-sec-glow); color: var(--sw-sec); padding: .2rem .8rem; border-radius: 999px;">100-900</span>
                                 </div>
                                 <p class="sw-f2 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f2 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Secondary</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f2">Texto em Roboto</p>
+</script></pre>
                             </div>
                         </div>
                         <!-- Alumni Sans -->
@@ -184,6 +190,9 @@
                                 <p class="sw-f3 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f3 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Display</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f3">Texto em Alumni Sans</p>
+</script></pre>
                             </div>
                         </div>
                         <!-- Meow Script -->
@@ -196,6 +205,9 @@
                                 <p class="sw-f4 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f4 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Decorative</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f4">Texto em Meow Script</p>
+</script></pre>
                             </div>
                         </div>
                         <!-- Dancing Script -->
@@ -208,6 +220,9 @@
                                 <p class="sw-f5 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f5 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Elegant</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f5">Texto em Dancing Script</p>
+</script></pre>
                             </div>
                         </div>
                         <!-- Playwrite BR -->
@@ -220,6 +235,9 @@
                                 <p class="sw-f6 mb-2" style="font-size:3.2rem; line-height:1.1;">Aa</p>
                                 <p class="sw-f6 t-g mb-4">The quick brown fox jumps over the lazy dog.</p>
                                 <span class="t-mut t-pp" style="font-family: var(--sw-f-mon);">Modern Script</span>
+                                <pre swcode="html" class="m-0 mt-4"><script type="text/plain">
+<p class="sw-f6">Texto em Playwrite BR</p>
+</script></pre>
                             </div>
                         </div>
                     </div>
@@ -235,27 +253,48 @@
                         <div class="co6-g">
                             <h4 class="t-p f-bd mb-p">Alinhamento & Transformação</h4>
                             <div class="tipo-row">
-                                <span class="tipo-label">.C / .D / .E / .J</span>
+                                <span class="tipo-label">.t-ct / .t-le / .t-ri / .t-ju</span>
                                 <div class="box w-full p-2 mb-p"
                                     style="background: var(--sw-bg-sur); border: 1px dashed var(--sw-bor);">
-                                    <p class="C t-pri f-bd">Padrão SW de Alinhamento (Centralizado .C)</p>
+                                    <p class="t-ct t-pri f-bd m-0">Padrão SW de Alinhamento (Centralizado .t-ct)</p>
                                 </div>
                             </div>
+                            <pre swcode="html" class="m-0 mb-p"><script type="text/plain">
+<p class="t-ct">Centralizado</p>
+<p class="t-le">Esquerda</p>
+<p class="t-ri">Direita</p>
+<p class="t-ju">Justificado, ocupa toda a largura da linha.</p>
+</script></pre>
                             <div class="tipo-row">
-                                <span class="tipo-label">.U / .W / .P</span>
-                                <span class="tipo-demo U t-mut">uppercase (.U) / lowercase (.W) / capitalize (.P)</span>
+                                <span class="tipo-label">.t-upp / .t-low / .t-cap</span>
+                                <span class="tipo-demo t-upp t-mut">uppercase (.t-upp) / lowercase (.t-low) / capitalize (.t-cap)</span>
                             </div>
+                            <pre swcode="html" class="m-0"><script type="text/plain">
+<span class="t-upp">Vira Maiúsculo</span>
+<span class="t-low">Vira Minúsculo</span>
+<span class="t-cap">vira capitalizado</span>
+</script></pre>
                         </div>
                         <div class="co6-g">
                             <h4 class="t-p f-bd mb-p">Pesos Numéricos</h4>
                             <div class="tipo-row">
                                 <span class="tipo-label">.fw1 até .fw9</span>
-                                <span class="tipo-demo fw7 t-g">Exemplo .fw7 (Bold)</span>
+                                <span class="tipo-demo fw7 t-g">Exemplo .fw7 (700)</span>
                             </div>
+                            <pre swcode="html" class="m-0 mb-p"><script type="text/plain">
+<p class="fw1">Peso 100</p>
+<p class="fw4">Peso 400 (normal)</p>
+<p class="fw7">Peso 700 (bold)</p>
+<p class="fw9">Peso 900</p>
+</script></pre>
                             <div class="tipo-row">
                                 <span class="tipo-label">.fwb / .fwn</span>
-                                <span class="tipo-demo fwb t-g">Exemplo .fwb (Bold)</span>
+                                <span class="tipo-demo fwb t-g">Exemplo .fwb (bold, atalho de fw7)</span>
                             </div>
+                            <pre swcode="html" class="m-0"><script type="text/plain">
+<p class="fwb">Atalho pra bold (700)</p>
+<p class="fwn">Atalho pra normal (400)</p>
+</script></pre>
                         </div>
                     </div>
                 </div>
@@ -285,27 +324,27 @@
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-g</span>
-                        <span class="tipo-val">2.0rem = 20px</span>
+                        <span class="tipo-val">1.8rem = 18px</span>
                         <span class="tipo-demo t-g">Grande</span>
                         <span class="tipo-demo t-g f-bd">Grande (negrito)</span>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-gg</span>
-                        <span class="tipo-val">3.2rem = 32px</span>
+                        <span class="tipo-val">2.0rem = 20px</span>
                         <span class="tipo-demo t-gg lh-tight">Muito Grande</span>
-                        <span class="tipo-demo t-gg lh-tight f-bd">Negrito</span>
+                        <span class="tipo-demo t-gg lh-tight f-bd">Muito Grande (negrito)</span>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-xg</span>
-                        <span class="tipo-val">4.8rem = 48px</span>
+                        <span class="tipo-val">3.2rem = 32px</span>
                         <span class="tipo-demo t-xg lh-tight">Extra</span>
-                        <span class="tipo-demo t-xg lh-tight f-bd">Negrito</span>
+                        <span class="tipo-demo t-xg lh-tight f-bd">Extra (negrito)</span>
                     </div>
                     <div class="tipo-row">
                         <span class="tipo-label">.t-xxg</span>
-                        <span class="tipo-val">clamp(5–6.4rem)</span>
+                        <span class="tipo-val">4.8rem = 48px</span>
                         <span class="tipo-demo t-xxg lh-tight TprinD">Display</span>
-                        <span class="tipo-demo t-xxg lh-tight f-bd">Negrito</span>
+                        <span class="tipo-demo t-xxg lh-tight f-bd">Display (negrito)</span>
                     </div>
                 </div>
 

@@ -5,13 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SW Framework - Documentação Oficial</title>
-  <script src="dist/sw-mpa.min.js"></script>
+  <script src="dist/sw.compl.min.js" defer></script>
   <link rel="stylesheet" href="dist/sw.min.css" />
   <link rel="stylesheet" href="css/layout.css" />
   <script src="layout/header.js" defer></script>
   <script src="layout/sidebar.js" defer></script>
   <script src="dist/sw.min.js" defer></script>
-  <script src="dist/sw-fx.min.js" defer></script>
   <style>
     .color-dot {
       width: 1.2rem;
@@ -145,7 +144,7 @@
 
     .doc-hero-ver {
       font-size: 1.2rem;
-      font-weight: 800;
+      font-weight: 400;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--sw-pri);
@@ -277,7 +276,7 @@
       <header class="doc-hero">
         <div class="doc-hero-content">
           <div class="doc-hero-ver">
-            ⚡ SW Framework v0.1.0-alpha.1
+            ⚡ SW Framework v0.0.1
           </div>
           <h1 class="doc-hero-title">
             O Framework que <span class="TprinD" sw-scramble tabindex="0">acelera tudo.</span>
@@ -324,15 +323,15 @@ export const acelera = true;
       <!-- STATS -->
       <div class="stats-bar">
         <div class="stat-it">
-          <span class="stat-num">82</span>
+          <span class="stat-num">84</span>
           <span class="stat-lbl">Componentes</span>
         </div>
         <div class="stat-it">
-          <span class="stat-num">42</span>
+          <span class="stat-num">45</span>
           <span class="stat-lbl">Módulos JS</span>
         </div>
         <div class="stat-it">
-          <span class="stat-num">26</span>
+          <span class="stat-num">90</span>
           <span class="stat-lbl">Efeitos de Animação</span>
         </div>
         <div class="stat-it">
@@ -376,7 +375,7 @@ export const acelera = true;
           <div class="doc-card mb-0 h-100">
             <div class="doc-tag mb-3">Motion</div>
             <h3 class="t-m f-bd mb-2">Catálogo Motion</h3>
-            <p class="t-mut t-p">26 presets de alta performance (12 entradas, 7 reveals ao rolar a tela, 7 loops contínuos), mais tilt 3D, magnetismo e scramble via SW-FX.</p>
+            <p class="t-mut t-p">90 efeitos reais — 22 animações de entrada, 20 micro-interações de hover, 16 loops contínuos e 25 variantes de scroll-reveal, mais tilt 3D, magnetismo e scramble via SW-FX.</p>
           </div>
         </div>
       </div>
@@ -391,8 +390,8 @@ export const acelera = true;
             <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 1. Inclua os bundles</p>
             <pre swcode="html"><code>&lt;link rel="stylesheet" href="dist/sw.min.css"&gt;
 &lt;script src="dist/sw.min.js" defer&gt;&lt;/script&gt;
-&lt;!-- opcional: efeitos SW-FX --&gt;
-&lt;script src="dist/sw-fx.min.js" defer&gt;&lt;/script&gt;</code></pre>
+&lt;!-- opcional: efeitos, transições e GSAP premium --&gt;
+&lt;script src="dist/sw.compl.min.js" defer&gt;&lt;/script&gt;</code></pre>
           </div>
           <div class="co12 co6-g">
             <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 2. Ou clone e faça o build</p>
@@ -451,7 +450,7 @@ npm run build
 
       <!-- FOOTER -->
       <footer class="doc-footer">
-        <div>SW Framework v0.1.0-alpha.1 • Sandro Web Solutions</div>
+        <div>SW Framework v0.0.1 • Sandro Web Solutions</div>
         <div><a href="pages/componentes.html">Documentação Oficial</a></div>
       </footer>
 

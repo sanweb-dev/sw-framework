@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP RBAC - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">RBAC</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Module</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">RBAC</span></h2>
+                <p class="t-g t-mut mb-0">Controle de acesso baseado em papéis (Role-Based Access Control) com
+                    permissões por módulo, wildcard e guards para Controller e Router.</p>
+            </div>
+
+            <!-- 1. DEFINIÇÃO -->
+            <div class="doc-card sec mb-6" id="definicao">
+                <h3 class="t-m f-bd mb-4">1. Definindo papéis e permissões</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Auth\RBAC;
+
+// Geralmente em bootstrap ou config/rbac.php
+RBAC::definir([
+    'admin' => ['*'],   // administrador tem tudo
+
+    'editor' => [
+        'posts.ver', 'posts.criar', 'posts.editar',
+        'categorias.ver', 'categorias.criar',
+        'midia.*',        // wildcard de módulo
+    ],
+
+    'user' => [
+        'posts.ver',
+        'perfil.editar',
+    ],
+]);
+
+// Adicionar permissões a um papel existente
+RBAC::adicionarNivel('editor', ['posts.publicar']);
+</script></pre>
+            </div>
+
+            <!-- 2. VERIFICAÇÃO -->
+            <div class="doc-card sec mb-6" id="verificacao">
+                <h3 class="t-m f-bd mb-4">2. Verificação de permissão</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Verifica permissão do usuário logado
+if (RBAC::pode('posts.editar')) {
+    // mostra botão de editar
+}
+
+// Verifica para um nível específico (sem depender do Auth)
+$ok = RBAC::pode('posts.editar', 'editor');  // true
+$ok = RBAC::pode('posts.editar', 'user');    // false
+
+// Verifica nível exato
+if (RBAC::ehNivel('admin')) { ... }
+
+// Verifica se é um dos níveis
+if (RBAC::ehAlgum(['admin', 'editor'])) { ... }
+</script></pre>
+            </div>
+
+            <!-- 3. GUARDS -->
+            <div class="doc-card sec mb-6" id="guards">
+                <h3 class="t-m f-bd mb-4">3. Guards — abortar se não tem permissão</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Exige nível exato (aborta 403 se não for admin)
+RBAC::requer('admin');
+
+// Exige um dos níveis
+RBAC::requerAlgum(['admin', 'editor']);
+
+// Exige permissão específica
+RBAC::requerPermissao('posts.deletar');
+</script></pre>
+            </div>
+
+            <!-- 4. EM CONTROLLER -->
+            <div class="doc-card sec mb-6" id="controller">
+                <h3 class="t-m f-bd mb-4">4. Em Controllers</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+class PostController extends Controller
+{
+    public function editar(int $id): void
+    {
+        // Método herdado do Controller
+        $this->requerPermissao('posts.editar');
+
+        $post = Post::encontrarOuAbortar($id);
+        $this->view('posts/form', ['post' => $post]);
+    }
+
+    public function deletar(int $id): void
+    {
+        $this->requerPermissao('posts.deletar');
+        Post::deletar($id);
+        $this->json(['ok' => true]);
+    }
+
+    public function publicar(int $id): void
+    {
+        // Verifica sem abortar
+        if (!$this->pode('posts.publicar')) {
+            $this->json(['ok' => false, 'mensagem' => 'Sem permissão.'], 403);
+        }
+        Post::atualizar($id, ['status' => 'publicado']);
+        $this->json(['ok' => true]);
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 5. EM ROUTER -->
+            <div class="doc-card sec mb-6" id="router">
+                <h3 class="t-m f-bd mb-4">5. Em middlewares do Router</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+Router::middleware('auth',   fn() => Auth::middleware());
+Router::middleware('admin',  fn() => RBAC::requer('admin'));
+Router::middleware('editor', fn() => RBAC::requerAlgum(['admin', 'editor']));
+
+Router::grupo('/admin', function () {
+    Router::get('/usuarios',  'Admin\UsuarioController@lista');
+    Router::get('/logs',      'Admin\LogController@index');
+}, ['auth', 'admin']);
+
+Router::grupo('/painel', function () {
+    Router::get('/posts',     'PostController@lista');
+    Router::post('/posts',    'PostController@salvar');
+}, ['auth', 'editor']);
+</script></pre>
+            </div>
+
+            <!-- 6. EM VIEW -->
+            <div class="doc-card sec mb-6" id="view">
+                <h3 class="t-m f-bd mb-4">6. Em views PHP</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php use SW\Auth\RBAC; ?>
+
+<?php if (RBAC::pode('posts.criar')): ?>
+  <a href="/posts/novo" class="sw-btn sw-btn-pri">Novo Post</a>
+<?php endif; ?>
+
+<?php if (RBAC::pode('posts.deletar')): ?>
+  <button class="sw-btn sw-btn-err" data-id="<?= $post['id'] ?>">Excluir</button>
+<?php endif; ?>
+
+<?php if (RBAC::ehNivel('admin')): ?>
+  <a href="/admin/logs">Ver Logs</a>
+<?php endif; ?>
+</script></pre>
+            </div>
+
+            <!-- 7. QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Retorno</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>RBAC::definir($mapa)</code></td>
+                            <td>void</td>
+                            <td>Define todos os papéis e permissões</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::adicionarNivel($nivel, $perms)</code></td>
+                            <td>void</td>
+                            <td>Adiciona permissões a papel existente</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::pode($perm, $nivel?)</code></td>
+                            <td>bool</td>
+                            <td>Verifica permissão (suporta wildcard *)</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::ehNivel($nivel)</code></td>
+                            <td>bool</td>
+                            <td>Verifica nível exato do usuário logado</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::ehAlgum($niveis)</code></td>
+                            <td>bool</td>
+                            <td>Verifica se está em um dos níveis</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::requer($nivel)</code></td>
+                            <td>void</td>
+                            <td>Exige nível exato — aborta 403</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::requerAlgum($niveis)</code></td>
+                            <td>void</td>
+                            <td>Exige um dos níveis — aborta 403</td>
+                        </tr>
+                        <tr>
+                            <td><code>RBAC::requerPermissao($perm)</code></td>
+                            <td>void</td>
+                            <td>Exige permissão — aborta 403</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="t-g t-mut mt-4">Wildcards suportados: <code>'*'</code> (tudo) e <code>'modulo.*'</code>
+                    (todas as permissões do módulo).</p>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

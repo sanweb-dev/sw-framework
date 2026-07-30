@@ -4,7 +4,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 
-const VERSION = '0.1.0-alpha.1';
+const VERSION = '0.0.1';
 const root = __dirname;
 const distDir = path.join(root, 'dist');
 const docsDistDir = path.join(root, 'docs', 'dist');
@@ -18,13 +18,79 @@ const jsFiles = [
   path.join(root, 'src', 'js', 'modules', 'sw-trans.js'),
   ...['sw-code.js', 'sw-icon.js', 'sw-modal.js', 'sw-alert.js', 'sw-panel.js', 'sw-lightbox.js', 'sw-table.js', 'sw-ajax.js', 'sw-select.js', 'sw-valid.js', 'sw-mask.js', 'sw-chip.js',
     'sw-tabs.js', 'sw-accordion.js', 'sw-top.js', 'sw-pre.js', 'sw-dropdown.js', 'sw-lazy.js', 'sw-slider.js', 'sw-carousel.js', 'sw-pagination.js', 'sw-rating.js', 'sw-typewriter.js',
-    'sw-textlimit.js', 'sw-tooltip.js', 'sw-parallax.js', 'sw-lgpd.js', 'sw-textarea.js', 'sw-scrollspy.js', 'sw-scroll.js', 'sw-drag.js', 'sw-matinp.js', 'sw-sidebar.js',
+    'sw-textlimit.js', 'sw-tooltip.js', 'sw-parallax.js', 'sw-lgpd.js', 'sw-textarea.js', 'sw-scrollspy.js', 'sw-scroll.js', 'sw-drag.js', 'sw-matinp.js', 'sw-sidebar.js', 'sw-navbar.js', 'sw-seg.js',
     'sw-editor.js', 'sw-cotacao.js', 'sw-instagram.js', 'sw-infinite.js', 'sw-upload.js', 'sw-content.js', 'sw-cropper.js', 'sw-progress.js', 'sw-anim.js']
     .map((file) => path.join(root, 'src', 'js', 'modules', file)),
 ];
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');
 const fxFile = path.join(root, 'src', 'fx', 'sw-fx.js');
+const fxCssFile = path.join(root, 'src', 'fx', 'sw-fx.css');
 const iconsSrcDir = path.join(root, 'src', 'icons');
+// Camada opcional sw-fx-premium: motor declarativo GSAP portado do Smooll (sw-premium-*).
+// Bundle separado, nunca concatenado em sw.js/sw-mpa.js/sw-fx.js — zero-dependencia do
+// nucleo continua intacta; só existe se o desenvolvedor incluir este <script> extra.
+const fxPremiumDir = path.join(root, 'src', 'fx-premium');
+const fxPremiumFiles = ['sw-premium-effects.js', 'sw-premium-split.js', 'sw-premium-svg.js', 'sw-premium-ui.js',
+  'sw-premium-cursor.js', 'sw-premium-sections.js', 'sw-premium-router.js', 'sw-premium-core.js']
+  .map((file) => path.join(fxPremiumDir, file));
+const vendorGsapDir = path.join(root, 'vendor', 'gsap');
+const vendorGsapFiles = ['gsap.min.js', 'ScrollTrigger.min.js', 'Draggable.min.js', 'Flip.min.js',
+  'Observer.min.js', 'MotionPathPlugin.min.js', 'ScrollToPlugin.min.js', 'TextPlugin.min.js']
+  .map((file) => path.join(vendorGsapDir, file));
+
+// Template inicial do sw.config.css — mesmo conteúdo mostrado na doc (pages/config.html,
+// seção "Template Completo"). Mantido aqui como fonte única pra não desalinhar dos dois lugares.
+const SW_CONFIG_TEMPLATE = `/**
+ * ╔══════════════════════════════════════════════╗
+ * ║        SW CONFIG — Meu Projeto               ║
+ * ╚══════════════════════════════════════════════╝
+ * Carregue DEPOIS do sw.min.css:
+ * <link rel="stylesheet" href="sw.config.css">
+ */
+
+/* ── HUES (altere o número, todas as shades da cor derivam daqui) ── */
+:root {
+    --sw-h-pri: 200;    /* azul   */
+    --sw-h-sec: 215;    /* navy   */
+}
+
+/* ── CORES DE ESTADO (override direto, se precisar) ── */
+:root {
+    /* --sw-suc: hsl(145, 65%, 42%); */
+    /* --sw-err: hsl(355, 75%, 55%); */
+    /* --sw-ale: hsl(40, 85%, 52%); */
+    /* --sw-inf: hsl(205, 75%, 52%); */
+}
+
+/* ── TIPOGRAFIA ── */
+:root {
+    /* --sw-f-san: 'Inter', system-ui, sans-serif; */
+    /* --sw-f-mon: 'Fira Code', monospace;         */
+}
+
+/* ── ARREDONDAMENTO ── */
+:root {
+    --sw-r-p:  0.4rem;
+    --sw-r-m:  0.8rem;
+    --sw-r-g:  1.2rem;
+    --sw-r-gg: 1.8rem;
+    --sw-r-xl: 2.4rem;
+}
+
+/* ── TEMA ESCURO (SWDay — é o padrão em :root, sobrescreva direto) ── */
+:root {
+    /* --sw-bg:  #0d0d14; */
+    /* --sw-sur: #12121a; */
+    /* --sw-bor: #2a2a38; */
+}
+
+/* ── TEMA CLARO (SWDay light) ── */
+html[sw-theme="light"] {
+    /* --sw-bg:  #f8fafc; */
+    /* --sw-sur: #ffffff; */
+    /* --sw-bor:    #e2e8f0; */
+}
+`;
 
 function assertSourceFiles(files) {
   const missing = files.filter((file) => !fs.existsSync(file));
@@ -143,25 +209,142 @@ function buildIconFont() {
   return count;
 }
 
+function copyDirRecursive(srcDir, destDir) {
+  if (!fs.existsSync(srcDir)) return;
+  fs.mkdirSync(destDir, { recursive: true });
+  fs.readdirSync(srcDir, { withFileTypes: true }).forEach((entry) => {
+    const s = path.join(srcDir, entry.name);
+    const d = path.join(destDir, entry.name);
+    if (entry.isDirectory()) copyDirRecursive(s, d);
+    else atomicWriteBinary(d, fs.readFileSync(s));
+  });
+}
+
+// Organiza dist/ em 3 pacotes de download, pra quem baixa não ter que escolher
+// arquivo por arquivo: 1-principal (núcleo obrigatório), 2-complementar (tudo
+// opcional — efeitos, transições, GSAP premium, backend PHP) e 3-completa (a
+// união dos dois, pra quem só quer levar tudo de uma vez).
+function buildPackages() {
+  const pkgDir = path.join(distDir, 'pacotes');
+  const principal = path.join(pkgDir, '1-principal');
+  const complementar = path.join(pkgDir, '2-complementar');
+  const completa = path.join(pkgDir, '3-completa');
+
+  // Limpa as 3 pastas antes de remontar — evita que arquivo de um build anterior
+  // (ex.: os antigos sw-fx.min.js soltos, de antes do sw.compl.js existir) fique
+  // esquecido ali dentro depois que o esquema de nomes muda.
+  [principal, complementar, completa].forEach((dir) => fs.rmSync(dir, { recursive: true, force: true }));
+
+  fs.mkdirSync(principal, { recursive: true });
+  ['sw.min.css', 'sw.min.js', 'sw.config.css'].forEach((file) => {
+    atomicWriteBinary(path.join(principal, file), fs.readFileSync(path.join(distDir, file)));
+  });
+  copyDirRecursive(path.join(distDir, 'icons'), path.join(principal, 'icons'));
+  copyDirRecursive(path.join(distDir, 'fonts'), path.join(principal, 'fonts'));
+  atomicWrite(path.join(principal, 'LEIA-ME.md'),
+    '# SW Framework — Principal\n\n' +
+    'Núcleo obrigatório: 84 componentes, tema claro/escuro, ícones e os módulos de interface\n' +
+    '(modal, dropdown, navbar, sidebar, formulários...). É o que praticamente todo projeto usa.\n\n' +
+    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.min.css">\n<script src="sw.min.js" defer></script>\n```\n\n' +
+    '`sw.config.css` é opcional — um ponto de partida pra personalizar cores, fontes e bordas\n' +
+    '(carregue por último, depois do sw.min.css). A pasta `icons/` (SVGs) e `fonts/` (ícones em\n' +
+    'fonte) devem ficar ao lado do CSS/JS.\n');
+
+  fs.mkdirSync(complementar, { recursive: true });
+  ['sw.compl.min.css', 'sw.compl.min.js'].forEach((file) => {
+    atomicWriteBinary(path.join(complementar, file), fs.readFileSync(path.join(distDir, file)));
+  });
+  copyDirRecursive(path.join(root, 'src', 'php'), path.join(complementar, 'php'));
+  atomicWrite(path.join(complementar, 'LEIA-ME.md'),
+    '# SW Framework — Complementar\n\n' +
+    '`sw.compl.min.js` reúne tudo que é opcional num arquivo só — nenhuma parte exige as\n' +
+    'outras, mas todas exigem o pacote **1-principal** carregado antes:\n\n' +
+    '- Efeitos nativos leves (scramble, tilt 3D, marquee, magnetismo) — vem do sw-fx.\n' +
+    '- Transição suave entre páginas — vem do sw-mpa.\n' +
+    '- Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.\n' +
+    '- `php/` — backend PHP (Router, Model, Auth, RBAC...), server-side, carregado à parte no PHP, não no HTML.\n\n' +
+    '`sw.compl.min.css` é obrigatório se você usar `sw-marquee` ou `sw-scrub` do sw-fx —\n' +
+    'sem ele os dois ficam sem efeito nenhum (o JS só cria a estrutura/estado, quem desenha\n' +
+    'a animação é esse CSS). Os demais efeitos do sw-fx (scramble, split, tilt, magnetismo,\n' +
+    'typewriter) funcionam só com o JS.\n');
+
+  fs.mkdirSync(completa, { recursive: true });
+  ['sw.all.min.css', 'sw.all.min.js', 'sw.config.css'].forEach((file) => {
+    atomicWriteBinary(path.join(completa, file), fs.readFileSync(path.join(distDir, file)));
+  });
+  copyDirRecursive(path.join(distDir, 'icons'), path.join(completa, 'icons'));
+  copyDirRecursive(path.join(distDir, 'fonts'), path.join(completa, 'fonts'));
+  copyDirRecursive(path.join(root, 'src', 'php'), path.join(completa, 'php'));
+  atomicWrite(path.join(completa, 'LEIA-ME.md'),
+    '# SW Framework — Completa\n\n' +
+    '`sw.all.min.css` + `sw.all.min.js` = Principal + Complementar já combinados num arquivo\n' +
+    'só de cada. Pra quem prefere levar tudo de uma vez em vez de escolher peça por peça.\n\n' +
+    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.all.min.css">\n<script src="sw.all.min.js" defer></script>\n```\n');
+}
+
+function buildFxPremium() {
+  if (!fs.existsSync(fxPremiumDir) || !fs.existsSync(vendorGsapDir)) return null;
+  assertSourceFiles([...vendorGsapFiles, ...fxPremiumFiles]);
+
+  const gsapCode = vendorGsapFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+  const engineCode = fxPremiumFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+  // Motor compartilha um unico closure entre os 8 arquivos (como o build.js original do
+  // Smooll faz) — SWPremiumCore referencia funcoes/classes dos demais arquivos sem expor
+  // nada em window além do window.SWPremium publicado pelo auto-boot em sw-premium-core.js.
+  return `${gsapCode}\n(function(){\n"use strict";\n${engineCode}\n})();\n`;
+}
+
 function main() {
   console.log(`SW Framework ${VERSION} — build iniciado`);
-  assertSourceFiles([...cssFiles, mpaFile, ...jsFiles, fxFile]);
+  assertSourceFiles([...cssFiles, mpaFile, ...jsFiles, fxFile, fxCssFile]);
   fs.mkdirSync(distDir, { recursive: true });
   fs.mkdirSync(docsDistDir, { recursive: true });
 
+  // Nomes fragmentados de builds antigos (de antes do sw.compl.* existir) — apaga
+  // dos dois destinos pra não ficarem esquecidos ali quando o esquema de nomes muda.
+  const obsoleteNames = ['sw-fx.js', 'sw-fx.min.js', 'sw-fx.css', 'sw-fx.min.css',
+    'sw-mpa.js', 'sw-mpa.min.js', 'sw-fx-premium.js', 'sw-fx-premium.min.js'];
+  obsoleteNames.forEach((name) => {
+    fs.rmSync(path.join(distDir, name), { force: true });
+    fs.rmSync(path.join(docsDistDir, name), { force: true });
+  });
+
+  // fx.js, mpa.js, fx-premium e fx.css são só FONTES internas agora — nunca viram
+  // arquivo público próprio. Tudo que é opcional sai consolidado em sw.compl.*,
+  // sem nome fragmentado (FX/MPA/premium não existem como bundle separado).
   const outputs = new Map();
-  const css = banner('CSS') + cssFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
-  const mpa = banner('JavaScript MPA') + fs.readFileSync(mpaFile, 'utf8');
-  const js = banner('JavaScript') + jsFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
-  const fx = banner('FX') + fs.readFileSync(fxFile, 'utf8');
+  const coreCssRaw = cssFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+  const coreJsRaw = jsFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+  const mpaRaw = fs.readFileSync(mpaFile, 'utf8');
+  const fxRaw = fs.readFileSync(fxFile, 'utf8');
+  const fxCssRaw = fs.readFileSync(fxCssFile, 'utf8');
+  const css = banner('CSS') + coreCssRaw;
+  const js = banner('JavaScript') + coreJsRaw;
   outputs.set('sw.css', css);
   outputs.set('sw.min.css', banner('CSS compactado') + compactCss(css));
-  outputs.set('sw-mpa.js', mpa);
-  outputs.set('sw-mpa.min.js', banner('JavaScript MPA compactado') + compactJs(mpa));
   outputs.set('sw.js', js);
   outputs.set('sw.min.js', banner('JavaScript compactado') + compactJs(js));
-  outputs.set('sw-fx.js', fx);
-  outputs.set('sw-fx.min.js', banner('FX compactado') + compactJs(fx));
+
+  const fxPremiumBundle = buildFxPremium();
+  const fxPremiumRaw = fxPremiumBundle || '';
+
+  // sw.compl.* — todos os complementos (FX + MPA + FX Premium) num arquivo só.
+  // sw.all.*   — Principal + Complementar juntos.
+  // sw.compl.css hoje é só o CSS de apoio do SW-FX (marquee anda, scrub reage à
+  // rolagem) — sem ele, [sw-marquee] e [sw-scrub] ficam parados/inertes.
+  const complJsRaw = [fxRaw, mpaRaw, fxPremiumRaw].filter(Boolean).join('\n');
+  const complCssRaw = fxCssRaw;
+  const allJsRaw = `${coreJsRaw}\n${complJsRaw}`;
+  const allCssRaw = `${coreCssRaw}\n${complCssRaw}`;
+
+  outputs.set('sw.compl.css', banner('Complementar CSS (apoio do SW-FX)') + complCssRaw);
+  outputs.set('sw.compl.min.css', banner('Complementar CSS compactado') + compactCss(complCssRaw));
+  outputs.set('sw.compl.js', banner('Complementar (FX + MPA + FX Premium)') + complJsRaw);
+  outputs.set('sw.compl.min.js', banner('Complementar compactado') + compactJs(complJsRaw));
+  outputs.set('sw.all.css', banner('Completo (Principal + Complementar)') + allCssRaw);
+  outputs.set('sw.all.min.css', banner('Completo compactado') + compactCss(allCssRaw));
+  outputs.set('sw.all.js', banner('Completo (Principal + Complementar)') + allJsRaw);
+  outputs.set('sw.all.min.js', banner('Completo compactado') + compactJs(allJsRaw));
 
   const manifest = { version: VERSION, generatedAt: new Date().toISOString(), files: {} };
   outputs.forEach((content, name) => {
@@ -170,11 +353,18 @@ function main() {
     manifest.files[name] = { bytes: Buffer.byteLength(content), sha256: hash(content) };
   });
   atomicWrite(path.join(distDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  // sw.config.css não é minificado nem versionado no manifest — é um ponto de partida
+  // pra o desenvolvedor editar por cima, não um artefato de build determinístico. Grava
+  // nos dois lugares porque a doc (docs/pages/*.html) referencia via docs/dist/, igual
+  // aos outros bundles.
+  atomicWrite(path.join(distDir, 'sw.config.css'), SW_CONFIG_TEMPLATE);
+  atomicWrite(path.join(docsDistDir, 'sw.config.css'), SW_CONFIG_TEMPLATE);
   atomicWrite(path.join(docsDistDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
   const icons = buildIcons();
   const fontFiles = buildIconFont();
-  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}${fontFiles ? ` + fonte swicons (${fontFiles} arquivos)` : ''}`);
+  buildPackages();
+  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}${fontFiles ? ` + fonte swicons (${fontFiles} arquivos)` : ''} + 3 pacotes (principal/complementar/completa)`);
 }
 
 try { main(); } catch (error) { console.error(`Build interrompido: ${error.message}`); process.exitCode = 1; }

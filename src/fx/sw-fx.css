@@ -1,0 +1,37 @@
+/* SW-FX — CSS de apoio (Complementar)
+   O JS de sw-fx.js só cria estrutura/estado (classes, atributos, variáveis CSS) —
+   quem desenha o efeito visual é este arquivo. Sem ele, [sw-marquee] fica parado
+   e [sw-scrub] não reage a nada. */
+
+/* --- Marquee: duas cópias do conteúdo lado a lado, ambas andando junto --- */
+[sw-marquee] {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+[sw-marquee] .sw-marquee-content {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding-right: 2rem;
+  animation: sw-marquee-scroll var(--sw-marquee-dur, 20s) linear infinite;
+}
+[sw-marquee][data-sw-marquee-state="paused"] .sw-marquee-content {
+  animation-play-state: paused;
+}
+@keyframes sw-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* --- Scrub: opacidade e leve subida amarradas a --sw-scrub-progress (0→1) --- */
+[sw-scrub] {
+  --sw-scrub-progress: 0;
+  opacity: var(--sw-scrub-progress);
+  transform: translateY(calc((1 - var(--sw-scrub-progress)) * 3rem));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [sw-marquee] .sw-marquee-content { animation: none; }
+  [sw-scrub] { opacity: 1; transform: none; }
+}

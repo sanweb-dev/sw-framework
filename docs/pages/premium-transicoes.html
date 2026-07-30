@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Transições - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+            gap: 1rem;
+        }
+
+        .s {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+            color: #fff;
+            border-radius: var(--sw-r-g, 8px);
+        }
+
+        .s h3 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .c1 {
+            background: #0f172a;
+        }
+
+        .c2 {
+            background: #1e293b;
+        }
+
+        .c3 {
+            background: #0d1117;
+        }
+
+        .c4 {
+            background: #111827;
+        }
+
+        .c5 {
+            background: #1a1a2e;
+        }
+
+        .c6 {
+            background: #16213e;
+        }
+
+        .c7 {
+            background: #0a0a0a;
+        }
+
+        .c8 {
+            background: #1a1a1c;
+        }
+
+        .c9 {
+            background: #222226;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main" id="sw-premium-view">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Transições</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Transições</span></h2>
+                <p class="t-g t-mut mb-0">Misture qualquer efeito de saída com qualquer efeito de entrada — em links
+                    de página (<code>sw-premium-link</code>) e em seções de scroll (<code>sw-premium-section</code>).
+                    Um atributo, pipe no meio, liberdade total. Equivalente ao Lab 09
+                    (<code>demo-transitions.html</code>) do Smooll original.</p>
+            </div>
+
+            <div class="warn-box mb-6">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p>
+                    <strong>Achado ao portar:</strong> a demo original também anuncia <code>sm-enter</code> (animar a
+                    página inteira ao carregar, sem clique) — mas essa lógica não existe no <code>router.js</code>
+                    real, só o PJAX disparado por clique em <code>sm-link</code>. Não portei <code>sw-premium-enter</code>
+                    porque ele não existe de verdade no motor original. Os cards abaixo são <strong>links reais</strong>
+                    pra esta mesma página — clique neles pra ver a transição PJAX funcionando de verdade (fetch +
+                    troca de <code>#sw-premium-view</code>, sem recarregar).
+                </p>
+            </div>
+
+            <!-- PÁGINA: TIPO ÚNICO -->
+            <div class="doc-card sec mb-6" id="link-unico">
+                <h3 class="t-m f-bd mb-4">1. <code>sw-premium-link</code> — tipo único (saída = entrada)</h3>
+                <p class="t-g t-mut mb-4">Clique em qualquer card — ele navega pra esta mesma página via PJAX real,
+                    com a transição indicada.</p>
+                <div class="cards">
+                    <a href="premium-transicoes.html" sw-premium-link="fade" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">fade</p>
+                        <p class="t-pp t-mut">Opacidade + leve deslize</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="slide" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">slide</p>
+                        <p class="t-pp t-mut">Sai pela esquerda, entra pela direita</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="slide-up" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">slide-up</p>
+                        <p class="t-pp t-mut">Sai pelo topo, nova sobe de baixo</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="scale" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">scale</p>
+                        <p class="t-pp t-mut">Zoom out na saída, zoom in na entrada</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="wipe" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">wipe</p>
+                        <p class="t-pp t-mut">Cortina cobre e revela</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="flip" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">flip</p>
+                        <p class="t-pp t-mut">Rotação 3D no eixo Y</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="blur" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">blur</p>
+                        <p class="t-pp t-mut">Desfoque dissolve e resolve</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- PÁGINA: PIPE -->
+            <div class="doc-card sec mb-6" id="link-pipe">
+                <h3 class="t-m f-bd mb-4">2. Combinações com pipe — saída ≠ entrada</h3>
+                <p class="t-g t-mut mb-4">Clique pra ver o efeito combinado de verdade.</p>
+                <div class="cards">
+                    <a href="premium-transicoes.html" sw-premium-link="scale|fade" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="t-pp" style="color:#ef4444">saída → scale</p>
+                        <p class="t-pp" style="color:#22c55e">entrada → fade</p>
+                        <code class="t-pri mt-2" style="display:block">sw-premium-link="scale|fade"</code>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="wipe|slide-up" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="t-pp" style="color:#ef4444">saída → wipe (cortina)</p>
+                        <p class="t-pp" style="color:#22c55e">entrada → slide-up</p>
+                        <code class="t-pri mt-2" style="display:block">sw-premium-link="wipe|slide-up"</code>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="flip|blur" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="t-pp" style="color:#ef4444">saída → flip 3D</p>
+                        <p class="t-pp" style="color:#22c55e">entrada → blur resolve</p>
+                        <code class="t-pri mt-2" style="display:block">sw-premium-link="flip|blur"</code>
+                    </a>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<a href="pagina.html" sw-premium-link="scale|fade">Link</a>
+</script></pre>
+            </div>
+
+            <!-- REFERÊNCIA -->
+            <div class="doc-card sec mb-6" id="link-ref">
+                <h3 class="t-m f-bd mb-4">Efeitos disponíveis — <code>sw-premium-link</code></h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Valores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Saída (out)</td>
+                            <td><code>fade</code> · <code>slide</code> · <code>slide-left</code> ·
+                                <code>slide-right</code> · <code>slide-up</code> · <code>slide-down</code> ·
+                                <code>scale</code> · <code>scale-up</code> · <code>scale-down</code> ·
+                                <code>flip</code> · <code>flip-x</code> · <code>blur</code> · <code>blur-out</code> ·
+                                <code>wipe</code> · <code>curtain</code></td>
+                        </tr>
+                        <tr>
+                            <td>Entrada (in)</td>
+                            <td><code>fade</code> · <code>slide</code> · <code>slide-left</code> ·
+                                <code>slide-right</code> · <code>slide-up</code> · <code>slide-down</code> ·
+                                <code>scale</code> · <code>scale-up</code> · <code>scale-down</code> ·
+                                <code>flip</code> · <code>flip-x</code> · <code>blur</code> · <code>blur-in</code> ·
+                                <code>wipe</code> · <code>curtain</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÕES: STACK -->
+            <div class="doc-card sec mb-6" id="section-stack">
+                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-section="stack"</code></h3>
+                <p class="t-g t-mut mb-4">Seções empilhadas com pin — cada nova sobe por cima da anterior. Role
+                    dentro da área abaixo.</p>
+                <div sw-premium-section="stack">
+                    <div class="s c1">
+                        <h3>Stack · 01</h3>
+                        <p class="t-pp">Role ↓</p>
+                    </div>
+                    <div class="s c2">
+                        <h3>Stack · 02</h3>
+                        <p class="t-pp">Veio por cima</p>
+                    </div>
+                    <div class="s c3">
+                        <h3>Stack · 03</h3>
+                        <p class="t-pp">Cobre tudo</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-section="stack">
+  <div>1</div><div>2</div><div>3</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- SEÇÕES: PIPE -->
+            <div class="doc-card sec mb-6" id="section-pipe">
+                <h3 class="t-m f-bd mb-4">4. Pipe — cada filho com efeito diferente</h3>
+                <p class="t-g t-mut mb-4"><code>sw-premium-section="slide-up|zoom|fold"</code> — o índice do valor
+                    mapeia pro filho de mesmo índice.</p>
+                <div sw-premium-section="slide-up|zoom|fold">
+                    <div class="s c7">
+                        <h3>Base · 01</h3>
+                        <p class="t-pp">Seção inicial</p>
+                    </div>
+                    <div class="s c8">
+                        <h3>Zoom · 02</h3>
+                        <p class="t-pp">Escalou do zero</p>
+                    </div>
+                    <div class="s c9">
+                        <h3>Fold · 03</h3>
+                        <p class="t-pp">Dobrou do topo</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-section="slide-up|zoom|fold">
+  <div>1 — base</div><div>2 — zoom</div><div>3 — fold</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- SEÇÕES: H-SCROLL -->
+            <div class="doc-card sec" id="section-hscroll">
+                <h3 class="t-m f-bd mb-4">5. <code>sw-premium-section="h-scroll"</code> — carrossel horizontal</h3>
+                <p class="t-g t-mut mb-4">Seções lado a lado que deslizam pra esquerda conforme você rola. Tipos
+                    disponíveis: <code>slide</code>, <code>slide-up/down/left/right</code>, <code>mask</code>,
+                    <code>zoom</code>, <code>skew</code>, <code>fold</code>, <code>stack</code>, <code>h-scroll</code>,
+                    <code>h-scroll-right</code>.</p>
+                <div sw-premium-section="h-scroll">
+                    <div class="s" style="background:linear-gradient(135deg,#0d0221,#1a044a)">
+                        <h3>Cena 01</h3>
+                        <p class="t-pp">Role ↓</p>
+                    </div>
+                    <div class="s" style="background:linear-gradient(135deg,#1a044a,#3b0764)">
+                        <h3>Cena 02</h3>
+                        <p class="t-pp">Deslizou</p>
+                    </div>
+                    <div class="s" style="background:linear-gradient(135deg,#3b0764,#7209b7)">
+                        <h3>Cena 03</h3>
+                        <p class="t-pp">Fim</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-section="h-scroll">
+  <div>01</div><div>02</div><div>03</div>
+</div>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

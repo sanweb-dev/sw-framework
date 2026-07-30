@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — UI Interativa - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .drag-area {
+            position: relative;
+            width: 100%;
+            height: 10rem;
+            background: var(--sw-bg-bas);
+            border: 1px dashed var(--sw-bor);
+            border-radius: var(--sw-r-g, 8px);
+            overflow: hidden;
+        }
+
+        .drag-box {
+            width: 5rem;
+            height: 5rem;
+            border-radius: .8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            position: absolute;
+            user-select: none;
+        }
+
+        .flip-card {
+            width: 8rem;
+            height: 5rem;
+            border-radius: .8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            background: var(--sw-pri, #3b82f6);
+            cursor: pointer;
+            transition: border-radius .3s;
+        }
+
+        .flip-card.is-big {
+            width: 16rem;
+            height: 9rem;
+            border-radius: 1.4rem;
+        }
+
+        .flip-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .6rem;
+            width: 100%;
+        }
+
+        .flip-cards-grid .flip-card {
+            width: 100%;
+            height: 4rem;
+            font-size: .9rem;
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+        }
+
+        .flip-cards-grid.is-list {
+            grid-template-columns: 1fr;
+        }
+
+        .acc-item {
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: .8rem;
+            padding: 1.2rem 1.4rem;
+            cursor: pointer;
+        }
+
+        .acc-item.acc-open {
+            background: color-mix(in srgb, var(--sw-pri) 8%, transparent);
+            border-color: var(--sw-pri);
+        }
+
+        .acc-body {
+            max-height: 0;
+            overflow: hidden;
+            font-size: 1.3rem;
+            color: var(--sw-txt-mut);
+        }
+
+        .acc-item.acc-open .acc-body {
+            max-height: 10rem;
+            margin-top: .8rem;
+        }
+
+        #observerDemo {
+            position: relative;
+            height: 22rem;
+            border-radius: var(--sw-r-g, 8px);
+            overflow: hidden;
+        }
+
+        .obs-section {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">UI Interativa</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">UI Interativa</span></h2>
+                <p class="t-g t-mut mb-0">Drag, Flip, Observer fullpage e scroll suave — via Draggable, Flip e
+                    Observer Plugin do GSAP. Equivalente ao Lab 07 (<code>demo-ui.html</code>) do Smooll original.</p>
+            </div>
+
+            <!-- PARÂMETROS -->
+            <div class="doc-card sec mb-6" id="parametros">
+                <h3 class="t-m f-bd mb-4">Parâmetros disponíveis</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-drag</code></td>
+                            <td>x/y/xy/rotation</td>
+                            <td>Tipo de arraste</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-drag-bounds</code></td>
+                            <td>"parent" ou seletor</td>
+                            <td>Limite do arraste</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-drag-snap</code></td>
+                            <td>JSON</td>
+                            <td>Posições de encaixe ao soltar</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-drag-inertia</code></td>
+                            <td>presença</td>
+                            <td>Física de inércia após soltar</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-flip</code> / <code>-flip-class</code> / <code>-flip-target</code></td>
+                            <td>presença / string / seletor</td>
+                            <td>Ativa o Flip Plugin ao clicar, alternando uma classe</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-observer</code> / <code>-observer-type</code></td>
+                            <td>presença / string</td>
+                            <td>Fullpage sections via Observer Plugin, ex: <code>"wheel,touch"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-to</code> / <code>-scroll-offset</code></td>
+                            <td>seletor / número</td>
+                            <td>Scroll suave ao clicar (ScrollToPlugin)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 1. DRAG -->
+            <div class="doc-card sec mb-6" id="drag">
+                <h3 class="t-m f-bd mb-4">1. <code>sw-premium-drag</code> — Draggable</h3>
+                <p class="t-g t-mut mb-4">Bounds precisa de container <code>position:relative</code> com tamanho
+                    definido, e o elemento arrastável de <code>position:absolute</code>.</p>
+                <div class="draw-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(14rem,1fr));gap:1rem">
+                    <div sw-card style="padding:1.4rem">
+                        <div class="drag-area">
+                            <div class="drag-box" style="background:var(--sw-pri);color:#fff;top:1.2rem;left:50%;transform:translateX(-50%)"
+                                sw-premium-drag="xy" sw-premium-drag-bounds="parent">↕↔</div>
+                        </div>
+                        <p class="t-pp t-mut mt-2">Livre (xy) + bounds</p>
+                    </div>
+                    <div sw-card style="padding:1.4rem">
+                        <div class="drag-area" style="height:6rem">
+                            <div class="drag-box" style="background:#22c55e;color:#000;top:.5rem;left:.5rem;width:4rem;height:4rem"
+                                sw-premium-drag="x" sw-premium-drag-bounds="parent">↔</div>
+                        </div>
+                        <p class="t-pp t-mut mt-2">Só horizontal (x)</p>
+                    </div>
+                    <div sw-card style="padding:1.4rem;display:flex;flex-direction:column;align-items:center">
+                        <div class="drag-box" style="background:var(--sw-bg-bas);border:2px solid var(--sw-pri);border-radius:50%;position:relative"
+                            sw-premium-drag="rotation">↻</div>
+                        <p class="t-pp t-mut mt-2">Rotation — girar</p>
+                    </div>
+                    <div sw-card style="padding:1.4rem">
+                        <div class="drag-area" style="height:6rem">
+                            <div class="drag-box" style="background:#a78bfa;color:#000;top:.5rem;left:.5rem;width:4rem;height:4rem;font-size:1rem"
+                                sw-premium-drag="x" sw-premium-drag-bounds="parent"
+                                sw-premium-drag-snap='{"x":[0,60,120,180]}'>SNAP</div>
+                        </div>
+                        <p class="t-pp t-mut mt-2">Com snap (encaixe)</p>
+                    </div>
+                    <div sw-card style="padding:1.4rem">
+                        <div class="drag-area" style="height:6rem">
+                            <div class="drag-box" style="background:linear-gradient(135deg,#00d4ff,#0077ff);top:.5rem;left:.5rem;border-radius:50%"
+                                sw-premium-drag="x" sw-premium-drag-bounds="parent" sw-premium-drag-inertia>⚡</div>
+                        </div>
+                        <p class="t-pp t-mut mt-2">Com inércia — arraste rápido e solte</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="area" style="position:relative;height:200px">
+  <div sw-premium-drag="xy" sw-premium-drag-bounds="parent" style="position:absolute">arraste</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. FLIP -->
+            <div class="doc-card sec mb-6" id="flip">
+                <h3 class="t-m f-bd mb-4">2. <code>sw-premium-flip</code> — clique nos cards</h3>
+                <p class="t-g t-mut mb-4">Captura o estado visual antes/depois de alternar uma classe CSS e anima a
+                    transição. Defina os dois estados no seu CSS.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem">
+                    <div sw-card style="padding:2rem;display:flex;flex-direction:column;align-items:center;gap:1rem">
+                        <div id="fc1" class="flip-card" sw-premium-flip sw-premium-flip-class="is-big"
+                            sw-premium-flip-target="#fc1">Clique!</div>
+                        <p class="t-pp t-mut">Card expande de tamanho</p>
+                    </div>
+                    <div sw-card style="padding:2rem;display:flex;flex-direction:column;align-items:center;gap:1rem">
+                        <button class="sw-btn sw-btn-outline sw-btn-sm" sw-premium-flip
+                            sw-premium-flip-class="is-list" sw-premium-flip-target="#flipGrid">Grid ↔ Lista</button>
+                        <div id="flipGrid" class="flip-cards-grid">
+                            <div class="flip-card">1</div>
+                            <div class="flip-card">2</div>
+                            <div class="flip-card">3</div>
+                            <div class="flip-card">4</div>
+                            <div class="flip-card">5</div>
+                            <div class="flip-card">6</div>
+                        </div>
+                    </div>
+                </div>
+                <div sw-card class="mt-4" style="padding:2rem">
+                    <p class="t-pp t-mut mb-3">Accordion — cada item com seu próprio <code>sw-premium-flip</code></p>
+                    <div style="display:flex;flex-direction:column;gap:.8rem">
+                        <div id="acc1" class="acc-item" sw-premium-flip sw-premium-flip-class="acc-open"
+                            sw-premium-flip-target="#acc1">
+                            <p class="f-bd">O que é sw-premium-flip?</p>
+                            <p class="acc-body">Captura o estado visual antes e depois de uma mudança de CSS e anima
+                                via GSAP Flip Plugin.</p>
+                        </div>
+                        <div id="acc2" class="acc-item" sw-premium-flip sw-premium-flip-class="acc-open"
+                            sw-premium-flip-target="#acc2">
+                            <p class="f-bd">Precisa de JavaScript?</p>
+                            <p class="acc-body">Não — só atributos HTML, a lógica de estado e animação é
+                                automática.</p>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div id="card" sw-premium-flip sw-premium-flip-class="is-big" sw-premium-flip-target="#card">Clique</div>
+<style>.card.is-big { width: 100%; height: 220px; }</style>
+</script></pre>
+            </div>
+
+            <!-- 3. SCROLL TO -->
+            <div class="doc-card sec mb-6" id="scroll-to">
+                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-scroll-to</code> — scroll suave</h3>
+                <p class="t-g t-mut mb-4">Links e botões com scroll animado via ScrollToPlugin do GSAP.</p>
+                <div class="demo-wrap" style="display:flex;gap:1rem;justify-content:center;padding:2rem;flex-wrap:wrap">
+                    <button class="sw-btn sw-btn-pri" sw-premium-scroll-to="#drag" sw-premium-duration="1"
+                        sw-premium-ease="power3.out">↑ Ir para Drag</button>
+                    <button class="sw-btn sw-btn-outline" sw-premium-scroll-to="#flip" sw-premium-duration="1.2"
+                        sw-premium-ease="power3.inOut">↑ Ir para Flip</button>
+                    <button class="sw-btn sw-btn-outline" sw-premium-scroll-to="#scroll-to" sw-premium-duration="0.6">↺
+                        Topo desta seção</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-premium-scroll-to="#secao" sw-premium-duration="1" sw-premium-ease="power3.out">Ir</button>
+</script></pre>
+            </div>
+
+            <!-- 4. OBSERVER -->
+            <div class="doc-card sec" id="observer">
+                <h3 class="t-m f-bd mb-4">4. <code>sw-premium-observer</code> — fullpage sections</h3>
+                <p class="t-g t-mut mb-4">Detecta wheel/touch e desliza entre seções. Role com o mouse dentro da
+                    área abaixo. O container precisa de altura explícita.</p>
+                <div id="observerDemo" sw-premium-observer sw-premium-observer-type="wheel,touch"
+                    sw-premium-duration="0.9" sw-premium-ease="power2.inOut">
+                    <div sw-premium-observer-section style="background:linear-gradient(135deg,#0077ff,#0055cc)">
+                        <span class="t-xg f-bd">Seção 1</span>
+                        <span class="t-pp" style="opacity:.7">Role para baixo ↓</span>
+                    </div>
+                    <div sw-premium-observer-section style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+                        <span class="t-xg f-bd">Seção 2</span>
+                        <span class="t-pp" style="opacity:.6">↑ acima · abaixo ↓</span>
+                    </div>
+                    <div sw-premium-observer-section style="background:linear-gradient(135deg,#0f3460,#0a2340)">
+                        <span class="t-xg f-bd">Seção 3</span>
+                        <span class="t-pp" style="opacity:.6">↑ Role para subir</span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-observer sw-premium-observer-type="wheel,touch">
+  <div sw-premium-observer-section>1</div>
+  <div sw-premium-observer-section>2</div>
+  <div sw-premium-observer-section>3</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- CSS OBRIGATÓRIO -->
+            <div class="warn-box mt-6" id="nota">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                <p>
+                    O motor injeta o comportamento, não o visual. Três coisas ficam por sua conta: (1)
+                    <code>sw-premium-drag</code> com <code>bounds="parent"</code> — o pai precisa de
+                    <code>position:relative</code> e tamanho definido, o elemento arrastável de
+                    <code>position:absolute</code>; (2) <code>sw-premium-flip</code> — defina os dois estados CSS
+                    (antes/depois da classe); (3) <code>sw-premium-observer</code> — o container precisa de altura
+                    explícita, não <code>auto</code>.
+                </p>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

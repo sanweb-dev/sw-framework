@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Mouse - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .mag-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            border-radius: 100px;
+            font-weight: 700;
+            border: 1px solid var(--sw-bor);
+            background: transparent;
+            color: var(--sw-txt-bas);
+            will-change: transform;
+        }
+
+        .mag-btn.pri {
+            background: var(--sw-pri, #3b82f6);
+            border-color: var(--sw-pri, #3b82f6);
+            color: #fff;
+        }
+
+        .mag-circle {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            padding: 0;
+            font-size: 1.4rem;
+        }
+
+        .tilt-card {
+            width: 14rem;
+            height: 16rem;
+            border-radius: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            font-weight: 700;
+            will-change: transform;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-weight: 800;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .marquee-dot {
+            width: .5rem;
+            height: .5rem;
+            border-radius: 50%;
+            background: var(--sw-pri, #3b82f6);
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Mouse</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Mouse</span></h2>
+                <p class="t-g t-mut mb-0">Magnetismo, tilt 3D, marquee e cursor customizado — GSAP puro, sem plugins
+                    premium. Equivalente ao Lab 08 (<code>demo-premium.html</code>) do Smooll original.</p>
+            </div>
+
+            <div class="warn-box mb-6">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p>
+                    <strong>Achado ao portar:</strong> a documentação original do Smooll anuncia
+                    <code>sm-cursor-lerp</code>, <code>-size</code>, <code>-color</code>, <code>-mix</code>,
+                    <code>-hide-native</code> e <code>-hover</code> (escala por elemento) — mas o código-fonte real de
+                    <code>smoollSetupCursor</code> só implementa o cursor como um ponto branco fixo de 10px→36px no
+                    hover, com <code>mix-blend-mode:difference</code> e lerp 0.16 hardcoded. Portei fielmente o que o
+                    código faz de verdade, não o que a documentação promete — por isso <code>sw-premium-cursor</code>
+                    abaixo só tem os dois atributos reais.
+                </p>
+            </div>
+
+            <!-- PARÂMETROS -->
+            <div class="doc-card sec mb-6" id="parametros">
+                <h3 class="t-m f-bd mb-4">Parâmetros disponíveis (reais, conferidos no código-fonte)</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-cursor</code></td>
+                            <td>presença</td>
+                            <td>Ativa o cursor customizado (ponto, segue com lerp)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor-img</code></td>
+                            <td>URL</td>
+                            <td>Troca o ponto por uma imagem 36×36px</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-magnetic</code> / <code>-magnetic-strength</code></td>
+                            <td>presença / 0–1</td>
+                            <td>Campo magnético ao redor do cursor</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-hover-tilt</code> / <code>-tilt-strength</code></td>
+                            <td>presença / graus</td>
+                            <td>Inclinação 3D baseada na posição do mouse</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-marquee</code> / <code>-marquee-speed</code> /
+                                <code>-marquee-direction</code></td>
+                            <td>presença / número / "left"·"right"</td>
+                            <td>Ticker infinito — o primeiro filho se duplica automaticamente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 1. MAGNETIC -->
+            <div class="doc-card sec mb-6" id="magnetic">
+                <h3 class="t-m f-bd mb-4">1. <code>sw-premium-magnetic</code> — campo magnético</h3>
+                <p class="t-g t-mut mb-4">Aproxime o cursor dos botões. Eles são atraídos e voltam com física
+                    elástica.</p>
+                <div class="demo-wrap" style="display:flex;gap:1.6rem;flex-wrap:wrap;justify-content:center;padding:2.4rem">
+                    <button class="mag-btn pri" sw-premium-magnetic sw-premium-magnetic-strength="0.4">Strength
+                        0.4</button>
+                    <button class="mag-btn" sw-premium-magnetic sw-premium-magnetic-strength="0.6">Forte (0.6)</button>
+                    <button class="mag-btn" sw-premium-magnetic sw-premium-magnetic-strength="0.15">Suave
+                        (0.15)</button>
+                    <button class="mag-btn mag-circle" sw-premium-magnetic sw-premium-magnetic-strength="0.5">⚡</button>
+                    <button class="mag-btn mag-circle" sw-premium-magnetic sw-premium-magnetic-strength="0.5">★</button>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button sw-premium-magnetic sw-premium-magnetic-strength="0.4">Magnetic</button>
+</script></pre>
+            </div>
+
+            <!-- 2. TILT -->
+            <div class="doc-card sec mb-6" id="tilt">
+                <h3 class="t-m f-bd mb-4">2. <code>sw-premium-hover-tilt</code> — inclinação 3D</h3>
+                <p class="t-g t-mut mb-4">Mova o mouse sobre os cards. O ângulo do hover controla rotationX/Y.</p>
+                <div class="demo-wrap" style="display:flex;gap:1.6rem;flex-wrap:wrap;justify-content:center;padding:2.4rem">
+                    <div class="tilt-card" style="background:linear-gradient(135deg,var(--sw-pri),#6d040c)"
+                        sw-premium-hover-tilt sw-premium-tilt-strength="18">
+                        <span style="font-size:2rem">🎴</span>
+                        <span class="t-pp">Strength: 18</span>
+                    </div>
+                    <div class="tilt-card" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)"
+                        sw-premium-hover-tilt sw-premium-tilt-strength="28">
+                        <span style="font-size:2rem;color:#61dafb">◈</span>
+                        <span class="t-pp" style="color:#61dafb">Strength: 28</span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-hover-tilt sw-premium-tilt-strength="18">card</div>
+</script></pre>
+            </div>
+
+            <!-- 3. MARQUEE -->
+            <div class="doc-card sec mb-6" id="marquee">
+                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-marquee</code> — ticker infinito</h3>
+                <p class="t-g t-mut mb-4">O conteúdo do primeiro filho é duplicado automaticamente pra criar o loop
+                    sem costura.</p>
+                <div class="demo-wrap mb-4" style="overflow:hidden;padding:1.4rem 0">
+                    <div sw-premium-marquee sw-premium-marquee-speed="70">
+                        <div class="marquee-track">
+                            <span class="marquee-item">SW PREMIUM</span><span class="marquee-dot"></span>
+                            <span class="marquee-item">GSAP POWERED</span><span class="marquee-dot"></span>
+                            <span class="marquee-item">DECLARATIVE</span><span class="marquee-dot"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-wrap" style="overflow:hidden;padding:1.4rem 0">
+                    <div sw-premium-marquee sw-premium-marquee-speed="50" sw-premium-marquee-direction="right">
+                        <div class="marquee-track t-mut">
+                            <span class="marquee-item">SMOOTH TRANSITIONS</span><span class="marquee-dot"
+                                style="background:var(--sw-txt-mut)"></span>
+                            <span class="marquee-item">NATIVE PERFORMANCE</span><span class="marquee-dot"
+                                style="background:var(--sw-txt-mut)"></span>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-marquee sw-premium-marquee-speed="70">
+  <span>TEXTO</span>
+</div>
+<div sw-premium-marquee sw-premium-marquee-direction="right">
+  <span>REVERSO</span>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. CURSOR -->
+            <div class="doc-card sec" id="cursor">
+                <h3 class="t-m f-bd mb-4">4. <code>sw-premium-cursor</code> — cursor customizado</h3>
+                <p class="t-g t-mut mb-4">Coloque no <code>&lt;body&gt;</code> ou em qualquer container. Um ponto
+                    branco com <code>mix-blend-mode:difference</code> segue o mouse com lerp suave (0.16, fixo) —
+                    cresce ao passar sobre <code>a</code>, <code>button</code> ou <code>[sw-premium-magnetic]</code>.
+                    Só ativo em ponteiro fino (<code>pointer:fine</code>) — ignorado em touch. Esta página inteira já
+                    está com o cursor ativo.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<body sw-premium-cursor>
+  <!-- cursor customizado ativo em toda a página -->
+</body>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+    <span sw-premium-cursor style="display:none"></span>
+</body>
+
+</html>

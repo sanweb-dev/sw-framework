@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animações - SW Docs</title>
-    <script src="../dist/sw-mpa.min.js"></script>
+    <title>Animações Nativas - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
 
     <style>
         .sec {
@@ -168,7 +168,7 @@
             </nav>
 
             <span class="doc-tag">Features</span>
-            <h2 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Framework</span></h2>
+            <h2 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Nativas</span></h2>
             <p class="t-g t-mut mb-8">4 camadas: <strong>Reveal</strong> (scroll trigger) - <strong>Timed</strong>
                 (one-shot) - <strong>Loop</strong> (infinito) - <strong>Micro</strong> (hover). Clique nos demos para
                 repetir.</p>
@@ -196,16 +196,16 @@
                 <p class="cat-label">Velocidade + Delay</p>
                 <div class="demo-grid">
                     <div class="demo-box" data-timed="ani-up spd-f" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-f<div class="demo-lbl">0.25s</div>
+                            class="swi swi-flash"></i>.spd-f<div class="demo-lbl">0.25s</div>
                     </div>
-                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i class="swi swi-zap"></i>base<div
+                    <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i class="swi swi-flash"></i>base<div
                             class="demo-lbl">0.55s</div>
                     </div>
                     <div class="demo-box" data-timed="ani-up spd-s" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-s<div class="demo-lbl">0.9s</div>
+                            class="swi swi-flash"></i>.spd-s<div class="demo-lbl">0.9s</div>
                     </div>
                     <div class="demo-box" data-timed="ani-up spd-xs" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-xs<div class="demo-lbl">1.6s</div>
+                            class="swi swi-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
                     </div>
                 </div>
                 <div class="demo-grid">
@@ -241,38 +241,38 @@
                 <p class="cat-label">Direção</p>
                 <div class="demo-grid">
                     <div class="demo-box" data-timed="ani-fade" onclick="replay(this)"><i
-                            class="swi swi-eye"></i>.ani-fade</div>
+                            class="swi swi-show"></i>.ani-fade</div>
                     <div class="demo-box" data-timed="ani-up" onclick="replay(this)"><i
-                            class="swi swi-arrow-up"></i>.ani-up</div>
+                            class="swi swi-arrow-to-top"></i>.ani-up</div>
                     <div class="demo-box" data-timed="ani-down" onclick="replay(this)"><i
-                            class="swi swi-arrow-down"></i>.ani-down</div>
+                            class="swi swi-arrow-to-bottom"></i>.ani-down</div>
                     <div class="demo-box" data-timed="ani-left" onclick="replay(this)"><i
-                            class="swi swi-arrow-left"></i>.ani-left</div>
+                            class="swi swi-arrow-to-left"></i>.ani-left</div>
                     <div class="demo-box" data-timed="ani-right" onclick="replay(this)"><i
-                            class="swi swi-arrow-right"></i>.ani-right</div>
-                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="swi swi-maximize"></i>.ani-in
+                            class="swi swi-arrow-to-right"></i>.ani-right</div>
+                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="swi swi-expand"></i>.ani-in
                     </div>
                     <div class="demo-box" data-timed="ani-out" onclick="replay(this)"><i
-                            class="swi swi-minimize"></i>.ani-out</div>
+                            class="swi swi-collapse"></i>.ani-out</div>
                     <div class="demo-box" data-timed="ani-flip" onclick="replay(this)"><i
-                            class="swi swi-refresh-cw"></i>.ani-flip</div>
+                            class="swi swi-refresh"></i>.ani-flip</div>
                     <div class="demo-box" data-timed="ani-drop" onclick="replay(this)"><i
-                            class="swi swi-arrow-down-circle"></i>.ani-drop</div>
+                            class="swi swi-chevron-down-circle"></i>.ani-drop</div>
                 </div>
 
                 <p class="cat-label">Velocidade (aplica em qualquer ani-*)</p>
                 <div class="demo-grid">
                     <div class="demo-box" data-timed="ani-in spd-f" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-f<div class="demo-lbl">0.25s fast</div>
+                            class="swi swi-flash"></i>.spd-f<div class="demo-lbl">0.25s fast</div>
                     </div>
-                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="swi swi-zap"></i>base<div
+                    <div class="demo-box" data-timed="ani-in" onclick="replay(this)"><i class="swi swi-flash"></i>base<div
                             class="demo-lbl">0.55s</div>
                     </div>
                     <div class="demo-box" data-timed="ani-in spd-s" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-s<div class="demo-lbl">0.9s slow</div>
+                            class="swi swi-flash"></i>.spd-s<div class="demo-lbl">0.9s slow</div>
                     </div>
                     <div class="demo-box" data-timed="ani-in spd-xs" onclick="replay(this)"><i
-                            class="swi swi-zap"></i>.spd-xs<div class="demo-lbl">1.6s</div>
+                            class="swi swi-flash"></i>.spd-xs<div class="demo-lbl">1.6s</div>
                     </div>
                 </div>
 
@@ -293,16 +293,16 @@
                 <p class="cat-label">Clip-path Wipes (revela direcional sem fade)</p>
                 <div class="demo-grid">
                     <div class="demo-box" data-timed="ani-wipe-l" onclick="replay(this)"><i
-                            class="swi swi-arrow-left"></i>.ani-wipe-l<div class="demo-lbl">wipe</div>
+                            class="swi swi-arrow-to-left"></i>.ani-wipe-l<div class="demo-lbl">wipe</div>
                     </div>
                     <div class="demo-box" data-timed="ani-wipe-r" onclick="replay(this)"><i
-                            class="swi swi-arrow-right"></i>.ani-wipe-r<div class="demo-lbl">wipe</div>
+                            class="swi swi-arrow-to-right"></i>.ani-wipe-r<div class="demo-lbl">wipe</div>
                     </div>
                     <div class="demo-box" data-timed="ani-wipe-t" onclick="replay(this)"><i
-                            class="swi swi-arrow-up"></i>.ani-wipe-t<div class="demo-lbl">wipe</div>
+                            class="swi swi-arrow-to-top"></i>.ani-wipe-t<div class="demo-lbl">wipe</div>
                     </div>
                     <div class="demo-box" data-timed="ani-wipe-b" onclick="replay(this)"><i
-                            class="swi swi-arrow-down"></i>.ani-wipe-b<div class="demo-lbl">wipe</div>
+                            class="swi swi-arrow-to-bottom"></i>.ani-wipe-b<div class="demo-lbl">wipe</div>
                     </div>
                 </div>
 
@@ -356,8 +356,8 @@
 
                 <p class="cat-label">Loop Clássicos (10)</p>
                 <div class="demo-grid-loop">
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh-cw loop-spin"></i>.loop-spin</div>
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh-cw loop-spin-r"></i>.loop-spin-r
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh loop-spin"></i>.loop-spin</div>
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-refresh loop-spin-r"></i>.loop-spin-r
                         <div class="demo-lbl">reverso</div>
                     </div>
                     <div class="demo-box" style="cursor:default"><i class="swi swi-heart loop-pulse"
@@ -373,13 +373,13 @@
                     </div>
                     <div class="demo-box" style="cursor:default"><i class="swi swi-bell loop-shake"
                             style="color:#f97316"></i>.loop-shake</div>
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-arrow-down loop-bounce"
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-arrow-to-bottom loop-bounce"
                             style="color:#10b981"></i>.loop-bounce</div>
                     <div class="demo-box" style="cursor:default"><i class="swi swi-star loop-glow"
                             style="color:#f59e0b;--sw-glow-color:#f59e0b"></i>.loop-glow<div class="demo-lbl">
                             brilho pulsante</div>
                     </div>
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-zap loop-flicker"
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-flash loop-flicker"
                             style="color:#ec4899"></i>.loop-flicker<div class="demo-lbl">efeito neon</div>
                     </div>
                 </div>
@@ -402,18 +402,18 @@
                             style="color:#ef4444;font-size:2.8rem"></i>.loop-hbeat<div class="demo-lbl">batimento
                         </div>
                     </div>
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-zap loop-rubber"
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-flash loop-rubber"
                             style="color:#f97316;font-size:2.8rem"></i>.loop-rubber<div class="demo-lbl">rubber band
                         </div>
                     </div>
-                    <div class="demo-box" style="cursor:default"><i class="swi swi-sparkles loop-wave"
+                    <div class="demo-box" style="cursor:default"><i class="swi swi-star loop-wave"
                             style="color:#14b8a6;font-size:2.8rem"></i>.loop-wave<div class="demo-lbl">onda diagonal
                         </div>
                     </div>
                 </div>
 
                 <pre swcode="html"><script type="text/plain">
-<i class="swi swi-refresh-cw loop-spin"></i>
+<i class="swi swi-refresh loop-spin"></i>
 <i class="swi swi-heart loop-pulse" style="color:#ef4444"></i>
 <i class="swi swi-cloud loop-float"></i>
 
@@ -431,12 +431,12 @@
 
                 <p class="cat-label">Movimento</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-up"><i class="swi swi-arrow-up"></i>.hov-up</div>
-                    <div class="demo-box hov-down"><i class="swi swi-arrow-down"></i>.hov-down</div>
-                    <div class="demo-box hov-left"><i class="swi swi-arrow-left"></i>.hov-left</div>
-                    <div class="demo-box hov-right"><div class="demo-box hov-right" style="padding:0;border:none;min-height:auto"><i class="swi swi-arrow-right"></i></div>.hov-right</div>
-                    <div class="demo-box hov-in"><i class="swi swi-maximize"></i>.hov-in</div>
-                    <div class="demo-box hov-out"><i class="swi swi-minimize"></i>.hov-out</div>
+                    <div class="demo-box hov-up"><i class="swi swi-arrow-to-top"></i>.hov-up</div>
+                    <div class="demo-box hov-down"><i class="swi swi-arrow-to-bottom"></i>.hov-down</div>
+                    <div class="demo-box hov-left"><i class="swi swi-arrow-to-left"></i>.hov-left</div>
+                    <div class="demo-box hov-right"><div class="demo-box hov-right" style="padding:0;border:none;min-height:auto"><i class="swi swi-arrow-to-right"></i></div>.hov-right</div>
+                    <div class="demo-box hov-in"><i class="swi swi-expand"></i>.hov-in</div>
+                    <div class="demo-box hov-out"><i class="swi swi-collapse"></i>.hov-out</div>
                     <div class="demo-box hov-lift"><i class="swi swi-layers"></i>.hov-lift<div class="demo-lbl">sobe +
                             sombra</div>
                     </div>
@@ -457,14 +457,14 @@
                 <p class="cat-label">Animações no hover</p>
                 <div class="demo-grid">
                     <div class="demo-box hov-shake"><i class="swi swi-bell"></i>.hov-shake</div>
-                    <div class="demo-box hov-tada"><i class="swi swi-sparkles"></i>.hov-tada</div>
+                    <div class="demo-box hov-tada"><i class="swi swi-star"></i>.hov-tada</div>
                     <div class="demo-box hov-pulse"><i class="swi swi-heart"></i>.hov-pulse</div>
-                    <div class="demo-box hov-bounce"><i class="swi swi-arrow-down"></i>.hov-bounce</div>
+                    <div class="demo-box hov-bounce"><i class="swi swi-arrow-to-bottom"></i>.hov-bounce</div>
                 </div>
 
                 <p class="cat-label">Hover Avançados</p>
                 <div class="demo-grid">
-                    <div class="demo-box hov-flip"><i class="swi swi-refresh-cw"></i>.hov-flip<div class="demo-lbl">rotateY 180
+                    <div class="demo-box hov-flip"><i class="swi swi-refresh"></i>.hov-flip<div class="demo-lbl">rotateY 180
                         </div>
                     </div>
                     <div class="demo-box hov-skew"><i class="swi swi-chevrons-right"></i>.hov-skew<div class="demo-lbl">
@@ -472,7 +472,7 @@
                     </div>
                     <div class="demo-box hov-jello"><i class="swi swi-box"></i>.hov-jello<div class="demo-lbl">jello</div>
                     </div>
-                    <div class="demo-box hov-rubber"><i class="swi swi-zap"></i>.hov-rubber<div class="demo-lbl">rubber
+                    <div class="demo-box hov-rubber"><i class="swi swi-flash"></i>.hov-rubber<div class="demo-lbl">rubber
                             band</div>
                     </div>
                     <div class="demo-box hov-roll"><i class="swi swi-repeat"></i>.hov-roll<div class="demo-lbl">gira +

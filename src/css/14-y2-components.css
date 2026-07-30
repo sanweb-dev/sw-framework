@@ -396,22 +396,20 @@ img[sw-lazy].is-ldd { opacity: 1; }
 [sw-sidebar-mn] { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 1.2rem 0; scrollbar-width: thin; }
 
 [sw-sidebar-it] {
-  display: flex; align-items: center; gap: 1.2rem; padding: 1.1rem 2rem;
-  color: var(--sw-txt-mut); text-decoration: none !important; transition: all .2s;
-  position: relative; cursor: pointer;
+  display: flex; align-items: center; gap: 1.2rem; margin: 0 1rem; padding: 1.1rem 1.6rem;
+  border-radius: var(--sw-r-m); color: var(--sw-txt-mut); text-decoration: none !important;
+  transition: all .2s; position: relative; cursor: pointer;
 }
 [sw-sidebar-it]:hover { background: var(--sw-sur-hover); color: var(--sw-txt); }
-[sw-sidebar-it][act] { background: var(--sw-pri-glow); color: var(--sw-pri); font-weight: 600; }
-[sw-sidebar-it][act]::before {
-  content: ''; position: absolute; left: 0; top: .5rem; bottom: .5rem; width: .4rem;
-  background: var(--sw-pri); border-radius: 0 .4rem .4rem 0;
+[sw-sidebar-it][act] {
+  background: var(--sw-grad-pri); color: #fff; font-weight: 600; box-shadow: var(--sw-sha-pri);
 }
+[sw-sidebar][col] [sw-sidebar-it] { margin: 0 .8rem; }
 [sw-sidebar-it] i, [sw-sidebar-it] .swi { font-size: 1.8rem; width: 2.4rem; text-align: center; flex-shrink: 0; opacity: .8; }
 [sw-sidebar-lbl] { white-space: nowrap; transition: opacity .2s; }
 [sw-sidebar][col] [sw-sidebar-lbl] { display: none; }
 [sw-sidebar][col] [sw-sidebar-it] { justify-content: center; padding: 1rem 0; gap: 0; }
 [sw-sidebar][col] [sw-sidebar-it] i, [sw-sidebar][col] [sw-sidebar-it] .swi { font-size: 2.2rem; width: 2.2rem; flex-shrink: 0; }
-[sw-sidebar][col] [sw-sidebar-it][act]::before { display: none; }
 
 /* Separador e título de grupo */
 [sw-sidebar-grp-ttl] {
@@ -444,6 +442,181 @@ img[sw-lazy].is-ldd { opacity: 1; }
   z-index: calc(var(--sw-z-nvb, 100) - 1); opacity: 0; visibility: hidden; transition: all .35s;
 }
 [sw-sidebar-ovl][vis] { opacity: 1; visibility: visible; }
+
+/* ---------- Navbar ---------- */
+[sw-navbar] {
+  display: flex; align-items: center; gap: 1.6rem;
+  height: 7rem; padding: 0 2.4rem;
+  background: var(--sw-sur); border-bottom: 1px solid var(--sw-bor);
+  transition: all .3s var(--sw-ease);
+  position: relative; z-index: var(--sw-z-nvb, 100);
+}
+[sw-navbar-mode="fixed"] { position: fixed; top: 0; left: 0; right: 0; }
+[sw-navbar-mode="sticky"] { position: sticky; top: 0; }
+
+/* Variante glass — translúcida com blur, estilo Material Kit flutuante */
+[sw-navbar-fx="glass"] {
+  background: color-mix(in srgb, var(--sw-sur) 72%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+
+/* Variante gradiente */
+[sw-navbar-fx="grad"] { background: var(--sw-grad-pri); border-bottom-color: transparent; }
+[sw-navbar-fx="grad"] [sw-navbar-it] { color: rgba(255, 255, 255, .85); }
+[sw-navbar-fx="grad"] [sw-navbar-it]:hover,
+[sw-navbar-fx="grad"] [sw-navbar-it][act] { color: #fff; }
+[sw-navbar-fx="grad"] [sw-navbar-brand] { color: #fff; }
+
+/* Encolhe e ganha sombra depois de rolar (modo sticky/fixed) */
+[sw-navbar][scrolled] {
+  height: 5.8rem; box-shadow: var(--sw-sha-g);
+  background: color-mix(in srgb, var(--sw-sur) 92%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+
+[sw-navbar-brand] {
+  display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
+  font-size: 1.9rem; font-weight: 800; color: var(--sw-txt); text-decoration: none !important;
+}
+[sw-navbar-brand] i, [sw-navbar-brand] .swi { font-size: 2.2rem; color: var(--sw-pri); }
+
+[sw-navbar-mn] { display: flex; align-items: center; gap: .4rem; flex: 1; }
+[sw-navbar-mn][align="center"] { justify-content: center; }
+[sw-navbar-mn][align="end"] { justify-content: flex-end; }
+[sw-navbar-actions] { display: flex; align-items: center; gap: 1.2rem; flex-shrink: 0; }
+
+[sw-navbar-it] {
+  display: flex; align-items: center; gap: .8rem; padding: .9rem 1.6rem;
+  border-radius: var(--sw-r-fl); color: var(--sw-txt-mut); font-weight: 600; font-size: 1.4rem;
+  text-decoration: none !important; white-space: nowrap; cursor: pointer;
+  transition: all .2s; position: relative;
+}
+[sw-navbar-it]:hover { background: var(--sw-sur-hover); color: var(--sw-txt); }
+[sw-navbar-it][act] { background: var(--sw-pri-glow); color: var(--sw-pri); }
+[sw-navbar-it] i, [sw-navbar-it] .swi { font-size: 1.6rem; }
+
+/* Dropdown dentro da navbar — [sw-navbar-drop-mn] fica IRMÃ do gatilho de topo
+   (não filha) — um <a> não pode conter outro <a>, e os itens do menu (sw-navbar-drop-it)
+   também são links. Já os itens com submenu aninhado (sw-navbar-drop-it[has-sub]) são
+   <div>, não <a> — por isso PODEM conter o submenu (sw-navbar-drop-sub) como filho. */
+[sw-navbar-drop-wrap] { position: relative; display: flex; }
+[sw-navbar-it][sw-navbar-drop] { padding-right: 1.2rem; }
+[sw-navbar-drop-arr] { font-size: 1.1rem; transition: transform .25s; opacity: .7; }
+[sw-navbar-it][open] [sw-navbar-drop-arr] { transform: rotate(180deg); }
+
+[sw-navbar-drop-mn] {
+  position: absolute; top: calc(100% + .4rem); left: 0; min-width: 24rem;
+  background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: .8rem; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(.8rem) scale(.96); transform-origin: top left;
+  transition: all .22s var(--sw-ease); z-index: 10;
+}
+[sw-navbar-it][open] + [sw-navbar-drop-mn] { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+
+/* Lado do alinhamento — padrão abre pra direita (left:0); "right" abre pra esquerda
+   (right:0), essencial pra gatilhos perto da borda direita da navbar (ex.: dentro
+   de [sw-navbar-actions]), senão o menu vaza pra fora da viewport. */
+[sw-navbar-drop-wrap][sw-navbar-drop-align="right"] [sw-navbar-drop-mn] { left: auto; right: 0; transform-origin: top right; }
+
+[sw-navbar-drop-it] {
+  display: flex; align-items: center; gap: 1.2rem; padding: .9rem 1.2rem; border-radius: var(--sw-r-m);
+  color: var(--sw-txt-mut); text-decoration: none !important; font-size: 1.4rem; font-weight: 500;
+  transition: all .18s; position: relative; cursor: pointer;
+}
+[sw-navbar-drop-it]:hover { background: var(--sw-pri-glow); color: var(--sw-pri); padding-left: 1.6rem; }
+[sw-navbar-drop-it] [sw-navbar-drop-ico], [sw-navbar-drop-it] i:first-child { font-size: 1.8rem; color: var(--sw-pri); flex-shrink: 0; }
+[sw-navbar-drop-desc] { font-size: 1.2rem; color: var(--sw-txt-mut); display: block; margin-top: .2rem; font-weight: 400; }
+[sw-navbar-drop-ttl] {
+  font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--sw-txt-mut); padding: .8rem 1.2rem; opacity: .7; display: block;
+}
+[sw-navbar-drop-sep] { height: 1px; background: var(--sw-bor); margin: .6rem .4rem; opacity: .6; }
+
+/* Submenu aninhado (nível 3) — abre pro lado (direita), com "ponte" de hover
+   invisível pra não fechar ao atravessar o espaço até o submenu. */
+[sw-navbar-drop-it][has-sub] { padding-right: 2.8rem; }
+[sw-navbar-drop-it][has-sub]::after {
+  content: ''; position: absolute; right: 1rem; top: 50%; margin-top: -.5rem;
+  width: 1rem; height: 1rem; background: currentColor; opacity: .45;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") no-repeat center/contain;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") no-repeat center/contain;
+  transition: transform .2s, opacity .2s;
+}
+[sw-navbar-drop-it][has-sub]:hover::after, [sw-navbar-drop-it][has-sub][open]::after { opacity: 1; color: var(--sw-pri); transform: translateX(2px); }
+[sw-navbar-drop-sub] {
+  position: absolute; top: -.8rem; left: calc(100% + .4rem); min-width: 22rem;
+  background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: .8rem; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateX(1.2rem) scale(.96); transition: all .2s var(--sw-ease); z-index: 20;
+}
+[sw-navbar-drop-it][has-sub]:hover > [sw-navbar-drop-sub],
+[sw-navbar-drop-it][has-sub][open] > [sw-navbar-drop-sub] { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+/* Perto da borda direita da navbar o submenu de nível 3 tbm pode abrir pro outro lado */
+[sw-navbar-drop-it][has-sub][sub-align="left"] > [sw-navbar-drop-sub] { left: auto; right: calc(100% + .4rem); }
+
+/* Mega menu — várias colunas com rótulo de grupo, pra submenus com muitos links */
+[sw-navbar-drop-mn][wide] {
+  min-width: 46rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: .4rem 2rem;
+}
+[sw-navbar-drop-col] { display: flex; flex-direction: column; gap: .2rem; }
+
+/* Toggle mobile (hamburger -> X) */
+[sw-navbar-tgl] {
+  display: none; flex-direction: column; justify-content: center; gap: .45rem;
+  width: 4rem; height: 4rem; background: transparent; border: none; cursor: pointer; flex-shrink: 0;
+}
+[sw-navbar-tgl] span {
+  display: block; width: 100%; height: .2rem; background: var(--sw-txt); border-radius: 9999px;
+  transition: all .3s var(--sw-ease);
+}
+[sw-navbar][open] [sw-navbar-tgl] span:nth-child(1) { transform: translateY(.65rem) rotate(45deg); }
+[sw-navbar][open] [sw-navbar-tgl] span:nth-child(2) { opacity: 0; }
+[sw-navbar][open] [sw-navbar-tgl] span:nth-child(3) { transform: translateY(-.65rem) rotate(-45deg); }
+
+/* Overlay do menu mobile — mesma linguagem visual do [sw-sidebar-ovl], z-index um
+   degrau abaixo da navbar (que fica em cima, com o próprio menu/drawer dentro dela). */
+[sw-navbar-ovl] {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  z-index: calc(var(--sw-z-nvb, 100) - 1); opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s;
+}
+[sw-navbar-ovl][vis] { opacity: 1; visibility: visible; }
+
+@media (max-width: 768px) {
+  [sw-navbar-tgl] { display: flex; }
+  [sw-navbar-mn] {
+    /* Padrão: sai deslizando da lateral (drawer), não cobre a tela inteira */
+    position: fixed; top: 7rem; right: 0; left: auto; bottom: 0; width: 30rem; max-width: 85vw;
+    flex-direction: column; align-items: stretch;
+    background: var(--sw-sur); padding: 1.6rem; gap: .4rem; overflow-y: auto;
+    box-shadow: var(--sw-sha-g); border-left: 1px solid var(--sw-bor);
+    transform: translateX(100%); transition: transform .3s var(--sw-ease);
+  }
+  [sw-navbar][open] [sw-navbar-mn] { transform: translateX(0); }
+  [sw-navbar-it] { width: 100%; }
+  [sw-navbar-drop-wrap] { flex-direction: column; }
+  [sw-navbar-drop-mn] {
+    position: static; box-shadow: none; border: none; opacity: 1; visibility: visible; transform: none;
+    max-height: 0; overflow: hidden; padding: 0 0 0 1.6rem; transition: max-height .25s var(--sw-ease);
+  }
+  [sw-navbar-it][open] + [sw-navbar-drop-mn] { max-height: 40rem; padding: .4rem 0 .4rem 1.6rem; }
+  [sw-navbar-drop-mn][wide] { grid-template-columns: 1fr; }
+
+  /* Submenu de nível 3 também vira accordion vertical no mobile, em vez de flyout lateral */
+  [sw-navbar-drop-it][has-sub] { padding-right: 1.2rem; }
+  [sw-navbar-drop-it][has-sub]::after { transform: rotate(90deg); }
+  [sw-navbar-drop-it][has-sub][open]::after { transform: rotate(90deg) translateX(2px); }
+  [sw-navbar-drop-sub] {
+    position: static; box-shadow: none; border: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    opacity: 1; visibility: visible; transform: none; pointer-events: auto;
+    max-height: 0; overflow: hidden; padding: 0 0 0 1.6rem; margin-top: 0;
+    transition: max-height .25s var(--sw-ease);
+  }
+  [sw-navbar-drop-it][has-sub][open] > [sw-navbar-drop-sub] { max-height: 30rem; padding: .4rem 0 .4rem 1.6rem; }
+}
 
 /* ---------- Editor ---------- */
 .sw-editor-box { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); overflow: hidden; background: var(--sw-sur); }

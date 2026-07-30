@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .nvb-stage {
+            height: 32rem;
+            overflow-y: auto;
+            position: relative;
+            border-radius: var(--sw-r-g);
+            border: 1px solid var(--sw-bor);
+        }
+
+        .nvb-stage-content {
+            padding: 2.4rem;
+            color: var(--sw-txt-mut);
+            line-height: 1.8;
+        }
+
+        .nvb-grad-bg {
+            background: linear-gradient(180deg, color-mix(in srgb, var(--sw-pri) 6%, transparent), transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Interface JS</span>
+                <span class="brc-it is-cur" aria-current="page">Navbar</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">JS Component</span>
+                <h2 class="t-xxg f-bd mb-2">Navbar <span class="TprinD">[sw-navbar]</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Barra de navegação responsiva — variantes glass/gradiente, encolhe e ganha blur ao rolar,
+                    dropdown embutido e toggle mobile (hambúrguer → X). Zero dependências, mesma convenção de
+                    atributos do <a href="sidebar.html">Sidebar</a>.
+                </p>
+            </div>
+
+            <!-- 1. BÁSICA -->
+            <div class="doc-card sec mb-6" id="basica">
+                <h3 class="t-m f-bd mb-4">1. Navbar Básica <code class="TprinD">mode="static"</code></h3>
+                <p class="t-g t-mut mb-4">Fica no fluxo normal da página, sem sticky nem sombra ao rolar — ideal pra topo de uma landing page.</p>
+                <div class="demo-wrap p-0" style="overflow:hidden">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <a sw-navbar-it href="#">Produtos</a>
+                            <a sw-navbar-it href="#">Sobre</a>
+                            <a sw-navbar-it href="#">Contato</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <button class="sw-btn sw-btn-pri sw-btn-sm" style="border-radius:9999px">Entrar</button>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-navbar sw-navbar-mode="static">
+    <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+    <div sw-navbar-mn>
+        <a sw-navbar-it act href="#">Início</a>
+        <a sw-navbar-it href="#">Produtos</a>
+        <a sw-navbar-it href="#">Contato</a>
+    </div>
+    <div sw-navbar-actions>
+        <button class="sw-btn sw-btn-pri sw-btn-sm">Entrar</button>
+    </div>
+    <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- 2. STICKY + GLASS + SHRINK -->
+            <div class="doc-card sec mb-6" id="sticky">
+                <h3 class="t-m f-bd mb-4">2. Sticky + Glass — encolhe ao rolar</h3>
+                <p class="t-g t-mut mb-4">
+                    <code>sw-navbar-mode="sticky"</code> + <code>sw-navbar-fx="glass"</code>. Role dentro da caixa
+                    abaixo — a navbar fica menor, ganha blur e sombra (efeito clássico de navbar flutuante estilo
+                    Material Kit).
+                </p>
+                <div class="nvb-stage">
+                    <nav sw-navbar sw-navbar-mode="sticky" sw-navbar-fx="glass" sw-navbar-shrink-at="30">
+                        <a href="#" sw-navbar-brand><i class="swi swi-star"></i> Glass Nav</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <a sw-navbar-it href="#">Recursos</a>
+                            <a sw-navbar-it href="#">Preços</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <button class="sw-btn sw-btn-pri sw-btn-sm" style="border-radius:9999px">Comprar</button>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                    <div class="nvb-stage-content nvb-grad-bg">
+                        <p class="t-p f-bd mb-2" style="color:var(--sw-txt)">Role para baixo dentro desta caixa ↓</p>
+                        <p>A navbar acima está com <code>position: sticky</code> — ela gruda no topo desta área e, depois de ~30px de rolagem, ganha o atributo <code>[scrolled]</code> automaticamente via JS.</p>
+                        <p>Isso ativa uma altura menor, fundo com blur mais forte e sombra — tudo via CSS, sem nenhuma classe manual.</p>
+                        <p style="height:20rem"></p>
+                        <p>Continue rolando...</p>
+                        <p style="height:20rem"></p>
+                        <p>Fim do conteúdo de demonstração.</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-navbar sw-navbar-mode="sticky" sw-navbar-fx="glass" sw-navbar-shrink-at="30">
+    <a href="#" sw-navbar-brand>Glass Nav</a>
+    <div sw-navbar-mn>
+        <a sw-navbar-it act href="#">Início</a>
+        <a sw-navbar-it href="#">Recursos</a>
+    </div>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- 3. GRADIENTE -->
+            <div class="doc-card sec mb-6" id="gradiente">
+                <h3 class="t-m f-bd mb-4">3. Variante Gradiente <code class="TprinD">fx="grad"</code></h3>
+                <p class="t-g t-mut mb-4">Fundo com <code>--sw-grad-pri</code> e texto claro automático — combina com heros coloridos.</p>
+                <div class="demo-wrap p-0" style="overflow:hidden">
+                    <nav sw-navbar sw-navbar-mode="static" sw-navbar-fx="grad">
+                        <a href="#" sw-navbar-brand><i class="swi swi-flash"></i> Gradient Nav</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <a sw-navbar-it href="#">Planos</a>
+                            <a sw-navbar-it href="#">Blog</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<nav sw-navbar sw-navbar-mode="static" sw-navbar-fx="grad">
+    <a href="#" sw-navbar-brand>Gradient Nav</a>
+    <div sw-navbar-mn>...</div>
+</nav>
+</script></pre>
+            </div>
+
+            <!-- 4. DROPDOWN -->
+            <div class="doc-card sec mb-6" id="dropdown">
+                <h3 class="t-m f-bd mb-4">4. Item com Dropdown <code class="TprinD">sw-navbar-drop</code></h3>
+                <p class="t-g t-mut mb-4">Envolva o gatilho e o menu num <code>sw-navbar-drop-wrap</code> — o gatilho leva <code>sw-navbar-drop</code>, o menu é <code>sw-navbar-drop-mn</code> como irmão (nunca filho do link, já que um <code>&lt;a&gt;</code> não pode conter outro <code>&lt;a&gt;</code>). Clique em "Produtos" abaixo.</p>
+                <div class="demo-wrap p-0" style="overflow:visible">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Produtos <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-box"></i> Catálogo</a>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-tag"></i> Ofertas</a>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-star"></i> Novidades</a>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#">Contato</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-navbar-drop-wrap>
+    <a sw-navbar-it sw-navbar-drop href="#">
+        Produtos <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+    </a>
+    <div sw-navbar-drop-mn>
+        <a sw-navbar-drop-it href="#"><i class="swi swi-box"></i> Catálogo</a>
+        <a sw-navbar-drop-it href="#"><i class="swi swi-tag"></i> Ofertas</a>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4b. ALINHAMENTO DO DROPDOWN (esquerda x direita) -->
+            <div class="doc-card sec mb-6" id="dropdown-align">
+                <h3 class="t-m f-bd mb-4">4b. Lado do Dropdown <code class="TprinD">sw-navbar-drop-align</code></h3>
+                <p class="t-g t-mut mb-4">
+                    Por padrão o menu abre alinhado à esquerda do gatilho (<code>left:0</code>) — ótimo pra itens
+                    no meio do menu. Perto da borda direita da navbar (ex.: dentro de <code>sw-navbar-actions</code>,
+                    como um menu de usuário) isso vazaria pra fora da tela — use <code>sw-navbar-drop-align="right"</code>
+                    no <code>sw-navbar-drop-wrap</code> pra abrir alinhado à direita (<code>right:0</code>) em vez disso.
+                </p>
+                <div class="demo-wrap p-0" style="overflow:visible">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Produtos <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-box"></i> Catálogo</a>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-tag"></i> Ofertas</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div sw-navbar-actions>
+                            <div sw-navbar-drop-wrap sw-navbar-drop-align="right">
+                                <a sw-navbar-it sw-navbar-drop href="#" style="padding-left:.6rem">
+                                    <img src="https://i.pravatar.cc/60?img=5" alt="" style="width:2.8rem;height:2.8rem;border-radius:50%;object-fit:cover">
+                                    Sandro <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-user"></i> Perfil</a>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-cog"></i> Configurações</a>
+                                    <div sw-navbar-drop-sep></div>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-log-out"></i> Sair</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- alinhado à esquerda (padrão) — bom no meio do menu -->
+<div sw-navbar-drop-wrap>
+    <a sw-navbar-it sw-navbar-drop href="#">Produtos <i sw-navbar-drop-arr class="swi swi-chevron-down"></i></a>
+    <div sw-navbar-drop-mn>...</div>
+</div>
+
+<!-- alinhado à direita — bom perto da borda direita, ex.: menu de usuário -->
+<div sw-navbar-drop-wrap sw-navbar-drop-align="right">
+    <a sw-navbar-it sw-navbar-drop href="#">Sandro <i sw-navbar-drop-arr class="swi swi-chevron-down"></i></a>
+    <div sw-navbar-drop-mn>
+        <a sw-navbar-drop-it href="#"><i class="swi swi-user"></i> Perfil</a>
+        <div sw-navbar-drop-sep></div>
+        <a sw-navbar-drop-it href="#"><i class="swi swi-log-out"></i> Sair</a>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4c. MEGA MENU (várias colunas) -->
+            <div class="doc-card sec mb-6" id="dropdown-mega">
+                <h3 class="t-m f-bd mb-4">4c. Mega Menu <code class="TprinD">wide</code></h3>
+                <p class="t-g t-mut mb-4">
+                    Pra submenus com muitos links, adicione o atributo <code>wide</code> no <code>sw-navbar-drop-mn</code> —
+                    ele vira uma grade de 2 colunas, agrupadas com <code>sw-navbar-drop-col</code> e um rótulo
+                    <code>sw-navbar-drop-ttl</code> por grupo. No mobile colapsa pra 1 coluna automaticamente.
+                </p>
+                <div class="demo-wrap p-0" style="overflow:visible">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Serviços <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn wide>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Design</span>
+                                        <a sw-navbar-drop-it href="#"><i class="swi swi-brush"></i> UI / UX</a>
+                                        <a sw-navbar-drop-it href="#"><i class="swi swi-palette"></i> Branding</a>
+                                    </div>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Desenvolvimento</span>
+                                        <a sw-navbar-drop-it href="#"><i class="swi swi-code"></i> Frontend</a>
+                                        <a sw-navbar-drop-it href="#"><i class="swi swi-server"></i> Backend</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#">Contato</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-navbar-drop-wrap>
+    <a sw-navbar-it sw-navbar-drop href="#">Serviços <i sw-navbar-drop-arr class="swi swi-chevron-down"></i></a>
+    <div sw-navbar-drop-mn wide>
+        <div sw-navbar-drop-col>
+            <span sw-navbar-drop-ttl>Design</span>
+            <a sw-navbar-drop-it href="#"><i class="swi swi-brush"></i> UI / UX</a>
+            <a sw-navbar-drop-it href="#"><i class="swi swi-palette"></i> Branding</a>
+        </div>
+        <div sw-navbar-drop-col>
+            <span sw-navbar-drop-ttl>Desenvolvimento</span>
+            <a sw-navbar-drop-it href="#"><i class="swi swi-code"></i> Frontend</a>
+            <a sw-navbar-drop-it href="#"><i class="swi swi-server"></i> Backend</a>
+        </div>
+    </div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4d. SUBMENU ANINHADO (nível 3, abre pro lado) -->
+            <div class="doc-card sec mb-6" id="dropdown-sub">
+                <h3 class="t-m f-bd mb-4">4d. Submenu Aninhado <code class="TprinD">has-sub</code></h3>
+                <p class="t-g t-mut mb-4">
+                    Dentro de um <code>sw-navbar-drop-mn</code>, um item pode abrir OUTRO menu do lado — use
+                    <code>&lt;div sw-navbar-drop-it has-sub&gt;</code> (é <code>&lt;div&gt;</code>, não <code>&lt;a&gt;</code>,
+                    justamente pra poder conter o <code>sw-navbar-drop-sub</code> como filho) envolvendo o submenu.
+                    Abre no hover (desktop) e no clique (touch); some da tela (some, mesmo) e vira accordion no mobile.
+                </p>
+                <div class="demo-wrap p-0" style="overflow:visible">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Minha Marca</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Início</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Soluções <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <span sw-navbar-drop-ttl>Serviços</span>
+                                    <div sw-navbar-drop-it has-sub>
+                                        <i class="swi swi-chip"></i>
+                                        <span>Sistemas</span>
+                                        <div sw-navbar-drop-sub>
+                                            <a sw-navbar-drop-it href="#">Cloud ERP</a>
+                                            <div sw-navbar-drop-it has-sub>
+                                                <span>Desenvolvimento</span>
+                                                <div sw-navbar-drop-sub>
+                                                    <a sw-navbar-drop-it href="#">Frontend</a>
+                                                    <a sw-navbar-drop-it href="#">Backend</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div sw-navbar-drop-sep></div>
+                                    <a sw-navbar-drop-it href="#">Consultoria</a>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#">Contato</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-navbar-drop-mn>
+    <span sw-navbar-drop-ttl>Serviços</span>
+    <div sw-navbar-drop-it has-sub>
+        <i class="swi swi-chip"></i>
+        <span>Sistemas</span>
+        <div sw-navbar-drop-sub>
+            <a sw-navbar-drop-it href="#">Cloud ERP</a>
+            <!-- pode aninhar de novo, nível 4, 5... -->
+            <div sw-navbar-drop-it has-sub>
+                <span>Desenvolvimento</span>
+                <div sw-navbar-drop-sub>
+                    <a sw-navbar-drop-it href="#">Frontend</a>
+                    <a sw-navbar-drop-it href="#">Backend</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div sw-navbar-drop-sep></div>
+    <a sw-navbar-drop-it href="#">Consultoria</a>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4e. ALINHAMENTO DO MENU (esquerda / centro / direita) -->
+            <div class="doc-card sec mb-6" id="menu-align">
+                <h3 class="t-m f-bd mb-4">4e. Alinhamento do Menu <code class="TprinD">align</code></h3>
+                <p class="t-g t-mut mb-4">
+                    O grupo inteiro de links (não só o dropdown) pode ficar à esquerda (padrão), centralizado ou
+                    à direita — coloque <code>align="center"</code> ou <code>align="end"</code> no próprio
+                    <code>sw-navbar-mn</code>.
+                </p>
+                <div class="demo-wrap p-0 mb-3" style="overflow:hidden">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Y2</a>
+                        <div sw-navbar-mn align="center">
+                            <a sw-navbar-it href="#">Home</a>
+                            <a sw-navbar-it act href="#">Docs</a>
+                            <a sw-navbar-it href="#">Preços</a>
+                            <a sw-navbar-it href="#">Blog</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <p class="t-sm t-mut mb-4">Menu centralizado — <code>sw-navbar-mn align="center"</code></p>
+                <div class="demo-wrap p-0" style="overflow:hidden">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand><i class="swi swi-grid"></i> Y2</a>
+                        <div sw-navbar-mn align="end">
+                            <a sw-navbar-it href="#">Home</a>
+                            <a sw-navbar-it act href="#">Docs</a>
+                            <a sw-navbar-it href="#">Preços</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                </div>
+                <p class="t-sm t-mut mb-4">Menu à direita — <code>sw-navbar-mn align="end"</code></p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-navbar-mn>...</div>                  <!-- padrão (esquerda) -->
+<div sw-navbar-mn align="center">...</div>   <!-- centralizado -->
+<div sw-navbar-mn align="end">...</div>      <!-- direita -->
+</script></pre>
+            </div>
+
+            <!-- 5. MOBILE -->
+            <div class="doc-card sec mb-6" id="mobile">
+                <h3 class="t-m f-bd mb-4">5. Toggle Mobile</h3>
+                <p class="t-g t-mut mb-4">
+                    Abaixo de <code>768px</code> de largura, <code>[sw-navbar-mn]</code> vira um <strong>drawer que
+                    desliza da lateral direita</strong> (não cobre a tela inteira) com um overlay escurecido atrás,
+                    e o botão <code>[sw-navbar-tgl]</code> (hambúrguer → X) aparece automaticamente. Redimensione
+                    a janela do navegador pra ver — nenhum atributo extra é necessário, o comportamento já vem
+                    embutido no componente.
+                </p>
+                <div class="flx gap-2 alc p-4" style="background:color-mix(in srgb,var(--sw-inf) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-inf) 30%,transparent);border-radius:var(--sw-r-g)">
+                    <i class="swi swi-info-circle" style="color:var(--sw-inf);font-size:2rem;flex-shrink:0"></i>
+                    <p class="t-p mb-0">Clicar num item do menu, clicar no overlay escurecido ou apertar <code>Esc</code> fecha o painel automaticamente. Dropdowns e submenus aninhados viram accordion vertical dentro do drawer.</p>
+                </div>
+            </div>
+
+            <!-- 6. REFERÊNCIA -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Elemento</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>sw-navbar-mode</code></td><td>nav</td><td><code>static</code> (padrão) · <code>fixed</code> · <code>sticky</code></td></tr>
+                        <tr><td><code>sw-navbar-fx</code></td><td>nav</td><td><code>glass</code> (blur translúcido) · <code>grad</code> (gradiente)</td></tr>
+                        <tr><td><code>sw-navbar-shrink-at</code></td><td>nav</td><td>Pixels de rolagem até ativar <code>[scrolled]</code> — padrão 40.</td></tr>
+                        <tr><td><code>[scrolled]</code></td><td>nav</td><td>Setado automaticamente pelo JS ao rolar (modos fixed/sticky).</td></tr>
+                        <tr><td><code>[open]</code></td><td>nav</td><td>Menu mobile aberto — alternado pelo <code>[sw-navbar-tgl]</code>.</td></tr>
+                        <tr><td><code>sw-navbar-brand</code></td><td>a</td><td>Logo/marca à esquerda.</td></tr>
+                        <tr><td><code>sw-navbar-mn</code></td><td>div</td><td>Container dos links — vira drawer lateral no mobile.</td></tr>
+                        <tr><td><code>align="center"</code> / <code>"end"</code></td><td>[sw-navbar-mn]</td><td>Centraliza ou joga o grupo de links pra direita (padrão: esquerda).</td></tr>
+                        <tr><td><code>sw-navbar-it</code></td><td>a</td><td>Link de navegação — clique marca como ativo.</td></tr>
+                        <tr><td><code>[act]</code></td><td>[sw-navbar-it]</td><td>Marca o item como ativo.</td></tr>
+                        <tr><td><code>sw-navbar-drop-wrap</code></td><td>div</td><td>Envolve gatilho + menu — necessário pro posicionamento do dropdown.</td></tr>
+                        <tr><td><code>sw-navbar-drop</code> + <code>sw-navbar-drop-arr</code></td><td>a / i</td><td>Item pai com dropdown — seta gira ao abrir.</td></tr>
+                        <tr><td><code>sw-navbar-drop-align="right"</code></td><td>[sw-navbar-drop-wrap]</td><td>Abre o menu alinhado à direita em vez de à esquerda — usar perto da borda direita da navbar.</td></tr>
+                        <tr><td><code>sw-navbar-drop-mn</code> / <code>-drop-it</code></td><td>div / a</td><td>Menu suspenso (irmão do gatilho de topo) e seus itens.</td></tr>
+                        <tr><td><code>sw-navbar-drop-ttl</code></td><td>span</td><td>Rótulo de seção dentro do menu (uppercase, discreto).</td></tr>
+                        <tr><td><code>sw-navbar-drop-desc</code></td><td>span</td><td>Linha de descrição abaixo do título do item.</td></tr>
+                        <tr><td><code>sw-navbar-drop-sep</code></td><td>div</td><td>Linha divisória entre grupos de itens.</td></tr>
+                        <tr><td><code>[wide]</code></td><td>[sw-navbar-drop-mn]</td><td>Vira mega menu em grade de 2 colunas — use com <code>sw-navbar-drop-col</code>.</td></tr>
+                        <tr><td><code>has-sub</code></td><td>div[sw-navbar-drop-it]</td><td>Item com submenu de nível 3 — precisa ser <code>&lt;div&gt;</code> (não <code>&lt;a&gt;</code>) pra poder conter o <code>sw-navbar-drop-sub</code> filho.</td></tr>
+                        <tr><td><code>sw-navbar-drop-sub</code></td><td>div</td><td>Submenu que abre pro lado (nível 3+) — hover no desktop, clique no touch.</td></tr>
+                        <tr><td><code>sub-align="left"</code></td><td>div[has-sub]</td><td>Abre o submenu de nível 3 pro lado esquerdo em vez do direito.</td></tr>
+                        <tr><td><code>sw-navbar-actions</code></td><td>div</td><td>Slot à direita — botões, busca etc.</td></tr>
+                        <tr><td><code>sw-navbar-tgl</code></td><td>button</td><td>Hambúrguer mobile — 3 <code>&lt;span&gt;</code> viram um X quando aberto.</td></tr>
+                        <tr><td><code>[sw-navbar-ovl]</code></td><td>div</td><td>Overlay escurecido atrás do drawer mobile — criado e controlado automaticamente pelo JS.</td></tr>
+                        <tr><td><code>sw:navbar:toggle / :dropdown</code></td><td>evento</td><td>Disparados pelo componente.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

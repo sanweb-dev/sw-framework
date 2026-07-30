@@ -1,5 +1,5 @@
 {
-  "count": 1052,
+  "count": 1048,
   "categories": [
     {
       "id": "interface",
@@ -40,7 +40,6 @@
         "swi-list-plus",
         "swi-list-ul",
         "swi-menu",
-        "swi-menu-alt-left",
         "swi-menu-alt-right",
         "swi-notification",
         "swi-notification-off",
@@ -376,7 +375,6 @@
         "swi-message-rounded-check",
         "swi-message-rounded-detail",
         "swi-message-rounded-dots",
-        "swi-message-rounded-edit",
         "swi-message-rounded-error",
         "swi-message-rounded-minus",
         "swi-message-rounded-x",
@@ -390,7 +388,6 @@
         "swi-message-square-minus",
         "swi-message-square-x",
         "swi-message-x",
-        "swi-paper-plane",
         "swi-phone",
         "swi-phone-call",
         "swi-phone-incoming",
@@ -711,7 +708,6 @@
         "swi-mobile",
         "swi-mobile-alt",
         "swi-mobile-landscape",
-        "swi-mobile-vibration",
         "swi-mouse",
         "swi-mouse-alt",
         "swi-plug",

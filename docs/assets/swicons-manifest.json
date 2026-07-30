@@ -1,5 +1,5 @@
 {
-  "count": 1031,
+  "count": 1027,
   "icons": [
     {
       "class": "swis-balloon",
@@ -3472,11 +3472,6 @@
       "kind": "swi"
     },
     {
-      "class": "swi-menu-alt-left",
-      "name": "menu-alt-left",
-      "kind": "swi"
-    },
-    {
       "class": "swi-menu-alt-right",
       "name": "menu-alt-right",
       "kind": "swi"
@@ -3594,11 +3589,6 @@
     {
       "class": "swi-message-rounded-dots",
       "name": "message-rounded-dots",
-      "kind": "swi"
-    },
-    {
-      "class": "swi-message-rounded-edit",
-      "name": "message-rounded-edit",
       "kind": "swi"
     },
     {
@@ -3722,11 +3712,6 @@
       "kind": "swi"
     },
     {
-      "class": "swi-mobile-vibration",
-      "name": "mobile-vibration",
-      "kind": "swi"
-    },
-    {
       "class": "swi-money",
       "name": "money",
       "kind": "swi"
@@ -3844,11 +3829,6 @@
     {
       "class": "swi-paperclip",
       "name": "paperclip",
-      "kind": "swi"
-    },
-    {
-      "class": "swi-paper-plane",
-      "name": "paper-plane",
       "kind": "swi"
     },
     {

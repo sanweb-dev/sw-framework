@@ -1,0 +1,50 @@
+/**
+ * ╔══════════════════════════════════════════════╗
+ * ║        SW CONFIG — Meu Projeto               ║
+ * ╚══════════════════════════════════════════════╝
+ * Carregue DEPOIS do sw.min.css:
+ * <link rel="stylesheet" href="sw.config.css">
+ */
+
+/* ── HUES (altere o número, todas as shades da cor derivam daqui) ── */
+:root {
+    --sw-h-pri: 200;    /* azul   */
+    --sw-h-sec: 215;    /* navy   */
+}
+
+/* ── CORES DE ESTADO (override direto, se precisar) ── */
+:root {
+    /* --sw-suc: hsl(145, 65%, 42%); */
+    /* --sw-err: hsl(355, 75%, 55%); */
+    /* --sw-ale: hsl(40, 85%, 52%); */
+    /* --sw-inf: hsl(205, 75%, 52%); */
+}
+
+/* ── TIPOGRAFIA ── */
+:root {
+    /* --sw-f-san: 'Inter', system-ui, sans-serif; */
+    /* --sw-f-mon: 'Fira Code', monospace;         */
+}
+
+/* ── ARREDONDAMENTO ── */
+:root {
+    --sw-r-p:  0.4rem;
+    --sw-r-m:  0.8rem;
+    --sw-r-g:  1.2rem;
+    --sw-r-gg: 1.8rem;
+    --sw-r-xl: 2.4rem;
+}
+
+/* ── TEMA ESCURO (SWDay — é o padrão em :root, sobrescreva direto) ── */
+:root {
+    /* --sw-bg:  #0d0d14; */
+    /* --sw-sur: #12121a; */
+    /* --sw-bor: #2a2a38; */
+}
+
+/* ── TEMA CLARO (SWDay light) ── */
+html[sw-theme="light"] {
+    /* --sw-bg:  #f8fafc; */
+    /* --sw-sur: #ffffff; */
+    /* --sw-bor:    #e2e8f0; */
+}

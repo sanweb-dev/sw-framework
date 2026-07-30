@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Animações Premium (GSAP) - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .warn-box {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: color-mix(in srgb, #f59e0b 8%, transparent);
+            border: 1px solid color-mix(in srgb, #f59e0b 30%, transparent);
+            border-radius: var(--sw-r-g, 8px); padding: 1.4rem 1.6rem;
+        }
+        .warn-box svg { flex-shrink: 0; color: #f59e0b; margin-top: .1rem; }
+        .warn-box p { margin: 0; font-size: 1.4rem; color: var(--sw-txt-sec); line-height: 1.6; }
+
+        #premiumSplitTitle {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .drag-card {
+            position: absolute;
+            width: 12rem;
+            padding: 1.4rem 1.6rem;
+            border-radius: var(--sw-r-g, 8px);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+            user-select: none;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        #premiumTiltCard {
+            width: 18rem;
+            padding: 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <span class="brc-it is-cur" aria-current="page">Animações Premium</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Animações <span class="TprinD">Premium</span></h2>
+                <p class="t-g t-mut mb-0">Motor declarativo portado do <code>smooll.sanweb.com.br</code>, com
+                    atributos <code>sw-premium-*</code>. Reúne GSAP Core + ScrollTrigger + Draggable + Flip +
+                    Observer + MotionPath + ScrollTo + TextPlugin num único bundle opcional.</p>
+            </div>
+
+            <div class="warn-box mb-6">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p>
+                    <strong>Portado, ainda não homologado no SW.</strong> Este bundle é 100% opcional — o núcleo
+                    (<code>sw.js</code>, <code>sw-mpa.js</code>, <code>sw-fx.js</code>) continua zero-dependência e
+                    não muda em nada. Só carregue <code>sw-fx-premium.min.js</code> nas páginas onde precisar do GSAP.
+                    Não use <code>sw-premium-link</code> (roteador PJAX) na mesma página que o <code>sw-mpa.js</code>
+                    nativo (View Transitions) — escolha um dos dois sistemas de transição.
+                </p>
+            </div>
+
+            <!-- 1. ENTRADA -->
+            <div class="doc-card sec mb-6" id="animate">
+                <h3 class="t-m f-bd mb-4">1. Entrada — <code>sw-premium-animate</code></h3>
+                <p class="t-g t-mut mb-4">24 efeitos pré-programados. Use <code>sw-premium-trigger="scroll"</code>
+                    para disparar via ScrollTrigger ao rolar a página.</p>
+                <div class="demo-wrap" style="display:flex;flex-wrap:wrap;gap:1.2rem;padding:2rem">
+                    <div sw-card style="padding:1.6rem 2rem;flex:1;min-width:12rem;text-align:center"
+                        sw-premium-animate="fade-up" sw-premium-duration="0.8">fade-up</div>
+                    <div sw-card style="padding:1.6rem 2rem;flex:1;min-width:12rem;text-align:center"
+                        sw-premium-animate="zoom-in" sw-premium-duration="0.8">zoom-in</div>
+                    <div sw-card style="padding:1.6rem 2rem;flex:1;min-width:12rem;text-align:center"
+                        sw-premium-animate="flip-left" sw-premium-duration="0.8">flip-left</div>
+                    <div sw-card style="padding:1.6rem 2rem;flex:1;min-width:12rem;text-align:center"
+                        sw-premium-animate="blur-up" sw-premium-duration="0.8">blur-up</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="fade-up" sw-premium-duration="0.8">fade-up</div>
+<div sw-premium-animate="zoom-in" sw-premium-trigger="scroll">zoom-in ao rolar</div>
+</script></pre>
+            </div>
+
+            <!-- 2. TEXTO -->
+            <div class="doc-card sec mb-6" id="split">
+                <h3 class="t-m f-bd mb-4">2. Texto — <code>sw-premium-split</code></h3>
+                <p class="t-g t-mut mb-4">Divide o texto em caracteres e anima cada um com stagger.</p>
+                <div class="demo-wrap" style="padding:2.4rem">
+                    <h4 id="premiumSplitTitle" sw-premium-split="chars" sw-premium-animate="fade-up"
+                        sw-premium-stagger="0.03">SW Premium</h4>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<h4 sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-stagger="0.03">SW Premium</h4>
+</script></pre>
+            </div>
+
+            <!-- 3. DRAG -->
+            <div class="doc-card sec mb-6" id="drag">
+                <h3 class="t-m f-bd mb-4">3. Arrastar — <code>sw-premium-drag</code></h3>
+                <p class="t-g t-mut mb-4">Draggable do GSAP, com <code>sw-premium-drag-bounds="parent"</code>
+                    restringindo o movimento à área pai.</p>
+                <div class="demo-wrap" id="premiumDragArea" style="min-height:16rem">
+                    <div id="premiumDragBox" class="drag-card" style="top:2rem;left:2rem;background:var(--sw-pri, #3b82f6);color:#fff"
+                        sw-premium-drag="xy" sw-premium-drag-bounds="parent">arraste</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-drag="xy" sw-premium-drag-bounds="parent">arraste</div>
+</script></pre>
+            </div>
+
+            <!-- 4. MOUSE -->
+            <div class="doc-card sec mb-6" id="mouse">
+                <h3 class="t-m f-bd mb-4">4. Mouse — <code>sw-premium-hover-tilt</code></h3>
+                <p class="t-g t-mut mb-4">Inclinação 3D pelo mouse, força configurável.</p>
+                <div class="demo-wrap" style="justify-content:center;padding:2.4rem;display:flex">
+                    <div id="premiumTiltCard" sw-card sw-premium-hover-tilt sw-premium-tilt-strength="14">tilt 3D</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-hover-tilt sw-premium-tilt-strength="14">tilt 3D</div>
+</script></pre>
+            </div>
+
+            <!-- 5. MARQUEE -->
+            <div class="doc-card sec mb-6" id="marquee">
+                <h3 class="t-m f-bd mb-4">5. Marquee — <code>sw-premium-marquee</code></h3>
+                <p class="t-g t-mut mb-4">Ticker infinito de texto, sem dependência de largura fixa.</p>
+                <div class="demo-wrap" style="padding:1.2rem 0">
+                    <div id="premiumMarquee" sw-premium-marquee sw-premium-marquee-speed="60" class="t-pri f-bd">
+                        <span>SW PREMIUM &middot; PORTADO DO SMOOLL &middot; GSAP &middot; </span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-marquee sw-premium-marquee-speed="60">
+  <span>Texto do ticker</span>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 6. ROUTER -->
+            <div class="doc-card sec mb-6" id="router">
+                <h3 class="t-m f-bd mb-4">6. Transição de página — <code>sw-premium-link</code></h3>
+                <p class="t-g t-mut mb-4">Roteador PJAX próprio (fetch + troca de
+                    <code>&lt;main id="sw-premium-view"&gt;</code>), separado do <code>sw-mpa.js</code> nativo (View
+                    Transitions API). Requer que todas as páginas do fluxo compartilhem o mesmo shell.</p>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Comportamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>fade</code></td>
+                            <td>Fade + leve deslocamento vertical (padrão)</td>
+                        </tr>
+                        <tr>
+                            <td><code>slide</code> / <code>slide-right</code> / <code>slide-up</code> /
+                                <code>slide-down</code></td>
+                            <td>Desliza a view inteira na direção indicada</td>
+                        </tr>
+                        <tr>
+                            <td><code>scale</code> / <code>scale-up</code> / <code>scale-down</code></td>
+                            <td>Encolhe/cresce com fade</td>
+                        </tr>
+                        <tr>
+                            <td><code>flip</code> / <code>flip-x</code></td>
+                            <td>Giro 3D no eixo Y ou X</td>
+                        </tr>
+                        <tr>
+                            <td><code>blur</code> / <code>blur-in</code> / <code>blur-out</code></td>
+                            <td>Desfoque de entrada/saída</td>
+                        </tr>
+                        <tr>
+                            <td><code>wipe</code> / <code>curtain</code></td>
+                            <td>Cortina cobrindo a tela</td>
+                        </tr>
+                        <tr>
+                            <td><code>"saida|entrada"</code> (pipe)</td>
+                            <td>Tipos diferentes pra saída e entrada</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<main id="sw-premium-view">
+  ...
+  <a href="outra-pagina.html" sw-premium-link="fade">Ir</a>
+</main>
+</script></pre>
+            </div>
+
+            <!-- 7. SEÇÕES -->
+            <div class="doc-card sec mb-6" id="sections">
+                <h3 class="t-m f-bd mb-4">7. Transição de seção — <code>sw-premium-section</code></h3>
+                <p class="t-g t-mut mb-4">Filhos diretos de um wrapper <code>sw-premium-section="tipo"</code>
+                    entram/saem conforme o scroll (pin + timeline scrubada). Tipos: <code>slide</code>,
+                    <code>slide-down</code>, <code>slide-left</code>, <code>slide-right</code>, <code>mask</code>,
+                    <code>zoom</code>, <code>skew</code>, <code>fold</code>, <code>stack</code>,
+                    <code>h-scroll</code>, <code>h-scroll-right</code>. Suporta pipe (<code>"zoom|fold"</code>) para
+                    variar por seção. Desativado abaixo de 992px de largura.</p>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference — demais atributos</h3>
+                <p class="t-g t-mut mb-4">Referência completa dos ~80 atributos <code>sw-premium-*</code> está em
+                    <code>src/fx-premium/sw-premium-core.js</code> (função <code>parseConfig</code>).</p>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-counter</code> / <code>sw-premium-progress-bar</code> /
+                                <code>sw-premium-batch</code></td>
+                            <td>Scroll — contadores, barra de progresso, entrada em lote</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-horizontal</code> / <code>sw-premium-timeline</code></td>
+                            <td>Scroll — carrossel horizontal e timeline pinada</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-draw-svg</code> / <code>sw-premium-path</code></td>
+                            <td>SVG — desenho de traço e movimento por path</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-flip</code> / <code>sw-premium-observer</code></td>
+                            <td>UI — animação de layout (Flip) e fullpage (Observer)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor</code> / <code>sw-premium-magnetic</code></td>
+                            <td>Mouse — cursor customizado e campo magnético</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-to</code> / <code>sw-premium-scroll-class</code> /
+                                <code>sw-premium-parallax</code></td>
+                            <td>Scroll — âncora suave, classe por scroll e parallax</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

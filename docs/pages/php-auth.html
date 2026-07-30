@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP Auth - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">Auth</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Module</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">Auth</span></h2>
+                <p class="t-g t-mut mb-0">Autenticação com senha bcrypt, sessão segura, "lembrar-me" via token
+                    persistente e integração com RBAC.</p>
+            </div>
+
+            <!-- 1. CONFIGURAÇÃO -->
+            <div class="doc-card sec mb-6" id="config">
+                <h3 class="t-m f-bd mb-4">1. Configuração</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Auth\Auth;
+use App\Models\Usuario;
+
+// Configurar uma vez — geralmente em index.php ou bootstrap
+Auth::configurar([
+    'modelo'      => Usuario::class,   // Model com $tabela e hashSenha()
+    'campo'       => 'email',          // campo de login (coluna no banco)
+    'senha'       => 'senha',          // campo da senha (hash bcrypt)
+    'nivel'       => 'nivel',          // campo role/nível
+    'ativo'       => 'ativo',          // campo ativo (null = ignora)
+    'rota_login'  => '/login',         // redirect quando não autenticado
+    'sessao_chave'=> '_sw_user',       // chave na sessão (padrão)
+]);
+</script></pre>
+            </div>
+
+            <!-- 2. LOGIN/LOGOUT -->
+            <div class="doc-card sec mb-6" id="login">
+                <h3 class="t-m f-bd mb-4">2. Login e logout</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Controller de login
+class AuthController extends Controller
+{
+    public function loginForm(): void
+    {
+        if (Auth::check()) $this->redirect('/dashboard');
+        $this->view('auth/login');
+    }
+
+    public function login(): void
+    {
+        $dados = $this->validar([
+            'email' => 'required|email',
+            'senha' => 'required',
+        ]);
+
+        if (!Auth::login($dados['email'], $dados['senha'])) {
+            if ($this->req->isAjax()) {
+                $this->json(['ok' => false, 'mensagem' => 'E-mail ou senha inválidos.'], 401);
+            }
+            Session::flash('erro', 'E-mail ou senha inválidos.');
+            $this->back();
+        }
+
+        // Lembrar-me (cookie 30 dias)
+        if ($this->req->input('lembrar')) {
+            Auth::gerarToken(Auth::id());
+        }
+
+        $this->redirect('/dashboard');
+    }
+
+    public function logout(): void
+    {
+        Auth::logout();
+        $this->redirect('/login');
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 3. VERIFICAR AUTH -->
+            <div class="doc-card sec mb-6" id="check">
+                <h3 class="t-m f-bd mb-4">3. Verificar autenticação</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Auth\Auth;
+
+// Está logado?
+if (Auth::check()) { ... }
+
+// Dados do usuário logado
+$usuario = Auth::user();    // array com os dados (sem senha)
+$id      = Auth::id();      // int | null
+$nivel   = Auth::nivel();   // 'admin' | 'editor' | 'user' | ''
+
+// Em qualquer Controller (via herança)
+$this->autenticar();   // redireciona /login se não logado
+
+// Via middleware no Router
+Router::middleware('auth', fn() => Auth::middleware());
+Router::get('/painel', 'PainelController@index', ['auth']);
+</script></pre>
+            </div>
+
+            <!-- 4. LEMBRAR-ME -->
+            <div class="doc-card sec mb-6" id="remember">
+                <h3 class="t-m f-bd mb-4">4. "Lembrar-me" (token persistente)</h3>
+                <p class="t-g t-mut mb-4">Requer a tabela <code>sessoes_lembrar</code> — veja a página de
+                    <a href="php-setup.html">Setup</a>.</p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Após login bem-sucedido, gera cookie por 30 dias
+Auth::gerarToken(Auth::id(), 30);
+
+// No bootstrap (index.php), antes de Router::despachar():
+// Tenta renovar sessão a partir do cookie "lembrar"
+if (!Auth::check()) {
+    Auth::verificarToken();
+}
+</script></pre>
+            </div>
+
+            <!-- 5. QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Retorno</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Auth::configurar($cfg)</code></td>
+                            <td>void</td>
+                            <td>Define modelo, campos e rota de login</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::login($login, $senha)</code></td>
+                            <td>bool</td>
+                            <td>Autentica e cria sessão</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::logout()</code></td>
+                            <td>void</td>
+                            <td>Destrói sessão e regenera ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::check()</code></td>
+                            <td>bool</td>
+                            <td>Verifica se há sessão ativa</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::user()</code></td>
+                            <td>array|null</td>
+                            <td>Dados do usuário logado (sem senha)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::id()</code></td>
+                            <td>int|null</td>
+                            <td>ID do usuário logado</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::nivel()</code></td>
+                            <td>string</td>
+                            <td>Nível/role do usuário</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::middleware()</code></td>
+                            <td>void</td>
+                            <td>Aborta 401/redireciona se não autenticado</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::gerarToken($userId, $dias)</code></td>
+                            <td>string</td>
+                            <td>Cookie "lembrar-me" persistente</td>
+                        </tr>
+                        <tr>
+                            <td><code>Auth::verificarToken()</code></td>
+                            <td>bool</td>
+                            <td>Renova sessão a partir do cookie</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

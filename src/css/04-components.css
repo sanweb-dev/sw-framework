@@ -195,7 +195,7 @@ a:focus-visible,
 }
 
 /* --- Tamanhos (escala t-shirt) --- */
-.sw-btn-pp, .sw-btn-sm { padding: 0.4rem 1rem; font-size: 1.1rem; min-height: 2.8rem; gap: 0.5rem; }
+.sw-btn-pp, .sw-btn-sm { padding: 0.4rem 1rem; font-size: 1.3rem; min-height: 2.8rem; gap: 0.5rem; }
 .sw-btn-p              { padding: 0.6rem 1.4rem; font-size: 1.2rem; min-height: 3.6rem; }
 .sw-btn-m              { padding: 0.8rem 1.8rem; font-size: 1.4rem; min-height: 4.4rem; }
 .sw-btn-g              { padding: 1rem 2.2rem; font-size: 1.5rem; min-height: 5rem; }
@@ -316,7 +316,7 @@ a:focus-visible,
 .sw-badge-out.sw-badge-inf { color: var(--sw-inf); border-color: var(--sw-inf); }
 
 /* --- Tamanhos --- */
-.sw-badge-pp { padding: 0.15rem 0.5rem; font-size: 0.9rem; }
+.sw-badge-pp { padding: 0.18rem 0.5rem 0.15rem 0.5rem; font-size: 0.9rem; }
 .sw-badge-p  { padding: 0.2rem 0.6rem; font-size: 1rem; }
 .sw-badge-m  { padding: 0.3rem 0.8rem; font-size: 1.1rem; }
 .sw-badge-g  { padding: 0.4rem 1rem; font-size: 1.3rem; }

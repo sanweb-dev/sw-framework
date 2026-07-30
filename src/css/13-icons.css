@@ -1075,7 +1075,7 @@
 .swi-star:before, .y2-star:before { content: "\ec18"; }
 .swi-bell:before, .y2-bell:before { content: "\eb10"; }
 .swi-zap:before, .swi-flash:before, .y2-flash:before, .y2-zap:before { content: "\e9dd"; }
-.swi-wind:before, .y2-wind:before { content: "\ec77"; }
+.swi-wind:before, .swi-wave:before, .swi-curtain:before, .y2-wind:before { content: "\eb2e"; }
 .swi-sparkles:before, .y2-sparkles:before { content: "\ec14"; }
 .swi-bounce:before, .swi-arrow-down:before, .y2-down-arrow:before { content: "\e9be"; }
 .swi-arrow-up:before, .y2-up-arrow:before { content: "\e9c2"; }

@@ -31,6 +31,31 @@
     return safeDirection;
   };
 
+  /* Estilo de transição nativa (data-sw-mpa-style): ao contrário da direção
+   * (recalculada a cada navegação pela Navigation API), o estilo é uma
+   * preferência que o usuário escolhe e que fica "grudada" na aba até
+   * escolher outra — por isso vive no sessionStorage sem ser removida
+   * depois de lida, e é reaplicada em toda carga de página. */
+  const styles = new Set(['default', 'fade', 'zoom', 'circle', 'slide-y']);
+  const styleKey = 'sw:trans:style';
+  const normalizeStyle = (style) => styles.has(style) ? style : 'default';
+  const applyStyle = (style) => {
+    const safeStyle = normalizeStyle(style);
+    root.dataset.swMpaStyle = safeStyle;
+    return safeStyle;
+  };
+  const readStyle = () => {
+    try { return normalizeStyle(window.sessionStorage.getItem(styleKey)); }
+    catch (_) { return 'default'; }
+  };
+  const setStyle = (style) => {
+    const safeStyle = normalizeStyle(style);
+    try { window.sessionStorage.setItem(styleKey, safeStyle); } catch (_) {}
+    return applyStyle(safeStyle);
+  };
+  applyStyle(readStyle());
+  window.SWMpa = { setStyle, getStyle: readStyle };
+
   const store = (direction) => {
     try { window.sessionStorage.setItem(storageKey, normalize(direction)); }
     catch (_) { /* Storage can be unavailable in restricted browsing modes. */ }

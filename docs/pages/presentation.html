@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação — SW Framework</title>
+
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Lexend+Deca:wght@100..900&display=swap');
+
+        :root {
+            --prs-bg: #0a0a0c;
+            --prs-card: rgba(255, 255, 255, 0.03);
+            --prs-border: rgba(255, 255, 255, 0.08);
+            --prs-accent: var(--sw-pri, #3b82f6);
+            --f-brand: 'Lexend Deca', sans-serif;
+            --f-body: 'Outfit', sans-serif;
+        }
+
+        .Fbrand { font-family: var(--f-brand) !important; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--prs-bg);
+            color: #e2e2e2;
+            font-family: var(--f-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: var(--f-brand);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar customizada de Apresentação */
+        .prs-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--prs-border);
+            padding: 1.6rem 3.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .prs-nav-brand {
+            font-family: var(--f-brand);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .prs-nav-brand span { color: var(--prs-accent); }
+
+        .prs-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .prs-nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .prs-nav-links a:hover { color: #fff; }
+
+        /* Hero */
+        .prs-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12rem 2rem 8rem;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% -20%, #1e1e2e 0%, var(--prs-bg) 70%);
+        }
+
+        .prs-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--prs-accent);
+            padding: 0.6rem 1.6rem;
+            border-radius: 10rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 3.2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .prs-hero h1 {
+            font-size: clamp(4.4rem, 4rem + 6vw, 10rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(to bottom, #fff 30%, rgba(255, 255, 255, 0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .prs-hero h1 span {
+            display: block;
+            color: var(--prs-accent);
+            -webkit-text-fill-color: initial;
+            background: none;
+        }
+
+        .prs-hero p {
+            font-size: clamp(1.8rem, 1.4rem + 1vw, 2.3rem);
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 72rem;
+            margin: 0 auto 4.5rem;
+            font-weight: 300;
+        }
+
+        /* Partículas Hero */
+        .prs-dot {
+            position: absolute;
+            background: var(--prs-accent);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: prs-particle linear infinite;
+        }
+
+        @keyframes prs-particle {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(0); opacity: 0; }
+        }
+
+        /* Sections */
+        .prs-sec {
+            padding: 10rem 2rem;
+            max-width: 124rem;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .prs-sec-head {
+            text-align: center;
+            margin-bottom: 7rem;
+        }
+
+        .prs-sec-tag {
+            color: var(--prs-accent);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1.6rem;
+            display: block;
+        }
+
+        .prs-sec-head h2 {
+            font-size: clamp(3.2rem, 2rem + 4vw, 5.6rem);
+            margin-bottom: 1.8rem;
+        }
+
+        .prs-sec-head p {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+
+        /* Grid & Cards */
+        .prs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.4rem;
+        }
+
+        .prs-card {
+            background: var(--prs-card);
+            border: 1px solid var(--prs-border);
+            border-radius: 2.4rem;
+            padding: 4rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prs-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-0.8rem);
+            box-shadow: 0 3rem 6rem -1.5rem rgba(0, 0, 0, 0.6);
+        }
+
+        .prs-card-ico {
+            width: 6.4rem;
+            height: 6.4rem;
+            border-radius: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 2.6rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--prs-accent);
+            transition: 0.4s;
+        }
+
+        .prs-card:hover .prs-card-ico {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--prs-accent);
+            color: #fff;
+        }
+
+        .prs-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .prs-card p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        /* Stats */
+        .prs-stats {
+            background: #0f0f12;
+            padding: 9rem 2rem;
+            border-top: 1px solid var(--prs-border);
+            border-bottom: 1px solid var(--prs-border);
+        }
+
+        .prs-stats-grid {
+            max-width: 110rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 4rem;
+            text-align: center;
+        }
+
+        .prs-stat-val {
+            font-family: var(--f-brand);
+            font-size: 6rem;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .prs-stat-lab {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+        }
+
+        /* Previews Box */
+        .prs-preview-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--prs-border);
+            border-radius: 2.4rem;
+            padding: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .prs-btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        /* Footer & CTA */
+        .prs-cta {
+            text-align: center;
+            padding: 12rem 2rem;
+            background: radial-gradient(circle at 50% 100%, #1e1e2e 0%, var(--prs-bg) 70%);
+            border-top: 1px solid var(--prs-border);
+        }
+
+        .prs-cta h2 {
+            font-size: clamp(3.2rem, 3rem + 3vw, 5.6rem);
+            margin-bottom: 2rem;
+        }
+
+        .prs-cta p {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 4rem;
+        }
+    </style>
+
+    <script src="../dist/sw.min.js" defer></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="prs-nav">
+        <a class="prs-nav-brand" href="../index.html">SW<span>. Framework</span></a>
+        <div class="prs-nav-links">
+            <a href="#recursos">Recursos</a>
+            <a href="#modulos">Módulos</a>
+            <a href="#efeitos">Efeitos</a>
+            <a href="#ecossistema">Ecossistema</a>
+            <a href="../index.html" class="sw-btn sw-btn-pri sw-btn-sm" style="border-radius: 10rem;">Documentação Completa</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="prs-hero">
+        <div id="prsParticles"></div>
+        <div data-sw-scr="up">
+            <div class="prs-hero-badge">
+                <i class="swi swi-star"></i> Release 0.1.0 — Antigravity Edition
+            </div>
+            <h1>Arquitetura Visual<br><span>em Alta Precisão.</span></h1>
+            <p>Framework CSS & JS leve, performático e modular com micro-interações nativas, animações de scroll e design de alto impacto.</p>
+            <div class="flx gap-3 jct-center flw">
+                <a href="../index.html" class="sw-btn sw-btn-pri sw-btn-lg" style="border-radius: 10rem; padding: 1.4rem 3.6rem;">Explorar Documentação</a>
+                <a href="animacoes.html" class="sw-btn sw-btn-ghost sw-btn-lg" style="border-radius: 10rem; color: #fff;">Ver Animações</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="prs-stats">
+        <div class="prs-stats-grid" data-sw-scr="up">
+            <div>
+                <span class="prs-stat-val" data-count="113" data-suffix="KB">0</span>
+                <span class="prs-stat-lab">Core Gzip</span>
+            </div>
+            <div>
+                <span class="prs-stat-val" data-count="45" data-suffix="">0</span>
+                <span class="prs-stat-lab">Módulos JS</span>
+            </div>
+            <div>
+                <span class="prs-stat-val" data-count="1100" data-suffix="+">0</span>
+                <span class="prs-stat-lab">Tokens CSS</span>
+            </div>
+            <div>
+                <span class="prs-stat-val" data-count="0" data-suffix="">0</span>
+                <span class="prs-stat-lab">Dependências</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECURSOS CORE -->
+    <section class="prs-sec" id="recursos">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Recursos Core</span>
+            <h2>O Poder da Simplicidade</h2>
+            <p>Componentes otimizados com uma linguagem visual moderna, acessível e minimalista.</p>
+        </div>
+
+        <div class="prs-grid">
+            <div class="prs-card dly-1" data-sw-scr="left">
+                <div class="prs-card-ico"><i class="swi swi-flash"></i></div>
+                <h3>Atomic Power</h3>
+                <p>Classes utilitárias expressivas de rápida digitação para construir interfaces completas em instantes.</p>
+            </div>
+            <div class="prs-card dly-2" data-sw-scr="up">
+                <div class="prs-card-ico"><i class="swi swi-sun"></i></div>
+                <h3>Dark & Light Engine</h3>
+                <p>Gerenciamento inteligente de modo escuro/claro com transições suaves e variação HSL.</p>
+            </div>
+            <div class="prs-card dly-3" data-sw-scr="right">
+                <div class="prs-card-ico"><i class="swi swi-box"></i></div>
+                <h3>Zero Dependências</h3>
+                <p>Desempenho máximo com JavaScript moderno e CSS puro. Sem dependências pesadas.</p>
+            </div>
+            <div class="prs-card dly-1" data-sw-scr="left">
+                <div class="prs-card-ico"><i class="swi swi-layers"></i></div>
+                <h3>Scroll Engine</h3>
+                <p>Animações bidirecionais ativadas por scroll com atributos declarativos como <code>data-sw-scr</code>.</p>
+            </div>
+            <div class="prs-card dly-2" data-sw-scr="up">
+                <div class="prs-card-ico"><i class="swi swi-star"></i></div>
+                <h3>Acessibilidade</h3>
+                <p>Componentes em conformidade com ARIA, suporte a leitores de tela e reduzida movimentação.</p>
+            </div>
+            <div class="prs-card dly-3" data-sw-scr="right">
+                <div class="prs-card-ico"><i class="swi swi-show"></i></div>
+                <h3>UI Visual Pro</h3>
+                <p>Cards, Modais, Drawers, Badges e Carrosséis desenhados para impressionar de primeira.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÓDULOS AO VIVO -->
+    <section class="prs-sec" id="modulos">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Módulos</span>
+            <h2>Componentes ao Vivo</h2>
+            <p>Não são imagens estáticas — cada peça abaixo é um módulo real do SW rodando nesta página.</p>
+        </div>
+
+        <div class="prs-grid">
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Badges</h4>
+                <div class="prs-btn-group">
+                    <span sw-badge>Padrão</span>
+                    <span sw-badge class="sw-badge-pri">Primary</span>
+                    <span sw-badge class="sw-badge-suc">Success</span>
+                    <span sw-badge class="sw-badge-err">Error</span>
+                    <span sw-badge class="sw-badge-ale">Alert</span>
+                    <span sw-badge class="sw-badge-inf">Info</span>
+                </div>
+            </div>
+
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Avatares</h4>
+                <div class="prs-btn-group">
+                    <span sw-avt class="sw-avt-pp">PP</span>
+                    <span sw-avt class="sw-avt-p">P</span>
+                    <span sw-avt>M</span>
+                    <span sw-avt class="sw-avt-g">G</span>
+                    <span sw-avt class="sw-avt-gg">GG</span>
+                </div>
+            </div>
+
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Rating</h4>
+                <div class="prs-btn-group">
+                    <div sw-rating="4.5"></div>
+                    <span style="opacity:.5;font-size:1.3rem">(127 avaliações)</span>
+                </div>
+            </div>
+
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Tooltip</h4>
+                <div class="prs-btn-group">
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Sigo o cursor" sw-tooltip-follow="true">Follow cursor</button>
+                    <button sw-btn class="sw-btn-out" sw-tooltip="Aparece embaixo" sw-tooltip-pos="bottom">Bottom</button>
+                </div>
+            </div>
+
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Dropdown</h4>
+                <div sw-dropdown>
+                    <button sw-btn class="sw-btn-out sw-dropdown-tgl">Opções <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                    <div class="sw-dropdown-mn">
+                        <div class="sw-dropdown-it">Editar</div>
+                        <div class="sw-dropdown-it">Duplicar</div>
+                        <div class="sw-dropdown-it is-dgr">Excluir</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prs-preview-box" data-sw-scr="up">
+                <h4 class="mb-4">Notificações — SWAlert</h4>
+                <div class="prs-btn-group">
+                    <button sw-btn class="sw-btn-suc sw-btn-sm" onclick="SWAlert.ok('Tudo certo por aqui!', 3000, 'tr')">Sucesso</button>
+                    <button sw-btn class="sw-btn-err sw-btn-sm" onclick="SWAlert.err('Algo deu errado.', 3000, 'tr')">Erro</button>
+                    <button sw-btn class="sw-btn-inf sw-btn-sm" onclick="SWAlert.inf('Nova versão disponível.', 3000, 'tr')">Info</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="prs-preview-box mt-6" data-sw-scr="up">
+            <h4 class="mb-4">Accordion</h4>
+            <div sw-accordion>
+                <div class="sw-acc-it is-act">
+                    <div class="sw-acc-hdr">O que é o SW Framework?</div>
+                    <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Um ecossistema CSS + JS nativo, zero dependências, com mais de 80 componentes e módulos prontos.</div></div>
+                </div>
+                <div class="sw-acc-it">
+                    <div class="sw-acc-hdr">Precisa de build tools?</div>
+                    <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Não. Copie os arquivos de <code>dist/</code> e comece — sem npm, sem bundler.</div></div>
+                </div>
+                <div class="sw-acc-it">
+                    <div class="sw-acc-hdr">Funciona com PHP, React, Laravel?</div>
+                    <div class="sw-acc-bdy"><div class="sw-acc-bdy-in">Sim — é HTML/CSS/JS puro, compatível com qualquer stack de backend ou frontend.</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOWCASE BOTÕES -->
+    <section class="prs-sec" style="background:#0d0d10" id="showcase">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Showcase</span>
+            <h2>Interatividade Vibrante</h2>
+            <p>Botões com gradientes, micro-interações de hover e excelente feedback tátil.</p>
+        </div>
+
+        <div class="prs-preview-box" data-sw-scr="up">
+            <div class="prs-btn-group mb-4">
+                <button class="sw-btn sw-btn-pri">Primário</button>
+                <button class="sw-btn sw-btn-sec">Secundário</button>
+                <button class="sw-btn sw-btn-suc">Sucesso</button>
+                <button class="sw-btn sw-btn-err">Erro</button>
+                <button class="sw-btn sw-btn-war">Alerta</button>
+                <button class="sw-btn sw-btn-inf">Info</button>
+                <button class="sw-btn sw-btn-drk">Dark</button>
+            </div>
+            <div class="prs-btn-group">
+                <button class="sw-btn sw-btn-pri sw-btn-lg" style="border-radius: 10rem;">Action Grande</button>
+                <button class="sw-btn sw-btn-pri">Normal</button>
+                <button class="sw-btn sw-btn-pri sw-btn-sm">Small</button>
+                <button class="sw-btn sw-btn-outline sw-btn-pri">Outline</button>
+                <button class="sw-btn sw-btn-ghost">Ghost Mode</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOWCASE INPUTS -->
+    <section class="prs-sec" id="componentes">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Inputs</span>
+            <h2>Floating Material Labels</h2>
+            <p>Campos de texto modernos com rótulos flutuantes e validação visual de foco.</p>
+        </div>
+
+        <div class="prs-grid" data-sw-scr="up">
+            <div class="prs-preview-box">
+                <div class="fld-mat mb-4">
+                    <input class="fld-mat-inp" type="text" placeholder=" " id="fm1">
+                    <label class="fld-mat-lbl" for="fm1">Nome Completo</label>
+                </div>
+                <div class="fld-mat fld-mat-out mb-4">
+                    <input class="fld-mat-inp" type="email" placeholder=" " id="fm2">
+                    <label class="fld-mat-lbl" for="fm2">E-mail Corporativo</label>
+                </div>
+                <div class="fld-mat fld-mat-ico fld-mat-fil">
+                    <i class="swi swi-star fld-mat-ico-el"></i>
+                    <input class="fld-mat-inp" type="password" placeholder=" " id="fm3">
+                    <label class="fld-mat-lbl" for="fm3">Senha de Acesso</label>
+                </div>
+            </div>
+            <div class="prs-preview-box">
+                <h4 class="mb-4">Estados de Validação</h4>
+                <div class="fld-mat fld-mat-out is-ok mb-4">
+                    <input class="fld-mat-inp" type="text" placeholder=" " id="v1" value="Sandro Web">
+                    <label class="fld-mat-lbl" for="v1">Campo Válido</label>
+                </div>
+                <div class="fld-mat fld-mat-out is-err">
+                    <input class="fld-mat-inp" type="text" placeholder=" " id="v2" value="dados_invalidos">
+                    <label class="fld-mat-lbl" for="v2">Campo com Erro</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EFEITOS & INTERAÇÃO -->
+    <section class="prs-sec" style="background:#0d0d10" id="efeitos">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Efeitos</span>
+            <h2>Texto, Arraste & Movimento</h2>
+            <p>Efeitos declarativos via atributo HTML — sem escrever uma linha de JavaScript.</p>
+        </div>
+
+        <div class="prs-grid" data-sw-scr="up">
+            <div class="prs-preview-box">
+                <h4 class="mb-4">Typewriter</h4>
+                <p class="t-xg">Construímos <span sw-typewriter sw-typewriter-words='["Interfaces","Experiências","Produtos"]' style="color:var(--prs-accent)"></span></p>
+            </div>
+            <div class="prs-preview-box" style="position:relative;min-height:16rem">
+                <h4 class="mb-4">Draggable</h4>
+                <p style="opacity:.5;font-size:1.3rem;margin-bottom:1rem">Arraste o card abaixo.</p>
+                <div sw-drag sw-drag-bounds="parent" style="position:absolute;top:6rem;left:2rem;background:var(--prs-accent);color:#fff;padding:1.2rem 2rem;border-radius:1.2rem;cursor:grab;font-weight:700">Arraste-me</div>
+            </div>
+        </div>
+
+        <div class="prs-preview-box mt-6 p-0" style="overflow:hidden;border-radius:2.4rem">
+            <div sw-parallax sw-parallax-speed="0.4" style="height:24rem;background-image:linear-gradient(rgba(10,10,12,.5),rgba(10,10,12,.75)),url('../images/profile_cover.svg');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem">
+                <div>
+                    <h3 class="mb-2">Parallax de Background</h3>
+                    <p style="opacity:.7">Role a página — o fundo se move mais devagar que o conteúdo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ECOSSISTEMA -->
+    <section class="prs-sec" id="ecossistema">
+        <div class="prs-sec-head" data-sw-scr="up">
+            <span class="prs-sec-tag">Ecossistema</span>
+            <h2>Além do Frontend</h2>
+            <p>O SW não para no CSS/JS — inclui backend, sintaxe e um motor de animação premium opcional.</p>
+        </div>
+
+        <div class="prs-grid" data-sw-scr="up">
+            <a href="php-core.html" class="prs-card" style="text-decoration:none;color:inherit">
+                <div class="prs-card-ico"><i class="swi swi-server"></i></div>
+                <h3>Backend PHP</h3>
+                <p>Router, Model, QueryBuilder, Auth e RBAC — um micro-framework MVC nativo, sem Composer.</p>
+            </a>
+            <a href="animacoes-premium.html" class="prs-card" style="text-decoration:none;color:inherit">
+                <div class="prs-card-ico"><i class="swi swi-star"></i></div>
+                <h3>Animações Premium (GSAP)</h3>
+                <p>Camada opcional com GSAP vendorizado — scroll-trigger, drag, flip e transições de página.</p>
+            </a>
+            <a href="swcode.html" class="prs-card" style="text-decoration:none;color:inherit">
+                <div class="prs-card-ico"><i class="swi swi-code"></i></div>
+                <h3>SWCode</h3>
+                <p>Syntax highlighter nativo com 5 temas e cópia em 1 clique — o que você está vendo nesta doc.</p>
+            </a>
+            <a href="componentes.html" class="prs-card" style="text-decoration:none;color:inherit">
+                <div class="prs-card-ico"><i class="swi swi-layers"></i></div>
+                <h3>Catálogo Completo</h3>
+                <p>Todos os componentes, módulos e páginas de documentação organizados por categoria.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="prs-cta">
+        <div data-sw-scr="up">
+            <h2>Eleve o nível do seu projeto.</h2>
+            <p>Comece a construir páginas extraordinárias com o SW Framework.</p>
+            <a href="../index.html" class="sw-btn sw-btn-pri sw-btn-lg" style="border-radius: 10rem; padding: 1.4rem 4rem;">Começar Agora</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="padding: 4rem 2rem; border-top: 1px solid var(--prs-border); text-align: center; color: rgba(255, 255, 255, 0.3); font-size: 1.3rem;">
+        &copy; 2026 SW Framework — Nill Ecosystem. Sandro Web Solutions.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Partículas de fundo
+            const container = document.getElementById('prsParticles');
+            if (container) {
+                for (let i = 0; i < 30; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'prs-dot';
+                    const size = Math.random() * 4 + 2;
+                    dot.style.width = size + 'px';
+                    dot.style.height = size + 'px';
+                    dot.style.left = Math.random() * 100 + '%';
+                    dot.style.top = Math.random() * 100 + '%';
+                    dot.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    dot.style.animationDelay = (Math.random() * 5) + 's';
+                    container.appendChild(dot);
+                }
+            }
+
+            // Animação dos contadores numéricos
+            const stats = document.querySelectorAll('.prs-stat-val');
+            stats.forEach(stat => {
+                const target = +stat.getAttribute('data-count');
+                const suffix = stat.getAttribute('data-suffix') || '';
+                let count = 0;
+                const update = () => {
+                    const inc = target / 100 || 1;
+                    if (count < target) {
+                        count += inc;
+                        if (count > target) count = target;
+                        stat.innerText = Math.floor(count) + suffix;
+                        setTimeout(update, 20);
+                    } else {
+                        stat.innerText = target + suffix;
+                    }
+                };
+
+                const statObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        update();
+                        statObserver.disconnect();
+                    }
+                });
+                statObserver.observe(stat);
+            });
+        });
+    </script>
+</body>
+
+</html>

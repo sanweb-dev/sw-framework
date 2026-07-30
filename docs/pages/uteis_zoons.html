@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zoom & Scale - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .zm-frame {
+            width: 100%;
+            height: 12rem;
+            background: var(--sw-bg-bas);
+            border-radius: var(--sw-r-g);
+            overflow: hidden;
+        }
+
+        .zm-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .zm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+            gap: 1.6rem;
+        }
+
+        .zm-lbl {
+            text-align: center;
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            margin-top: .8rem;
+        }
+
+        .zm-static-box {
+            width: 8rem;
+            height: 8rem;
+            background: var(--sw-pri);
+            border-radius: var(--sw-r-m);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes SW</span>
+                <span class="brc-it is-cur" aria-current="page">Zoom & Scale</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Utilitários</span>
+                <h2 class="t-xxg f-bd mb-2">Zoom <span class="TprinD">& Scale</span></h2>
+                <p class="t-g t-mut mb-0">Transformações de escala via <code>transform: scale()</code> — hover animado para thumbnails e valores fixos para ajustar o tamanho de qualquer elemento.</p>
+            </div>
+
+            <!-- 1. HOVER -->
+            <div class="doc-card sec mb-6" id="hover">
+                <h3 class="t-m f-bd mb-4">1. Zoom ao Passar o Mouse — <code>.zm-hov</code></h3>
+                <p class="t-g t-mut mb-4">Passe o mouse sobre a imagem abaixo. Requer <code>overflow:hidden</code> no container (já incluso na classe).</p>
+                <div class="zm-frame mb-4">
+                    <img class="zm-hov" src="https://picsum.photos/seed/sw-zoom/500/400" alt="">
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div style="overflow:hidden;border-radius:1.2rem">
+  <img class="zm-hov" src="foto.jpg">
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. ESCALAS FIXAS -->
+            <div class="doc-card sec" id="fixas">
+                <h3 class="t-m f-bd mb-4">2. Escalas Fixas — <code>.zm-50 ... .zm-150</code></h3>
+                <p class="t-g t-mut mb-4">Redimensiona o elemento sem afetar o layout ao redor (transform não ocupa espaço extra no fluxo).</p>
+                <div class="zm-grid mb-4">
+                    <div><div class="zm-static-box zm-50">Base</div><p class="zm-lbl">.zm-50</p></div>
+                    <div><div class="zm-static-box zm-75">Base</div><p class="zm-lbl">.zm-75</p></div>
+                    <div><div class="zm-static-box zm-100">Base</div><p class="zm-lbl">.zm-100</p></div>
+                    <div><div class="zm-static-box zm-110">Base</div><p class="zm-lbl">.zm-110</p></div>
+                    <div><div class="zm-static-box zm-125">Base</div><p class="zm-lbl">.zm-125</p></div>
+                    <div><div class="zm-static-box zm-150">Base</div><p class="zm-lbl">.zm-150</p></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="zm-125">Elemento 25% maior</div>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

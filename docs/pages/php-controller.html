@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP Controller - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">Controller</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Module</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">Controller</span></h2>
+                <p class="t-g t-mut mb-0">Classes base para controllers com respostas JSON/View/Redirect, validação
+                    integrada e CRUD completo via herança (<code>Controller</code> e <code>CrudController</code>).</p>
+            </div>
+
+            <!-- 1. CONTROLLER BASE -->
+            <div class="doc-card sec mb-6" id="base">
+                <h3 class="t-m f-bd mb-4">1. Controller base</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+// app/Controllers/UsuarioController.php
+namespace App\Controllers;
+
+use SW\Core\Controller;
+use App\Models\Usuario;
+
+class UsuarioController extends Controller
+{
+    public function lista(): void
+    {
+        $pag = Usuario::paginar(15, ['ativo' => 1], 'nome ASC');
+        $this->view('usuarios/lista', ['paginacao' => $pag]);
+    }
+
+    public function ver(int $id): void
+    {
+        $usuario = Usuario::encontrarOuAbortar($id);
+
+        if ($this->req->isAjax()) {
+            $this->json(['ok' => true, 'dado' => $usuario]);
+        }
+
+        $this->view('usuarios/ver', ['usuario' => $usuario]);
+    }
+
+    public function salvar(): void
+    {
+        $dados = $this->validar([
+            'nome'  => 'required|min:2|max:150',
+            'email' => 'required|email|unique:usuarios',
+            'senha' => 'required|min:6',
+        ]);
+
+        $dados['senha'] = Usuario::hashSenha($dados['senha']);
+        $id = Usuario::criar($dados);
+
+        $this->json(['ok' => true, 'id' => $id], 201);
+    }
+
+    public function atualizar(int $id): void
+    {
+        Usuario::encontrarOuAbortar($id);
+
+        $dados = $this->validar([
+            'nome'  => 'required|min:2|max:150',
+            'email' => "required|email|unique:usuarios,email,{$id}",
+        ]);
+
+        Usuario::atualizar($id, $dados);
+        $this->json(['ok' => true, 'mensagem' => 'Atualizado com sucesso.']);
+    }
+
+    public function deletar(int $id): void
+    {
+        $this->requerPermissao('usuarios.deletar');
+        Usuario::encontrarOuAbortar($id);
+        Usuario::deletar($id);
+        $this->json(['ok' => true]);
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 2. MÉTODOS DO CONTROLLER -->
+            <div class="doc-card sec mb-6" id="metodos">
+                <h3 class="t-m f-bd mb-4">2. Métodos disponíveis</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Resposta: renderiza view PHP
+$this->view('pasta/arquivo', ['chave' => $valor]);
+
+// Resposta JSON (encerra execução)
+$this->json(['ok' => true, 'dados' => $dados]);
+$this->json(['ok' => false, 'mensagem' => 'Erro'], 422);
+
+// Redirect (encerra execução)
+$this->redirect('/usuarios');
+$this->redirect('/login', 301);
+
+// Redirect de volta (HTTP_REFERER)
+$this->back();
+
+// 204 No Content
+$this->semConteudo();
+
+// Abortar com HTTP status
+$this->abortar(404, 'Usuário não encontrado');
+
+// Verificar autenticação (redireciona /login ou 401 em Ajax)
+$this->autenticar();
+
+// RBAC — verificar permissão
+$ok = $this->pode('posts.editar');        // bool
+$this->requerPermissao('posts.deletar');  // aborta 403 se não tem
+
+// Dados da request
+$this->req->input('campo');
+$this->req->all();
+$this->req->isAjax();
+$this->req->isPost();
+</script></pre>
+            </div>
+
+            <!-- 3. CRUD CONTROLLER -->
+            <div class="doc-card sec mb-6" id="crud">
+                <h3 class="t-m f-bd mb-4">3. CrudController — CRUD completo herdável</h3>
+                <p class="t-g t-mut mb-4">Herde <code>CrudController</code>, defina 4 propriedades e todas as ações
+                    de CRUD (lista, ver, form, salvar, deletar) estão prontas — web e Ajax. Exemplo real e completo
+                    em <a href="php-crud.html">CRUD Completo →</a></p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+namespace App\Controllers;
+
+use SW\Core\CrudController;
+use App\Models\Produto;
+
+class ProdutoController extends CrudController
+{
+    protected string $model    = Produto::class;
+    protected string $viewDir  = 'produtos';       // views/produtos/lista.php, form.php, ver.php
+    protected string $rotaBase = '/produtos';
+    protected array  $regras   = [
+        'nome'   => 'required|min:2|max:200',
+        'preco'  => 'required|decimal',
+        'estoque'=> 'required|inteiro',
+        'ativo'  => 'nullable|inteiro',
+    ];
+    protected int    $porPagina = 20;
+    protected string $orderPad  = 'nome ASC';
+}
+</script></pre>
+                <pre swcode="php" class="m-0 mt-4"><script type="text/plain">
+// routes/web.php — rotas para o CrudController
+Router::get('/produtos',             'ProdutoController@lista');
+Router::get('/produtos/novo',        'ProdutoController@form');
+Router::post('/produtos',            'ProdutoController@salvar');
+Router::get('/produtos/:id',         'ProdutoController@ver');
+Router::get('/produtos/:id/editar',  'ProdutoController@form');
+Router::post('/produtos/:id',        'ProdutoController@salvar');
+Router::post('/produtos/:id/deletar','ProdutoController@deletar');
+</script></pre>
+            </div>
+
+            <!-- 4. QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference — Controller</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>$this->view($view, $dados)</code></td>
+                            <td>Renderiza view PHP</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->json($dados, $status)</code></td>
+                            <td>Resposta JSON (exit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->redirect($url, $status)</code></td>
+                            <td>HTTP redirect (exit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->back()</code></td>
+                            <td>Redireciona para HTTP_REFERER (exit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->semConteudo()</code></td>
+                            <td>HTTP 204 No Content (exit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->validar($regras)</code></td>
+                            <td>Valida request — aborta/redireciona se inválido</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->abortar($status, $msg)</code></td>
+                            <td>HTTP error (exit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->autenticar()</code></td>
+                            <td>Exige login ou aborta</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->pode($perm)</code></td>
+                            <td>Verifica permissão RBAC (bool)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$this->requerPermissao($perm)</code></td>
+                            <td>Exige permissão RBAC ou aborta 403</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 class="t-m f-bd mb-4 mt-6">Propriedades — CrudController</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Propriedade</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>$model</code></td>
+                            <td>string</td>
+                            <td>Model::class da entidade</td>
+                        </tr>
+                        <tr>
+                            <td><code>$viewDir</code></td>
+                            <td>string</td>
+                            <td>Pasta de views (lista, form, ver)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$rotaBase</code></td>
+                            <td>string</td>
+                            <td>Rota raiz para redirects</td>
+                        </tr>
+                        <tr>
+                            <td><code>$regras</code></td>
+                            <td>array</td>
+                            <td>Regras de validação</td>
+                        </tr>
+                        <tr>
+                            <td><code>$porPagina</code></td>
+                            <td>int</td>
+                            <td>Itens por página (padrão: 15)</td>
+                        </tr>
+                        <tr>
+                            <td><code>$orderPad</code></td>
+                            <td>string</td>
+                            <td>Ordem padrão da lista</td>
+                        </tr>
+                        <tr>
+                            <td><code>$pk</code></td>
+                            <td>string</td>
+                            <td>Nome da PK (padrão: id)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

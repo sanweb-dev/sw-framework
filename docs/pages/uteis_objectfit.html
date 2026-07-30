@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Object-Fit - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .of-frame {
+            width: 100%;
+            height: 14rem;
+            background: var(--sw-bg-bas);
+            border: 1px dashed var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            overflow: hidden;
+        }
+
+        .of-frame img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .of-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+            gap: 1.6rem;
+        }
+
+        .of-lbl {
+            text-align: center;
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            margin-top: .8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes SW</span>
+                <span class="brc-it is-cur" aria-current="page">Object-Fit</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Utilitários</span>
+                <h2 class="t-xxg f-bd mb-2">Object-<span class="TprinD">Fit</span></h2>
+                <p class="t-g t-mut mb-0">Controle o preenchimento de imagens e vídeos dentro de um container de tamanho fixo, sem distorcer a proporção original — mesma imagem retangular em todos os exemplos abaixo.</p>
+            </div>
+
+            <!-- 1. FIT -->
+            <div class="doc-card sec mb-6" id="fit">
+                <h3 class="t-m f-bd mb-4">1. Preenchimento — <code>.of-*</code></h3>
+                <div class="of-grid mb-4">
+                    <div>
+                        <div class="of-frame"><img class="of-cov" src="https://picsum.photos/seed/sw-objectfit/500/300" alt=""></div>
+                        <p class="of-lbl">.of-cov (cover)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-con" src="https://picsum.photos/seed/sw-objectfit/500/300" alt=""></div>
+                        <p class="of-lbl">.of-con (contain)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-fil" src="https://picsum.photos/seed/sw-objectfit/500/300" alt=""></div>
+                        <p class="of-lbl">.of-fil (fill)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-non" src="https://picsum.photos/seed/sw-objectfit/500/300" alt=""></div>
+                        <p class="of-lbl">.of-non (none)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-scd" src="https://picsum.photos/seed/sw-objectfit/500/300" alt=""></div>
+                        <p class="of-lbl">.of-scd (scale-down)</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div style="width:32rem;height:20rem;overflow:hidden">
+  <img class="of-cov" src="foto.jpg" style="width:100%;height:100%">
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. POSIÇÃO -->
+            <div class="doc-card sec" id="posicao">
+                <h3 class="t-m f-bd mb-4">2. Posição do Foco — <code>.op-*</code></h3>
+                <p class="t-g t-mut mb-4">Combine com <code>.of-cov</code> para escolher qual parte da imagem fica visível quando o recorte é apertado.</p>
+                <div class="of-grid mb-4">
+                    <div>
+                        <div class="of-frame"><img class="of-cov op-ct" src="https://picsum.photos/seed/sw-position/900/300" alt=""></div>
+                        <p class="of-lbl">.op-ct (center)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-cov op-t" src="https://picsum.photos/seed/sw-position/900/300" alt=""></div>
+                        <p class="of-lbl">.op-t (top)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-cov op-b" src="https://picsum.photos/seed/sw-position/900/300" alt=""></div>
+                        <p class="of-lbl">.op-b (bottom)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-cov op-l" src="https://picsum.photos/seed/sw-position/900/300" alt=""></div>
+                        <p class="of-lbl">.op-l (left)</p>
+                    </div>
+                    <div>
+                        <div class="of-frame"><img class="of-cov op-r" src="https://picsum.photos/seed/sw-position/900/300" alt=""></div>
+                        <p class="of-lbl">.op-r (right)</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<img class="of-cov op-t" src="banner.jpg" style="width:100%;height:20rem">
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

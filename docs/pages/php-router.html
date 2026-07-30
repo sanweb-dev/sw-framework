@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP Router - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <a class="brc-it" href="php-core.html">PHP Core</a>
+                <span class="brc-it is-cur" aria-current="page">Router</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Module</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">Router</span></h2>
+                <p class="t-g t-mut mb-0">Roteador estático com suporte a parâmetros dinâmicos, grupos, middlewares
+                    e dispatch automático de Controllers.</p>
+            </div>
+
+            <!-- 1. ROTAS BÁSICAS -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Rotas básicas</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Core\Router;
+
+// routes/web.php
+
+Router::get('/', 'HomeController@index');
+Router::get('/sobre', 'HomeController@sobre');
+
+// Com parâmetro dinâmico (:nome)
+Router::get('/usuarios/:id', 'UsuarioController@ver');
+Router::post('/usuarios', 'UsuarioController@salvar');
+Router::put('/usuarios/:id', 'UsuarioController@atualizar');
+Router::delete('/usuarios/:id', 'UsuarioController@deletar');
+
+// Todos os métodos
+Router::any('/webhook', 'WebhookController@receber');
+
+// Closure
+Router::get('/ping', function () {
+    echo json_encode(['ok' => true, 'pong' => time()]);
+});
+</script></pre>
+            </div>
+
+            <!-- 2. GRUPOS -->
+            <div class="doc-card sec mb-6" id="grupos">
+                <h3 class="t-m f-bd mb-4">2. Grupos e prefixos</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Grupo com prefixo /api e middleware 'auth'
+Router::grupo('/api', function () {
+    Router::get('/usuarios',         'Api\UsuarioController@lista');
+    Router::get('/usuarios/:id',     'Api\UsuarioController@ver');
+    Router::post('/usuarios',        'Api\UsuarioController@salvar');
+    Router::put('/usuarios/:id',     'Api\UsuarioController@salvar');
+    Router::delete('/usuarios/:id',  'Api\UsuarioController@deletar');
+}, ['auth']);
+
+// Grupo sem middleware
+Router::grupo('/admin', function () {
+    Router::get('/dashboard', 'Admin\DashboardController@index');
+    Router::get('/logs',      'Admin\LogController@index');
+});
+</script></pre>
+            </div>
+
+            <!-- 3. MIDDLEWARES -->
+            <div class="doc-card sec mb-6" id="mw">
+                <h3 class="t-m f-bd mb-4">3. Middlewares</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Auth\Auth;
+use SW\Auth\RBAC;
+
+// Define middleware 'auth' — verifica se está logado
+Router::middleware('auth', function () {
+    Auth::middleware();
+});
+
+// Define middleware 'admin' — verifica nível
+Router::middleware('admin', function () {
+    RBAC::requer('admin');
+});
+
+// Usando nas rotas
+Router::get('/perfil',           'PerfilController@index',  ['auth']);
+Router::get('/admin/usuarios',   'Admin\UsuarioController@lista', ['auth', 'admin']);
+</script></pre>
+            </div>
+
+            <!-- 4. NAMESPACE -->
+            <div class="doc-card sec mb-6" id="ns">
+                <h3 class="t-m f-bd mb-4">4. Namespace de Controllers</h3>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+// Namespace padrão: App\Controllers\
+// Pode ser alterado:
+Router::setNamespace('Minha\App\Controllers\\');
+
+// Controller com subpasta (namespace manual)
+Router::get('/api/users', 'Api\UsuarioController@lista');
+// Resolve para: App\Controllers\Api\UsuarioController
+</script></pre>
+            </div>
+
+            <!-- 5. PUT/DELETE via forms -->
+            <div class="doc-card sec mb-6" id="method">
+                <h3 class="t-m f-bd mb-4">5. PUT / DELETE em formulários HTML</h3>
+                <p class="t-g t-mut mb-4">Formulários HTML só suportam GET e POST. Use o campo oculto
+                    <code>_method</code> ou o header <code>X-HTTP-Method-Override</code>.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Formulário de edição (PUT) -->
+<form method="POST" action="/usuarios/5">
+    <input type="hidden" name="_method" value="PUT">
+    <button type="submit">Salvar</button>
+</form>
+
+<!-- Formulário de exclusão (DELETE) -->
+<form method="POST" action="/usuarios/5">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit">Excluir</button>
+</form>
+</script></pre>
+                <pre swcode="js" class="m-0 mt-4"><script type="text/plain">
+// Via fetch (API)
+fetch('/api/usuarios/5', {
+    method: 'DELETE',
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+});
+</script></pre>
+            </div>
+
+            <!-- 6. QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Router::get($uri, $handler, $mw)</code></td>
+                            <td>Rota GET</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::post($uri, $handler, $mw)</code></td>
+                            <td>Rota POST</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::put($uri, $handler, $mw)</code></td>
+                            <td>Rota PUT</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::delete($uri, $handler, $mw)</code></td>
+                            <td>Rota DELETE</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::any($uri, $handler, $mw)</code></td>
+                            <td>Todos os métodos</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::grupo($prefixo, fn, $mw)</code></td>
+                            <td>Grupo com prefixo e middlewares</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::middleware($nome, fn)</code></td>
+                            <td>Define um middleware nomeado</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::setNamespace($ns)</code></td>
+                            <td>Altera namespace padrão de controllers</td>
+                        </tr>
+                        <tr>
+                            <td><code>Router::despachar()</code></td>
+                            <td>Executa o roteamento — chamar ao final</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

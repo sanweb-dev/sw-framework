@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Efeitos Base - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .fx-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+            gap: 1rem;
+        }
+
+        .fx-card {
+            padding: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
+
+        .fx-preview {
+            height: 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-m, 6px);
+            perspective: 800px;
+            overflow: hidden;
+        }
+
+        .fx-box {
+            width: 3.6rem;
+            height: 3.6rem;
+            background: var(--sw-pri, #3b82f6);
+            border-radius: .6rem;
+        }
+
+        .fx-box.wide {
+            width: 8rem;
+            height: 2.2rem;
+        }
+
+        .fx-name {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Efeitos Base</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Efeitos Base</span></h2>
+                <p class="t-g t-mut mb-0">Os 29 efeitos pré-programados de <code>sw-premium-animate</code>, os
+                    parâmetros que controlam tempo/física/repetição e o comparativo
+                    <code>sw-premium-scroll-once</code>. Equivalente funcional do Lab 01
+                    (<code>demo-basic.html</code>) do Smooll original, portado pro SW.</p>
+            </div>
+
+            <!-- COMO USAR -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">Como usar qualquer efeito</h3>
+                <div style="background:var(--sw-bg-alt);border-radius:var(--sw-r-g);padding:2rem;font-size:1.4rem">
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">1</span>
+                        <span>Inclua <code>sw.min.js</code> + <code>sw-fx-premium.min.js</code> na página</span>
+                    </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">2</span>
+                        <span>Coloque <code>sw-premium-animate="nome-do-efeito"</code> em qualquer tag. Anima ao
+                            carregar.</span>
+                    </div>
+                    <div class="flx alc gap-3">
+                        <span class="bdg is-suc is-sm">3</span>
+                        <span>Quer animar ao rolar a tela? Adicione <code>sw-premium-trigger="scroll"</code> na mesma
+                            tag. Só isso.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PARÂMETROS -->
+            <div class="doc-card sec mb-6" id="parametros">
+                <h3 class="t-m f-bd mb-4">Parâmetros disponíveis</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-animate</code></td>
+                            <td>string</td>
+                            <td>Nome do efeito pré-fabricado, ex: <code>"fade-up"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-duration</code></td>
+                            <td>número (s)</td>
+                            <td>Duração da animação</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-delay</code></td>
+                            <td>número (s)</td>
+                            <td>Atraso antes de começar</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-ease</code></td>
+                            <td>string GSAP</td>
+                            <td>Curva de física, ex: <code>"back.out(2)"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-repeat</code></td>
+                            <td>número</td>
+                            <td>Repetições (<code>-1</code> = infinito)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-yoyo</code></td>
+                            <td>true/false</td>
+                            <td>Vai e volta nas repetições</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-stagger</code></td>
+                            <td>número (s)</td>
+                            <td>Cascata nos filhos diretos</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-from-x</code> / <code>-from-y</code> / <code>-from-scale</code> /
+                                <code>-from-rotation</code> / <code>-from-opacity</code></td>
+                            <td>número</td>
+                            <td>Sobrescreve o estado inicial do efeito</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-trigger="scroll"</code></td>
+                            <td>string</td>
+                            <td>Ativa ao entrar na tela via ScrollTrigger</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-once</code></td>
+                            <td>presença</td>
+                            <td>Com <code>trigger="scroll"</code>: anima só na primeira vez, não repete ao sair/voltar</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="fade-up">Anima ao carregar</div>
+
+<div sw-premium-animate="fade-up" sw-premium-trigger="scroll">Anima ao rolar</div>
+
+<div sw-premium-animate="fade-up" sw-premium-trigger="scroll" sw-premium-scroll-once>
+  Anima ao rolar, só uma vez
+</div>
+</script></pre>
+            </div>
+
+            <!-- 29 EFEITOS -->
+            <div class="doc-card sec mb-6" id="efeitos">
+                <h3 class="t-m f-bd mb-4">Os 29 efeitos — clique em ↺ pra repetir</h3>
+                <div class="fx-grid">
+                    <!-- Fades -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fu"></div></div><span class="fx-name">fade-up</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fu','fade-up')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fd"></div></div><span class="fx-name">fade-down</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fd','fade-down')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fl"></div></div><span class="fx-name">fade-left</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fl','fade-left')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fr"></div></div><span class="fx-name">fade-right</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fr','fade-right')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fi"></div></div><span class="fx-name">fade-in</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fi','fade-in')">↺ Repetir</button></div>
+                    <!-- Zooms -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-zi"></div></div><span class="fx-name">zoom-in</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-zi','zoom-in','back.out(2)')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-zo"></div></div><span class="fx-name">zoom-out</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-zo','zoom-out')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-bi"></div></div><span class="fx-name">bounce-in</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-bi','bounce-in','back.out(3)')">↺ Repetir</button></div>
+                    <!-- Flips -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fll"></div></div><span class="fx-name">flip-left</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fll','flip-left')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-flr"></div></div><span class="fx-name">flip-right</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-flr','flip-right')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-flu"></div></div><span class="fx-name">flip-up</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-flu','flip-up')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fld"></div></div><span class="fx-name">flip-down</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fld','flip-down')">↺ Repetir</button></div>
+                    <!-- Rotate -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-ri"></div></div><span class="fx-name">rotate-in</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-ri','rotate-in')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-rc"></div></div><span class="fx-name">rotate-in-cw</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-rc','rotate-in-cw')">↺ Repetir</button></div>
+                    <!-- Skew -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-skl"></div></div><span class="fx-name">skew-left</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-skl','skew-left')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-skr"></div></div><span class="fx-name">skew-right</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-skr','skew-right')">↺ Repetir</button></div>
+                    <!-- Elastic -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-eu"></div></div><span class="fx-name">elastic-up</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-eu','elastic-up','elastic.out(1,0.3)')">↺ Repetir</button></div>
+                    <!-- Reveal -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" id="fx-rv"></div></div><span class="fx-name">reveal</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-rv','reveal')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" id="fx-rvl"></div></div><span class="fx-name">reveal-left</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-rvl','reveal-left')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" id="fx-rvr"></div></div><span class="fx-name">reveal-right</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-rvr','reveal-right')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" id="fx-rvc"></div></div><span class="fx-name">reveal-center</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-rvc','reveal-center')">↺ Repetir</button></div>
+                    <!-- Blur -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-bli"></div></div><span class="fx-name">blur-in</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-bli','blur-in')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-blu"></div></div><span class="fx-name">blur-up</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-blu','blur-up')">↺ Repetir</button></div>
+                    <!-- Diagonais / novos -->
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-ful"></div></div><span class="fx-name">fade-up-left</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-ful','fade-up-left')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-fur"></div></div><span class="fx-name">fade-up-right</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-fur','fade-up-right')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-zb"></div></div><span class="fx-name">zoom-blur</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-zb','zoom-blur')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-dr"></div></div><span class="fx-name">drop</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-dr','drop','back.out(1.5)')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" id="fx-stx"></div></div><span class="fx-name">stretch-x</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-stx','stretch-x','power4.out')">↺ Repetir</button></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" id="fx-sty"></div></div><span class="fx-name">stretch-y</span><button class="sw-btn sw-btn-outline sw-btn-sm" onclick="fxReplay('fx-sty','stretch-y','power4.out')">↺ Repetir</button></div>
+                </div>
+            </div>
+
+            <!-- SCROLL MODE -->
+            <div class="doc-card sec mb-6" id="scroll-mode">
+                <h3 class="t-m f-bd mb-4">Modo Scroll — mesmos efeitos, ativados ao rolar</h3>
+                <p class="t-g t-mut mb-4">Basta adicionar <code>sw-premium-trigger="scroll"</code> em qualquer tag.
+                    Role até os cards abaixo pra ver disparar (funciona igual pros 29 efeitos, não só os de exemplo
+                    aqui).</p>
+                <div class="fx-grid">
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" sw-premium-animate="fade-up" sw-premium-trigger="scroll"></div></div><span class="fx-name">fade-up</span></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" sw-premium-animate="zoom-in" sw-premium-trigger="scroll" sw-premium-ease="back.out(2)"></div></div><span class="fx-name">zoom-in</span></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" sw-premium-animate="flip-left" sw-premium-trigger="scroll"></div></div><span class="fx-name">flip-left</span></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box wide" sw-premium-animate="reveal" sw-premium-trigger="scroll" sw-premium-duration="1.2"></div></div><span class="fx-name">reveal</span></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" sw-premium-animate="blur-in" sw-premium-trigger="scroll"></div></div><span class="fx-name">blur-in</span></div>
+                    <div sw-card class="fx-card"><div class="fx-preview"><div class="fx-box" sw-premium-animate="drop" sw-premium-trigger="scroll" sw-premium-ease="back.out(1.5)"></div></div><span class="fx-name">drop</span></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="fade-up" sw-premium-trigger="scroll">fade-up ao rolar</div>
+</script></pre>
+            </div>
+
+            <!-- SCROLL-ONCE -->
+            <div class="doc-card sec" id="scroll-once">
+                <h3 class="t-m f-bd mb-4">Comparativo — <code>sw-premium-scroll-once</code></h3>
+                <p class="t-g t-mut mb-4">Controla se a animação repete toda vez que o elemento entra na tela, ou se
+                    toca só uma vez. Role a página, suba e desça de novo pra comparar.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem">
+                    <div sw-card style="padding:2rem;text-align:center">
+                        <p class="t-pp t-mut mb-3">PADRÃO — repete sempre</p>
+                        <div sw-premium-animate="bounce-in" sw-premium-trigger="scroll" sw-premium-ease="back.out(2)"
+                            style="width:6rem;height:6rem;background:#10b981;border-radius:var(--sw-r-m, 6px);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto">↺</div>
+                        <p class="t-pp mt-3" style="color:#10b981">sw-premium-trigger="scroll" (sem scroll-once)</p>
+                    </div>
+                    <div sw-card style="padding:2rem;text-align:center">
+                        <p class="t-pp t-mut mb-3">sw-premium-scroll-once — só uma vez</p>
+                        <div sw-premium-animate="bounce-in" sw-premium-trigger="scroll" sw-premium-scroll-once
+                            sw-premium-ease="back.out(2)"
+                            style="width:6rem;height:6rem;background:var(--sw-pri, #3b82f6);border-radius:var(--sw-r-m, 6px);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto">①</div>
+                        <p class="t-pp mt-3 t-pri">sw-premium-trigger="scroll" sw-premium-scroll-once</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Duplicata local dos 29 efeitos p/ o botão "Repetir" — SWPremiumEffects vive dentro
+        // do closure do bundle sw-fx-premium.js e não é exposta em window (mesmo padrão que
+        // o próprio Smooll usa nas suas páginas de demo).
+        var SWPremiumEffectMap = {
+            "fade-up": { y: 80, opacity: 0 }, "fade-down": { y: -80, opacity: 0 },
+            "fade-left": { x: 80, opacity: 0 }, "fade-right": { x: -80, opacity: 0 },
+            "fade-in": { opacity: 0 },
+            "zoom-in": { scale: 0.6, opacity: 0 }, "zoom-out": { scale: 1.4, opacity: 0 },
+            "bounce-in": { scale: 0.3, opacity: 0 },
+            "flip-left": { rotationY: -90, opacity: 0 }, "flip-right": { rotationY: 90, opacity: 0 },
+            "flip-up": { rotationX: -90, opacity: 0 }, "flip-down": { rotationX: 90, opacity: 0 },
+            "rotate-in": { rotation: -180, opacity: 0 }, "rotate-in-cw": { rotation: 180, opacity: 0 },
+            "skew-left": { skewX: -20, x: -60, opacity: 0 }, "skew-right": { skewX: 20, x: 60, opacity: 0 },
+            "elastic-up": { y: 100, opacity: 0 },
+            "reveal": { clipPath: "inset(100% 0 0 0)" }, "reveal-left": { clipPath: "inset(0 100% 0 0)" },
+            "reveal-right": { clipPath: "inset(0 0 0 100%)" }, "reveal-center": { clipPath: "inset(0 50% 0 50%)" },
+            "blur-in": { filter: "blur(20px)", opacity: 0 }, "blur-up": { filter: "blur(20px)", y: 40, opacity: 0 },
+            "fade-up-left": { x: 60, y: 60, opacity: 0 }, "fade-up-right": { x: -60, y: 60, opacity: 0 },
+            "zoom-blur": { scale: 0.85, filter: "blur(12px)", opacity: 0 },
+            "drop": { y: -80, scale: 0.95, opacity: 0 },
+            "stretch-x": { scaleX: 0, opacity: 0 }, "stretch-y": { scaleY: 0, opacity: 0 },
+        };
+        var fxRevealEnd = {
+            "reveal": { clipPath: "inset(0% 0 0 0)" }, "reveal-left": { clipPath: "inset(0 0% 0 0)" },
+            "reveal-right": { clipPath: "inset(0 0 0 0%)" }, "reveal-center": { clipPath: "inset(0 0% 0 0%)" },
+            "stretch-x": { scaleX: 1, opacity: 1, clearProps: "all" },
+            "stretch-y": { scaleY: 1, opacity: 1, clearProps: "all" },
+            "zoom-blur": { scale: 1, filter: "blur(0px)", opacity: 1, clearProps: "all" },
+        };
+        var fxDefaultTo = { x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, rotationY: 0, skewX: 0, opacity: 1, filter: "blur(0px)", clearProps: "all" };
+
+        function fxReplay(id, effect, ease) {
+            var el = document.getElementById(id);
+            if (!el || typeof gsap === 'undefined') return;
+            var from = SWPremiumEffectMap[effect] || { opacity: 0 };
+            var to = fxRevealEnd[effect] || fxDefaultTo;
+            gsap.killTweensOf(el);
+            gsap.set(el, from);
+            gsap.to(el, Object.assign({}, to, { duration: 0.8, ease: ease || "power3.out" }));
+        }
+
+        // Auto-play inicial de todos os cards de efeito (mesmo comportamento do Lab 01 original)
+        document.addEventListener('DOMContentLoaded', function () {
+            var order = [
+                ['fx-fu', 'fade-up'], ['fx-fd', 'fade-down'], ['fx-fl', 'fade-left'], ['fx-fr', 'fade-right'], ['fx-fi', 'fade-in'],
+                ['fx-zi', 'zoom-in', 'back.out(2)'], ['fx-zo', 'zoom-out'], ['fx-bi', 'bounce-in', 'back.out(3)'],
+                ['fx-fll', 'flip-left'], ['fx-flr', 'flip-right'], ['fx-flu', 'flip-up'], ['fx-fld', 'flip-down'],
+                ['fx-ri', 'rotate-in'], ['fx-rc', 'rotate-in-cw'],
+                ['fx-skl', 'skew-left'], ['fx-skr', 'skew-right'],
+                ['fx-eu', 'elastic-up', 'elastic.out(1,0.3)'],
+                ['fx-rv', 'reveal'], ['fx-rvl', 'reveal-left'], ['fx-rvr', 'reveal-right'], ['fx-rvc', 'reveal-center'],
+                ['fx-bli', 'blur-in'], ['fx-blu', 'blur-up'],
+                ['fx-ful', 'fade-up-left'], ['fx-fur', 'fade-up-right'], ['fx-zb', 'zoom-blur'],
+                ['fx-dr', 'drop', 'back.out(1.5)'], ['fx-stx', 'stretch-x', 'power4.out'], ['fx-sty', 'stretch-y', 'power4.out'],
+            ];
+            order.forEach(function (item, i) {
+                setTimeout(function () { fxReplay(item[0], item[1], item[2]); }, 300 + i * 60);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bordas & Curvas - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+            gap: 1.6rem;
+        }
+
+        .swatch {
+            text-align: center;
+        }
+
+        .swatch-box {
+            height: 7rem;
+            background: var(--sw-bg-ele);
+            border: 2px solid var(--sw-pri);
+            margin-bottom: .8rem;
+        }
+
+        .swatch-lbl {
+            font-family: var(--sw-f-mon);
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes SW</span>
+                <span class="brc-it is-cur" aria-current="page">Bordas & Curvas</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Utilitários</span>
+                <h2 class="t-xxg f-bd mb-2">Bordas <span class="TprinD">& Curvas</span></h2>
+                <p class="t-g t-mut mb-0">Classes utilitárias para border-radius, largura, estilo e cor de borda — escala consistente com os tokens do <a href="config.html">sw.config.css</a>.</p>
+            </div>
+
+            <!-- 1. RADIUS -->
+            <div class="doc-card sec mb-6" id="radius">
+                <h3 class="t-m f-bd mb-4">1. Border-Radius — <code>.r-*</code></h3>
+                <p class="t-g t-mut mb-4">7 tokens de arredondamento, do reto ao totalmente circular. Os valores vêm de <code>--sw-r-*</code> e mudam junto se você personalizar o config.</p>
+                <div class="swatch-grid mb-4">
+                    <div class="swatch"><div class="swatch-box r-0"></div><span class="swatch-lbl">.r-0</span></div>
+                    <div class="swatch"><div class="swatch-box r-p"></div><span class="swatch-lbl">.r-p</span></div>
+                    <div class="swatch"><div class="swatch-box r-m"></div><span class="swatch-lbl">.r-m</span></div>
+                    <div class="swatch"><div class="swatch-box r-g"></div><span class="swatch-lbl">.r-g</span></div>
+                    <div class="swatch"><div class="swatch-box r-gg"></div><span class="swatch-lbl">.r-gg</span></div>
+                    <div class="swatch"><div class="swatch-box r-xl"></div><span class="swatch-lbl">.r-xl</span></div>
+                    <div class="swatch"><div class="swatch-box r-fl" style="width:7rem;margin:0 auto .8rem"></div><span class="swatch-lbl">.r-fl</span></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="r-0">Sem arredondamento</div>
+<div class="r-m">Médio (botões, inputs)</div>
+<div class="r-g">Grande (cards)</div>
+<div class="r-fl">Totalmente redondo (pill, avatar)</div>
+</script></pre>
+            </div>
+
+            <!-- 2. WIDTH & SIDES -->
+            <div class="doc-card sec mb-6" id="largura">
+                <h3 class="t-m f-bd mb-4">2. Largura & Lados — <code>.bd-*</code></h3>
+                <p class="t-g t-mut mb-4">Controle a espessura da borda ou aplique só em um lado específico.</p>
+                <div class="flx gap-3 f-wr mb-4">
+                    <div class="p-4 bd-1" style="border-style:solid;border-color:var(--sw-pri)">.bd-1</div>
+                    <div class="p-4 bd-2" style="border-style:solid;border-color:var(--sw-pri)">.bd-2</div>
+                    <div class="p-4 bd-3" style="border-style:solid;border-color:var(--sw-pri)">.bd-3</div>
+                    <div class="p-4 bd-t" style="border-color:var(--sw-pri)">.bd-t</div>
+                    <div class="p-4 bd-b" style="border-color:var(--sw-pri)">.bd-b</div>
+                    <div class="p-4 bd-l" style="border-color:var(--sw-pri)">.bd-l</div>
+                    <div class="p-4 bd-r" style="border-color:var(--sw-pri)">.bd-r</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="bd-2">Borda de 2px em todos os lados</div>
+<div class="bd-t">Borda só no topo</div>
+<div class="bd-0">Remove a borda (útil com !important)</div>
+</script></pre>
+            </div>
+
+            <!-- 3. ESTILO -->
+            <div class="doc-card sec mb-6" id="estilo">
+                <h3 class="t-m f-bd mb-4">3. Estilo — <code>.bd-slid / .bd-dsh / .bd-dot</code></h3>
+                <div class="flx gap-3 f-wr mb-4">
+                    <div class="p-4 bd-2 bd-slid" style="border-color:var(--sw-pri)">Sólida</div>
+                    <div class="p-4 bd-2 bd-dsh" style="border-color:var(--sw-pri)">Tracejada</div>
+                    <div class="p-4 bd-2 bd-dot" style="border-color:var(--sw-pri)">Pontilhada</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="bd-2 bd-dsh">Borda tracejada</div>
+</script></pre>
+            </div>
+
+            <!-- 4. COR -->
+            <div class="doc-card sec" id="cor">
+                <h3 class="t-m f-bd mb-4">4. Cor — <code>.bd-pri / .bd-suc / .bd-err...</code></h3>
+                <div class="flx gap-3 f-wr mb-4">
+                    <div class="p-4 bd-2 bd-slid bd-pri">.bd-pri</div>
+                    <div class="p-4 bd-2 bd-slid bd-sec">.bd-sec</div>
+                    <div class="p-4 bd-2 bd-slid bd-suc">.bd-suc</div>
+                    <div class="p-4 bd-2 bd-slid bd-ale">.bd-ale</div>
+                    <div class="p-4 bd-2 bd-slid bd-err">.bd-err</div>
+                    <div class="p-4 bd-2 bd-slid bd-mut">.bd-mut</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="bd-2 bd-slid bd-suc">Borda de sucesso</div>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

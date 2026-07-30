@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Page Transition - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+    <title>Transições Nativas - SW Docs</title>
+  <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
 
     <style>
         .sec {
@@ -30,8 +30,8 @@
 </head>
 
 <body>
-    <div y2pre>
-        <div class="y2pre-spn"></div>
+    <div sw-pre>
+        <div class="sw-pre-dots"><span></span><span></span><span></span></div>
     </div>
     <div class="doc-shell">
         <main class="doc-main">
@@ -43,7 +43,7 @@
 
             <div class="mb-8">
                 <span class="doc-tag">JS Module</span>
-                <h2 class="t-xxg f-bd mb-2">Page Transition <span class="TprinD">SWTransi</span></h2>
+                <h2 class="t-xxg f-bd mb-2">Transições <span class="TprinD">Nativas</span></h2>
                 <p class="t-g t-mut">Transições animadas entre páginas - slide, fade, zoom - com overlay que suaviza a
                     navegação.</p>
             </div>
@@ -56,31 +56,35 @@
                         <p class="t-pp t-mut mb-3">Cada botão navega para outra página com um efeito diferente:</p>
                         <div class="flx gap-3 flw">
                             <a href="transitions.html" sw-trans sw-trans-effect="slide" class="sw-btn sw-btn-pri">
-                                <i class="swi swi-arrow-right mr-2"></i> Slide
+                                <i class="swi swi-arrow-to-right mr-2"></i> Slide
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="up" class="sw-btn sw-btn-pri"
                                 style="background:#8b5cf6;border-color:#8b5cf6">
-                                <i class="swi swi-arrow-up mr-2"></i> Up
+                                <i class="swi swi-arrow-to-top mr-2"></i> Up
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="down" class="sw-btn sw-btn-pri"
                                 style="background:#0891b2;border-color:#0891b2">
-                                <i class="swi swi-arrow-down mr-2"></i> Down
+                                <i class="swi swi-arrow-to-bottom mr-2"></i> Down
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="fade" class="sw-btn sw-btn-pri"
                                 style="background:#10b981;border-color:#10b981">
-                                <i class="swi swi-eye mr-2"></i> Fade
+                                <i class="swi swi-show mr-2"></i> Fade
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="zoom" class="sw-btn sw-btn-pri"
                                 style="background:#f59e0b;border-color:#f59e0b">
-                                <i class="swi swi-maximize mr-2"></i> Zoom
+                                <i class="swi swi-expand mr-2"></i> Zoom
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="circle" class="sw-btn sw-btn-pri"
                                 style="background:#ef4444;border-color:#ef4444">
-                                <i class="swi swi-sparkles mr-2"></i> Circle
+                                <i class="swi swi-star mr-2"></i> Circle
                             </a>
                             <a href="transitions.html" sw-trans sw-trans-effect="curtain" class="sw-btn sw-btn-pri"
                                 style="background:#ec4899;border-color:#ec4899">
-                                <i class="swi swi-wind mr-2"></i> SVG Wave / Curtain
+                                <i class="swi swi-water mr-2"></i> SVG Wave / Curtain
+                            </a>
+                            <a href="transitions.html" sw-trans sw-trans-effect="draw" class="sw-btn sw-btn-pri"
+                                style="background:#14b8a6;border-color:#14b8a6">
+                                <i class="swi swi-edit mr-2"></i> SVG Draw
                             </a>
                         </div>
                     </div>
@@ -177,6 +181,11 @@
                         <p class="t-pp t-mut mb-3">Onda líquida em curva Bezier SVG que varre a tela com efeito fluido de cortina.</p>
                         <code class="t-pri">sw-trans-effect="curtain"</code>
                     </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">draw</p>
+                        <p class="t-pp t-mut mb-3">Traço SVG ondulado se desenha na tela e engrossa até virar um bloco sólido; a nova página desfaz o traço ao contrário. Mesma técnica do DrawSVG do GSAP, sem GSAP.</p>
+                        <code class="t-pri">sw-trans-effect="draw"</code>
+                    </div>
                 </div>
                 <pre swcode="html"><script type="text/plain">
 <a href="/p1" sw-trans sw-trans-effect="slide">Slide</a>
@@ -186,6 +195,7 @@
 <a href="/p5" sw-trans sw-trans-effect="zoom">Zoom</a>
 <a href="/p6" sw-trans sw-trans-effect="circle">Circle</a>
 <a href="/p7" sw-trans sw-trans-effect="curtain">SVG Wave Curtain</a>
+<a href="/p8" sw-trans sw-trans-effect="draw">SVG Draw</a>
 </script></pre>
             </div>
 
@@ -226,7 +236,7 @@
                             <td><code>sw-trans-effect</code></td>
                             <td>a</td>
                             <td>Efeito: <code>slide</code> (padrão) - <code>up</code> - <code>down</code> -
-                                <code>fade</code> - <code>zoom</code> - <code>circle</code></td>
+                                <code>fade</code> - <code>zoom</code> - <code>circle</code> - <code>curtain</code> - <code>draw</code></td>
                         </tr>
                         <tr>
                             <td><code>sw-trans-dur</code></td>

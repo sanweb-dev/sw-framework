@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Stagger - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        #premiumProgressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--sw-pri, #3b82f6);
+            z-index: 9999;
+        }
+
+        .sq {
+            width: 4.4rem;
+            height: 4.4rem;
+            background: var(--sw-pri, #3b82f6);
+            border-radius: .6rem;
+        }
+
+        .sq.gr {
+            background: #22c55e;
+        }
+
+        .sq.gd {
+            background: #f59e0b;
+        }
+
+        .row {
+            display: flex;
+            gap: .8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .grid-8 {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: .6rem;
+        }
+
+        .grid-10 {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: .6rem;
+        }
+
+        .grid-10 .sq {
+            width: 100%;
+            height: 2.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="premiumProgressBar" sw-premium-progress-bar="true"></div>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Stagger</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Stagger</span></h2>
+                <p class="t-g t-mut mb-0">Com <code>sw-premium-stagger</code> no elemento pai, cada filho recebe a
+                    animação com um atraso progressivo — cascata sem escrever loop nenhum. Equivalente ao Lab 02
+                    (<code>demo-stagger.html</code>) do Smooll original. A barra fina no topo é
+                    <code>sw-premium-progress-bar</code>, acompanhando o scroll desta página inteira.</p>
+            </div>
+
+            <!-- 1. BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Stagger Básico — <code>sw-premium-stagger="0.1"</code></h3>
+                <p class="t-g t-mut mb-4">Um valor simples no pai. Todos os filhos diretos animam em sequência
+                    automática ao entrar na tela.</p>
+                <div class="demo-wrap" id="stage1" style="padding:2.4rem;justify-content:center;display:flex">
+                    <div class="row" sw-premium-animate="fade-up" sw-premium-stagger="0.1" sw-premium-duration="0.6"
+                        sw-premium-trigger="scroll" sw-premium-scroll-start="top 90%">
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                        <div class="sq"></div>
+                    </div>
+                </div>
+                <button class="sw-btn sw-btn-outline sw-btn-sm mt-2" onclick="premiumReplayStage('stage1')">↺
+                    Repetir</button>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="fade-up" sw-premium-stagger="0.1" sw-premium-duration="0.6">
+  <div>...</div> <div>...</div> <div>...</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. RÁPIDO VS LENTO -->
+            <div class="doc-card sec mb-6" id="rapido-lento">
+                <h3 class="t-m f-bd mb-4">2. Stagger Rápido vs Lento</h3>
+                <p class="t-g t-mut mb-4">Valores baixos criam ondulação rápida; valores altos criam sequência
+                    dramática.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem">
+                    <div>
+                        <p class="t-pp t-mut mb-3">⚡ <code>sw-premium-stagger="0.04"</code></p>
+                        <div class="demo-wrap" id="stage2a" style="padding:2rem">
+                            <div class="grid-8" sw-premium-animate="zoom-in" sw-premium-stagger="0.04"
+                                sw-premium-duration="0.4" sw-premium-ease="back.out(2)" sw-premium-trigger="scroll"
+                                sw-premium-scroll-start="top 90%">
+                                <div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div>
+                                <div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div>
+                            </div>
+                        </div>
+                        <button class="sw-btn sw-btn-outline sw-btn-sm mt-2" onclick="premiumReplayStage('stage2a')">↺
+                            Repetir</button>
+                    </div>
+                    <div>
+                        <p class="t-pp t-mut mb-3">🐢 <code>sw-premium-stagger="0.2"</code></p>
+                        <div class="demo-wrap" id="stage2b" style="padding:2rem;justify-content:center;display:flex">
+                            <div class="row" sw-premium-animate="flip-left" sw-premium-stagger="0.2"
+                                sw-premium-duration="0.7" sw-premium-trigger="scroll"
+                                sw-premium-scroll-start="top 90%">
+                                <div class="sq"></div>
+                                <div class="sq"></div>
+                                <div class="sq"></div>
+                                <div class="sq"></div>
+                                <div class="sq"></div>
+                            </div>
+                        </div>
+                        <button class="sw-btn sw-btn-outline sw-btn-sm mt-2" onclick="premiumReplayStage('stage2b')">↺
+                            Repetir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. LISTA DE CARDS -->
+            <div class="doc-card sec mb-6" id="cards">
+                <h3 class="t-m f-bd mb-4">3. Stagger em Lista de Cards</h3>
+                <p class="t-g t-mut mb-4">Funciona em qualquer tipo de filho — cards, itens de menu, botões,
+                    parágrafos. Role e veja entrar em cascata.</p>
+                <div class="demo-wrap" style="padding:2rem">
+                    <div style="display:flex;flex-direction:column;gap:1rem;max-width:44rem;margin:0 auto"
+                        sw-premium-animate="fade-right" sw-premium-stagger="0.12" sw-premium-trigger="scroll"
+                        sw-premium-scroll-start="top 90%">
+                        <div sw-card style="padding:1.4rem 1.6rem"><strong>Recurso Premium</strong><p
+                                class="t-pp t-mut">Animação de cascata automática nos filhos.</p></div>
+                        <div sw-card style="padding:1.4rem 1.6rem"><strong>Zero JavaScript</strong><p
+                                class="t-pp t-mut">Tudo declarado direto na tag HTML.</p></div>
+                        <div sw-card style="padding:1.4rem 1.6rem"><strong>Qualquer elemento</strong><p
+                                class="t-pp t-mut">Cards, listas, grids, ícones, textos.</p></div>
+                        <div sw-card style="padding:1.4rem 1.6rem"><strong>Combinável</strong><p class="t-pp t-mut">
+                                Misture com sw-premium-trigger="scroll" e sw-premium-ease.</p></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="fade-right" sw-premium-stagger="0.12" sw-premium-trigger="scroll">
+  <div class="card">Item 1</div>
+  <div class="card">Item 2</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. GRADE GRANDE -->
+            <div class="doc-card sec mb-6" id="grade">
+                <h3 class="t-m f-bd mb-4">4. Stagger + Scroll — Grade Grande</h3>
+                <p class="t-g t-mut mb-4">Role e veja a grade inteira se montar quadrado por quadrado quando entrar
+                    na tela.</p>
+                <div class="demo-wrap" style="padding:2rem">
+                    <div class="grid-10" sw-premium-animate="zoom-in" sw-premium-stagger="0.03"
+                        sw-premium-trigger="scroll" sw-premium-scroll-start="top 85%" sw-premium-ease="back.out(2)"
+                        sw-premium-duration="0.4">
+                        <div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div>
+                        <div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div><div class="sq"></div>
+                        <div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div>
+                        <div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div><div class="sq gr"></div>
+                        <div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div>
+                        <div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div><div class="sq gd"></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-animate="zoom-in" sw-premium-stagger="0.03" sw-premium-trigger="scroll" sw-premium-ease="back.out(2)">
+  ... 30 filhos ...
+</div>
+</script></pre>
+            </div>
+
+            <!-- 5. NAV / BOTÕES -->
+            <div class="doc-card sec mb-6" id="nav">
+                <h3 class="t-m f-bd mb-4">5. Stagger em Navegação e Botões</h3>
+                <p class="t-g t-mut mb-4">Perfeito para menus, tags, chips e qualquer elemento de navegação.</p>
+                <div class="demo-wrap" id="stage5" style="padding:2rem;justify-content:center;display:flex">
+                    <div class="row" sw-premium-animate="fade-down" sw-premium-stagger="0.08" sw-premium-delay="0.1"
+                        sw-premium-ease="back.out(2)" sw-premium-trigger="scroll" sw-premium-scroll-start="top 90%">
+                        <div sw-card style="padding:.8rem 1.6rem">Home</div>
+                        <div sw-card style="padding:.8rem 1.6rem">Sobre</div>
+                        <div sw-card style="padding:.8rem 1.6rem">Projetos</div>
+                        <div sw-card style="padding:.8rem 1.6rem">Blog</div>
+                        <div sw-card style="padding:.8rem 1.6rem">Contato</div>
+                        <div sw-card class="sw-btn sw-btn-pri" style="padding:.8rem 1.6rem">Contratar</div>
+                    </div>
+                </div>
+                <button class="sw-btn sw-btn-outline sw-btn-sm mt-2" onclick="premiumReplayStage('stage5')">↺
+                    Repetir</button>
+            </div>
+
+            <!-- NOTA CSS -->
+            <div class="warn-box mb-6" id="nota">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                <p>
+                    <strong>CSS obrigatório?</strong> O <code>sw-premium-stagger</code> não exige CSS externo — o
+                    motor injeta <code>will-change</code>/<code>backface-visibility</code> automaticamente. O que
+                    você precisa fornecer é o <strong>layout dos filhos</strong>: sem <code>display:flex</code> ou
+                    <code>display:grid</code> no container, os itens ficam empilhados e a cascata não fica visível.
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Duplicata local do dicionario de efeitos p/ os botões "Repetir" (mesmo padrão
+        // usado em premium-efeitos.html e no próprio Smooll original).
+        var premiumStaggerEffects = {
+            "fade-up": { y: 80, opacity: 0 }, "fade-down": { y: -80, opacity: 0 },
+            "fade-left": { x: 80, opacity: 0 }, "fade-right": { x: -80, opacity: 0 },
+            "fade-in": { opacity: 0 },
+            "zoom-in": { scale: 0.6, opacity: 0 }, "zoom-out": { scale: 1.4, opacity: 0 },
+            "flip-left": { rotationY: -90, opacity: 0 }, "flip-right": { rotationY: 90, opacity: 0 },
+            "flip-up": { rotationX: -90, opacity: 0 }, "flip-down": { rotationX: 90, opacity: 0 },
+            "bounce-in": { scale: 0.3, opacity: 0 }, "elastic-up": { y: 100, opacity: 0 },
+        };
+
+        function premiumReplayStage(stageId) {
+            var stage = document.getElementById(stageId);
+            var animated = stage.querySelector('[sw-premium-animate]');
+            if (!animated || typeof gsap === 'undefined') return;
+            var children = Array.from(animated.children);
+            var effect = animated.getAttribute('sw-premium-animate') || 'fade-up';
+            var dur = parseFloat(animated.getAttribute('sw-premium-duration') || '0.6');
+            var staggerVal = parseFloat(animated.getAttribute('sw-premium-stagger') || '0.1');
+            var ease = animated.getAttribute('sw-premium-ease') || 'power3.out';
+
+            var from = premiumStaggerEffects[effect] || { opacity: 0, y: 80 };
+            var to = {};
+            Object.keys(from).forEach(function (k) { to[k] = k === 'opacity' ? 1 : 0; });
+
+            gsap.killTweensOf(children);
+            gsap.set(children, from);
+            gsap.to(children, Object.assign({}, to, { duration: dur, ease: ease, stagger: staggerVal }));
+        }
+    </script>
+</body>
+
+</html>

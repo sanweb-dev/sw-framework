@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Texto - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .txt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+            gap: 1rem;
+        }
+
+        .txt-card {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .split-title {
+            font-size: 2rem;
+            font-weight: 800;
+            overflow: hidden;
+        }
+
+        .scramble-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: var(--sw-pri, #3b82f6);
+            letter-spacing: .1rem;
+        }
+
+        .typewriter-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            min-height: 1.6em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Texto</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Texto</span></h2>
+                <p class="t-g t-mut mb-0">Split por chars/words/lines, scramble aleatório e efeito typewriter — 3
+                    sistemas declarativos via atributos <code>sw-premium-*</code>. Equivalente ao Lab 05
+                    (<code>demo-text.html</code>) do Smooll original.</p>
+            </div>
+
+            <!-- PARÂMETROS -->
+            <div class="doc-card sec mb-6" id="parametros">
+                <h3 class="t-m f-bd mb-4">Parâmetros disponíveis</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-split</code></td>
+                            <td>chars/words/lines</td>
+                            <td>Divide o texto e anima cada unidade</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-split-stagger</code></td>
+                            <td>número (s)</td>
+                            <td>Delay entre unidades (sobrescreve o default)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scramble</code></td>
+                            <td>presença</td>
+                            <td>Ativa o embaralhamento de caracteres</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scramble-chars</code> / <code>-scramble-speed</code></td>
+                            <td>string / número</td>
+                            <td>Pool de caracteres e iterações por caractere revelado</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-typewriter</code></td>
+                            <td>presença</td>
+                            <td>Ativa o efeito máquina de escrever</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-typewriter-speed</code> / <code>-cursor</code> /
+                                <code>-repeat</code> / <code>-pause</code></td>
+                            <td>número / string / presença / número</td>
+                            <td>Velocidade, símbolo do cursor, loop infinito e pausa antes de apagar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SPLIT CHARS -->
+            <div class="doc-card sec mb-6" id="split-chars">
+                <h3 class="t-m f-bd mb-4">1. <code>sw-premium-split="chars"</code></h3>
+                <p class="t-g t-mut mb-4">Cada letra anima individualmente. Stagger automático de 25ms.</p>
+                <div class="txt-grid">
+                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
+                            sw-premium-animate="fade-up" sw-premium-trigger="scroll">SW PREMIUM</p></div>
+                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
+                            sw-premium-animate="zoom-in" sw-premium-ease="back.out(3)" sw-premium-trigger="scroll">DESIGN</p></div>
+                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
+                            sw-premium-animate="rotate-in" sw-premium-trigger="scroll">GIRO</p></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<p sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-trigger="scroll">SW Premium</p>
+</script></pre>
+            </div>
+
+            <!-- SPLIT WORDS -->
+            <div class="doc-card sec mb-6" id="split-words">
+                <h3 class="t-m f-bd mb-4">2. <code>sw-premium-split="words"</code></h3>
+                <p class="t-g t-mut mb-4">Cada palavra entra individualmente. Stagger automático de 70ms.</p>
+                <div class="txt-grid">
+                    <div sw-card class="txt-card"><p class="t-g" sw-premium-split="words" sw-premium-animate="fade-up"
+                            sw-premium-trigger="scroll">Cada palavra entra suavemente uma após a outra.</p></div>
+                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="words"
+                            sw-premium-animate="zoom-in" sw-premium-ease="back.out(2)" sw-premium-trigger="scroll">Palavra por Palavra</p></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<p sw-premium-split="words" sw-premium-animate="fade-up">Cada palavra entra suavemente.</p>
+</script></pre>
+            </div>
+
+            <!-- SPLIT LINES -->
+            <div class="doc-card sec mb-6" id="split-lines">
+                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-split="lines"</code></h3>
+                <p class="t-g t-mut mb-4">Cada palavra sobe de dentro de um container com <code>overflow:hidden</code>
+                    injetado automaticamente — efeito de linha revelada.</p>
+                <div sw-card class="txt-card" style="text-align:left">
+                    <p class="split-title" sw-premium-split="lines" sw-premium-animate="fade-up"
+                        sw-premium-from-y="120" sw-premium-trigger="scroll">Design sem limites.</p>
+                    <p class="split-title t-pri" sw-premium-split="lines" sw-premium-animate="fade-up"
+                        sw-premium-from-y="120" sw-premium-delay="0.1" sw-premium-trigger="scroll">Código que respira.</p>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<p sw-premium-split="lines" sw-premium-animate="fade-up" sw-premium-from-y="120">Design sem limites.</p>
+</script></pre>
+            </div>
+
+            <!-- SCRAMBLE -->
+            <div class="doc-card sec mb-6" id="scramble">
+                <h3 class="t-m f-bd mb-4">4. <code>sw-premium-scramble</code></h3>
+                <p class="t-g t-mut mb-4">Caracteres aleatórios que vão se resolvendo pro texto final ao entrar na
+                    tela.</p>
+                <div class="txt-grid">
+                    <div sw-card class="txt-card"><p class="scramble-text" sw-premium-scramble
+                            sw-premium-trigger="scroll">SW ENGINE</p></div>
+                    <div sw-card class="txt-card"><p class="scramble-text" sw-premium-scramble
+                            sw-premium-scramble-speed="3" sw-premium-duration="2" sw-premium-trigger="scroll">VELOCIDADE 3X</p></div>
+                    <div sw-card class="txt-card"><p class="scramble-text" style="font-size:1.1rem" sw-premium-scramble
+                            sw-premium-scramble-chars="01" sw-premium-scramble-speed="4"
+                            sw-premium-trigger="scroll">MATRIX MODE</p></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<p sw-premium-scramble sw-premium-scramble-chars="01" sw-premium-trigger="scroll">MATRIX MODE</p>
+</script></pre>
+            </div>
+
+            <!-- TYPEWRITER -->
+            <div class="doc-card sec" id="typewriter">
+                <h3 class="t-m f-bd mb-4">5. <code>sw-premium-typewriter</code></h3>
+                <p class="t-g t-mut mb-4">Digita o texto letra a letra com cursor piscante.</p>
+                <div class="txt-grid">
+                    <div sw-card class="txt-card"><p class="typewriter-text" sw-premium-typewriter
+                            sw-premium-trigger="scroll">Olá, SW.</p></div>
+                    <div sw-card class="txt-card"><p class="typewriter-text" style="font-family:monospace;font-size:1.1rem"
+                            sw-premium-typewriter sw-premium-typewriter-cursor="▌" sw-premium-typewriter-speed="0.06"
+                            sw-premium-trigger="scroll">console.log("sw");</p></div>
+                    <div sw-card class="txt-card"><p class="typewriter-text" sw-premium-typewriter
+                            sw-premium-typewriter-repeat sw-premium-typewriter-pause="1.5" sw-premium-trigger="scroll">Digita, apaga e repete.</p></div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<p sw-premium-typewriter sw-premium-typewriter-repeat sw-premium-typewriter-pause="1.5">Digita e repete.</p>
+</script></pre>
+            </div>
+
+            <!-- CSS OBRIGATÓRIO -->
+            <div class="warn-box mt-6" id="nota">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                <p>
+                    <code>sw-premium-split="lines"</code> é auto-suficiente — o motor injeta
+                    <code>overflow:hidden</code> em cada linha. Dois casos exigem CSS da página: (1)
+                    <code>split="chars"</code>/<code>"words"</code> com efeitos que saem da caixa (fade-up etc.) — o
+                    pai precisa de <code>overflow:hidden</code>, senão os caracteres aparecem abaixo do texto antes
+                    de animar; (2) <code>sw-premium-typewriter</code> — o elemento precisa de
+                    <code>min-height</code>, senão o layout ao redor pula enquanto digita.
+                </p>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Vídeo Scrub - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .cinema-section {
+            position: relative;
+            height: 42rem;
+            border-radius: var(--sw-r-g, 8px);
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 1.6rem;
+        }
+
+        .cinema-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .7;
+        }
+
+        .cinema-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 2;
+            color: #fff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, .8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Vídeo Scrub</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Vídeo Scrub</span></h2>
+                <p class="t-g t-mut mb-0">Com <code>sw-premium-video-scrub="true"</code> na tag
+                    <code>&lt;video&gt;</code>, o tempo do vídeo é vinculado ao scroll da página — pin automático,
+                    velocidade configurável. Equivalente ao Lab 04 (<code>demo-video.html</code>) do Smooll original.
+                </p>
+            </div>
+
+            <!-- PARÂMETROS -->
+            <div class="doc-card sec mb-6" id="parametros">
+                <h3 class="t-m f-bd mb-4">Parâmetros disponíveis</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sw-premium-video-scrub</code></td>
+                            <td>true</td>
+                            <td>Ativa o controle do tempo do vídeo pelo scroll</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-pin</code></td>
+                            <td>seletor CSS</td>
+                            <td>Elemento a ser pinado durante o scrub, ex: <code>".cinema-section"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-end</code></td>
+                            <td>string GSAP</td>
+                            <td>Quanto rolar até completar, ex: <code>"+=300%"</code> (da altura da viewport) ou <code>"+=2000px"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-scroll-scrub</code></td>
+                            <td>número</td>
+                            <td>Suavidade/inércia (0 = imediato, 2+ = pesado)</td>
+                        </tr>
+                        <tr>
+                            <td><code>muted playsinline preload</code></td>
+                            <td>atributos HTML nativos</td>
+                            <td>Necessários para autoplay sem som em mobile</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 1. SCRUB BÁSICO -->
+            <div class="doc-card sec mb-6" id="basico">
+                <h3 class="t-m f-bd mb-4">1. Video Scrub básico — role pra controlar o tempo</h3>
+                <p class="t-g t-mut mb-4"><code>sw-premium-scroll-end="+=200%"</code> define que é preciso
+                    rolar 2x a altura da tela para ver o vídeo completo.</p>
+                <div class="cinema-section">
+                    <video class="cinema-video" sw-premium-video-scrub="true" sw-premium-scroll-pin=".cinema-section"
+                        sw-premium-scroll-end="+=200%" sw-premium-scroll-scrub="0.5" muted playsinline
+                        preload="auto">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="cinema-overlay">
+                        <p class="doc-tag mb-3" style="display:inline-block">● Scrub Ativo</p>
+                        <h3 class="t-xg f-bd">Role para controlar o vídeo</h3>
+                        <p class="t-pp mt-2">↓ O scroll avança o tempo</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="cinema-section" style="position:relative;height:100vh;overflow:hidden">
+  <video sw-premium-video-scrub="true"
+         sw-premium-scroll-pin=".cinema-section"
+         sw-premium-scroll-end="+=300%"
+         sw-premium-scroll-scrub="0.5"
+         muted playsinline preload="auto"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 2. SUAVIDADE -->
+            <div class="doc-card sec mb-6" id="suavidade">
+                <h3 class="t-m f-bd mb-4">2. <code>sw-premium-scroll-scrub</code> — suavidade</h3>
+                <p class="t-g t-mut mb-4">Define o quanto o vídeo "atrasa" em relação ao scroll. Valores maiores
+                    criam inércia mais suave.</p>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem">
+                    <div sw-card style="padding:2rem">
+                        <p class="t-xg f-bd t-pri mb-2">0</p>
+                        <p class="f-bd mb-2">Imediato</p>
+                        <p class="t-pp t-mut">Sincronizado 1:1 com o scroll, sem inércia.</p>
+                    </div>
+                    <div sw-card style="padding:2rem">
+                        <p class="t-xg f-bd t-pri mb-2">0.5</p>
+                        <p class="f-bd mb-2">Suave (recomendado)</p>
+                        <p class="t-pp t-mut">Leve inércia, sensação mais cinematográfica.</p>
+                    </div>
+                    <div sw-card style="padding:2rem">
+                        <p class="t-xg f-bd t-pri mb-2">2+</p>
+                        <p class="f-bd mb-2">Pesado</p>
+                        <p class="t-pp t-mut">Inércia forte — o vídeo "corre atrás" do scroll.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. SCROLL-END -->
+            <div class="doc-card sec mb-6" id="scroll-end">
+                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-scroll-end</code> — duração do pin</h3>
+                <p class="t-g t-mut mb-4">Define o quanto o usuário precisa rolar para o vídeo ir do início ao fim.
+                    Sintaxe do GSAP ScrollTrigger.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+                    <div sw-card style="padding:2rem">
+                        <p class="f-bd mb-2">Baseado em %</p>
+                        <p class="t-pp t-mut mb-3">Rola N vezes a altura da viewport.</p>
+                        <code class="t-pri">"+=200% bottom"</code> / <code class="t-pri">"+=300% bottom"</code>
+                    </div>
+                    <div sw-card style="padding:2rem">
+                        <p class="f-bd mb-2">Baseado em px</p>
+                        <p class="t-pp t-mut mb-3">Valor fixo, independente do tamanho da tela.</p>
+                        <code class="t-pri">"+=2000px"</code> / <code class="t-pri">"+=4000px"</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. SEGUNDO EXEMPLO -->
+            <div class="doc-card sec" id="imediato">
+                <h3 class="t-m f-bd mb-4">4. Segundo exemplo — scrub imediato (<code>sw-premium-scroll-scrub="0"</code>)</h3>
+                <p class="t-g t-mut mb-4">Mesma mecânica, sem inércia — sincronizado direto com a posição do
+                    scroll.</p>
+                <div class="cinema-section" id="cinema2">
+                    <video class="cinema-video" sw-premium-video-scrub="true"
+                        sw-premium-scroll-pin="#cinema2" sw-premium-scroll-end="+=200%"
+                        sw-premium-scroll-scrub="0" muted playsinline preload="auto">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="cinema-overlay">
+                        <p class="doc-tag mb-3" style="display:inline-block">● Scrub Imediato</p>
+                        <h3 class="t-xg f-bd">1:1 com o scroll</h3>
+                        <p class="t-pp mt-2">↓ Sem inércia — sincronizado direto</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHP Core - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .warn-box {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: color-mix(in srgb, #f59e0b 8%, transparent);
+            border: 1px solid color-mix(in srgb, #f59e0b 30%, transparent);
+            border-radius: var(--sw-r-g, 8px); padding: 1.4rem 1.6rem;
+        }
+        .warn-box svg { flex-shrink: 0; color: #f59e0b; margin-top: .1rem; }
+        .warn-box p { margin: 0; font-size: 1.4rem; color: var(--sw-txt-sec); line-height: 1.6; }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Backend</span>
+                <span class="brc-it is-cur" aria-current="page">PHP Core</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">PHP Engine</span>
+                <h2 class="t-xxg f-bd mb-2">PHP <span class="TprinD">Core</span></h2>
+                <p class="t-g t-mut mb-0">
+                    Framework PHP moderno, leve e modular — portado do Y2 PHP. PSR-4 nativo, Router fluido,
+                    ORM simplificado e utilitários essenciais. Zero dependências externas (sem Composer).
+                </p>
+            </div>
+
+            <div class="warn-box mb-6">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p>
+                    Portado, testado ao vivo (Router, Validator, RBAC, Model/QueryBuilder contra um banco real) —
+                    mas ainda não homologado em produção. Fica em <code>src/php/</code>, não faz parte do
+                    <code>build.js</code>/bundles de frontend.
+                </p>
+            </div>
+
+            <!-- 1. SETUP -->
+            <div class="doc-card sec mb-6" id="setup">
+                <h3 class="t-m f-bd mb-4">1. Setup Inicial</h3>
+                <p class="t-g t-mut mb-4">
+                    Coloque os arquivos em <code>src/php/</code> e inicialize a aplicação no seu <code>index.php</code>.
+                </p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+<?php
+require_once __DIR__ . '/src/php/Core/App.php';
+
+\SW\Core\App::iniciar([
+    'debug'    => true,
+    'timezone' => 'America/Sao_Paulo',
+    'db' => [
+        'host'  => 'localhost',
+        'banco' => 'meu_banco',
+        'user'  => 'root',
+        'pass'  => 'senha',
+    ],
+    'views' => __DIR__ . '/views',
+]);
+
+// Rotas
+Router::get('/', 'HomeController@index');
+Router::get('/usuarios', 'UsuarioController@lista');
+
+Router::despachar();
+</script></pre>
+            </div>
+
+            <!-- 2. ROUTER -->
+            <div class="doc-card sec mb-6" id="router">
+                <h3 class="t-m f-bd mb-4">2. Router</h3>
+                <p class="t-g t-mut mb-4">Gerenciamento de rotas com suporte a middlewares, grupos e parâmetros
+                    dinâmicos. <a href="php-router.html">Ver página completa →</a></p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+Router::get('/rota', 'Controller@metodo');
+Router::post('/rota', 'Controller@metodo');
+Router::put('/rota/:id', 'Controller@metodo');
+Router::delete('/rota/:id', 'Controller@metodo');
+
+Router::grupo('/api/v1', function () {
+    Router::get('/usuarios', 'Api\UsuarioController@lista');
+    Router::post('/usuarios', 'Api\UsuarioController@salvar');
+}, ['auth']);
+</script></pre>
+            </div>
+
+            <!-- 3. CONTROLLER -->
+            <div class="doc-card sec mb-6" id="controller">
+                <h3 class="t-m f-bd mb-4">3. Controller</h3>
+                <p class="t-g t-mut mb-4">Base para a lógica de negócio, com métodos auxiliares para views e JSON.
+                    <a href="php-controller.html">Ver página completa →</a></p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+namespace App\Controllers;
+
+use SW\Core\Controller;
+use App\Models\Usuario;
+
+class UsuarioController extends Controller
+{
+    public function lista($req)
+    {
+        $usuarios = Usuario::todos();
+        return $this->view('usuarios/lista', compact('usuarios'));
+    }
+
+    public function salvar($req)
+    {
+        $erros = $this->validar($req->all(), [
+            'nome'  => 'required|min:2|max:100',
+            'email' => 'required|email|unique:usuarios',
+        ]);
+
+        if ($erros) {
+            return $this->json(['erros' => $erros], 422);
+        }
+
+        $usuario = Usuario::criar($req->somente(['nome', 'email', 'senha']));
+        return $this->json($usuario, 201);
+    }
+}
+</script></pre>
+            </div>
+
+            <!-- 4. MODEL -->
+            <div class="doc-card sec mb-6" id="model">
+                <h3 class="t-m f-bd mb-4">4. Model (ORM)</h3>
+                <p class="t-g t-mut mb-4">Abstração simples para manipulação de tabelas do banco de dados.</p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+namespace App\Models;
+use SW\Core\Model;
+
+class Usuario extends Model
+{
+    protected static string $tabela    = 'usuarios';
+    protected static string $pk        = 'id';
+    protected static array  $fillable  = ['nome', 'email', 'senha', 'nivel'];
+}
+
+// Uso estático fluente
+$todos = Usuario::todos();
+$um    = Usuario::encontrar(42);
+$novo  = Usuario::criar(['nome' => 'João', 'email' => 'j@j.com']);
+
+Usuario::atualizar(42, ['nome' => 'João S.']);
+Usuario::deletar(42);
+</script></pre>
+            </div>
+
+            <!-- 5. QUERY BUILDER -->
+            <div class="doc-card sec mb-6" id="query">
+                <h3 class="t-m f-bd mb-4">5. Query Builder</h3>
+                <p class="t-g t-mut mb-4">Construção de queries SQL de forma programática e segura.</p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Core\QueryBuilder as QB;
+
+$usuarios = QB::tabela('usuarios')
+    ->where('ativo', 1)
+    ->whereIn('status', ['ativo', 'pendente'])
+    ->join('perfis', 'usuarios.id', 'perfis.usuario_id')
+    ->orderBy('nome')
+    ->limite(20)
+    ->buscar();
+
+// Paginação automática
+$resultado = QB::tabela('posts')->paginar(10);
+// Retorna: ['dados' => [...], 'total' => 100, 'paginas' => 10, 'atual' => 1]
+</script></pre>
+            </div>
+
+            <!-- 6. AUTH & SESSION -->
+            <div class="doc-card sec mb-6" id="auth">
+                <h3 class="t-m f-bd mb-4">6. Auth & Sessão</h3>
+                <p class="t-g t-mut mb-4">Gerenciamento de autenticação, permissões (RBAC) e persistência de dados
+                    em sessão. <a href="php-auth.html">Ver Auth →</a> · <a href="php-rbac.html">Ver RBAC →</a></p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Auth\Auth;
+use SW\Auth\Session;
+use SW\Auth\RBAC;
+
+Auth::login('email@exemplo.com', 'senha123');
+Auth::check();
+Auth::user();
+
+Session::set('carrinho', $itens);
+Session::flash('aviso', 'Item adicionado');
+Session::csrf();
+
+RBAC::pode('posts.editar');
+RBAC::requer('admin');
+</script></pre>
+            </div>
+
+            <!-- 7. VALIDATOR -->
+            <div class="doc-card sec" id="validator">
+                <h3 class="t-m f-bd mb-4">7. Validação</h3>
+                <p class="t-g t-mut mb-4">Motor de validação robusto com suporte a múltiplas regras.</p>
+                <pre swcode="php" class="m-0"><script type="text/plain">
+use SW\Utils\Validator;
+
+$erros = Validator::validar($dados, [
+    'nome'  => 'required|min:2',
+    'email' => 'required|email|unique:usuarios',
+    'cpf'   => 'required|cpf',
+    'senha' => 'required|min:8|confirma:senha_conf',
+]);
+</script></pre>
+                <div class="demo-wrap mt-4" style="padding:1.6rem">
+                    <p class="t-pp t-mut mb-2">Principais regras</p>
+                    <div class="flx gap-2 flw">
+                        <code class="t-pri">required</code>
+                        <code class="t-pri">email</code>
+                        <code class="t-pri">unique</code>
+                        <code class="t-pri">min:N</code>
+                        <code class="t-pri">max:N</code>
+                        <code class="t-pri">cpf / cnpj</code>
+                        <code class="t-pri">tel / cep</code>
+                        <code class="t-pri">arquivo</code>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

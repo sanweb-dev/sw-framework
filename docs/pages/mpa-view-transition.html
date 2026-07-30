@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br" style="scrollbar-gutter: stable;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Transition Nativa - SW Docs</title>
+  <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        .demo-wrap {
+            background: var(--sw-bg-bas);
+            border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-g);
+            padding: 2.4rem;
+            margin-bottom: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem
+        }
+    </style>
+    <script src="../dist/sw.min.js" defer></script>
+  <script src="../layout/header.js" defer></script>
+  <script src="../layout/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div sw-pre>
+        <div class="sw-pre-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Plugins JS</span>
+                <span class="brc-it is-cur" aria-current="page">View Transition Nativa</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">CSS Nativo</span>
+                <h2 class="t-xxg f-bd mb-2">View Transition <span class="TprinD">Nativa</span></h2>
+                <p class="t-g t-mut">Transição de página só com CSS (<code>@view-transition</code>) — sem overlay,
+                    sem JS orquestrando a animação.</p>
+            </div>
+
+            <!-- DEMOS (2 páginas separadas, cada uma com 1 coisa só) -->
+            <div class="doc-card sec mb-6" id="demo">
+                <h3 class="t-m f-bd mb-4">1. Duas demos, cada uma testando 1 coisa só</h3>
+                <div class="demo-wrap" style="gap:1.6rem">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Página inteira</p>
+                        <p class="t-pp t-mut mb-3">A transição padrão do site anima tudo, cabeçalho incluso.</p>
+                        <a href="mpa-view-transition-page.html" class="sw-btn sw-btn-pri">
+                            <i class="swi swi-arrow-to-right mr-2"></i> Testar
+                        </a>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Só o conteúdo (menu fixo)</p>
+                        <p class="t-pp t-mut mb-3">Mesma transição, mas o menu não se mexe — só o conteúdo troca.</p>
+                        <a href="mpa-view-transition-b.html" class="sw-btn sw-btn-pri">
+                            <i class="swi swi-arrow-to-right mr-2"></i> Testar
+                        </a>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Fade</p>
+                        <p class="t-pp t-mut mb-3">Página some e aparece com opacidade, sem deslocamento.</p>
+                        <a href="mpa-view-transition-fade-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#10b981;border-color:#10b981">
+                            <i class="swi swi-show mr-2"></i> Testar
+                        </a>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Zoom</p>
+                        <p class="t-pp t-mut mb-3">Página encolhe saindo e a nova entra vindo de perto.</p>
+                        <a href="mpa-view-transition-zoom-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#f59e0b;border-color:#f59e0b">
+                            <i class="swi swi-expand mr-2"></i> Testar
+                        </a>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Circle</p>
+                        <p class="t-pp t-mut mb-3">Página sai com fade e a nova revela num círculo crescendo do centro.</p>
+                        <a href="mpa-view-transition-circle-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#ef4444;border-color:#ef4444">
+                            <i class="swi swi-star mr-2"></i> Testar
+                        </a>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Slide vertical</p>
+                        <p class="t-pp t-mut mb-3">Página sai por cima e a nova entra vindo de baixo.</p>
+                        <a href="mpa-view-transition-slidey-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#8b5cf6;border-color:#8b5cf6">
+                            <i class="swi swi-arrow-to-top mr-2"></i> Testar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMO FUNCIONA -->
+            <div class="doc-card sec mb-6" id="como">
+                <h3 class="t-m f-bd mb-4">2. Como Funciona</h3>
+                <p class="t-g t-mut mb-4">Uma propriedade CSS liga tudo. A mesma animação vale indo ou voltando —
+                    não inverte por direção.</p>
+                <div style="background:var(--sw-bg-alt);border-radius:var(--sw-r-g);padding:2rem;font-size:1.4rem">
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">1</span>
+                        <span>Clique num link normal</span>
+                    </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">2</span>
+                        <span>O navegador tira uma foto da página atual</span>
+                    </div>
+                    <div class="flx alc gap-3">
+                        <span class="bdg is-suc is-sm">3</span>
+                        <span>A nova página carrega e as duas fotos são animadas</span>
+                    </div>
+                </div>
+                <pre swcode="css"><script type="text/plain">
+/* Liga a navegação nativa */
+@view-transition { navigation: auto; }
+
+/* Mesma animação indo ou voltando */
+html::view-transition-old(root) {
+  animation: 450ms both sw-slide-out-left;
+}
+</script></pre>
+            </div>
+
+            <!-- ESCOPO POR ELEMENTO -->
+            <div class="doc-card sec mb-6" id="escopo">
+                <h3 class="t-m f-bd mb-4">3. Escopo por Elemento (menu fixo, ou só 1 elemento)</h3>
+                <p class="t-g t-mut mb-4">Por padrão anima a página inteira. Dê a qualquer elemento um
+                    <code>sw-morph</code> com o mesmo nome nas duas páginas — pode ser o <code>&lt;main&gt;</code>
+                    todo (menu fica fixo, ver demo acima) ou só uma imagem/card específico.</p>
+                <pre swcode="html"><script type="text/plain">
+<main sw-morph="conteudo">...</main>
+
+<!-- ou só um elemento, tipo uma foto de produto: -->
+<img sw-morph="foto-produto" src="capa.jpg">
+
+<!-- tudo sem sw-morph fica fora da transição -->
+</script></pre>
+            </div>
+
+            <!-- OUTROS ESTILOS (SÓ CÓDIGO, NÃO É DEMO AO VIVO) -->
+            <div class="doc-card sec mb-6" id="estilos">
+                <h3 class="t-m f-bd mb-4">4. Outros Estilos (troque as keyframes)</h3>
+                <p class="t-g t-mut mb-4">O exemplo acima usa slide. Pra mudar o estilo, troque a animação —
+                    exemplos prontos:</p>
+                <pre swcode="css"><script type="text/plain">
+/* Fade */
+html::view-transition-old(root) { animation: 320ms ease both sw-trans-fade-out; }
+html::view-transition-new(root) { animation: 320ms ease both sw-trans-fade-in; }
+
+/* Zoom */
+@keyframes meu-zoom-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0.4); opacity: 0; } }
+@keyframes meu-zoom-in  { from { transform: scale(1.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+html::view-transition-old(root) { animation: 550ms both meu-zoom-out; }
+html::view-transition-new(root) { animation: 550ms both meu-zoom-in; }
+
+/* Circle reveal */
+@keyframes meu-circle-in { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(150% at 50% 50%); } }
+html::view-transition-new(root) { animation: 550ms both meu-circle-in; }
+</script></pre>
+            </div>
+
+            <!-- ACESSIBILIDADE -->
+            <div class="doc-card sec mb-6" id="acessibilidade">
+                <h3 class="t-m f-bd mb-4">5. Acessibilidade</h3>
+                <div class="demo-wrap">
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">prefers-reduced-motion</p>
+                        <p class="t-pp t-mut mb-3">Reduz a transição a quase zero automaticamente.</p>
+                        <code class="t-pri">@media (prefers-reduced-motion: reduce)</code>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">scrollbar-gutter: stable</p>
+                        <p class="t-pp t-mut mb-3">Evita o conteúdo pular quando a barra de rolagem muda.</p>
+                        <code class="t-pri">html { scrollbar-gutter: stable; }</code>
+                    </div>
+                    <div sw-card style="padding:2rem;flex:1;min-width:22rem">
+                        <p class="t-m f-bd mb-2">Suporte</p>
+                        <p class="t-pp t-mut mb-3">Chrome, Edge e Safari. Firefox navega normal, sem transição.</p>
+                        <code class="t-pri">caniuse: view-transitions</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK REF -->
+            <div class="doc-card sec" id="ref">
+                <h3 class="t-m f-bd mb-4">Quick Reference</h3>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>API</th>
+                            <th>Uso</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>@view-transition</code></td>
+                            <td>CSS</td>
+                            <td><code>navigation: auto;</code> liga a navegação nativa</td>
+                        </tr>
+                        <tr>
+                            <td><code>::view-transition-old/new(root)</code></td>
+                            <td>CSS</td>
+                            <td>Anima a página inteira</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-morph="nome"</code></td>
+                            <td>Elemento</td>
+                            <td>Escopa a transição (mesmo nome nas duas páginas)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

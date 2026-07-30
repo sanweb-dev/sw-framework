@@ -125,7 +125,13 @@
     static run(update, { skip = false } = {}) {
       if (typeof update !== 'function') return null;
       if (skip || SW.Utils.reducedMotion() || !document.startViewTransition) { update(); return null; }
-      return document.startViewTransition(update);
+      const transition = document.startViewTransition(update);
+      // .ready/.finished rejeitam com AbortError quando o browser pula ou interrompe
+      // a transição (ex.: uma navegação nova chega antes da anterior terminar) — isso
+      // é esperado, não um erro real, então silencia pra não virar unhandled rejection.
+      transition.ready?.catch(() => {});
+      transition.finished?.catch(() => {});
+      return transition;
     }
   }
   SWTrans.overlayDepth = 0;
@@ -149,11 +155,15 @@
           e.preventDefault();
           if (SWTransi._busy) return;
           SWTransi._busy = true;
+
           const effect = el.getAttribute('sw-trans-effect') || el.getAttribute('y2transi-effect') || 'slide';
-          const dur = parseInt(el.getAttribute('sw-trans-dur') || el.getAttribute('y2transi-dur') || 400);
-          const color = el.getAttribute('sw-trans-color') || el.getAttribute('y2transi-color');
-          if (color) SWTransi._ovl.style.background = color;
-          SWTransi._in(effect, dur, () => { window.location.href = href; });
+          const dur = parseInt(el.getAttribute('sw-trans-dur') || el.getAttribute('y2transi-dur') || 450);
+          const color = el.getAttribute('sw-trans-color') || el.getAttribute('y2transi-color') || '';
+
+          SWTransi._applyColor(color);
+          SWTransi._in(effect, dur, color, () => {
+            window.location.href = href;
+          });
         });
       });
 
@@ -162,12 +172,25 @@
         const eff = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
         if (eff) {
           SWTransi._ensure();
-          const dur = parseInt(sessionStorage.getItem('sw_pgt_dur') || sessionStorage.getItem('y2_pgt_dur') || 400);
-          sessionStorage.removeItem('sw_pgt_effect');
-          sessionStorage.removeItem('y2_pgt_effect');
-          sessionStorage.removeItem('sw_pgt_dur');
-          sessionStorage.removeItem('y2_pgt_dur');
-          SWTransi._out(eff, dur);
+          const dur = parseInt(sessionStorage.getItem('sw_pgt_dur') || sessionStorage.getItem('y2_pgt_dur') || 450);
+          const color = sessionStorage.getItem('sw_pgt_color') || '';
+
+          SWTransi._applyColor(color);
+
+          const runOut = () => {
+            sessionStorage.removeItem('sw_pgt_effect');
+            sessionStorage.removeItem('y2_pgt_effect');
+            sessionStorage.removeItem('sw_pgt_dur');
+            sessionStorage.removeItem('y2_pgt_dur');
+            sessionStorage.removeItem('sw_pgt_color');
+            SWTransi._out(eff, dur);
+          };
+
+          if (document.readyState === 'complete') {
+            setTimeout(runOut, 150);
+          } else {
+            window.addEventListener('load', () => setTimeout(runOut, 150), { once: true });
+          }
         }
       }
     }
@@ -176,44 +199,96 @@
       if (SWTransi._ovl) return;
       const ovl = document.createElement('div');
       ovl.className = 'sw-trans-ovl y2transi-ovl';
-      ovl.innerHTML = `<svg class="sw-trans-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="sw-trans-svg-path" d="M 0 100 V 100 Q 50 100 100 100 V 100 Z" fill="var(--sw-pri, #3b82f6)"></path></svg>`;
-      if (sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect')) {
-        ovl.style.cssText = 'opacity:1;pointer-events:none';
+      
+      const eff = sessionStorage.getItem('sw_pgt_effect') || sessionStorage.getItem('y2_pgt_effect');
+      const isPending = !!eff;
+      const isDrawPending = isPending && eff === 'draw';
+
+      if (isPending) {
+        ovl.style.cssText = 'display:block;opacity:1;pointer-events:none;';
+        ovl.classList.add('is-loading');
+      } else {
+        ovl.style.display = 'none';
       }
+
+      ovl.innerHTML = `
+        <svg class="sw-trans-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path class="sw-trans-svg-path" d="${isPending && (eff === 'curtain' || eff === 'wave') ? 'M 0 100 V 0 Q 50 0 100 0 V 100 Z' : 'M 0 100 V 100 Q 50 100 100 100 V 100 Z'}" fill="var(--sw-pri, #3b82f6)"></path>
+          <path class="sw-trans-svg-draw-path" pathLength="1" d="M -10 50 C 10 15, 30 85, 50 50 C 70 15, 90 85, 110 50"
+            style="stroke-dasharray:1;stroke-dashoffset:${isDrawPending ? '0' : '1'};stroke-width:${isDrawPending ? '260' : '1.5'};"></path>
+        </svg>
+        <div class="sw-trans-ptovl__inner">
+          <span class="sw-trans-ptovl__indicator"></span>
+          <span class="sw-trans-ptovl__message">Carregando...</span>
+        </div>
+      `;
       document.body.prepend(ovl);
       SWTransi._ovl = ovl;
     }
 
-    static _in(effect, dur, cb) {
+    static _applyColor(color) {
+      if (!SWTransi._ovl) return;
+      const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--sw-pri').trim() || '#3b82f6';
+      const c = color || defaultColor;
+      SWTransi._ovl.style.background = c;
+      const path = SWTransi._ovl.querySelector('.sw-trans-svg-path');
+      if (path) path.setAttribute('fill', c);
+      const drawPath = SWTransi._ovl.querySelector('.sw-trans-svg-draw-path');
+      if (drawPath) drawPath.style.stroke = c;
+    }
+
+    static _in(effect, dur, color, cb) {
       const ovl = SWTransi._ovl;
+      document.querySelectorAll('[sw-pre], [swpre], [y2pre], [Y2Pre]').forEach(el => el.remove());
+
       sessionStorage.setItem('sw_pgt_effect', effect);
       sessionStorage.setItem('sw_pgt_dur', dur);
+      if (color) sessionStorage.setItem('sw_pgt_color', color);
+
+      ovl.style.display = 'block';
+      ovl.style.pointerEvents = 'auto';
+      ovl.classList.add('is-loading');
 
       if (effect === 'curtain' || effect === 'wave') {
-        ovl.style.cssText = '';
-        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
         SWTransi._animateCurtainIn(dur, cb);
+      } else if (effect === 'draw') {
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
+        SWTransi._animateDrawIn(dur, cb);
       } else {
         ovl.style.animationDuration = `${dur}ms`;
-        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in`;
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-in is-loading`;
         setTimeout(cb, dur);
       }
     }
 
     static _out(effect, dur) {
       const ovl = SWTransi._ovl;
+      ovl.style.display = 'block';
+      ovl.style.pointerEvents = 'none';
+
+      ovl.classList.remove('is-loading');
+
       if (effect === 'curtain' || effect === 'wave') {
         ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
         SWTransi._animateCurtainOut(dur, () => {
           ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
+          SWTransi._busy = false;
+        });
+      } else if (effect === 'draw') {
+        ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
+        SWTransi._animateDrawOut(dur, () => {
+          ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
           SWTransi._busy = false;
         });
       } else {
-        ovl.style.cssText = '';
         ovl.style.animationDuration = `${dur}ms`;
         ovl.className = `sw-trans-ovl y2transi-ovl is-${effect} is-out`;
         setTimeout(() => {
           ovl.className = 'sw-trans-ovl y2transi-ovl';
+          ovl.style.display = 'none';
           SWTransi._busy = false;
         }, dur);
       }
@@ -229,16 +304,17 @@
         if (ease < 0.5) {
           const progress = ease * 2;
           const valY = 100 - (progress * 100);
-          const curveY = 100 - (progress * 165);
+          const curveY = 100 - (progress * 170);
           path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
         } else {
           const progress = (ease - 0.5) * 2;
           const valY = 50 - (progress * 50);
-          const curveY = -65 + (progress * 65);
+          const curveY = -70 + (progress * 70);
           path.setAttribute('d', `M 0 100 V ${valY} Q 50 ${curveY} 100 ${valY} V 100 Z`);
         }
-        if (p < 1) requestAnimationFrame(tick);
-        else {
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
           path.setAttribute('d', 'M 0 100 V 0 Q 50 0 100 0 V 100 Z');
           cb();
         }
@@ -249,22 +325,91 @@
     static _animateCurtainOut(dur, cb) {
       const path = SWTransi._ovl?.querySelector('.sw-trans-svg-path');
       if (!path) { setTimeout(cb, dur); return; }
+      path.setAttribute('d', 'M 0 0 V 100 Q 50 100 100 100 V 0 Z');
       const start = performance.now();
       function tick(now) {
         const p = Math.min(1, (now - start) / dur);
         const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         if (ease < 0.5) {
           const progress = ease * 2;
-          const curveY = progress * 165;
-          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - progress * 100} Z`);
+          const valY = progress * 50;
+          const curveY = progress * 170;
+          path.setAttribute('d', `M 0 0 V ${valY} Q 50 ${curveY} 100 ${valY} V 0 Z`);
         } else {
           const progress = (ease - 0.5) * 2;
-          const curveY = 165 - (progress * 165);
-          path.setAttribute('d', `M 0 0 V 0 Q 50 ${curveY} 100 0 V ${100 - (50 + progress * 50)} Z`);
+          const valY = 50 + (progress * 50);
+          const curveY = 170 - (progress * 170);
+          path.setAttribute('d', `M 0 0 V ${valY} Q 50 ${curveY} 100 ${valY} V 0 Z`);
         }
-        if (p < 1) requestAnimationFrame(tick);
-        else {
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
           path.setAttribute('d', 'M 0 0 V 0 Q 50 0 100 0 V 0 Z');
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* draw: traço fino "desenha" um caminho ondulado de ponta a ponta e depois
+     * engrossa até virar um bloco sólido cobrindo a tela — mesma ideia do
+     * DrawSVG do GSAP (mostrada num vídeo de referência), refeita sem GSAP:
+     * fase 1 anima stroke-dashoffset (o traço nasce), fase 2 anima stroke-width
+     * (o traço engrossa até cobrir tudo). _out faz o caminho inverso. */
+    static _animateDrawIn(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-draw-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      path.style.strokeDasharray = '1';
+      path.style.strokeDashoffset = '1';
+      path.style.strokeWidth = '1.5';
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          path.style.strokeDashoffset = String(1 - progress);
+          path.style.strokeWidth = '1.5';
+        } else {
+          const progress = (ease - 0.5) * 2;
+          path.style.strokeDashoffset = '0';
+          path.style.strokeWidth = String(1.5 + progress * 258.5);
+        }
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          path.style.strokeDashoffset = '0';
+          path.style.strokeWidth = '260';
+          cb();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    static _animateDrawOut(dur, cb) {
+      const path = SWTransi._ovl?.querySelector('.sw-trans-svg-draw-path');
+      if (!path) { setTimeout(cb, dur); return; }
+      path.style.strokeDasharray = '1';
+      path.style.strokeDashoffset = '0';
+      path.style.strokeWidth = '260';
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        if (ease < 0.5) {
+          const progress = ease * 2;
+          path.style.strokeWidth = String(260 - progress * 258.5);
+          path.style.strokeDashoffset = '0';
+        } else {
+          const progress = (ease - 0.5) * 2;
+          path.style.strokeWidth = '1.5';
+          path.style.strokeDashoffset = String(progress);
+        }
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          path.style.strokeWidth = '1.5';
+          path.style.strokeDashoffset = '1';
           cb();
         }
       }

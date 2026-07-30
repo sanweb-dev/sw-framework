@@ -58,7 +58,11 @@ body {
   line-height: 1.6;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  /* Mesmo problema do .doc-main: overflow-x sozinho força overflow-y a virar
+     "auto", fazendo o body virar um SEGUNDO container de scroll além do html
+     (a barra dupla que ainda aparecia). "clip" não acopla os eixos. */
+  overflow-x: clip;
+  overflow-y: visible;
   width: 100%;
 }
 
@@ -68,7 +72,8 @@ body {
   margin-top: var(--doc-top-h);
   min-height: calc(100vh - var(--doc-top-h));
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .doc-top {
@@ -170,9 +175,10 @@ body {
 
 .sidebar-brand-title small {
   display: block;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: var(--sw-pri);
-  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-family: 'Poppins';
 }
 
 /* --- Nav Groups --- */
@@ -274,7 +280,14 @@ body {
   padding: 4rem 6rem;
   max-width: calc(100vw - var(--doc-side-w));
   min-height: 100vh;
-  overflow-x: hidden;
+  /* "clip" em vez de "hidden": overflow-x:hidden força o navegador a computar
+     overflow-y como "auto" sozinho (regra da spec), o que transforma .doc-main
+     num container de scroll próprio — cards com animação de entrada (.reveal-*)
+     usam transform: translateY() antes de revelar, e esse deslocamento conta como
+     overflow rolável ali dentro, criando uma barra de rolagem dupla (a da página +
+     a do .doc-main). "clip" não tem essa regra de acoplamento. */
+  overflow-x: clip;
+  overflow-y: visible;
   animation: doc-slide-in 0.2s ease-out;
 }
 

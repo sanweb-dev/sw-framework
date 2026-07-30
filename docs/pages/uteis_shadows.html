@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sombras & Elevação - SW Docs</title>
+    <script src="../dist/sw.compl.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <script src="../dist/sw.min.js" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+
+        .sha-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .sha-card {
+            height: 9rem;
+            background: var(--sw-bg-ele);
+            border-radius: var(--sw-r-g);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--sw-f-mon);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Componentes SW</span>
+                <span class="brc-it is-cur" aria-current="page">Sombras & Elevação</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Utilitários</span>
+                <h2 class="t-xxg f-bd mb-2">Sombras <span class="TprinD">& Elevação</span></h2>
+                <p class="t-g t-mut mb-0">Classes de <code>box-shadow</code> em múltiplos níveis, de flat a glow colorido — todas via tokens <code>--sw-sha-*</code>, adaptadas automaticamente ao tema claro/escuro.</p>
+            </div>
+
+            <!-- 1. NEUTRAS -->
+            <div class="doc-card sec mb-6" id="neutras">
+                <h3 class="t-m f-bd mb-4">1. Elevação Neutra</h3>
+                <p class="t-g t-mut mb-4">Progressão de profundidade sem cor — para cards, dropdowns e modais.</p>
+                <div class="sha-grid mb-4">
+                    <div class="sha-card sha-0">.sha-0</div>
+                    <div class="sha-card sha-p">.sha-p</div>
+                    <div class="sha-card sha">.sha</div>
+                    <div class="sha-card sha-g">.sha-g</div>
+                    <div class="sha-card sha-in">.sha-in</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="sha-p">Sombra sutil — hover de card</div>
+<div class="sha-g">Sombra grande — modal, dropdown</div>
+<div class="sha-in">Sombra interna (inset) — inputs focados</div>
+</script></pre>
+            </div>
+
+            <!-- 2. COLORIDAS -->
+            <div class="doc-card sec" id="coloridas">
+                <h3 class="t-m f-bd mb-4">2. Glow Colorido — <code>.sha-pri / .sha-suc...</code></h3>
+                <p class="t-g t-mut mb-4">Sombra tingida com a cor semântica — ótimo para botões e estados de destaque, sem depender só de contraste de cor.</p>
+                <div class="sha-grid mb-4">
+                    <div class="sha-card sha-pri">.sha-pri</div>
+                    <div class="sha-card sha-suc">.sha-suc</div>
+                    <div class="sha-card sha-err">.sha-err</div>
+                    <div class="sha-card sha-ale">.sha-ale</div>
+                    <div class="sha-card sha-inf">.sha-inf</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<button class="sw-btn sw-btn-pri sha-pri">Com glow primário</button>
+<button class="sw-btn sw-btn-suc sha-suc">Com glow de sucesso</button>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Badge - SW Docs</title>
-  <script src="../dist/sw-mpa.min.js"></script>
+  <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
 
     <style>
         .sec {
@@ -127,8 +127,23 @@
                     </div>
 
                     <div class="bdg-wrap">
-                        <i class="sw-bell t-xxg"></i>
+                        <i class="swi swi-bell t-xxg"></i>
                         <span sw-badge class="sw-badge-dot sw-badge-err bdg-fl"></span>
+                    </div>
+
+                    <div class="bdg-wrap">
+                        <button sw-btn class="sw-btn-out sw-btn-sec sw-btn-rnd"><i class="swi swi-cart-add"></i></button>
+                        <span sw-badge class="sw-badge-sec bdg-fl">5</span>
+                    </div>
+
+                    <div class="bdg-wrap">
+                        <div class="avt is-lg"><img src="https://i.pravatar.cc/100?u=badge2" alt=""></div>
+                        <span sw-badge class="sw-badge-dot sw-badge-ale bdg-fl"></span>
+                    </div>
+
+                    <div class="bdg-wrap">
+                        <i class="swi swi-envelope t-xxg"></i>
+                        <span sw-badge class="sw-badge-inf bdg-fl sw-badge-pp">12</span>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scroll Mount/Unmount - SW Docs</title>
-    <script src="../dist/sw-mpa.min.js"></script>
+    <script src="../dist/sw.compl.min.js" defer></script>
     <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=9">
+    <link rel="stylesheet" href="../css/layout.css?v=11">
 
     <style>
         /* ---- Scroll progress bar ---- */
@@ -228,9 +228,9 @@
                 </p>
 
                 <div class="flx f-wr gap-3 j-ct mb-8">
-                    <div class="dir-chip"><i class="swi swi-arrow-down"></i> Scroll down &rarr; monta</div>
-                    <div class="dir-chip"><i class="swi swi-arrow-up"></i> Scroll up &rarr; desmonta</div>
-                    <div class="dir-chip"><i class="swi swi-zap"></i> 14 tipos de animação</div>
+                    <div class="dir-chip"><i class="swi swi-arrow-to-bottom"></i> Scroll down &rarr; monta</div>
+                    <div class="dir-chip"><i class="swi swi-arrow-to-top"></i> Scroll up &rarr; desmonta</div>
+                    <div class="dir-chip"><i class="swi swi-flash"></i> 14 tipos de animação</div>
                     <div class="dir-chip"><i class="swi swi-palette"></i> Delays combináveis</div>
                 </div>
 
@@ -243,7 +243,7 @@
 
                 <div class="scroll-hint">
                     <span class="t-pp t-mut">Role para ver</span>
-                    <i class="swi swi-arrow-down arrow t-mut" style="font-size:2rem"></i>
+                    <i class="swi swi-arrow-to-bottom arrow t-mut" style="font-size:2rem"></i>
                 </div>
             </div>
 
@@ -260,37 +260,37 @@
 
                 <div class="types-grid">
                     <div class="scr-card" data-sw-scr="up">
-                        <i class="swi swi-arrow-up" style="color:#3b82f6"></i>
+                        <i class="swi swi-arrow-to-top" style="color:#3b82f6"></i>
                         up
                         <span class="code-attr">data-sw-scr="up"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="down">
-                        <i class="swi swi-arrow-down" style="color:#8b5cf6"></i>
+                        <i class="swi swi-arrow-to-bottom" style="color:#8b5cf6"></i>
                         down
                         <span class="code-attr">data-sw-scr="down"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="left">
-                        <i class="swi swi-arrow-left" style="color:#ef4444"></i>
+                        <i class="swi swi-arrow-to-left" style="color:#ef4444"></i>
                         left
                         <span class="code-attr">data-sw-scr="left"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="right">
-                        <i class="swi swi-arrow-right" style="color:#f59e0b"></i>
+                        <i class="swi swi-arrow-to-right" style="color:#f59e0b"></i>
                         right
                         <span class="code-attr">data-sw-scr="right"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="in">
-                        <i class="swi swi-maximize" style="color:#14b8a6"></i>
+                        <i class="swi swi-expand" style="color:#14b8a6"></i>
                         in
                         <span class="code-attr">data-sw-scr="in"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="out">
-                        <i class="swi swi-minimize" style="color:#f97316"></i>
+                        <i class="swi swi-collapse" style="color:#f97316"></i>
                         out
                         <span class="code-attr">data-sw-scr="out"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="fade">
-                        <i class="swi swi-eye" style="color:#a855f7"></i>
+                        <i class="swi swi-show" style="color:#a855f7"></i>
                         fade
                         <span class="code-attr">data-sw-scr="fade"</span>
                     </div>
@@ -315,7 +315,7 @@
                         <span class="code-attr">data-sw-scr="3dr"</span>
                     </div>
                     <div class="scr-card" data-sw-scr="flip">
-                        <i class="swi swi-refresh-cw" style="color:#10b981"></i>
+                        <i class="swi swi-refresh" style="color:#10b981"></i>
                         flip
                         <span class="code-attr">data-sw-scr="flip"</span>
                     </div>
@@ -365,22 +365,22 @@
                         <span class="lbl">0.5s</span>
                     </div>
                     <div class="scr-card" data-sw-scr="left">
-                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        <i class="swi swi-arrow-to-left" style="font-size:3.2rem;color:#3b82f6"></i>
                         left
                         <span class="lbl">dly-1</span>
                     </div>
                     <div class="scr-card" data-sw-scr="left" style="transition-delay:0.2s">
-                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        <i class="swi swi-arrow-to-left" style="font-size:3.2rem;color:#3b82f6"></i>
                         left
                         <span class="lbl">dly-3</span>
                     </div>
                     <div class="scr-card" data-sw-scr="left" style="transition-delay:0.4s">
-                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        <i class="swi swi-arrow-to-left" style="font-size:3.2rem;color:#3b82f6"></i>
                         left
                         <span class="lbl">dly-5</span>
                     </div>
                     <div class="scr-card" data-sw-scr="left" style="transition-delay:0.6s">
-                        <i class="swi swi-arrow-left" style="font-size:3.2rem;color:#3b82f6"></i>
+                        <i class="swi swi-arrow-to-left" style="font-size:3.2rem;color:#3b82f6"></i>
                         left
                         <span class="lbl">dly-7</span>
                     </div>
@@ -414,10 +414,10 @@
                         <p class="t-pp f-bd mb-4" style="color:#3b82f6;letter-spacing:0.1em">SCROLL &rarr; ENTRADA
                         </p>
                         <div class="scr-card mb-4" data-sw-scr="up" style="background:rgba(59,130,246,0.12);border-color:#3b82f6">
-                            <i class="swi swi-arrow-up" style="color:#3b82f6"></i> Entra subindo
+                            <i class="swi swi-arrow-to-top" style="color:#3b82f6"></i> Entra subindo
                         </div>
                         <div class="scr-card mb-4" data-sw-scr="left" style="background:rgba(59,130,246,0.12);border-color:#3b82f6;transition-delay:0.15s">
-                            <i class="swi swi-arrow-left" style="color:#3b82f6"></i> Entra da direita
+                            <i class="swi swi-arrow-to-left" style="color:#3b82f6"></i> Entra da direita
                         </div>
                         <div class="scr-card" data-sw-scr="pop" style="background:rgba(59,130,246,0.12);border-color:#3b82f6;transition-delay:0.3s">
                             <i class="swi swi-star" style="color:#3b82f6"></i> Pop spring
@@ -433,7 +433,7 @@
                             <i class="swi swi-search" style="color:#ef4444"></i> Borrão ao sair
                         </div>
                         <div class="scr-card" data-sw-scr="in" style="background:rgba(239,68,68,0.12);border-color:#ef4444;transition-delay:0.3s">
-                            <i class="swi swi-maximize" style="color:#ef4444"></i> Encolhe ao sair
+                            <i class="swi swi-expand" style="color:#ef4444"></i> Encolhe ao sair
                         </div>
                     </div>
 
@@ -508,7 +508,7 @@
                             <p class="t-mut t-p">Frontend e backend de alta performance.</p>
                         </div>
                         <div class="fake-card" data-sw-scr="up" style="transition-delay:0.24s">
-                            <i class="swi swi-zap" style="font-size:3.2rem;color:#10b981"></i>
+                            <i class="swi swi-flash" style="font-size:3.2rem;color:#10b981"></i>
                             <h4 class="t-m f-bd mt-4 mb-2">Lançamento</h4>
                             <p class="t-mut t-p">Deploy, SEO e monitoramento incluídos.</p>
                         </div>
@@ -545,7 +545,7 @@
 
                 <div class="flx f-wr gap-6 j-ct">
                     <div class="scr-card" data-sw-scr="up" style="min-width:16rem">
-                        <i class="swi swi-zap" style="font-size:3.6rem;color:#3b82f6"></i>
+                        <i class="swi swi-flash" style="font-size:3.6rem;color:#3b82f6"></i>
                         .spd-f
                         <span class="lbl">0.25s - rápido</span>
                         <span class="code-attr" style="font-size:1rem">data-sw-scr="up" class="spd-f"</span>
@@ -599,7 +599,7 @@ up - down - left - right - in - out - fade - blur - pop - 3dl - 3dr - flip - ske
 
                 <div class="flx gap-4 j-ct mt-8 f-wr">
                     <a href="animacoes.html" class="sw-btn sw-btn-pri" data-sw-scr="up">
-                        <i class="swi swi-sparkles mr-2"></i> Ver todas animações
+                        <i class="swi swi-star mr-2"></i> Ver todas animações
                     </a>
                 </div>
             </div>
