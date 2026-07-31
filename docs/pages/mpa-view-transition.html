@@ -51,6 +51,14 @@
             <!-- DEMOS (2 páginas separadas, cada uma com 1 coisa só) -->
             <div class="doc-card sec mb-6" id="demo" sw-wide>
                 <h3 class="t-m f-bd mb-4">1. Duas demos, cada uma testando 1 coisa só</h3>
+                <p class="t-p t-mut mb-4">Este card usa <code>sw-wide</code> — por isso ele é mais largo que os
+                    de baixo, sem nenhum CSS escrito à mão. Basta o atributo:</p>
+                <pre swcode="html" class="mb-6"><script type="text/plain">
+<div class="doc-card" sw-wide>
+    Ocupa a largura cheia da coluna de doc, cancelando o padding lateral
+    de leitura — não precisa escrever margin/width, é só o atributo.
+</div>
+</script></pre>
                 <div class="demo-wrap" style="gap:1.6rem">
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Página inteira</p>
@@ -238,6 +246,11 @@ html::view-transition-new(root) { animation: 550ms both meu-circle-in; }
                             <td><code>sw-morph="nome"</code></td>
                             <td>Elemento</td>
                             <td>Escopa a transição (mesmo nome nas duas páginas)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-wide</code></td>
+                            <td>Elemento</td>
+                            <td>Cancela o padding lateral de <code>.doc-main</code> — usa a largura cheia da coluna de doc, sem escrever CSS (ver seção 1 acima)</td>
                         </tr>
                     </tbody>
                 </table>
