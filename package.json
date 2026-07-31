@@ -1,5 +1,5 @@
 {
-  "name": "@sandroweb/sw-framework",
+  "name": "@sanweb/sw-framework",
   "version": "1.0.0",
   "private": true,
   "description": "Framework web nativo e sem dependencias: CSS modular, componentes acessiveis, transicoes de pagina via View Transitions API e efeitos SW-FX progressivos.",
