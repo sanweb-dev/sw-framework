@@ -366,33 +366,10 @@
         </div>
       </div>
 
-      <!-- BACKEND PHP -->
-      <div class="nav-group" data-group="php">
-        <div class="nav-group-title">BACKEND PHP <i class="swi swi-chevron-down"></i></div>
-        <div class="nav-group-content">
-          <a href="${root}pages/php-core.html" class="nav-it ${currentPath === 'php-core.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-core">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP Core</span>
-          </a>
-          <a href="${root}pages/php-setup.html" class="nav-it ${currentPath === 'php-setup.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-setup">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP Setup</span>
-          </a>
-          <a href="${root}pages/php-router.html" class="nav-it ${currentPath === 'php-router.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-router">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP Router</span>
-          </a>
-          <a href="${root}pages/php-controller.html" class="nav-it ${currentPath === 'php-controller.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-controller">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP Controller</span>
-          </a>
-          <a href="${root}pages/php-crud.html" class="nav-it ${currentPath === 'php-crud.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-crud">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP CRUD</span>
-          </a>
-          <a href="${root}pages/php-auth.html" class="nav-it ${currentPath === 'php-auth.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-auth">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP Auth</span>
-          </a>
-          <a href="${root}pages/php-rbac.html" class="nav-it ${currentPath === 'php-rbac.html' ? 'is-active is-act' : ''}" data-doc-link data-page="php-rbac">
-            <span sw-icon="${iconPaths.tool}"></span> <span>PHP RBAC</span>
-          </a>
-        </div>
-      </div>
+      <!-- BACKEND PHP -- escondido do menu por decisao de Sandro (31/07/2026): o MVC atual
+           faz CRUD recarregando pagina; ele quer reescrever com JS/AJAX antes de lancar como
+           feature do framework. Paginas continuam no disco (docs/pages/php-*.html), so nao
+           linkadas aqui -- nao apagar, so reativar quando o backend estiver pronto. -->
 
       <!-- SW MÓDULOS -->
       <div class="nav-group" data-group="mod">

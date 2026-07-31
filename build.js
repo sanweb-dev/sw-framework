@@ -231,8 +231,16 @@ function copyDirRecursive(srcDir, destDir) {
 
 // Organiza dist/ em 3 pacotes de download, pra quem baixa não ter que escolher
 // arquivo por arquivo: 1-principal (núcleo obrigatório), 2-complementar (tudo
-// opcional — efeitos, transições, GSAP premium, backend PHP) e 3-completa (a
-// união dos dois, pra quem só quer levar tudo de uma vez).
+// opcional — efeitos, transições, GSAP premium) e 3-completa (a união dos
+// dois, pra quem só quer levar tudo de uma vez).
+//
+// Só entra aqui o que RODA no navegador sozinho, sem servidor. Backend PHP
+// (`src/php/`, `php-standalone/`) fica de fora de propósito — ainda não está
+// pronto pra lançar (falta CRUD via AJAX/JS, sem recarregar página) e vai
+// virar um pacote próprio quando terminar, não misturado com CSS/JS aqui.
+// A galeria de ícones em SVG (`dist/icons/`) também fica de fora — ela só
+// existe pra alimentar a galeria visual do próprio site de documentação;
+// o uso real do ícone é via a fonte (`fonts/`), que continua nos pacotes.
 function buildPackages() {
   const pkgDir = path.join(distDir, 'pacotes');
   const principal = path.join(pkgDir, '1-principal');
@@ -248,7 +256,6 @@ function buildPackages() {
   ['sw.min.css', 'sw.min.js', 'sw.config.css'].forEach((file) => {
     atomicWriteBinary(path.join(principal, file), fs.readFileSync(path.join(distDir, file)));
   });
-  copyDirRecursive(path.join(distDir, 'icons'), path.join(principal, 'icons'));
   copyDirRecursive(path.join(distDir, 'fonts'), path.join(principal, 'fonts'));
   atomicWrite(path.join(principal, 'LEIA-ME.md'),
     '# SW Framework — Principal\n\n' +
@@ -256,44 +263,38 @@ function buildPackages() {
     '(modal, dropdown, navbar, sidebar, formulários...). É o que praticamente todo projeto usa.\n\n' +
     '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.min.css">\n<script src="sw.min.js" defer></script>\n```\n\n' +
     '`sw.config.css` é opcional — um ponto de partida pra personalizar cores, fontes e bordas\n' +
-    '(carregue por último, depois do sw.min.css). A pasta `icons/` (SVGs) e `fonts/` (ícones em\n' +
-    'fonte) devem ficar ao lado do CSS/JS.\n');
+    '(carregue por último, depois do sw.min.css). A pasta `fonts/` (ícones em fonte) deve\n' +
+    'ficar ao lado do CSS/JS. Precisa do SVG de algum ícone específico? A galeria completa\n' +
+    'fica hospedada em sw.sanweb.com.br — não vem junto neste pacote.\n');
 
   fs.mkdirSync(complementar, { recursive: true });
   ['sw.compl.min.css', 'sw.compl.min.js'].forEach((file) => {
     atomicWriteBinary(path.join(complementar, file), fs.readFileSync(path.join(distDir, file)));
   });
-  copyDirRecursive(path.join(root, 'src', 'php'), path.join(complementar, 'php'));
-  copyDirRecursive(phpStandaloneDir, path.join(complementar, 'php-standalone'));
   atomicWrite(path.join(complementar, 'LEIA-ME.md'),
     '# SW Framework — Complementar\n\n' +
     '`sw.compl.min.js` reúne tudo que é opcional num arquivo só — nenhuma parte exige as\n' +
     'outras, mas todas exigem o pacote **1-principal** carregado antes:\n\n' +
     '- Efeitos nativos leves (scramble, tilt 3D, marquee, magnetismo) — vem do sw-fx.\n' +
     '- Transição suave entre páginas — vem do sw-mpa.\n' +
-    '- Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.\n' +
-    '- `php/` — backend PHP (Router, Model, Auth, RBAC...), server-side, carregado à parte no PHP, não no HTML.\n' +
-    '- `php-standalone/` — scripts PHP avulsos chamados direto por URL por um módulo JS específico\n' +
-    '  (ex.: `sw-instagram.php`, usado por `sw-instagram.js`). Também fica solto na raiz do `dist/`\n' +
-    '  porque é lá que o módulo JS busca por padrão.\n\n' +
+    '- Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.\n\n' +
     '`sw.compl.min.css` é obrigatório se você usar `sw-marquee` ou `sw-scrub` do sw-fx —\n' +
     'sem ele os dois ficam sem efeito nenhum (o JS só cria a estrutura/estado, quem desenha\n' +
     'a animação é esse CSS). Os demais efeitos do sw-fx (scramble, split, tilt, magnetismo,\n' +
-    'typewriter) funcionam só com o JS.\n');
+    'typewriter) funcionam só com o JS.\n\n' +
+    'Backend PHP ainda não está aqui — vem num pacote próprio quando estiver pronto.\n');
 
   fs.mkdirSync(completa, { recursive: true });
   ['sw.all.min.css', 'sw.all.min.js', 'sw.config.css'].forEach((file) => {
     atomicWriteBinary(path.join(completa, file), fs.readFileSync(path.join(distDir, file)));
   });
-  copyDirRecursive(path.join(distDir, 'icons'), path.join(completa, 'icons'));
   copyDirRecursive(path.join(distDir, 'fonts'), path.join(completa, 'fonts'));
-  copyDirRecursive(path.join(root, 'src', 'php'), path.join(completa, 'php'));
-  copyDirRecursive(phpStandaloneDir, path.join(completa, 'php-standalone'));
   atomicWrite(path.join(completa, 'LEIA-ME.md'),
     '# SW Framework — Completa\n\n' +
     '`sw.all.min.css` + `sw.all.min.js` = Principal + Complementar já combinados num arquivo\n' +
     'só de cada. Pra quem prefere levar tudo de uma vez em vez de escolher peça por peça.\n\n' +
-    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.all.min.css">\n<script src="sw.all.min.js" defer></script>\n```\n');
+    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.all.min.css">\n<script src="sw.all.min.js" defer></script>\n```\n\n' +
+    'Backend PHP ainda não está aqui — vem num pacote próprio quando estiver pronto.\n');
 }
 
 function buildFxPremium() {
