@@ -149,13 +149,13 @@ class SWPremiumCore {
       return;
     }
 
-    const tweenSettings = this.buildTweenSettings(config);
+    const { from, to } = this.buildTweenSettings(config);
     const target = config.stagger && el.children.length > 0 ? Array.from(el.children) : el;
 
     if (config.trigger === "scroll") {
       const hasScrub = config.scrub !== null && config.scrub !== undefined && config.scrub !== false;
       const pinTarget = config.pin ? (el.closest(config.pin) || el.parentElement) : null;
-      tweenSettings.scrollTrigger = {
+      to.scrollTrigger = {
         trigger: pinTarget || el,
         start: config.start || "top 85%",
         end: config.end || "bottom 20%",
@@ -166,13 +166,20 @@ class SWPremiumCore {
       };
 
       if (config.scrollOnce) {
-        tweenSettings.onComplete = function() {
+        to.onComplete = function() {
           if (this.scrollTrigger) this.scrollTrigger.kill(false);
         };
       }
     }
 
-    gsap.from(target, tweenSettings);
+    // fromTo() com valor de repouso EXPLÍCITO, não from() dependendo do valor
+    // computado atual do elemento -- com stagger + ScrollTrigger + immediateRender,
+    // gsap.from() às vezes calcula o "repouso" de x/y/scale/rotation errado (ele
+    // gruda no próprio valor de partida), e a animação fica "presa" ali pra sempre
+    // mesmo reportando progress:1. Opacity nunca pegava esse bug por sorte (repouso
+    // 1 é o default nativo do CSS), mas x/y/scale/rotation precisam do alvo escrito
+    // na mão pra não correr esse risco.
+    gsap.fromTo(target, from, to);
   }
 
   parseConfig(el) {
@@ -272,6 +279,10 @@ class SWPremiumCore {
       magneticStrength:parseFloat(el.getAttribute("sw-premium-magnetic-strength") || "0.35"),
       cursor:          el.hasAttribute("sw-premium-cursor"),
       cursorSrc:       el.getAttribute("sw-premium-cursor-img") || "",
+      cursorMode:      el.getAttribute("sw-premium-cursor-mode") || "replace", // "replace" ou "follow"
+      cursorSize:      parseFloat(el.getAttribute("sw-premium-cursor-size") || "36"),
+      cursorEase:      el.getAttribute("sw-premium-cursor-ease") || "power3.out",
+      cursorDelay:     parseFloat(el.getAttribute("sw-premium-cursor-delay") || "0.5"),
       hoverTilt:       el.hasAttribute("sw-premium-hover-tilt"),
       tiltStrength:    parseFloat(el.getAttribute("sw-premium-tilt-strength") || "15"),
       marquee:         el.hasAttribute("sw-premium-marquee"),
@@ -549,8 +560,22 @@ class SWPremiumCore {
     if (config.animate === "stretch-x" || config.animate === "stretch-y")
                                           ease = config.ease !== "power3.out" ? config.ease : "power4.out";
 
+    // Valor de repouso de cada propriedade quando a animação termina -- 1 pra
+    // opacity/scale (tamanho e visibilidade normais), 0 pro resto (sem deslocamento/
+    // rotação/inclinação). transformOrigin não anima, só define o pivô, passa direto.
+    const restingValue = {
+      opacity: 1, scale: 1, scaleX: 1, scaleY: 1,
+      x: 0, y: 0, rotation: 0, rotationX: 0, rotationY: 0, rotationZ: 0, skewX: 0, skewY: 0,
+      filter: "blur(0px)", clipPath: "inset(0% 0% 0% 0%)",
+    };
+    const toProps = {};
+    Object.keys(animProps).forEach((key) => {
+      if (key === "transformOrigin") { toProps[key] = animProps[key]; return; }
+      toProps[key] = key in restingValue ? restingValue[key] : 0;
+    });
+
     const t = {
-      ...animProps,
+      ...toProps,
       duration: config.duration,
       delay:    config.delay,
       ease:     ease,
@@ -559,7 +584,7 @@ class SWPremiumCore {
     if (config.repeat !== null)       t.repeat    = config.repeat;
     if (config.yoyo)                  t.yoyo      = true;
     if (!(config.scrub || config.trigger === "scroll")) t.clearProps = "all";
-    return t;
+    return { from: animProps, to: t };
   }
 
   ensurePerspective(el, config) {

@@ -110,14 +110,57 @@ html[data-sw-trans-direction="back"]::view-transition-new(root) {
 }
 
 /* ==========================================================================
-   DEMO "Menu Fixo" (docs/pages/mpa-view-transition-b.html) — isolado atrás
-   de [data-sw-mpa-demo], atributo que só essa página tem no <html>. Mira só
-   (sw-mpa-demo-main), NUNCA (root): essa página tem sw-morph="mpa-demo-main"
-   no <main>, ou seja, o <main> já sai do grupo root. Se esta regra também
-   animasse (root), o cabeçalho/sidebar (que sobra no root, idênticos entre
-   as páginas) ganhava a MESMA animação por cima — o menu "fixo" passava a
-   se mexer sozinho, brigando com o conteúdo.
+   ESTILO POR DEMO (docs/pages/mpa-view-transition.html) — a página de
+   visão geral não tem CSS de transição próprio, então a metade "saindo"
+   dela sempre usava a animação genérica de direção, não importa qual card
+   "Testar" fosse clicado (por isso os 4 efeitos pareciam iguais mesmo já
+   com a entrada de cada demo corrigida). SWMpa.setStyle() (sw-mpa.js) grava
+   a escolha em sessionStorage antes do clique navegar; as regras abaixo
+   aplicam no root a MESMA saída que a página de destino já usa na entrada.
+   Mesma especificidade das regras de direção acima — ganham por ordem no
+   arquivo (a última regra empatada vence).
    ========================================================================== */
+html[data-sw-mpa-style="fade"]::view-transition-old(root) {
+  animation: 320ms ease both sw-trans-fade-out;
+}
+html[data-sw-mpa-style="fade"]::view-transition-new(root) {
+  animation: 320ms ease both sw-trans-fade-in;
+}
+
+html[data-sw-mpa-style="zoom"]::view-transition-old(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-mpa-zoom-out;
+}
+html[data-sw-mpa-style="zoom"]::view-transition-new(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-mpa-zoom-in;
+}
+
+html[data-sw-mpa-style="circle"]::view-transition-old(root) {
+  animation: 260ms ease both sw-trans-fade-out;
+}
+html[data-sw-mpa-style="circle"]::view-transition-new(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-circle-in;
+}
+
+html[data-sw-mpa-style="slide-y"]::view-transition-old(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-top;
+}
+html[data-sw-mpa-style="slide-y"]::view-transition-new(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-in-bottom;
+}
+
+/* ==========================================================================
+   DEMO "Menu Fixo" (docs/pages/mpa-view-transition-b.html) — isolado atrás
+   de [data-sw-mpa-demo], atributo que só essa página tem no <html>. O <main>
+   tem sw-morph="mpa-demo-main", ou seja, só ELE sai do grupo root — o
+   cabeçalho/sidebar sobram no root. Sem a regra abaixo, o root continuava
+   recebendo a animação padrão do site (slide/fade por direção) por baixo,
+   e o "menu fixo" balançava junto com o resto — por isso o root precisa
+   ficar parado (animation: none) só nesta demo; quem anima é só o main.
+   ========================================================================== */
+html[data-sw-mpa-demo]::view-transition-old(root),
+html[data-sw-mpa-demo]::view-transition-new(root) {
+  animation: none;
+}
 html[data-sw-mpa-demo]::view-transition-old(sw-mpa-demo-main) {
   animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-left;
 }

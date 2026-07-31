@@ -142,17 +142,28 @@ class Auth
         $token = $_COOKIE['lembrar'] ?? null;
         if (!$token) return false;
 
+        $hash   = hash('sha256', $token);
         $sessao = \SW\Core\DB::primeiro(
             'SELECT u.* FROM usuarios u JOIN sessoes_lembrar s ON s.usuario_id = u.id
              WHERE s.token = ? AND s.expira_em > NOW() AND u.ativo = 1',
-            [hash('sha256', $token)]
+            [$hash]
         );
 
         if (!$sessao) return false;
 
+        /* Token de uso unico -- apaga o usado e emite outro (evita replay se o
+           cookie antigo vazar) */
+        \SW\Core\DB::executar('DELETE FROM sessoes_lembrar WHERE token = ?', [$hash]);
+
         unset($sessao[self::$cfg['senha']]);
+
+        /* Mesma prevencao de fixacao de sessao do login normal */
+        Session::regenerar();
         Session::set(self::$cfg['sessao_chave'], $sessao);
         self::$usuario = $sessao;
+
+        self::gerarToken((int) $sessao['id']);
+
         return true;
     }
 }

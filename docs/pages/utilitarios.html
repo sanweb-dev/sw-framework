@@ -4,11 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Utilitários - SW Docs</title>
-  <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
+  <script src="../dist/sw.compl.min.js?v=8" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
 
     <style>
+        .tipo-row {
+            display: flex;
+            align-items: baseline;
+            gap: 1.6rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--sw-bor);
+            flex-wrap: wrap;
+        }
+
+        .tipo-row:last-child {
+            border-bottom: none;
+        }
+
+        .tipo-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sw-txt-mut);
+            font-family: var(--sw-f-mon);
+            min-width: 14rem;
+            flex-shrink: 0;
+        }
+
+        .tipo-demo {
+            flex: 1;
+        }
+
         .demo-box {
             padding: 1.2rem 1.6rem;
             border-radius: 0.8rem;
@@ -220,31 +246,44 @@
 
                 <!-- Pesos -->
                 <h4 class="t-p f-bd mb-4 t-mut">Pesos</h4>
-                <div class="flx f-wr gap-4 mb-6">
-                    <span class="f-xlt">f-xlt (100)</span>
-                    <span class="f-lt">f-lt (300)</span>
-                    <span class="f-re">f-re (400)</span>
-                    <span class="f-m">f-m (500)</span>
-                    <span class="f-sm">f-sm (600)</span>
-                    <span class="f-bd">f-bd (700)</span>
-                    <span class="f-xbd">f-xbd (800)</span>
-                    <span class="f-bk">f-bk (900)</span>
+                <div class="tipo-row">
+                    <span class="tipo-label">.f-xlt .f-lt .f-re .f-m .f-sm .f-bd .f-xbd .f-bk</span>
+                    <span class="tipo-demo t-g">
+                        <span class="f-xlt">f-xlt (100)</span> ·
+                        <span class="f-lt">f-lt (300)</span> ·
+                        <span class="f-re">f-re (400)</span> ·
+                        <span class="f-m">f-m (500)</span> ·
+                        <span class="f-sm">f-sm (600)</span> ·
+                        <span class="f-bd">f-bd (700)</span> ·
+                        <span class="f-xbd">f-xbd (800)</span> ·
+                        <span class="f-bk">f-bk (900)</span>
+                    </span>
                 </div>
+                <pre swcode="html" class="m-0 mb-6"><script type="text/plain">
+<span class="f-xlt">Peso 100</span>
+<span class="f-bd">Peso 700 (bold)</span>
+<span class="f-bk">Peso 900</span>
+</script></pre>
 
                 <!-- Alinhamento / Transformação -->
                 <h4 class="t-p f-bd mb-4 t-mut">Alinhamento & Transformação</h4>
-                <div class="grid-3 mb-6">
-                    <div class="doc-section t-ct">.t-ct - center</div>
-                    <div class="doc-section t-ri">.t-ri - right</div>
-                    <div class="doc-section t-le">.t-le - left</div>
-                    <div class="doc-section"><span class="t-upp">.t-upp</span> - texto maiúsculo</div>
-                    <div class="doc-section"><span class="t-low">.T-LOW</span> - texto minúsculo</div>
-                    <div class="doc-section"><span class="t-cap">.t-cap</span> - texto capitalizado</div>
+                <div class="tipo-row">
+                    <span class="tipo-label">.t-ct .t-le .t-ri .t-ju</span>
+                    <span class="tipo-demo t-ct t-pri f-bd">.t-ct — Centralizado</span>
                 </div>
-
+                <div class="tipo-row">
+                    <span class="tipo-label">.t-upp .t-low .t-cap</span>
+                    <span class="tipo-demo t-upp t-mut">uppercase (.t-upp) / lowercase (.t-low) / capitalize (.t-cap)</span>
+                </div>
                 <pre swcode="html" lines><script type="text/plain">
-<p class="t-xg f-bd t-ct t-upp">Título Framework</p>
-<span class="t-p t-mut">Legenda discreta</span>
+<p class="t-ct">Centralizado</p>
+<p class="t-le">Esquerda</p>
+<p class="t-ri">Direita</p>
+<p class="t-ju">Justificado, ocupa toda a largura da linha.</p>
+
+<span class="t-upp">Vira Maiúsculo</span>
+<span class="t-low">Vira Minúsculo</span>
+<span class="t-cap">vira capitalizado</span>
 </script></pre>
             </div>
 
@@ -909,7 +948,7 @@
         </main>
     </div>
 
-    <script src="../dist/sw.min.js"></script>
+    <script src="../dist/sw.min.js?v=8"></script>
 </body>
 
 </html>

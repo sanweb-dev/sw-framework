@@ -23,6 +23,9 @@ namespace SW\Utils;
 
 class Upload
 {
+    /** Teto absoluto de pixels por lado, independente de largMax/altMax configurados */
+    private const LIMITE_DIM_ABSOLUTO = 8000;
+
     private array $cfg;
 
     public function __construct(array $cfg = [])
@@ -60,6 +63,15 @@ class Upload
             return ['ok' => false, 'mensagem' => 'Tipo de arquivo não permitido.'];
         }
 
+        // Confere as dimensoes ANTES de decodificar com o GD -- uma imagem
+        // "bomba" (poucos KB no disco, mas milhares de pixels por lado) estoura
+        // a memoria do servidor em imagecreatefromXXX() antes que largMax/altMax
+        // consigam ser checados, porque esses so' rodam depois do decode.
+        $info = @getimagesize($file['tmp_name']);
+        if (!$info || $info[0] > self::LIMITE_DIM_ABSOLUTO || $info[1] > self::LIMITE_DIM_ABSOLUTO) {
+            return ['ok' => false, 'mensagem' => 'Imagem inválida ou com dimensões excessivas.'];
+        }
+
         $ext       = $this->_ext($mime);
         $nome      = bin2hex(random_bytes(12)) . '.' . $ext;
         $destino   = rtrim($this->cfg['destino'], '/\\') . '/' . $nome;
@@ -85,6 +97,12 @@ class Upload
 
     public function deletar(string $nome): void
     {
+        // basename() corta qualquer "../" ou caminho absoluto -- sem isso, um
+        // nome vindo de fora (ex.: query string de um botao "remover imagem")
+        // apagaria qualquer arquivo do servidor, nao so os desta pasta de upload.
+        $nome = basename($nome);
+        if ($nome === '' || $nome === '.' || $nome === '..') return;
+
         $base = rtrim($this->cfg['destino'], '/\\') . '/';
         @unlink($base . $nome);
         if ($this->cfg['thumb']) {

@@ -4,47 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Premium — Texto - SW Docs</title>
-    <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <script src="../layout/header.js" defer></script>
     <script src="../layout/sidebar.js" defer></script>
     <style>
-        .sec {
-            scroll-margin-top: 10rem
-        }
+        .sec { scroll-margin-top: 10rem }
 
-        .txt-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-            gap: 1rem;
+        .txt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+        @media (max-width: 900px) { .txt-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .txt-grid { grid-template-columns: 1fr; } }
+        .txt-card { border-radius: var(--sw-r-g, 8px); border: 1px solid var(--sw-bor); background: var(--sw-bg-sec); overflow: hidden; }
+        .txt-preview {
+            min-height: 12rem; display: flex; align-items: center; justify-content: center;
+            padding: 2.4rem 1.6rem; background: var(--sw-bg-alt); border-bottom: 1px solid var(--sw-bor);
         }
+        .txt-preview.is-col { flex-direction: column; align-items: flex-start; gap: .8rem; }
+        .txt-info { padding: 1.4rem 1.6rem; }
+        .txt-info h4 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+        .txt-code {
+            font-family: monospace; font-size: 1.1rem; color: var(--sw-txt-mut); background: var(--sw-bg-alt);
+            border-left: 2px solid var(--sw-pri); border-radius: .4rem; padding: .8rem 1rem; line-height: 1.8;
+        }
+        .txt-code .tag { color: var(--sw-pri); }
 
-        .txt-card {
-            padding: 2rem;
-            text-align: center;
-        }
+        .split-title { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; line-height: 1.2; text-align: center; overflow: hidden; }
+        .split-body { font-size: 1.5rem; color: var(--sw-txt-mut); text-align: center; max-width: 40rem; line-height: 1.7; }
+        .scramble-text { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; font-family: monospace; color: var(--sw-pri); text-align: center; letter-spacing: .15rem; }
+        .typewriter-text { font-size: clamp(1.4rem, 2vw, 1.8rem); font-weight: 600; text-align: center; min-height: 2em; }
 
-        .split-title {
-            font-size: 2rem;
-            font-weight: 800;
-            overflow: hidden;
+        .txt-showcase {
+            padding: clamp(4rem, 10vw, 8rem) 2rem; background: var(--sw-bg-alt); border: 1px solid var(--sw-bor);
+            border-radius: var(--sw-r-xg, 16px); text-align: center; margin: 3.2rem 0;
         }
-
-        .scramble-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-family: monospace;
-            color: var(--sw-pri, #3b82f6);
-            letter-spacing: .1rem;
-        }
-
-        .typewriter-text {
-            font-size: 1.4rem;
-            font-weight: 600;
-            min-height: 1.6em;
-        }
+        .txt-showcase-big { font-size: clamp(3.4rem, 8vw, 7.4rem); font-weight: 800; letter-spacing: -.15rem; line-height: 1.05; overflow: hidden; }
+        .txt-showcase-big .line { display: block; overflow: hidden; }
+        .txt-showcase-sub { font-size: clamp(1.3rem, 2vw, 1.6rem); color: var(--sw-txt-mut); margin-top: 2.4rem; }
     </style>
 </head>
 
@@ -71,149 +68,214 @@
                 <h3 class="t-m f-bd mb-4">Parâmetros disponíveis</h3>
                 <table class="ref-table">
                     <thead>
-                        <tr>
-                            <th>Atributo</th>
-                            <th>Tipo</th>
-                            <th>Descrição</th>
-                        </tr>
+                        <tr><th>Atributo</th><th>Tipo</th><th>Descrição</th><th>Exemplo</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><code>sw-premium-split</code></td>
-                            <td>chars/words/lines</td>
-                            <td>Divide o texto e anima cada unidade</td>
-                        </tr>
-                        <tr>
-                            <td><code>sw-premium-split-stagger</code></td>
-                            <td>número (s)</td>
-                            <td>Delay entre unidades (sobrescreve o default)</td>
-                        </tr>
-                        <tr>
-                            <td><code>sw-premium-scramble</code></td>
-                            <td>presença</td>
-                            <td>Ativa o embaralhamento de caracteres</td>
-                        </tr>
-                        <tr>
-                            <td><code>sw-premium-scramble-chars</code> / <code>-scramble-speed</code></td>
-                            <td>string / número</td>
-                            <td>Pool de caracteres e iterações por caractere revelado</td>
-                        </tr>
-                        <tr>
-                            <td><code>sw-premium-typewriter</code></td>
-                            <td>presença</td>
-                            <td>Ativa o efeito máquina de escrever</td>
-                        </tr>
-                        <tr>
-                            <td><code>sw-premium-typewriter-speed</code> / <code>-cursor</code> /
-                                <code>-repeat</code> / <code>-pause</code></td>
-                            <td>número / string / presença / número</td>
-                            <td>Velocidade, símbolo do cursor, loop infinito e pausa antes de apagar</td>
-                        </tr>
+                        <tr><td><code>sw-premium-split</code></td><td>chars/words/lines</td><td>Divide o texto e anima cada unidade</td><td><code class="t-pri">"chars"</code></td></tr>
+                        <tr><td><code>sw-premium-split-stagger</code></td><td>número (s)</td><td>Delay entre unidades (sobrescreve o default)</td><td><code class="t-pri">"0.04"</code></td></tr>
+                        <tr><td><code>sw-premium-animate</code></td><td>string</td><td>Efeito aplicado a cada unidade do split</td><td><code class="t-pri">"fade-up"</code></td></tr>
+                        <tr><td><code>sw-premium-scramble</code></td><td>presença</td><td>Ativa o embaralhamento de caracteres</td><td>—</td></tr>
+                        <tr><td><code>sw-premium-scramble-chars</code></td><td>string</td><td>Pool de caracteres do scramble</td><td><code class="t-pri">"01"</code></td></tr>
+                        <tr><td><code>sw-premium-scramble-speed</code></td><td>número</td><td>Iterações por caractere revelado</td><td><code class="t-pri">"3"</code></td></tr>
+                        <tr><td><code>sw-premium-typewriter</code></td><td>presença</td><td>Ativa o efeito máquina de escrever</td><td>—</td></tr>
+                        <tr><td><code>sw-premium-typewriter-speed</code></td><td>número (s)</td><td>Segundos por caractere digitado</td><td><code class="t-pri">"0.05"</code></td></tr>
+                        <tr><td><code>sw-premium-typewriter-cursor</code></td><td>string</td><td>Símbolo do cursor (padrão: <code>|</code>)</td><td><code class="t-pri">"▌"</code></td></tr>
+                        <tr><td><code>sw-premium-typewriter-repeat</code></td><td>presença</td><td>Digita, apaga e repete em loop infinito</td><td>—</td></tr>
+                        <tr><td><code>sw-premium-typewriter-pause</code></td><td>número (s)</td><td>Pausa antes de apagar (só com repeat)</td><td><code class="t-pri">"1.5"</code></td></tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- SPLIT CHARS -->
-            <div class="doc-card sec mb-6" id="split-chars">
-                <h3 class="t-m f-bd mb-4">1. <code>sw-premium-split="chars"</code></h3>
-                <p class="t-g t-mut mb-4">Cada letra anima individualmente. Stagger automático de 25ms.</p>
-                <div class="txt-grid">
-                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
-                            sw-premium-animate="fade-up" sw-premium-trigger="scroll">SW PREMIUM</p></div>
-                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
-                            sw-premium-animate="zoom-in" sw-premium-ease="back.out(3)" sw-premium-trigger="scroll">DESIGN</p></div>
-                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="chars"
-                            sw-premium-animate="rotate-in" sw-premium-trigger="scroll">GIRO</p></div>
+            <div class="mb-4 sec" id="split-chars">
+                <h3 class="t-m f-bd mb-1"><code>sw-premium-split="chars"</code></h3>
+                <p class="t-g t-mut">Cada letra anima individualmente. Stagger automático de 25ms entre chars.</p>
+            </div>
+            <div class="txt-grid mb-6">
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-trigger="scroll">SW PREMIUM</p></div>
+                    <div class="txt-info"><h4>Chars — fade-up</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"chars"</span><br>sw-premium-animate=<span class="tag">"fade-up"</span></div></div>
                 </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<p sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-trigger="scroll">SW Premium</p>
-</script></pre>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="blur-in" sw-premium-trigger="scroll">DESFOQUE</p></div>
+                    <div class="txt-info"><h4>Chars — blur-in</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"chars"</span><br>sw-premium-animate=<span class="tag">"blur-in"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="zoom-in" sw-premium-ease="back.out(3)" sw-premium-trigger="scroll">DESIGN</p></div>
+                    <div class="txt-info"><h4>Chars — zoom-in + back.out(3)</h4>
+                        <div class="txt-code">sw-premium-animate=<span class="tag">"zoom-in"</span><br>sw-premium-ease=<span class="tag">"back.out(3)"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="fade-right" sw-premium-split-stagger="0.06" sw-premium-trigger="scroll">LETRAS</p></div>
+                    <div class="txt-info"><h4>Chars — fade-right + stagger lento</h4>
+                        <div class="txt-code">sw-premium-animate=<span class="tag">"fade-right"</span><br>sw-premium-split-stagger=<span class="tag">"0.06"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="rotate-in" sw-premium-trigger="scroll">GIRO</p></div>
+                    <div class="txt-info"><h4>Chars — rotate-in</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"chars"</span><br>sw-premium-animate=<span class="tag">"rotate-in"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="chars" sw-premium-animate="elastic-up" sw-premium-trigger="scroll">MOLA</p></div>
+                    <div class="txt-info"><h4>Chars — elastic-up</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"chars"</span><br>sw-premium-animate=<span class="tag">"elastic-up"</span></div></div>
+                </div>
             </div>
 
             <!-- SPLIT WORDS -->
-            <div class="doc-card sec mb-6" id="split-words">
-                <h3 class="t-m f-bd mb-4">2. <code>sw-premium-split="words"</code></h3>
-                <p class="t-g t-mut mb-4">Cada palavra entra individualmente. Stagger automático de 70ms.</p>
-                <div class="txt-grid">
-                    <div sw-card class="txt-card"><p class="t-g" sw-premium-split="words" sw-premium-animate="fade-up"
-                            sw-premium-trigger="scroll">Cada palavra entra suavemente uma após a outra.</p></div>
-                    <div sw-card class="txt-card"><p class="split-title" sw-premium-split="words"
-                            sw-premium-animate="zoom-in" sw-premium-ease="back.out(2)" sw-premium-trigger="scroll">Palavra por Palavra</p></div>
+            <div class="mb-4 sec" id="split-words">
+                <h3 class="t-m f-bd mb-1"><code>sw-premium-split="words"</code></h3>
+                <p class="t-g t-mut">Cada palavra entra individualmente. Stagger automático de 70ms entre palavras.</p>
+            </div>
+            <div class="txt-grid mb-6">
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-body" sw-premium-split="words" sw-premium-animate="fade-up" sw-premium-trigger="scroll">Cada palavra entra suavemente uma após a outra.</p></div>
+                    <div class="txt-info"><h4>Words — fade-up</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"words"</span><br>sw-premium-animate=<span class="tag">"fade-up"</span></div></div>
                 </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<p sw-premium-split="words" sw-premium-animate="fade-up">Cada palavra entra suavemente.</p>
-</script></pre>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-body" sw-premium-split="words" sw-premium-animate="blur-up" sw-premium-trigger="scroll">Desfoque que resolve palavra por palavra.</p></div>
+                    <div class="txt-info"><h4>Words — blur-up</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"words"</span><br>sw-premium-animate=<span class="tag">"blur-up"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="split-title" sw-premium-split="words" sw-premium-animate="zoom-in" sw-premium-ease="back.out(2)" sw-premium-trigger="scroll">Palavra por Palavra</p></div>
+                    <div class="txt-info"><h4>Words — zoom-in + back.out(2)</h4>
+                        <div class="txt-code">sw-premium-animate=<span class="tag">"zoom-in"</span><br>sw-premium-ease=<span class="tag">"back.out(2)"</span></div></div>
+                </div>
             </div>
 
             <!-- SPLIT LINES -->
-            <div class="doc-card sec mb-6" id="split-lines">
-                <h3 class="t-m f-bd mb-4">3. <code>sw-premium-split="lines"</code></h3>
-                <p class="t-g t-mut mb-4">Cada palavra sobe de dentro de um container com <code>overflow:hidden</code>
+            <div class="mb-4 sec" id="split-lines">
+                <h3 class="t-m f-bd mb-1"><code>sw-premium-split="lines"</code></h3>
+                <p class="t-g t-mut">Cada linha sobe de dentro de um container com <code>overflow:hidden</code>
                     injetado automaticamente — efeito de linha revelada.</p>
-                <div sw-card class="txt-card" style="text-align:left">
-                    <p class="split-title" sw-premium-split="lines" sw-premium-animate="fade-up"
-                        sw-premium-from-y="120" sw-premium-trigger="scroll">Design sem limites.</p>
-                    <p class="split-title t-pri" sw-premium-split="lines" sw-premium-animate="fade-up"
-                        sw-premium-from-y="120" sw-premium-delay="0.1" sw-premium-trigger="scroll">Código que respira.</p>
+            </div>
+            <div class="txt-grid mb-6">
+                <div class="txt-card">
+                    <div class="txt-preview is-col">
+                        <p class="split-title" style="text-align:left" sw-premium-split="lines" sw-premium-animate="fade-up" sw-premium-from-y="120" sw-premium-trigger="scroll">Design sem limites.</p>
+                        <p class="split-title t-pri" style="text-align:left" sw-premium-split="lines" sw-premium-animate="fade-up" sw-premium-from-y="120" sw-premium-delay="0.1" sw-premium-trigger="scroll">Código que respira.</p>
+                    </div>
+                    <div class="txt-info"><h4>Lines — reveal (from-y: 120)</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"lines"</span><br>sw-premium-from-y=<span class="tag">"120"</span></div></div>
                 </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<p sw-premium-split="lines" sw-premium-animate="fade-up" sw-premium-from-y="120">Design sem limites.</p>
-</script></pre>
+                <div class="txt-card">
+                    <div class="txt-preview is-col">
+                        <p class="split-body" style="text-align:left;max-width:none" sw-premium-split="lines" sw-premium-animate="fade-up" sw-premium-from-y="60" sw-premium-split-stagger="0.08" sw-premium-trigger="scroll">Texto corrido revelado por linha, como num editorial de revista.</p>
+                    </div>
+                    <div class="txt-info"><h4>Lines — texto corrido</h4>
+                        <div class="txt-code">sw-premium-split=<span class="tag">"lines"</span><br>sw-premium-split-stagger=<span class="tag">"0.08"</span></div></div>
+                </div>
+            </div>
+
+            <!-- SHOWCASE GRANDE -->
+            <div class="txt-showcase">
+                <div class="txt-showcase-big">
+                    <span class="line"><span sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-trigger="scroll" sw-premium-scroll-start="top 90%" sw-premium-duration="0.6">Anime</span></span>
+                    <span class="line" style="color:var(--sw-pri)"><span sw-premium-split="chars" sw-premium-animate="fade-up" sw-premium-delay="0.15" sw-premium-trigger="scroll" sw-premium-scroll-start="top 90%" sw-premium-duration="0.6">Tudo.</span></span>
+                </div>
+                <p class="txt-showcase-sub" sw-premium-animate="fade-up" sw-premium-delay="0.4" sw-premium-trigger="scroll" sw-premium-scroll-start="top 90%">
+                    Sem uma linha de JavaScript. Só atributos HTML.
+                </p>
             </div>
 
             <!-- SCRAMBLE -->
-            <div class="doc-card sec mb-6" id="scramble">
-                <h3 class="t-m f-bd mb-4">4. <code>sw-premium-scramble</code></h3>
-                <p class="t-g t-mut mb-4">Caracteres aleatórios que vão se resolvendo pro texto final ao entrar na
-                    tela.</p>
-                <div class="txt-grid">
-                    <div sw-card class="txt-card"><p class="scramble-text" sw-premium-scramble
-                            sw-premium-trigger="scroll">SW ENGINE</p></div>
-                    <div sw-card class="txt-card"><p class="scramble-text" sw-premium-scramble
-                            sw-premium-scramble-speed="3" sw-premium-duration="2" sw-premium-trigger="scroll">VELOCIDADE 3X</p></div>
-                    <div sw-card class="txt-card"><p class="scramble-text" style="font-size:1.1rem" sw-premium-scramble
-                            sw-premium-scramble-chars="01" sw-premium-scramble-speed="4"
-                            sw-premium-trigger="scroll">MATRIX MODE</p></div>
+            <div class="mb-4 sec" id="scramble">
+                <h3 class="t-m f-bd mb-1"><code>sw-premium-scramble</code></h3>
+                <p class="t-g t-mut">Caracteres aleatórios que vão se resolvendo pro texto final ao entrar na tela.</p>
+            </div>
+            <div class="txt-grid mb-6">
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="scramble-text" sw-premium-scramble sw-premium-trigger="scroll">SW ENGINE</p></div>
+                    <div class="txt-info"><h4>Scramble — padrão</h4>
+                        <div class="txt-code">sw-premium-scramble<br>sw-premium-trigger=<span class="tag">"scroll"</span></div></div>
                 </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<p sw-premium-scramble sw-premium-scramble-chars="01" sw-premium-trigger="scroll">MATRIX MODE</p>
-</script></pre>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="scramble-text" sw-premium-scramble sw-premium-scramble-speed="3" sw-premium-duration="2" sw-premium-trigger="scroll">VELOCIDADE 3X</p></div>
+                    <div class="txt-info"><h4>Scramble — rápido (speed: 3)</h4>
+                        <div class="txt-code">sw-premium-scramble-speed=<span class="tag">"3"</span><br>sw-premium-duration=<span class="tag">"2"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="scramble-text" style="font-size:1.4rem" sw-premium-scramble sw-premium-scramble-chars="01" sw-premium-scramble-speed="4" sw-premium-trigger="scroll">MATRIX MODE</p></div>
+                    <div class="txt-info"><h4>Scramble — chars binários (01)</h4>
+                        <div class="txt-code">sw-premium-scramble-chars=<span class="tag">"01"</span><br>sw-premium-scramble-speed=<span class="tag">"4"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="scramble-text" sw-premium-scramble sw-premium-scramble-chars="░▒▓█" sw-premium-duration="2" sw-premium-trigger="scroll">GLITCH EFFECT</p></div>
+                    <div class="txt-info"><h4>Scramble — chars especiais</h4>
+                        <div class="txt-code">sw-premium-scramble-chars=<span class="tag">"░▒▓█"</span><br>sw-premium-duration=<span class="tag">"2"</span></div></div>
+                </div>
             </div>
 
             <!-- TYPEWRITER -->
-            <div class="doc-card sec" id="typewriter">
-                <h3 class="t-m f-bd mb-4">5. <code>sw-premium-typewriter</code></h3>
-                <p class="t-g t-mut mb-4">Digita o texto letra a letra com cursor piscante.</p>
-                <div class="txt-grid">
-                    <div sw-card class="txt-card"><p class="typewriter-text" sw-premium-typewriter
-                            sw-premium-trigger="scroll">Olá, SW.</p></div>
-                    <div sw-card class="txt-card"><p class="typewriter-text" style="font-family:monospace;font-size:1.1rem"
-                            sw-premium-typewriter sw-premium-typewriter-cursor="▌" sw-premium-typewriter-speed="0.06"
-                            sw-premium-trigger="scroll">console.log("sw");</p></div>
-                    <div sw-card class="txt-card"><p class="typewriter-text" sw-premium-typewriter
-                            sw-premium-typewriter-repeat sw-premium-typewriter-pause="1.5" sw-premium-trigger="scroll">Digita, apaga e repete.</p></div>
+            <div class="mb-4 sec" id="typewriter">
+                <h3 class="t-m f-bd mb-1"><code>sw-premium-typewriter</code></h3>
+                <p class="t-g t-mut">Digita o texto letra a letra com cursor piscante. Role pra ativar cada um.</p>
+            </div>
+            <div class="txt-grid mb-6">
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" sw-premium-typewriter sw-premium-trigger="scroll">Olá, SW.</p></div>
+                    <div class="txt-info"><h4>Typewriter — padrão</h4>
+                        <div class="txt-code">sw-premium-typewriter<br>sw-premium-trigger=<span class="tag">"scroll"</span></div></div>
                 </div>
-                <pre swcode="html" class="m-0"><script type="text/plain">
-<p sw-premium-typewriter sw-premium-typewriter-repeat sw-premium-typewriter-pause="1.5">Digita e repete.</p>
-</script></pre>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" sw-premium-typewriter sw-premium-typewriter-speed="0.02" sw-premium-trigger="scroll">Velocidade máxima ativada!</p></div>
+                    <div class="txt-info"><h4>Typewriter — super rápido</h4>
+                        <div class="txt-code">sw-premium-typewriter-speed=<span class="tag">"0.02"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" style="font-family:monospace;font-size:1.3rem" sw-premium-typewriter sw-premium-typewriter-cursor="▌" sw-premium-typewriter-speed="0.06" sw-premium-trigger="scroll">console.log("sw");</p></div>
+                    <div class="txt-info"><h4>Typewriter — cursor bloco + código</h4>
+                        <div class="txt-code">sw-premium-typewriter-cursor=<span class="tag">"▌"</span><br>sw-premium-typewriter-speed=<span class="tag">"0.06"</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" sw-premium-typewriter sw-premium-typewriter-cursor="" sw-premium-typewriter-speed="0.09" sw-premium-trigger="scroll">Sem cursor após digitar.</p></div>
+                    <div class="txt-info"><h4>Typewriter — sem cursor final</h4>
+                        <div class="txt-code">sw-premium-typewriter-cursor=<span class="tag">""</span></div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" sw-premium-typewriter sw-premium-typewriter-repeat sw-premium-trigger="scroll">Digita, apaga e repete.</p></div>
+                    <div class="txt-info"><h4>Typewriter — repeat loop</h4>
+                        <div class="txt-code">sw-premium-typewriter-repeat</div></div>
+                </div>
+                <div class="txt-card">
+                    <div class="txt-preview"><p class="typewriter-text" sw-premium-typewriter sw-premium-typewriter-repeat sw-premium-typewriter-pause="3" sw-premium-typewriter-speed="0.04" sw-premium-typewriter-cursor="▌" sw-premium-trigger="scroll">Pausa longa antes de apagar.</p></div>
+                    <div class="txt-info"><h4>Typewriter — repeat + pausa longa</h4>
+                        <div class="txt-code">sw-premium-typewriter-repeat<br>sw-premium-typewriter-pause=<span class="tag">"3"</span></div></div>
+                </div>
             </div>
 
             <!-- CSS OBRIGATÓRIO -->
-            <div class="warn-box mt-6" id="nota">
+            <div class="warn-box" id="nota">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="16" x2="12" y2="12" />
                     <line x1="12" y1="8" x2="12.01" y2="8" />
                 </svg>
-                <p>
+                <p class="mb-4">
                     <code>sw-premium-split="lines"</code> é auto-suficiente — o motor injeta
-                    <code>overflow:hidden</code> em cada linha. Dois casos exigem CSS da página: (1)
-                    <code>split="chars"</code>/<code>"words"</code> com efeitos que saem da caixa (fade-up etc.) — o
-                    pai precisa de <code>overflow:hidden</code>, senão os caracteres aparecem abaixo do texto antes
-                    de animar; (2) <code>sw-premium-typewriter</code> — o elemento precisa de
-                    <code>min-height</code>, senão o layout ao redor pula enquanto digita.
+                    <code>overflow:hidden</code> em cada linha. Dois casos exigem CSS da página:
                 </p>
+                <div style="display:flex;flex-direction:column;gap:1.2rem">
+                    <div style="background:var(--sw-bg-alt);border-radius:.8rem;padding:1.4rem 1.8rem">
+                        <p class="f-bd mb-1">1. <code>split="chars"</code>/<code>"words"</code> com efeitos que saem
+                            da caixa (fade-up etc.) — o pai precisa de <code>overflow:hidden</code></p>
+                        <p class="t-pp t-mut mb-2">Sem isso, os caracteres ficam visíveis <em>abaixo</em> do texto
+                            antes de animar, causando um flash.</p>
+                        <code class="txt-code" style="display:block">.meu-titulo { overflow: hidden; }</code>
+                    </div>
+                    <div style="background:var(--sw-bg-alt);border-radius:.8rem;padding:1.4rem 1.8rem">
+                        <p class="f-bd mb-1">2. <code>sw-premium-typewriter</code> — o elemento precisa de
+                            <code>min-height</code></p>
+                        <p class="t-pp t-mut mb-2">O texto muda de tamanho enquanto digita. Sem altura mínima, o
+                            conteúdo ao redor se move.</p>
+                        <code class="txt-code" style="display:block">.meu-typewriter { min-height: 1.6em; }</code>
+                    </div>
+                </div>
             </div>
 
         </main>

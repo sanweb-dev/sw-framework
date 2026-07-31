@@ -367,21 +367,21 @@ body {
 }
 
 .d-col.is-secu {
-  background: rgba(62, 87, 113, 0.2);
-  border-color: #557494;
-  color: #a8c2de;
+  background: var(--secu1);
+  border-color: var(--secu7);
+  color: var(--secu7);
 }
 
 .d-col.is-gold {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: #f59e0b;
-  color: #fbbf24;
+  background: var(--amar3);
+  border-color: var(--amar10);
+  color: var(--amar14);
 }
 
 .d-col.is-verd {
-  background: rgba(16, 185, 129, 0.15);
-  border-color: #10b981;
-  color: #34d399;
+  background: var(--verd1);
+  border-color: var(--verd7);
+  color: var(--verd7);
 }
 
 .cont-bar {
@@ -559,7 +559,7 @@ body {
 .demo-wrap {
   background: var(--sw-bg-bas);
   border: 1px solid var(--sw-bor);
-  border-radius: 1.2rem;
+  border-radius: var(--sw-r-m);
   padding: 2.4rem;
   margin-bottom: 1.6rem;
 }

@@ -17,6 +17,12 @@
   --sw-spd-xs:     1.6s;    /* Muito lento */
   --sw-spd-lp:     3s;      /* Loop contínuo */
   --sw-spd-rev:    0.8s;    /* Reveal scroll */
+  /* --sw-delay é setado via JS (SWAjax._applyEffect, sliders de demo) quando um
+     atraso é pedido. Sem um valor padrão aqui, qualquer transition/animation que
+     referencie var(--sw-delay) antes do JS setar fica com valor inválido — e uma
+     declaração de transition inteira com um item inválido vira "initial" (all 0s),
+     não só aquele item, silenciosamente matando a animação inteira. */
+  --sw-delay:      0s;
 
   /* Distâncias */
   --sw-dist:       8rem;
@@ -91,6 +97,12 @@
 .ani-out,   .sw-ani-out   { animation: sw-out   var(--sw-spd) var(--sw-ease)   both; }
 .ani-flip,  .sw-ani-flip  { animation: sw-flip  var(--sw-spd) var(--sw-ease)   both; }
 .ani-drop,  .sw-ani-drop  { animation: sw-drop  var(--sw-spd) var(--sw-spring) both; }
+.ani-soft,  .sw-ani-soft  { animation: sw-soft  var(--sw-spd) var(--sw-ease)   both; }
+.ani-blur,  .sw-ani-blur  { animation: sw-blur  var(--sw-spd) var(--sw-ease)   both; }
+.ani-scale, .sw-ani-scale { animation: sw-scale var(--sw-spd) var(--sw-ease)   both; }
+/* zoom-out reaproveita o keyframe de .sw-ani-out (já é "grande -> normal") — mesmo
+   efeito, só documentado com o nome mais descritivo no catálogo/doc. */
+.ani-zoom-out, .sw-ani-zoom-out { animation: sw-out var(--sw-spd) var(--sw-ease) both; }
 
 /* 2b. TIMED AVANÇADO (Exclusivos) */
 .ani-wipe-l   { animation: sw-wipe-l   var(--sw-spd) var(--sw-sharp)  both; }
@@ -249,6 +261,9 @@
 @keyframes sw-out  { from { opacity: 0; transform: scale(1.14); } to { opacity: 1; transform: scale(1); } }
 @keyframes sw-flip { from { opacity: 0; transform: rotateX(-80deg); } to { opacity: 1; transform: rotateX(0); } }
 @keyframes sw-drop { from { opacity: 0; transform: translateY(calc(-1 * var(--sw-dist))) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes sw-soft  { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sw-blur  { from { opacity: 0; filter: blur(1.2rem); } to { opacity: 1; filter: none; } }
+@keyframes sw-scale { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
 
 /* Wipes */
 @keyframes sw-wipe-l { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }

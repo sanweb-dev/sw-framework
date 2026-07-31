@@ -113,6 +113,21 @@ class View
         return 'R$ ' . number_format((float) $val, 2, ',', '.');
     }
 
+    /* ── CSRF ──────────────────────────────────────────────── */
+
+    /** <meta> no <head> -- e' daqui que o sw-ajax.js (e o cropper) leem o token pra
+     *  mandar automaticamente no header X-CSRF-Token de toda chamada fetch/AJAX */
+    public static function csrfMeta(): string
+    {
+        return '<meta name="csrf-token" content="' . self::e(\SW\Auth\Session::csrf()) . '">';
+    }
+
+    /** Campo oculto pra formulários que fazem POST normal (sem AJAX) */
+    public static function csrfInput(): string
+    {
+        return '<input type="hidden" name="_csrf" value="' . self::e(\SW\Auth\Session::csrf()) . '">';
+    }
+
     /* ── RESOLUÇÃO DE CAMINHO ──────────────────────────────── */
 
     private static function _resolver(string $view): string

@@ -25,6 +25,10 @@ const jsFiles = [
 const mpaFile = path.join(root, 'src', 'js', 'core', 'sw-mpa.js');
 const fxFile = path.join(root, 'src', 'fx', 'sw-fx.js');
 const fxCssFile = path.join(root, 'src', 'fx', 'sw-fx.css');
+// SW2 Navbar: variante rica opcional (utility bar, mega menu, painel-carrossel,
+// hero full-screen), portada de referências reais — fica no complementar, não no núcleo.
+const sw2NavbarCssFile = path.join(root, 'src', 'css', '15-sw2-navbar.css');
+const sw2NavbarJsFile = path.join(root, 'src', 'js', 'modules', 'sw2-navbar.js');
 const iconsSrcDir = path.join(root, 'src', 'icons');
 // Camada opcional sw-fx-premium: motor declarativo GSAP portado do Smooll (sw-premium-*).
 // Bundle separado, nunca concatenado em sw.js/sw-mpa.js/sw-fx.js — zero-dependencia do
@@ -33,6 +37,11 @@ const fxPremiumDir = path.join(root, 'src', 'fx-premium');
 const fxPremiumFiles = ['sw-premium-effects.js', 'sw-premium-split.js', 'sw-premium-svg.js', 'sw-premium-ui.js',
   'sw-premium-cursor.js', 'sw-premium-sections.js', 'sw-premium-router.js', 'sw-premium-core.js']
   .map((file) => path.join(fxPremiumDir, file));
+// Scripts PHP avulsos (sem classe/namespace, ao contrario de src/php/*) -- utilitarios
+// autocontidos que um modulo JS especifico chama direto por URL (ex.: sw-instagram.js
+// -> /dist/sw-instagram.php). Ficam soltos no dist/ (nao dentro de pacotes/*/php/)
+// porque e' assim que o modulo JS os espera por padrao.
+const phpStandaloneDir = path.join(root, 'src', 'php-standalone');
 const vendorGsapDir = path.join(root, 'vendor', 'gsap');
 const vendorGsapFiles = ['gsap.min.js', 'ScrollTrigger.min.js', 'Draggable.min.js', 'Flip.min.js',
   'Observer.min.js', 'MotionPathPlugin.min.js', 'ScrollToPlugin.min.js', 'TextPlugin.min.js']
@@ -255,6 +264,7 @@ function buildPackages() {
     atomicWriteBinary(path.join(complementar, file), fs.readFileSync(path.join(distDir, file)));
   });
   copyDirRecursive(path.join(root, 'src', 'php'), path.join(complementar, 'php'));
+  copyDirRecursive(phpStandaloneDir, path.join(complementar, 'php-standalone'));
   atomicWrite(path.join(complementar, 'LEIA-ME.md'),
     '# SW Framework — Complementar\n\n' +
     '`sw.compl.min.js` reúne tudo que é opcional num arquivo só — nenhuma parte exige as\n' +
@@ -262,7 +272,10 @@ function buildPackages() {
     '- Efeitos nativos leves (scramble, tilt 3D, marquee, magnetismo) — vem do sw-fx.\n' +
     '- Transição suave entre páginas — vem do sw-mpa.\n' +
     '- Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.\n' +
-    '- `php/` — backend PHP (Router, Model, Auth, RBAC...), server-side, carregado à parte no PHP, não no HTML.\n\n' +
+    '- `php/` — backend PHP (Router, Model, Auth, RBAC...), server-side, carregado à parte no PHP, não no HTML.\n' +
+    '- `php-standalone/` — scripts PHP avulsos chamados direto por URL por um módulo JS específico\n' +
+    '  (ex.: `sw-instagram.php`, usado por `sw-instagram.js`). Também fica solto na raiz do `dist/`\n' +
+    '  porque é lá que o módulo JS busca por padrão.\n\n' +
     '`sw.compl.min.css` é obrigatório se você usar `sw-marquee` ou `sw-scrub` do sw-fx —\n' +
     'sem ele os dois ficam sem efeito nenhum (o JS só cria a estrutura/estado, quem desenha\n' +
     'a animação é esse CSS). Os demais efeitos do sw-fx (scramble, split, tilt, magnetismo,\n' +
@@ -275,6 +288,7 @@ function buildPackages() {
   copyDirRecursive(path.join(distDir, 'icons'), path.join(completa, 'icons'));
   copyDirRecursive(path.join(distDir, 'fonts'), path.join(completa, 'fonts'));
   copyDirRecursive(path.join(root, 'src', 'php'), path.join(completa, 'php'));
+  copyDirRecursive(phpStandaloneDir, path.join(completa, 'php-standalone'));
   atomicWrite(path.join(completa, 'LEIA-ME.md'),
     '# SW Framework — Completa\n\n' +
     '`sw.all.min.css` + `sw.all.min.js` = Principal + Complementar já combinados num arquivo\n' +
@@ -296,7 +310,10 @@ function buildFxPremium() {
 
 function main() {
   console.log(`SW Framework ${VERSION} — build iniciado`);
-  assertSourceFiles([...cssFiles, mpaFile, ...jsFiles, fxFile, fxCssFile]);
+  const phpStandaloneFiles = fs.existsSync(phpStandaloneDir)
+    ? fs.readdirSync(phpStandaloneDir).filter((f) => f.endsWith('.php')).map((f) => path.join(phpStandaloneDir, f))
+    : [];
+  assertSourceFiles([...cssFiles, mpaFile, ...jsFiles, fxFile, fxCssFile, sw2NavbarCssFile, sw2NavbarJsFile, ...phpStandaloneFiles]);
   fs.mkdirSync(distDir, { recursive: true });
   fs.mkdirSync(docsDistDir, { recursive: true });
 
@@ -318,6 +335,8 @@ function main() {
   const mpaRaw = fs.readFileSync(mpaFile, 'utf8');
   const fxRaw = fs.readFileSync(fxFile, 'utf8');
   const fxCssRaw = fs.readFileSync(fxCssFile, 'utf8');
+  const sw2NavbarCssRaw = fs.readFileSync(sw2NavbarCssFile, 'utf8');
+  const sw2NavbarJsRaw = fs.readFileSync(sw2NavbarJsFile, 'utf8');
   const css = banner('CSS') + coreCssRaw;
   const js = banner('JavaScript') + coreJsRaw;
   outputs.set('sw.css', css);
@@ -332,8 +351,8 @@ function main() {
   // sw.all.*   — Principal + Complementar juntos.
   // sw.compl.css hoje é só o CSS de apoio do SW-FX (marquee anda, scrub reage à
   // rolagem) — sem ele, [sw-marquee] e [sw-scrub] ficam parados/inertes.
-  const complJsRaw = [fxRaw, mpaRaw, fxPremiumRaw].filter(Boolean).join('\n');
-  const complCssRaw = fxCssRaw;
+  const complJsRaw = [fxRaw, mpaRaw, sw2NavbarJsRaw, fxPremiumRaw].filter(Boolean).join('\n');
+  const complCssRaw = [fxCssRaw, sw2NavbarCssRaw].join('\n');
   const allJsRaw = `${coreJsRaw}\n${complJsRaw}`;
   const allCssRaw = `${coreCssRaw}\n${complCssRaw}`;
 
@@ -363,6 +382,11 @@ function main() {
 
   const icons = buildIcons();
   const fontFiles = buildIconFont();
+  phpStandaloneFiles.forEach((file) => {
+    const raw = fs.readFileSync(file);
+    atomicWriteBinary(path.join(distDir, path.basename(file)), raw);
+    atomicWriteBinary(path.join(docsDistDir, path.basename(file)), raw);
+  });
   buildPackages();
   console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}${fontFiles ? ` + fonte swicons (${fontFiles} arquivos)` : ''} + 3 pacotes (principal/complementar/completa)`);
 }

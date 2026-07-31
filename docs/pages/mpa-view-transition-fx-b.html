@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br" style="scrollbar-gutter: stable;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Transition — Demo de Efeito (B) - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body {
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--fx-accent, var(--sw-pri)) 22%, var(--sw-bg-bas)), var(--sw-bg-bas) 70%);
+        }
+
+        /* Cor e conteúdo mudam sozinhos conforme o estilo ativo (data-sw-mpa-style,
+           gravado por SWMpa.setStyle() antes de navegar) -- página genérica única,
+           sem <style> de efeito duplicado por demo. */
+        html { --fx-accent: var(--sw-pri); }
+        html[data-sw-mpa-style="fade"]   { --fx-accent: #10b981; }
+        html[data-sw-mpa-style="zoom"]   { --fx-accent: #f59e0b; }
+        html[data-sw-mpa-style="circle"] { --fx-accent: #ef4444; }
+        html[data-sw-mpa-style="slide-y"] { --fx-accent: #8b5cf6; }
+
+        .fx-badge { display: none; }
+        html:not([data-sw-mpa-style]) .fx-badge[data-fx="default"],
+        html[data-sw-mpa-style="default"] .fx-badge[data-fx="default"],
+        html[data-sw-mpa-style="fade"] .fx-badge[data-fx="fade"],
+        html[data-sw-mpa-style="zoom"] .fx-badge[data-fx="zoom"],
+        html[data-sw-mpa-style="circle"] .fx-badge[data-fx="circle"],
+        html[data-sw-mpa-style="slide-y"] .fx-badge[data-fx="slide-y"] { display: block; }
+
+        .fx-stage { text-align: center; padding: 4rem 2rem; }
+        .fx-icon {
+            font-size: 9rem; color: var(--fx-accent); line-height: 1;
+            filter: drop-shadow(0 0 3rem color-mix(in srgb, var(--fx-accent) 50%, transparent));
+        }
+        .fx-name { font-size: 3.2rem; font-weight: 800; color: var(--fx-accent); margin: 1rem 0 .4rem; }
+        .fx-page { font-size: 1.6rem; color: var(--sw-txt-mut); margin-bottom: 2.6rem; }
+        .fx-page b { color: var(--sw-txt); font-size: 2.2rem; }
+        .fx-actions { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+        .fx-btn {
+            display: inline-flex; align-items: center; gap: .8rem;
+            padding: 1.4rem 2.6rem; border-radius: var(--sw-r-g); font-size: 1.6rem; font-weight: 700;
+            background: var(--fx-accent); color: #fff; text-decoration: none; border: none;
+        }
+        .fx-btn.is-sec { background: transparent; color: var(--sw-txt-mut); border: 1px solid var(--sw-bor); }
+    </style>
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
+</head>
+
+<body>
+    <div sw-pre>
+        <div class="sw-pre-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="fx-stage">
+        <div class="fx-badge" data-fx="default"><i class="swi swi-arrow-to-right fx-icon"></i></div>
+        <div class="fx-badge" data-fx="fade"><i class="swi swi-show fx-icon"></i></div>
+        <div class="fx-badge" data-fx="zoom"><i class="swi swi-expand fx-icon"></i></div>
+        <div class="fx-badge" data-fx="circle"><i class="swi swi-circle fx-icon"></i></div>
+        <div class="fx-badge" data-fx="slide-y"><i class="swi swi-arrow-to-top fx-icon"></i></div>
+
+        <div class="fx-name">
+            <span class="fx-badge" data-fx="default">Padrão</span>
+            <span class="fx-badge" data-fx="fade">Fade</span>
+            <span class="fx-badge" data-fx="zoom">Zoom</span>
+            <span class="fx-badge" data-fx="circle">Circle</span>
+            <span class="fx-badge" data-fx="slide-y">Slide Vertical</span>
+        </div>
+        <p class="fx-page">Você está na <b>Página B</b></p>
+
+        <div class="fx-actions">
+            <a href="mpa-view-transition-fx-a.html" class="fx-btn">
+                <i class="swi swi-arrow-to-left"></i> Voltar pra Página A
+            </a>
+            <a href="mpa-view-transition.html" class="fx-btn is-sec">
+                <i class="swi swi-arrow-to-left"></i> Hub
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

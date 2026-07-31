@@ -17,22 +17,26 @@ function swPremiumSetupSection(el, config) {
 
   if (base === 'h-scroll')            swPremiumSetupHScroll(el, secs, false);
   else if (base === 'h-scroll-right') swPremiumSetupHScroll(el, secs, true);
-  else                                swPremiumSetupPinned(el, secs, base, typeFor);
+  else                                swPremiumSetupPinned(el, secs, typeFor);
 }
 
 // -- DICIONARIO --------------------------------------------------------------
+// So' "from"/"to" -- o painel de tras nunca anima saida propria (ver
+// swPremiumSetupPinned), entao nao existe mais um "exit" separado por tipo.
 const SWPremiumSectionTypes = {
-  'slide':        { from:{yPercent: 100}, to:{yPercent:0},            exit:{yPercent:-100} },
-  'slide-up':     { from:{yPercent: 100}, to:{yPercent:0},            exit:{yPercent:-100} },
-  'slide-down':   { from:{yPercent:-100}, to:{yPercent:0},            exit:{yPercent: 100} },
-  'slide-left':   { from:{xPercent: 100}, to:{xPercent:0},            exit:{xPercent:-100} },
-  'slide-right':  { from:{xPercent:-100}, to:{xPercent:0},            exit:{xPercent: 100} },
-  'mask':         { from:{clipPath:'circle(0% at 50% 50%)'},           to:{clipPath:'circle(150% at 50% 50%)'} },
-  'zoom':         { from:{scale:0, opacity:0},                         to:{scale:1, opacity:1},    exit:{scale:1.4, opacity:0} },
-  'skew':         { from:{xPercent:100, skewX:12},                     to:{xPercent:0, skewX:0},   exit:{xPercent:-100, skewX:-12} },
+  'slide':        { from:{yPercent: 100}, to:{yPercent:0} },
+  'slide-up':     { from:{yPercent: 100}, to:{yPercent:0} },
+  'slide-down':   { from:{yPercent:-100}, to:{yPercent:0} },
+  'slide-left':   { from:{xPercent: 100}, to:{xPercent:0} },
+  'slide-right':  { from:{xPercent:-100}, to:{xPercent:0} },
+  'mask':         { from:{clipPath:'circle(0% at 50% 50%)'}, to:{clipPath:'circle(150% at 50% 50%)'} },
+  'zoom':         { from:{scale:0, opacity:0}, to:{scale:1, opacity:1} },
+  // xPercent vai alem de 100 (nao so 100) pq o skewX inclina a caixa -- com a
+  // caixa so encostando exatamente na borda (100%), a inclinacao puxa uma ponta
+  // de volta pra dentro da tela e sobra uma fatia triangular visivel na quina.
+  'skew':         { from:{xPercent:140, skewX:12}, to:{xPercent:0, skewX:0} },
   'fold':         { from:{rotationX:-90, transformOrigin:'top center', transformPerspective:900},
-                    to:  {rotationX:  0, transformOrigin:'top center', transformPerspective:900},
-                    exit:{rotationX: 90, transformOrigin:'top center', transformPerspective:900} },
+                    to:  {rotationX:  0, transformOrigin:'top center', transformPerspective:900} },
   'stack':        { from:{yPercent:100}, to:{yPercent:0} },
 };
 
@@ -60,7 +64,7 @@ function swPremiumMeasureHeight(secs, fallback) {
 }
 
 // -- PINNED -- timeline scrubada + ScrollTrigger pin -------------------------
-function swPremiumSetupPinned(wrap, secs, base, typeFor) {
+function swPremiumSetupPinned(wrap, secs, typeFor) {
   const vh = swPremiumMeasureHeight(secs, window.innerHeight);
 
   Object.assign(wrap.style, {
@@ -96,14 +100,15 @@ function swPremiumSetupPinned(wrap, secs, base, typeFor) {
 
     const type  = typeFor(i);
     const props = SWPremiumSectionTypes[type] || SWPremiumSectionTypes['slide-up'];
-    const prev  = secs[i - 1];
     const pos   = i === 1 ? 0 : '>';
 
-    tl.fromTo(sec,  { ...props.from }, { ...props.to,   ease: 'none' }, pos);
-
-    if (base !== 'stack' && props.exit) {
-      tl.fromTo(prev, { ...props.to }, { ...props.exit, ease: 'none' }, '<');
-    }
+    // O painel de tras fica parado -- so' o que esta entrando anima. O "to" de
+    // qualquer efeito ja cobre 100% do painel, entao o de tras e' coberto e
+    // some sozinho quando a entrada termina, sem precisar de saida propria.
+    // Animar os dois ao mesmo tempo (entrada de um + saida do outro, cada um
+    // com o proprio efeito) fazia dois movimentos diferentes aparecerem
+    // sobrepostos por um instante (ex.: "fold" girando por baixo do "mask").
+    tl.fromTo(sec, { ...props.from }, { ...props.to, ease: 'none' }, pos);
   });
 }
 

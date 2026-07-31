@@ -753,6 +753,20 @@ a:focus-visible,
 .pnl-cls::before { transform: translate(-50%, -50%) rotate(45deg); }
 .pnl-cls::after { transform: translate(-50%, -50%) rotate(-45deg); }
 
+/* --- Overlay do painel — .sw-modal já escurece o fundo sozinho (é a própria
+   camada full-screen); .sw-panel é só o drawer, então precisa de uma camada
+   companheira própria pra dar contraste e separação visual da página (senão,
+   em tema claro especialmente, o painel "some" contra o fundo). Criado e
+   controlado via JS em sw-panel.js — clique nele fecha o painel (mesma lógica
+   de "clique fora" que já existia). */
+.sw-panel-ovl {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.sw-panel-ovl.is-active { opacity: 1; visibility: visible; }
+
 /* --- 🖼️ LIGHTBOX (.sw-lightbox-ovl) — galeria em overlay, grupos, legenda, zoom, autoplay --- */
 .sw-lightbox-ovl {
   position: fixed; inset: 0; z-index: 10001;

@@ -470,6 +470,13 @@
   window.SW?.register('SWTrans', SWTrans);
   if (window.SW) window.SW.Trans = SWTrans;
 
+  /* [sw-morph] precisa nomear o elemento (view-transition-name) ANTES do navegador
+   * fechar a árvore de grupos nomeados da transição cross-document — se isso só
+   * acontecer no boot normal (DOMContentLoaded/defer), pode chegar tarde demais e o
+   * Chrome cancela a transição inteira ("Transition was skipped"). pagereveal é o
+   * evento que a spec recomenda pra isso, disparado antes da 1ª pintura da página. */
+  window.addEventListener('pagereveal', () => SWTrans.initMorphs());
+
   /* Page Transition Engine (sw-trans / y2transi) */
   class SWTransi {
     static _ovl = null;
@@ -556,6 +563,10 @@
       `;
       document.body.prepend(ovl);
       SWTransi._ovl = ovl;
+      // Remove a ponte anti-flash inline (se a página tiver uma) -- o overlay de
+      // verdade já está no lugar, cobrindo a tela com a mesma cor, então a troca
+      // é invisível. Sem isso, o body ficaria "visibility:hidden" pra sempre.
+      document.getElementById('sw-trans-bridge')?.remove();
     }
 
     static _applyColor(color) {
@@ -1403,6 +1414,24 @@
 /* SW Framework Panel */
 (function () {
   'use strict';
+
+  // Overlay compartilhado — um só elemento reaproveitado por todos os painéis
+  // (só um painel fica ativo por vez na prática). Criado sob demanda, igual ao
+  // padrão já usado pelo drawer mobile do sw-navbar.
+  function getOverlay() {
+    let ovl = document.querySelector('.sw-panel-ovl');
+    if (!ovl) {
+      ovl = document.createElement('div');
+      ovl.className = 'sw-panel-ovl';
+      document.body.appendChild(ovl);
+      ovl.addEventListener('click', () => {
+        const active = document.querySelector('.sw-panel.is-active');
+        if (active) SWPanel.hide(active);
+      });
+    }
+    return ovl;
+  }
+
   class SWPanel {
     static initAll(root = document) {
       SW.$('[sw-panel-open]', root).forEach((trigger) => {
@@ -1439,6 +1468,7 @@
         if (!panel.contains(event.target) && !trigger?.contains?.(event.target)) SWPanel.hide(panel);
       };
       window.setTimeout(() => document.addEventListener('click', panel._swOutsideClick), 0);
+      getOverlay().classList.add('is-active');
       SW.Overlay.lock();
       window.requestAnimationFrame(() => (panel.querySelector('[autofocus], [sw-panel-close], button, input, select, textarea, a[href]') || panel).focus({ preventScroll: true }));
       SW.emit(panel, 'sw:panel:open');
@@ -1451,6 +1481,7 @@
       panel.setAttribute('aria-hidden', 'true');
       window.removeEventListener('keydown', panel._swKeydown);
       document.removeEventListener('click', panel._swOutsideClick);
+      document.querySelector('.sw-panel-ovl')?.classList.remove('is-active');
       SW.Overlay.unlock();
       panel._swPreviousFocus?.focus?.({ preventScroll: true });
       SW.emit(panel, 'sw:panel:close');
@@ -2291,6 +2322,11 @@
                 fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
                 if (!(body instanceof FormData)) fetchOptions.headers['Content-Type'] = 'application/json';
               }
+              // Toda acao que muda estado agora exige o token CSRF no backend
+              // (Controller::verificarCsrf()) -- manda automatico aqui pra nao
+              // quebrar formulario/botao AJAX nenhum por falta dele.
+              const csrf = document.querySelector('meta[name="csrf-token"]')?.content || window._csrf || '';
+              if (csrf) fetchOptions.headers['X-CSRF-Token'] = csrf;
             }
             const response = await fetch(url.href, fetchOptions);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -2328,7 +2364,11 @@
           // document.startViewTransition() adia o callback pro próximo frame — sem esperar
           // updateCallbackDone, o resto do fluxo (evento done, fim do loading) rodaria antes
           // do conteúdo existir de fato no DOM.
-          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
+          // Quando um sw-ajax-effect é pedido, ele já É a animação de entrada — deixar o
+          // View Transition rodar junto faz as duas animarem o mesmo elemento ao mesmo
+          // tempo (a captura automática de cross-fade do navegador por cima da transição/
+          // animation manual do efeito), o que visualmente parece as duas se misturando.
+          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' || !!effect });
           if (transition?.updateCallbackDone) await transition.updateCallbackDone;
         } else {
           render();
@@ -3767,10 +3807,19 @@
       this.delta = parseInt(el.getAttribute('sw-pagination-delta'), 10) || 2;
       this.ends = el.hasAttribute('sw-pagination-ends');
       this.pages = Math.ceil(this.total / this.per);
-      this._render();
+      // Lista de itens e thumb deslizante são nós persistentes (criados uma vez só)
+      // -- só o CONTEÚDO da lista é substituído a cada render, nunca a lista em si,
+      // senão o thumb seria destruído junto e perderia a posição de partida da animação.
+      this.list = document.createElement('div');
+      this.list.className = 'sw-pagination-list';
+      this.thumb = document.createElement('div');
+      this.thumb.className = 'sw-pagination-thumb';
+      this.el.appendChild(this.thumb);
+      this.el.appendChild(this.list);
+      this._render(true);
     }
 
-    _render() {
+    _render(first) {
       const { cur, pages } = this;
       const items = [];
       if (this.ends) items.push({ label: '&#171;', page: 1, cls: `is-arr${cur === 1 ? ' is-dis' : ''}` });
@@ -3787,15 +3836,39 @@
       items.push({ label: '&#8250;', page: cur + 1, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
       if (this.ends) items.push({ label: '&#187;', page: pages, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
 
-      this.el.innerHTML = items.map((it) => {
+      this.list.innerHTML = items.map((it) => {
         if (it.cls === 'is-sep') return `<span class="sw-pagination-it is-sep">${it.label}</span>`;
         return `<a class="sw-pagination-it ${it.cls || ''}" data-page="${it.page || ''}" role="button" tabindex="0">${it.label}</a>`;
       }).join('');
 
-      this.el.querySelectorAll('.sw-pagination-it[data-page]').forEach((a) => {
+      this.list.querySelectorAll('.sw-pagination-it[data-page]').forEach((a) => {
         a.addEventListener('click', () => this._go(parseInt(a.getAttribute('data-page'), 10)));
         a.addEventListener('keydown', (event) => { if (event.key === 'Enter') this._go(parseInt(a.getAttribute('data-page'), 10)); });
       });
+
+      this._moveThumb(first);
+    }
+
+    _moveThumb(first) {
+      const act = this.list.querySelector('.sw-pagination-it.is-act');
+      if (!act) { this.thumb.style.width = '0'; return; }
+      // translateY também, não só translateX -- com flex-wrap, itens podem cair pra
+      // uma segunda linha em telas estreitas, e o thumb precisa acompanhar ali também.
+      const x = act.offsetLeft;
+      const y = act.offsetTop;
+      const w = act.offsetWidth;
+      if (first) {
+        // Sem transição no primeiro posicionamento -- senão desliza do canto 0,0
+        // até a página atual assim que a página carrega, um "flash" indesejado.
+        this.thumb.style.transition = 'none';
+        this.thumb.style.transform = `translate(${x}px, ${y}px)`;
+        this.thumb.style.width = `${w}px`;
+        void this.thumb.offsetWidth;
+        this.thumb.style.transition = '';
+      } else {
+        this.thumb.style.transform = `translate(${x}px, ${y}px)`;
+        this.thumb.style.width = `${w}px`;
+      }
     }
 
     _range(start, end) {
@@ -3824,6 +3897,12 @@
       });
     }
   }
+
+  // Reposiciona o thumb de todas as paginações no resize -- flex-wrap pode mudar
+  // quantas linhas os itens ocupam quando a largura da janela muda.
+  window.addEventListener('resize', () => {
+    SW.$('[sw-pagination]').forEach((el) => el._swPagination?._moveThumb(true));
+  }, { passive: true });
 
   window.SW?.register('SWPagination', SWPagination);
   if (window.SW) window.SW.Pagination = SWPagination;
@@ -4982,13 +5061,23 @@
     return window;
   }
 
+  // Histerese: liga em [threshold], só desliga bem abaixo dele (metade do valor).
+  // Sem isso, encolher a navbar muda a altura do conteúdo acima da posição atual
+  // de rolagem — o navegador reajusta o scroll pra compensar (scroll anchoring),
+  // o que pode cruzar o limiar de novo e entrar num loop de ligar/desligar sem fim
+  // (a navbar "treme") bem perto do ponto de troca. Faixa morta resolve.
   function initScrollShrink(nav) {
     const mode = nav.getAttribute('sw-navbar-mode');
     if (mode !== 'fixed' && mode !== 'sticky') return;
     const threshold = Number(nav.getAttribute('sw-navbar-shrink-at')) || 40;
+    const releaseAt = threshold / 2;
     const scroller = findScrollParent(nav);
     const getY = () => (scroller === window ? window.scrollY : scroller.scrollTop);
-    const update = () => nav.toggleAttribute('scrolled', getY() > threshold);
+    const update = () => {
+      const y = getY();
+      if (y > threshold) nav.setAttribute('scrolled', '');
+      else if (y < releaseAt) nav.removeAttribute('scrolled');
+    };
     update();
     scroller.addEventListener('scroll', update, { passive: true });
   }

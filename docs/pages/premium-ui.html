@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Premium — UI Interativa - SW Docs</title>
-    <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <script src="../layout/header.js" defer></script>
     <script src="../layout/sidebar.js" defer></script>
     <style>
@@ -105,6 +105,16 @@
             height: 22rem;
             border-radius: var(--sw-r-g, 8px);
             overflow: hidden;
+        }
+        #observerDemo [sw-premium-observer-section] {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            height: 100%;
+            text-align: center;
+            color: #fff;
         }
 
         .obs-section {

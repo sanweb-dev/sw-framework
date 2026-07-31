@@ -470,6 +470,13 @@
   window.SW?.register('SWTrans', SWTrans);
   if (window.SW) window.SW.Trans = SWTrans;
 
+  /* [sw-morph] precisa nomear o elemento (view-transition-name) ANTES do navegador
+   * fechar a árvore de grupos nomeados da transição cross-document — se isso só
+   * acontecer no boot normal (DOMContentLoaded/defer), pode chegar tarde demais e o
+   * Chrome cancela a transição inteira ("Transition was skipped"). pagereveal é o
+   * evento que a spec recomenda pra isso, disparado antes da 1ª pintura da página. */
+  window.addEventListener('pagereveal', () => SWTrans.initMorphs());
+
   /* Page Transition Engine (sw-trans / y2transi) */
   class SWTransi {
     static _ovl = null;
@@ -556,6 +563,10 @@
       `;
       document.body.prepend(ovl);
       SWTransi._ovl = ovl;
+      // Remove a ponte anti-flash inline (se a página tiver uma) -- o overlay de
+      // verdade já está no lugar, cobrindo a tela com a mesma cor, então a troca
+      // é invisível. Sem isso, o body ficaria "visibility:hidden" pra sempre.
+      document.getElementById('sw-trans-bridge')?.remove();
     }
 
     static _applyColor(color) {
@@ -1403,6 +1414,24 @@
 /* SW Framework Panel */
 (function () {
   'use strict';
+
+  // Overlay compartilhado — um só elemento reaproveitado por todos os painéis
+  // (só um painel fica ativo por vez na prática). Criado sob demanda, igual ao
+  // padrão já usado pelo drawer mobile do sw-navbar.
+  function getOverlay() {
+    let ovl = document.querySelector('.sw-panel-ovl');
+    if (!ovl) {
+      ovl = document.createElement('div');
+      ovl.className = 'sw-panel-ovl';
+      document.body.appendChild(ovl);
+      ovl.addEventListener('click', () => {
+        const active = document.querySelector('.sw-panel.is-active');
+        if (active) SWPanel.hide(active);
+      });
+    }
+    return ovl;
+  }
+
   class SWPanel {
     static initAll(root = document) {
       SW.$('[sw-panel-open]', root).forEach((trigger) => {
@@ -1439,6 +1468,7 @@
         if (!panel.contains(event.target) && !trigger?.contains?.(event.target)) SWPanel.hide(panel);
       };
       window.setTimeout(() => document.addEventListener('click', panel._swOutsideClick), 0);
+      getOverlay().classList.add('is-active');
       SW.Overlay.lock();
       window.requestAnimationFrame(() => (panel.querySelector('[autofocus], [sw-panel-close], button, input, select, textarea, a[href]') || panel).focus({ preventScroll: true }));
       SW.emit(panel, 'sw:panel:open');
@@ -1451,6 +1481,7 @@
       panel.setAttribute('aria-hidden', 'true');
       window.removeEventListener('keydown', panel._swKeydown);
       document.removeEventListener('click', panel._swOutsideClick);
+      document.querySelector('.sw-panel-ovl')?.classList.remove('is-active');
       SW.Overlay.unlock();
       panel._swPreviousFocus?.focus?.({ preventScroll: true });
       SW.emit(panel, 'sw:panel:close');
@@ -2291,6 +2322,11 @@
                 fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
                 if (!(body instanceof FormData)) fetchOptions.headers['Content-Type'] = 'application/json';
               }
+              // Toda acao que muda estado agora exige o token CSRF no backend
+              // (Controller::verificarCsrf()) -- manda automatico aqui pra nao
+              // quebrar formulario/botao AJAX nenhum por falta dele.
+              const csrf = document.querySelector('meta[name="csrf-token"]')?.content || window._csrf || '';
+              if (csrf) fetchOptions.headers['X-CSRF-Token'] = csrf;
             }
             const response = await fetch(url.href, fetchOptions);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -2328,7 +2364,11 @@
           // document.startViewTransition() adia o callback pro próximo frame — sem esperar
           // updateCallbackDone, o resto do fluxo (evento done, fim do loading) rodaria antes
           // do conteúdo existir de fato no DOM.
-          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
+          // Quando um sw-ajax-effect é pedido, ele já É a animação de entrada — deixar o
+          // View Transition rodar junto faz as duas animarem o mesmo elemento ao mesmo
+          // tempo (a captura automática de cross-fade do navegador por cima da transição/
+          // animation manual do efeito), o que visualmente parece as duas se misturando.
+          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' || !!effect });
           if (transition?.updateCallbackDone) await transition.updateCallbackDone;
         } else {
           render();
@@ -3767,10 +3807,19 @@
       this.delta = parseInt(el.getAttribute('sw-pagination-delta'), 10) || 2;
       this.ends = el.hasAttribute('sw-pagination-ends');
       this.pages = Math.ceil(this.total / this.per);
-      this._render();
+      // Lista de itens e thumb deslizante são nós persistentes (criados uma vez só)
+      // -- só o CONTEÚDO da lista é substituído a cada render, nunca a lista em si,
+      // senão o thumb seria destruído junto e perderia a posição de partida da animação.
+      this.list = document.createElement('div');
+      this.list.className = 'sw-pagination-list';
+      this.thumb = document.createElement('div');
+      this.thumb.className = 'sw-pagination-thumb';
+      this.el.appendChild(this.thumb);
+      this.el.appendChild(this.list);
+      this._render(true);
     }
 
-    _render() {
+    _render(first) {
       const { cur, pages } = this;
       const items = [];
       if (this.ends) items.push({ label: '&#171;', page: 1, cls: `is-arr${cur === 1 ? ' is-dis' : ''}` });
@@ -3787,15 +3836,39 @@
       items.push({ label: '&#8250;', page: cur + 1, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
       if (this.ends) items.push({ label: '&#187;', page: pages, cls: `is-arr${cur === pages ? ' is-dis' : ''}` });
 
-      this.el.innerHTML = items.map((it) => {
+      this.list.innerHTML = items.map((it) => {
         if (it.cls === 'is-sep') return `<span class="sw-pagination-it is-sep">${it.label}</span>`;
         return `<a class="sw-pagination-it ${it.cls || ''}" data-page="${it.page || ''}" role="button" tabindex="0">${it.label}</a>`;
       }).join('');
 
-      this.el.querySelectorAll('.sw-pagination-it[data-page]').forEach((a) => {
+      this.list.querySelectorAll('.sw-pagination-it[data-page]').forEach((a) => {
         a.addEventListener('click', () => this._go(parseInt(a.getAttribute('data-page'), 10)));
         a.addEventListener('keydown', (event) => { if (event.key === 'Enter') this._go(parseInt(a.getAttribute('data-page'), 10)); });
       });
+
+      this._moveThumb(first);
+    }
+
+    _moveThumb(first) {
+      const act = this.list.querySelector('.sw-pagination-it.is-act');
+      if (!act) { this.thumb.style.width = '0'; return; }
+      // translateY também, não só translateX -- com flex-wrap, itens podem cair pra
+      // uma segunda linha em telas estreitas, e o thumb precisa acompanhar ali também.
+      const x = act.offsetLeft;
+      const y = act.offsetTop;
+      const w = act.offsetWidth;
+      if (first) {
+        // Sem transição no primeiro posicionamento -- senão desliza do canto 0,0
+        // até a página atual assim que a página carrega, um "flash" indesejado.
+        this.thumb.style.transition = 'none';
+        this.thumb.style.transform = `translate(${x}px, ${y}px)`;
+        this.thumb.style.width = `${w}px`;
+        void this.thumb.offsetWidth;
+        this.thumb.style.transition = '';
+      } else {
+        this.thumb.style.transform = `translate(${x}px, ${y}px)`;
+        this.thumb.style.width = `${w}px`;
+      }
     }
 
     _range(start, end) {
@@ -3824,6 +3897,12 @@
       });
     }
   }
+
+  // Reposiciona o thumb de todas as paginações no resize -- flex-wrap pode mudar
+  // quantas linhas os itens ocupam quando a largura da janela muda.
+  window.addEventListener('resize', () => {
+    SW.$('[sw-pagination]').forEach((el) => el._swPagination?._moveThumb(true));
+  }, { passive: true });
 
   window.SW?.register('SWPagination', SWPagination);
   if (window.SW) window.SW.Pagination = SWPagination;
@@ -4982,13 +5061,23 @@
     return window;
   }
 
+  // Histerese: liga em [threshold], só desliga bem abaixo dele (metade do valor).
+  // Sem isso, encolher a navbar muda a altura do conteúdo acima da posição atual
+  // de rolagem — o navegador reajusta o scroll pra compensar (scroll anchoring),
+  // o que pode cruzar o limiar de novo e entrar num loop de ligar/desligar sem fim
+  // (a navbar "treme") bem perto do ponto de troca. Faixa morta resolve.
   function initScrollShrink(nav) {
     const mode = nav.getAttribute('sw-navbar-mode');
     if (mode !== 'fixed' && mode !== 'sticky') return;
     const threshold = Number(nav.getAttribute('sw-navbar-shrink-at')) || 40;
+    const releaseAt = threshold / 2;
     const scroller = findScrollParent(nav);
     const getY = () => (scroller === window ? window.scrollY : scroller.scrollTop);
-    const update = () => nav.toggleAttribute('scrolled', getY() > threshold);
+    const update = () => {
+      const y = getY();
+      if (y > threshold) nav.setAttribute('scrolled', '');
+      else if (y < releaseAt) nav.removeAttribute('scrolled');
+    };
     update();
     scroller.addEventListener('scroll', update, { passive: true });
   }
@@ -6899,6 +6988,125 @@
   });
 })(window, document);
 
+/* SW2 Navbar — camada opcional, rica, shipada em sw.compl.min.js.
+   Base: <nav sw2-navbar> · Menu: [sw2-navbar-mn] > [sw2-navbar-it]
+   Dropdown/Mega menu: [sw2-navbar-it][sw2-navbar-drop] + [sw2-navbar-drop-mn]
+   Toggle mobile: [sw2-navbar-tgl] · Painel-carrossel: [sw2-navbar-panel-arr] */
+(function () {
+  'use strict';
+
+  function getOverlay(nav) {
+    if (nav._sw2Ovl) return nav._sw2Ovl;
+    const ovl = document.createElement('div');
+    ovl.setAttribute('sw2-navbar-ovl', '');
+    document.body.appendChild(ovl);
+    ovl.addEventListener('click', () => setOpen(nav, false));
+    nav._sw2Ovl = ovl;
+    return ovl;
+  }
+
+  function setOpen(nav, open) {
+    nav.toggleAttribute('open', open);
+    getOverlay(nav).toggleAttribute('vis', open);
+  }
+
+  function initToggle(nav) {
+    const btn = nav.querySelector('[sw2-navbar-tgl]');
+    if (!btn || btn._sw2Tgl) return;
+    btn._sw2Tgl = true;
+    btn.addEventListener('click', () => setOpen(nav, !nav.hasAttribute('open')));
+  }
+
+  function closeAllDrops(nav) {
+    SW.$('[sw2-navbar-it][open]', nav).forEach((it) => it.removeAttribute('open'));
+    SW.$('[sw2-navbar-drop-it][has-sub][open]', nav).forEach((it) => it.removeAttribute('open'));
+  }
+
+  function initDropdowns(nav) {
+    SW.$('[sw2-navbar-it][sw2-navbar-drop]', nav).forEach((trigger) => {
+      if (trigger._sw2Drop) return;
+      trigger._sw2Drop = true;
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        const isOpen = trigger.hasAttribute('open');
+        closeAllDrops(nav);
+        trigger.toggleAttribute('open', !isOpen);
+      });
+    });
+
+    // Submenu de nível 3 — gatilho é <div> (não <a>), clicável, capaz de conter
+    // o [sw2-navbar-drop-sub] como filho direto sem aninhar <a> em <a>.
+    SW.$('[sw2-navbar-drop-it][has-sub]', nav).forEach((trigger) => {
+      if (trigger._sw2Sub) return;
+      trigger._sw2Sub = true;
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const isOpen = trigger.hasAttribute('open');
+        SW.$('[sw2-navbar-drop-it][has-sub][open]', nav).forEach((it) => { if (it !== trigger) it.removeAttribute('open'); });
+        trigger.toggleAttribute('open', !isOpen);
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (nav.contains(event.target)) return;
+      closeAllDrops(nav);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      closeAllDrops(nav);
+      setOpen(nav, false);
+    });
+  }
+
+  // Clique num item de navegação (sem dropdown) marca ativo e fecha o drawer mobile
+  function initActiveAndMobileClose(nav) {
+    SW.$('[sw2-navbar-mn]', nav).forEach((mn) => {
+      if (mn._sw2Act) return;
+      mn._sw2Act = true;
+      mn.addEventListener('click', (event) => {
+        const it = event.target.closest('[sw2-navbar-it]');
+        if (!it || it.hasAttribute('sw2-navbar-drop') || !mn.contains(it)) return;
+        SW.$('[sw2-navbar-it][act]', mn).forEach((el) => el.removeAttribute('act'));
+        it.setAttribute('act', '');
+        setOpen(nav, false);
+      });
+    });
+  }
+
+  // Painel-carrossel de categorias — setas avançam/recuam um cartão por vez.
+  // [sw2-navbar-panel] é IRMÃO do <nav>, não filho — por isso procura a partir
+  // da raiz inteira (root), não escopado a um nav específico.
+  function initPanelCarousel(root) {
+    SW.$('[sw2-navbar-panel]', root).forEach((panel) => {
+      if (panel._sw2Panel) return;
+      panel._sw2Panel = true;
+      const track = panel.querySelector('[sw2-navbar-panel-cards]');
+      const [prev, next] = panel.querySelectorAll('[sw2-navbar-panel-arr]');
+      if (!track) return;
+      const step = () => (track.querySelector('[sw2-navbar-cat-card]')?.offsetWidth || 240) + 32;
+      prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    });
+  }
+
+  const SW2Navbar = {
+    initAll(root = document) {
+      SW.$('[sw2-navbar]', root).forEach((nav) => {
+        if (nav._sw2Navbar) return;
+        nav._sw2Navbar = true;
+        initToggle(nav);
+        initDropdowns(nav);
+        initActiveAndMobileClose(nav);
+      });
+      initPanelCarousel(root);
+    }
+  };
+
+  window.SW?.register('SW2Navbar', SW2Navbar);
+  if (window.SW) window.SW.Navbar2 = SW2Navbar;
+})();
+
 /*!
  * GSAP 3.12.2
  * https://greensock.com
@@ -7524,12 +7732,19 @@ function swPremiumSetupMagnetic(core, el, config) {
 function swPremiumSetupCursor(core, el, config) {
   if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return;
 
+  // "replace" = some o cursor nativo, o elemento VIRA o cursor (comportamento original).
+  // "follow"  = cursor nativo continua visivel, o elemento so acompanha do lado, com
+  // atraso -- bom pra logo/mascote/svg seguindo o mouse sem sumir a setinha normal.
+  const isFollow = config.cursorMode === 'follow';
+  const size = config.cursorSize;
+
   if (!document.getElementById('sw-premium-cursor-css')) {
     const s = document.createElement('style');
     s.id = 'sw-premium-cursor-css';
     s.textContent =
-      '.sw-premium-cursor{position:fixed;pointer-events:none;z-index:99999;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:difference;background:#fff;width:10px;height:10px;transition:width .25s,height .25s}' +
-      '.sw-premium-cursor.hover{width:36px;height:36px}';
+      '.sw-premium-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:difference;background:#fff;width:10px;height:10px;transition:width .25s,height .25s}' +
+      '.sw-premium-cursor.hover{width:36px;height:36px}' +
+      '.sw-premium-cursor.is-follow{mix-blend-mode:normal}';
     document.head.appendChild(s);
   }
 
@@ -7537,37 +7752,34 @@ function swPremiumSetupCursor(core, el, config) {
   const cur = document.createElement('div');
   cur.className = 'sw-premium-cursor';
 
-  if (img) {
+  if (img || isFollow) {
+    cur.classList.add('is-follow');
     Object.assign(cur.style, {
-      backgroundImage:    'url(' + img + ')',
+      backgroundImage:    img ? 'url(' + img + ')' : '',
       backgroundSize:     'contain',
       backgroundRepeat:   'no-repeat',
       backgroundPosition: 'center',
       backgroundColor:    'transparent',
       borderRadius:       '0',
-      mixBlendMode:       'normal',
-      width:              '36px',
-      height:             '36px',
+      width:              size + 'px',
+      height:             size + 'px',
     });
   }
 
   document.body.appendChild(cur);
-  document.body.style.cursor = 'none';
+  if (!isFollow) document.body.style.cursor = 'none';
 
-  let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty;
-  let rafId, running = true;
-
-  function onMove(e) { tx = e.clientX; ty = e.clientY; }
+  // Segue via gsap.to() (nao um loop manual de lerp) pra poder usar QUALQUER ease
+  // do GSAP no arrasto -- inclusive "elastic.out(1, 0.3)" pra um efeito de mola/
+  // atraso elastico de verdade, nao só uma interpolação linear suavizada.
+  gsap.set(cur, { xPercent: -50, yPercent: -50, x: innerWidth / 2, y: innerHeight / 2 });
+  function onMove(e) {
+    gsap.to(cur, {
+      x: e.clientX, y: e.clientY,
+      duration: config.cursorDelay, ease: config.cursorEase, overwrite: 'auto',
+    });
+  }
   document.addEventListener('mousemove', onMove);
-
-  (function loop() {
-    if (!running) return;
-    cx += (tx - cx) * .16;
-    cy += (ty - cy) * .16;
-    cur.style.left = cx + 'px';
-    cur.style.top  = cy + 'px';
-    rafId = requestAnimationFrame(loop);
-  })();
 
   // Delegacao -- funciona com conteudo carregado via PJAX
   function onEnter(e) { if (e.target.closest('a, button, [sw-premium-magnetic]')) cur.classList.add('hover'); }
@@ -7577,8 +7789,6 @@ function swPremiumSetupCursor(core, el, config) {
 
   core._cleanups = core._cleanups || [];
   core._cleanups.push(() => {
-    running = false;
-    cancelAnimationFrame(rafId);
     document.removeEventListener('mousemove', onMove);
     document.body.removeEventListener('mouseenter', onEnter, true);
     document.body.removeEventListener('mouseleave', onLeave, true);
@@ -7628,13 +7838,19 @@ function swPremiumSetupMarquee(core, el, config) {
   const origin = el.firstElementChild;
   if (!origin) return;
 
-  // wrapper flex que segura as copias
+  // wrapper flex que segura as copias -- precisa do MESMO gap que o origin já usa
+  // entre os próprios itens, senão a costura entre uma cópia e a próxima fica sem
+  // espaço nenhum (0px) enquanto o resto do texto respeita o gap normal, e a
+  // repetição "quebra" visualmente bem na emenda de cada cópia.
+  const originGap = getComputedStyle(origin).columnGap;
+  const gapPx = (originGap && originGap !== 'normal') ? (parseFloat(originGap) || 0) : 0;
   const rail = document.createElement('div');
   Object.assign(rail.style, {
     display:    'flex',
     alignItems: 'center',
     willChange: 'transform',
     position:   'relative',
+    gap:        `${gapPx}px`,
   });
 
   Object.assign(el.style, {
@@ -7653,15 +7869,19 @@ function swPremiumSetupMarquee(core, el, config) {
     item.style.flexShrink = '0';
     rail.appendChild(item);
 
-    const w = item.offsetWidth;
-    if (!w) {
+    const itemW = item.offsetWidth;
+    if (!itemW) {
       rail.removeChild(item);
       requestAnimationFrame(init);
       return;
     }
+    // distancia real do inicio de uma copia ate o inicio da proxima -- inclui o
+    // gap do rail, senao a reciclagem dispara cedo demais e reintroduz a mesma
+    // quebra que o gap do rail acabou de corrigir.
+    const step = itemW + gapPx;
 
     // clones suficientes para cobrir viewport * 2 + 1 extra de seguranca
-    const copies = Math.ceil((window.innerWidth * 2) / w) + 2;
+    const copies = Math.ceil((window.innerWidth * 2) / step) + 2;
     for (let i = 1; i < copies; i++) {
       const c = origin.cloneNode(true);
       c.style.flexShrink = '0';
@@ -7670,17 +7890,17 @@ function swPremiumSetupMarquee(core, el, config) {
 
     origin.style.display = 'none'; // esconde o original -- rail tem as copias
 
-    let pos = reverse ? -(copies - 1) * w : 0;
+    let pos = reverse ? -(copies - 1) * step : 0;
 
     tickerFn = () => {
       pos += reverse ? speed / 60 : -(speed / 60);
 
       // recicla: puxa o 1o filho para o fim (esquerda) ou o ultimo para o inicio (direita)
-      if (!reverse && pos <= -w) {
-        pos += w;
+      if (!reverse && pos <= -step) {
+        pos += step;
         rail.appendChild(rail.firstElementChild);
       } else if (reverse && pos >= 0) {
-        pos -= w;
+        pos -= step;
         rail.insertBefore(rail.lastElementChild, rail.firstElementChild);
       }
 
@@ -7721,22 +7941,26 @@ function swPremiumSetupSection(el, config) {
 
   if (base === 'h-scroll')            swPremiumSetupHScroll(el, secs, false);
   else if (base === 'h-scroll-right') swPremiumSetupHScroll(el, secs, true);
-  else                                swPremiumSetupPinned(el, secs, base, typeFor);
+  else                                swPremiumSetupPinned(el, secs, typeFor);
 }
 
 // -- DICIONARIO --------------------------------------------------------------
+// So' "from"/"to" -- o painel de tras nunca anima saida propria (ver
+// swPremiumSetupPinned), entao nao existe mais um "exit" separado por tipo.
 const SWPremiumSectionTypes = {
-  'slide':        { from:{yPercent: 100}, to:{yPercent:0},            exit:{yPercent:-100} },
-  'slide-up':     { from:{yPercent: 100}, to:{yPercent:0},            exit:{yPercent:-100} },
-  'slide-down':   { from:{yPercent:-100}, to:{yPercent:0},            exit:{yPercent: 100} },
-  'slide-left':   { from:{xPercent: 100}, to:{xPercent:0},            exit:{xPercent:-100} },
-  'slide-right':  { from:{xPercent:-100}, to:{xPercent:0},            exit:{xPercent: 100} },
-  'mask':         { from:{clipPath:'circle(0% at 50% 50%)'},           to:{clipPath:'circle(150% at 50% 50%)'} },
-  'zoom':         { from:{scale:0, opacity:0},                         to:{scale:1, opacity:1},    exit:{scale:1.4, opacity:0} },
-  'skew':         { from:{xPercent:100, skewX:12},                     to:{xPercent:0, skewX:0},   exit:{xPercent:-100, skewX:-12} },
+  'slide':        { from:{yPercent: 100}, to:{yPercent:0} },
+  'slide-up':     { from:{yPercent: 100}, to:{yPercent:0} },
+  'slide-down':   { from:{yPercent:-100}, to:{yPercent:0} },
+  'slide-left':   { from:{xPercent: 100}, to:{xPercent:0} },
+  'slide-right':  { from:{xPercent:-100}, to:{xPercent:0} },
+  'mask':         { from:{clipPath:'circle(0% at 50% 50%)'}, to:{clipPath:'circle(150% at 50% 50%)'} },
+  'zoom':         { from:{scale:0, opacity:0}, to:{scale:1, opacity:1} },
+  // xPercent vai alem de 100 (nao so 100) pq o skewX inclina a caixa -- com a
+  // caixa so encostando exatamente na borda (100%), a inclinacao puxa uma ponta
+  // de volta pra dentro da tela e sobra uma fatia triangular visivel na quina.
+  'skew':         { from:{xPercent:140, skewX:12}, to:{xPercent:0, skewX:0} },
   'fold':         { from:{rotationX:-90, transformOrigin:'top center', transformPerspective:900},
-                    to:  {rotationX:  0, transformOrigin:'top center', transformPerspective:900},
-                    exit:{rotationX: 90, transformOrigin:'top center', transformPerspective:900} },
+                    to:  {rotationX:  0, transformOrigin:'top center', transformPerspective:900} },
   'stack':        { from:{yPercent:100}, to:{yPercent:0} },
 };
 
@@ -7764,7 +7988,7 @@ function swPremiumMeasureHeight(secs, fallback) {
 }
 
 // -- PINNED -- timeline scrubada + ScrollTrigger pin -------------------------
-function swPremiumSetupPinned(wrap, secs, base, typeFor) {
+function swPremiumSetupPinned(wrap, secs, typeFor) {
   const vh = swPremiumMeasureHeight(secs, window.innerHeight);
 
   Object.assign(wrap.style, {
@@ -7800,14 +8024,15 @@ function swPremiumSetupPinned(wrap, secs, base, typeFor) {
 
     const type  = typeFor(i);
     const props = SWPremiumSectionTypes[type] || SWPremiumSectionTypes['slide-up'];
-    const prev  = secs[i - 1];
     const pos   = i === 1 ? 0 : '>';
 
-    tl.fromTo(sec,  { ...props.from }, { ...props.to,   ease: 'none' }, pos);
-
-    if (base !== 'stack' && props.exit) {
-      tl.fromTo(prev, { ...props.to }, { ...props.exit, ease: 'none' }, '<');
-    }
+    // O painel de tras fica parado -- so' o que esta entrando anima. O "to" de
+    // qualquer efeito ja cobre 100% do painel, entao o de tras e' coberto e
+    // some sozinho quando a entrada termina, sem precisar de saida propria.
+    // Animar os dois ao mesmo tempo (entrada de um + saida do outro, cada um
+    // com o proprio efeito) fazia dois movimentos diferentes aparecerem
+    // sobrepostos por um instante (ex.: "fold" girando por baixo do "mask").
+    tl.fromTo(sec, { ...props.from }, { ...props.to, ease: 'none' }, pos);
   });
 }
 
@@ -8285,13 +8510,13 @@ class SWPremiumCore {
       return;
     }
 
-    const tweenSettings = this.buildTweenSettings(config);
+    const { from, to } = this.buildTweenSettings(config);
     const target = config.stagger && el.children.length > 0 ? Array.from(el.children) : el;
 
     if (config.trigger === "scroll") {
       const hasScrub = config.scrub !== null && config.scrub !== undefined && config.scrub !== false;
       const pinTarget = config.pin ? (el.closest(config.pin) || el.parentElement) : null;
-      tweenSettings.scrollTrigger = {
+      to.scrollTrigger = {
         trigger: pinTarget || el,
         start: config.start || "top 85%",
         end: config.end || "bottom 20%",
@@ -8302,13 +8527,20 @@ class SWPremiumCore {
       };
 
       if (config.scrollOnce) {
-        tweenSettings.onComplete = function() {
+        to.onComplete = function() {
           if (this.scrollTrigger) this.scrollTrigger.kill(false);
         };
       }
     }
 
-    gsap.from(target, tweenSettings);
+    // fromTo() com valor de repouso EXPLÍCITO, não from() dependendo do valor
+    // computado atual do elemento -- com stagger + ScrollTrigger + immediateRender,
+    // gsap.from() às vezes calcula o "repouso" de x/y/scale/rotation errado (ele
+    // gruda no próprio valor de partida), e a animação fica "presa" ali pra sempre
+    // mesmo reportando progress:1. Opacity nunca pegava esse bug por sorte (repouso
+    // 1 é o default nativo do CSS), mas x/y/scale/rotation precisam do alvo escrito
+    // na mão pra não correr esse risco.
+    gsap.fromTo(target, from, to);
   }
 
   parseConfig(el) {
@@ -8408,6 +8640,10 @@ class SWPremiumCore {
       magneticStrength:parseFloat(el.getAttribute("sw-premium-magnetic-strength") || "0.35"),
       cursor:          el.hasAttribute("sw-premium-cursor"),
       cursorSrc:       el.getAttribute("sw-premium-cursor-img") || "",
+      cursorMode:      el.getAttribute("sw-premium-cursor-mode") || "replace", // "replace" ou "follow"
+      cursorSize:      parseFloat(el.getAttribute("sw-premium-cursor-size") || "36"),
+      cursorEase:      el.getAttribute("sw-premium-cursor-ease") || "power3.out",
+      cursorDelay:     parseFloat(el.getAttribute("sw-premium-cursor-delay") || "0.5"),
       hoverTilt:       el.hasAttribute("sw-premium-hover-tilt"),
       tiltStrength:    parseFloat(el.getAttribute("sw-premium-tilt-strength") || "15"),
       marquee:         el.hasAttribute("sw-premium-marquee"),
@@ -8685,8 +8921,22 @@ class SWPremiumCore {
     if (config.animate === "stretch-x" || config.animate === "stretch-y")
                                           ease = config.ease !== "power3.out" ? config.ease : "power4.out";
 
+    // Valor de repouso de cada propriedade quando a animação termina -- 1 pra
+    // opacity/scale (tamanho e visibilidade normais), 0 pro resto (sem deslocamento/
+    // rotação/inclinação). transformOrigin não anima, só define o pivô, passa direto.
+    const restingValue = {
+      opacity: 1, scale: 1, scaleX: 1, scaleY: 1,
+      x: 0, y: 0, rotation: 0, rotationX: 0, rotationY: 0, rotationZ: 0, skewX: 0, skewY: 0,
+      filter: "blur(0px)", clipPath: "inset(0% 0% 0% 0%)",
+    };
+    const toProps = {};
+    Object.keys(animProps).forEach((key) => {
+      if (key === "transformOrigin") { toProps[key] = animProps[key]; return; }
+      toProps[key] = key in restingValue ? restingValue[key] : 0;
+    });
+
     const t = {
-      ...animProps,
+      ...toProps,
       duration: config.duration,
       delay:    config.delay,
       ease:     ease,
@@ -8695,7 +8945,7 @@ class SWPremiumCore {
     if (config.repeat !== null)       t.repeat    = config.repeat;
     if (config.yoyo)                  t.yoyo      = true;
     if (!(config.scrub || config.trigger === "scroll")) t.clearProps = "all";
-    return t;
+    return { from: animProps, to: t };
   }
 
   ensurePerspective(el, config) {

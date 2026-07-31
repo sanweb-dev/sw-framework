@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Premium — Mouse - SW Docs</title>
-    <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <script src="../layout/header.js" defer></script>
     <script src="../layout/sidebar.js" defer></script>
     <style>
@@ -75,6 +75,56 @@
             background: var(--sw-pri, #3b82f6);
             flex-shrink: 0;
         }
+
+        .marquee-logo {
+            height: 3.4rem;
+            padding: 0 1.6rem;
+            background: var(--sw-bg-sec);
+            border: 1px solid var(--sw-bor);
+            border-radius: .6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            color: var(--sw-txt-mut);
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .cursor-demo-box {
+            position: relative;
+            height: 20rem;
+            border-radius: var(--sw-r-g, 8px);
+            border: 1px solid var(--sw-bor);
+            background: var(--sw-bg-alt);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .cursor-demo-lbl {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.2rem;
+            color: var(--sw-txt-mut);
+            pointer-events: none;
+        }
+
+        .cursor-demo-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4.4rem;
+            height: 4.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            pointer-events: none;
+            will-change: transform;
+        }
     </style>
 </head>
 
@@ -107,10 +157,11 @@
                     <strong>Achado ao portar:</strong> a documentação original do Smooll anuncia
                     <code>sm-cursor-lerp</code>, <code>-size</code>, <code>-color</code>, <code>-mix</code>,
                     <code>-hide-native</code> e <code>-hover</code> (escala por elemento) — mas o código-fonte real de
-                    <code>smoollSetupCursor</code> só implementa o cursor como um ponto branco fixo de 10px→36px no
-                    hover, com <code>mix-blend-mode:difference</code> e lerp 0.16 hardcoded. Portei fielmente o que o
-                    código faz de verdade, não o que a documentação promete — por isso <code>sw-premium-cursor</code>
-                    abaixo só tem os dois atributos reais.
+                    <code>smoollSetupCursor</code> só implementava o cursor como um ponto branco fixo de 10px→36px no
+                    hover, com <code>mix-blend-mode:difference</code> e lerp 0.16 hardcoded. Adicionamos de volta
+                    <code>-size</code>, <code>-ease</code>, <code>-delay</code> e um modo <code>-mode="follow"</code>
+                    (cursor nativo continua visível, a imagem só acompanha do lado) no <code>sw-premium-cursor</code>
+                    do SW — inclusive suporte a "atraso elástico" via qualquer ease do GSAP.
                 </p>
             </div>
 
@@ -129,12 +180,32 @@
                         <tr>
                             <td><code>sw-premium-cursor</code></td>
                             <td>presença</td>
-                            <td>Ativa o cursor customizado (ponto, segue com lerp)</td>
+                            <td>Ativa o cursor customizado (ponto, segue com ease)</td>
                         </tr>
                         <tr>
                             <td><code>sw-premium-cursor-img</code></td>
-                            <td>URL</td>
-                            <td>Troca o ponto por uma imagem 36×36px</td>
+                            <td>URL (svg/png)</td>
+                            <td>Troca o ponto por uma imagem</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor-mode</code></td>
+                            <td>"replace" / "follow"</td>
+                            <td><b>replace</b> (padrão) some o cursor nativo; <b>follow</b> mantém o cursor normal e só faz a imagem acompanhar do lado</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor-size</code></td>
+                            <td>número (px)</td>
+                            <td>Tamanho do ponto/imagem (padrão: 36)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor-ease</code></td>
+                            <td>ease do GSAP</td>
+                            <td>Curva do arrasto — <code>"elastic.out(1, 0.3)"</code> pra atraso com mola/bounce</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-premium-cursor-delay</code></td>
+                            <td>número (s)</td>
+                            <td>Duração do arrasto até alcançar o mouse (padrão: 0.5)</td>
                         </tr>
                         <tr>
                             <td><code>sw-premium-magnetic</code> / <code>-magnetic-strength</code></td>
@@ -210,7 +281,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="demo-wrap" style="overflow:hidden;padding:1.4rem 0">
+                <div class="demo-wrap mb-4" style="overflow:hidden;padding:1.4rem 0">
                     <div sw-premium-marquee sw-premium-marquee-speed="50" sw-premium-marquee-direction="right">
                         <div class="marquee-track t-mut">
                             <span class="marquee-item">SMOOTH TRANSITIONS</span><span class="marquee-dot"
@@ -220,27 +291,99 @@
                         </div>
                     </div>
                 </div>
+                <div class="demo-wrap mb-4" style="overflow:hidden;padding:1.4rem 0">
+                    <div sw-premium-marquee sw-premium-marquee-speed="40">
+                        <div class="marquee-track">
+                            <div class="marquee-logo">GSAP</div>
+                            <div class="marquee-logo">SW FRAMEWORK</div>
+                            <div class="marquee-logo">HTML</div>
+                            <div class="marquee-logo">CSS</div>
+                            <div class="marquee-logo">VANILLA JS</div>
+                            <div class="marquee-logo">ZERO NPM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-wrap" style="overflow:hidden;padding:1.4rem 0">
+                    <div sw-premium-marquee sw-premium-marquee-speed="60" sw-premium-marquee-direction="right">
+                        <div class="marquee-track">
+                            <span class="marquee-item t-pri"><i class="swi swi-flash mr-1"></i>RÁPIDO</span><span class="marquee-dot"></span>
+                            <span class="marquee-item t-pri"><i class="swi swi-shield mr-1"></i>SEGURO</span><span class="marquee-dot"></span>
+                            <span class="marquee-item t-pri"><i class="swi swi-heart mr-1"></i>SIMPLES</span><span class="marquee-dot"></span>
+                        </div>
+                    </div>
+                </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- O primeiro filho vira o "bloco" que se repete -- pode ter quantos
+     itens quiser dentro, não é 1 span só. Aqui: 3 textos + 3 bolinhas. -->
 <div sw-premium-marquee sw-premium-marquee-speed="70">
-  <span>TEXTO</span>
+  <div style="display:flex;gap:2rem;align-items:center">
+    <span>TEXTO 1</span><span>•</span>
+    <span>TEXTO 2</span><span>•</span>
+    <span>TEXTO 3</span><span>•</span>
+  </div>
 </div>
+
+<!-- Reverso: mesma ideia, sentido "right" -->
 <div sw-premium-marquee sw-premium-marquee-direction="right">
-  <span>REVERSO</span>
+  <div style="display:flex;gap:2rem;align-items:center">
+    <span>REVERSO 1</span><span>REVERSO 2</span><span>REVERSO 3</span>
+  </div>
 </div>
 </script></pre>
             </div>
 
             <!-- 4. CURSOR -->
-            <div class="doc-card sec" id="cursor">
+            <div class="doc-card sec mb-6" id="cursor">
                 <h3 class="t-m f-bd mb-4">4. <code>sw-premium-cursor</code> — cursor customizado</h3>
                 <p class="t-g t-mut mb-4">Coloque no <code>&lt;body&gt;</code> ou em qualquer container. Um ponto
-                    branco com <code>mix-blend-mode:difference</code> segue o mouse com lerp suave (0.16, fixo) —
-                    cresce ao passar sobre <code>a</code>, <code>button</code> ou <code>[sw-premium-magnetic]</code>.
-                    Só ativo em ponteiro fino (<code>pointer:fine</code>) — ignorado em touch. Esta página inteira já
-                    está com o cursor ativo.</p>
+                    branco com <code>mix-blend-mode:difference</code> segue o mouse — cresce ao passar sobre
+                    <code>a</code>, <code>button</code> ou <code>[sw-premium-magnetic]</code>. Só ativo em ponteiro
+                    fino (<code>pointer:fine</code>) — ignorado em touch. Esta página inteira já está com o cursor
+                    padrão ativo (o ponto branco que te segue agora).</p>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <body sw-premium-cursor>
-  <!-- cursor customizado ativo em toda a página -->
+  <!-- ponto branco, some o cursor nativo -->
+</body>
+</script></pre>
+            </div>
+
+            <!-- 5. CURSOR IMAGEM + ELASTICO -->
+            <div class="doc-card sec" id="cursor-imagem">
+                <h3 class="t-m f-bd mb-4">5. Imagem seguindo com atraso elástico</h3>
+                <p class="t-g t-mut mb-4">Troque o ponto por um SVG/PNG com <code>-cursor-img</code>, e o ritmo do
+                    arrasto por qualquer ease do GSAP com <code>-cursor-ease</code> — <code>"elastic.out(1, 0.3)"</code>
+                    dá aquele efeito de mola/bounce ao alcançar o mouse. Use <code>-cursor-mode="follow"</code> se
+                    quiser manter o cursor nativo visível e só adicionar a imagem seguindo do lado (ex.: um mascote,
+                    logo ou selo — em vez de substituir a seta por completo).</p>
+                <p class="t-pp t-mut mb-2">Mova o mouse dentro de cada área abaixo pra sentir a diferença de ritmo
+                    (demo isolada nesta caixa — não é o cursor global da página, que continua um ponto simples):</p>
+                <div class="demo-wrap mb-4" style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;padding:0">
+                    <div class="cursor-demo-box" id="cursorDemoNormal">
+                        <span class="cursor-demo-lbl">1. Normal — power3.out (rápido, sem mola)</span>
+                        <div class="cursor-demo-img" id="cursorImgNormal">🔵</div>
+                    </div>
+                    <div class="cursor-demo-box" id="cursorDemoElastic">
+                        <span class="cursor-demo-lbl">2. Elástico — elastic.out(1, 0.2) (mola forte)</span>
+                        <div class="cursor-demo-img" id="cursorImgElastic">🟢</div>
+                    </div>
+                    <div class="cursor-demo-box" id="cursorDemoBig">
+                        <span class="cursor-demo-lbl">3. Imagem maior — elastic.out(1, 0.3)</span>
+                        <div class="cursor-demo-img" id="cursorImgBig" style="width:6.4rem;height:6.4rem;font-size:4rem">🚀</div>
+                    </div>
+                    <div class="cursor-demo-box" id="cursorDemoFollow" style="cursor:auto">
+                        <span class="cursor-demo-lbl">4. Modo follow — seta nativa + selo do lado</span>
+                        <div class="cursor-demo-img" id="cursorImgFollow" style="width:3.2rem;height:3.2rem;font-size:2rem">⭐</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Substitui o cursor por uma imagem, com atraso elástico -->
+<body sw-premium-cursor sw-premium-cursor-img="logo.svg"
+      sw-premium-cursor-ease="elastic.out(1, 0.3)" sw-premium-cursor-delay="0.7">
+</body>
+
+<!-- Mantém o cursor nativo + imagem seguindo do lado (modo follow) -->
+<body sw-premium-cursor sw-premium-cursor-mode="follow" sw-premium-cursor-img="mascote.png"
+      sw-premium-cursor-size="64" sw-premium-cursor-ease="elastic.out(1, 0.35)">
 </body>
 </script></pre>
             </div>
@@ -248,6 +391,48 @@
         </main>
     </div>
     <span sw-premium-cursor style="display:none"></span>
+    <script>
+        // "defer" não tem efeito em <script> inline (só em script com src) -- por
+        // isso este bloco espera DOMContentLoaded na mão, senão roda antes do GSAP
+        // (que vem do sw.compl.min.js, esse sim carregado com defer de verdade).
+        function swPremiumMouseDemoInit() {
+            // O cursor global (seção 4, sempre ativo na página) tem z-index altíssimo
+            // e fica LITERALMENTE por cima da imagem que cada caixa abaixo tenta
+            // mostrar -- as duas coisas competem pelo mesmo espaço na tela. Solução:
+            // sumir com o pontinho global enquanto o mouse está dentro de uma caixa
+            // de demo, devolver ao sair.
+            var globalCursor = document.querySelector('.sw-premium-cursor');
+            function bindFollow(boxId, imgId, ease, duration, offsetX, offsetY) {
+                var box = document.getElementById(boxId);
+                var img = document.getElementById(imgId);
+                if (!box || !img || typeof gsap === 'undefined') return;
+                offsetX = offsetX || 0;
+                offsetY = offsetY || 0;
+                gsap.set(img, { xPercent: -50, yPercent: -50, x: box.clientWidth / 2, y: box.clientHeight / 2 });
+                box.addEventListener('mousemove', function (e) {
+                    var rect = box.getBoundingClientRect();
+                    gsap.to(img, {
+                        x: e.clientX - rect.left + offsetX, y: e.clientY - rect.top + offsetY,
+                        duration: duration, ease: ease, overwrite: 'auto',
+                    });
+                });
+                if (globalCursor) {
+                    box.addEventListener('mouseenter', function () { globalCursor.style.opacity = '0'; });
+                    box.addEventListener('mouseleave', function () { globalCursor.style.opacity = ''; });
+                }
+            }
+            bindFollow('cursorDemoNormal', 'cursorImgNormal', 'power3.out', 0.35);
+            bindFollow('cursorDemoElastic', 'cursorImgElastic', 'elastic.out(1.2, 0.2)', 1.1);
+            bindFollow('cursorDemoBig', 'cursorImgBig', 'elastic.out(1, 0.35)', 0.9);
+            // offset pra imagem nao cobrir a seta nativa -- isso e o "modo follow"
+            bindFollow('cursorDemoFollow', 'cursorImgFollow', 'elastic.out(1, 0.35)', 0.7, 26, 26);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', swPremiumMouseDemoInit);
+        } else {
+            swPremiumMouseDemoInit();
+        }
+    </script>
 </body>
 
 </html>

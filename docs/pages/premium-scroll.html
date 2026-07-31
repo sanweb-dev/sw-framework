@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Premium — Scroll Avançado - SW Docs</title>
-    <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <script src="../layout/header.js" defer></script>
     <script src="../layout/sidebar.js" defer></script>
     <style>
@@ -121,22 +121,26 @@
                         <p class="t-pp t-mut mb-3">sw-premium-scroll-scrub="true" (sem inércia)</p>
                         <div class="demo-wrap" style="height:8rem;display:flex;align-items:center;justify-content:center">
                             <div class="fx-box-sm" sw-premium-animate="fade-left" sw-premium-trigger="scroll"
-                                sw-premium-scroll-scrub="true" sw-premium-scroll-start="top 80%"
-                                sw-premium-scroll-end="top 20%"></div>
+                                sw-premium-scroll-scrub="true" sw-premium-scroll-start="top 40%"
+                                sw-premium-scroll-end="top 5%"></div>
                         </div>
                     </div>
                     <div sw-card style="padding:2rem;text-align:center">
                         <p class="t-pp t-mut mb-3">sw-premium-scroll-scrub="1.5" (com inércia)</p>
                         <div class="demo-wrap" style="height:8rem;display:flex;align-items:center;justify-content:center">
                             <div class="fx-box-sm" sw-premium-animate="fade-right" sw-premium-trigger="scroll"
-                                sw-premium-scroll-scrub="1.5" sw-premium-scroll-start="top 80%"
-                                sw-premium-scroll-end="top 20%"></div>
+                                sw-premium-scroll-scrub="1.5" sw-premium-scroll-start="top 40%"
+                                sw-premium-scroll-end="top 5%"></div>
                         </div>
                     </div>
                 </div>
+                <p class="t-pp t-mut mt-3">Seção logo no topo da página: <code>start</code>/<code>end</code> perto de
+                    100%/0% "gastam" o intervalo de scrub antes mesmo da página carregar (o elemento já nasce quase
+                    no fim do range). Em seções mais abaixo, <code>top 80%</code>/<code>top 20%</code> funciona sem
+                    ajuste.</p>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <div sw-premium-animate="fade-left" sw-premium-trigger="scroll"
-     sw-premium-scroll-scrub="true" sw-premium-scroll-start="top 80%" sw-premium-scroll-end="top 20%">
+     sw-premium-scroll-scrub="true" sw-premium-scroll-start="top 40%" sw-premium-scroll-end="top 5%">
 </div>
 </script></pre>
             </div>
@@ -169,18 +173,19 @@
             <!-- 3. PIN + TIMELINE -->
             <div class="doc-card sec mb-6" id="pin">
                 <h3 class="t-m f-bd mb-4">3. Pin + Timeline — <code>sw-premium-timeline</code></h3>
-                <p class="t-g t-mut mb-4">A seção trava na tela enquanto a caixa cresce com o scroll (via
-                    <code>sw-premium-tl-box</code> + <code>sw-premium-tl-steps</code>). Ao completar, o pin solta.
+                <p class="t-g t-mut mb-4">A seção trava na tela enquanto a caixa segue 3 passos com o scroll (via
+                    <code>sw-premium-tl-box</code> + <code>sw-premium-tl-steps</code>): sai pra esquerda, atravessa
+                    pro lado direito, e volta ao centro girando (pirueta). Ao completar, o pin solta.
                     <strong>Exige altura definida</strong> no wrapper.</p>
                 <div id="pinTimelineArea" sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=150%">
                     <div id="pinTimelineStage" class="demo-wrap">
                         <div id="pinGrowBox" sw-premium-tl-box
-                            sw-premium-tl-steps='[{"scale":0.04,"opacity":0.1},{"scale":1,"opacity":1}]'></div>
+                            sw-premium-tl-steps='[{"x":-220},{"x":220},{"x":0,"rotation":360}]'></div>
                     </div>
                 </div>
                 <pre swcode="html" class="m-0"><script type="text/plain">
 <div sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=150%">
-  <div sw-premium-tl-box sw-premium-tl-steps='[{"scale":0.04},{"scale":1}]'></div>
+  <div sw-premium-tl-box sw-premium-tl-steps='[{"x":-220},{"x":220},{"x":0,"rotation":360}]'></div>
 </div>
 </script></pre>
             </div>

@@ -44,7 +44,12 @@ class Request
         /* Unifica GET + POST + JSON body */
         $json = [];
         if (str_contains($_SERVER['CONTENT_TYPE'] ?? '', 'application/json')) {
-            $json = json_decode($this->corpo, true) ?? [];
+            // Um corpo JSON valido mas que nao e' objeto/array (ex.: `"texto"`,
+            // `123`, `true`) faz json_decode devolver um escalar -- array_merge
+            // com esse escalar como argumento e' TypeError fatal, entao so'
+            // aceita quando realmente decodificou pra array.
+            $decodificado = json_decode($this->corpo, true);
+            $json = is_array($decodificado) ? $decodificado : [];
         }
 
         $this->dados = array_merge($_GET, $_POST, $json);
@@ -161,6 +166,14 @@ class Request
     public function userAgent(): string
     {
         return $_SERVER['HTTP_USER_AGENT'] ?? '';
+    }
+
+    /* ── CSRF ──────────────────────────────────────────────── */
+
+    /** Aceita o token tanto no header (AJAX/fetch) quanto no corpo (form normal) */
+    public function csrfToken(): string
+    {
+        return $this->header('X-CSRF-Token', (string) $this->input('_csrf', ''));
     }
 }
 

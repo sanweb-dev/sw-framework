@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>sw.config.css - Personalização | SW Docs</title>
-  <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
 
     <style>
         .sec { scroll-margin-top: 10rem; }
@@ -210,8 +210,8 @@
                                 <p class="t-g f-bd mb-0" style="color:var(--sw-pri)">CSS ~341kb · JS ~243kb</p>
                             </div>
                             <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.min.css" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.css</a>
-                                <a href="../dist/sw.min.js" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.js</a>
+                                <a href="../dist/sw.min.css?v=8" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.css</a>
+                                <a href="../dist/sw.min.js?v=8" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.js</a>
                                 <a href="../dist/sw.config.css" sw-btn class="sw-btn-pri sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>sw.config.css</a>
                             </div>
                         </div>
@@ -227,8 +227,8 @@
                                 <p class="t-g f-bd mb-0" style="color:var(--sw-suc)">CSS ~1kb · JS ~289kb</p>
                             </div>
                             <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.compl.min.js" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.js</a>
-                                <a href="../dist/sw.compl.min.css" sw-btn class="sw-btn-suc sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.css</a>
+                                <a href="../dist/sw.compl.min.js?v=8" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.js</a>
+                                <a href="../dist/sw.compl.min.css?v=8" sw-btn class="sw-btn-suc sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.css</a>
                             </div>
                         </div>
                     </div>
@@ -243,8 +243,8 @@
                                 <p class="t-g f-bd mb-0" style="color:var(--sw-inf)">CSS ~341kb · JS ~533kb</p>
                             </div>
                             <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.all.min.css" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.css</a>
-                                <a href="../dist/sw.all.min.js" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.js</a>
+                                <a href="../dist/sw.all.min.css?v=8" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.css</a>
+                                <a href="../dist/sw.all.min.js?v=8" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.js</a>
                             </div>
                         </div>
                     </div>
@@ -274,16 +274,16 @@
                 <div class="p-6">
                     <p class="t-p t-mut mb-3"><strong>Essencial</strong> — CSS + Core:</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css">
-<script src="/dist/sw.min.js" defer><\/script></script></pre>
+<link rel="stylesheet" href="/dist/sw.min.css?v=8">
+<script src="/dist/sw.min.js?v=8" defer><\/script></script></pre>
 
                     <p class="t-p t-mut mb-3 mt-5"><strong>Com efeitos e transições</strong> — Complementar (opcional, tudo num arquivo):</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css">
-<script src="/dist/sw.min.js" defer><\/script>
+<link rel="stylesheet" href="/dist/sw.min.css?v=8">
+<script src="/dist/sw.min.js?v=8" defer><\/script>
 
 <!-- Complementar: efeitos + transições + GSAP premium (opcional) -->
-<script src="/dist/sw.compl.min.js" defer><\/script></script></pre>
+<script src="/dist/sw.compl.min.js?v=8" defer><\/script></script></pre>
                     <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-inf) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-inf) 30%,transparent);border-radius:var(--sw-r-g)">
                         <i class="sw-info-circle" style="color:var(--sw-inf);font-size:2rem;flex-shrink:0"></i>
                         <p class="t-p mb-0">O Complementar detecta o Core automaticamente. Carregue sempre o Core primeiro.</p>
@@ -381,11 +381,11 @@
 
                     <p class="t-p t-mut mb-4">No HTML, a ordem importa:</p>
                     <pre swcode="html"><script type="text/plain"><!-- 1. SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css">
-<script src="/dist/sw.min.js" defer><\/script>
+<link rel="stylesheet" href="/dist/sw.min.css?v=8">
+<script src="/dist/sw.min.js?v=8" defer><\/script>
 
 <!-- 2. Complementar (opcional) -->
-<script src="/dist/sw.compl.min.js" defer><\/script>
+<script src="/dist/sw.compl.min.js?v=8" defer><\/script>
 
 <!-- 3. Sua configuração (sempre por último) -->
 <link rel="stylesheet" href="/sw.config.css"></script></pre>

@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Navbar - SW Docs</title>
-    <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <script src="../layout/header.js" defer></script>
     <script src="../layout/sidebar.js" defer></script>
     <style>
@@ -16,6 +16,7 @@
         .nvb-stage {
             height: 32rem;
             overflow-y: auto;
+            overflow-anchor: none;
             position: relative;
             border-radius: var(--sw-r-g);
             border: 1px solid var(--sw-bor);
@@ -29,6 +30,59 @@
 
         .nvb-grad-bg {
             background: linear-gradient(180deg, color-mix(in srgb, var(--sw-pri) 6%, transparent), transparent);
+        }
+
+        /* Demo 2 — o [scrolled] não precisa só encolher a altura: aqui ele também
+           troca o desenho da marca (ícone grande + tagline some, vira compacto). */
+        .nvb-hero-brand { align-items: center; gap: 1.2rem; transition: gap .3s var(--sw-ease); }
+        .nvb-hero-ico { font-size: 3.2rem !important; transition: font-size .3s var(--sw-ease); }
+        .nvb-hero-brand-txt { display: flex; flex-direction: column; gap: .3rem; line-height: 1.1; }
+        .nvb-hero-tagline {
+            font-size: 1.25rem; font-weight: 400; color: var(--sw-txt-mut);
+            max-height: 2rem; opacity: 1; overflow: hidden;
+            transition: max-height .3s var(--sw-ease), opacity .2s var(--sw-ease);
+        }
+        .nvb-hero-btn { transition: padding .3s var(--sw-ease), font-size .3s var(--sw-ease); }
+
+        .nvb-hero-nav[scrolled] .nvb-hero-ico { font-size: 2rem !important; }
+        .nvb-hero-nav[scrolled] .nvb-hero-brand { gap: .8rem; }
+        .nvb-hero-nav[scrolled] .nvb-hero-tagline { max-height: 0; opacity: 0; }
+        .nvb-hero-nav[scrolled] .nvb-hero-btn { padding: .5rem 1.4rem; font-size: 1.2rem; }
+
+        /* Preview de template — fundo próprio (independe do tema claro/escuro do site),
+           overflow visible pra dropdown/mega-menu nunca serem cortados. */
+        .nb-preview {
+            border-radius: var(--sw-r-g);
+            overflow: visible;
+            margin-bottom: 1.2rem;
+            position: relative;
+            border: 1px solid var(--sw-bor);
+        }
+        .nb-preview [sw-navbar] { position: relative; z-index: 10; }
+        .nb-preview-body { padding: 3.2rem 4rem; min-height: 7rem; }
+        .nb-tpl-lbl {
+            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+            color: var(--sw-txt-mut); margin-bottom: .8rem; display: block;
+        }
+
+        /* Template 6 (flat/e-commerce) — zera todo border-radius: dropdown, mega-menu,
+           submenu, badges, botões e barrinhas do hambúrguer. "sem radius, sem frescura". */
+        .nb-flat, .nb-flat [sw-navbar-drop-mn], .nb-flat [sw-navbar-drop-sub],
+        .nb-flat [sw-navbar-it], .nb-flat .sw-btn, .nb-flat .nb-flat-badge {
+            border-radius: 0 !important;
+        }
+        .nb-flat [sw-navbar-tgl] span { border-radius: 0; }
+        .nb-flat-utility {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: .6rem 2.4rem; font-size: 1.15rem; letter-spacing: .03em;
+        }
+        .nb-flat-it {
+            font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+        }
+        .nb-flat-badge {
+            position: absolute; top: -.6rem; right: -.8rem; min-width: 1.6rem; height: 1.6rem;
+            padding: 0 .3rem; background: #e8604c; color: #fff; font-size: 1rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; line-height: 1;
         }
     </style>
 </head>
@@ -93,18 +147,26 @@
                 <p class="t-g t-mut mb-4">
                     <code>sw-navbar-mode="sticky"</code> + <code>sw-navbar-fx="glass"</code>. Role dentro da caixa
                     abaixo — a navbar fica menor, ganha blur e sombra (efeito clássico de navbar flutuante estilo
-                    Material Kit).
+                    Material Kit). Altura normal e encolhida controladas por variável CSS
+                    (<code>--sw-navbar-h</code> / <code>--sw-navbar-h-shrink</code>) — ajuste livre, sem duplicar CSS.
                 </p>
-                <div class="nvb-stage">
-                    <nav sw-navbar sw-navbar-mode="sticky" sw-navbar-fx="glass" sw-navbar-shrink-at="30">
-                        <a href="#" sw-navbar-brand><i class="swi swi-star"></i> Glass Nav</a>
+                <div class="nvb-stage" style="height:44rem">
+                    <nav sw-navbar sw-navbar-mode="sticky" sw-navbar-fx="glass" sw-navbar-shrink-at="30"
+                        class="nvb-hero-nav" style="--sw-navbar-h:13rem; --sw-navbar-h-shrink:5rem">
+                        <a href="#" sw-navbar-brand class="nvb-hero-brand">
+                            <i class="swi swi-star nvb-hero-ico"></i>
+                            <span class="nvb-hero-brand-txt">
+                                Glass Nav
+                                <small class="nvb-hero-tagline">Grande e chamativa — encolhe pra uma barra discreta ao rolar</small>
+                            </span>
+                        </a>
                         <div sw-navbar-mn>
                             <a sw-navbar-it act href="#">Início</a>
                             <a sw-navbar-it href="#">Recursos</a>
                             <a sw-navbar-it href="#">Preços</a>
                         </div>
                         <div sw-navbar-actions>
-                            <button class="sw-btn sw-btn-pri sw-btn-sm" style="border-radius:9999px">Comprar</button>
+                            <button class="sw-btn sw-btn-pri sw-btn-sm nvb-hero-btn" style="border-radius:9999px">Comprar</button>
                         </div>
                         <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
                     </nav>
@@ -410,6 +472,315 @@
 </script></pre>
             </div>
 
+            <!-- 4f. TEMPLATES PRONTOS (todos com dropdown + submenu, mobile funcionando) -->
+            <div class="doc-card sec mb-6" id="templates">
+                <h3 class="t-m f-bd mb-4">4f. Templates Prontos</h3>
+                <p class="t-g t-mut mb-4">
+                    Cinco navbars completas pra copiar — todas com dropdown e pelo menos um submenu aninhado
+                    de verdade (não é só decoração), e todas funcionam igual no mobile: vira o drawer lateral
+                    com accordion. Redimensione a janela pra conferir.
+                </p>
+
+                <span class="nb-tpl-lbl">Template 1 — SaaS Clean</span>
+                <div class="nb-preview" style="background:#fff;border:1px solid #e2e2e2">
+                    <nav sw-navbar sw-navbar-mode="static" style="background:transparent;border-bottom:1px solid #ececec">
+                        <a href="#" sw-navbar-brand style="color:#111;font-weight:800;font-size:1.8rem;letter-spacing:-.02em">◆ Forma</a>
+                        <div sw-navbar-mn align="center">
+                            <a sw-navbar-it act href="#" style="color:#111">Produto</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#" style="color:#444">
+                                    Soluções <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <span sw-navbar-drop-ttl>Por segmento</span>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-briefcase"></i> Empresas</a>
+                                    <div sw-navbar-drop-it has-sub>
+                                        <i class="swi swi-layers"></i>
+                                        <span>Agências</span>
+                                        <div sw-navbar-drop-sub>
+                                            <a sw-navbar-drop-it href="#">White-label</a>
+                                            <a sw-navbar-drop-it href="#">Multi-cliente</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#" style="color:#444">Preços</a>
+                            <a sw-navbar-it href="#" style="color:#444">Blog</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <a href="#" class="sw-btn sw-btn-out sw-btn-pp" style="border-color:#ccc;color:#111">Entrar</a>
+                            <a href="#" class="sw-btn sw-btn-pri sw-btn-pp" style="border-radius:2rem">Começar grátis →</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu" style="filter:none"><span style="background:#111"></span><span style="background:#111"></span><span style="background:#111"></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+
+                <span class="nb-tpl-lbl">Template 2 — Dark Premium</span>
+                <div class="nb-preview" style="background:#0a0a0a">
+                    <nav sw-navbar sw-navbar-mode="static" style="background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,.08)">
+                        <a href="#" sw-navbar-brand style="color:#fff;gap:.7rem">
+                            <span style="width:2.4rem;height:2.4rem;background:linear-gradient(135deg,#a855f7,#3b82f6);border-radius:.6rem;display:inline-block"></span>
+                            Nexus
+                        </a>
+                        <div sw-navbar-mn align="center">
+                            <a sw-navbar-it href="#" style="color:rgba(255,255,255,.55)">Produto</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#" style="color:#fff">
+                                    Plataforma <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn style="background:#151515;border-color:rgba(255,255,255,.08)">
+                                    <a sw-navbar-drop-it href="#" style="color:#eee">
+                                        <i class="swi swi-chip"></i>
+                                        <span><strong>Motor de IA</strong><br><span sw-navbar-drop-desc>Modelos preditivos em tempo real</span></span>
+                                    </a>
+                                    <div sw-navbar-drop-it has-sub style="color:#eee">
+                                        <i class="swi swi-server"></i>
+                                        <span>Infraestrutura</span>
+                                        <div sw-navbar-drop-sub style="background:#151515;border-color:rgba(255,255,255,.08)">
+                                            <a sw-navbar-drop-it href="#" style="color:#eee">Cloud privada</a>
+                                            <a sw-navbar-drop-it href="#" style="color:#eee">On-premise</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#" style="color:rgba(255,255,255,.55)">Empresa</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <a href="#" style="color:rgba(255,255,255,.6);text-decoration:none;font-size:1.35rem">Entrar</a>
+                            <a href="#" class="sw-btn sw-btn-pp" style="background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff;border:none">Começar grátis</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span style="background:#fff"></span><span style="background:#fff"></span><span style="background:#fff"></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+
+                <span class="nb-tpl-lbl">Template 3 — E-commerce (mega menu + conta com submenu)</span>
+                <div class="nb-preview" style="background:#fff;border:1px solid #e2e2e2">
+                    <nav sw-navbar sw-navbar-mode="static" style="background:transparent;border-bottom:1px solid #ececec">
+                        <a href="#" sw-navbar-brand style="color:#e63946;font-weight:800;font-size:1.9rem;letter-spacing:-.02em">MODO</a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#" style="color:#111">Novidades</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#" style="color:#444">
+                                    Departamentos <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn wide>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Feminino</span>
+                                        <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-tag"></i> Roupas</a>
+                                        <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-package"></i> Acessórios</a>
+                                    </div>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Masculino</span>
+                                        <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-tag"></i> Roupas</a>
+                                        <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-package"></i> Acessórios</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#" style="color:#e63946;font-weight:700">Sale</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <i class="swi swi-search" style="font-size:1.8rem;color:#555;cursor:pointer"></i>
+                            <i class="swi swi-heart" style="font-size:1.8rem;color:#555;cursor:pointer"></i>
+                            <i class="swi swi-cart" style="font-size:1.8rem;color:#111;cursor:pointer"></i>
+                            <div sw-navbar-drop-wrap sw-navbar-drop-align="right">
+                                <a sw-navbar-it sw-navbar-drop href="#" style="padding-left:.4rem">
+                                    <span style="width:2.8rem;height:2.8rem;border-radius:50%;background:#e63946;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem">A</span>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <span sw-navbar-drop-ttl>Minha conta</span>
+                                    <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-user"></i> Perfil</a>
+                                    <a sw-navbar-drop-it href="#" style="color:#333"><i class="swi swi-box"></i> Pedidos</a>
+                                    <div sw-navbar-drop-it has-sub sub-align="left" style="color:#333">
+                                        <i class="swi swi-cog"></i>
+                                        <span>Configurações</span>
+                                        <div sw-navbar-drop-sub>
+                                            <a sw-navbar-drop-it href="#" style="color:#333">Endereços</a>
+                                            <a sw-navbar-drop-it href="#" style="color:#333">Pagamento</a>
+                                        </div>
+                                    </div>
+                                    <div sw-navbar-drop-sep></div>
+                                    <a sw-navbar-drop-it href="#" style="color:#e63946"><i class="swi swi-log-out"></i> Sair</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu" style="width:auto"><span style="background:#111"></span><span style="background:#111"></span><span style="background:#111"></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+
+                <span class="nb-tpl-lbl">Template 4 — Dashboard / App</span>
+                <div class="nb-preview" style="background:var(--sw-sur);border:1px solid var(--sw-bor)">
+                    <nav sw-navbar sw-navbar-mode="static" style="min-height:5.6rem">
+                        <a href="#" sw-navbar-brand style="font-size:1.5rem;gap:.5rem">
+                            <span style="width:2.8rem;height:2.8rem;background:var(--sw-pri);border-radius:.7rem;display:flex;align-items:center;justify-content:center">
+                                <i class="swi swi-grid" style="color:#fff;font-size:1.4rem"></i>
+                            </span>
+                            AdminPro
+                        </a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Dashboard</a>
+                            <a sw-navbar-it href="#">Usuários</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Relatórios <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <div sw-navbar-drop-it has-sub>
+                                        <i class="swi swi-chip"></i>
+                                        <span>Financeiro</span>
+                                        <div sw-navbar-drop-sub>
+                                            <a sw-navbar-drop-it href="#">Faturas</a>
+                                            <a sw-navbar-drop-it href="#">Recibos</a>
+                                        </div>
+                                    </div>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-book"></i> Uso da API</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div sw-navbar-actions>
+                            <div sw-navbar-drop-wrap sw-navbar-drop-align="right">
+                                <a sw-navbar-it sw-navbar-drop href="#" style="position:relative">
+                                    <i class="swi swi-bell" style="font-size:1.7rem"></i>
+                                    <span style="position:absolute;top:.4rem;right:.6rem;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--sw-err);color:#fff;font-size:.9rem;display:flex;align-items:center;justify-content:center;line-height:1">5</span>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <span sw-navbar-drop-ttl>Notificações</span>
+                                    <a sw-navbar-drop-it href="#">3 faturas vencendo</a>
+                                    <a sw-navbar-drop-it href="#">Novo usuário cadastrado</a>
+                                </div>
+                            </div>
+                            <div sw-navbar-drop-wrap sw-navbar-drop-align="right">
+                                <a sw-navbar-it sw-navbar-drop href="#" style="gap:.7rem;border:1px solid var(--sw-bor);border-radius:2rem;padding:.4rem .8rem">
+                                    <span style="width:2.6rem;height:2.6rem;border-radius:50%;background:linear-gradient(135deg,var(--sw-pri),var(--sw-sec));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">S</span>
+                                    San <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-user"></i> Perfil</a>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-cog"></i> Configurações</a>
+                                    <div sw-navbar-drop-sep></div>
+                                    <a sw-navbar-drop-it href="#"><i class="swi swi-log-out"></i> Sair</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+
+                <span class="nb-tpl-lbl">Template 5 — Developer / Docs</span>
+                <div class="nb-preview" style="background:var(--sw-sur);border:1px solid var(--sw-bor)">
+                    <nav sw-navbar sw-navbar-mode="static">
+                        <a href="#" sw-navbar-brand style="font-family:var(--sw-f-mon);gap:.4rem;white-space:nowrap">
+                            <span style="color:var(--sw-pri)">&lt;</span>SW<span style="color:var(--sw-pri)">/&gt;</span>
+                        </a>
+                        <div sw-navbar-mn>
+                            <a sw-navbar-it act href="#">Docs</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#">
+                                    Componentes <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn wide>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Interface</span>
+                                        <a sw-navbar-drop-it href="forms.html"><i class="swi swi-edit"></i> Formulários</a>
+                                        <div sw-navbar-drop-it has-sub>
+                                            <i class="swi swi-grid"></i>
+                                            <span>Navegação</span>
+                                            <div sw-navbar-drop-sub>
+                                                <a sw-navbar-drop-it href="navbar.html">Navbar</a>
+                                                <a sw-navbar-drop-it href="sidebar.html">Sidebar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Sistema</span>
+                                        <a sw-navbar-drop-it href="cores.html"><i class="swi swi-palette"></i> Cores</a>
+                                        <a sw-navbar-drop-it href="tipografia.html"><i class="swi swi-book"></i> Tipografia</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#">Blog</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <div class="flx alc gap-1" style="background:var(--sw-sur-hover);border:1px solid var(--sw-bor);border-radius:.6rem;padding:.5rem 1rem;min-width:16rem">
+                                <i class="swi swi-search" style="font-size:1.4rem;color:var(--sw-txt-mut)"></i>
+                                <span class="t-mut t-sm" style="flex:1">Buscar docs...</span>
+                                <kbd style="font-size:1.1rem;background:var(--sw-bg);border:1px solid var(--sw-bor);padding:.1rem .4rem;border-radius:.3rem">⌘K</kbd>
+                            </div>
+                            <a href="https://github.com" style="color:var(--sw-txt-mut)"><i class="swil swil-github" style="font-size:1.9rem"></i></a>
+                            <a href="#" class="sw-btn sw-btn-pri sw-btn-pp">v0.0.1</a>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+
+                <span class="nb-tpl-lbl">Template 6 — Flat E-commerce (sem radius, uppercase, mega menu + submenu)</span>
+                <div class="nb-preview nb-flat" style="background:#fff;border:1px solid #e2e2e2">
+                    <div class="nb-flat-utility" style="background:#f4f4f4;color:#777">
+                        <div class="flx gap-3">
+                            <span>Entrega</span><span>Pagamento</span><span>Contato</span>
+                        </div>
+                        <div class="flx gap-3">
+                            <span>PT</span><span>BRL</span>
+                        </div>
+                    </div>
+                    <nav sw-navbar sw-navbar-mode="static" style="background:#fff;border-bottom:1px solid #ececec">
+                        <a href="#" sw-navbar-brand style="color:#111;font-weight:800;font-size:1.8rem">
+                            <span style="width:2rem;height:2rem;background:#e8622c;display:inline-block;transform:rotate(45deg)"></span>
+                            Basement
+                        </a>
+                        <div sw-navbar-mn align="center">
+                            <a sw-navbar-it act href="#" class="nb-flat-it" style="color:#111">Zeroth</a>
+                            <div sw-navbar-drop-wrap>
+                                <a sw-navbar-it sw-navbar-drop href="#" class="nb-flat-it" style="color:#444">
+                                    First <i sw-navbar-drop-arr class="swi swi-chevron-down"></i>
+                                </a>
+                                <div sw-navbar-drop-mn wide style="min-width:56rem;grid-template-columns:1fr 1fr auto">
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Category One</span>
+                                        <a sw-navbar-drop-it href="#" style="color:#333">Shirts</a>
+                                        <a sw-navbar-drop-it href="#" style="color:#333">Knitwear</a>
+                                        <div sw-navbar-drop-it has-sub style="color:#333">
+                                            <span>Jackets</span>
+                                            <div sw-navbar-drop-sub>
+                                                <a sw-navbar-drop-it href="#" style="color:#333">Trench coats</a>
+                                                <a sw-navbar-drop-it href="#" style="color:#333">Bombers</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div sw-navbar-drop-col>
+                                        <span sw-navbar-drop-ttl>Category Two</span>
+                                        <a sw-navbar-drop-it href="#" style="color:#333">Dresses</a>
+                                        <a sw-navbar-drop-it href="#" style="color:#333">Sweatshirts</a>
+                                        <a sw-navbar-drop-it href="#" style="color:#333">Jeans</a>
+                                    </div>
+                                    <div style="grid-column:span 1">
+                                        <img src="https://picsum.photos/seed/sw-navbar-flat/220/260" alt="Nova coleção" style="width:100%;height:100%;object-fit:cover;display:block">
+                                    </div>
+                                </div>
+                            </div>
+                            <a sw-navbar-it href="#" class="nb-flat-it" style="color:#444">Second</a>
+                            <a sw-navbar-it href="#" class="nb-flat-it" style="color:#444">Third</a>
+                            <a sw-navbar-it href="#" class="nb-flat-it" style="color:#e8622c">Sale</a>
+                        </div>
+                        <div sw-navbar-actions>
+                            <i class="swi swi-search" style="font-size:1.7rem;color:#333;cursor:pointer"></i>
+                            <i class="swi swi-user" style="font-size:1.7rem;color:#333;cursor:pointer"></i>
+                            <span style="position:relative;display:inline-flex">
+                                <i class="swi swi-cart" style="font-size:1.8rem;color:#111;cursor:pointer"></i>
+                                <span class="nb-flat-badge">4</span>
+                            </span>
+                        </div>
+                        <button sw-navbar-tgl aria-label="Menu"><span style="background:#111"></span><span style="background:#111"></span><span style="background:#111"></span></button>
+                    </nav>
+                    <div class="nb-preview-body"></div>
+                </div>
+                <p class="t-sm t-mut mb-0">Estilo flat de e-commerce — zero <code>border-radius</code>, links uppercase espaçados, mega menu de 2 colunas + imagem de destaque, submenu aninhado em "Jackets", badge quadrado no carrinho. No mobile vira o mesmo drawer lateral dos outros templates (nenhum CSS extra precisou ser escrito pra isso).</p>
+            </div>
+
             <!-- 5. MOBILE -->
             <div class="doc-card sec mb-6" id="mobile">
                 <h3 class="t-m f-bd mb-4">5. Toggle Mobile</h3>
@@ -441,6 +812,8 @@
                         <tr><td><code>sw-navbar-mode</code></td><td>nav</td><td><code>static</code> (padrão) · <code>fixed</code> · <code>sticky</code></td></tr>
                         <tr><td><code>sw-navbar-fx</code></td><td>nav</td><td><code>glass</code> (blur translúcido) · <code>grad</code> (gradiente)</td></tr>
                         <tr><td><code>sw-navbar-shrink-at</code></td><td>nav</td><td>Pixels de rolagem até ativar <code>[scrolled]</code> — padrão 40.</td></tr>
+                        <tr><td><code>--sw-navbar-h</code></td><td>nav (style="")</td><td>Altura normal da navbar — padrão <code>7rem</code>. Ajuste direto no elemento, sem tocar no CSS-fonte.</td></tr>
+                        <tr><td><code>--sw-navbar-h-shrink</code></td><td>nav (style="")</td><td>Altura ao ganhar <code>[scrolled]</code> — padrão <code>5.8rem</code>.</td></tr>
                         <tr><td><code>[scrolled]</code></td><td>nav</td><td>Setado automaticamente pelo JS ao rolar (modos fixed/sticky).</td></tr>
                         <tr><td><code>[open]</code></td><td>nav</td><td>Menu mobile aberto — alternado pelo <code>[sw-navbar-tgl]</code>.</td></tr>
                         <tr><td><code>sw-navbar-brand</code></td><td>a</td><td>Logo/marca à esquerda.</td></tr>

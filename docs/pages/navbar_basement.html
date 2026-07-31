@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar Basement (Galeria) - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../dist/sw.compl.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem; }
+        .bmt-frame { border: 1px solid var(--sw-bor); margin-bottom: 2.4rem; overflow: visible; position: relative; }
+        [sw2-navbar-root] { position: relative; z-index: 5; }
+        /* Cada .bmt-frame é uma stacking context própria (position+z-index) — sem isto,
+           um dropdown aberto num card de cima sempre fica ATRÁS dos cards seguintes,
+           porque a ordem no DOM decide entre stacking contexts irmãos, não o z-index
+           interno. :has() sobe o card ativo acima de todos os outros na hora. */
+        .bmt-frame:has([sw2-navbar-it][open]),
+        .bmt-frame:has([sw2-navbar][open]) { z-index: 50; }
+        .bmt-lbl {
+            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+            color: var(--sw-txt-mut); margin-bottom: .8rem; display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Interface JS</span>
+                <span class="brc-it is-cur" aria-current="page">Navbar Basement (Galeria)</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">SW2 Navbar</span>
+                <h2 class="t-xxg f-bd mb-2">Galeria "Basement" <span class="TprinD">[sw2-navbar]</span></h2>
+                <p class="t-g t-mut mb-0">
+                    11 variantes de navbar de e-commerce, réplica estrutural de uma referência real —
+                    barra de utilidade, dropdown, mega menu de 4 colunas, painel-carrossel de categorias,
+                    badge de carrinho, busca e um hero full-screen com sidebar sólida. Sistema opcional
+                    (<code>sw2-navbar-*</code>), shipado em <code>sw.compl.min.css/js</code>, não faz parte
+                    do núcleo <code>sw.min.css</code>.
+                </p>
+            </div>
+
+            <!-- 1 -->
+            <span class="bmt-lbl">1. Utilidade + logo central + links com separador</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <div sw2-navbar-util>
+                    <div sw2-navbar-util-grp>
+                        <i class="swi swi-map-pin"></i> <span sw2-navbar-util-lnk>Country</span>
+                    </div>
+                    <div sw2-navbar-util-grp></div>
+                </div>
+                <nav sw2-navbar>
+                    <div style="flex:1"></div>
+                    <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                    <div sw2-navbar-actions style="flex:1;justify-content:flex-end">
+                        <i class="swi swi-search" sw2-navbar-ico></i>
+                        <i class="swi swi-user" sw2-navbar-ico></i>
+                        <i class="swi swi-cart" sw2-navbar-ico></i>
+                    </div>
+                    <div sw2-navbar-mn sep="pipe" align="center" style="flex-basis:100%;justify-content:center;padding:.6rem 0">
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Fifth</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">First</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Fourth</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Second</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Sixth</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Third</a>
+                        <a sw2-navbar-it style="font-size:1.15rem;padding:.6rem 1.2rem">Zeroth</a>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<div sw2-navbar-util>
+  <div sw2-navbar-util-grp><i class="swi swi-map-pin"></i> <span sw2-navbar-util-lnk>Country</span></div>
+</div>
+<nav sw2-navbar>
+  <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+  <div sw2-navbar-actions>
+    <i class="swi swi-search" sw2-navbar-ico></i>
+    <i class="swi swi-user" sw2-navbar-ico></i>
+    <i class="swi swi-cart" sw2-navbar-ico></i>
+  </div>
+  <!-- flex-basis:100% joga o menu pra linha de baixo, centralizado -->
+  <div sw2-navbar-mn sep="pipe" align="center" style="flex-basis:100%">
+    <a sw2-navbar-it href="#">Fifth</a>
+    <a sw2-navbar-it href="#">First</a>
+    <a sw2-navbar-it href="#">Second</a>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 2 -->
+            <span class="bmt-lbl">2. Simples — logo, links, busca</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar>
+                    <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                    <div sw2-navbar-mn align="end">
+                        <a sw2-navbar-it style="font-size:1.2rem">Zeroth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">First</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Second</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Third</a>
+                    </div>
+                    <div sw2-navbar-actions>
+                        <i class="swi swi-search" sw2-navbar-ico></i>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar>
+  <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+  <div sw2-navbar-mn align="end">
+    <a sw2-navbar-it href="#">Zeroth</a>
+    <a sw2-navbar-it href="#">First</a>
+    <a sw2-navbar-it href="#">Second</a>
+  </div>
+  <div sw2-navbar-actions>
+    <i class="swi swi-search" sw2-navbar-ico></i>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 3 -->
+            <span class="bmt-lbl">3. Mínima — só marca e carrinho</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar>
+                    <span class="sw2-mark"></span>
+                    <div style="flex:1"></div>
+                    <button sw2-btn is-solid style="align-items:center"><i class="swi swi-cart"></i></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar>
+  <span class="sw2-mark"></span>
+  <div style="flex:1"></div>
+  <button sw2-btn is-solid><i class="swi swi-cart"></i></button>
+</nav>
+</script></pre>
+
+
+            <!-- 4 -->
+            <span class="bmt-lbl">4. Dropdowns + ícones + badge</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar>
+                    <span class="sw2-mark"></span>
+                    <div sw2-navbar-mn>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop>Zeroth <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn>
+                                <a sw2-navbar-drop-it href="#">Item um</a>
+                                <a sw2-navbar-drop-it href="#">Item dois</a>
+                            </div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop>First <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn>
+                                <a sw2-navbar-drop-it href="#">Item um</a>
+                                <a sw2-navbar-drop-it href="#">Item dois</a>
+                            </div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop>Second <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn>
+                                <a sw2-navbar-drop-it href="#">Item um</a>
+                                <a sw2-navbar-drop-it href="#">Item dois</a>
+                            </div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop>Third <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn>
+                                <a sw2-navbar-drop-it href="#">Item um</a>
+                                <a sw2-navbar-drop-it href="#">Item dois</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div sw2-navbar-actions>
+                        <i class="swi swi-user" sw2-navbar-ico></i>
+                        <span style="position:relative;display:inline-flex">
+                            <i class="swi swi-cart" sw2-navbar-ico></i>
+                            <span sw2-navbar-badge>4</span>
+                        </span>
+                        <i class="swi swi-search" sw2-navbar-ico></i>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar>
+  <span class="sw2-mark"></span>
+  <div sw2-navbar-mn>
+    <div sw2-navbar-drop-wrap>
+      <a sw2-navbar-it sw2-navbar-drop href="#">Zeroth <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+      <div sw2-navbar-drop-mn>
+        <a sw2-navbar-drop-it href="#">Item um</a>
+        <a sw2-navbar-drop-it href="#">Item dois</a>
+      </div>
+    </div>
+    <!-- repita sw2-navbar-drop-wrap pra cada item com dropdown -->
+  </div>
+  <div sw2-navbar-actions>
+    <i class="swi swi-user" sw2-navbar-ico></i>
+    <span style="position:relative">
+      <i class="swi swi-cart" sw2-navbar-ico></i>
+      <span sw2-navbar-badge>4</span>
+    </span>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 5 -->
+            <span class="bmt-lbl">5. Compacta escura (mobile-first)</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar is-dark is-compact>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                    <div style="flex:1"></div>
+                    <span style="position:relative;display:inline-flex">
+                        <i class="swi swi-cart" sw2-navbar-ico></i>
+                        <span sw2-navbar-badge>4</span>
+                    </span>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar is-dark is-compact>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+  <div style="flex:1"></div>
+  <span style="position:relative">
+    <i class="swi swi-cart" sw2-navbar-ico></i>
+    <span sw2-navbar-badge>4</span>
+  </span>
+</nav>
+</script></pre>
+
+
+            <!-- 6 -->
+            <span class="bmt-lbl">6. Painel-carrossel de categorias (hambúrguer aberto)</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar is-dark is-compact>
+                    <button sw2-navbar-tgl is-accent aria-label="Menu"><span></span><span></span><span></span></button>
+                    <div style="flex:1"></div>
+                    <i class="swi swi-cart" sw2-navbar-ico></i>
+                </nav>
+                <div sw2-navbar-panel>
+                    <button sw2-navbar-panel-arr><i class="swi swi-chevron-left"></i></button>
+                    <div sw2-navbar-panel-cards>
+                        <div sw2-navbar-cat-card>
+                            <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+                            <span sw2-navbar-cat-ttl>Category One: short description</span>
+                            <span sw2-navbar-cat-desc>The creation myth suggests that an exploration of artistic creativity.</span>
+                        </div>
+                        <div sw2-navbar-cat-card>
+                            <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+                            <span sw2-navbar-cat-ttl>Category Two: short description</span>
+                            <span sw2-navbar-cat-desc>The creation myth suggests that an exploration of artistic creativity.</span>
+                        </div>
+                        <div sw2-navbar-cat-card>
+                            <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+                            <span sw2-navbar-cat-ttl>Category Three: short description</span>
+                            <span sw2-navbar-cat-desc>The creation myth suggests that an exploration of artistic creativity.</span>
+                        </div>
+                        <div sw2-navbar-cat-card>
+                            <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+                            <span sw2-navbar-cat-ttl>Category Four: short description</span>
+                            <span sw2-navbar-cat-desc>The creation myth suggests that an exploration of artistic creativity.</span>
+                        </div>
+                        <div sw2-navbar-cat-card>
+                            <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+                            <span sw2-navbar-cat-ttl>Category Five: short description</span>
+                            <span sw2-navbar-cat-desc>The creation myth suggests that an exploration of artistic creativity.</span>
+                        </div>
+                    </div>
+                    <button sw2-navbar-panel-arr><i class="swi swi-chevron-right"></i></button>
+                </div>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar is-dark is-compact>
+  <button sw2-navbar-tgl is-accent aria-label="Menu"><span></span><span></span><span></span></button>
+  <div style="flex:1"></div>
+  <i class="swi swi-cart" sw2-navbar-ico></i>
+</nav>
+<!-- painel-carrossel: irmão do <nav>, não precisa estar dentro dele -->
+<div sw2-navbar-panel>
+  <button sw2-navbar-panel-arr><i class="swi swi-chevron-left"></i></button>
+  <div sw2-navbar-panel-cards>
+    <div sw2-navbar-cat-card>
+      <div sw2-navbar-cat-img><i class="swi swi-image"></i></div>
+      <span sw2-navbar-cat-ttl>Category One: short description</span>
+      <span sw2-navbar-cat-desc>Texto de apoio da categoria.</span>
+    </div>
+    <!-- quantos cards quiser — o carrossel rola sozinho quando não couber -->
+  </div>
+  <button sw2-navbar-panel-arr><i class="swi swi-chevron-right"></i></button>
+</div>
+</script></pre>
+
+
+            <!-- 7 -->
+            <span class="bmt-lbl">7. Hero full-screen (sidebar sólida + conteúdo)</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <div sw2-navbar-hero>
+                    <div sw2-navbar-hero-side>
+                        <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                        <div sw2-navbar-hero-links>
+                            <a href="#">Zeroth</a>
+                            <a href="#">First</a>
+                            <a href="#">Second</a>
+                            <a href="#">Third</a>
+                            <a href="#">Fourth</a>
+                        </div>
+                    </div>
+                    <div sw2-navbar-hero-cnt>
+                        <div sw2-navbar-hero-top>
+                            <span sw2-navbar-hero-user><i class="swi swi-user"></i></span>
+                            <button sw2-btn is-out style="border-color:rgba(255,255,255,.4);color:#fff">
+                                <i class="swi swi-cart"></i> Cart
+                            </button>
+                        </div>
+                        <h2>Ecommerce</h2>
+                        <p>The creation myth suggests that an exploration of artistic creativity involves reference to the thing produced.</p>
+                        <div sw2-navbar-hero-dots><span></span><span is-act></span><span></span></div>
+                    </div>
+                </div>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<div sw2-navbar-hero>
+  <div sw2-navbar-hero-side>
+    <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+    <div sw2-navbar-hero-links>
+      <a href="#">Zeroth</a>
+      <a href="#">First</a>
+    </div>
+  </div>
+  <div sw2-navbar-hero-cnt>
+    <div sw2-navbar-hero-top>
+      <span sw2-navbar-hero-user><i class="swi swi-user"></i></span>
+      <button sw2-btn is-out style="border-color:rgba(255,255,255,.4);color:#fff"><i class="swi swi-cart"></i> Cart</button>
+    </div>
+    <h2>Ecommerce</h2>
+    <p>Texto de apoio do hero.</p>
+    <div sw2-navbar-hero-dots><span></span><span is-act></span><span></span></div>
+  </div>
+</div>
+</script></pre>
+
+
+            <!-- 8 -->
+            <span class="bmt-lbl">8. Utilidade + escura (Login/Register + carrinho)</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <div sw2-navbar-util is-dark>
+                    <div sw2-navbar-util-grp>
+                        <span sw2-navbar-util-lnk>Delivery</span>
+                        <span sw2-navbar-util-lnk>Payment</span>
+                        <span sw2-navbar-util-lnk>Blog</span>
+                        <span sw2-navbar-util-lnk>Contact us</span>
+                    </div>
+                    <div sw2-navbar-util-grp>
+                        <i class="swi swi-search"></i>
+                        <span sw2-navbar-util-lnk><i class="swi swi-heart"></i> Favorites</span>
+                        <span sw2-navbar-util-lnk><i class="swi swi-user"></i> User</span>
+                    </div>
+                </div>
+                <nav sw2-navbar is-dark>
+                    <a href="#" sw2-navbar-brd>Basement</a>
+                    <div sw2-navbar-mn>
+                        <a sw2-navbar-it>Zeroth</a>
+                        <a sw2-navbar-it>First</a>
+                        <a sw2-navbar-it>Second</a>
+                        <a sw2-navbar-it>Third</a>
+                        <a sw2-navbar-it>Fourth</a>
+                    </div>
+                    <div sw2-navbar-actions>
+                        <span sw2-navbar-util-lnk style="font-size:1.2rem;text-transform:none;font-weight:400">Login/Register</span>
+                        <span style="position:relative;display:inline-flex">
+                            <i class="swi swi-cart" sw2-navbar-ico></i>
+                            <span sw2-navbar-badge>4</span>
+                        </span>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<div sw2-navbar-util is-dark>
+  <div sw2-navbar-util-grp>
+    <span sw2-navbar-util-lnk>Delivery</span>
+    <span sw2-navbar-util-lnk>Payment</span>
+  </div>
+  <div sw2-navbar-util-grp>
+    <i class="swi swi-search"></i>
+    <span sw2-navbar-util-lnk><i class="swi swi-heart"></i> Favorites</span>
+  </div>
+</div>
+<nav sw2-navbar is-dark>
+  <a href="/" sw2-navbar-brd>Basement</a>
+  <div sw2-navbar-mn>
+    <a sw2-navbar-it href="#">Zeroth</a>
+    <a sw2-navbar-it href="#">First</a>
+  </div>
+  <div sw2-navbar-actions>
+    <span sw2-navbar-util-lnk style="text-transform:none;font-weight:400">Login/Register</span>
+    <span style="position:relative">
+      <i class="swi swi-cart" sw2-navbar-ico></i>
+      <span sw2-navbar-badge>4</span>
+    </span>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 9 -->
+            <span class="bmt-lbl">9. Utilidade centralizada + busca + logo central + links</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <div sw2-navbar-util is-dark style="justify-content:center">
+                    <div sw2-navbar-util-grp>
+                        <span sw2-navbar-util-lnk>Delivery</span>
+                        <span sw2-navbar-util-lnk>Payment</span>
+                        <span sw2-navbar-util-lnk>Shipment</span>
+                        <span sw2-navbar-util-lnk>Blog</span>
+                        <span sw2-navbar-util-lnk>Contact us</span>
+                    </div>
+                </div>
+                <nav sw2-navbar>
+                    <i class="swi swi-search" sw2-navbar-ico></i>
+                    <div style="flex:1"></div>
+                    <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                    <div style="flex:1;display:flex;justify-content:flex-end">
+                        <i class="swi swi-cart" sw2-navbar-ico></i>
+                    </div>
+                    <div sw2-navbar-mn align="center" style="flex-basis:100%;padding:.4rem 0">
+                        <a sw2-navbar-it style="font-size:1.15rem">Zeroth</a>
+                        <a sw2-navbar-it style="font-size:1.15rem">First</a>
+                        <a sw2-navbar-it style="font-size:1.15rem">Second</a>
+                        <a sw2-navbar-it style="font-size:1.15rem">Third</a>
+                        <a sw2-navbar-it style="font-size:1.15rem">Fourth</a>
+                        <a sw2-navbar-it style="font-size:1.15rem">Fifth</a>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<div sw2-navbar-util is-dark style="justify-content:center">
+  <div sw2-navbar-util-grp>
+    <span sw2-navbar-util-lnk>Delivery</span>
+    <span sw2-navbar-util-lnk>Shipment</span>
+  </div>
+</div>
+<nav sw2-navbar>
+  <i class="swi swi-search" sw2-navbar-ico></i>
+  <div style="flex:1"></div>
+  <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+  <div style="flex:1;display:flex;justify-content:flex-end">
+    <i class="swi swi-cart" sw2-navbar-ico></i>
+  </div>
+  <!-- flex-basis:100% -> vira a segunda linha, centralizada -->
+  <div sw2-navbar-mn align="center" style="flex-basis:100%">
+    <a sw2-navbar-it href="#">Zeroth</a>
+    <a sw2-navbar-it href="#">First</a>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 10 -->
+            <span class="bmt-lbl">10. Completa: utilidade 3 blocos + busca + mega menu de 4 colunas</span>
+            <div class="bmt-frame" sw2-navbar-root style="overflow:visible">
+                <div sw2-navbar-util is-dark>
+                    <div sw2-navbar-util-grp>
+                        <span sw2-navbar-util-lnk>Country <i class="swi swi-chevron-down"></i></span>
+                        <span sw2-navbar-util-lnk>Our shops</span>
+                    </div>
+                    <div sw2-navbar-util-grp>
+                        <span>+45 878-78-14</span>
+                        <span>+45 454-87-12</span>
+                    </div>
+                    <div sw2-navbar-util-grp>
+                        <span sw2-navbar-util-lnk>Delivery</span>
+                        <span sw2-navbar-util-lnk>Payment</span>
+                        <span sw2-navbar-util-lnk>Blog</span>
+                        <span sw2-navbar-util-lnk>Contact us</span>
+                    </div>
+                </div>
+                <nav sw2-navbar>
+                    <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                    <div sw2-navbar-search-box>
+                        <input type="text" placeholder="">
+                        <i class="swi swi-search"></i>
+                    </div>
+                    <div sw2-navbar-actions>
+                        <i class="swi swi-user" sw2-navbar-ico></i>
+                        <i class="swi swi-cart" sw2-navbar-ico></i>
+                    </div>
+                </nav>
+                <nav sw2-navbar is-compact style="border-top:1px solid var(--sw-bor)">
+                    <div sw2-navbar-mn underline>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop style="font-size:1.2rem">Zeroth <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn><a sw2-navbar-drop-it href="#">Item</a></div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop style="font-size:1.2rem">First <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn><a sw2-navbar-drop-it href="#">Item</a></div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop act style="font-size:1.2rem">Second <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn cols="4">
+                                <div>
+                                    <span sw2-navbar-drop-col-ttl>Category One</span>
+                                    <a sw2-navbar-drop-it href="#">First</a>
+                                    <a sw2-navbar-drop-it href="#">Second</a>
+                                    <div sw2-navbar-drop-it has-sub>
+                                        Third
+                                        <div sw2-navbar-drop-sub>
+                                            <a sw2-navbar-drop-it href="#">Sub First</a>
+                                            <a sw2-navbar-drop-it href="#">Sub Second</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span sw2-navbar-drop-col-ttl>Category Five</span>
+                                    <a sw2-navbar-drop-it href="#" is-mut>First</a>
+                                    <a sw2-navbar-drop-it href="#" is-mut>Second</a>
+                                    <span sw2-navbar-drop-col-ttl style="margin-top:1rem">Category Six</span>
+                                    <a sw2-navbar-drop-it href="#" is-mut>First</a>
+                                </div>
+                                <div>
+                                    <span sw2-navbar-drop-col-ttl is-mut>Category Seven</span>
+                                    <a sw2-navbar-drop-it href="#" is-mut>First</a>
+                                    <a sw2-navbar-drop-it href="#" is-mut>Second</a>
+                                    <span sw2-navbar-drop-col-ttl style="margin-top:1rem">Category Eight</span>
+                                    <a sw2-navbar-drop-it href="#">Category Nine</a>
+                                </div>
+                                <div>
+                                    <span sw2-navbar-drop-col-ttl>Category Ten</span>
+                                    <a sw2-navbar-drop-it href="#">Category Eleven</a>
+                                    <a sw2-navbar-drop-it href="#">Category Twelve</a>
+                                    <a sw2-navbar-drop-it href="#" is-mut>First</a>
+                                    <a sw2-navbar-drop-it href="#">Category Thirteen</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div sw2-navbar-drop-wrap>
+                            <a sw2-navbar-it sw2-navbar-drop style="font-size:1.2rem">Third <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+                            <div sw2-navbar-drop-mn><a sw2-navbar-drop-it href="#">Item</a></div>
+                        </div>
+                        <a sw2-navbar-it style="font-size:1.2rem">Fourth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Fifth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Sixth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Seventh</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Eight</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Ninth</a>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<div sw2-navbar-util is-dark>
+  <div sw2-navbar-util-grp><span sw2-navbar-util-lnk>Country <i class="swi swi-chevron-down"></i></span></div>
+  <div sw2-navbar-util-grp><span>+45 878-78-14</span></div>
+  <div sw2-navbar-util-grp><span sw2-navbar-util-lnk>Delivery</span></div>
+</div>
+<nav sw2-navbar>
+  <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+  <div sw2-navbar-search-box>
+    <input type="text">
+    <i class="swi swi-search"></i>
+  </div>
+  <div sw2-navbar-actions>
+    <i class="swi swi-user" sw2-navbar-ico></i>
+    <i class="swi swi-cart" sw2-navbar-ico></i>
+  </div>
+</nav>
+<!-- segunda navbar, compacta, só pros links + mega menu -->
+<nav sw2-navbar is-compact>
+  <div sw2-navbar-mn underline>
+    <div sw2-navbar-drop-wrap>
+      <a sw2-navbar-it sw2-navbar-drop act href="#">Second <i sw2-navbar-it-arr class="swi swi-chevron-down"></i></a>
+      <div sw2-navbar-drop-mn cols="4">
+        <div>
+          <span sw2-navbar-drop-col-ttl>Category One</span>
+          <a sw2-navbar-drop-it href="#">First</a>
+          <a sw2-navbar-drop-it href="#">Second</a>
+        </div>
+        <div>
+          <span sw2-navbar-drop-col-ttl is-mut>Category Seven</span>
+          <a sw2-navbar-drop-it href="#" is-mut>First</a>
+        </div>
+        <!-- até 4 colunas — cols="2" / cols="3" / cols="4" -->
+      </div>
+    </div>
+    <a sw2-navbar-it href="#">Fourth</a>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+            <!-- 11 -->
+            <span class="bmt-lbl">11. Busca central + botões pílula + links escuros</span>
+            <div class="bmt-frame" sw2-navbar-root>
+                <nav sw2-navbar>
+                    <a href="#" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+                    <div sw2-navbar-search-box>
+                        <input type="text" placeholder="">
+                        <i class="swi swi-search"></i>
+                    </div>
+                    <div sw2-navbar-actions>
+                        <span style="font-size:1.3rem;color:var(--sw-txt-mut);display:flex;align-items:center;gap:.6rem"><i class="swi swi-globe"></i> Need help?</span>
+                        <button sw2-btn is-solid><i class="swi swi-cart"></i> My cart</button>
+                        <button sw2-btn is-out>Login</button>
+                    </div>
+                </nav>
+                <nav sw2-navbar is-dark is-compact>
+                    <div sw2-navbar-mn align="center">
+                        <a sw2-navbar-it style="font-size:1.2rem">Zeroth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">First</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Second</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Third</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Fourth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Fifth</a>
+                        <a sw2-navbar-it style="font-size:1.2rem">Sixth</a>
+                    </div>
+                    <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+                </nav>
+            </div>
+                <pre swcode="html" class="mt-3 mb-0"><script type="text/plain">
+<nav sw2-navbar>
+  <a href="/" sw2-navbar-brd><span class="sw2-mark"></span> Basement</a>
+  <div sw2-navbar-search-box>
+    <input type="text">
+    <i class="swi swi-search"></i>
+  </div>
+  <div sw2-navbar-actions>
+    <button sw2-btn is-solid><i class="swi swi-cart"></i> My cart</button>
+    <button sw2-btn is-out>Login</button>
+  </div>
+</nav>
+<!-- segunda navbar, escura e compacta, só pros links -->
+<nav sw2-navbar is-dark is-compact>
+  <div sw2-navbar-mn align="center">
+    <a sw2-navbar-it href="#">Zeroth</a>
+    <a sw2-navbar-it href="#">First</a>
+  </div>
+  <button sw2-navbar-tgl aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+</script></pre>
+
+
+        </main>
+    </div>
+</body>
+
+</html>

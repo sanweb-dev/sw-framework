@@ -1331,6 +1331,20 @@ a:focus-visible,
 .pnl-cls::before { transform: translate(-50%, -50%) rotate(45deg); }
 .pnl-cls::after { transform: translate(-50%, -50%) rotate(-45deg); }
 
+/* --- Overlay do painel — .sw-modal já escurece o fundo sozinho (é a própria
+   camada full-screen); .sw-panel é só o drawer, então precisa de uma camada
+   companheira própria pra dar contraste e separação visual da página (senão,
+   em tema claro especialmente, o painel "some" contra o fundo). Criado e
+   controlado via JS em sw-panel.js — clique nele fecha o painel (mesma lógica
+   de "clique fora" que já existia). */
+.sw-panel-ovl {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.sw-panel-ovl.is-active { opacity: 1; visibility: visible; }
+
 /* --- 🖼️ LIGHTBOX (.sw-lightbox-ovl) — galeria em overlay, grupos, legenda, zoom, autoplay --- */
 .sw-lightbox-ovl {
   position: fixed; inset: 0; z-index: 10001;
@@ -2041,15 +2055,24 @@ th[aria-sort="descending"]::after { content: " ▼"; }
   background: var(--sw-bg);
 }
 
+/* Glassmorphism é sempre "vidro escuro" translúcido, de propósito — não segue o
+   tema claro/escuro do site. O efeito só existe visualmente sobre um fundo escuro
+   ou colorido (é assim que qualquer glassmorphism real funciona); deixar o vidro
+   reagir ao tema fazia ele virar uma caixa cinza-clara opaca no tema claro,
+   sem nenhum efeito de vidro visível. */
 .inp.is-gls, .sel.is-gls, .txr.is-gls {
-  background: var(--sw-gls-bg);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--sw-gls-bor);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: #fff;
 }
-.inp.is-gls::placeholder, .txr.is-gls::placeholder { color: rgba(255,255,255,0.6); }
-.inp.is-gls:focus, .sel.is-gls:focus, .txr.is-gls:focus { background: rgba(255,255,255,0.15); border-color: var(--sw-pri); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+.inp.is-gls::placeholder, .txr.is-gls::placeholder { color: rgba(255,255,255,0.55); }
+.inp.is-gls:focus, .sel.is-gls:focus, .txr.is-gls:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 3px var(--sw-pri-glow);
+}
 
 .inp.is-min, .sel.is-min, .txr.is-min {
   border-top: none; border-left: none; border-right: none;
@@ -2164,7 +2187,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 .chk input[type="checkbox"]:checked ~ .chk-box { background: var(--sw-pri); border-color: var(--sw-pri); }
 
 .chk.is-soft .chk-box { box-shadow: 2px 2px 5px rgba(0,0,0,0.1), -2px -2px 5px rgba(255,255,255,0.05); }
-.chk.is-gls .chk-box { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border-color: var(--sw-gls-bor); }
+.chk.is-gls .chk-box { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border-color: rgba(255, 255, 255, 0.18); }
 .chk.is-min .chk-box { border-top: none; border-left: none; border-right: none; border-radius: 0; }
 .chk.is-fld .chk-box { background: var(--sw-bg-); border-color: transparent; }
 
@@ -2208,7 +2231,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 .rdo input[type="radio"]:checked ~ .rdo-dot::after { transform: scale(1); }
 
 .rdo.is-soft .rdo-dot { box-shadow: 2px 2px 5px rgba(0,0,0,0.1), -2px -2px 5px rgba(255,255,255,0.05); }
-.rdo.is-gls .rdo-dot { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border-color: var(--sw-gls-bor); }
+.rdo.is-gls .rdo-dot { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border-color: rgba(255, 255, 255, 0.18); }
 .rdo.is-min .rdo-dot { border-top: none; border-left: none; border-right: none; border-radius: 0; }
 .rdo.is-fld .rdo-dot { background: var(--sw-bg-); border-color: transparent; }
 .rdo input[type="radio"]:disabled ~ .rdo-dot, .rdo input[type="radio"]:disabled ~ .rdo-lbl { opacity: 0.45; cursor: not-allowed; }
@@ -2241,7 +2264,7 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 .swt input[type="checkbox"]:checked ~ .swt-trk::after { transform: translateX(2.0rem); }
 
 .swt.is-soft .swt-trk { box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15), inset -2px -2px 4px rgba(255,255,255,0.05); }
-.swt.is-gls .swt-trk { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border: 1px solid var(--sw-gls-bor); }
+.swt.is-gls .swt-trk { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); }
 .swt.is-fld .swt-trk { background: var(--sw-bg-); }
 .swt input[type="checkbox"]:disabled ~ .swt-trk { opacity: 0.45; }
 .swt:has(input:disabled) { cursor: not-allowed; }
@@ -2482,6 +2505,12 @@ th[aria-sort="descending"]::after { content: " ▼"; }
   --sw-spd-xs:     1.6s;    /* Muito lento */
   --sw-spd-lp:     3s;      /* Loop contínuo */
   --sw-spd-rev:    0.8s;    /* Reveal scroll */
+  /* --sw-delay é setado via JS (SWAjax._applyEffect, sliders de demo) quando um
+     atraso é pedido. Sem um valor padrão aqui, qualquer transition/animation que
+     referencie var(--sw-delay) antes do JS setar fica com valor inválido — e uma
+     declaração de transition inteira com um item inválido vira "initial" (all 0s),
+     não só aquele item, silenciosamente matando a animação inteira. */
+  --sw-delay:      0s;
 
   /* Distâncias */
   --sw-dist:       8rem;
@@ -2556,6 +2585,12 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 .ani-out,   .sw-ani-out   { animation: sw-out   var(--sw-spd) var(--sw-ease)   both; }
 .ani-flip,  .sw-ani-flip  { animation: sw-flip  var(--sw-spd) var(--sw-ease)   both; }
 .ani-drop,  .sw-ani-drop  { animation: sw-drop  var(--sw-spd) var(--sw-spring) both; }
+.ani-soft,  .sw-ani-soft  { animation: sw-soft  var(--sw-spd) var(--sw-ease)   both; }
+.ani-blur,  .sw-ani-blur  { animation: sw-blur  var(--sw-spd) var(--sw-ease)   both; }
+.ani-scale, .sw-ani-scale { animation: sw-scale var(--sw-spd) var(--sw-ease)   both; }
+/* zoom-out reaproveita o keyframe de .sw-ani-out (já é "grande -> normal") — mesmo
+   efeito, só documentado com o nome mais descritivo no catálogo/doc. */
+.ani-zoom-out, .sw-ani-zoom-out { animation: sw-out var(--sw-spd) var(--sw-ease) both; }
 
 /* 2b. TIMED AVANÇADO (Exclusivos) */
 .ani-wipe-l   { animation: sw-wipe-l   var(--sw-spd) var(--sw-sharp)  both; }
@@ -2714,6 +2749,9 @@ th[aria-sort="descending"]::after { content: " ▼"; }
 @keyframes sw-out  { from { opacity: 0; transform: scale(1.14); } to { opacity: 1; transform: scale(1); } }
 @keyframes sw-flip { from { opacity: 0; transform: rotateX(-80deg); } to { opacity: 1; transform: rotateX(0); } }
 @keyframes sw-drop { from { opacity: 0; transform: translateY(calc(-1 * var(--sw-dist))) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes sw-soft  { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sw-blur  { from { opacity: 0; filter: blur(1.2rem); } to { opacity: 1; filter: none; } }
+@keyframes sw-scale { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
 
 /* Wipes */
 @keyframes sw-wipe-l { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }
@@ -2878,14 +2916,57 @@ html[data-sw-trans-direction="back"]::view-transition-new(root) {
 }
 
 /* ==========================================================================
-   DEMO "Menu Fixo" (docs/pages/mpa-view-transition-b.html) — isolado atrás
-   de [data-sw-mpa-demo], atributo que só essa página tem no <html>. Mira só
-   (sw-mpa-demo-main), NUNCA (root): essa página tem sw-morph="mpa-demo-main"
-   no <main>, ou seja, o <main> já sai do grupo root. Se esta regra também
-   animasse (root), o cabeçalho/sidebar (que sobra no root, idênticos entre
-   as páginas) ganhava a MESMA animação por cima — o menu "fixo" passava a
-   se mexer sozinho, brigando com o conteúdo.
+   ESTILO POR DEMO (docs/pages/mpa-view-transition.html) — a página de
+   visão geral não tem CSS de transição próprio, então a metade "saindo"
+   dela sempre usava a animação genérica de direção, não importa qual card
+   "Testar" fosse clicado (por isso os 4 efeitos pareciam iguais mesmo já
+   com a entrada de cada demo corrigida). SWMpa.setStyle() (sw-mpa.js) grava
+   a escolha em sessionStorage antes do clique navegar; as regras abaixo
+   aplicam no root a MESMA saída que a página de destino já usa na entrada.
+   Mesma especificidade das regras de direção acima — ganham por ordem no
+   arquivo (a última regra empatada vence).
    ========================================================================== */
+html[data-sw-mpa-style="fade"]::view-transition-old(root) {
+  animation: 320ms ease both sw-trans-fade-out;
+}
+html[data-sw-mpa-style="fade"]::view-transition-new(root) {
+  animation: 320ms ease both sw-trans-fade-in;
+}
+
+html[data-sw-mpa-style="zoom"]::view-transition-old(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-mpa-zoom-out;
+}
+html[data-sw-mpa-style="zoom"]::view-transition-new(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-mpa-zoom-in;
+}
+
+html[data-sw-mpa-style="circle"]::view-transition-old(root) {
+  animation: 260ms ease both sw-trans-fade-out;
+}
+html[data-sw-mpa-style="circle"]::view-transition-new(root) {
+  animation: 550ms cubic-bezier(0.4, 0, 0.2, 1) both sw-circle-in;
+}
+
+html[data-sw-mpa-style="slide-y"]::view-transition-old(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-top;
+}
+html[data-sw-mpa-style="slide-y"]::view-transition-new(root) {
+  animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-in-bottom;
+}
+
+/* ==========================================================================
+   DEMO "Menu Fixo" (docs/pages/mpa-view-transition-b.html) — isolado atrás
+   de [data-sw-mpa-demo], atributo que só essa página tem no <html>. O <main>
+   tem sw-morph="mpa-demo-main", ou seja, só ELE sai do grupo root — o
+   cabeçalho/sidebar sobram no root. Sem a regra abaixo, o root continuava
+   recebendo a animação padrão do site (slide/fade por direção) por baixo,
+   e o "menu fixo" balançava junto com o resto — por isso o root precisa
+   ficar parado (animation: none) só nesta demo; quem anima é só o main.
+   ========================================================================== */
+html[data-sw-mpa-demo]::view-transition-old(root),
+html[data-sw-mpa-demo]::view-transition-new(root) {
+  animation: none;
+}
 html[data-sw-mpa-demo]::view-transition-old(sw-mpa-demo-main) {
   animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-left;
 }
@@ -6898,35 +6979,27 @@ span.sw-card-pop {
 .swi-cursor:before { content: "\eb95"; }
 .swi-form:before { content: "\ea5e"; }
 
-/* Conveniências e aliases para animações e paridade Y2 / Smooll */
-.swi-heart:before, .y2-heart:before { content: "\ebaa"; }
-.swi-cloud:before, .y2-cloud:before { content: "\eb5e"; }
-.swi-star:before, .y2-star:before { content: "\ec18"; }
-.swi-bell:before, .y2-bell:before { content: "\eb10"; }
-.swi-zap:before, .swi-flash:before, .y2-flash:before, .y2-zap:before { content: "\e9dd"; }
-.swi-wind:before, .swi-wave:before, .swi-curtain:before, .y2-wind:before { content: "\eb2e"; }
-.swi-sparkles:before, .y2-sparkles:before { content: "\ec14"; }
-.swi-bounce:before, .swi-arrow-down:before, .y2-down-arrow:before { content: "\e9be"; }
-.swi-arrow-up:before, .y2-up-arrow:before { content: "\e9c2"; }
-.swi-arrow-left:before, .y2-arrow-from-right:before { content: "\e9bb"; }
-.swi-arrow-right:before, .y2-arrow-from-left:before { content: "\e9bc"; }
-.swi-eye:before, .y2-eye:before { content: "\eb92"; }
-.swi-expand:before, .y2-expand:before { content: "\eb8f"; }
-.swi-expand-alt:before, .y2-expand-alt:before { content: "\eb90"; }
-.swi-sync:before, .y2-sync:before { content: "\ec24"; }
-.swi-sun:before, .y2-sun:before { content: "\ec20"; }
-.swi-moon:before, .y2-moon:before { content: "\ebc0"; }
-.swi-palette:before, .y2-palette:before { content: "\ebc8"; }
-.swi-party:before, .y2-party:before { content: "\ec92"; }
-.swi-box:before, .y2-box:before { content: "\eb23"; }
-.swi-timer:before, .y2-timer:before { content: "\ec45"; }
-.swi-chevrons-left:before { content: "\eb45"; }
-.swi-chevrons-right:before { content: "\eb46"; }
-.swi-maximize:before { content: "\eb8f"; }
-.swi-minimize:before { content: "\eb90"; }
-.swi-refresh-cw:before { content: "\ebd9"; }
-.swi-repeat:before { content: "\ebdc"; }
-.swi-arrow-down-circle:before { content: "\e9bf"; }
+/* Aliases .y2-* — mesmo glifo do .swi- correspondente (compat. com conteúdo
+   antigo do Y2). Removidos daqui os nomes fabricados sem glifo real e sem
+   nenhum uso em docs/ (confirmado por auditoria): wave, curtain, bounce,
+   arrow-up/down/left/right, eye, sparkles, maximize, minimize, refresh-cw,
+   arrow-down-circle. Este bloco antes reagrupava cada .swi-X junto do seu
+   alias .y2-X e, ao fazer isso, sobrescrevia o glifo CORRETO já declarado
+   mais acima no arquivo por um codepoint errado — bug real, corrigido. */
+.y2-heart:before { content: "\eb0a"; }
+.y2-cloud:before { content: "\ea60"; }
+.y2-star:before { content: "\ec27"; }
+.y2-bell:before { content: "\e9d2"; }
+.y2-flash:before, .y2-zap:before { content: "\e9dd"; }
+.y2-expand:before { content: "\eacc"; }
+.y2-expand-alt:before { content: "\eacd"; }
+.y2-sync:before { content: "\ec37"; }
+.y2-sun:before { content: "\ec34"; }
+.y2-moon:before { content: "\eb94"; }
+.y2-palette:before { content: "\eba9"; }
+.y2-party:before { content: "\e99c"; }
+.y2-box:before { content: "\e9fc"; }
+.y2-timer:before { content: "\ec47"; }
 
 
 /* ==========================================================================
@@ -7156,20 +7229,33 @@ img[sw-lazy].is-ldd { opacity: 1; }
 .sw-carousel-prv:hover, .sw-carousel-nxt:hover { background: var(--sw-sur-hover); }
 
 /* ---------- Pagination ---------- */
-[sw-pagination] { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+[sw-pagination] { position: relative; display: inline-block; }
+.sw-pagination-list { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; position: relative; z-index: 1; }
 .sw-pagination-it { display: inline-flex; align-items: center; justify-content: center; min-width: 3.4rem; height: 3.4rem; padding: 0 .8rem; border-radius: var(--sw-r-m); color: var(--sw-txt); cursor: pointer; user-select: none; }
 .sw-pagination-it:hover:not(.is-act):not(.is-sep):not(.is-dis) { background: var(--sw-sur-hover); }
-.sw-pagination-it.is-act { background: var(--sw-pri); color: #fff; font-weight: 600; }
+.sw-pagination-it.is-act { color: #fff; font-weight: 600; }
 .sw-pagination-it.is-sep { cursor: default; opacity: .5; }
 .sw-pagination-it.is-dis { opacity: .35; pointer-events: none; }
 .sw-pagination-it { transition: background .15s var(--sw-ease), color .15s var(--sw-ease); }
 
+/* Indicador deslizante — segue o número ativo em vez de trocar de cor na hora,
+   mesmo padrão do Segmented Control (.seg-thumb). Desativado no modo .is-gst. */
+.sw-pagination-thumb {
+  position: absolute; top: 0; left: 0; height: 3.4rem; width: 0;
+  background: var(--sw-pri); border-radius: var(--sw-r-m); z-index: 0;
+  transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), width .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[sw-pagination].is-gst .sw-pagination-thumb { display: none; }
+
 /* Tamanhos */
 [sw-pagination].is-sm .sw-pagination-it { min-width: 2.8rem; height: 2.8rem; font-size: 1.3rem; padding: 0 .5rem; }
 [sw-pagination].is-lg .sw-pagination-it { min-width: 4.4rem; height: 4.4rem; font-size: 1.7rem; padding: 0 1rem; }
+[sw-pagination].is-sm .sw-pagination-thumb { height: 2.8rem; }
+[sw-pagination].is-lg .sw-pagination-thumb { height: 4.4rem; }
 
 /* .is-pil — cantos totalmente arredondados */
 [sw-pagination].is-pil .sw-pagination-it { border-radius: var(--sw-r-fl); }
+[sw-pagination].is-pil .sw-pagination-thumb { border-radius: var(--sw-r-fl); }
 
 /* .is-gst — ghost: item ativo sem fundo sólido, só cor + sublinhado */
 [sw-pagination].is-gst .sw-pagination-it.is-act { background: none; color: var(--sw-pri); text-decoration: underline; text-underline-offset: .3rem; text-decoration-thickness: .2rem; }
@@ -7213,10 +7299,8 @@ img[sw-lazy].is-ldd { opacity: 1; }
 /* ---------- LGPD ---------- */
 .sw-lgpd { position: fixed; left: var(--sw-s-m); right: var(--sw-s-m); bottom: var(--sw-s-m); display: flex; align-items: center; gap: var(--sw-s-m); padding: var(--sw-s-m) var(--sw-s-g); background: var(--sw-sur); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-g); box-shadow: var(--sw-sha-g); transform: translateY(150%); transition: transform .45s var(--sw-ease); z-index: var(--sw-z-m); flex-wrap: wrap; }
 .sw-lgpd.is-vis { transform: translateY(0); }
-.sw-lgpd-ico { width: 2.4rem; height: 2.4rem; flex: none; color: var(--sw-pri); }
-.sw-lgpd-txt { flex: 1 1 24rem; margin: 0; color: var(--sw-txt); font-size: 1.4rem; }
-.sw-lgpd-txt a { color: var(--sw-pri); }
-.sw-lgpd-act { display: flex; gap: var(--sw-s-p); flex: none; }
+/* .sw-lgpd-ico/-txt/-act tinham uma segunda declaração mais completa mais abaixo
+   neste mesmo arquivo (que sempre vencia no cascade) — duplicata removida daqui. */
 
 /* ---------- Textarea auto-resize ---------- */
 [sw-textarea] { transition: height .1s var(--sw-ease); }
@@ -7375,9 +7459,11 @@ img[sw-lazy].is-ldd { opacity: 1; }
 [sw-sidebar-ovl][vis] { opacity: 1; visibility: visible; }
 
 /* ---------- Navbar ---------- */
+/* Altura normal e encolhida via variável CSS — ajuste --sw-navbar-h/-h-shrink
+   direto no elemento (style="" ou uma classe) sem precisar tocar aqui. */
 [sw-navbar] {
   display: flex; align-items: center; gap: 1.6rem;
-  height: 7rem; padding: 0 2.4rem;
+  height: var(--sw-navbar-h, 7rem); padding: 0 2.4rem;
   background: var(--sw-sur); border-bottom: 1px solid var(--sw-bor);
   transition: all .3s var(--sw-ease);
   position: relative; z-index: var(--sw-z-nvb, 100);
@@ -7392,15 +7478,21 @@ img[sw-lazy].is-ldd { opacity: 1; }
 }
 
 /* Variante gradiente */
-[sw-navbar-fx="grad"] { background: var(--sw-grad-pri); border-bottom-color: transparent; }
-[sw-navbar-fx="grad"] [sw-navbar-it] { color: rgba(255, 255, 255, .85); }
+/* --sw-grad-pri é sutil de propósito (mesma matiz, só varia luz) — bom pra fundo
+   de hero grande, mas quase some numa faixa fina de navbar. Aqui usa duas cores
+   de verdade (primária -> secundária) pra ficar visível numa navbar mesmo. */
+[sw-navbar-fx="grad"] { background: linear-gradient(120deg, var(--sw-pri), var(--sw-sec)); border-bottom-color: transparent; }
+[sw-navbar-fx="grad"] [sw-navbar-it] { color: rgba(255, 255, 255, .7); }
 [sw-navbar-fx="grad"] [sw-navbar-it]:hover,
 [sw-navbar-fx="grad"] [sw-navbar-it][act] { color: #fff; }
 [sw-navbar-fx="grad"] [sw-navbar-brand] { color: #fff; }
+/* O ícone da marca tem cor própria (var(--sw-pri), azul) na regra base — sozinho
+   ficaria invisível em cima do próprio azul do gradiente. Força branco aqui. */
+[sw-navbar-fx="grad"] [sw-navbar-brand] i, [sw-navbar-fx="grad"] [sw-navbar-brand] .swi { color: #fff; }
 
 /* Encolhe e ganha sombra depois de rolar (modo sticky/fixed) */
 [sw-navbar][scrolled] {
-  height: 5.8rem; box-shadow: var(--sw-sha-g);
+  height: var(--sw-navbar-h-shrink, 5.8rem); box-shadow: var(--sw-sha-g);
   background: color-mix(in srgb, var(--sw-sur) 92%, transparent);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
@@ -7422,8 +7514,8 @@ img[sw-lazy].is-ldd { opacity: 1; }
   text-decoration: none !important; white-space: nowrap; cursor: pointer;
   transition: all .2s; position: relative;
 }
-[sw-navbar-it]:hover { background: var(--sw-sur-hover); color: var(--sw-txt); }
-[sw-navbar-it][act] { background: var(--sw-pri-glow); color: var(--sw-pri); }
+[sw-navbar-it]:hover { color: var(--sw-pri); }
+[sw-navbar-it][act] { color: var(--sw-pri); }
 [sw-navbar-it] i, [sw-navbar-it] .swi { font-size: 1.6rem; }
 
 /* Dropdown dentro da navbar — [sw-navbar-drop-mn] fica IRMÃ do gatilho de topo
@@ -7431,9 +7523,15 @@ img[sw-lazy].is-ldd { opacity: 1; }
    também são links. Já os itens com submenu aninhado (sw-navbar-drop-it[has-sub]) são
    <div>, não <a> — por isso PODEM conter o submenu (sw-navbar-drop-sub) como filho. */
 [sw-navbar-drop-wrap] { position: relative; display: flex; }
+/* Ponte de hover invisível — cobre o vão entre o gatilho e o menu (que abre
+   com `.4rem` de distância) pra o :hover do wrap não se perder no meio do
+   caminho e fechar o menu antes do mouse chegar lá. */
+[sw-navbar-drop-wrap]::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 100%; height: .6rem;
+}
 [sw-navbar-it][sw-navbar-drop] { padding-right: 1.2rem; }
 [sw-navbar-drop-arr] { font-size: 1.1rem; transition: transform .25s; opacity: .7; }
-[sw-navbar-it][open] [sw-navbar-drop-arr] { transform: rotate(180deg); }
+[sw-navbar-it][open] [sw-navbar-drop-arr], [sw-navbar-drop-wrap]:hover [sw-navbar-drop-arr] { transform: rotate(180deg); }
 
 [sw-navbar-drop-mn] {
   position: absolute; top: calc(100% + .4rem); left: 0; min-width: 24rem;
@@ -7444,7 +7542,8 @@ img[sw-lazy].is-ldd { opacity: 1; }
   transform: translateY(.8rem) scale(.96); transform-origin: top left;
   transition: all .22s var(--sw-ease); z-index: 10;
 }
-[sw-navbar-it][open] + [sw-navbar-drop-mn] { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+[sw-navbar-it][open] + [sw-navbar-drop-mn],
+[sw-navbar-drop-wrap]:hover [sw-navbar-drop-mn] { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
 
 /* Lado do alinhamento — padrão abre pra direita (left:0); "right" abre pra esquerda
    (right:0), essencial pra gatilhos perto da borda direita da navbar (ex.: dentro
@@ -7467,10 +7566,13 @@ img[sw-lazy].is-ldd { opacity: 1; }
 
 /* Submenu aninhado (nível 3) — abre pro lado (direita), com "ponte" de hover
    invisível pra não fechar ao atravessar o espaço até o submenu. */
-[sw-navbar-drop-it][has-sub] { padding-right: 2.8rem; }
+[sw-navbar-drop-it][has-sub] { padding-right: 2.8rem; position: relative; }
+[sw-navbar-drop-it][has-sub]::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 100%; width: .6rem;
+}
 [sw-navbar-drop-it][has-sub]::after {
-  content: ''; position: absolute; right: 1rem; top: 50%; margin-top: -.5rem;
-  width: 1rem; height: 1rem; background: currentColor; opacity: .45;
+  content: ''; position: absolute; right: 1rem; top: 50%; margin-top: -.7rem;
+  width: 1.4rem; height: 1.4rem; background: currentColor; opacity: .45;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") no-repeat center/contain;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") no-repeat center/contain;
   transition: transform .2s, opacity .2s;
@@ -7550,46 +7652,20 @@ img[sw-lazy].is-ldd { opacity: 1; }
 }
 
 /* ---------- Editor ---------- */
-.sw-editor-box { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); overflow: hidden; background: var(--sw-sur); }
-.sw-editor-tb { display: flex; flex-wrap: wrap; gap: .6rem; padding: .6rem; border-bottom: 1px solid var(--sw-bor); background: var(--sw-sur-hover); }
-.sw-editor-grp { display: flex; gap: .2rem; padding-right: .6rem; border-right: 1px solid var(--sw-bor); }
-.sw-editor-grp:last-child { border-right: none; }
-.sw-editor-fmt { border: 1px solid var(--sw-bor); border-radius: var(--sw-r-p); background: var(--sw-sur); color: var(--sw-txt); padding: .3rem .6rem; }
-.sw-editor-btn { width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; border: none; background: none; border-radius: var(--sw-r-p); color: var(--sw-txt); cursor: pointer; position: relative; }
-.sw-editor-btn:hover { background: var(--sw-sur-hover); }
-.sw-editor-btn.is-act { background: var(--sw-pri); color: #fff; }
-.sw-editor-wrap { position: relative; }
-.sw-editor-ed { padding: var(--sw-s-m); min-height: 15rem; outline: none; overflow-y: auto; color: var(--sw-txt); }
-.sw-editor-ed[placeholder]:empty::before { content: attr(placeholder); color: var(--sw-txt-mut); }
-.sw-editor-code { display: none; width: 100%; min-height: 15rem; padding: var(--sw-s-m); border: none; background: var(--sw-bg); color: var(--sw-txt); font-family: var(--sw-f-mon); resize: none; }
-.sw-editor-rz { height: 1rem; display: flex; align-items: center; justify-content: center; cursor: ns-resize; color: var(--sw-txt-mut); border-top: 1px solid var(--sw-bor); }
-.sw-editor-stat { padding: .4rem var(--sw-s-m); font-size: 1.1rem; color: var(--sw-txt-mut); border-top: 1px solid var(--sw-bor); }
+/* Núcleo do .sw-editor-* tinha uma segunda declaração mais completa mais abaixo
+   neste mesmo arquivo (que sempre vencia no cascade) — duplicata removida daqui,
+   mantido só o seletor composto abaixo, que é único (não existe na 2ª declaração). */
 .sw-editor-box.sw-editor-fullscreen { position: fixed; inset: var(--sw-s-m); z-index: var(--sw-z-m); display: flex; flex-direction: column; }
 .sw-editor-box.sw-editor-fullscreen .sw-editor-ed { flex: 1; }
 
-/* ---------- Cotação ---------- */
-.sw-cotacao-wrap { display: flex; flex-wrap: wrap; gap: var(--sw-s-m); }
-.sw-cotacao-it { display: flex; flex-direction: column; gap: .2rem; padding: var(--sw-s-m); border: 1px solid var(--sw-bor); border-radius: var(--sw-r-m); background: var(--sw-sur); min-width: 14rem; }
-.sw-cotacao-par { font-size: 1.2rem; color: var(--sw-txt-mut); }
-.sw-cotacao-val { font-size: 1.8rem; font-weight: 700; }
-.sw-cotacao-val.is-up, .sw-cotacao-sub.is-up { color: var(--sw-suc); }
-.sw-cotacao-val.is-dwn, .sw-cotacao-sub.is-dwn { color: var(--sw-err); }
-.sw-cotacao-table { width: 100%; border-collapse: collapse; }
+/* ---------- Cotação (núcleo redefinido mais abaixo, mais completo — aqui só
+   fica o que é único e não duplicado lá: fallback genérico de th/td) ---------- */
 .sw-cotacao-table th, .sw-cotacao-table td { padding: var(--sw-s-p); border-bottom: 1px solid var(--sw-bor); text-align: left; }
 
-/* ---------- Instagram ---------- */
-.sw-instagram-grid.sw-instagram-cards, .sw-instagram-cards { display: grid; grid-template-columns: repeat(var(--sw-instagram-cols, 3), 1fr); gap: var(--sw-instagram-gap, .4rem); }
-.sw-instagram-it { position: relative; aspect-ratio: 1; border-radius: var(--sw-r-m); overflow: hidden; }
-.sw-instagram-img { position: relative; width: 100%; height: 100%; }
-.sw-instagram-img img { width: 100%; height: 100%; object-fit: cover; }
-.sw-instagram-ovl { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--sw-s-p); background: linear-gradient(to top, rgba(0,0,0,.7), transparent 60%); opacity: 0; transition: opacity .2s var(--sw-ease); color: #fff; font-size: 1.2rem; }
+/* ---------- Instagram (núcleo redefinido mais abaixo, mais completo — aqui só
+   fica o que é único: seletor composto grid+cards e o hover fora do modo .is-card) ---------- */
+.sw-instagram-grid.sw-instagram-cards { display: grid; grid-template-columns: repeat(var(--sw-instagram-cols, 3), 1fr); gap: var(--sw-instagram-gap, .4rem); }
 .sw-instagram-it:hover .sw-instagram-ovl { opacity: 1; }
-.sw-instagram-skl { width: 100%; height: 100%; background: var(--sw-sur-hover); border-radius: var(--sw-r-m); animation: sw-instagram-pulse 1.4s ease-in-out infinite; }
-@keyframes sw-instagram-pulse { 50% { opacity: .5; } }
-.sw-instagram-hdr { display: flex; align-items: center; gap: var(--sw-s-p); margin-bottom: var(--sw-s-m); }
-.sw-instagram-avatar { width: 5rem; height: 5rem; border-radius: 50%; object-fit: cover; }
-.sw-instagram-hdr-info { display: flex; flex-direction: column; flex: 1; }
-.sw-instagram-uname { font-weight: 700; }
 
 /* ---------- Infinite scroll ---------- */
 .sw-infinite-loader { text-align: center; padding: var(--sw-s-m); color: var(--sw-txt-mut); }

@@ -93,7 +93,7 @@ class Validator
             'cep'      => (bool) preg_match('/^\d{5}-?\d{3}$/', $val),
             'data'     => self::_data($val),
             'confirma' => $val === ($dados[$param] ?? null),
-            'unique'   => self::_unique($val, $param),
+            'unique'   => self::_unique($val, $param, $campo),
             'arquivo'  => isset($_FILES[$campo]) && $_FILES[$campo]['error'] === UPLOAD_ERR_OK,
             'max_mb'   => isset($_FILES[$campo]) && $_FILES[$campo]['size'] <= (int) $param * 1024 * 1024,
             'mime'     => self::_mime($campo, $param),
@@ -103,10 +103,14 @@ class Validator
 
     /* ── HELPERS ───────────────────────────────────────────── */
 
-    private static function _unique(mixed $val, ?string $param): bool
+    private static function _unique(mixed $val, ?string $param, string $campo): bool
     {
         [$tabela, $col, $ignorarId] = array_pad(explode(',', $param ?? '', 3), 3, null);
-        $col ??= 'id';
+        // Sem coluna explicita (ex.: "unique:usuarios"), a checagem e' sobre o
+        // proprio campo sendo validado (ex.: "email"), nunca sobre a PK -- usar
+        // 'id' aqui faria a comparacao ser sempre falsa (string contra inteiro)
+        // e a regra "unique" nunca acusaria duplicidade.
+        $col ??= $campo;
 
         $sql    = "SELECT COUNT(*) FROM `{$tabela}` WHERE `{$col}` = ?";
         $params = [$val];
@@ -129,13 +133,31 @@ class Validator
         }
     }
 
+    /** Mapa extensao → mime real esperado, usado pra conferir o conteudo de verdade */
+    private static array $mimesPorExt = [
+        'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png',
+        'gif' => 'image/gif',  'webp' => 'image/webp',  'pdf' => 'application/pdf',
+        'svg' => 'image/svg+xml',
+    ];
+
     private static function _mime(string $campo, ?string $param): bool
     {
         if (!isset($_FILES[$campo]) || !$param) return true;
-        $exts    = array_map('trim', explode(',', $param));
+        $exts    = array_map('trim', explode(',', strtolower($param)));
         $arquivo = $_FILES[$campo]['name'];
         $ext     = strtolower(pathinfo($arquivo, PATHINFO_EXTENSION));
-        return in_array($ext, $exts);
+        if (!in_array($ext, $exts)) return false;
+
+        // A extensao do nome enviado pelo navegador e' so o que o cliente
+        // afirma -- confere o conteudo real do arquivo (magic bytes via
+        // fileinfo) sempre que souber o mime esperado pra essa extensao.
+        $tmp = $_FILES[$campo]['tmp_name'] ?? '';
+        if ($tmp !== '' && is_uploaded_file($tmp) && isset(self::$mimesPorExt[$ext])) {
+            $mimeReal = @mime_content_type($tmp);
+            if ($mimeReal !== self::$mimesPorExt[$ext]) return false;
+        }
+
+        return true;
     }
 
     private static function _cpf(mixed $val): bool

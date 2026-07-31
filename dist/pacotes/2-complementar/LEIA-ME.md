@@ -7,6 +7,9 @@ outras, mas todas exigem o pacote **1-principal** carregado antes:
 - Transição suave entre páginas — vem do sw-mpa.
 - Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.
 - `php/` — backend PHP (Router, Model, Auth, RBAC...), server-side, carregado à parte no PHP, não no HTML.
+- `php-standalone/` — scripts PHP avulsos chamados direto por URL por um módulo JS específico
+  (ex.: `sw-instagram.php`, usado por `sw-instagram.js`). Também fica solto na raiz do `dist/`
+  porque é lá que o módulo JS busca por padrão.
 
 `sw.compl.min.css` é obrigatório se você usar `sw-marquee` ou `sw-scrub` do sw-fx —
 sem ele os dois ficam sem efeito nenhum (o JS só cria a estrutura/estado, quem desenha

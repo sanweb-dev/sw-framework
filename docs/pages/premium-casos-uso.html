@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Casos de Uso Reais - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec { scroll-margin-top: 10rem }
+
+        /* 1. Contador dashboard */
+        .stat-card {
+            border-radius: var(--sw-r-g, 8px);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--sw-bor);
+            background: var(--sw-bg-sec);
+        }
+        .stat-val { font-size: 2.8rem; font-weight: 800; color: var(--sw-pri); display: block; line-height: 1.1; }
+        .stat-lbl { color: var(--sw-txt-mut); font-size: 1.3rem; }
+
+        /* 2. Loja em cascata */
+        .prod-card {
+            border-radius: var(--sw-r-g, 8px);
+            border: 1px solid var(--sw-bor);
+            background: var(--sw-bg-sec);
+            overflow: hidden;
+        }
+        .prod-thumb { height: 8rem; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; }
+        .prod-body { padding: 1.2rem; }
+        .prod-name { font-weight: 700; font-size: 1.4rem; margin-bottom: .2rem; }
+        .prod-price { color: var(--sw-pri); font-weight: 800; }
+
+        /* 3. Banner de evento (parallax) */
+        #eventBanner {
+            position: relative; height: 26rem; overflow: hidden; border-radius: var(--sw-r-g, 8px);
+            background: linear-gradient(160deg, #0b0b14, #150a24);
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .ev-layer { position: absolute; inset: -30% -10%; pointer-events: none; }
+        .ev-blob { position: absolute; border-radius: 50%; filter: blur(50px); }
+        .ev-content { position: relative; z-index: 2; color: #fff; }
+        .ev-tag { font-size: 1.3rem; letter-spacing: .2em; color: #c4b5fd; margin-bottom: .8rem; }
+        .ev-title { font-size: 3.6rem; font-weight: 800; margin-bottom: .6rem; }
+        .ev-sub { color: rgba(255,255,255,.7); font-size: 1.5rem; }
+
+        /* 4. Passo a passo guiado */
+        .step-row { display: flex; gap: 1.6rem; align-items: flex-start; padding: 1.6rem; border-radius: var(--sw-r-g, 8px);
+            border: 1px solid var(--sw-bor); background: var(--sw-bg-sec); transition: border-color .3s, background .3s; }
+        .step-row.is-visible { border-color: var(--sw-pri); background: color-mix(in srgb, var(--sw-pri) 8%, transparent); }
+        .step-num { width: 3.2rem; height: 3.2rem; flex: none; border-radius: 50%; background: var(--sw-bor);
+            display: flex; align-items: center; justify-content: center; font-weight: 800; transition: background .3s, color .3s; }
+        .step-row.is-visible .step-num { background: var(--sw-pri); color: #fff; }
+
+        /* 5. Institucional pin */
+        #pinCaseArea { min-height: 100vh; display: flex; align-items: center; }
+        .pin-case-panel {
+            width: 100%; border-radius: var(--sw-r-xg, 16px); border: 1px solid var(--sw-bor);
+            background: var(--sw-bg-sec); padding: clamp(2.4rem, 5vw, 5rem);
+        }
+        .pin-case-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; width: 100%; }
+        .pin-case-visual { display: flex; flex-direction: column; align-items: center; gap: 1.6rem; }
+        #pinCaseBox {
+            position: relative; aspect-ratio: 1; width: 100%; max-width: 22rem;
+            border-radius: var(--sw-r-g, 8px); background: linear-gradient(135deg, var(--sw-pri), #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2rem 4rem -1rem color-mix(in srgb, var(--sw-pri) 45%, transparent);
+        }
+        .step-icon { display: none; color: #fff; font-size: 4.4rem; }
+        .pin-case-dots { display: flex; gap: .6rem; }
+        .pin-case-dots .dot { width: .8rem; height: .8rem; border-radius: 50%; background: var(--sw-bor); transition: background .3s, transform .3s; }
+
+        .pin-case-eyebrow { font-size: 1.3rem; font-weight: 800; letter-spacing: .16em; color: var(--sw-pri); margin-bottom: 1.6rem; }
+        .tl-step { display: flex; gap: 1.4rem; opacity: .35; transition: opacity .3s; padding: 1.2rem 0; border-top: 1px solid var(--sw-bor); }
+        .tl-step:first-of-type { border-top: none; }
+        .tl-step strong { font-size: 1.9rem; display: block; margin-bottom: .3rem; transition: color .3s; }
+        .tl-step p { color: var(--sw-txt-mut); font-size: 1.4rem; margin: 0; }
+        .tl-step-num { font-size: 1.3rem; font-weight: 800; color: var(--sw-txt-mut); flex: none; padding-top: .3rem; transition: color .3s; }
+        .tl-step.active { opacity: 1; }
+        .tl-step.active strong { color: var(--sw-pri); }
+        .tl-step.active .tl-step-num { color: var(--sw-pri); }
+
+        /* Ícone dentro da caixa e ponto do indicador acendem sozinhos, sem JS extra,
+           conforme qual .tl-step está ".active" (classe já ligada pelo motor). */
+        .pin-case-grid:has(.tl-step:nth-of-type(1).active) .step-icon[data-i="0"],
+        .pin-case-grid:has(.tl-step:nth-of-type(2).active) .step-icon[data-i="1"],
+        .pin-case-grid:has(.tl-step:nth-of-type(3).active) .step-icon[data-i="2"] { display: block; }
+        .pin-case-grid:has(.tl-step:nth-of-type(1).active) .pin-case-dots .dot[data-i="0"],
+        .pin-case-grid:has(.tl-step:nth-of-type(2).active) .pin-case-dots .dot[data-i="1"],
+        .pin-case-grid:has(.tl-step:nth-of-type(3).active) .pin-case-dots .dot[data-i="2"] {
+            background: var(--sw-pri); transform: scale(1.3);
+        }
+
+        @media (max-width: 760px) {
+            .pin-case-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 6. Indicador de rolagem */
+        #scrollHint { display: flex; flex-direction: column; align-items: center; gap: .6rem; color: var(--sw-txt-mut); }
+        #scrollHintIcon { font-size: 2.4rem; }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Casos de Uso Reais</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Casos de Uso Reais</span></h2>
+                <p class="t-g t-mut mb-0">Os mesmos recursos de <a href="premium-scroll.html">Scroll Avançado</a>,
+                    mas aplicados em situações reais de site/sistema — não só a peça isolada, o contexto de negócio
+                    em volta dela.</p>
+            </div>
+
+            <!-- 1. CONTADOR / DASHBOARD -->
+            <div class="doc-card sec mb-6" id="caso-contador">
+                <h3 class="t-m f-bd mb-4">1. Números que "acordam" — dashboard / relatório</h3>
+                <p class="t-g t-mut mb-4">Em vez do número já nascer parado na tela, ele sobe do zero quando a
+                    seção aparece — dá impacto visual em painel financeiro, relatório de vendas, página de resultados.</p>
+                <div class="demo-wrap" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;padding:1.6rem">
+                    <div class="stat-card">
+                        <span class="stat-val" sw-premium-counter="true" sw-premium-counter-prefix="R$ "
+                            sw-premium-scroll-start="top 90%" sw-premium-duration="2" sw-premium-ease="power2.out">128450</span>
+                        <span class="stat-lbl">Faturamento do mês</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val" sw-premium-counter="true" sw-premium-scroll-start="top 90%"
+                            sw-premium-duration="1.6" sw-premium-ease="power2.out">342</span>
+                        <span class="stat-lbl">Pedidos fechados</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val" sw-premium-counter="true" sw-premium-counter-prefix="R$ "
+                            sw-premium-counter-decimals="2" sw-premium-scroll-start="top 90%" sw-premium-duration="2"
+                            sw-premium-ease="power2.out">375.60</span>
+                        <span class="stat-lbl">Ticket médio</span>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<span sw-premium-counter="true" sw-premium-counter-prefix="R$ ">128450</span>
+</script></pre>
+            </div>
+
+            <!-- 2. LOJA EM CASCATA -->
+            <div class="doc-card sec mb-6" id="caso-loja">
+                <h3 class="t-m f-bd mb-4">2. Catálogo em cascata — loja / vitrine de produtos</h3>
+                <p class="t-g t-mut mb-4">Em vez da grade inteira aparecer de uma vez, os cards entram em sequência
+                    conforme rola — sensação de catálogo mais cuidado, sem criar nenhum JS por card.</p>
+                <div class="demo-wrap" style="padding:1.6rem">
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem" sw-premium-batch="true"
+                        sw-premium-batch-animate="fade-up" sw-premium-batch-stagger="0.08"
+                        sw-premium-scroll-start="top 90%">
+                        <div class="prod-card"><div class="prod-thumb" style="background:#3b82f622">🛞</div>
+                            <div class="prod-body"><p class="prod-name">Pneu Aro 15</p><p class="prod-price">R$ 349,90</p></div></div>
+                        <div class="prod-card"><div class="prod-thumb" style="background:#f59e0b22">🔧</div>
+                            <div class="prod-body"><p class="prod-name">Kit Ferramentas</p><p class="prod-price">R$ 189,00</p></div></div>
+                        <div class="prod-card"><div class="prod-thumb" style="background:#22c55e22">🛠️</div>
+                            <div class="prod-body"><p class="prod-name">Suspensão Racer</p><p class="prod-price">R$ 899,00</p></div></div>
+                        <div class="prod-card"><div class="prod-thumb" style="background:#a855f722">🏁</div>
+                            <div class="prod-body"><p class="prod-name">Capacete Pro</p><p class="prod-price">R$ 459,00</p></div></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-batch="true" sw-premium-batch-animate="fade-up" sw-premium-batch-stagger="0.08">
+  <div class="prod-card">...</div> <div class="prod-card">...</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 3. BANNER DE EVENTO (PARALLAX) -->
+            <div class="doc-card sec mb-6" id="caso-banner">
+                <h3 class="t-m f-bd mb-4">3. Banner com profundidade — landing de evento</h3>
+                <p class="t-g t-mut mb-4">Camadas de fundo se movendo em velocidades diferentes ao rolar — dá
+                    profundidade num hero de evento/festival, sem precisar de vídeo ou imagem pesada.</p>
+                <div id="eventBanner">
+                    <div class="ev-layer" sw-premium-parallax="-50" sw-premium-scroll-start="top bottom" sw-premium-scroll-end="bottom top">
+                        <div class="ev-blob" style="width:18rem;height:18rem;background:#7c3aed;opacity:.35;top:5%;left:8%"></div>
+                    </div>
+                    <div class="ev-layer" sw-premium-parallax="-140" sw-premium-scroll-start="top bottom" sw-premium-scroll-end="bottom top">
+                        <div class="ev-blob" style="width:14rem;height:14rem;background:#ec4899;opacity:.3;bottom:8%;right:10%"></div>
+                    </div>
+                    <div class="ev-content">
+                        <p class="ev-tag">18-20 SETEMBRO</p>
+                        <p class="ev-title">Festival JGE 2026</p>
+                        <p class="ev-sub">role a página pra ver as camadas se separarem</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div style="overflow:hidden;position:relative">
+  <div sw-premium-parallax="-140">camada rápida (blob rosa)</div>
+  <div sw-premium-parallax="-50">camada lenta (blob roxo)</div>
+  <div class="ev-content">título do evento</div>
+</div>
+</script></pre>
+            </div>
+
+            <!-- 4. PASSO A PASSO GUIADO -->
+            <div class="doc-card sec mb-6" id="caso-passos">
+                <h3 class="t-m f-bd mb-4">4. Passo a passo que se destaca sozinho — "como funciona"</h3>
+                <p class="t-g t-mut mb-4">Cada etapa acende (cor/borda) só quando está na tela — guia o olho do
+                    visitante numa página de "como comprar" ou "como se inscrever", sem nenhum JS de scroll escrito à mão.</p>
+                <div class="demo-wrap" style="display:flex;flex-direction:column;gap:1rem;padding:1.6rem">
+                    <div class="step-row" sw-premium-scroll-class="is-visible" sw-premium-scroll-start="top 80%" sw-premium-scroll-end="bottom 30%">
+                        <span class="step-num">1</span>
+                        <div><p class="f-bd mb-1">Escolha o produto</p><p class="t-pp t-mut">Navegue pelo catálogo e adicione ao carrinho.</p></div>
+                    </div>
+                    <div class="step-row" sw-premium-scroll-class="is-visible" sw-premium-scroll-start="top 80%" sw-premium-scroll-end="bottom 30%">
+                        <span class="step-num">2</span>
+                        <div><p class="f-bd mb-1">Confirme o endereço</p><p class="t-pp t-mut">Escolha entrega ou retirada na loja.</p></div>
+                    </div>
+                    <div class="step-row" sw-premium-scroll-class="is-visible" sw-premium-scroll-start="top 80%" sw-premium-scroll-end="bottom 30%">
+                        <span class="step-num">3</span>
+                        <div><p class="f-bd mb-1">Finalize o pagamento</p><p class="t-pp t-mut">Pix, cartão ou boleto — pedido confirmado na hora.</p></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="step-row" sw-premium-scroll-class="is-visible" sw-premium-scroll-start="top 80%">
+  <span class="step-num">1</span> <p>Escolha o produto</p>
+</div>
+<style>.step-row.is-visible { border-color: var(--sw-pri); }</style>
+</script></pre>
+            </div>
+
+            <!-- 5. INSTITUCIONAL / DIFERENCIAIS (PIN + TIMELINE) -->
+            <div class="doc-card sec mb-6" id="caso-institucional">
+                <h3 class="t-m f-bd mb-4">5. Seção institucional que "conta uma história" — diferenciais</h3>
+                <p class="t-g t-mut mb-4">A seção trava na tela enquanto os textos ao lado vão se destacando um a um,
+                    o cartão gira/ajusta e o ícone dentro dele muda junto — bom pra "por que nos escolher" ou
+                    apresentação de produto.</p>
+                <div id="pinCaseArea" sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=220%">
+                    <div class="pin-case-panel">
+                        <div class="pin-case-grid">
+                            <div class="pin-case-visual">
+                                <div id="pinCaseBox" sw-premium-tl-box
+                                    sw-premium-tl-steps='[{"rotation":-6,"scale":0.94},{"rotation":0,"scale":1},{"rotation":6,"scale":1.06}]'>
+                                    <i class="swi swi-shield step-icon" data-i="0"></i>
+                                    <i class="swi swi-package step-icon" data-i="1"></i>
+                                    <i class="swi swi-support step-icon" data-i="2"></i>
+                                </div>
+                                <div class="pin-case-dots">
+                                    <span class="dot" data-i="0"></span>
+                                    <span class="dot" data-i="1"></span>
+                                    <span class="dot" data-i="2"></span>
+                                </div>
+                            </div>
+                            <div class="pin-case-text">
+                                <p class="pin-case-eyebrow">POR QUE ESCOLHER A GENTE</p>
+                                <div class="tl-step" sw-premium-tl-step>
+                                    <span class="tl-step-num">01</span>
+                                    <div><strong>Qualidade garantida</strong>
+                                        <p>Cada peça passa por inspeção antes de sair da fábrica — sem letra miúda.</p></div>
+                                </div>
+                                <div class="tl-step" sw-premium-tl-step>
+                                    <span class="tl-step-num">02</span>
+                                    <div><strong>Entrega rápida</strong>
+                                        <p>Despacho em até 24h, rastreio em tempo real pra todo o Brasil.</p></div>
+                                </div>
+                                <div class="tl-step" sw-premium-tl-step>
+                                    <span class="tl-step-num">03</span>
+                                    <div><strong>Suporte dedicado</strong>
+                                        <p>Time especializado te atende antes e depois da compra.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=220%">
+  <div sw-premium-tl-box sw-premium-tl-steps='[{"rotation":-6},{"rotation":0},{"rotation":6}]'>
+    <i class="step-icon" data-i="0">🛡</i> <i class="step-icon" data-i="1">📦</i> <i class="step-icon" data-i="2">🎧</i>
+  </div>
+  <div sw-premium-tl-step>Diferencial 1</div>
+  <div sw-premium-tl-step>Diferencial 2</div>
+  <div sw-premium-tl-step>Diferencial 3</div>
+</div>
+<style>
+  /* ícone e ponto acendem sozinhos com base em qual .tl-step está ".active" */
+  .pin-case-grid:has(.tl-step:nth-of-type(1).active) .step-icon[data-i="0"] { display: block; }
+</style>
+</script></pre>
+            </div>
+
+            <!-- 6. INDICADOR DE ROLAGEM -->
+            <div class="doc-card sec mb-6" id="caso-indicador">
+                <h3 class="t-m f-bd mb-4">6. Indicador de rolagem sutil — feedback de interação</h3>
+                <p class="t-g t-mut mb-4">Uma seta que se move/gira ligada ao scroll — nada muito chamativo, só
+                    reforça que a página "responde" ao gesto do visitante. Bom logo abaixo de um hero.</p>
+                <div class="demo-wrap" style="padding:2.4rem;display:flex;justify-content:center">
+                    <div id="scrollHint">
+                        <span>role a página</span>
+                        <i class="swi swi-arrow-to-bottom" id="scrollHintIcon" sw-premium-animate="fade-down"
+                            sw-premium-trigger="scroll" sw-premium-scroll-scrub="0.6"
+                            sw-premium-scroll-start="top 90%" sw-premium-scroll-end="top 60%"></i>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<i sw-premium-animate="fade-down" sw-premium-trigger="scroll"
+   sw-premium-scroll-scrub="0.6" sw-premium-scroll-start="top 90%" sw-premium-scroll-end="top 60%"></i>
+</script></pre>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

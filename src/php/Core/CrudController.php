@@ -87,6 +87,7 @@ abstract class CrudController extends Controller
 
     public function salvar(?int $id = null): void
     {
+        $this->verificarCsrf();
         $dados = $this->validar($this->_regrasParaId($id));
         $model = $this->model;
 
@@ -102,9 +103,7 @@ abstract class CrudController extends Controller
             $this->json(['ok' => true, 'mensagem' => $msg, $this->pk => $id]);
         }
 
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            $_SESSION['_flash']['ok'] = $msg;
-        }
+        \SW\Auth\Session::flash('ok', $msg);
         $this->redirect($this->rotaBase);
     }
 
@@ -112,6 +111,7 @@ abstract class CrudController extends Controller
 
     public function deletar(int|string $id): void
     {
+        $this->verificarCsrf();
         $model = $this->model;
         $model::encontrarOuAbortar($id);
         $model::deletar($id);
@@ -121,9 +121,7 @@ abstract class CrudController extends Controller
             $this->json(['ok' => true, 'mensagem' => $msg]);
         }
 
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            $_SESSION['_flash']['ok'] = $msg;
-        }
+        \SW\Auth\Session::flash('ok', $msg);
         $this->redirect($this->rotaBase);
     }
 

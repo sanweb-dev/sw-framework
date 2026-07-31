@@ -14,7 +14,7 @@ Depois de três anos evoluindo projetos separados (Ydra, Y2, Smooll, FXCore, lab
 
 - **CSS modular** (`01-tokens` → `08-utilities`) — ~80KB não minificado, ~35KB minificado. Customização inteira do tema via variáveis CSS (`--sw-h-pri`, `--sw-pri`, `--sw-bg`, etc.) — mudar a hue primária recalcula botões, cards, navbars, badges e sombras automaticamente.
 - **Grid atômico de 12 colunas**, mobile-first, sem `!important`.
-- **40 presets de motion** catalogados: 12 entradas, 7 reveals de scroll, 7 loops, 8 microinterações de hover, 6 presets de scroll — todos respeitando `prefers-reduced-motion`.
+- **56 presets de motion** catalogados: 15 entradas, 7 reveals de scroll, 11 loops, 9 microinterações de hover, 14 presets de scroll mount/unmount — todos respeitando `prefers-reduced-motion`.
 - **`SW-Core`** — orquestrador com `MutationObserver`, reinicialização agrupada por frame, registro de módulos e `SW.config()`.
 - **`SW-Day`** — alternância de tema claro/escuro persistida em `localStorage`, presente em toda página.
 - **`SW-Trans`** — transições de página nativas via View Transitions API (SPA e MPA), morphing declarativo, scroll reveal via `IntersectionObserver`, overlay de carregamento opcional. Homologado em Chromium, Firefox e WebKit (ver limites abaixo).

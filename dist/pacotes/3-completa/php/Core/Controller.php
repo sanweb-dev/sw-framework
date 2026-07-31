@@ -79,11 +79,10 @@ abstract class Controller
             $this->json(['ok' => false, 'erros' => $erros], 422);
         }
 
-        /* Web: flash e redireciona */
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            $_SESSION['_flash']['erros'] = $erros;
-            $_SESSION['_flash']['antigo'] = $dados;
-        }
+        /* Web: flash e redireciona -- Session::flash() inicia a sessao sozinha,
+           entao a mensagem nao depende de algo ja ter tocado sessao antes */
+        \SW\Auth\Session::flash('erros', $erros);
+        \SW\Auth\Session::flash('antigo', $dados);
         $this->back();
     }
 
@@ -116,6 +115,20 @@ abstract class Controller
     {
         if (!$this->pode($permissao)) {
             $this->abortar(403, 'Sem permissão para esta ação');
+        }
+    }
+
+    /* ── CSRF ──────────────────────────────────────────────── */
+
+    /**
+     * Chamar no topo de qualquer acao que muda estado (criar/editar/excluir).
+     * Aborta com 419 se o token nao bater -- Session::csrf()/verificarCsrf()
+     * ja existiam, mas nada no framework os usava de fato antes disso.
+     */
+    protected function verificarCsrf(): void
+    {
+        if (!\SW\Auth\Session::verificarCsrf($this->req->csrfToken())) {
+            $this->abortar(419, 'Sessão expirada, recarregue a página e tente novamente.');
         }
     }
 }

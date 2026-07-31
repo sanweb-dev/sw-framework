@@ -35,6 +35,11 @@ class QueryBuilder
     private ?int   $off     = null;
     private array  $joins   = [];
 
+    /** Unicos operadores aceitos em where()/orWhere() -- se o operador vier de
+     *  fora (ex.: filtro dinamico montado a partir de $_GET), colar direto na
+     *  query sem essa lista seria injecao de SQL na hora. */
+    private const OPERADORES_VALIDOS = ['=', '!=', '<>', '<', '<=', '>', '>=', 'LIKE', 'NOT LIKE'];
+
     /* ── FACTORY ───────────────────────────────────────────── */
 
     public static function tabela(string $tabela): static
@@ -58,7 +63,7 @@ class QueryBuilder
             $this->wheres[] = "{$col} = ?";
             $this->params[] = $opOuVal;
         } else {
-            $op = strtoupper($opOuVal);
+            $op = self::_operador($opOuVal);
             $this->wheres[] = "{$col} {$op} ?";
             $this->params[] = $val;
         }
@@ -67,7 +72,7 @@ class QueryBuilder
 
     public function orWhere(string $col, mixed $opOuVal, mixed $val = null): static
     {
-        $cond = $val === null ? "{$col} = ?" : "{$col} {$opOuVal} ?";
+        $cond = $val === null ? "{$col} = ?" : "{$col} " . self::_operador($opOuVal) . " ?";
         $prm  = $val ?? $opOuVal;
 
         if (!empty($this->wheres)) {
@@ -231,6 +236,16 @@ class QueryBuilder
     private function _where(): string
     {
         return $this->wheres ? 'WHERE ' . implode(' AND ', $this->wheres) : '';
+    }
+
+    /** Valida o operador contra a whitelist antes de colar na query */
+    private static function _operador(mixed $op): string
+    {
+        $op = strtoupper((string) $op);
+        if (!in_array($op, self::OPERADORES_VALIDOS, true)) {
+            throw new \InvalidArgumentException("Operador inválido em where(): {$op}");
+        }
+        return $op;
     }
 }
 

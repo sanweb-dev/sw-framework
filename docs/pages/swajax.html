@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SW-AJAX - SW Docs</title>
-  <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
-    <script src="../dist/sw.min.js" defer></script>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
     <style>
         .sec { scroll-margin-top: 10rem; }
 
@@ -79,14 +79,19 @@
         /* Especificidade de ID sempre vence a cascata — por isso a transição aqui precisa
            incluir de propósito as mesmas transições que [class*="sw-rev-"] declara em
            06-animations.css (opacity/transform/filter), senão o shorthand as apaga e os
-           efeitos de reveal param de animar dentro desta caixa. */
+           efeitos de reveal param de animar dentro desta caixa. Usa --sw-spd-rev (mesmo
+           token do reveal em 06-animations.css, 0.8s) em vez de --sw-spd (0.55s genérico),
+           e var(--sw-delay, 0s) com fallback — sem isso, se --sw-delay não tiver sido
+           setado via JS ainda, a declaração inteira vira inválida e o navegador some com
+           TODA a transição (all 0s), não só o atraso, matando a animação por completo.
+           (Causa raiz real de "reveal sem nenhuma animação" reportada em 30/07/2026.) */
         #fx-box {
             border-color: var(--fx-c, var(--sw-bor));
             transition:
                 border-color .2s ease,
-                opacity var(--sw-spd) var(--sw-ease) var(--sw-delay),
-                transform var(--sw-spd) var(--sw-ease) var(--sw-delay),
-                filter var(--sw-spd) var(--sw-ease) var(--sw-delay);
+                opacity var(--sw-spd-rev) var(--sw-ease) var(--sw-delay, 0s),
+                transform var(--sw-spd-rev) var(--sw-ease) var(--sw-delay, 0s),
+                filter var(--sw-spd-rev) var(--sw-ease) var(--sw-delay, 0s);
         }
 
         .fx-controls {

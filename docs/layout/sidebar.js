@@ -133,55 +133,55 @@
         <div class="nav-group-title">COMPONENTES SW <i class="swi swi-chevron-down"></i></div>
         <div class="nav-group-content">
           <a href="${root}pages/btn.html" class="nav-it ${currentPath === 'btn.html' ? 'is-active is-act' : ''}" data-doc-link data-page="btn">
-            <span sw-icon="${iconPaths.btn}"></span> <span>Botões SW</span>
+            <span sw-icon="${iconPaths.btn}"></span> <span>Botões</span>
           </a>
           <a href="${root}pages/badge.html" class="nav-it ${currentPath === 'badge.html' ? 'is-active is-act' : ''}" data-doc-link data-page="badge">
-            <span sw-icon="${iconPaths.badge}"></span> <span>Badges SW</span>
+            <span sw-icon="${iconPaths.badge}"></span> <span>Badges</span>
           </a>
           <a href="${root}pages/cards.html" class="nav-it ${currentPath === 'cards.html' ? 'is-active is-act' : ''}" data-doc-link data-page="cards">
-            <span sw-icon="${iconPaths.card}"></span> <span>Cards Painéis</span>
+            <span sw-icon="${iconPaths.card}"></span> <span>Cards</span>
           </a>
           <a href="${root}pages/tabela.html" class="nav-it ${currentPath === 'tabela.html' ? 'is-active is-act' : ''}" data-doc-link data-page="tabela">
-            <span sw-icon="${iconPaths.tbl}"></span> <span>Tabela Estática</span>
+            <span sw-icon="${iconPaths.tbl}"></span> <span>Tabela</span>
           </a>
           <a href="${root}pages/avatar.html" class="nav-it ${currentPath === 'avatar.html' ? 'is-active is-act' : ''}" data-doc-link data-page="avatar">
-            <span sw-icon="${iconPaths.avt}"></span> <span>Avatar Usuário</span>
+            <span sw-icon="${iconPaths.avt}"></span> <span>Avatar</span>
           </a>
           <a href="${root}pages/chip.html" class="nav-it ${currentPath === 'chip.html' ? 'is-active is-act' : ''}" data-doc-link data-page="chip">
-            <span sw-icon="${iconPaths.chip}"></span> <span>Chip Etiqueta</span>
+            <span sw-icon="${iconPaths.chip}"></span> <span>Chip</span>
           </a>
           <a href="${root}pages/breadcrumb.html" class="nav-it ${currentPath === 'breadcrumb.html' ? 'is-active is-act' : ''}" data-doc-link data-page="breadcrumb">
-            <span sw-icon="${iconPaths.brc}"></span> <span>Breadcrumb Navegação</span>
+            <span sw-icon="${iconPaths.brc}"></span> <span>Breadcrumb</span>
           </a>
           <a href="${root}pages/divider.html" class="nav-it ${currentPath === 'divider.html' ? 'is-active is-act' : ''}" data-doc-link data-page="divider">
-            <span sw-icon="${iconPaths.div}"></span> <span>Divider Linha</span>
+            <span sw-icon="${iconPaths.div}"></span> <span>Divider</span>
           </a>
           <a href="${root}pages/progress.html" class="nav-it ${currentPath === 'progress.html' ? 'is-active is-act' : ''}" data-doc-link data-page="progress">
             <span sw-icon="${iconPaths.prg}"></span> <span>Progress Bar</span>
           </a>
           <a href="${root}pages/skeleton.html" class="nav-it ${currentPath === 'skeleton.html' ? 'is-active is-act' : ''}" data-doc-link data-page="skeleton">
-            <span sw-icon="${iconPaths.skl}"></span> <span>Skeleton Loading</span>
+            <span sw-icon="${iconPaths.skl}"></span> <span>Skeleton</span>
           </a>
           <a href="${root}pages/stepper.html" class="nav-it ${currentPath === 'stepper.html' ? 'is-active is-act' : ''}" data-doc-link data-page="stepper">
-            <span sw-icon="${iconPaths.stp}"></span> <span>Stepper Etapas</span>
+            <span sw-icon="${iconPaths.stp}"></span> <span>Stepper</span>
           </a>
           <a href="${root}pages/timeline.html" class="nav-it ${currentPath === 'timeline.html' ? 'is-active is-act' : ''}" data-doc-link data-page="timeline">
-            <span sw-icon="${iconPaths.tml}"></span> <span>Timeline Eventos</span>
+            <span sw-icon="${iconPaths.tml}"></span> <span>Timeline</span>
           </a>
           <a href="${root}pages/forms.html" class="nav-it ${currentPath === 'forms.html' ? 'is-active is-act' : ''}" data-doc-link data-page="forms">
-            <span sw-icon="${iconPaths.form}"></span> <span>Formulários Base</span>
+            <span sw-icon="${iconPaths.form}"></span> <span>Formulários</span>
           </a>
           <a href="${root}pages/utilitarios.html" class="nav-it ${currentPath === 'utilitarios.html' ? 'is-active is-act' : ''}" data-doc-link data-page="utilitarios">
             <span sw-icon="${iconPaths.tool}"></span> <span>Utilitários CSS</span>
           </a>
           <a href="${root}pages/icones.html" class="nav-it ${currentPath === 'icones.html' ? 'is-active is-act' : ''}" data-doc-link data-page="icones">
-            <span sw-icon="${iconPaths.badge}"></span> <span>Ícones (Fonte)</span>
+            <span sw-icon="${iconPaths.badge}"></span> <span>Ícones (i)</span>
           </a>
           <a href="${root}pages/icones_svg.html" class="nav-it ${currentPath === 'icones_svg.html' ? 'is-active is-act' : ''}" data-doc-link data-page="icones_svg">
-            <span sw-icon="${iconPaths.sld}"></span> <span>Ícones SVG</span>
+            <span sw-icon="${iconPaths.sld}"></span> <span>Ícones (svg)</span>
           </a>
           <a href="${root}pages/uteis_bordas.html" class="nav-it ${currentPath === 'uteis_bordas.html' ? 'is-active is-act' : ''}" data-doc-link data-page="uteis_bordas">
-            <span sw-icon="${iconPaths.tool}"></span> <span>Bordas Curvas</span>
+            <span sw-icon="${iconPaths.tool}"></span> <span>Bordas</span>
           </a>
           <a href="${root}pages/uteis_shadows.html" class="nav-it ${currentPath === 'uteis_shadows.html' ? 'is-active is-act' : ''}" data-doc-link data-page="uteis_shadows">
             <span sw-icon="${iconPaths.tool}"></span> <span>Sombras</span>
@@ -190,7 +190,7 @@
             <span sw-icon="${iconPaths.sld}"></span> <span>Object-Fit</span>
           </a>
           <a href="${root}pages/uteis_zoons.html" class="nav-it ${currentPath === 'uteis_zoons.html' ? 'is-active is-act' : ''}" data-doc-link data-page="uteis_zoons">
-            <span sw-icon="${iconPaths.tool}"></span> <span>Zoom Scale</span>
+            <span sw-icon="${iconPaths.tool}"></span> <span>Zoom</span>
           </a>
         </div>
       </div>
@@ -202,8 +202,11 @@
           <a href="${root}pages/navbar.html" class="nav-it ${currentPath === 'navbar.html' ? 'is-active is-act' : ''}" data-doc-link data-page="navbar">
             <span sw-icon="${iconPaths.motion}"></span> <span>Navbar</span>
           </a>
+          <a href="${root}pages/navbar_basement.html" class="nav-it ${currentPath === 'navbar_basement.html' ? 'is-active is-act' : ''}" data-doc-link data-page="navbar_basement">
+            <span sw-icon="${iconPaths.grid}"></span> <span>Navbar Basement</span>
+          </a>
           <a href="${root}pages/modal.html" class="nav-it ${currentPath === 'modal.html' ? 'is-active is-act' : ''}" data-doc-link data-page="modal">
-            <span sw-icon="${iconPaths.modal}"></span> <span>Modal Acessível</span>
+            <span sw-icon="${iconPaths.modal}"></span> <span>Modal</span>
           </a>
           <a href="${root}pages/panel.html" class="nav-it ${currentPath === 'panel.html' ? 'is-active is-act' : ''}" data-doc-link data-page="panel">
             <span sw-icon="${iconPaths.panel}"></span> <span>Panel (Drawer)</span>
@@ -215,7 +218,7 @@
             <span sw-icon="${iconPaths.form}"></span> <span>Select Customizado</span>
           </a>
           <a href="${root}pages/sidebar.html" class="nav-it ${currentPath === 'sidebar.html' ? 'is-active is-act' : ''}" data-doc-link data-page="sidebar">
-            <span sw-icon="${iconPaths.sdb}"></span> <span>Sidebar Componente</span>
+            <span sw-icon="${iconPaths.sdb}"></span> <span>Sidebar</span>
           </a>
           <a href="${root}pages/tabs.html" class="nav-it ${currentPath === 'tabs.html' ? 'is-active is-act' : ''}" data-doc-link data-page="tabs">
             <span sw-icon="${iconPaths.tabs}"></span> <span>Tabs Abas</span>
@@ -321,9 +324,6 @@
           <a href="${root}pages/animacoes.html" class="nav-it ${currentPath === 'animacoes.html' ? 'is-active is-act' : ''}" data-doc-link data-page="animacoes">
             <span sw-icon="${iconPaths.motion}"></span> <span>Animações Nativas</span>
           </a>
-          <a href="${root}pages/sw-fx.html" class="nav-it ${currentPath === 'sw-fx.html' ? 'is-active is-act' : ''}" data-doc-link data-page="sw-fx">
-            <span sw-icon="${iconPaths.fx}"></span> <span>SW-FX</span>
-          </a>
           <a href="${root}pages/transitions.html" class="nav-it ${currentPath === 'transitions.html' ? 'is-active is-act' : ''}" data-doc-link data-page="transitions">
             <span sw-icon="${iconPaths.trans}"></span> <span>Transições Nativas</span>
           </a>
@@ -338,6 +338,9 @@
           </a>
           <a href="${root}pages/premium-scroll.html" class="nav-it ${currentPath === 'premium-scroll.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-scroll">
             <span sw-icon="${iconPaths.fx}"></span> <span>Scroll Avançado</span>
+          </a>
+          <a href="${root}pages/premium-casos-uso.html" class="nav-it ${currentPath === 'premium-casos-uso.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-casos-uso">
+            <span sw-icon="${iconPaths.fx}"></span> <span>Casos de Uso Reais</span>
           </a>
           <a href="${root}pages/premium-video.html" class="nav-it ${currentPath === 'premium-video.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-video">
             <span sw-icon="${iconPaths.fx}"></span> <span>Vídeo Scrub</span>

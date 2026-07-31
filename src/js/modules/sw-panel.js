@@ -1,6 +1,24 @@
 /* SW Framework Panel */
 (function () {
   'use strict';
+
+  // Overlay compartilhado — um só elemento reaproveitado por todos os painéis
+  // (só um painel fica ativo por vez na prática). Criado sob demanda, igual ao
+  // padrão já usado pelo drawer mobile do sw-navbar.
+  function getOverlay() {
+    let ovl = document.querySelector('.sw-panel-ovl');
+    if (!ovl) {
+      ovl = document.createElement('div');
+      ovl.className = 'sw-panel-ovl';
+      document.body.appendChild(ovl);
+      ovl.addEventListener('click', () => {
+        const active = document.querySelector('.sw-panel.is-active');
+        if (active) SWPanel.hide(active);
+      });
+    }
+    return ovl;
+  }
+
   class SWPanel {
     static initAll(root = document) {
       SW.$('[sw-panel-open]', root).forEach((trigger) => {
@@ -37,6 +55,7 @@
         if (!panel.contains(event.target) && !trigger?.contains?.(event.target)) SWPanel.hide(panel);
       };
       window.setTimeout(() => document.addEventListener('click', panel._swOutsideClick), 0);
+      getOverlay().classList.add('is-active');
       SW.Overlay.lock();
       window.requestAnimationFrame(() => (panel.querySelector('[autofocus], [sw-panel-close], button, input, select, textarea, a[href]') || panel).focus({ preventScroll: true }));
       SW.emit(panel, 'sw:panel:open');
@@ -49,6 +68,7 @@
       panel.setAttribute('aria-hidden', 'true');
       window.removeEventListener('keydown', panel._swKeydown);
       document.removeEventListener('click', panel._swOutsideClick);
+      document.querySelector('.sw-panel-ovl')?.classList.remove('is-active');
       SW.Overlay.unlock();
       panel._swPreviousFocus?.focus?.({ preventScroll: true });
       SW.emit(panel, 'sw:panel:close');

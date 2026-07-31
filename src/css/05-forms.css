@@ -333,15 +333,24 @@
   background: var(--sw-bg);
 }
 
+/* Glassmorphism é sempre "vidro escuro" translúcido, de propósito — não segue o
+   tema claro/escuro do site. O efeito só existe visualmente sobre um fundo escuro
+   ou colorido (é assim que qualquer glassmorphism real funciona); deixar o vidro
+   reagir ao tema fazia ele virar uma caixa cinza-clara opaca no tema claro,
+   sem nenhum efeito de vidro visível. */
 .inp.is-gls, .sel.is-gls, .txr.is-gls {
-  background: var(--sw-gls-bg);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--sw-gls-bor);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: #fff;
 }
-.inp.is-gls::placeholder, .txr.is-gls::placeholder { color: rgba(255,255,255,0.6); }
-.inp.is-gls:focus, .sel.is-gls:focus, .txr.is-gls:focus { background: rgba(255,255,255,0.15); border-color: var(--sw-pri); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+.inp.is-gls::placeholder, .txr.is-gls::placeholder { color: rgba(255,255,255,0.55); }
+.inp.is-gls:focus, .sel.is-gls:focus, .txr.is-gls:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 3px var(--sw-pri-glow);
+}
 
 .inp.is-min, .sel.is-min, .txr.is-min {
   border-top: none; border-left: none; border-right: none;
@@ -456,7 +465,7 @@
 .chk input[type="checkbox"]:checked ~ .chk-box { background: var(--sw-pri); border-color: var(--sw-pri); }
 
 .chk.is-soft .chk-box { box-shadow: 2px 2px 5px rgba(0,0,0,0.1), -2px -2px 5px rgba(255,255,255,0.05); }
-.chk.is-gls .chk-box { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border-color: var(--sw-gls-bor); }
+.chk.is-gls .chk-box { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border-color: rgba(255, 255, 255, 0.18); }
 .chk.is-min .chk-box { border-top: none; border-left: none; border-right: none; border-radius: 0; }
 .chk.is-fld .chk-box { background: var(--sw-bg-); border-color: transparent; }
 
@@ -500,7 +509,7 @@
 .rdo input[type="radio"]:checked ~ .rdo-dot::after { transform: scale(1); }
 
 .rdo.is-soft .rdo-dot { box-shadow: 2px 2px 5px rgba(0,0,0,0.1), -2px -2px 5px rgba(255,255,255,0.05); }
-.rdo.is-gls .rdo-dot { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border-color: var(--sw-gls-bor); }
+.rdo.is-gls .rdo-dot { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border-color: rgba(255, 255, 255, 0.18); }
 .rdo.is-min .rdo-dot { border-top: none; border-left: none; border-right: none; border-radius: 0; }
 .rdo.is-fld .rdo-dot { background: var(--sw-bg-); border-color: transparent; }
 .rdo input[type="radio"]:disabled ~ .rdo-dot, .rdo input[type="radio"]:disabled ~ .rdo-lbl { opacity: 0.45; cursor: not-allowed; }
@@ -533,7 +542,7 @@
 .swt input[type="checkbox"]:checked ~ .swt-trk::after { transform: translateX(2.0rem); }
 
 .swt.is-soft .swt-trk { box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15), inset -2px -2px 4px rgba(255,255,255,0.05); }
-.swt.is-gls .swt-trk { background: var(--sw-gls-bg); backdrop-filter: blur(12px); border: 1px solid var(--sw-gls-bor); }
+.swt.is-gls .swt-trk { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); }
 .swt.is-fld .swt-trk { background: var(--sw-bg-); }
 .swt input[type="checkbox"]:disabled ~ .swt-trk { opacity: 0.45; }
 .swt:has(input:disabled) { cursor: not-allowed; }

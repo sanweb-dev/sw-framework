@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>View Transition Nativa - SW Docs</title>
-  <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
 
     <style>
         .sec {
@@ -24,7 +23,8 @@
             gap: 1.2rem
         }
     </style>
-    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
@@ -55,46 +55,52 @@
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Página inteira</p>
                         <p class="t-pp t-mut mb-3">A transição padrão do site anima tudo, cabeçalho incluso.</p>
-                        <a href="mpa-view-transition-page.html" class="sw-btn sw-btn-pri">
+                        <a href="mpa-view-transition-page.html" class="sw-btn sw-btn-pri"
+                            onclick="window.SWMpa?.setStyle('default')">
                             <i class="swi swi-arrow-to-right mr-2"></i> Testar
                         </a>
                     </div>
+                    <!-- view-transition-name setado na mão antes de navegar: o Chrome cancela a
+                         transição inteira se a página de CHEGADA introduzir um nome que a de SAÍDA
+                         não tinha -- por isso o hub (que não faz parte da dupla morph) precisa
+                         "emprestar" o mesmo nome só neste clique, senão o efeito não roda nem 1x. -->
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Só o conteúdo (menu fixo)</p>
                         <p class="t-pp t-mut mb-3">Mesma transição, mas o menu não se mexe — só o conteúdo troca.</p>
-                        <a href="mpa-view-transition-b.html" class="sw-btn sw-btn-pri">
+                        <a href="mpa-view-transition-b.html" class="sw-btn sw-btn-pri"
+                            onclick="window.SWMpa?.setStyle('default'); document.querySelector('main.doc-main').style.viewTransitionName='sw-mpa-demo-main';">
                             <i class="swi swi-arrow-to-right mr-2"></i> Testar
                         </a>
                     </div>
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Fade</p>
                         <p class="t-pp t-mut mb-3">Página some e aparece com opacidade, sem deslocamento.</p>
-                        <a href="mpa-view-transition-fade-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#10b981;border-color:#10b981">
+                        <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#10b981;border-color:#10b981" onclick="window.SWMpa?.setStyle('fade')">
                             <i class="swi swi-show mr-2"></i> Testar
                         </a>
                     </div>
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Zoom</p>
                         <p class="t-pp t-mut mb-3">Página encolhe saindo e a nova entra vindo de perto.</p>
-                        <a href="mpa-view-transition-zoom-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#f59e0b;border-color:#f59e0b">
+                        <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#f59e0b;border-color:#f59e0b" onclick="window.SWMpa?.setStyle('zoom')">
                             <i class="swi swi-expand mr-2"></i> Testar
                         </a>
                     </div>
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Circle</p>
                         <p class="t-pp t-mut mb-3">Página sai com fade e a nova revela num círculo crescendo do centro.</p>
-                        <a href="mpa-view-transition-circle-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#ef4444;border-color:#ef4444">
+                        <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#ef4444;border-color:#ef4444" onclick="window.SWMpa?.setStyle('circle')">
                             <i class="swi swi-star mr-2"></i> Testar
                         </a>
                     </div>
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Slide vertical</p>
                         <p class="t-pp t-mut mb-3">Página sai por cima e a nova entra vindo de baixo.</p>
-                        <a href="mpa-view-transition-slidey-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#8b5cf6;border-color:#8b5cf6">
+                        <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
+                            style="background:#8b5cf6;border-color:#8b5cf6" onclick="window.SWMpa?.setStyle('slide-y')">
                             <i class="swi swi-arrow-to-top mr-2"></i> Testar
                         </a>
                     </div>
@@ -104,31 +110,46 @@
             <!-- COMO FUNCIONA -->
             <div class="doc-card sec mb-6" id="como">
                 <h3 class="t-m f-bd mb-4">2. Como Funciona</h3>
-                <p class="t-g t-mut mb-4">Uma propriedade CSS liga tudo. A mesma animação vale indo ou voltando —
-                    não inverte por direção.</p>
+                <p class="t-g t-mut mb-4">Uma propriedade CSS liga tudo. A navegação nativa (Navigation API) detecta
+                    se você está indo pra frente (clique/push) ou voltando (botão voltar/traverse) e troca o
+                    atributo <code>data-sw-trans-direction</code> no <code>&lt;html&gt;</code> — o padrão do site
+                    <strong>inverte a direção do slide</strong> de acordo: entra da direita indo, entra da esquerda
+                    voltando, igual o gesto físico de "avançar"/"retroceder".</p>
                 <div style="background:var(--sw-bg-alt);border-radius:var(--sw-r-g);padding:2rem;font-size:1.4rem">
                     <div class="flx alc gap-3 mb-2">
                         <span class="bdg is-pri is-sm">1</span>
-                        <span>Clique num link normal</span>
+                        <span>Clique num link normal (ou use voltar/avançar do navegador)</span>
                     </div>
                     <div class="flx alc gap-3 mb-2">
                         <span class="bdg is-pri is-sm">2</span>
                         <span>O navegador tira uma foto da página atual</span>
                     </div>
+                    <div class="flx alc gap-3 mb-2">
+                        <span class="bdg is-pri is-sm">3</span>
+                        <span>JS classifica a direção (forward/back) e marca <code>data-sw-trans-direction</code> antes da foto</span>
+                    </div>
                     <div class="flx alc gap-3">
-                        <span class="bdg is-suc is-sm">3</span>
-                        <span>A nova página carrega e as duas fotos são animadas</span>
+                        <span class="bdg is-suc is-sm">4</span>
+                        <span>A nova página carrega e as duas fotos são animadas — direção diferente muda o sentido do slide</span>
                     </div>
                 </div>
                 <pre swcode="css"><script type="text/plain">
 /* Liga a navegação nativa */
 @view-transition { navigation: auto; }
 
-/* Mesma animação indo ou voltando */
-html::view-transition-old(root) {
-  animation: 450ms both sw-slide-out-left;
-}
+/* Direção-padrão (fallback, sem JS de direção): sempre a mesma */
+html::view-transition-old(root) { animation: 450ms both sw-slide-out-left; }
+html::view-transition-new(root) { animation: 450ms both sw-slide-in-right; }
+
+/* Com direção (o que o site realmente usa): inverte ao voltar */
+html[data-sw-trans-direction="forward"]::view-transition-old(root) { animation: 450ms both sw-slide-out-left; }
+html[data-sw-trans-direction="forward"]::view-transition-new(root) { animation: 450ms both sw-slide-in-right; }
+html[data-sw-trans-direction="back"]::view-transition-old(root)    { animation: 400ms both sw-slide-out-right; }
+html[data-sw-trans-direction="back"]::view-transition-new(root)    { animation: 400ms both sw-slide-in-left; }
 </script></pre>
+                <p class="t-pp t-mut mt-3">Quer uma demo com efeito fixo (não muda por direção)? Dê ao seletor mais
+                    peso com <code>!important</code>, ou não use <code>[data-sw-trans-direction]</code> em nada — é
+                    exatamente o que as demos de Fade/Zoom/Circle/Slide vertical abaixo fazem.</p>
             </div>
 
             <!-- ESCOPO POR ELEMENTO -->

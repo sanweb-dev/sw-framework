@@ -138,6 +138,13 @@
   window.SW?.register('SWTrans', SWTrans);
   if (window.SW) window.SW.Trans = SWTrans;
 
+  /* [sw-morph] precisa nomear o elemento (view-transition-name) ANTES do navegador
+   * fechar a árvore de grupos nomeados da transição cross-document — se isso só
+   * acontecer no boot normal (DOMContentLoaded/defer), pode chegar tarde demais e o
+   * Chrome cancela a transição inteira ("Transition was skipped"). pagereveal é o
+   * evento que a spec recomenda pra isso, disparado antes da 1ª pintura da página. */
+  window.addEventListener('pagereveal', () => SWTrans.initMorphs());
+
   /* Page Transition Engine (sw-trans / y2transi) */
   class SWTransi {
     static _ovl = null;
@@ -224,6 +231,10 @@
       `;
       document.body.prepend(ovl);
       SWTransi._ovl = ovl;
+      // Remove a ponte anti-flash inline (se a página tiver uma) -- o overlay de
+      // verdade já está no lugar, cobrindo a tela com a mesma cor, então a troca
+      // é invisível. Sem isso, o body ficaria "visibility:hidden" pra sempre.
+      document.getElementById('sw-trans-bridge')?.remove();
     }
 
     static _applyColor(color) {

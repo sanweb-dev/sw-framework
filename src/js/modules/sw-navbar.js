@@ -102,13 +102,23 @@
     return window;
   }
 
+  // Histerese: liga em [threshold], só desliga bem abaixo dele (metade do valor).
+  // Sem isso, encolher a navbar muda a altura do conteúdo acima da posição atual
+  // de rolagem — o navegador reajusta o scroll pra compensar (scroll anchoring),
+  // o que pode cruzar o limiar de novo e entrar num loop de ligar/desligar sem fim
+  // (a navbar "treme") bem perto do ponto de troca. Faixa morta resolve.
   function initScrollShrink(nav) {
     const mode = nav.getAttribute('sw-navbar-mode');
     if (mode !== 'fixed' && mode !== 'sticky') return;
     const threshold = Number(nav.getAttribute('sw-navbar-shrink-at')) || 40;
+    const releaseAt = threshold / 2;
     const scroller = findScrollParent(nav);
     const getY = () => (scroller === window ? window.scrollY : scroller.scrollTop);
-    const update = () => nav.toggleAttribute('scrolled', getY() > threshold);
+    const update = () => {
+      const y = getY();
+      if (y > threshold) nav.setAttribute('scrolled', '');
+      else if (y < releaseAt) nav.removeAttribute('scrolled');
+    };
     update();
     scroller.addEventListener('scroll', update, { passive: true });
   }

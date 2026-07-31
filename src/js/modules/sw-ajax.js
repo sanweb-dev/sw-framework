@@ -69,6 +69,11 @@
                 fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
                 if (!(body instanceof FormData)) fetchOptions.headers['Content-Type'] = 'application/json';
               }
+              // Toda acao que muda estado agora exige o token CSRF no backend
+              // (Controller::verificarCsrf()) -- manda automatico aqui pra nao
+              // quebrar formulario/botao AJAX nenhum por falta dele.
+              const csrf = document.querySelector('meta[name="csrf-token"]')?.content || window._csrf || '';
+              if (csrf) fetchOptions.headers['X-CSRF-Token'] = csrf;
             }
             const response = await fetch(url.href, fetchOptions);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -106,7 +111,11 @@
           // document.startViewTransition() adia o callback pro próximo frame — sem esperar
           // updateCallbackDone, o resto do fluxo (evento done, fim do loading) rodaria antes
           // do conteúdo existir de fato no DOM.
-          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' });
+          // Quando um sw-ajax-effect é pedido, ele já É a animação de entrada — deixar o
+          // View Transition rodar junto faz as duas animarem o mesmo elemento ao mesmo
+          // tempo (a captura automática de cross-fade do navegador por cima da transição/
+          // animation manual do efeito), o que visualmente parece as duas se misturando.
+          const transition = SW.Trans.run(render, { skip: targetType === 'panel' || targetType === 'modal' || !!effect });
           if (transition?.updateCallbackDone) await transition.updateCallbackDone;
         } else {
           render();

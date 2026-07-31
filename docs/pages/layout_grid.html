@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Layout & Grid - SW Docs</title>
-  <script src="../dist/sw.compl.min.js" defer></script>
-    <link rel="stylesheet" href="../dist/sw.min.css">
-    <link rel="stylesheet" href="../css/layout.css?v=11">
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
 
     <style>
         /* Demos visuais */
@@ -24,23 +23,9 @@
             overflow: hidden;
         }
 
-        .d-col.is-secu {
-            background: var(--secu13);
-            border-color: var(--secu7);
-            color: var(--secu7);
-        }
-
-        .d-col.is-gold {
-            background: var(--gold14);
-            border-color: var(--gold);
-            color: var(--gold7);
-        }
-
-        .d-col.is-verd {
-            background: var(--verd14);
-            border-color: var(--verd);
-            color: var(--verd7);
-        }
+        /* .d-col.is-secu/.is-gold/.is-verd agora vêm de docs/css/layout.css (fonte
+           única) — este bloco tinha nomes de variável inventados (--gold* não existe;
+           a família real é --amar*) e sobrescrevia a versão correta por vir depois no cascade. */
 
         /* bp-badge agora é nativo do framework (components.css) */
 
@@ -139,7 +124,8 @@
             flex-shrink: 0;
         }
     </style>
-    <script src="../dist/sw.min.js" defer></script>
+    <script src="../dist/sw.min.js?v=8" defer></script>
+    <script src="../dist/sw.compl.min.js?v=8" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
@@ -187,7 +173,7 @@
                             <span style="flex:1">.g-g</span><span style="opacity:.6">992px</span>
                         </div>
                         <div class="cont-bar"
-                            style="max-width: 1200px; border-color: var(--gold); background: var(--gold14); color: var(--gold7);">
+                            style="max-width: 1200px; border-color: var(--amar10); background: var(--amar3); color: var(--amar14);">
                             <span style="flex:1">.g-gg &nbsp;<span style="font-weight:400; opacity:.7">- padrão
                                     desktop</span></span><span style="opacity:.6">1200px</span>
                         </div>

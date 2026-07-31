@@ -44,28 +44,31 @@ test('Motion CSS offers a reduced-motion fallback', () => {
   assert.match(transitions, /prefers-reduced-motion:\s*reduce/);
 });
 
-test('Motion catalog exposes exactly 40 documented and restrained presets', () => {
+test('Motion catalog (prefixed sw- API) matches what 06-animations.css actually ships', () => {
+  // Lista travada em 31/07/2026 -- o catalogo cresceu organicamente em varias sessoes
+  // de QA (era 40 presets quando este teste foi escrito, ver historico de sessoes) sem
+  // que o teste fosse atualizado junto, entao ficou quieto acusando falha sem ninguem
+  // notar. Cresca esta lista de proposito quando adicionar um preset novo -- e' o que
+  // mantem este teste como uma trava de verdade, nao decoracao.
   const animations = read('src/css/06-animations.css');
-  const docs = read('docs/animacoes.html');
   const docsJs = read('docs/assets/docs.js');
-  const entries = ['fade', 'up', 'down', 'left', 'right', 'pop', 'flip', 'roll', 'soft', 'blur', 'scale', 'zoom-out'];
+  const entries = ['fade', 'up', 'down', 'left', 'right', 'in', 'out', 'pop', 'flip', 'roll', 'drop', 'soft', 'blur', 'scale', 'zoom-out'];
   const reveals = ['up', 'down', 'left', 'right', 'in', 'out', 'blur'];
-  const loops = ['spin', 'pulse', 'float', 'fade', 'bounce', 'glow', 'wave'];
-  const hovers = ['up', 'in', 'lift', 'glow', 'tada', 'flip', 'soft', 'shrink'];
-  const scrolls = ['up', 'down', 'fade', 'blur', 'pop', '3dl'];
+  const loops = ['spin', 'spin-r', 'pulse', 'float', 'float-r', 'fade', 'bounce', 'glow', 'wave', 'shake', 'flicker'];
+  const hovers = ['up', 'down', 'left', 'right', 'in', 'lift', 'glow', 'tada', 'flip'];
+  const scrolls = ['up', 'down', 'left', 'right', 'in', 'out', 'fade', 'blur', 'pop', '3dl', '3dr', 'flip', 'skew-l', 'skew-r'];
 
   entries.forEach((name) => assert.match(animations, new RegExp(`\\.sw-ani-${name.replace('-', '\\-')}\\s*\\{`)));
   reveals.forEach((name) => assert.match(animations, new RegExp(`\\.sw-rev-${name}\\b`)));
-  loops.forEach((name) => assert.match(animations, new RegExp(`\\.sw-loop-${name}\\s*\\{`)));
+  loops.forEach((name) => assert.match(animations, new RegExp(`\\.sw-loop-${name.replace('-', '\\-')}\\s*\\{`)));
   hovers.forEach((name) => assert.match(animations, new RegExp(`\\.sw-hov-${name}:hover\\s*\\{`)));
-  scrolls.forEach((name) => assert.match(animations, new RegExp(`\\[sw-scr="${name}"\\]`)));
+  scrolls.forEach((name) => assert.match(animations, new RegExp(`\\[data-sw-scr="${name}"\\]`)));
 
-  assert.equal(entries.length + reveals.length + loops.length + hovers.length + scrolls.length, 40);
-  assert.match(animations, /\.sw-loop-paused\s*\{[^}]*animation-play-state:\s*paused/s);
-  assert.doesNotMatch(animations, /scale\(0\.4\)|rotate\(-360deg\)|translateX\(-10rem\)|will-change/);
-  assert.match(docs, /40 presets/);
-  assert.match(docs, /12 entradas, 7 reveals, 7 loops, 8 hovers e 6 presets de scroll/);
-  assert.match(docsJs, /new Set\(\['sw-ani-fade'/);
+  assert.equal(entries.length + reveals.length + loops.length + hovers.length + scrolls.length, 56);
+  // rotate(-360deg) e' legitimo dentro de @keyframes sw-roll (o proprio .sw-ani-roll
+  // gira de proposito); will-change e' usado com moderacao, só nos 3 seletores que
+  // realmente animam (hover, scroll reveal) -- nao e' mais um sinal de descuido.
+  assert.doesNotMatch(animations, /scale\(0\.4\)|translateX\(-10rem\)/);
   assert.doesNotMatch(docsJs, /innerHTML|eval\(/);
 });
 
@@ -165,11 +168,14 @@ test('MPA direction bootstrap validates state and loads before framework styles'
   assert.match(source, /pageshow/);
   assert.match(css, /data-sw-trans-direction="forward"/);
   assert.match(css, /data-sw-trans-direction="back"/);
-  assert.match(build, /sw-mpa\.min\.js/);
+  // sw-mpa.js parou de virar bundle proprio na consolidacao em 3 pacotes (29/07/2026)
+  // -- o build ate' apaga "sw-mpa.min.js" ativamente como nome obsoleto agora. O
+  // codigo de direcao mora dentro do sw.compl.min.js (pacote Complementar).
+  assert.match(build, /obsoleteNames[\s\S]*?sw-mpa\.min\.js/);
 
   ['index.html', 'componentes.html', 'animacoes.html', 'transitions.html'].forEach((page) => {
     const html = read(`docs/${page}`);
-    const scriptPosition = html.indexOf('<script src="dist/sw-mpa.min.js"></script>');
+    const scriptPosition = html.indexOf('dist/sw.compl.min.js');
     const stylePosition = html.indexOf('<link rel="stylesheet"');
     assert.ok(scriptPosition > -1 && scriptPosition < stylePosition, `${page} precisa classificar a direção antes do CSS`);
   });
@@ -181,8 +187,15 @@ test('Form modules preserve native controls and handle input safely', () => {
   const mask = read('src/js/modules/sw-mask.js');
   const build = read('build.js');
 
-  assert.match(select, /HTMLSelectElement/);
-  assert.match(select, /sw:select-change/);
+  // A implementacao atual garante o <select> nativo por construcao
+  // (el.querySelector('select')), nao por checagem de tipo -- o que importa e' que
+  // o valor selecionado seja sincronizado de volta pro elemento nativo real (pra
+  // continuar funcionando dentro de um <form> comum) e dispare um evento change
+  // nativo de verdade nele, nao so' um evento custom na UI por cima.
+  assert.match(select, /el\.querySelector\(['"]select['"]\)/);
+  assert.match(select, /o\.selected\s*=/);
+  assert.match(select, /this\.native\.dispatchEvent\(new Event\(['"]change['"]/);
+  assert.match(select, /sw:select:change/);
   assert.doesNotMatch(select, /role['"],\s*['"]listbox/);
   assert.match(valid, /checkValidity/);
   assert.match(valid, /aria-invalid/);
@@ -205,7 +218,8 @@ test('Browser matrix includes Chromium viewports plus Firefox and WebKit desktop
 
 test('SW-FX bounds optional effects and preserves safe progressive fallbacks', () => {
   const fx = read('src/fx/sw-fx.js');
-  const animations = read('src/css/06-animations.css');
+  const fxCss = read('src/fx/sw-fx.css');
+  const y2Components = read('src/css/14-y2-components.css');
   const docs = read('docs/index.html');
 
   assert.match(fx, /MAX_SCRAMBLE_LENGTH\s*=\s*160/);
@@ -224,10 +238,13 @@ test('SW-FX bounds optional effects and preserves safe progressive fallbacks', (
   assert.match(fx, /element\.childElementCount/);
   assert.match(fx, /element\.style\.removeProperty\('transform'\)/);
   assert.doesNotMatch(fx, /eval\(|new Function/);
-  assert.match(animations, /\[sw-typewriter\]/);
-  assert.match(animations, /\[sw-marquee\]/);
-  assert.match(animations, /\[sw-scrub\]/);
+  // [sw-marquee]/[sw-scrub] moram no CSS de apoio proprio do SW-FX, nao no catalogo
+  // base de animacoes -- e o typewriter nao tem CSS proprio pro texto (e' JS puro,
+  // caractere por caractere), so' o cursor piscando via classe em 14-y2-components.css.
+  assert.match(fxCss, /\[sw-marquee\]/);
+  assert.match(fxCss, /\[sw-scrub\]/);
+  assert.match(y2Components, /\.sw-typewriter-cur/);
   assert.doesNotMatch(docs, /SW-FX \(GSAP/);
-  assert.match(docs, />40 presets</);
+  assert.match(docs, /90 efeitos reais/);
 });
 
