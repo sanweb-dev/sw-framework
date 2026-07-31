@@ -97,6 +97,65 @@
                 padding: 3rem 0;
             }
         }
+
+        /* Transições de seção em tela cheia (sw-premium-section) — mesma técnica de
+           premium-transicoes.html: o breakout mora no WRAPPER, nunca no elemento pinado,
+           porque o GSAP reescreve "margin" inteiro nele durante o pin. */
+        .section-fullscreen-outer {
+            position: relative;
+            width: 100vw;
+            z-index: 10000;
+        }
+        .section-fullscreen {
+            width: 100%;
+            background: #09090b;
+        }
+        .section-fullscreen .s {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 100vh;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .s-num {
+            position: absolute;
+            top: 2rem;
+            right: 2.4rem;
+            font-size: 5rem;
+            font-weight: 900;
+            color: #fff;
+            opacity: .06;
+            line-height: 1;
+        }
+        .s-grp {
+            position: absolute; top: 2rem; left: 2.4rem; font-size: 1.1rem;
+            font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: rgba(255, 255, 255, .35);
+        }
+        .c1 { background: #0f172a; } .c2 { background: #1e293b; } .c3 { background: #0d1117; }
+        .c4 { background: #111827; } .c5 { background: #1a1a2e; } .c6 { background: #16213e; }
+        .c7 { background: #0a0a0a; } .c8 { background: #1a1a1c; }
+
+        .fakepage {
+            width: 100%; max-width: 52rem; background: #0d1117; border-radius: 0;
+            overflow: hidden; box-shadow: 0 3rem 6rem -2rem rgba(0, 0, 0, .6);
+            border: 1px solid rgba(255, 255, 255, .08); text-align: left;
+        }
+        .fp-bar { display: flex; align-items: center; gap: .6rem; padding: 1rem 1.4rem; background: #161b22; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+        .fp-dot { width: .9rem; height: .9rem; border-radius: 50%; flex-shrink: 0; }
+        .fp-dot.r { background: #ff5f57; } .fp-dot.y { background: #febc2e; } .fp-dot.g { background: #28c840; }
+        .fp-url { margin-left: 1.2rem; font-size: 1.1rem; color: rgba(255, 255, 255, .35); font-family: monospace; background: rgba(255, 255, 255, .05); padding: .3rem 1.2rem; border-radius: 0; }
+        .fp-body { padding: 2.4rem 2.8rem; display: flex; flex-direction: column; gap: 1.8rem; }
+        .fp-nav { display: flex; align-items: center; gap: 1.6rem; }
+        .fp-nav .fp-logo { font-weight: 800; color: #fff; font-size: 1.3rem; }
+        .fp-nav span:not(.fp-logo) { width: 3.6rem; height: .6rem; background: rgba(255, 255, 255, .15); border-radius: 0; }
+        .fp-hero h3 { font-size: 2.2rem; font-weight: 800; color: #fff; margin-bottom: .6rem; }
+        .fp-hero p { color: rgba(255, 255, 255, .5); font-size: 1.3rem; max-width: 34rem; line-height: 1.6; }
+        .fp-btn { display: inline-block; margin-top: 1.4rem; padding: .8rem 1.8rem; color: #fff; border-radius: 0; font-weight: 700; font-size: 1.2rem; }
+        .fp-cards { display: flex; gap: 1rem; }
+        .fp-card { flex: 1; height: 5.4rem; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); border-radius: 0; }
     </style>
 </head>
 
@@ -207,9 +266,92 @@
                 <p class="t-pp mt-3"><a href="premium-video.html">Ver a página completa de Vídeo Scrub →</a></p>
             </div>
 
-            <!-- 4. TRANSIÇÕES -->
+            <!-- 4. TRANSIÇÕES DE SEÇÃO (SCROLL) -->
+            <div class="doc-card sec mb-6" style="padding-bottom:2rem">
+                <h3 class="t-m f-bd mb-4">4. Transições de Seção — <code>sw-premium-section</code></h3>
+                <p class="t-g t-mut mb-0">Uma tela só, fixa, cobrindo a janela inteira — role e ela passa por
+                    <b>8 efeitos diferentes</b>, cada um com conteúdo real dentro pra mostrar o esquema do scroll:
+                    4 <b>simples</b> (puro translate) e 4 <b>compostos</b> (<code>zoom</code>, <code>fold</code>,
+                    <code>mask</code>, <code>skew</code>).</p>
+            </div>
+            <div class="section-fullscreen-outer"><div class="section-fullscreen" sw-premium-section="slide-up|slide-left|slide-right|slide-down|zoom|fold|mask|skew">
+                <div class="s c1"><span class="s-grp">Simples</span><span class="s-num">01</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/inicio</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Início — <code>slide-up</code></h3><p>Entrou de baixo pra cima. Role pra ver a próxima página.</p><span class="fp-btn" style="background:#3b82f6">Começar</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c2"><span class="s-grp">Simples</span><span class="s-num">02</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/sobre</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Sobre nós — <code>slide-left</code></h3><p>Entrou deslizando vinda da direita.</p><span class="fp-btn" style="background:#a855f7">Nossa história</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c3"><span class="s-grp">Simples</span><span class="s-num">03</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/planos</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Planos — <code>slide-right</code></h3><p>Entrou deslizando vinda da esquerda.</p><span class="fp-btn" style="background:#ef4444">Ver planos</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c4"><span class="s-grp">Simples</span><span class="s-num">04</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/blog</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Blog — <code>slide-down</code></h3><p>Entrou vindo de cima, descendo.</p><span class="fp-btn" style="background:#ec4899">Ler posts</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c5"><span class="s-grp">Composto</span><span class="s-num">05</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/produtos</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Produtos — <code>zoom</code></h3><p>Essa página entrou escalando do zero.</p><span class="fp-btn" style="background:#22c55e">Ver catálogo</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c6"><span class="s-grp">Composto</span><span class="s-num">06</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/equipe-tecnica</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Equipe técnica — <code>fold</code></h3><p>Dobrou de cima pra baixo em 3D pra revelar.</p><span class="fp-btn" style="background:#f59e0b">Conhecer o time</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c7"><span class="s-grp">Composto</span><span class="s-num">07</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/portfolio</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Portfólio — <code>mask</code></h3><p>Revelação em círculo crescendo do centro.</p><span class="fp-btn" style="background:#06b6d4">Ver trabalhos</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s c8"><span class="s-grp">Composto</span><span class="s-num">08</span>
+                    <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/parceiros</span></div>
+                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero"><h3>Parceiros — <code>skew</code></h3><p>Entrou com distorção angular. Última — fim do site.</p><span class="fp-btn" style="background:#3b82f6">Falar agora</span></div>
+                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+            <div class="doc-card sec mb-6" style="margin-top:2rem">
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-section="slide-up|slide-up|slide-left|slide-left|slide-right|slide-right|slide-down|slide-down|zoom|zoom|fold|fold|mask|mask|skew|skew">
+  <div>página 1</div><div>página 2</div>...<div>página 16</div>
+</div>
+</script></pre>
+                <p class="t-pp mt-3"><a href="premium-transicoes.html">Ver a página completa de Transições Premium →</a></p>
+            </div>
+
+            <!-- 5. TRANSIÇÕES DE LINK (CLIQUE) -->
             <div class="doc-card sec" id="transicoes">
-                <h3 class="t-m f-bd mb-4">4. Transições — <code>sw-premium-link</code></h3>
+                <h3 class="t-m f-bd mb-4">5. Transições de Link — <code>sw-premium-link</code></h3>
                 <p class="t-g t-mut mb-4">Clique em um card — ele navega via PJAX real, com a transição
                     indicada.</p>
                 <div class="cards">
@@ -234,6 +376,22 @@
 
         </main>
     </div>
+    <script>
+        // O truque de CSS "left:50%;margin-left:-50vw" só encosta na borda real da
+        // tela se o container pai for centralizado -- aqui tem sidebar empurrando
+        // pro lado, então calcula a distância REAL e ajusta na mão. Refaz no
+        // resize (sidebar pode colapsar em telas menores).
+        function swFixFullscreenBreakout() {
+            document.querySelectorAll('.section-fullscreen-outer').forEach((el) => {
+                el.style.marginLeft = '';
+                const rect = el.getBoundingClientRect();
+                el.style.marginLeft = (-rect.left) + 'px';
+            });
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
+        }
+        window.addEventListener('load', swFixFullscreenBreakout);
+        window.addEventListener('resize', swFixFullscreenBreakout);
+    </script>
 </body>
 
 </html>
