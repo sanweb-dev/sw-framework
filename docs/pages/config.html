@@ -198,7 +198,7 @@
                 </p>
 
                 <!-- Pacote único do SW Framework -->
-                <div class="l gap-4 mb-6" style="align-items:stretch">
+                <div class="l gap-4 mb-6" style="align-items:stretch" id="pacote-unico">
                     <div class="co12">
                         <div style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-pri);border-radius:var(--sw-r-g);padding:2.4rem;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.06)">
                             <span sw-badge class="sw-badge-pri sw-badge-pp mb-3" style="align-self:flex-start;font-weight:800">PACOTE ÚNICO</span>
@@ -268,15 +268,18 @@ cd sw-framework && npm install && npm run build</script></pre>
                 <div class="p-6 border-bottom border-dashed flx gap-3 alc">
                     <div class="step-num">1</div>
                     <div>
-                        <h3 class="t-m f-bd mb-0">Self-hosted (sem CDN por enquanto)</h3>
-                        <p class="t-pp t-mut">Copie os arquivos de <code>dist/</code> pro seu projeto e carregue no <code>&lt;head&gt;</code>. Sem build nenhum — funciona direto.</p>
+                        <h3 class="t-m f-bd mb-0">Direto do sw.sanweb.com.br</h3>
+                        <p class="t-pp t-mut">Aponte o <code>&lt;head&gt;</code> pra cá — sem baixar nada, sem hospedar nada, sem build.</p>
                     </div>
                 </div>
                 <div class="p-6">
                     <p class="t-p t-mut mb-3"><strong>Um arquivo de cada</strong> — CSS + JS, tudo incluso:</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Framework (núcleo + efeitos + transições + GSAP premium) -->
-<link rel="stylesheet" href="/dist/sw.min.css">
-<script src="/dist/sw.min.js" defer><\/script></script></pre>
+<link rel="stylesheet" href="https://sw.sanweb.com.br/dist/sw.min.css">
+<script src="https://sw.sanweb.com.br/dist/sw.min.js" defer><\/script></script></pre>
+                    <p class="t-pp t-mut mt-3">Prefere ter os arquivos no seu próprio servidor (sem depender do nosso)? Baixe pelo
+                        <a href="#pacote-unico">card de download</a> acima e troque os dois caminhos por um relativo
+                        (ex.: <code>dist/sw.min.css</code>).</p>
                 </div>
 
                 <div class="p-6 border-top border-dashed">
