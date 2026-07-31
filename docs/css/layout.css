@@ -6,6 +6,7 @@
 :root {
   --doc-side-w: 240px;
   --doc-top-h: 0px; /* Topo removido no desktop como na Y2 */
+  --doc-main-pad-x: 6rem; /* mesmo valor do padding horizontal de .doc-main -- [sw-wide] usa pra descontar */
   
   /* PALETA DEEP SEA (60-30-10) */
   --sw-bg-bas: #0d131d;            /* Swatch 1: Darkest Night Navy */
@@ -277,7 +278,7 @@ body {
 .doc-main {
   flex: 1;
   margin-left: var(--doc-side-w);
-  padding: 4rem 6rem;
+  padding: 4rem var(--doc-main-pad-x);
   max-width: calc(100vw - var(--doc-side-w));
   min-height: 100vh;
   /* "clip" em vez de "hidden": overflow-x:hidden força o navegador a computar
@@ -289,6 +290,20 @@ body {
   overflow-x: clip;
   overflow-y: visible;
   animation: doc-slide-in 0.2s ease-out;
+}
+
+/* [sw-wide] — só o atributo, sem escrever CSS: cancela o padding horizontal
+   de .doc-main pra esse elemento usar a largura cheia disponível ao lado da
+   sidebar, em vez da coluna de leitura normal (~6rem mais estreita de cada
+   lado). Útil em tabelas largas, galerias de cards e demos que ficam
+   apertados na coluna padrão. Não cobre a sidebar (fica só até a borda real
+   de .doc-main) — pra isso, o breakout de tela cheia usado em
+   premium-transicoes.html é um recurso à parte, mais pesado (JS + z-index). */
+[sw-wide] {
+  width: calc(100% + (var(--doc-main-pad-x) * 2));
+  margin-left: calc(-1 * var(--doc-main-pad-x));
+  margin-right: calc(-1 * var(--doc-main-pad-x));
+  max-width: none;
 }
 
 @keyframes doc-slide-in {
