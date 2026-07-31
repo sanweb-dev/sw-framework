@@ -434,12 +434,35 @@ npm run build
           </tbody>
         </table>
 
-        <div class="flx gap-4 f-wr mb-2" style="align-items:center;">
-          <h4 sw-scramble style="margin:0;">Passe o mouse aqui (SW-FX)</h4>
-          <div sw-tilt class="doc-card mb-0" style="padding:1rem 1.6rem; display:inline-block;">Tilt 3D</div>
-          <button class="sw-btn" type="button" sw-magnetic>Magnetismo</button>
+        <p class="t-p f-bd t-mut mb-3">SW-FX ao vivo — passe o mouse em cada card:</p>
+        <div class="l gap-4 mb-6">
+          <div class="co12 co4-m">
+            <div class="doc-card mb-0 h-100 t-ct" style="padding:2rem 1.6rem;">
+              <span sw-icon="Edit/magic-wand" style="width:2rem;height:2rem;color:var(--sw-pri);"></span>
+              <h4 sw-scramble class="t-g f-bd mt-3 mb-2">Scramble</h4>
+              <p class="t-mut t-pp mb-0">Embaralha e resolve as letras deste título.</p>
+            </div>
+          </div>
+          <div class="co12 co4-m">
+            <div sw-tilt class="doc-card mb-0 h-100 t-ct" style="padding:2rem 1.6rem;">
+              <span sw-icon="Abstract/cube" style="width:2rem;height:2rem;color:var(--sw-pri);"></span>
+              <h4 class="t-g f-bd mt-3 mb-2">Tilt 3D</h4>
+              <p class="t-mut t-pp mb-0">O card inteiro inclina 3D acompanhando o ponteiro.</p>
+            </div>
+          </div>
+          <div class="co12 co4-m">
+            <div class="doc-card mb-0 h-100 t-ct" style="padding:2rem 1.6rem;">
+              <span sw-icon="Operate/magnet" style="width:2rem;height:2rem;color:var(--sw-pri);"></span>
+              <h4 class="t-g f-bd mt-3 mb-2">Magnetismo</h4>
+              <p class="t-mut t-pp mb-3">O botão é puxado suavemente pelo cursor.</p>
+              <button class="sw-btn sw-btn-outline" type="button" sw-magnetic>Aproxime o mouse</button>
+            </div>
+          </div>
         </div>
-        <article sw-scr="up" class="doc-card mb-0" style="padding:1.2rem;">Este bloco revela ao entrar na tela (<code>sw-scr</code>).</article>
+        <article sw-scr="up" class="doc-card mb-0" style="padding:1.6rem 2rem; display:flex; align-items:center; gap:1.2rem;">
+          <span sw-icon="Base/preview-open" style="width:1.8rem;height:1.8rem;color:var(--sw-pri);flex-shrink:0;"></span>
+          <span>Este bloco revela suavemente ao entrar na tela via <code>sw-scr="up"</code> — role a página pra ver de novo.</span>
+        </article>
 
         <!-- Fonte interna para o SW-AJAX (sem requisição HTTP) -->
         <template id="ajax-source-demo">
