@@ -223,9 +223,30 @@
                     <i class="sw-info-circle mr-s" style="color:var(--sw-inf)"></i>
                     Os efeitos <code>sw-marquee</code> e <code>sw-scrub</code> do SW-FX precisam do CSS pra ter
                     animação — sem ele os dois ficam parados (o JS só cria a estrutura, quem desenha o movimento
-                    é o CSS). Já vem incluso em <code>sw.min.css</code>, nenhum arquivo extra necessário. Clonou o
-                    repositório em vez de baixar arquivo por arquivo? A versão pronta já vem em
-                    <code>dist/pacotes/completa/</code>, com um <code>LEIA-ME.md</code> explicando o que tem dentro.
+                    é o CSS). Já vem incluso em <code>sw.min.css</code>, nenhum arquivo extra necessário.
+                </p>
+
+                <h3 class="t-m f-bd mb-4">Outras formas de instalar</h3>
+                <div class="l gap-4 mb-6" style="align-items:stretch">
+                    <div class="co12 co6-g">
+                        <div class="h-100" style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-radius:var(--sw-r-g);padding:2rem">
+                            <span class="doc-tag mb-3">NPM</span>
+                            <h4 class="t-p f-bd mb-3">via npm</h4>
+                            <pre swcode="bash" class="m-0"><script type="text/plain">npm install @sanweb/sw-framework</script></pre>
+                        </div>
+                    </div>
+                    <div class="co12 co6-g">
+                        <div class="h-100" style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-radius:var(--sw-r-g);padding:2rem">
+                            <span class="doc-tag mb-3">GITHUB</span>
+                            <h4 class="t-p f-bd mb-3">Clonar e fazer o build</h4>
+                            <pre swcode="bash" class="m-0"><script type="text/plain">git clone https://github.com/sanweb-dev/sw-framework.git
+cd sw-framework && npm install && npm run build</script></pre>
+                        </div>
+                    </div>
+                </div>
+                <p class="t-p t-mut mb-6">
+                    Prefere baixar tudo já pronto, sem terminal? <a href="https://github.com/sanweb-dev/sw-framework/archive/refs/heads/master.zip" download>Baixar .zip do repositório</a> —
+                    depois de extrair, o pacote pronto está em <code>dist/pacotes/completa/</code>, com um <code>LEIA-ME.md</code> explicando o que tem dentro.
                 </p>
                 <div class="warn-box mb-0">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

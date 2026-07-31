@@ -382,22 +382,44 @@ export const acelera = true;
       <!-- INSTALAÇÃO -->
       <section class="doc-card mb-8">
         <span class="doc-section-tag">Começar agora</span>
-        <h2 class="t-m f-bd mb-4">Instalação</h2>
-        <p class="t-mut t-p mb-6">Ainda não publicado em registro (npm/CDN). Use os bundles prontos em <code>dist/</code> ou clone o repositório.</p>
+        <h2 class="t-m f-bd mb-4">Como baixar</h2>
+        <p class="t-mut t-p mb-6">Três formas de pegar o SW Framework — escolha a que combina com seu fluxo de trabalho.</p>
+        <div class="l gap-4 mb-6" style="align-items:stretch">
+          <div class="co12 co4-g">
+            <div class="h-100" style="background:var(--sw-bg-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-pri);border-radius:var(--sw-r-g);padding:2rem;display:flex;flex-direction:column">
+              <span class="doc-tag mb-3" style="align-self:flex-start">NPM</span>
+              <h3 class="t-p f-bd mb-2">Pra projetos com build</h3>
+              <p class="t-pp t-mut mb-3" style="margin-top:auto">Se seu projeto já usa <code>npm</code>/<code>bundler</code>.</p>
+              <pre swcode="bash" class="m-0"><script type="text/plain">npm install @sanweb/sw-framework</script></pre>
+            </div>
+          </div>
+          <div class="co12 co4-g">
+            <div class="h-100" style="background:var(--sw-bg-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-suc);border-radius:var(--sw-r-g);padding:2rem;display:flex;flex-direction:column">
+              <span class="doc-tag mb-3" style="align-self:flex-start">GITHUB</span>
+              <h3 class="t-p f-bd mb-2">Clonar e fazer o build</h3>
+              <p class="t-pp t-mut mb-3" style="margin-top:auto">Pra quem quer o código-fonte completo e customizar o build.</p>
+              <pre swcode="bash" class="m-0"><script type="text/plain">git clone https://github.com/sanweb-dev/sw-framework.git
+cd sw-framework
+npm install
+npm run build</script></pre>
+            </div>
+          </div>
+          <div class="co12 co4-g">
+            <div class="h-100" style="background:var(--sw-bg-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-inf);border-radius:var(--sw-r-g);padding:2rem;display:flex;flex-direction:column">
+              <span class="doc-tag mb-3" style="align-self:flex-start">DOWNLOAD DIRETO</span>
+              <h3 class="t-p f-bd mb-2">Sem terminal nenhum</h3>
+              <p class="t-pp t-mut mb-4" style="margin-top:auto">Baixa o .zip, extrai e já usa <code>dist/sw.min.css</code> + <code>dist/sw.min.js</code>.</p>
+              <a href="https://github.com/sanweb-dev/sw-framework/archive/refs/heads/master.zip" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>Baixar .zip</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="t-mut t-p mb-4">Depois de instalar (qualquer um dos três caminhos), inclua o bundle — um arquivo de cada, tudo incluso:</p>
         <div class="l gap-4">
-          <div class="co12 co6-g">
-            <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 1. Inclua o bundle (tudo num arquivo só)</p>
+          <div class="co12">
+            <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// Inclua o bundle (núcleo + efeitos + transições + GSAP premium, tudo num arquivo só)</p>
             <pre swcode="html"><code>&lt;link rel="stylesheet" href="dist/sw.min.css?v=10"&gt;
 &lt;script src="dist/sw.min.js?v=10" defer&gt;&lt;/script&gt;</code></pre>
-          </div>
-          <div class="co12 co6-g">
-            <p class="t-p f-bd t-mut mb-2" style="font-family:'JetBrains Mono';">// 2. Ou clone e faça o build</p>
-            <pre swcode="bash"><script type="text/plain">
-git clone <repositorio>
-cd sw
-npm install
-npm run build
-</script></pre>
           </div>
         </div>
       </section>
