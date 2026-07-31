@@ -2,7 +2,7 @@
 
 **Framework web nativo, modular e sem dependências — CSS + JS puros, recursos modernos da plataforma (View Transitions API, Navigation API, IntersectionObserver) com fallback seguro para quem não suporta.**
 
-> ⚠️ **Status: `0.1.0-alpha.1`.** Em desenvolvimento ativo, ainda não recomendado para produção. Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
+> ⚠️ **Status: `0.0.1`.** Em desenvolvimento ativo, ainda não recomendado para produção. Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
 
 ---
 
@@ -102,7 +102,7 @@ Mobile físico e versões anteriores de navegador ainda não fazem parte da matr
 2. **Melhoria progressiva de verdade.** Conteúdo e funcionalidade principal existem sem JavaScript; animação e interação avançada são camadas opcionais.
 3. **Segurança por padrão.** AJAX restrito à mesma origem, sanitização de fragmentos, zero `innerHTML` de conteúdo não confiável.
 4. **Acessibilidade não é extra.** Teclado, foco, ARIA e `prefers-reduced-motion` são contrato do Core, não responsabilidade de quem usa.
-5. **Honestidade de versão.** `0.1.0-alpha.1` significa alpha — a documentação distingue o que está pronto, parcial e planejado.
+5. **Honestidade de versão.** `0.0.1` significa alpha — a documentação distingue o que está pronto, parcial e planejado.
 
 ## Limites conhecidos (alpha)
 
