@@ -63,6 +63,25 @@
             max-width: 68rem;
         }
 
+        /* Painel com volume real de conteúdo: quando o "site simulado" tem mais
+           informação do que cabe numa tela, o scroll fica CONTIDO dentro da própria
+           caixa (max-height + overflow-y), sem mexer no scroll da página/pin. */
+        .fp-body-scroll {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .fp-scroll-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: .4rem;
+        }
+        .fp-long p { color: rgba(255, 255, 255, .55); font-size: 1.2rem; line-height: 1.7; margin-bottom: 1rem; }
+        .fp-long h4 { color: #fff; font-size: 1.4rem; font-weight: 700; margin: 1.2rem 0 .6rem; }
+        .fp-long ul { margin: 0 0 1rem 1.6rem; padding: 0; color: rgba(255, 255, 255, .55); font-size: 1.2rem; line-height: 1.8; }
+
         .s-num {
             position: absolute;
             top: 2rem;
@@ -188,6 +207,37 @@
                         <p class="f-bd mb-1">blur</p>
                         <p class="t-pp t-mut">Desfoque dissolve e resolve</p>
                     </a>
+                </div>
+                <div class="warn-box mt-4 mb-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    <p>
+                        <strong>Como usar isso no seu site, em detalhes:</strong>
+                    </p>
+                    <ul style="margin:.8rem 0 0 1.6rem;padding:0;list-style:disc">
+                        <li class="mb-2"><b>Pode colocar em qualquer link do site</b> — menu principal, botão,
+                            card, rodapé, não importa onde. Não existe "modo página inteira" vs "modo em
+                            partes": <b>é decisão por link, um de cada vez</b>. Um `&lt;a&gt;` com o atributo
+                            navega animado; um `&lt;a&gt;` sem o atributo navega do jeito normal (recarrega a
+                            página, sem efeito nenhum). Você pode colocar em todos os links do site, só em
+                            alguns, ou só num botão específico — não precisa escolher tudo ou nada.</li>
+                        <li class="mb-2"><b>Exige uma coisa da página de destino:</b> ela precisa ter o mesmo
+                            bloco compartilhado <code>id="sw-premium-view"</code> ao redor do conteúdo principal
+                            (é esse bloco que troca de uma página pra outra — o menu, o cabeçalho e o rodapé
+                            continuam parados na tela, só o miolo é substituído, sem piscar branco nem recarregar
+                            tudo). <b>Se a página de destino não tiver esse bloco</b>, o link continua
+                            funcionando normalmente — só que sem a animação; o motor percebe sozinho que não dá
+                            e cai pra navegação comum, sem quebrar nada e sem erro nenhum aparecer.</li>
+                        <li>Nesta documentação, hoje só <code>premium-transicoes.html</code> e
+                            <code>animacoes-premium.html</code> têm esse bloco — por isso os cards acima navegam
+                            "pra si mesmos" (é a forma mais simples de mostrar o efeito funcionando de verdade).
+                            No seu site, o normal é colocar esse bloco no layout mestre de todas as páginas que
+                            vão se conectar por esse tipo de link.</li>
+                    </ul>
                 </div>
             </div>
 
@@ -381,9 +431,47 @@
                 </div>
                 <div class="s c16"><span class="s-grp">Composto</span><span class="s-num">16</span>
                     <div class="fakepage"><div class="fp-bar"><span class="fp-dot r"></span><span class="fp-dot y"></span><span class="fp-dot g"></span><span class="fp-url">meusite.com/encerramento</span></div>
-                        <div class="fp-body"><div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
-                            <div class="fp-hero"><h3>Encerramento — <code>skew</code> (2ª)</h3><p>Última página — mesmo efeito de novo. Fim do site.</p><span class="fp-btn" style="background:#3b82f6">Falar agora</span><br><span class="fp-tag">sw-premium-section="slide-up|slide-up|slide-left|slide-left|slide-right|slide-right|slide-down|slide-down|zoom|zoom|fold|fold|mask|mask|skew|<b>skew</b>"</span></div>
-                            <div class="fp-cards"><div class="fp-card"></div><div class="fp-card"></div><div class="fp-card"></div></div>
+                        <div class="fp-body">
+                            <div class="fp-nav"><span class="fp-logo">ACME</span><span></span><span></span><span></span></div>
+                            <div class="fp-hero mb-0"><h3>Encerramento — <code>skew</code> (2ª), com volume real de conteúdo</h3>
+                                <p>Diferente das outras 15, esta página simulada tem <b>bem mais informação</b> do
+                                    que cabe numa tela só — pra testar como fica na prática. <span class="fp-scroll-badge">↕ role
+                                    com o mouse AQUI DENTRO da caixa</span></p>
+                            </div>
+                            <div class="fp-body-scroll fp-long">
+                                <h4>Por que isso importa</h4>
+                                <p>Toda a demo até aqui usou um "hero" curto — título, uma frase e um botão — porque
+                                    isso é o suficiente pra mostrar o efeito de transição em si. Mas um site real
+                                    quase nunca tem tão pouco conteúdo: uma página de encerramento, um artigo, uma
+                                    política de privacidade, um catálogo — qualquer uma dessas facilmente passa de
+                                    uma tela de altura.</p>
+                                <p>O <code>sw-premium-section</code> trava (pina) a seção inteira na tela enquanto
+                                    o scroll da página avança entre os painéis. Se o conteúdo de UM painel for maior
+                                    que a tela e não tiver limite próprio, a parte de baixo simplesmente nunca
+                                    aparece — fica cortada pra sempre, porque o scroll da página está ocupado
+                                    controlando a TROCA de painéis, não a leitura de dentro de um painel.</p>
+                                <h4>A solução usada nesta caixa</h4>
+                                <p>Esta caixa (<code>.fp-body-scroll</code>) tem <code>max-height</code> definida e
+                                    <code>overflow-y: auto</code>. Isso cria um scroll <b>contido</b>, só dela — ele
+                                    não disputa com o scroll da página nem com o pin da transição. Enquanto a
+                                    transição está pinada aqui, você pode rolar o mouse sobre a caixa pra ler tudo,
+                                    e quando termina de ler, continua rolando a página normalmente e a transição
+                                    segue pro próximo painel (ou solta o pin, se for o último).</p>
+                                <h4>Quando usar</h4>
+                                <ul>
+                                    <li>Textos longos: artigos, termos de uso, FAQ dentro de uma seção pinada.</li>
+                                    <li>Listas extensas: catálogo de produtos, changelog, depoimentos.</li>
+                                    <li>Qualquer painel que pode variar de tamanho dependendo do conteúdo real do
+                                        cliente — melhor prever a caixa de rolagem do que confiar que sempre vai
+                                        caber.</li>
+                                </ul>
+                                <h4>Quando NÃO precisa</h4>
+                                <p>Se o conteúdo do painel é curto por natureza (um hero, um card, uma chamada de
+                                    ação), não precisa de <code>overflow-y</code> nenhum — é só isso mesmo, cabe
+                                    numa tela e pronto. Só adicione a caixa de rolagem quando o volume real de
+                                    conteúdo pedir.</p>
+                                <span class="fp-tag">sw-premium-section="slide-up|slide-up|slide-left|slide-left|slide-right|slide-right|slide-down|slide-down|zoom|zoom|fold|fold|mask|mask|skew|<b>skew</b>"</span>
+                            </div>
                         </div>
                     </div>
                 </div>
