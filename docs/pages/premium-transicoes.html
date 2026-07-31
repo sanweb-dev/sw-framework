@@ -488,6 +488,40 @@
                     (carrossel horizontal).</p>
             </div>
 
+            <!-- SWCODE: PAINEL COM VOLUME REAL DE CONTEUDO -->
+            <div class="doc-card sec" id="painel-scroll-interno">
+                <h3 class="t-m f-bd mb-4">Painel com volume real de conteúdo — scroll interno contido</h3>
+                <p class="t-g t-mut mb-4">O código do painel 16 ("Encerramento") acima, que testa o que acontece
+                    quando uma página simulada tem mais conteúdo do que cabe numa tela.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="s">
+  <div class="fakepage">
+    <div class="fp-bar">...</div>
+    <div class="fp-body">
+      <div class="fp-nav">...</div>
+      <div class="fp-hero">
+        <h3>Título</h3>
+        <p>Chamada curta.</p>
+      </div>
+
+      <!-- só esta parte precisa de limite + rolagem própria -->
+      <div class="fp-body-scroll" style="max-height:60vh;overflow-y:auto">
+        <h4>Seção 1</h4>
+        <p>Quanto texto/conteúdo real for necessário...</p>
+        <h4>Seção 2</h4>
+        <p>...continua rolando dentro da caixa...</p>
+        <ul><li>item</li><li>item</li><li>item</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+</script></pre>
+                <p class="t-pp t-mut mt-3">O segredo é <code>max-height</code> + <code>overflow-y: auto</code>
+                    só na parte com volume variável — o resto do painel (cabeçalho, hero) fica fora da caixa de
+                    rolagem, do jeito normal. Isso é CSS puro; não precisa de nenhum atributo
+                    <code>sw-premium-*</code> a mais.</p>
+            </div>
+
         </main>
     </div>
     <script>
