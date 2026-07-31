@@ -7280,8 +7280,13 @@ span.sw-card-pop {
    isso, so' o :hover no wrapper revela o painel aninhado. */
 .sw-dropdown-sub { position: relative; }
 .sw-dropdown-sub > .sw-dropdown-mn { top: -.4rem; left: 100%; margin-top: 0; margin-left: .4rem; transform: translateX(-.4rem); }
-.sw-dropdown-sub:hover > .sw-dropdown-mn { opacity: 1; visibility: visible; transform: translateX(0); }
 .sw-dropdown-sub > .sw-dropdown-it::after { content: '›'; margin-left: auto; padding-left: .8rem; font-size: 1.6rem; line-height: 1; opacity: .5; }
+/* "[sw-dropdown].is-open .sw-dropdown-mn" (especificidade 0,3,0) enxerga o
+   .sw-dropdown-mn do submenu tambem, por ser descendente — sem repetir esse
+   mesmo prefixo aqui (empatando/superando a especificidade), o painel aninhado
+   nasceria visivel junto com o menu principal, sem esperar o hover. */
+[sw-dropdown].is-open .sw-dropdown-sub > .sw-dropdown-mn { opacity: 0; visibility: hidden; transform: translateX(-.4rem); }
+[sw-dropdown].is-open .sw-dropdown-sub:hover > .sw-dropdown-mn { opacity: 1; visibility: visible; transform: translateX(0); }
 
 /* ---------- Lazy ---------- */
 img[sw-lazy] { opacity: 0; transition: opacity .35s var(--sw-ease); }
