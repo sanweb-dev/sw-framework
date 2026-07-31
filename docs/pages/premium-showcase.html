@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/layout.css?v=13">
     <script src="../dist/sw.min.js?v=9" defer></script>
     <script src="../dist/sw.compl.min.js?v=9" defer></script>
-    <script src="../layout/header.js" defer></script>
-    <script src="../layout/sidebar.js" defer></script>
+    <script src="../layout/header.js?v=2" defer></script>
+    <script src="../layout/sidebar.js?v=2" defer></script>
     <style>
         .sec {
             scroll-margin-top: 10rem
@@ -269,10 +269,32 @@
             <!-- 4. TRANSIÇÕES DE SEÇÃO (SCROLL) -->
             <div class="doc-card sec mb-6" style="padding-bottom:2rem">
                 <h3 class="t-m f-bd mb-4">4. Transições de Seção — <code>sw-premium-section</code></h3>
-                <p class="t-g t-mut mb-0">Uma tela só, fixa, cobrindo a janela inteira — role e ela passa por
+                <p class="t-g t-mut mb-4">Uma tela só, fixa, cobrindo a janela inteira — role e ela passa por
                     <b>8 efeitos diferentes</b>, cada um com conteúdo real dentro pra mostrar o esquema do scroll:
                     4 <b>simples</b> (puro translate) e 4 <b>compostos</b> (<code>zoom</code>, <code>fold</code>,
                     <code>mask</code>, <code>skew</code>).</p>
+                <div class="warn-box mb-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    <p>
+                        <strong>Como funciona o esquema de scroll (por que não vira "2 scrolls"):</strong>
+                        não existe uma barra de rolagem escondida dentro da seção. É <b>o scroll normal da
+                        página</b> — o mesmo que você já está usando pra ler este texto. Quando ele chega
+                        nesta seção, o navegador <b>trava a posição da tela</b> (o "pin") e passa a converter
+                        cada pedacinho da sua rolagem em avanço entre as 8 páginas simuladas, uma de cada vez.
+                        Só depois que as 8 passam é que a página solta o pin e a rolagem volta ao normal.
+                        A distância reservada é automática: <b>cada painel = 1 altura de tela de scroll</b>
+                        (8 painéis aqui = 800% da altura da tela reservados só pra essa transição) — o motor
+                        calcula isso sozinho a partir de quantos filhos existem dentro do
+                        <code>sw-premium-section</code>, sem precisar configurar nada a mais.
+                        <strong>No celular (≤992px) esse pin nem entra em ação</strong> — os painéis ficam
+                        parados, um embaixo do outro, no fluxo normal da página.
+                    </p>
+                </div>
             </div>
             <div class="section-fullscreen-outer"><div class="section-fullscreen" sw-premium-section="slide-up|slide-left|slide-right|slide-down|zoom|fold|mask|skew">
                 <div class="s c1"><span class="s-grp">Simples</span><span class="s-num">01</span>
