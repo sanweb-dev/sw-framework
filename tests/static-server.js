@@ -14,7 +14,11 @@ const mimeTypes = new Map([
   ['.svg', 'image/svg+xml'],
   ['.png', 'image/png'],
   ['.webp', 'image/webp'],
-  ['.ico', 'image/x-icon']
+  ['.ico', 'image/x-icon'],
+  ['.woff2', 'font/woff2'],
+  ['.woff', 'font/woff'],
+  ['.ttf', 'font/ttf'],
+  ['.eot', 'application/vnd.ms-fontobject']
 ]);
 
 function send(response, status, body = '') {

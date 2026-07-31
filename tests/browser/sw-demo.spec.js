@@ -32,7 +32,10 @@ test('carrega sem overflow horizontal e gera captura visual', async ({ page }, t
 });
 
 test('alterna e persiste o tema', async ({ page }) => {
-  await page.getByRole('button', { name: /Alternar Tema/ }).click();
+  // A pagina hoje tem 2 botoes de tema (header do site + o FAB do sw-day
+  // demonstrado nesta secao) -- .sw-day-fab e' o elemento real do componente
+  // sendo testado aqui, nao o do layout da doc.
+  await page.locator('.sw-day-fab').click();
   await expect(page.locator('html')).toHaveAttribute('sw-theme', 'light');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('sw-theme', 'light');
@@ -40,7 +43,8 @@ test('alterna e persiste o tema', async ({ page }) => {
 
 test('abre alerta com conteúdo seguro', async ({ page }) => {
   await page.getByRole('button', { name: /Testar Notificação/ }).click();
-  const toast = page.getByRole('status');
+  // sw-alert.js usa role="alert" (live region assertiva), nao "status".
+  const toast = page.getByRole('alert');
   await expect(toast).toContainText('SW Framework ativado');
 });
 
@@ -50,7 +54,10 @@ test('modal controla foco, teclado e scroll', async ({ page }) => {
   const modal = page.locator('#modal-demo');
   await expect(modal).toHaveAttribute('aria-hidden', 'false');
   await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
-  await expect(page.getByRole('button', { name: /Fechar/ }).last()).toBeFocused();
+  // Escopado dentro do proprio modal -- ".last()" na pagina inteira pegava o
+  // botao "Fechar" do lightbox global (criado sob demanda e anexado no fim
+  // do <body>), nao o do modal.
+  await expect(modal.getByRole('button', { name: /Fechar/ })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(modal).toHaveAttribute('aria-hidden', 'true');
   await expect(trigger).toBeFocused();
@@ -67,10 +74,12 @@ test('painel de configuração abre, altera cor e fecha', async ({ page }) => {
 });
 
 test('tabela pesquisa e ordena por teclado', async ({ page }) => {
-  const search = page.getByRole('searchbox', { name: /Buscar na tabela/ });
+  const search = page.getByRole('searchbox', { name: /Buscar/ });
   await search.fill('SW-FX');
   await expect(page.locator('tbody tr:not([hidden])')).toHaveCount(1);
-  await expect(page.locator('.sw-table-count')).toContainText('1 de 3');
+  // Classe e formato de texto mudaram (".tbl-info", "Exibindo X–Y de N
+  // (filtrado de TOTAL)") desde que este teste foi escrito.
+  await expect(page.locator('.tbl-info')).toContainText('filtrado de 3');
   await search.fill('');
   const header = page.getByRole('columnheader', { name: 'ID' });
   await header.focus();
@@ -100,6 +109,11 @@ test('módulos Utils, Day e Trans estão públicos e o reveal é inicializado', 
 });
 
 test('SW-FX limita scramble e ponteiro, restaura transform e reage a movimento reduzido', async ({ page }) => {
+  // SW.Fx vem do sw.compl.min.js, carregado via <script defer> separado do
+  // core -- "window.SW" existir (checado no beforeEach) nao garante que esse
+  // segundo bundle ja terminou de anexar SW.Fx, entao poll em vez de checagem
+  // unica evita uma corrida de timing.
+  await expect.poll(() => page.evaluate(() => typeof SW.Fx?.scramble === 'function')).toBe(true);
   const api = await page.evaluate(() => ({
     scramble: typeof SW.Fx?.scramble === 'function',
     reset: typeof SW.Fx?.reset === 'function',
