@@ -2,7 +2,7 @@
 
 **Framework web nativo, modular e sem dependências — CSS + JS puros, recursos modernos da plataforma (View Transitions API, Navigation API, IntersectionObserver) com fallback seguro para quem não suporta.**
 
-> ⚠️ **Status: `0.0.1`.** Em desenvolvimento ativo, ainda não recomendado para produção. Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
+> ✅ **Status: `1.0.0`.** Testado (18 testes unitários + 65 testes de navegador em Chromium/Firefox/WebKit). Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
 
 ---
 
@@ -12,7 +12,7 @@ Depois de três anos evoluindo projetos separados (Ydra, Y2, Smooll, FXCore, lab
 
 ## Recursos
 
-- **CSS modular** (`01-tokens` → `08-utilities`) — ~80KB não minificado, ~35KB minificado. Customização inteira do tema via variáveis CSS (`--sw-h-pri`, `--sw-pri`, `--sw-bg`, etc.) — mudar a hue primária recalcula botões, cards, navbars, badges e sombras automaticamente.
+- **CSS modular** (`01-tokens` → `15-sw2-navbar`) — `sw.min.css` reúne núcleo + efeitos + transições num arquivo só, ~365KB minificado. Customização inteira do tema via variáveis CSS (`--sw-h-pri`, `--sw-pri`, `--sw-bg`, etc.) — mudar a hue primária recalcula botões, cards, navbars, badges e sombras automaticamente.
 - **Grid atômico de 12 colunas**, mobile-first, sem `!important`.
 - **56 presets de motion** catalogados: 15 entradas, 7 reveals de scroll, 11 loops, 9 microinterações de hover, 14 presets de scroll mount/unmount — todos respeitando `prefers-reduced-motion`.
 - **`SW-Core`** — orquestrador com `MutationObserver`, reinicialização agrupada por frame, registro de módulos e `SW.config()`.
@@ -25,22 +25,19 @@ Depois de três anos evoluindo projetos separados (Ydra, Y2, Smooll, FXCore, lab
 
 ## Instalação
 
-Ainda não publicado em nenhum registro (npm, CDN). Por enquanto, use os bundles gerados em `dist/`:
+Ainda não publicado em nenhum registro (npm, CDN). Por enquanto, use o bundle gerado em `dist/` —
+um arquivo de cada, com tudo incluso (núcleo, efeitos, transições e GSAP premium):
 
 ```html
 <link rel="stylesheet" href="dist/sw.min.css">
 <script src="dist/sw.min.js" defer></script>
-<!-- opcional: efeitos SW-FX (scramble, typewriter, tilt, etc.) -->
-<script src="dist/sw-fx.min.js" defer></script>
-<!-- opcional: transições nativas entre páginas (MPA) -->
-<script src="dist/sw-mpa.min.js"></script>
 ```
 
 ```bash
 git clone <repositório>
 cd sw
 npm install        # só instala o Playwright, usado para testes
-npm run build       # gera os 8 bundles em dist/
+npm run build       # gera dist/sw.min.css e dist/sw.min.js
 ```
 
 ## Uso rápido
@@ -66,17 +63,13 @@ Documentação completa e catálogo interativo: `docs/index.html` (servir localm
 
 ## Rodando localmente
 
-Navegação normal do dia a dia: `npm run build` para gerar `dist/`, depois abrir `https://sw.san/index.html` pelo servidor local padrão do Nill (Apache, via `nill.ps1 iniciar`) — o projeto já está registrado nesse mecanismo (`.env` com `LOCAL_HOST=sw.san`, `LOCAL_PUBLIC_PATH=docs`).
-
 ```bash
 npm run build   # gera dist/
+npm run serve   # sobe um servidor estático zero-dependência em http://127.0.0.1:4173/docs/index.html
 ```
 
-O projeto também tem um servidor estático zero-dependência próprio (`tests/static-server.js`), usado exclusivamente pelos testes Playwright (`npm run test:browser`), não para navegação manual:
-
-```bash
-npm run serve   # sobe o servidor de teste em http://127.0.0.1:4173/docs/index.html
-```
+`tests/static-server.js` é o mesmo servidor usado pelos testes Playwright (`npm run test:browser`) — serve
+só a pasta `docs/`, sem dependências externas.
 
 ## Testes
 
@@ -102,14 +95,15 @@ Mobile físico e versões anteriores de navegador ainda não fazem parte da matr
 2. **Melhoria progressiva de verdade.** Conteúdo e funcionalidade principal existem sem JavaScript; animação e interação avançada são camadas opcionais.
 3. **Segurança por padrão.** AJAX restrito à mesma origem, sanitização de fragmentos, zero `innerHTML` de conteúdo não confiável.
 4. **Acessibilidade não é extra.** Teclado, foco, ARIA e `prefers-reduced-motion` são contrato do Core, não responsabilidade de quem usa.
-5. **Honestidade de versão.** `0.0.1` significa alpha — a documentação distingue o que está pronto, parcial e planejado.
+5. **Honestidade de versão.** A documentação distingue o que está pronto, parcial e planejado — nunca apresenta algo como pronto sem ter sido testado de verdade.
 
-## Limites conhecidos (alpha)
+## Limites conhecidos
 
 - Cobertura de navegador é desktop-only nesta versão (ver tabela acima).
 - `SW-FX` não depende de GSAP — por isso não inclui efeitos que exigem timeline complexa (parallax avançado, cursor customizado dedicado, SVG draw, video scrub dedicado). Os 7 efeitos nativos existentes cobrem os casos mais comuns.
 - Máscaras de formulário formatam e limitam entrada; não validam regra de negócio (dígito verificador de CPF/CNPJ, etc.) — isso continua responsabilidade do backend.
 - Build não usa minificador externo; a compactação é feita com segurança básica própria, mantendo zero dependências.
+- Backend PHP ainda não está incluso — a versão em desenvolvimento faz CRUD recarregando página; está sendo reescrita com JS/AJAX antes de virar um pacote próprio.
 
 ## Licença
 

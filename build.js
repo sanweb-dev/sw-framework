@@ -4,7 +4,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 
-const VERSION = '0.0.1';
+const VERSION = '1.0.0';
 const root = __dirname;
 const distDir = path.join(root, 'dist');
 const docsDistDir = path.join(root, 'docs', 'dist');
