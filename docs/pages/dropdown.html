@@ -149,6 +149,44 @@
 </script></pre>
             </div>
 
+            <div class="doc-card mb-8">
+                <h3 class="t-m f-bd mb-4">7. Submenu <code class="t-p">.sw-dropdown-sub</code></h3>
+                <p class="t-p t-mut mb-4">Item pai com painel aninhado, aberto ao passar o mouse — sem JS extra, é <code>.sw-dropdown-sub:hover</code>. Envolva o item-gatilho (sem clique próprio) e o <code>.sw-dropdown-mn</code> filho num <code>.sw-dropdown-sub</code>.</p>
+                <div class="demo-wrap p-6" style="min-height:20rem;">
+                    <div sw-dropdown>
+                        <button sw-btn class="sw-btn-out sw-dropdown-tgl">Arquivo <i class="swi swi-chevron-down sw-dropdown-arr"></i></button>
+                        <div class="sw-dropdown-mn">
+                            <div class="sw-dropdown-it"><i class="swi swi-file"></i> Novo</div>
+                            <div class="sw-dropdown-it"><i class="swi swi-folder-open"></i> Abrir</div>
+                            <hr class="sw-dropdown-div">
+                            <div class="sw-dropdown-sub">
+                                <div class="sw-dropdown-it"><i class="swi swi-share"></i> Exportar como</div>
+                                <div class="sw-dropdown-mn">
+                                    <div class="sw-dropdown-it">PDF</div>
+                                    <div class="sw-dropdown-it">Word (.docx)</div>
+                                    <div class="sw-dropdown-it">Markdown</div>
+                                    <div class="sw-dropdown-it">Texto puro</div>
+                                </div>
+                            </div>
+                            <hr class="sw-dropdown-div">
+                            <div class="sw-dropdown-it is-dgr"><i class="swi swi-log-out"></i> Fechar</div>
+                        </div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="sw-dropdown-sub">
+    <!-- Item pai — seta "›" automática, some o mn depois -->
+    <div class="sw-dropdown-it">Exportar como</div>
+
+    <!-- Submenu — abre ao passar o mouse -->
+    <div class="sw-dropdown-mn">
+        <div class="sw-dropdown-it">PDF</div>
+        <div class="sw-dropdown-it">Word</div>
+    </div>
+</div>
+</script></pre>
+            </div>
+
             <div class="doc-card">
                 <h3 class="t-m f-bd mb-2">Referência</h3>
                 <div class="tbl is-str">
@@ -167,6 +205,7 @@
                             <tr><td><code>.is-up</code></td><td>Dropup — menu abre para cima.</td></tr>
                             <tr><td><code>.is-zoom</code></td><td>Entrada com zoom a partir do canto do botão.</td></tr>
                             <tr><td><code>.is-tint</code></td><td>Painel com leve tom da cor primária.</td></tr>
+                            <tr><td><code>.sw-dropdown-sub</code></td><td>Envolve um item + um <code>.sw-dropdown-mn</code> aninhado — abre ao passar o mouse (sem clique, sem JS extra).</td></tr>
                             <tr><td><code>sw:dropdown:open</code> / <code>sw:dropdown:close</code></td><td>Eventos disparados no container.</td></tr>
                             <tr><td><code>SW.Dropdown.open(el)</code> / <code>.close(el)</code></td><td>API programática.</td></tr>
                         </tbody>

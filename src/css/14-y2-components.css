@@ -182,6 +182,14 @@
 /* .is-tint — painel com fundo levemente colorido pela cor primária */
 [sw-dropdown].is-tint .sw-dropdown-mn { background: color-mix(in srgb, var(--sw-pri) 6%, var(--sw-sur)); border-color: color-mix(in srgb, var(--sw-pri) 30%, var(--sw-bor)); }
 
+/* Submenu -- portado do Y2 (dropdown.html, .y2drop-sub). Puro CSS (:hover),
+   sem JS extra -- o Y2Drp original tambem nao tem tratamento especial pra
+   isso, so' o :hover no wrapper revela o painel aninhado. */
+.sw-dropdown-sub { position: relative; }
+.sw-dropdown-sub > .sw-dropdown-mn { top: -.4rem; left: 100%; margin-top: 0; margin-left: .4rem; transform: translateX(-.4rem); }
+.sw-dropdown-sub:hover > .sw-dropdown-mn { opacity: 1; visibility: visible; transform: translateX(0); }
+.sw-dropdown-sub > .sw-dropdown-it::after { content: '›'; margin-left: auto; padding-left: .8rem; font-size: 1.6rem; line-height: 1; opacity: .5; }
+
 /* ---------- Lazy ---------- */
 img[sw-lazy] { opacity: 0; transition: opacity .35s var(--sw-ease); }
 img[sw-lazy].is-ldd { opacity: 1; }
