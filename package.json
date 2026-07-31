@@ -1,7 +1,6 @@
 {
   "name": "@sanweb/sw-framework",
   "version": "1.0.0",
-  "private": true,
   "description": "Framework web nativo e sem dependencias: CSS modular, componentes acessiveis, transicoes de pagina via View Transitions API e efeitos SW-FX progressivos.",
   "keywords": [
     "framework",
@@ -24,8 +23,10 @@
   "main": "dist/sw.min.js",
   "style": "dist/sw.min.css",
   "files": [
-    "dist",
-    "src",
+    "dist/sw.min.css",
+    "dist/sw.min.js",
+    "dist/sw.config.css",
+    "dist/fonts",
     "README.md",
     "LICENSE"
   ],
