@@ -162,50 +162,51 @@
 .shad-in-3 { box-shadow: inset 0 10px 15px -3px rgba(0, 0, 0, 0.2) !important; }
 
 /* Galeria tecnica de 46 sombras -- portada 1:1 do Y2 (uteis_shadows.html,
-   sistema WebFull original). --wf-shadow/-- do Y2 (opacidade decrescente)
-   viram --sw-shadow---/--sw-shadow (o inverso, pois a escala do SW cresce em
-   opacidade) -- mapeamento por ordem relativa de intensidade, nao 1:1 de nome. */
-.shad1  { box-shadow: var(--sw-shadow) 0 8px 24px !important; }
-.shad2  { box-shadow: var(--sw-shadow) 0 7px 29px 0 !important; }
-.shad3  { box-shadow: var(--sw-shadow) 1.95px 1.95px 2.6px !important; }
-.shad4  { box-shadow: var(--sw-shadow) 0 5px 15px !important; }
-.shad5  { box-shadow: var(--sw-shadow) 0 1px 4px !important; }
-.shad6  { box-shadow: var(--sw-shadow) 0 3px 8px !important; }
-.shad7  { box-shadow: var(--sw-shadow---) 0 2px 8px 0 !important; }
-.shad8  { box-shadow: var(--sw-shadow---) 0 54px 55px, var(--sw-shadow) 0 -12px 30px, var(--sw-shadow) 0 4px 6px, var(--sw-shadow---) 0 12px 13px, var(--sw-shadow) 0 -3px 5px !important; }
-.shad9  { box-shadow: var(--sw-shadow) 0 6px 24px 0, var(--sw-shadow) 0 0 0 1px !important; }
-.shad10 { box-shadow: var(--sw-shadow---) 0 10px 36px 0, var(--sw-shadow) 0 0 0 1px !important; }
-.shad11 { box-shadow: var(--sw-shadow---) 0 48px 100px 0 !important; }
-.shad12 { box-shadow: var(--sw-shadow---) 0 50px 100px -20px, var(--sw-shadow---) 0 30px 60px -30px, var(--sw-shadow---) 0 -2px 6px 0 inset !important; }
-.shad13 { box-shadow: var(--sw-shadow) 0 1px 1px 0 inset, var(--sw-shadow---) 0 50px 100px -20px, var(--sw-shadow---) 0 30px 60px -30px !important; }
-.shad14 { box-shadow: var(--sw-shadow---) 0 50px 100px -20px, var(--sw-shadow---) 0 30px 60px -30px !important; }
-.shad15 { box-shadow: var(--sw-shadow---) 0 2px 5px -1px, var(--sw-shadow---) 0 1px 3px -1px !important; }
-.shad16 { box-shadow: var(--sw-shadow---) 0 20px 30px -10px !important; }
-.shad17 { box-shadow: var(--sw-shadow---) 0 30px 60px -12px inset, var(--sw-shadow---) 0 18px 36px -18px inset !important; }
-.shad18 { box-shadow: var(--sw-shadow) 0 1px 3px, var(--sw-shadow---) 0 1px 2px !important; }
-.shad19 { box-shadow: var(--sw-shadow---) 0 19px 38px, var(--sw-shadow---) 0 15px 12px !important; }
-.shad20 { box-shadow: var(--sw-shadow) 0 1px 2px 0 !important; }
-.shad21 { box-shadow: var(--sw-shadow---) 0 25px 50px -12px !important; }
-.shad22 { box-shadow: var(--sw-shadow) 0 2px 1px, var(--sw-shadow) 0 4px 2px, var(--sw-shadow) 0 8px 4px, var(--sw-shadow) 0 16px 8px, var(--sw-shadow) 0 32px 16px !important; }
-.shad23 { box-shadow: var(--sw-shadow) 0 1px 1px, var(--sw-shadow) 0 2px 2px, var(--sw-shadow) 0 4px 4px, var(--sw-shadow) 0 8px 8px, var(--sw-shadow) 0 16px 16px !important; }
+   sistema WebFull original). --wf-shadow/-/-- do Y2 (cor pura, opacidade
+   decrescente) viram --sw-sha-c1/c2/c3 (mesma ordem de intensidade). Usar
+   --sw-shadow/--/--- aqui (que sao valores de sombra JA completos, com
+   offset+blur embutido) quebraria a sintaxe -- ver comentario em 01-tokens.css. */
+.shad1  { box-shadow: var(--sw-sha-c3) 0 8px 24px !important; }
+.shad2  { box-shadow: var(--sw-sha-c3) 0 7px 29px 0 !important; }
+.shad3  { box-shadow: var(--sw-sha-c3) 1.95px 1.95px 2.6px !important; }
+.shad4  { box-shadow: var(--sw-sha-c3) 0 5px 15px !important; }
+.shad5  { box-shadow: var(--sw-sha-c3) 0 1px 4px !important; }
+.shad6  { box-shadow: var(--sw-sha-c3) 0 3px 8px !important; }
+.shad7  { box-shadow: var(--sw-sha-c1) 0 2px 8px 0 !important; }
+.shad8  { box-shadow: var(--sw-sha-c1) 0 54px 55px, var(--sw-sha-c3) 0 -12px 30px, var(--sw-sha-c3) 0 4px 6px, var(--sw-sha-c1) 0 12px 13px, var(--sw-sha-c3) 0 -3px 5px !important; }
+.shad9  { box-shadow: var(--sw-sha-c3) 0 6px 24px 0, var(--sw-sha-c3) 0 0 0 1px !important; }
+.shad10 { box-shadow: var(--sw-sha-c1) 0 10px 36px 0, var(--sw-sha-c3) 0 0 0 1px !important; }
+.shad11 { box-shadow: var(--sw-sha-c1) 0 48px 100px 0 !important; }
+.shad12 { box-shadow: var(--sw-sha-c1) 0 50px 100px -20px, var(--sw-sha-c1) 0 30px 60px -30px, var(--sw-sha-c1) 0 -2px 6px 0 inset !important; }
+.shad13 { box-shadow: var(--sw-sha-c3) 0 1px 1px 0 inset, var(--sw-sha-c1) 0 50px 100px -20px, var(--sw-sha-c1) 0 30px 60px -30px !important; }
+.shad14 { box-shadow: var(--sw-sha-c1) 0 50px 100px -20px, var(--sw-sha-c1) 0 30px 60px -30px !important; }
+.shad15 { box-shadow: var(--sw-sha-c1) 0 2px 5px -1px, var(--sw-sha-c1) 0 1px 3px -1px !important; }
+.shad16 { box-shadow: var(--sw-sha-c1) 0 20px 30px -10px !important; }
+.shad17 { box-shadow: var(--sw-sha-c1) 0 30px 60px -12px inset, var(--sw-sha-c1) 0 18px 36px -18px inset !important; }
+.shad18 { box-shadow: var(--sw-sha-c3) 0 1px 3px, var(--sw-sha-c1) 0 1px 2px !important; }
+.shad19 { box-shadow: var(--sw-sha-c1) 0 19px 38px, var(--sw-sha-c1) 0 15px 12px !important; }
+.shad20 { box-shadow: var(--sw-sha-c3) 0 1px 2px 0 !important; }
+.shad21 { box-shadow: var(--sw-sha-c1) 0 25px 50px -12px !important; }
+.shad22 { box-shadow: var(--sw-sha-c3) 0 2px 1px, var(--sw-sha-c3) 0 4px 2px, var(--sw-sha-c3) 0 8px 4px, var(--sw-sha-c3) 0 16px 8px, var(--sw-sha-c3) 0 32px 16px !important; }
+.shad23 { box-shadow: var(--sw-sha-c3) 0 1px 1px, var(--sw-sha-c3) 0 2px 2px, var(--sw-sha-c3) 0 4px 4px, var(--sw-sha-c3) 0 8px 8px, var(--sw-sha-c3) 0 16px 16px !important; }
 .shad24 { box-shadow: var(--sw-pri) 0 0 0 3px !important; }
-.shad25 { box-shadow: var(--sw-shadow) 0 2px 4px 0, var(--sw-shadow---) 0 2px 16px 0 !important; }
-.shad26 { box-shadow: var(--sw-shadow) 3px 3px 6px 0 inset, var(--sw-shadow) -3px -3px 6px 1px inset !important; }
-.shad27 { box-shadow: var(--sw-shadow---) 6px 2px 16px 0, var(--sw-shadow) -6px -2px 16px 0 !important; }
-.shad28 { box-shadow: var(--sw-shadow) 0 4px 16px, var(--sw-shadow) 0 8px 32px !important; }
-.shad29 { box-shadow: var(--sw-shadow---) 0 8px 24px, var(--sw-shadow---) 0 16px 56px, var(--sw-shadow---) 0 24px 80px !important; }
-.shad30 { box-shadow: var(--sw-shadow---) 0 60px 40px -7px !important; }
-.shad31 { box-shadow: var(--sw-shadow---) 0 30px 90px !important; }
-.shad32 { box-shadow: var(--sw-shadow---) 0 22px 70px 4px !important; }
-.shad33 { box-shadow: var(--sw-shadow---) 0 .0625em .0625em, var(--sw-shadow---) 0 .125em .5em, var(--sw-shadow) 0 0 0 1px inset !important; }
-.shad34 { box-shadow: var(--sw-shadow---) 0 -23px 25px 0 inset, var(--sw-shadow---) 0 -36px 30px 0 inset, var(--sw-shadow---) 0 -79px 40px 0 inset, var(--sw-shadow) 0 2px 1px, var(--sw-shadow) 0 4px 2px, var(--sw-shadow) 0 8px 4px, var(--sw-shadow) 0 16px 8px, var(--sw-shadow) 0 32px 16px !important; }
-.shad35 { box-shadow: var(--sw-shadow---) 0 -50px 36px -28px inset !important; }
-.shad36 { box-shadow: var(--sw-shadow---) 0 2px 4px, var(--sw-shadow) 0 7px 13px -3px, var(--sw-shadow) 0 -3px 0 inset !important; }
-.shad37 { box-shadow: var(--sw-shadow) 0 25px 20px -20px !important; }
-.shad38 { box-shadow: var(--sw-shadow) 0 0 0 1px, var(--sw-shadow) 0 1px 1px -.5px, var(--sw-shadow) 0 3px 3px -1.5px, var(--sw-shadow) 0 6px 6px -3px, var(--sw-shadow) 0 12px 12px -6px, var(--sw-shadow) 0 24px 24px -12px !important; }
-.shad39 { box-shadow: var(--sw-shadow) -4px 9px 25px -6px !important; }
-.shad40 { box-shadow: var(--sw-shadow) 0 0 0 2px, var(--sw-shadow) 0 4px 6px -1px, var(--sw-shadow) 0 1px 0 inset !important; }
-.shad41 { box-shadow: var(--sw-shadow) 0 1px 4px, var(--sw-shadow) 0 0 0 3px !important; }
+.shad25 { box-shadow: var(--sw-sha-c3) 0 2px 4px 0, var(--sw-sha-c1) 0 2px 16px 0 !important; }
+.shad26 { box-shadow: var(--sw-sha-c3) 3px 3px 6px 0 inset, var(--sw-sha-c3) -3px -3px 6px 1px inset !important; }
+.shad27 { box-shadow: var(--sw-sha-c1) 6px 2px 16px 0, var(--sw-sha-c3) -6px -2px 16px 0 !important; }
+.shad28 { box-shadow: var(--sw-sha-c3) 0 4px 16px, var(--sw-sha-c3) 0 8px 32px !important; }
+.shad29 { box-shadow: var(--sw-sha-c1) 0 8px 24px, var(--sw-sha-c1) 0 16px 56px, var(--sw-sha-c1) 0 24px 80px !important; }
+.shad30 { box-shadow: var(--sw-sha-c1) 0 60px 40px -7px !important; }
+.shad31 { box-shadow: var(--sw-sha-c1) 0 30px 90px !important; }
+.shad32 { box-shadow: var(--sw-sha-c1) 0 22px 70px 4px !important; }
+.shad33 { box-shadow: var(--sw-sha-c1) 0 .0625em .0625em, var(--sw-sha-c1) 0 .125em .5em, var(--sw-sha-c3) 0 0 0 1px inset !important; }
+.shad34 { box-shadow: var(--sw-sha-c1) 0 -23px 25px 0 inset, var(--sw-sha-c1) 0 -36px 30px 0 inset, var(--sw-sha-c1) 0 -79px 40px 0 inset, var(--sw-sha-c3) 0 2px 1px, var(--sw-sha-c3) 0 4px 2px, var(--sw-sha-c3) 0 8px 4px, var(--sw-sha-c3) 0 16px 8px, var(--sw-sha-c3) 0 32px 16px !important; }
+.shad35 { box-shadow: var(--sw-sha-c1) 0 -50px 36px -28px inset !important; }
+.shad36 { box-shadow: var(--sw-sha-c1) 0 2px 4px, var(--sw-sha-c3) 0 7px 13px -3px, var(--sw-sha-c3) 0 -3px 0 inset !important; }
+.shad37 { box-shadow: var(--sw-sha-c3) 0 25px 20px -20px !important; }
+.shad38 { box-shadow: var(--sw-sha-c3) 0 0 0 1px, var(--sw-sha-c3) 0 1px 1px -.5px, var(--sw-sha-c3) 0 3px 3px -1.5px, var(--sw-sha-c3) 0 6px 6px -3px, var(--sw-sha-c3) 0 12px 12px -6px, var(--sw-sha-c3) 0 24px 24px -12px !important; }
+.shad39 { box-shadow: var(--sw-sha-c3) -4px 9px 25px -6px !important; }
+.shad40 { box-shadow: var(--sw-sha-c3) 0 0 0 2px, var(--sw-sha-c3) 0 4px 6px -1px, var(--sw-sha-c3) 0 1px 0 inset !important; }
+.shad41 { box-shadow: var(--sw-sha-c3) 0 1px 4px, var(--sw-sha-c3) 0 0 0 3px !important; }
 .shad42 { box-shadow: #00f 0 0 0 2px inset, #fff 10px -10px 0 -3px, #1fc11b 10px -10px, #fff 20px -20px 0 -3px, #ffd913 20px -20px, #fff 30px -30px 0 -3px, #ff9c55 30px -30px, #fff 40px -40px 0 -3px, #f55 40px -40px !important; }
 .shad43 { box-shadow: #555bff 0 0 0 3px, #1fc11b 0 0 0 6px, #ffd913 0 0 0 9px, #ff9c55 0 0 0 12px, #f55 0 0 0 15px !important; }
 .shad44 { box-shadow: rgba(240, 46, 170, .4) -5px 5px, rgba(240, 46, 170, .3) -10px 10px, rgba(240, 46, 170, .2) -15px 15px, rgba(240, 46, 170, .1) -20px 20px, rgba(240, 46, 170, .05) -25px 25px !important; }
@@ -214,16 +215,16 @@
 
 /* Sombras de texto -- escala escura (contra fundo claro/neutro) e escala
    branca/glow (contra fundo escuro) -- portadas do Y2 (uteis_shadows.html) */
-.tsha-1  { text-shadow: 1px 1px 1px var(--sw-shadow) !important; }
-.tsha-2  { text-shadow: 1px 1px 2px var(--sw-shadow) !important; }
-.tsha-3  { text-shadow: 2px 2px 3px var(--sw-shadow--) !important; }
-.tsha-4  { text-shadow: 2px 3px 4px var(--sw-shadow--) !important; }
-.tsha-5  { text-shadow: 3px 3px 5px var(--sw-shadow---) !important; }
-.tsha-6  { text-shadow: 3px 5px 8px var(--sw-shadow---) !important; }
-.tsha-7  { text-shadow: 4px 6px 12px var(--sw-shadow---) !important; }
-.tsha-8  { text-shadow: 5px 8px 16px var(--sw-shadow---) !important; }
-.tsha-9  { text-shadow: 6px 10px 24px var(--sw-shadow---) !important; }
-.tsha-10 { text-shadow: 0 10px 40px var(--sw-shadow---) !important; }
+.tsha-1  { text-shadow: 1px 1px 1px var(--sw-sha-c3) !important; }
+.tsha-2  { text-shadow: 1px 1px 2px var(--sw-sha-c3) !important; }
+.tsha-3  { text-shadow: 2px 2px 3px var(--sw-sha-c2) !important; }
+.tsha-4  { text-shadow: 2px 3px 4px var(--sw-sha-c2) !important; }
+.tsha-5  { text-shadow: 3px 3px 5px var(--sw-sha-c1) !important; }
+.tsha-6  { text-shadow: 3px 5px 8px var(--sw-sha-c1) !important; }
+.tsha-7  { text-shadow: 4px 6px 12px var(--sw-sha-c1) !important; }
+.tsha-8  { text-shadow: 5px 8px 16px var(--sw-sha-c1) !important; }
+.tsha-9  { text-shadow: 6px 10px 24px var(--sw-sha-c1) !important; }
+.tsha-10 { text-shadow: 0 10px 40px var(--sw-sha-c1) !important; }
 
 .tsha-w1 { text-shadow: 0 1px 2px rgba(255, 255, 255, 0.15) !important; }
 .tsha-w2 { text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3) !important; }

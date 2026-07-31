@@ -173,6 +173,16 @@
   --sw-shadow---:   0 16px 40px rgba(0, 0, 0, 0.65);
   --sw-shadow_:     0 2px 4px rgba(0, 0, 0, 0.25);
 
+  /* Cor pura (sem offset/blur) pra compor dentro de outra declaracao de sombra --
+     ex.: "box-shadow: var(--sw-sha-c1) 0 8px 24px". Usar --sw-shadow* (valores
+     JA completos, com offset+blur embutido) nesse lugar produz sintaxe invalida
+     (dois pares de offset sem virgula), e o navegador descarta a propriedade
+     inteira pra "none" silenciosamente -- achado ao portar a galeria de 46
+     sombras do Y2 (.shad1-.shad46 usam a cor pura, nao o token cheio). */
+  --sw-sha-c1:      rgba(0, 0, 0, 0.86);
+  --sw-sha-c2:      rgba(0, 0, 0, 0.52);
+  --sw-sha-c3:      rgba(0, 0, 0, 0.13);
+
   /* Contraste automático: --sw-txt já lê bem sobre bg/-/--/--- (grupo dominante do
      tema); --sw-txt-inv é o oposto, para o grupo _/__/___ (sempre tonalidade invertida). */
   --sw-txt-inv:     #0d131d;
@@ -268,6 +278,9 @@ html[sw-theme="light"] {
   --sw-shadow--:    0 8px 24px rgba(13, 19, 29, 0.18);
   --sw-shadow---:   0 16px 40px rgba(13, 19, 29, 0.22);
   --sw-shadow_:     0 2px 4px rgba(13, 19, 29, 0.06);
+  --sw-sha-c1:      rgba(112, 112, 112, 0.94);
+  --sw-sha-c2:      rgba(112, 112, 112, 0.52);
+  --sw-sha-c3:      rgba(112, 112, 112, 0.13);
 
   --sw-txt-inv:     #f3efdf;
 }
