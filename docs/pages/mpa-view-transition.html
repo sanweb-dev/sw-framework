@@ -23,8 +23,8 @@
             gap: 1.2rem
         }
     </style>
-    <script src="../dist/sw.min.js?v=8" defer></script>
-    <script src="../dist/sw.compl.min.js?v=8" defer></script>
+    <script src="../dist/sw.min.js?v=9" defer></script>
+    <script src="../dist/sw.compl.min.js?v=9" defer></script>
   <script src="../layout/header.js" defer></script>
   <script src="../layout/sidebar.js" defer></script>
 </head>
@@ -63,20 +63,15 @@
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Página inteira</p>
                         <p class="t-pp t-mut mb-3">A transição padrão do site anima tudo, cabeçalho incluso.</p>
-                        <a href="mpa-view-transition-page.html" class="sw-btn sw-btn-pri"
-                            onclick="window.SWMpa?.setStyle('default')">
+                        <a href="mpa-view-transition-page.html" class="sw-btn sw-btn-pri" sw-trans-style="default">
                             <i class="swi swi-arrow-to-right mr-2"></i> Testar
                         </a>
                     </div>
-                    <!-- view-transition-name setado na mão antes de navegar: o Chrome cancela a
-                         transição inteira se a página de CHEGADA introduzir um nome que a de SAÍDA
-                         não tinha -- por isso o hub (que não faz parte da dupla morph) precisa
-                         "emprestar" o mesmo nome só neste clique, senão o efeito não roda nem 1x. -->
                     <div sw-card style="padding:2rem;flex:1;min-width:22rem">
                         <p class="t-m f-bd mb-2">Só o conteúdo (menu fixo)</p>
                         <p class="t-pp t-mut mb-3">Mesma transição, mas o menu não se mexe — só o conteúdo troca.</p>
                         <a href="mpa-view-transition-b.html" class="sw-btn sw-btn-pri"
-                            onclick="window.SWMpa?.setStyle('default'); document.querySelector('main.doc-main').style.viewTransitionName='sw-mpa-demo-main';">
+                            sw-trans-style="scoped" sw-trans-name="mpa-demo-main">
                             <i class="swi swi-arrow-to-right mr-2"></i> Testar
                         </a>
                     </div>
@@ -84,7 +79,7 @@
                         <p class="t-m f-bd mb-2">Fade</p>
                         <p class="t-pp t-mut mb-3">Página some e aparece com opacidade, sem deslocamento.</p>
                         <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#10b981;border-color:#10b981" onclick="window.SWMpa?.setStyle('fade')">
+                            style="background:#10b981;border-color:#10b981" sw-trans-style="fade">
                             <i class="swi swi-show mr-2"></i> Testar
                         </a>
                     </div>
@@ -92,7 +87,7 @@
                         <p class="t-m f-bd mb-2">Zoom</p>
                         <p class="t-pp t-mut mb-3">Página encolhe saindo e a nova entra vindo de perto.</p>
                         <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#f59e0b;border-color:#f59e0b" onclick="window.SWMpa?.setStyle('zoom')">
+                            style="background:#f59e0b;border-color:#f59e0b" sw-trans-style="zoom">
                             <i class="swi swi-expand mr-2"></i> Testar
                         </a>
                     </div>
@@ -100,7 +95,7 @@
                         <p class="t-m f-bd mb-2">Circle</p>
                         <p class="t-pp t-mut mb-3">Página sai com fade e a nova revela num círculo crescendo do centro.</p>
                         <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#ef4444;border-color:#ef4444" onclick="window.SWMpa?.setStyle('circle')">
+                            style="background:#ef4444;border-color:#ef4444" sw-trans-style="circle">
                             <i class="swi swi-star mr-2"></i> Testar
                         </a>
                     </div>
@@ -108,11 +103,32 @@
                         <p class="t-m f-bd mb-2">Slide vertical</p>
                         <p class="t-pp t-mut mb-3">Página sai por cima e a nova entra vindo de baixo.</p>
                         <a href="mpa-view-transition-fx-a.html" class="sw-btn sw-btn-pri"
-                            style="background:#8b5cf6;border-color:#8b5cf6" onclick="window.SWMpa?.setStyle('slide-y')">
+                            style="background:#8b5cf6;border-color:#8b5cf6" sw-trans-style="slide-y">
                             <i class="swi swi-arrow-to-top mr-2"></i> Testar
                         </a>
                     </div>
                 </div>
+
+                <p class="t-p t-mut mt-6 mb-4">Os 6 botões acima não têm <code>onclick</code> nem JS nenhum escrito
+                    à mão — só atributos no próprio link. <code>sw-trans-style</code> escolhe a animação (mesmo
+                    mecanismo antes feito com <code>SWMpa.setStyle()</code> manual); <code>sw-trans-name</code>
+                    nomeia (<code>view-transition-name</code>) um elemento desta página <strong>antes de
+                    navegar</strong>, pra combinar com o <code>sw-morph</code> da página de destino.</p>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<!-- Troca só o estilo de animação (fade/zoom/circle/slide-y/default) -->
+<a href="destino.html" sw-trans-style="fade">Ir com fade</a>
+
+<!-- "scoped" desliga a animação do root (sidebar/cabeçalho ficam parados) —
+     sw-trans-name nomeia o <main> desta página com o MESMO nome que o
+     sw-morph="mpa-demo-main" da página de destino já usa. -->
+<a href="destino.html" sw-trans-style="scoped" sw-trans-name="mpa-demo-main">
+    Ir só com o conteúdo (menu fixo)
+</a>
+
+<!-- Alvo diferente de <main>? aponte com sw-trans-target -->
+<a href="destino.html" sw-trans-style="scoped" sw-trans-name="foto"
+   sw-trans-target="#minha-imagem">Ir</a>
+</script></pre>
             </div>
 
             <!-- COMO FUNCIONA -->
@@ -251,6 +267,21 @@ html::view-transition-new(root) { animation: 550ms both meu-circle-in; }
                             <td><code>sw-wide</code></td>
                             <td>Elemento</td>
                             <td>Cancela o padding lateral de <code>.doc-main</code> — usa a largura cheia da coluna de doc, sem escrever CSS (ver seção 1 acima)</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-trans-style="X"</code></td>
+                            <td>Link <code>&lt;a&gt;</code></td>
+                            <td>Ao clicar, aplica o estilo de transição (<code>default</code>/<code>fade</code>/<code>zoom</code>/<code>circle</code>/<code>slide-y</code>/<code>scoped</code>) sem <code>onclick</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-trans-name="X"</code></td>
+                            <td>Link <code>&lt;a&gt;</code></td>
+                            <td>Nomeia (<code>view-transition-name</code>) o <code>&lt;main&gt;</code> desta página antes de navegar — combine com <code>sw-morph="X"</code> na página de destino</td>
+                        </tr>
+                        <tr>
+                            <td><code>sw-trans-target="sel"</code></td>
+                            <td>Link <code>&lt;a&gt;</code></td>
+                            <td>Opcional — troca o alvo de <code>sw-trans-name</code> (padrão: <code>main</code>) por qualquer seletor CSS</td>
                         </tr>
                     </tbody>
                 </table>

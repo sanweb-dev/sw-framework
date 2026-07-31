@@ -6948,7 +6948,7 @@
    * preferência que o usuário escolhe e que fica "grudada" na aba até
    * escolher outra — por isso vive no sessionStorage sem ser removida
    * depois de lida, e é reaplicada em toda carga de página. */
-  const styles = new Set(['default', 'fade', 'zoom', 'circle', 'slide-y']);
+  const styles = new Set(['default', 'fade', 'zoom', 'circle', 'slide-y', 'scoped']);
   const styleKey = 'sw:trans:style';
   const normalizeStyle = (style) => styles.has(style) ? style : 'default';
   const applyStyle = (style) => {
@@ -6967,6 +6967,26 @@
   };
   applyStyle(readStyle());
   window.SWMpa = { setStyle, getStyle: readStyle };
+
+  /* Gatilho 100% por atributo -- sem onclick, sem JS escrito por quem usa:
+   *   <a href="destino.html" sw-trans-style="fade">Ir</a>
+   *   <a href="destino.html" sw-trans-style="scoped" sw-trans-name="main-x">Ir</a>
+   * sw-trans-name nomeia (view-transition-name) o <main> desta MESMA pagina
+   * (a que esta' SAINDO) ANTES de navegar -- a pagina de destino so' precisa
+   * ter sw-morph="main-x" no elemento equivalente (SWTrans ja' cuida disso).
+   * "scoped" tambem desliga a animacao do root (ver 07-transitions.css), pra
+   * sidebar/cabecalho ficarem parados e so' o elemento nomeado se mover. */
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[sw-trans-style], [sw-trans-name]');
+    if (!trigger) return;
+    const style = trigger.getAttribute('sw-trans-style');
+    if (style) setStyle(style);
+    const name = trigger.getAttribute('sw-trans-name');
+    if (name) {
+      const target = document.querySelector(trigger.getAttribute('sw-trans-target') || 'main');
+      if (target) target.style.viewTransitionName = `sw-${name}`;
+    }
+  });
 
   const store = (direction) => {
     try { window.sessionStorage.setItem(storageKey, normalize(direction)); }
@@ -8394,6 +8414,12 @@ class SWPremiumCore {
     this.refresh();
   }
 
+  // Abaixo de 768px o pin trava a tela num viewport pequeno demais pra valer a pena --
+  // recursos com pin caem pro fluxo normal (empilhado) em vez de hijackar o scroll.
+  isMobileViewport() {
+    return window.matchMedia("(max-width: 767.98px)").matches;
+  }
+
   _injectBaseStyles() {
     if (document.getElementById("sw-premium-base")) return;
     const style = document.createElement("style");
@@ -8772,15 +8798,16 @@ class SWPremiumCore {
     video.controls = false;
     video.pause();
     const createScrubTween = () => {
+      const shouldPin = config.pin && !this.isMobileViewport();
       gsap.to(video, {
         currentTime: video.duration,
         ease: "none",
         scrollTrigger: {
-          trigger: config.pin ? (video.closest(config.pin) || video.parentElement) : video,
+          trigger: shouldPin ? (video.closest(config.pin) || video.parentElement) : video,
           start: config.start || "top top",
           end: config.end || "+=150% bottom",
           scrub: config.scrub !== null ? config.scrub : 0.5,
-          pin: config.pin ? true : false
+          pin: shouldPin
         }
       });
     };
@@ -8823,6 +8850,8 @@ class SWPremiumCore {
 
   // -- Horizontal Scroll ---------------------------------------------------------
   setupHorizontalScroll(el, config) {
+    if (this.isMobileViewport()) return; // mobile: sem pin/hijack, paineis ficam no fluxo normal da pagina
+
     const track = el.querySelector("[sw-premium-horiz-track]");
     if (!track) return;
 
@@ -8897,6 +8926,8 @@ class SWPremiumCore {
 
   // -- Timeline Pinada -----------------------------------------------------------
   setupTimeline(el, config) {
+    if (this.isMobileViewport()) return; // mobile: sem pin, conteudo fica no fluxo normal (empilhado)
+
     const steps = Array.from(el.querySelectorAll("[sw-premium-tl-step]"));
     const boxes = Array.from(el.querySelectorAll("[sw-premium-tl-box]"));
     const scrub = config.scrub !== null && config.scrub !== undefined ? config.scrub : 1;

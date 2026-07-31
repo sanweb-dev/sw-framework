@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Premium — Vitrine dos Recursos - SW Docs</title>
+    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../css/layout.css?v=13">
+    <script src="../dist/sw.min.js?v=9" defer></script>
+    <script src="../dist/sw.compl.min.js?v=9" defer></script>
+    <script src="../layout/header.js" defer></script>
+    <script src="../layout/sidebar.js" defer></script>
+    <style>
+        .sec {
+            scroll-margin-top: 10rem
+        }
+
+        #showcaseParallax {
+            position: relative;
+            height: 20rem;
+            overflow: hidden;
+            border-radius: var(--sw-r-g, 8px);
+            background: #08080a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .p-layer {
+            position: absolute;
+            inset: -30% -10%;
+            pointer-events: none;
+        }
+
+        .p-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        #showcaseTlArea {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #showcaseTlStage {
+            width: 100%;
+            max-width: 30rem;
+            height: 24rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #showcaseTlBox {
+            width: 10rem;
+            height: 10rem;
+            background: var(--sw-pri, #3b82f6);
+            border-radius: 1.4rem;
+        }
+
+        .cinema-section {
+            position: relative;
+            height: 42rem;
+            border-radius: var(--sw-r-g, 8px);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .cinema-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .7;
+        }
+
+        .cinema-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 2;
+            color: #fff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, .8);
+        }
+
+        @media (max-width: 767.98px) {
+            #showcaseTlArea {
+                height: auto;
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-shell">
+        <main class="doc-main">
+            <nav class="brc mb-6" aria-label="Breadcrumb">
+                <a class="brc-it" href="../index.html">Home</a>
+                <span class="brc-it">Features</span>
+                <a class="brc-it" href="animacoes-premium.html">Animações Premium</a>
+                <span class="brc-it is-cur" aria-current="page">Vitrine dos Recursos</span>
+            </nav>
+
+            <div class="mb-8">
+                <span class="doc-tag">Opcional / GSAP</span>
+                <h2 class="t-xxg f-bd mb-2">Premium — <span class="TprinD">Vitrine dos Recursos</span></h2>
+                <p class="t-g t-mut mb-0">Uma página só com os principais recursos de scroll do Premium já
+                    funcionando, lado a lado com o código real de cada um. Cada demo tem link pra página completa,
+                    com mais variações e parâmetros.</p>
+            </div>
+
+            <div class="warn-box mb-6">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p>
+                    <strong>Mobile:</strong> abaixo de 768px os recursos com pin (Pin + Timeline, Vídeo Scrub) não
+                    travam mais o scroll — o conteúdo cai pro fluxo normal, empilhado. O comportamento pinado
+                    continua em telas maiores.
+                </p>
+            </div>
+
+            <!-- 1. PARALLAX -->
+            <div class="doc-card sec mb-6" id="parallax">
+                <h3 class="t-m f-bd mb-4">1. Parallax — <code>sw-premium-parallax</code></h3>
+                <p class="t-g t-mut mb-4">Camadas com velocidades diferentes ao rolar. Role a página pra ver.</p>
+                <div id="showcaseParallax">
+                    <div class="p-layer" sw-premium-parallax="-60" sw-premium-scroll-start="top bottom"
+                        sw-premium-scroll-end="bottom top">
+                        <div class="p-blob" style="width:16rem;height:16rem;background:#0077ff;opacity:.3;top:10%;left:5%"></div>
+                    </div>
+                    <div class="p-layer" sw-premium-parallax="-160" sw-premium-scroll-start="top bottom"
+                        sw-premium-scroll-end="bottom top">
+                        <div class="p-blob" style="width:12rem;height:12rem;background:#a855f7;opacity:.3;bottom:10%;right:8%"></div>
+                    </div>
+                    <p class="t-pri f-bd" style="position:relative;z-index:2">role a página</p>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="secao" style="overflow:hidden;position:relative">
+  <div sw-premium-parallax="-160">camada rápida</div>
+  <div sw-premium-parallax="-60">camada lenta</div>
+</div>
+</script></pre>
+                <p class="t-pp mt-3"><a href="premium-scroll.html">Ver a página completa de Scroll Avançado →</a></p>
+            </div>
+
+            <!-- 2. PIN + TIMELINE -->
+            <div class="doc-card sec mb-6" id="pin-timeline">
+                <h3 class="t-m f-bd mb-4">2. Pin + Timeline — <code>sw-premium-timeline</code></h3>
+                <p class="t-g t-mut mb-4">A seção trava na tela enquanto a caixa segue os passos com o scroll.
+                    <strong>No mobile o pin é desativado</strong> — a caixa fica parada, sem travar a rolagem.</p>
+                <div id="showcaseTlArea" sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=150%">
+                    <div id="showcaseTlStage" class="demo-wrap">
+                        <div id="showcaseTlBox" sw-premium-tl-box
+                            sw-premium-tl-steps='[{"x":-220},{"x":220},{"x":0,"rotation":360}]'></div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div sw-premium-timeline sw-premium-scroll-scrub="1" sw-premium-tl-end="+=150%">
+  <div sw-premium-tl-box sw-premium-tl-steps='[{"x":-220},{"x":220},{"x":0,"rotation":360}]'></div>
+</div>
+</script></pre>
+                <p class="t-pp mt-3"><a href="premium-scroll.html">Ver a página completa de Scroll Avançado →</a></p>
+            </div>
+
+            <!-- 3. VIDEO SCRUB -->
+            <div class="doc-card sec mb-6" id="video-scrub">
+                <h3 class="t-m f-bd mb-4">3. Vídeo Scrub — <code>sw-premium-video-scrub</code></h3>
+                <p class="t-g t-mut mb-4">O tempo do vídeo é controlado pelo scroll. <strong>No mobile o pin é
+                    desativado</strong> — o vídeo continua avançando com o scroll, só não trava mais a tela.</p>
+                <div class="cinema-section">
+                    <video class="cinema-video" sw-premium-video-scrub="true" sw-premium-scroll-pin=".cinema-section"
+                        sw-premium-scroll-end="+=200%" sw-premium-scroll-scrub="0.5" muted playsinline
+                        preload="auto">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="cinema-overlay">
+                        <p class="doc-tag mb-3" style="display:inline-block">● Scrub Ativo</p>
+                        <h3 class="t-xg f-bd">Role para controlar o vídeo</h3>
+                        <p class="t-pp mt-2">↓ O scroll avança o tempo</p>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="cinema-section" style="position:relative;height:100vh;overflow:hidden">
+  <video sw-premium-video-scrub="true"
+         sw-premium-scroll-pin=".cinema-section"
+         sw-premium-scroll-end="+=300%"
+         sw-premium-scroll-scrub="0.5"
+         muted playsinline preload="auto"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+</div>
+</script></pre>
+                <p class="t-pp mt-3"><a href="premium-video.html">Ver a página completa de Vídeo Scrub →</a></p>
+            </div>
+
+            <!-- 4. TRANSIÇÕES -->
+            <div class="doc-card sec" id="transicoes">
+                <h3 class="t-m f-bd mb-4">4. Transições — <code>sw-premium-link</code></h3>
+                <p class="t-g t-mut mb-4">Clique em um card — ele navega via PJAX real, com a transição
+                    indicada.</p>
+                <div class="cards">
+                    <a href="premium-transicoes.html" sw-premium-link="fade" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">fade</p>
+                        <p class="t-pp t-mut">Opacidade + leve deslize</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="slide" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">slide</p>
+                        <p class="t-pp t-mut">Sai pela esquerda, entra pela direita</p>
+                    </a>
+                    <a href="premium-transicoes.html" sw-premium-link="wipe|slide-up" sw-card style="padding:1.6rem;text-decoration:none">
+                        <p class="f-bd mb-1">wipe → slide-up</p>
+                        <p class="t-pp t-mut">Saída ≠ entrada, com pipe</p>
+                    </a>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<a href="pagina.html" sw-premium-link="wipe|slide-up">Link</a>
+</script></pre>
+                <p class="t-pp mt-3"><a href="premium-transicoes.html">Ver a página completa de Transições Premium →</a></p>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

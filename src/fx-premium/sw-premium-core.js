@@ -5,6 +5,12 @@ class SWPremiumCore {
     this.refresh();
   }
 
+  // Abaixo de 768px o pin trava a tela num viewport pequeno demais pra valer a pena --
+  // recursos com pin caem pro fluxo normal (empilhado) em vez de hijackar o scroll.
+  isMobileViewport() {
+    return window.matchMedia("(max-width: 767.98px)").matches;
+  }
+
   _injectBaseStyles() {
     if (document.getElementById("sw-premium-base")) return;
     const style = document.createElement("style");
@@ -383,15 +389,16 @@ class SWPremiumCore {
     video.controls = false;
     video.pause();
     const createScrubTween = () => {
+      const shouldPin = config.pin && !this.isMobileViewport();
       gsap.to(video, {
         currentTime: video.duration,
         ease: "none",
         scrollTrigger: {
-          trigger: config.pin ? (video.closest(config.pin) || video.parentElement) : video,
+          trigger: shouldPin ? (video.closest(config.pin) || video.parentElement) : video,
           start: config.start || "top top",
           end: config.end || "+=150% bottom",
           scrub: config.scrub !== null ? config.scrub : 0.5,
-          pin: config.pin ? true : false
+          pin: shouldPin
         }
       });
     };
@@ -434,6 +441,8 @@ class SWPremiumCore {
 
   // -- Horizontal Scroll ---------------------------------------------------------
   setupHorizontalScroll(el, config) {
+    if (this.isMobileViewport()) return; // mobile: sem pin/hijack, paineis ficam no fluxo normal da pagina
+
     const track = el.querySelector("[sw-premium-horiz-track]");
     if (!track) return;
 
@@ -508,6 +517,8 @@ class SWPremiumCore {
 
   // -- Timeline Pinada -----------------------------------------------------------
   setupTimeline(el, config) {
+    if (this.isMobileViewport()) return; // mobile: sem pin, conteudo fica no fluxo normal (empilhado)
+
     const steps = Array.from(el.querySelectorAll("[sw-premium-tl-step]"));
     const boxes = Array.from(el.querySelectorAll("[sw-premium-tl-box]"));
     const scrub = config.scrub !== null && config.scrub !== undefined ? config.scrub : 1;

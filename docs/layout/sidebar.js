@@ -360,6 +360,9 @@
           <a href="${root}pages/premium-transicoes.html" class="nav-it ${currentPath === 'premium-transicoes.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-transicoes">
             <span sw-icon="${iconPaths.fx}"></span> <span>Transições Premium</span>
           </a>
+          <a href="${root}pages/premium-showcase.html" class="nav-it ${currentPath === 'premium-showcase.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-showcase">
+            <span sw-icon="${iconPaths.fx}"></span> <span>Vitrine dos Recursos</span>
+          </a>
         </div>
       </div>
 

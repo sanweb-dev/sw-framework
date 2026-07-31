@@ -2968,22 +2968,28 @@ html[data-sw-mpa-style="slide-y"]::view-transition-new(root) {
 }
 
 /* ==========================================================================
-   DEMO "Menu Fixo" (docs/pages/mpa-view-transition-b.html) — isolado atrás
-   de [data-sw-mpa-demo], atributo que só essa página tem no <html>. O <main>
-   tem sw-morph="mpa-demo-main", ou seja, só ELE sai do grupo root — o
-   cabeçalho/sidebar sobram no root. Sem a regra abaixo, o root continuava
-   recebendo a animação padrão do site (slide/fade por direção) por baixo,
-   e o "menu fixo" balançava junto com o resto — por isso o root precisa
-   ficar parado (animation: none) só nesta demo; quem anima é só o main.
-   ========================================================================== */
-html[data-sw-mpa-demo]::view-transition-old(root),
-html[data-sw-mpa-demo]::view-transition-new(root) {
+   ESTILO "scoped" (menu fixo, ou qualquer elemento nomeado) — o <main> (ou
+   outro alvo) sai do grupo root via sw-trans-name/sw-morph; sem a regra
+   abaixo, o root continuava recebendo a animação padrão do site (slide/fade
+   por direção) por baixo, e o "menu fixo" balançava junto com o resto.
+
+   Achado real: antes esse "animation:none" ficava atrás de [data-sw-mpa-demo],
+   um atributo fixo no HTML só da página de DESTINO — a página de ORIGEM (o
+   hub com os cards "Testar") nunca tinha esse atributo, então a SAÍDA dela
+   nunca desligava o root e a sidebar/cabeçalho visivelmente deslizavam junto
+   ("está passando tudo"). Unificado em data-sw-mpa-style="scoped" (mesmo
+   mecanismo dos outros estilos — SWMpa.setStyle() grava no sessionStorage
+   ANTES de navegar, então aplica nos dois lados: saindo do hub E chegando
+   no destino), disparado só por atributo (sw-trans-style="scoped" no <a>,
+   sem onclick nem CSS escrito à mão). */
+html[data-sw-mpa-style="scoped"]::view-transition-old(root),
+html[data-sw-mpa-style="scoped"]::view-transition-new(root) {
   animation: none;
 }
-html[data-sw-mpa-demo]::view-transition-old(sw-mpa-demo-main) {
+html[data-sw-mpa-style="scoped"]::view-transition-old(sw-mpa-demo-main) {
   animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-out-left;
 }
-html[data-sw-mpa-demo]::view-transition-new(sw-mpa-demo-main) {
+html[data-sw-mpa-style="scoped"]::view-transition-new(sw-mpa-demo-main) {
   animation: 450ms cubic-bezier(0.25, 1, 0.5, 1) both sw-slide-in-right;
 }
 
