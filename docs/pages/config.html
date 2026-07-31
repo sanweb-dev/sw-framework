@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>sw.config.css - Personalização | SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../dist/sw.min.css?v=10">
     <link rel="stylesheet" href="../css/layout.css?v=13">
-    <script src="../dist/sw.min.js?v=9" defer></script>
-    <script src="../dist/sw.compl.min.js?v=9" defer></script>
+    <script src="../dist/sw.min.js?v=10" defer></script>
 
     <style>
         .sec { scroll-margin-top: 10rem; }
@@ -198,53 +197,23 @@
                     Zero dependências, zero build tools.
                 </p>
 
-                <!-- 3 Pacotes reais do SW Framework — cards lado a lado -->
+                <!-- Pacote único do SW Framework -->
                 <div class="l gap-4 mb-6" style="align-items:stretch">
-                    <div class="co12 co4-g">
-                        <div class="h-100" style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-pri);border-radius:var(--sw-r-g);padding:2.4rem;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.06)">
-                            <span sw-badge class="sw-badge-pri sw-badge-pp mb-3" style="align-self:flex-start;font-weight:800">1. PRINCIPAL</span>
-                            <h3 class="t-m f-bd mb-2">Núcleo — obrigatório</h3>
-                            <p class="t-p t-mut mb-4">84 componentes, tema, ícones, formulários, modal, dropdown, navbar, sidebar...</p>
-                            <div class="mb-4" style="margin-top:auto">
+                    <div class="co12">
+                        <div style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-pri);border-radius:var(--sw-r-g);padding:2.4rem;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.06)">
+                            <span sw-badge class="sw-badge-pri sw-badge-pp mb-3" style="align-self:flex-start;font-weight:800">PACOTE ÚNICO</span>
+                            <h3 class="t-m f-bd mb-2">Tudo num arquivo de cada</h3>
+                            <p class="t-p t-mut mb-4">84 componentes, tema, ícones, formulários, modal, dropdown, navbar, sidebar,
+                                efeitos nativos, transição de página e motor GSAP premium — tudo junto, sem precisar escolher
+                                peça por peça nem carregar um segundo script.</p>
+                            <div class="mb-4">
                                 <p class="t-pp t-mut mb-1">Tamanho</p>
-                                <p class="t-g f-bd mb-0" style="color:var(--sw-pri)">CSS ~341kb · JS ~243kb</p>
+                                <p class="t-g f-bd mb-0" style="color:var(--sw-pri)">CSS ~365kb · JS ~550kb</p>
                             </div>
                             <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.min.css?v=8" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.css</a>
-                                <a href="../dist/sw.min.js?v=9" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.js</a>
+                                <a href="../dist/sw.min.css?v=10" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.css</a>
+                                <a href="../dist/sw.min.js?v=10" sw-btn class="sw-btn-pri sw-btn-sm" download><i class="sw-download mr-s"></i>sw.min.js</a>
                                 <a href="../dist/sw.config.css" sw-btn class="sw-btn-pri sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>sw.config.css</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="co12 co4-g">
-                        <div class="h-100" style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-suc);border-radius:var(--sw-r-g);padding:2.4rem;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.06)">
-                            <span sw-badge class="sw-badge-suc sw-badge-pp mb-3" style="align-self:flex-start;font-weight:800">2. COMPLEMENTAR</span>
-                            <h3 class="t-m f-bd mb-2">Opcional — tudo num arquivo só</h3>
-                            <p class="t-p t-mut mb-4">Efeitos nativos + transição de página + motor GSAP premium, num só JS. Backend PHP também mora aqui.</p>
-                            <div class="mb-4" style="margin-top:auto">
-                                <p class="t-pp t-mut mb-1">Tamanho</p>
-                                <p class="t-g f-bd mb-0" style="color:var(--sw-suc)">CSS ~1kb · JS ~289kb</p>
-                            </div>
-                            <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.compl.min.js?v=9" sw-btn class="sw-btn-suc sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.js</a>
-                                <a href="../dist/sw.compl.min.css?v=8" sw-btn class="sw-btn-suc sw-btn-out sw-btn-sm" download><i class="sw-download mr-s"></i>sw.compl.min.css</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="co12 co4-g">
-                        <div class="h-100" style="background:var(--sw-sur);border:1px solid var(--sw-bor);border-top:.4rem solid var(--sw-inf);border-radius:var(--sw-r-g);padding:2.4rem;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.06)">
-                            <span sw-badge class="sw-badge-inf sw-badge-pp mb-3" style="align-self:flex-start;font-weight:800">3. COMPLETA</span>
-                            <h3 class="t-m f-bd mb-2">Principal + Complementar juntos</h3>
-                            <p class="t-p t-mut mb-4">Tudo combinado num arquivo de cada — pra quem não quer escolher peça por peça.</p>
-                            <div class="mb-4" style="margin-top:auto">
-                                <p class="t-pp t-mut mb-1">Tamanho</p>
-                                <p class="t-g f-bd mb-0" style="color:var(--sw-inf)">CSS ~341kb · JS ~533kb</p>
-                            </div>
-                            <div class="flx f-wr gap-2">
-                                <a href="../dist/sw.all.min.css?v=8" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.css</a>
-                                <a href="../dist/sw.all.min.js?v=9" sw-btn class="sw-btn-inf sw-btn-sm" download><i class="sw-download mr-s"></i>sw.all.min.js</a>
                             </div>
                         </div>
                     </div>
@@ -252,14 +221,25 @@
 
                 <p class="t-p t-mut mb-6">
                     <i class="sw-info-circle mr-s" style="color:var(--sw-inf)"></i>
-                    <code>sw.compl.min.css</code> é obrigatório se você usar os efeitos <code>sw-marquee</code> ou
-                    <code>sw-scrub</code> do SW-FX — sem ele os dois não têm animação nenhuma (o JS só cria a
-                    estrutura, quem desenha o movimento é esse CSS). Os demais efeitos do complementar (scramble,
-                    tilt, magnetismo, GSAP premium) funcionam só com o JS. Clonou o repositório em vez de baixar
-                    arquivo por arquivo? As 3 opções já vêm prontas em
-                    <code>dist/pacotes/1-principal/</code>, <code>2-complementar/</code> e <code>3-completa/</code> —
-                    cada pasta tem um <code>LEIA-ME.md</code> explicando o que tem dentro.
+                    Os efeitos <code>sw-marquee</code> e <code>sw-scrub</code> do SW-FX precisam do CSS pra ter
+                    animação — sem ele os dois ficam parados (o JS só cria a estrutura, quem desenha o movimento
+                    é o CSS). Já vem incluso em <code>sw.min.css</code>, nenhum arquivo extra necessário. Clonou o
+                    repositório em vez de baixar arquivo por arquivo? A versão pronta já vem em
+                    <code>dist/pacotes/completa/</code>, com um <code>LEIA-ME.md</code> explicando o que tem dentro.
                 </p>
+                <div class="warn-box mb-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    <p>
+                        <strong>Backend PHP não está aqui.</strong> O SW ainda não vem com backend — a versão atual
+                        (MVC com CRUD recarregando página) está sendo reescrita com JS/AJAX antes de virar um pacote
+                        próprio. Fica pra uma próxima versão.
+                    </p>
+                </div>
             </section>
 
             <!-- INSTALAÇÃO -->
@@ -272,39 +252,25 @@
                     </div>
                 </div>
                 <div class="p-6">
-                    <p class="t-p t-mut mb-3"><strong>Essencial</strong> — CSS + Core:</p>
-                    <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css?v=8">
-<script src="/dist/sw.min.js?v=9" defer><\/script></script></pre>
-
-                    <p class="t-p t-mut mb-3 mt-5"><strong>Com efeitos e transições</strong> — Complementar (opcional, tudo num arquivo):</p>
-                    <pre swcode="html"><script type="text/plain"><!-- SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css?v=8">
-<script src="/dist/sw.min.js?v=9" defer><\/script>
-
-<!-- Complementar: efeitos + transições + GSAP premium (opcional) -->
-<script src="/dist/sw.compl.min.js?v=9" defer><\/script></script></pre>
-                    <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-inf) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-inf) 30%,transparent);border-radius:var(--sw-r-g)">
-                        <i class="sw-info-circle" style="color:var(--sw-inf);font-size:2rem;flex-shrink:0"></i>
-                        <p class="t-p mb-0">O Complementar detecta o Core automaticamente. Carregue sempre o Core primeiro.</p>
-                    </div>
+                    <p class="t-p t-mut mb-3"><strong>Um arquivo de cada</strong> — CSS + JS, tudo incluso:</p>
+                    <pre swcode="html"><script type="text/plain"><!-- SW Framework (núcleo + efeitos + transições + GSAP premium) -->
+<link rel="stylesheet" href="/dist/sw.min.css?v=10">
+<script src="/dist/sw.min.js?v=10" defer><\/script></script></pre>
                 </div>
 
                 <div class="p-6 border-top border-dashed">
                     <h4 class="t-p f-bd mb-3">Estrutura de pastas</h4>
-                    <p class="t-p t-mut mb-4">Copie a pasta <code>dist/</code> inteira — os ícones (SVG, via <code>SW.Icon</code>) ficam em <code>dist/icons/</code>, não são fonte de ícone tipo <code>@font-face</code>.</p>
+                    <p class="t-p t-mut mb-4">Copie <code>sw.min.css</code>, <code>sw.min.js</code> e a pasta <code>fonts/</code> pro seu
+                        projeto — é só isso que roda de verdade. A fonte de ícones (<code>@font-face</code>) precisa ficar ao
+                        lado do CSS/JS. Precisa do SVG de algum ícone específico pra usar solto? A galeria completa fica
+                        hospedada em sw.sanweb.com.br, não vem junto no pacote.</p>
                     <div class="cfg-block mb-4">
 <span class="cfg-comment">meu-projeto/</span>
 ├── <span class="cfg-value">dist/sw.min.css</span>
 ├── <span class="cfg-value">dist/sw.min.js</span>
-├── <span class="cfg-value">dist/sw.compl.min.js</span>  <span class="cfg-comment">← opcional (Complementar)</span>
-├── <span class="cfg-value">dist/icons/</span>            <span class="cfg-comment">← SVGs do SW.Icon</span>
+├── <span class="cfg-value">dist/fonts/</span>            <span class="cfg-comment">← ícones (@font-face)</span>
 ├── <span class="cfg-value">sw.config.css</span>          <span class="cfg-comment">← sua personalização (seção 2)</span>
 └── index.html</div>
-                    <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">
-                        <i class="sw-shape-triangle" style="color:var(--sw-ale);font-size:2rem;flex-shrink:0"></i>
-                        <p class="t-p mb-0">A pasta <code>dist/icons/</code> deve ficar no mesmo diretório que o CSS/JS — o <code>SW.Icon</code> resolve o caminho automaticamente a partir da localização da página.</p>
-                    </div>
                 </div>
 
                 <div class="p-6 border-top border-dashed">
@@ -368,7 +334,7 @@
                     <div class="step-num">1</div>
                     <div>
                         <h3 class="t-m f-bd mb-0">Criar e carregar o arquivo</h3>
-                        <p class="t-pp t-mut">Já vem um ponto de partida pronto em <code>dist/sw.config.css</code> (ou no pacote <strong>1-principal</strong>) — copie pra raiz do seu projeto e carregue <strong>depois</strong> do SW.</p>
+                        <p class="t-pp t-mut">Já vem um ponto de partida pronto em <code>dist/sw.config.css</code> — copie pra raiz do seu projeto e carregue <strong>depois</strong> do SW.</p>
                     </div>
                 </div>
                 <div class="p-6">
@@ -380,14 +346,11 @@
 └── assets/</div>
 
                     <p class="t-p t-mut mb-4">No HTML, a ordem importa:</p>
-                    <pre swcode="html"><script type="text/plain"><!-- 1. SW Core (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css?v=8">
-<script src="/dist/sw.min.js?v=9" defer><\/script>
+                    <pre swcode="html"><script type="text/plain"><!-- 1. SW Framework (obrigatório) -->
+<link rel="stylesheet" href="/dist/sw.min.css?v=10">
+<script src="/dist/sw.min.js?v=10" defer><\/script>
 
-<!-- 2. Complementar (opcional) -->
-<script src="/dist/sw.compl.min.js?v=9" defer><\/script>
-
-<!-- 3. Sua configuração (sempre por último) -->
+<!-- 2. Sua configuração (sempre por último) -->
 <link rel="stylesheet" href="/sw.config.css"></script></pre>
 
                     <div class="flx gap-2 alc p-4 mt-4" style="background:color-mix(in srgb,var(--sw-ale) 10%,transparent);border:1px solid color-mix(in srgb,var(--sw-ale) 30%,transparent);border-radius:var(--sw-r-g)">

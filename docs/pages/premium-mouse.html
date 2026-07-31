@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Premium — Mouse - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../dist/sw.min.css?v=10">
     <link rel="stylesheet" href="../css/layout.css?v=13">
-    <script src="../dist/sw.min.js?v=9" defer></script>
-    <script src="../dist/sw.compl.min.js?v=9" defer></script>
+    <script src="../dist/sw.min.js?v=10" defer></script>
     <script src="../layout/header.js?v=2" defer></script>
     <script src="../layout/sidebar.js?v=2" defer></script>
     <style>
@@ -394,7 +393,7 @@
     <script>
         // "defer" não tem efeito em <script> inline (só em script com src) -- por
         // isso este bloco espera DOMContentLoaded na mão, senão roda antes do GSAP
-        // (que vem do sw.compl.min.js, esse sim carregado com defer de verdade).
+        // (que vem do sw.min.js, esse sim carregado com defer de verdade).
         function swPremiumMouseDemoInit() {
             // O cursor global (seção 4, sempre ativo na página) tem z-index altíssimo
             // e fica LITERALMENTE por cima da imagem que cada caixa abaixo tenta

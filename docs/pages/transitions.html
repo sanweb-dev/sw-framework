@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <!-- Ponte anti-flash: roda ANTES de qualquer CSS/JS carregar (nada de defer aqui
          de propósito). Sem isso, entre a página nova começar a pintar e o script
-         adiado (sw.compl.min.js) recriar o overlay de verdade, existe uma janela real
+         adiado (sw.min.js) recriar o overlay de verdade, existe uma janela real
          onde o conteúdo cru da página aparece sem cobertura nenhuma — a "piscada" que
          some assim que o overlay de verdade assume (mesma cor, então a troca é invisível). -->
     <script>(function () {
@@ -19,7 +19,7 @@
         document.head.appendChild(s);
     })();</script>
     <title>Transições Nativas - SW Docs</title>
-    <link rel="stylesheet" href="../dist/sw.min.css?v=8">
+    <link rel="stylesheet" href="../dist/sw.min.css?v=10">
     <link rel="stylesheet" href="../css/layout.css?v=13">
 
     <style>
@@ -38,8 +38,7 @@
             gap: 1.2rem
         }
     </style>
-    <script src="../dist/sw.min.js?v=9" defer></script>
-    <script src="../dist/sw.compl.min.js?v=9" defer></script>
+    <script src="../dist/sw.min.js?v=10" defer></script>
   <script src="../layout/header.js?v=2" defer></script>
   <script src="../layout/sidebar.js?v=2" defer></script>
 </head>

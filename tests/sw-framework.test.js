@@ -169,13 +169,14 @@ test('MPA direction bootstrap validates state and loads before framework styles'
   assert.match(css, /data-sw-trans-direction="forward"/);
   assert.match(css, /data-sw-trans-direction="back"/);
   // sw-mpa.js parou de virar bundle proprio na consolidacao em 3 pacotes (29/07/2026)
-  // -- o build ate' apaga "sw-mpa.min.js" ativamente como nome obsoleto agora. O
-  // codigo de direcao mora dentro do sw.compl.min.js (pacote Complementar).
+  // -- o build ate' apaga "sw-mpa.min.js" ativamente como nome obsoleto agora. Desde
+  // a consolidacao em pacote unico (31/07/2026), o codigo de direcao mora dentro do
+  // proprio sw.min.js (nao existe mais sw.compl.min.js separado).
   assert.match(build, /obsoleteNames[\s\S]*?sw-mpa\.min\.js/);
 
   ['index.html', 'componentes.html', 'animacoes.html', 'transitions.html'].forEach((page) => {
     const html = read(`docs/${page}`);
-    const scriptPosition = html.indexOf('dist/sw.compl.min.js');
+    const scriptPosition = html.indexOf('dist/sw.min.js');
     const stylePosition = html.indexOf('<link rel="stylesheet"');
     assert.ok(scriptPosition > -1 && scriptPosition < stylePosition, `${page} precisa classificar a direção antes do CSS`);
   });

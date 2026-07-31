@@ -229,71 +229,43 @@ function copyDirRecursive(srcDir, destDir) {
   });
 }
 
-// Organiza dist/ em 3 pacotes de download, pra quem baixa não ter que escolher
-// arquivo por arquivo: 1-principal (núcleo obrigatório), 2-complementar (tudo
-// opcional — efeitos, transições, GSAP premium) e 3-completa (a união dos
-// dois, pra quem só quer levar tudo de uma vez).
+// Organiza dist/ num pacote de download único, pra quem baixa não ter que
+// escolher arquivo por arquivo: sw.min.css + sw.min.js já combinam núcleo +
+// tudo que era opcional (efeitos, transições, GSAP premium) num arquivo só.
 //
-// Só entra aqui o que RODA no navegador sozinho, sem servidor. Backend PHP
-// (`src/php/`, `php-standalone/`) fica de fora de propósito — ainda não está
-// pronto pra lançar (falta CRUD via AJAX/JS, sem recarregar página) e vai
-// virar um pacote próprio quando terminar, não misturado com CSS/JS aqui.
+// Decisão de Sandro (31/07/2026): parar de fragmentar em 3 pacotes por
+// enquanto. "Complementar" fica reservado pro pacote de PHP quando estiver
+// pronto (o MVC atual ainda recarrega página no CRUD; falta reescrever com
+// AJAX antes de lançar isso como feature) — não é misturado com CSS/JS aqui.
 // A galeria de ícones em SVG (`dist/icons/`) também fica de fora — ela só
 // existe pra alimentar a galeria visual do próprio site de documentação;
-// o uso real do ícone é via a fonte (`fonts/`), que continua nos pacotes.
+// o uso real do ícone é via a fonte (`fonts/`), que continua no pacote.
 function buildPackages() {
   const pkgDir = path.join(distDir, 'pacotes');
-  const principal = path.join(pkgDir, '1-principal');
-  const complementar = path.join(pkgDir, '2-complementar');
-  const completa = path.join(pkgDir, '3-completa');
+  const completa = path.join(pkgDir, 'completa');
 
-  // Limpa as 3 pastas antes de remontar — evita que arquivo de um build anterior
-  // (ex.: os antigos sw-fx.min.js soltos, de antes do sw.compl.js existir) fique
+  // Limpa a pasta antes de remontar — evita que arquivo de um build anterior
+  // (ex.: os antigos sw-fx.min.js soltos, de antes do sw.compl.js existir, ou
+  // as pastas 1-principal/2-complementar de antes da consolidação) fique
   // esquecido ali dentro depois que o esquema de nomes muda.
-  [principal, complementar, completa].forEach((dir) => fs.rmSync(dir, { recursive: true, force: true }));
-
-  fs.mkdirSync(principal, { recursive: true });
-  ['sw.min.css', 'sw.min.js', 'sw.config.css'].forEach((file) => {
-    atomicWriteBinary(path.join(principal, file), fs.readFileSync(path.join(distDir, file)));
-  });
-  copyDirRecursive(path.join(distDir, 'fonts'), path.join(principal, 'fonts'));
-  atomicWrite(path.join(principal, 'LEIA-ME.md'),
-    '# SW Framework — Principal\n\n' +
-    'Núcleo obrigatório: 84 componentes, tema claro/escuro, ícones e os módulos de interface\n' +
-    '(modal, dropdown, navbar, sidebar, formulários...). É o que praticamente todo projeto usa.\n\n' +
-    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.min.css">\n<script src="sw.min.js" defer></script>\n```\n\n' +
-    '`sw.config.css` é opcional — um ponto de partida pra personalizar cores, fontes e bordas\n' +
-    '(carregue por último, depois do sw.min.css). A pasta `fonts/` (ícones em fonte) deve\n' +
-    'ficar ao lado do CSS/JS. Precisa do SVG de algum ícone específico? A galeria completa\n' +
-    'fica hospedada em sw.sanweb.com.br — não vem junto neste pacote.\n');
-
-  fs.mkdirSync(complementar, { recursive: true });
-  ['sw.compl.min.css', 'sw.compl.min.js'].forEach((file) => {
-    atomicWriteBinary(path.join(complementar, file), fs.readFileSync(path.join(distDir, file)));
-  });
-  atomicWrite(path.join(complementar, 'LEIA-ME.md'),
-    '# SW Framework — Complementar\n\n' +
-    '`sw.compl.min.js` reúne tudo que é opcional num arquivo só — nenhuma parte exige as\n' +
-    'outras, mas todas exigem o pacote **1-principal** carregado antes:\n\n' +
-    '- Efeitos nativos leves (scramble, tilt 3D, marquee, magnetismo) — vem do sw-fx.\n' +
-    '- Transição suave entre páginas — vem do sw-mpa.\n' +
-    '- Motor de animação avançado com GSAP embutido — a maior parte do peso do arquivo.\n\n' +
-    '`sw.compl.min.css` é obrigatório se você usar `sw-marquee` ou `sw-scrub` do sw-fx —\n' +
-    'sem ele os dois ficam sem efeito nenhum (o JS só cria a estrutura/estado, quem desenha\n' +
-    'a animação é esse CSS). Os demais efeitos do sw-fx (scramble, split, tilt, magnetismo,\n' +
-    'typewriter) funcionam só com o JS.\n\n' +
-    'Backend PHP ainda não está aqui — vem num pacote próprio quando estiver pronto.\n');
-
+  fs.rmSync(pkgDir, { recursive: true, force: true });
   fs.mkdirSync(completa, { recursive: true });
-  ['sw.all.min.css', 'sw.all.min.js', 'sw.config.css'].forEach((file) => {
+
+  ['sw.min.css', 'sw.min.js', 'sw.config.css'].forEach((file) => {
     atomicWriteBinary(path.join(completa, file), fs.readFileSync(path.join(distDir, file)));
   });
   copyDirRecursive(path.join(distDir, 'fonts'), path.join(completa, 'fonts'));
   atomicWrite(path.join(completa, 'LEIA-ME.md'),
-    '# SW Framework — Completa\n\n' +
-    '`sw.all.min.css` + `sw.all.min.js` = Principal + Complementar já combinados num arquivo\n' +
-    'só de cada. Pra quem prefere levar tudo de uma vez em vez de escolher peça por peça.\n\n' +
-    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.all.min.css">\n<script src="sw.all.min.js" defer></script>\n```\n\n' +
+    '# SW Framework\n\n' +
+    '`sw.min.css` + `sw.min.js` = tudo que roda no navegador num arquivo só: núcleo\n' +
+    '(84 componentes, tema claro/escuro, ícones, modal, dropdown, navbar, sidebar,\n' +
+    'formulários...) + efeitos (scramble, tilt 3D, marquee, magnetismo), transição\n' +
+    'suave entre páginas e o motor de animação avançado com GSAP embutido.\n\n' +
+    '## Instalação\n\n```html\n<link rel="stylesheet" href="sw.min.css">\n<script src="sw.min.js" defer></script>\n```\n\n' +
+    '`sw.config.css` é opcional — um ponto de partida pra personalizar cores, fontes e\n' +
+    'bordas (carregue por último, depois do sw.min.css). A pasta `fonts/` (ícones em\n' +
+    'fonte) deve ficar ao lado do CSS/JS. Precisa do SVG de algum ícone específico? A\n' +
+    'galeria completa fica hospedada em sw.sanweb.com.br — não vem junto neste pacote.\n\n' +
     'Backend PHP ainda não está aqui — vem num pacote próprio quando estiver pronto.\n');
 }
 
@@ -318,17 +290,20 @@ function main() {
   fs.mkdirSync(distDir, { recursive: true });
   fs.mkdirSync(docsDistDir, { recursive: true });
 
-  // Nomes fragmentados de builds antigos (de antes do sw.compl.* existir) — apaga
-  // dos dois destinos pra não ficarem esquecidos ali quando o esquema de nomes muda.
+  // Nomes fragmentados de builds antigos — apaga dos dois destinos pra não ficarem
+  // esquecidos ali quando o esquema de nomes muda. sw.compl.*/sw.all.* existiram
+  // até 31/07/2026, quando viraram parte de sw.min.* (pacote único).
   const obsoleteNames = ['sw-fx.js', 'sw-fx.min.js', 'sw-fx.css', 'sw-fx.min.css',
-    'sw-mpa.js', 'sw-mpa.min.js', 'sw-fx-premium.js', 'sw-fx-premium.min.js'];
+    'sw-mpa.js', 'sw-mpa.min.js', 'sw-fx-premium.js', 'sw-fx-premium.min.js',
+    'sw.compl.css', 'sw.compl.min.css', 'sw.compl.js', 'sw.compl.min.js',
+    'sw.all.css', 'sw.all.min.css', 'sw.all.js', 'sw.all.min.js'];
   obsoleteNames.forEach((name) => {
     fs.rmSync(path.join(distDir, name), { force: true });
     fs.rmSync(path.join(docsDistDir, name), { force: true });
   });
 
   // fx.js, mpa.js, fx-premium e fx.css são só FONTES internas agora — nunca viram
-  // arquivo público próprio. Tudo que é opcional sai consolidado em sw.compl.*,
+  // arquivo público próprio. Tudo sai consolidado em sw.min.* (pacote único),
   // sem nome fragmentado (FX/MPA/premium não existem como bundle separado).
   const outputs = new Map();
   const coreCssRaw = cssFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
@@ -338,33 +313,23 @@ function main() {
   const fxCssRaw = fs.readFileSync(fxCssFile, 'utf8');
   const sw2NavbarCssRaw = fs.readFileSync(sw2NavbarCssFile, 'utf8');
   const sw2NavbarJsRaw = fs.readFileSync(sw2NavbarJsFile, 'utf8');
-  const css = banner('CSS') + coreCssRaw;
-  const js = banner('JavaScript') + coreJsRaw;
-  outputs.set('sw.css', css);
-  outputs.set('sw.min.css', banner('CSS compactado') + compactCss(css));
-  outputs.set('sw.js', js);
-  outputs.set('sw.min.js', banner('JavaScript compactado') + compactJs(js));
-
   const fxPremiumBundle = buildFxPremium();
   const fxPremiumRaw = fxPremiumBundle || '';
 
-  // sw.compl.* — todos os complementos (FX + MPA + FX Premium) num arquivo só.
-  // sw.all.*   — Principal + Complementar juntos.
-  // sw.compl.css hoje é só o CSS de apoio do SW-FX (marquee anda, scrub reage à
-  // rolagem) — sem ele, [sw-marquee] e [sw-scrub] ficam parados/inertes.
+  // sw.min.css / sw.min.js = pacote único e padrão: núcleo + tudo que antes
+  // era "complementar" (FX + MPA + FX Premium/GSAP) já combinado num arquivo
+  // só. Decisão de Sandro (31/07/2026): parar de fragmentar em sw.compl.*/
+  // sw.all.* — "complementar" fica reservado pro pacote de PHP, quando
+  // estiver pronto; até lá, todo o resto do front-end mora aqui dentro.
   const complJsRaw = [fxRaw, mpaRaw, sw2NavbarJsRaw, fxPremiumRaw].filter(Boolean).join('\n');
   const complCssRaw = [fxCssRaw, sw2NavbarCssRaw].join('\n');
   const allJsRaw = `${coreJsRaw}\n${complJsRaw}`;
   const allCssRaw = `${coreCssRaw}\n${complCssRaw}`;
 
-  outputs.set('sw.compl.css', banner('Complementar CSS (apoio do SW-FX)') + complCssRaw);
-  outputs.set('sw.compl.min.css', banner('Complementar CSS compactado') + compactCss(complCssRaw));
-  outputs.set('sw.compl.js', banner('Complementar (FX + MPA + FX Premium)') + complJsRaw);
-  outputs.set('sw.compl.min.js', banner('Complementar compactado') + compactJs(complJsRaw));
-  outputs.set('sw.all.css', banner('Completo (Principal + Complementar)') + allCssRaw);
-  outputs.set('sw.all.min.css', banner('Completo compactado') + compactCss(allCssRaw));
-  outputs.set('sw.all.js', banner('Completo (Principal + Complementar)') + allJsRaw);
-  outputs.set('sw.all.min.js', banner('Completo compactado') + compactJs(allJsRaw));
+  outputs.set('sw.css', banner('CSS') + allCssRaw);
+  outputs.set('sw.min.css', banner('CSS compactado') + compactCss(allCssRaw));
+  outputs.set('sw.js', banner('JavaScript') + allJsRaw);
+  outputs.set('sw.min.js', banner('JavaScript compactado') + compactJs(allJsRaw));
 
   const manifest = { version: VERSION, generatedAt: new Date().toISOString(), files: {} };
   outputs.forEach((content, name) => {
@@ -389,7 +354,7 @@ function main() {
     atomicWriteBinary(path.join(docsDistDir, path.basename(file)), raw);
   });
   buildPackages();
-  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}${fontFiles ? ` + fonte swicons (${fontFiles} arquivos)` : ''} + 3 pacotes (principal/complementar/completa)`);
+  console.log(`Build concluído: ${outputs.size} bundles, versão ${VERSION}${icons.count ? ` + ${icons.count} ícones (${icons.categories} categorias)` : ''}${fontFiles ? ` + fonte swicons (${fontFiles} arquivos)` : ''} + 1 pacote (completa)`);
 }
 
 try { main(); } catch (error) { console.error(`Build interrompido: ${error.message}`); process.exitCode = 1; }
