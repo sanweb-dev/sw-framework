@@ -2,6 +2,8 @@
 
 **Framework web nativo, modular e sem dependências — CSS + JS puros, recursos modernos da plataforma (View Transitions API, Navigation API, IntersectionObserver) com fallback seguro para quem não suporta.**
 
+**🔗 Documentação ao vivo e catálogo interativo: [sw.sanweb.com.br](https://sw.sanweb.com.br)**
+
 > ✅ **Status: `1.0.0`.** Testado (18 testes unitários + 65 testes de navegador em Chromium/Firefox/WebKit). Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
 
 ---
@@ -34,8 +36,8 @@ um arquivo de cada, com tudo incluso (núcleo, efeitos, transições e GSAP prem
 ```
 
 ```bash
-git clone <repositório>
-cd sw
+git clone https://github.com/sanweb-dev/sw-framework.git
+cd sw-framework
 npm install        # só instala o Playwright, usado para testes
 npm run build       # gera dist/sw.min.css e dist/sw.min.js
 ```
@@ -59,7 +61,7 @@ npm run build       # gera dist/sw.min.css e dist/sw.min.js
 <h1 sw-scramble>Passe o mouse ou dê foco aqui</h1>
 ```
 
-Documentação completa e catálogo interativo: `docs/index.html` (servir localmente, ver abaixo).
+Documentação completa e catálogo interativo: [sw.sanweb.com.br](https://sw.sanweb.com.br) — ou `docs/index.html` servido localmente (ver abaixo).
 
 ## Rodando localmente
 

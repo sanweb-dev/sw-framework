@@ -13,6 +13,14 @@
   ],
   "author": "Sandro Web Solutions",
   "license": "MIT",
+  "homepage": "https://sw.sanweb.com.br",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanweb-dev/sw-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanweb-dev/sw-framework/issues"
+  },
   "main": "dist/sw.min.js",
   "style": "dist/sw.min.css",
   "files": [
