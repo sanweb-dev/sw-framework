@@ -46,7 +46,7 @@
             <div class="mb-8">
                 <span class="doc-tag">Utilitários</span>
                 <h2 class="t-xxg f-bd mb-2">Sombras <span class="TprinD">& Elevação</span></h2>
-                <p class="t-g t-mut mb-0">Classes de <code>box-shadow</code> em múltiplos níveis, de flat a glow colorido — todas via tokens <code>--sw-sha-*</code>, adaptadas automaticamente ao tema claro/escuro.</p>
+                <p class="t-g t-mut mb-0">Classes de <code>box-shadow</code> e <code>text-shadow</code> em múltiplos níveis — da elevação básica adaptada ao tema até a galeria técnica completa de 46 variantes e sombra de texto, portada 1:1 do Y2.</p>
             </div>
 
             <!-- 1. NEUTRAS -->
@@ -84,8 +84,64 @@
 </script></pre>
             </div>
 
+            <!-- 3. INTERNAS (ESCALA) -->
+            <div class="doc-card sec mb-6" id="internas">
+                <h3 class="t-m f-bd mb-4">3. Sombras Internas — <code>.shad-in-1/2/3</code></h3>
+                <p class="t-g t-mut mb-4">Escala de 3 níveis de profundidade <code>inset</code> — para superfícies escavadas, poços de input, indicadores de progresso.</p>
+                <div class="sha-grid mb-4">
+                    <div class="sha-card shad-in-1">.shad-in-1</div>
+                    <div class="sha-card shad-in-2">.shad-in-2</div>
+                    <div class="sha-card shad-in-3">.shad-in-3</div>
+                </div>
+                <pre swcode="html" class="m-0"><script type="text/plain">
+<div class="shad-in-2">Poço raso — input, well</div>
+</script></pre>
+            </div>
+
+            <!-- 4. GALERIA TÉCNICA (1-46) -->
+            <div class="doc-card sec mb-6" id="galeria">
+                <h3 class="t-m f-bd mb-2">4. Galeria Técnica Completa</h3>
+                <p class="t-g t-mut mb-4">Todos os 46 níveis de sombra do sistema original — <code>.shad1</code> a <code>.shad46</code>. Portados 1:1 do Y2, mesma numeração.</p>
+                <div class="sha-grid mb-4" id="full-shadow-gallery"><!-- Injetado via JS --></div>
+            </div>
+
+            <!-- 5. SOMBRAS DE TEXTO -->
+            <div class="doc-card sec" id="texto">
+                <h3 class="t-m f-bd mb-4">5. Sombras de Texto — <code>.tsha-*</code></h3>
+                <p class="t-g t-mut mb-6">Escala escura (<code>.tsha-1</code> a <code>.tsha-10</code>) para texto sobre fundo claro/neutro, e escala branca/glow (<code>.tsha-w1</code> a <code>.tsha-w5</code>) para texto sobre fundo escuro.</p>
+                <div class="l gap-4">
+                    <div class="co12 co6-g">
+                        <p class="t-p f-bd t-mut mb-4 uppercase">Escala Escura</p>
+                        <div class="t-xxg f-bd tsha-2 mb-4">NÍVEL 2</div>
+                        <div class="t-xxg f-bd tsha-5 mb-4">NÍVEL 5</div>
+                        <div class="t-xxg f-bd tsha-8 mb-4">NÍVEL 8</div>
+                        <div class="t-xxg f-bd tsha-10">NÍVEL 10</div>
+                    </div>
+                    <div class="co12 co6-g" style="background:#1a1a2e; border-radius:var(--sw-r-g); padding:2.4rem;">
+                        <p class="t-p f-bd mb-4 uppercase" style="color:#fff; opacity:.7;">Escala Branca</p>
+                        <div class="t-xxg f-bd tsha-w1 mb-4" style="color:#fff;">GLOW 1</div>
+                        <div class="t-xxg f-bd tsha-w3 mb-4" style="color:#fff;">GLOW 3</div>
+                        <div class="t-xxg f-bd tsha-w5" style="color:#fff;">GLOW 5</div>
+                    </div>
+                </div>
+                <pre swcode="html" class="m-0 mt-6"><script type="text/plain">
+<h1 class="tsha-8">Título com profundidade</h1>
+<h1 class="tsha-w3" style="color:#fff">Título com glow branco</h1>
+</script></pre>
+            </div>
+
         </main>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('full-shadow-gallery');
+            let html = '';
+            for (let i = 1; i <= 46; i++) {
+                html += `<div class="sha-card shad${i}">.shad${i}</div>`;
+            }
+            container.innerHTML = html;
+        });
+    </script>
 </body>
 
 </html>
