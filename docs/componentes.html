@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Componentes disponíveis no alpha do SW Framework, com exemplos acessíveis de botões, formulários, modal, painel e tabela.">
+  <meta name="description" content="Componentes disponíveis no SW Framework, com exemplos acessíveis de botões, formulários, modal, painel e tabela.">
   <meta name="theme-color" content="#090d16">
-  <title>Componentes do SW Framework — Documentação Alpha</title>
+  <title>Componentes do SW Framework — Documentação</title>
   <script src="dist/sw.min.js?v=10" defer></script>
   <link rel="stylesheet" href="dist/sw.min.css?v=10">
   <link rel="stylesheet" href="css/layout.css">
@@ -20,7 +20,7 @@
     <header class="docs-hero">
       <p class="docs-eyebrow">Referência funcional / 01</p>
       <h1>Componentes do SW Framework</h1>
-      <p class="docs-lead">Exemplos reais do catálogo disponível no alpha. Cada interação abaixo usa o mesmo bundle entregue em <code>dist</code>, com teclado, foco e fallback progressivo.</p>
+      <p class="docs-lead">Exemplos reais do catálogo disponível. Cada interação abaixo usa o mesmo bundle entregue em <code>dist</code>, com teclado, foco e fallback progressivo.</p>
       <div class="docs-meta"><span class="docs-pill" data-status="ready">UI principal ativa</span><span class="docs-pill">Zero dependências em runtime</span></div>
     </header>
 
@@ -37,7 +37,7 @@ SW.Alert.info('Mensagem segura');</code></pre>
       <div class="docs-section-head"><div><p class="docs-kicker">Entrada</p><h2 id="forms-title">Formulários nativos aprimorados</h2></div><p>Select, validação e máscaras preservam os controles HTML. Sem JavaScript, o formulário continua utilizável com a validação do navegador.</p></div>
       <div class="docs-grid docs-grid-2">
         <form id="docs-form-demo" class="docs-specimen" sw-valid><div class="sw-form-group"><label class="sw-label sw-label-req" for="docs-name">Nome do projeto</label><input class="sw-input" id="docs-name" name="project" required autocomplete="organization" placeholder="Ex.: Portal institucional" data-sw-error="Informe o nome do projeto."></div><div class="sw-form-group"><label class="sw-label" for="docs-document">CPF ou CNPJ</label><input class="sw-input" id="docs-document" name="document" sw-mask="document" inputmode="numeric" autocomplete="off" placeholder="Somente números"><small class="sw-text-mut">A máscara formata; a validação fiscal continua sendo responsabilidade da aplicação.</small></div><div class="sw-form-group"><label class="sw-label sw-label-req" for="docs-stack">Tipo</label><select class="sw-select" id="docs-stack" name="type" sw-select required><option value="">Selecione uma opção</option><option value="site">Site</option><option value="painel">Painel administrativo</option><option value="hibrido">Aplicação híbrida</option></select></div><button class="sw-btn sw-btn-primary" type="submit">Validar exemplo</button></form>
-        <article class="docs-specimen"><h3>Contrato do alpha</h3><ul class="docs-status-list"><li><code>sw-select</code> mantém teclado e interface nativa.</li><li><code>sw-valid</code> anuncia erros e foca o primeiro campo inválido.</li><li><code>sw-mask</code> oferece CPF, CNPJ, documento, telefone, CEP e data.</li><li data-status="ready">Reinicialização automática para conteúdo dinâmico.</li></ul><pre class="docs-code"><code>&lt;form sw-valid&gt;
+        <article class="docs-specimen"><h3>Contrato de uso</h3><ul class="docs-status-list"><li><code>sw-select</code> mantém teclado e interface nativa.</li><li><code>sw-valid</code> anuncia erros e foca o primeiro campo inválido.</li><li><code>sw-mask</code> oferece CPF, CNPJ, documento, telefone, CEP e data.</li><li data-status="ready">Reinicialização automática para conteúdo dinâmico.</li></ul><pre class="docs-code"><code>&lt;form sw-valid&gt;
   &lt;input required&gt;
   &lt;input sw-mask="phone"&gt;
   &lt;select sw-select required&gt;...&lt;/select&gt;

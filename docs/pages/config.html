@@ -268,15 +268,15 @@ cd sw-framework && npm install && npm run build</script></pre>
                 <div class="p-6 border-bottom border-dashed flx gap-3 alc">
                     <div class="step-num">1</div>
                     <div>
-                        <h3 class="t-m f-bd mb-0">Self-hosted (ainda sem CDN)</h3>
-                        <p class="t-pp t-mut">Copie os arquivos de <code>dist/</code> pro seu projeto e carregue no <code>&lt;head&gt;</code>. Sem npm, sem build.</p>
+                        <h3 class="t-m f-bd mb-0">Self-hosted (sem CDN por enquanto)</h3>
+                        <p class="t-pp t-mut">Copie os arquivos de <code>dist/</code> pro seu projeto e carregue no <code>&lt;head&gt;</code>. Sem build nenhum — funciona direto.</p>
                     </div>
                 </div>
                 <div class="p-6">
                     <p class="t-p t-mut mb-3"><strong>Um arquivo de cada</strong> — CSS + JS, tudo incluso:</p>
                     <pre swcode="html"><script type="text/plain"><!-- SW Framework (núcleo + efeitos + transições + GSAP premium) -->
-<link rel="stylesheet" href="/dist/sw.min.css?v=10">
-<script src="/dist/sw.min.js?v=10" defer><\/script></script></pre>
+<link rel="stylesheet" href="/dist/sw.min.css">
+<script src="/dist/sw.min.js" defer><\/script></script></pre>
                 </div>
 
                 <div class="p-6 border-top border-dashed">
@@ -368,8 +368,8 @@ cd sw-framework && npm install && npm run build</script></pre>
 
                     <p class="t-p t-mut mb-4">No HTML, a ordem importa:</p>
                     <pre swcode="html"><script type="text/plain"><!-- 1. SW Framework (obrigatório) -->
-<link rel="stylesheet" href="/dist/sw.min.css?v=10">
-<script src="/dist/sw.min.js?v=10" defer><\/script>
+<link rel="stylesheet" href="/dist/sw.min.css">
+<script src="/dist/sw.min.js" defer><\/script>
 
 <!-- 2. Sua configuração (sempre por último) -->
 <link rel="stylesheet" href="/sw.config.css"></script></pre>
