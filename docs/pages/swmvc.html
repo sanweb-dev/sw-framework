@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-sw-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWMVC Framework — Back-End PHP & Arquitetura | SW Framework</title>
+  <link rel="stylesheet" href="../dist/sw.min.css">
+  <link rel="stylesheet" href="../assets/docs.css">
+</head>
+<body class="doc-body">
+
+  <div class="doc-shell">
+    <!-- Sidebar injetada via JS -->
+    <aside id="doc-sidebar" class="doc-sidebar"></aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="doc-main">
+      <header id="doc-header" class="doc-header"></header>
+
+      <div class="doc-content">
+
+        <!-- Banner / Hero -->
+        <div class="sw-card mb-g p-g" style="background: linear-gradient(135deg, rgba(9,87,175,0.08) 0%, rgba(16,185,129,0.08) 100%); border-left: 4px solid var(--sw-pri);">
+          <div class="flx alc j-sb gap-m f-wr">
+            <div>
+              <div class="flx alc gap-p mb-p">
+                <span class="sw-badge sw-badge-pri">Back-End PHP</span>
+                <span class="sw-badge sw-badge-suc">PHP 8.3 + MySQL 8.0</span>
+                <span class="sw-badge sw-badge-out">Starter Kit / Boilerplate</span>
+              </div>
+              <h1 class="twr-xg fwb color-txt mb-p">SWMVC Framework</h1>
+              <p class="twr-m color-mut max-w-700">
+                O motor back-end oficial do ecossistema SW. Microframework MVC autoral, ultrarrápido, seguro (protegido contra SQL Injection, XSS, CSRF) e equipado com matriz dinâmica de permissões (RBAC).
+              </p>
+            </div>
+            <div class="flx gap-p">
+              <a href="https://swmvc.sanweb.com.br" target="_blank" class="sw-btn sw-btn-pri">
+                <i class="swi swi-external-link"></i> Ver Demo ao Vivo
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instalação em 1 Comando -->
+        <section class="mb-g">
+          <h2 class="twr-g fwb mb-m">⚡ Instalação Automatizada em 1 Comando</h2>
+          <p class="twr-m color-mut mb-m">
+            Para iniciar um novo projeto utilizando o SWMVC como Starter Kit:
+          </p>
+
+          <div class="sw-card p-m mb-m" style="background: #0f172a; color: #f8fafc;">
+            <pre class="m-0" style="font-family: var(--sw-font-mono, monospace); font-size: 1.3rem;"><code># 1. Configurar credenciais do banco no arquivo .env
+DB_HOST=127.0.0.1
+DB_NAME=meu_novo_projeto
+DB_USER=root
+DB_PASS=minha_senha
+
+# 2. Executar o instalador CLI automatizado
+php install.php</code></pre>
+          </div>
+
+          <div class="sw-card p-m" style="border-left: 3px solid #10b981;">
+            <strong class="color-txt">O script <code>install.php</code> realiza automaticamente:</strong>
+            <ul class="mt-p mb-0 pl-m color-mut" style="font-size: 1.3rem;">
+              <li>Criação do Banco de Dados MySQL (se não existir)</li>
+              <li>Importação do <code>schema_completo.sql</code> (Usuários, RBAC, Mídias, Blog, E-Commerce, Logs e Configurações)</li>
+              <li>Criação da conta Administrador padrão (<code>admin@admin.com</code> / <code>Admin2026!</code>)</li>
+              <li>Estruturação das pastas de upload em <code>public/storage/uploads/</code> e permissões de log</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Arquitetura & Recursos Nativos -->
+        <section class="mb-g">
+          <h2 class="twr-g fwb mb-m">🏛️ Recursos Nativos da Arquitetura</h2>
+
+          <div class="flx gap-m f-wr mb-m">
+            <div sw-card class="f-1 min-w-280 p-m">
+              <div class="flx alc gap-p mb-p">
+                <i class="swi swi-shield color-pri" style="font-size: 2rem;"></i>
+                <strong class="twr-m">Matriz Dinâmica RBAC</strong>
+              </div>
+              <p class="twr-p color-mut mb-0">
+                Controle total por papel (Admin, Gerente, Editor, Usuário) editável pelo painel <code>/admin/permissoes</code> e verificado via <code>RBAC::pode('modulo.acao')</code>.
+              </p>
+            </div>
+
+            <div sw-card class="f-1 min-w-280 p-m">
+              <div class="flx alc gap-p mb-p">
+                <i class="swi swi-database color-suc" style="font-size: 2rem;"></i>
+                <strong class="twr-m">QueryBuilder Fluente</strong>
+              </div>
+              <p class="twr-p color-mut mb-0">
+                Interface fluente contra SQL Injection (<code>QB::tabela('users')->buscar()</code>), paginação automática e suporte nativo a Soft-Deletes (lixeira).
+              </p>
+            </div>
+
+            <div sw-card class="f-1 min-w-280 p-m">
+              <div class="flx alc gap-p mb-p">
+                <i class="swi swi-image color-sec" style="font-size: 2rem;"></i>
+                <strong class="twr-m">Galeria de Mídias WebP</strong>
+              </div>
+              <p class="twr-p color-mut mb-0">
+                Upload centralizado com pipeline obrigatório de thumbnails, otimização automática WebP e organização relacional polimórfica.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Guia Extensível para IAs e Desenvolvedores -->
+        <section class="mb-g">
+          <h2 class="twr-g fwb mb-m">🧩 Como Criar Novas Áreas (Admin & Site Público)</h2>
+
+          <div class="sw-card p-g">
+            <h3 class="twr-m fwb mb-p color-pri">1. Adicionando um Novo Módulo no ADMIN</h3>
+            <ol class="pl-m color-mut mb-g" style="font-size: 1.3rem;">
+              <li class="mb-p"><strong>Tabela SQL</strong>: Adicione a tabela no <code>app/Database/schema_completo.sql</code>.</li>
+              <li class="mb-p"><strong>Model</strong>: Crie a classe em <code>app/Models/NovoModulo.php</code> utilizando <code>QB::tabela(...)</code>.</li>
+              <li class="mb-p"><strong>Controller</strong>: Crie <code>app/Controllers/Admin/NovoModuloController.php</code> e chame <code>RBAC::requerPermissao('modulo.acao')</code>.</li>
+              <li class="mb-p"><strong>Rotas</strong>: Registre o grupo em <code>app/Routes/admin.php</code> sob o grupo <code>['auth']</code>.</li>
+              <li class="mb-p"><strong>View Admin</strong>: Crie a view em <code>app/Views/admin/novo_modulo/index.php</code> usando <code>View::layout('admin/layouts/app')</code> e a classe <code>.page-header-admin</code>.</li>
+              <li class="mb-p"><strong>Sidebar</strong>: Proteja o link na barra lateral <code>sidebar.php</code> com <code>&lt;?php if (RBAC::pode('modulo.ver')): ?&gt;</code>.</li>
+            </ol>
+
+            <h3 class="twr-m fwb mb-p color-sec">2. Adicionando uma Nova Página no SITE PÚBLICO</h3>
+            <ol class="pl-m color-mut mb-0" style="font-size: 1.3rem;">
+              <li class="mb-p"><strong>Controller Publico</strong>: Crie <code>app/Controllers/Site/PaginaController.php</code>.</li>
+              <li class="mb-p"><strong>Rota Pública</strong>: Registre em <code>app/Routes/web.php</code> (ex: <code>Router::get('/pagina', 'Site\PaginaController@index')</code>).</li>
+              <li class="mb-p"><strong>View Pública</strong>: Crie <code>app/Views/site/pagina/index.php</code> herdando <code>View::layout('site/layouts/app')</code>.</li>
+            </ol>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../dist/sw.min.js"></script>
+  <script src="../assets/docs.js"></script>
+  <script src="layout/header.js"></script>
+  <script src="layout/sidebar.js"></script>
+</body>
+</html>

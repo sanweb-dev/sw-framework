@@ -103,6 +103,9 @@
           <a href="${root}pages/config.html" class="nav-it ${currentPath === 'config.html' ? 'is-active is-act' : ''}" data-doc-link data-page="config">
             <span sw-icon="${iconPaths.cfg}"></span> <span>Configuração</span>
           </a>
+          <a href="${root}pages/swmvc.html" class="nav-it ${currentPath === 'swmvc.html' ? 'is-active is-act' : ''}" data-doc-link data-page="swmvc">
+            <span sw-icon="${iconPaths.dash}"></span> <span>SWMVC (Back-End PHP)</span>
+          </a>
         </div>
       </div>
 
