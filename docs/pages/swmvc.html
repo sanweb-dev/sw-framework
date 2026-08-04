@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SWMVC Back-End PHP - SW Docs</title>
+    <title>SWMVC Framework — Starter Kit PHP & Baixar ZIP - SW Docs</title>
     <link rel="stylesheet" href="../dist/sw.min.css?v=10">
     <link rel="stylesheet" href="../css/layout.css?v=13">
     <script src="../dist/sw.min.js?v=10" defer></script>
@@ -12,11 +12,12 @@
 
     <style>
         .demo-wrap {
-            background: var(--sw-bg-bas);
+            background: #0f172a;
+            color: #f8fafc;
             border: 1px solid var(--sw-bor);
             border-radius: 0.8rem;
-            padding: 2.4rem;
-            margin-bottom: 0.8rem;
+            padding: 2rem;
+            margin-bottom: 1.2rem;
         }
         .sec { scroll-margin-top: 10rem; }
         .demo-label {
@@ -30,14 +31,30 @@
         .g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
         @media (max-width: 768px) { .g2 { grid-template-columns: 1fr; } }
         pre.code-box {
-            background: #0f172a;
-            color: #f8fafc;
-            padding: 1.6rem;
-            border-radius: 0.8rem;
-            overflow-x: auto;
+            margin: 0;
             font-family: var(--sw-font-mono, monospace);
-            font-size: 1.3rem;
-            line-height: 1.5;
+            font-size: 1.35rem;
+            line-height: 1.6;
+        }
+        .dl-hero-card {
+            background: linear-gradient(135deg, rgba(9, 87, 175, 0.12) 0%, rgba(16, 185, 129, 0.12) 100%);
+            border: 2px solid var(--sw-pri);
+            border-radius: 1.2rem;
+            padding: 2.4rem;
+            margin-bottom: 2.4rem;
+        }
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 50%;
+            background: var(--sw-pri);
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-right: 1rem;
         }
     </style>
 </head>
@@ -54,75 +71,119 @@
                 <span class="brc-it is-cur" aria-current="page">SWMVC Framework</span>
             </nav>
 
-            <!-- INTRO -->
-            <div class="mb-8">
-                <span class="doc-tag">Back-End PHP</span>
-                <h2 class="t-xxg f-bd mb-2">SWMVC <span class="TprinD">Framework</span></h2>
-                <p class="t-g t-mut mb-0">
-                    O motor back-end oficial em PHP 8.3 + MySQL 8.0 do ecossistema SW. Starter Kit / Boilerplate ultrarrápido, seguro (protegido contra SQL Injection, XSS, CSRF) e equipado com matriz dinâmica de permissões (RBAC).
-                </p>
+            <!-- HERO & DOWNLOAD ZIP -->
+            <div class="dl-hero-card mb-8">
+                <div class="flx alc j-sb gap-g f-wr">
+                    <div>
+                        <span class="doc-tag mb-2">Back-End PHP 8.3 + MySQL 8.0</span>
+                        <h2 class="t-xxg f-bd mb-2">SWMVC <span class="TprinD">Starter Kit</span></h2>
+                        <p class="t-g t-mut mb-0 max-w-700">
+                            Baixe o código-fonte completo pronto para uso em ZIP ou clone o repositório. O SWMVC já vem com Painel Admin, Matriz de Permissões (RBAC), Galeria de Mídias, Blog, E-Commerce e Instalador Automatizado.
+                        </p>
+                    </div>
+                    <div class="flx f-cl gap-3 min-w-240">
+                        <a href="https://sw.sanweb.com.br/dist/swmvc-starter-kit.zip" class="sw-btn sw-btn-pri p-4 t-g f-bd" download>
+                            <i class="swi swi-download mr-2" style="font-size: 1.8rem;"></i> Baixar SWMVC (.ZIP)
+                        </a>
+                        <a href="https://github.com/sanweb-dev/swmvc" target="_blank" class="sw-btn sw-btn-out p-3 t-m">
+                            <i class="swi swi-code mr-2"></i> Ver no GitHub (Privado)
+                        </a>
+                        <a href="https://swmvc.sanweb.com.br" target="_blank" class="sw-btn sw-btn-gst p-2 t-p t-mut">
+                            <i class="swi swi-external-link mr-1"></i> Abrir Demo ao Vivo
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- 1. INSTALAÇÃO AUTOMATIZADA -->
-            <div class="doc-card sec mb-8" id="instalacao">
-                <h3 class="t-m f-bd mb-1">1. Instalação Automatizada em 1 Comando</h3>
+            <!-- INSTALAÇÃO ULTRA RÁPIDA (MODO EXPRESS) -->
+            <div class="doc-card sec mb-8" id="instalacao-rapida">
+                <h3 class="t-m f-bd mb-1"><i class="swi swi-flash TprinD mr-2"></i>Instalação Modo Rápido (3Passos)</h3>
                 <p class="t-mut t-p mb-6">
-                    Para iniciar um novo projeto utilizando o SWMVC como Starter Kit / Boilerplate completo.
+                    Como instalar o SWMVC do zero em qualquer servidor ou computador local em menos de 2 minutos.
                 </p>
 
-                <p class="demo-label">Passo a passo CLI</p>
-                <div class="demo-wrap">
-                    <pre class="code-box"><code># 1. Configure as credenciais do MySQL no arquivo .env
-DB_HOST=127.0.0.1
-DB_NAME=meu_novo_projeto
-DB_USER=root
-DB_PASS=minha_senha
-
-# 2. Execute o instalador CLI automatizado
-php install.php</code></pre>
+                <!-- Passo 1 -->
+                <div class="sw-card p-4 mb-4">
+                    <div class="flx alc mb-3">
+                        <span class="step-badge">1</span>
+                        <strong class="t-m">Baixar e Extrair os Arquivos</strong>
+                    </div>
+                    <p class="t-p t-mut mb-3 pl-8">
+                        Baixe o arquivo <a href="https://sw.sanweb.com.br/dist/swmvc-starter-kit.zip" class="TprinD f-bd">swmvc-starter-kit.zip</a> e extraia todo o conteúdo na pasta do seu projeto web (ex: <code>htdocs/meu-site</code> ou <code>/var/www/html/meu-site</code>).
+                    </p>
                 </div>
 
-                <div class="sw-card p-4 mt-4" style="border-left: 4px solid var(--sw-pri);">
-                    <strong class="t-m color-txt">O script <code>install.php</code> executa automaticamente:</strong>
-                    <ul class="mt-2 mb-0 pl-4 t-mut t-p">
-                        <li>Criação do Banco de Dados MySQL (caso não exista)</li>
-                        <li>Importação do <code>schema_completo.sql</code> (Usuários, RBAC, Mídias, Blog, E-Commerce, Logs e Configurações)</li>
-                        <li>Criação da conta Administrador padrão (<code>admin@admin.com</code> / <code>Admin2026!</code>)</li>
-                        <li>Estruturação das pastas de upload em <code>public/storage/uploads/</code> e permissões de log</li>
-                    </ul>
+                <!-- Passo 2 -->
+                <div class="sw-card p-4 mb-4">
+                    <div class="flx alc mb-3">
+                        <span class="step-badge">2</span>
+                        <strong class="t-m">Configurar o Banco de Dados no .env</strong>
+                    </div>
+                    <p class="t-p t-mut mb-2 pl-8">
+                        Renomeie o arquivo <code>.env.example</code> para <code>.env</code> e insira os dados do seu MySQL:
+                    </p>
+                    <div class="demo-wrap ml-8 mb-0">
+                        <pre class="code-box"><code>DB_HOST=127.0.0.1
+DB_NAME=nome_do_seu_banco
+DB_USER=root
+DB_PASS=sua_senha_mysql</code></pre>
+                    </div>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="sw-card p-4 mb-4">
+                    <div class="flx alc mb-3">
+                        <span class="step-badge">3</span>
+                        <strong class="t-m">Executar o Instalador CLI Automatizado</strong>
+                    </div>
+                    <p class="t-p t-mut mb-3 pl-8">
+                        Abra o terminal na pasta do projeto e rode o comando abaixo:
+                    </p>
+                    <div class="demo-wrap ml-8 mb-3">
+                        <pre class="code-box"><code>php install.php</code></pre>
+                    </div>
+                    <div class="sw-card p-3 ml-8" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981;">
+                        <strong class="t-p color-txt">✅ O instalador realiza tudo automaticamente:</strong>
+                        <ul class="mt-1 mb-0 pl-4 t-mut t-p">
+                            <li>Cria o Banco de Dados no MySQL</li>
+                            <li>Cria todas as tabelas (Usuários, Mídias, Blog, Loja, Logs e RBAC)</li>
+                            <li>Cria a conta Admin inicial: <code>admin@admin.com</code> / Senha: <code>Admin2026!</code></li>
+                            <li>Prepara as pastas de upload e permissões de escrita</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- 2. RECURSOS NATIVOS DA ARQUITETURA -->
+            <!-- RECURSOS NATIVOS DO FRAMEWORK -->
             <div class="doc-card sec mb-8" id="recursos">
-                <h3 class="t-m f-bd mb-1">2. Recursos Nativos da Arquitetura</h3>
-                <p class="t-mut t-p mb-6">Módulos nativos encapsulados e integrados por padrão no SWMVC.</p>
+                <h3 class="t-m f-bd mb-1"><i class="swi swi-layers TprinD mr-2"></i>O Que Vem Incluído no SWMVC</h3>
+                <p class="t-mut t-p mb-6">Módulos nativos totalmente configurados e prontos no Starter Kit.</p>
 
                 <div class="g2">
                     <div class="sw-card p-4">
                         <div class="flx alc gap-3 mb-2">
                             <i class="swi swi-shield TprinD" style="font-size: 2rem;"></i>
-                            <strong class="t-m">Matriz Dinâmica RBAC</strong>
+                            <strong class="t-m">Painel Admin & Matriz RBAC</strong>
                         </div>
                         <p class="t-p t-mut mb-0">
-                            Controle total por papel (Admin, Gerente, Editor, Usuário) editável pelo painel <code>/admin/permissoes</code> e verificado via <code>RBAC::pode('modulo.acao')</code>.
+                            Painel de controle responsivo com gestão de 4 papéis de acesso (Admin, Gerente, Editor, Usuário) alteráveis dinamicamente pela tela <code>/admin/permissoes</code>.
                         </p>
                     </div>
 
                     <div class="sw-card p-4">
                         <div class="flx alc gap-3 mb-2">
                             <i class="swi swi-database TprinD" style="font-size: 2rem;"></i>
-                            <strong class="t-m">QueryBuilder Fluente</strong>
+                            <strong class="t-m">QueryBuilder Fluente & Models</strong>
                         </div>
                         <p class="t-p t-mut mb-0">
-                            Interface fluente contra SQL Injection (<code>QB::tabela('users')->buscar()</code>), paginação automática e suporte nativo a Soft-Deletes.
+                            Consultas seguras contra SQL Injection (<code>QB::tabela('users')->buscar()</code>), paginação automática e suporte nativo a Lixeira / Soft-Deletes.
                         </p>
                     </div>
 
                     <div class="sw-card p-4">
                         <div class="flx alc gap-3 mb-2">
                             <i class="swi swi-image TprinD" style="font-size: 2rem;"></i>
-                            <strong class="t-m">Galeria de Mídias WebP</strong>
+                            <strong class="t-m">Galeria de Mídias & Upload WebP</strong>
                         </div>
                         <p class="t-p t-mut mb-0">
                             Upload centralizado com pipeline de thumbnails, otimização automatizada WebP e organização relacional polimórfica.
@@ -131,24 +192,24 @@ php install.php</code></pre>
 
                     <div class="sw-card p-4">
                         <div class="flx alc gap-3 mb-2">
-                            <i class="swi swi-list-ul TprinD" style="font-size: 2rem;"></i>
-                            <strong class="t-m">Logger & Observabilidade</strong>
+                            <i class="swi swi-shopping-bag TprinD" style="font-size: 2rem;"></i>
+                            <strong class="t-m">Blog & E-Commerce Prontos</strong>
                         </div>
                         <p class="t-p t-mut mb-0">
-                            Registro de auditoria e erros em tabela <code>logs</code> com contexto JSON e visualização gráfica no admin.
+                            Gestão de produtos, categorias, pedidos, artigos do blog, moderação de comentários e relatório de faturamento.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. GUIA PASSO A PASSO PARA EXPANSÃO DE MÓDULOS -->
+            <!-- GUIA PASSO A PASSO PARA EXPANSÃO -->
             <div class="doc-card sec mb-8" id="extensao">
-                <h3 class="t-m f-bd mb-1">3. Como Criar Novas Áreas (Admin & Site Público)</h3>
-                <p class="t-mut t-p mb-6">Instruções exatas para Humanos e Inteligências Artificiais criarem novos módulos no SWMVC.</p>
+                <h3 class="t-m f-bd mb-1"><i class="swi swi-code TprinD mr-2"></i>Guia de Expansão (Para Humanos e IAs)</h3>
+                <p class="t-mut t-p mb-6">Como criar novas áreas tanto no Admin quanto no Front-end público.</p>
 
-                <p class="demo-label">1. Adicionando um Novo Módulo no ADMIN (Exemplo: Banners)</p>
+                <p class="demo-label">1. Criar um Novo Módulo no ADMIN (Exemplo: Banners)</p>
                 <div class="demo-wrap mb-6">
-                    <pre class="code-box"><code>// Step 1: Adicionar Tabela no Banco (app/Database/schema_completo.sql)
+                    <pre class="code-box"><code>// 1. Tabela SQL no Banco (app/Database/schema_completo.sql)
 CREATE TABLE IF NOT EXISTS banners (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
@@ -157,7 +218,7 @@ CREATE TABLE IF NOT EXISTS banners (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-// Step 2: Criar o Model (app/Models/Banner.php)
+// 2. Model (app/Models/Banner.php)
 namespace App\Models;
 use SW\Core\QueryBuilder as QB;
 class Banner {
@@ -166,7 +227,7 @@ class Banner {
     }
 }
 
-// Step 3: Criar Controller (app/Controllers/Admin/BannerController.php)
+// 3. Controller (app/Controllers/Admin/BannerController.php)
 namespace App\Controllers\Admin;
 use SW\Core\Controller;
 use SW\Auth\RBAC;
@@ -179,10 +240,10 @@ class BannerController extends Controller {
     }
 }
 
-// Step 4: Registrar Rota (app/Routes/admin.php)
+// 4. Rota Admin (app/Routes/admin.php)
 Router::get('/banners', 'Admin\BannerController@index', ['auth']);
 
-// Step 5: Criar View Admin (app/Views/admin/banners/index.php)
+// 5. View Admin (app/Views/admin/banners/index.php)
 &lt;?php use SW\Core\View; View::layout('admin/layouts/app', ['titulo' => 'Banners']); ?&gt;
 &lt;div class="flx alc j-sb mb-m page-header-admin"&gt;
     &lt;div&gt;
@@ -192,9 +253,9 @@ Router::get('/banners', 'Admin\BannerController@index', ['auth']);
 &lt;/div&gt;</code></pre>
                 </div>
 
-                <p class="demo-label">2. Adicionando uma Nova Página no SITE PÚBLICO (Exemplo: /sobre)</p>
+                <p class="demo-label">2. Criar uma Nova Página no SITE PÚBLICO (Exemplo: /sobre)</p>
                 <div class="demo-wrap">
-                    <pre class="code-box"><code>// Step 1: Controller (app/Controllers/Site/SobreController.php)
+                    <pre class="code-box"><code>// 1. Controller (app/Controllers/Site/SobreController.php)
 namespace App\Controllers\Site;
 use SW\Core\Controller;
 use SW\Core\View;
@@ -205,10 +266,10 @@ class SobreController extends Controller {
     }
 }
 
-// Step 2: Rota Pública (app/Routes/web.php)
+// 2. Rota Pública (app/Routes/web.php)
 Router::get('/sobre', 'Site\SobreController@index');
 
-// Step 3: View Pública (app/Views/site/sobre/index.php)
+// 3. View Pública (app/Views/site/sobre/index.php)
 &lt;?php use SW\Core\View; View::layout('site/layouts/app', ['titulo' => $titulo]); ?&gt;
 &lt;section class="container py-g"&gt;
     &lt;h1&gt;Sobre a Empresa&lt;/h1&gt;
