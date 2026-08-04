@@ -27,19 +27,28 @@ Depois de três anos evoluindo projetos separados (Ydra, Y2, Smooll, FXCore, lab
 
 ## Instalação
 
-Ainda não publicado em nenhum registro (npm, CDN). Por enquanto, use o bundle gerado em `dist/` —
-um arquivo de cada, com tudo incluso (núcleo, efeitos, transições e GSAP premium):
-
+### Opção 1: Via npm (Front-End)
+```bash
+npm install @sanweb/sw-framework
+```
 ```html
-<link rel="stylesheet" href="dist/sw.min.css">
-<script src="dist/sw.min.js" defer></script>
+<link rel="stylesheet" href="node_modules/@sanweb/sw-framework/dist/sw.min.css">
+<script src="node_modules/@sanweb/sw-framework/dist/sw.min.js" defer></script>
 ```
 
+### Opção 2: Via Link Direto / CDN
+```html
+<link rel="stylesheet" href="https://sw.sanweb.com.br/dist/sw.min.css">
+<script src="https://sw.sanweb.com.br/dist/sw.min.js" defer></script>
+```
+
+### Opção 3: SWMVC Starter Kit (Full-Stack PHP 8.3 + MySQL)
+Para utilizar o framework completo com Back-End PHP, Painel Admin, RBAC e Banco de Dados:
+- **Download Direto (.ZIP)**: [sw.sanweb.com.br/dist/swmvc-starter-kit.zip](https://sw.sanweb.com.br/dist/swmvc-starter-kit.zip)
+- **Documentação SWMVC**: [sw.sanweb.com.br/pages/swmvc.html](https://sw.sanweb.com.br/pages/swmvc.html)
 ```bash
-git clone https://github.com/sanweb-dev/sw-framework.git
-cd sw-framework
-npm install        # só instala o Playwright, usado para testes
-npm run build       # gera dist/sw.min.css e dist/sw.min.js
+# Executar instalador automatizado CLI
+php install.php
 ```
 
 ## Uso rápido
