@@ -1,0 +1,32 @@
+# SW Framework
+
+> Framework web nativo e gratuito, sem dependências, feito pela Sandro Web Solutions. CSS modular + componentes acessíveis + transições de página nativas (View Transitions API) + efeitos de animação progressivos (com e sem GSAP). MIT license, zero build step obrigatório — um `<link>` e um `<script>` bastam.
+
+O SW Framework é usado em produção em projetos reais da Sandro Web Solutions (sites institucionais, landing pages, painéis administrativos) e está disponível publicamente via CDN, npm e GitHub para qualquer desenvolvedor usar.
+
+## Instalação
+
+- CDN direto: `https://sw.sanweb.com.br/dist/sw.min.css` e `https://sw.sanweb.com.br/dist/sw.min.js`
+- npm: `npm install @sanweb/sw-framework`
+- GitHub: https://github.com/sanweb-dev/sw-framework
+
+## Documentação principal
+
+- [Início](https://sw.sanweb.com.br/index.html): visão geral, showcase interativo, instalação rápida
+- [Componentes](https://sw.sanweb.com.br/pages/componentes.html): playground completo de todos os componentes de UI (botões, cards, modais, tabelas, formulários, navegação)
+- [Animações](https://sw.sanweb.com.br/pages/animacoes.html): catálogo de animações CSS nativas (reveal, timed, loop, micro-interações)
+- [Efeitos Premium (GSAP, opcional)](https://sw.sanweb.com.br/pages/premium-efeitos.html): 29 efeitos de entrada/scroll via atributo `sw-premium-animate`, sem precisar escrever JavaScript
+- [Transições de Página](https://sw.sanweb.com.br/pages/transitions.html): navegação MPA com View Transitions API nativa, sem framework de SPA
+- [SWMVC (back-end PHP)](https://sw.sanweb.com.br/pages/swmvc.html): motor MVC PHP complementar, opcional
+
+## Características técnicas
+
+- Zero dependências no núcleo (efeitos premium usam GSAP como dependência opcional isolada)
+- Acessibilidade real: foco por teclado, `aria-*`, `prefers-reduced-motion` respeitado
+- Tema claro/escuro nativo com persistência (`SW.Day`)
+- Ícones via fonte própria (`swicons`), mais de 2600 ícones em 39 categorias
+- Testado com 18 testes unitários + 65 testes de navegador (Chromium, Firefox, WebKit — mobile/tablet/desktop)
+
+## Licença
+
+MIT — uso livre, comercial ou pessoal, sem atribuição obrigatória.

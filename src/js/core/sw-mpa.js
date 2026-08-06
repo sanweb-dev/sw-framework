@@ -36,7 +36,7 @@
    * preferência que o usuário escolhe e que fica "grudada" na aba até
    * escolher outra — por isso vive no sessionStorage sem ser removida
    * depois de lida, e é reaplicada em toda carga de página. */
-  const styles = new Set(['default', 'fade', 'zoom', 'circle', 'slide-y']);
+  const styles = new Set(['default', 'fade', 'zoom', 'circle', 'slide-y', 'scoped']);
   const styleKey = 'sw:trans:style';
   const normalizeStyle = (style) => styles.has(style) ? style : 'default';
   const applyStyle = (style) => {
@@ -55,6 +55,26 @@
   };
   applyStyle(readStyle());
   window.SWMpa = { setStyle, getStyle: readStyle };
+
+  /* Gatilho 100% por atributo -- sem onclick, sem JS escrito por quem usa:
+   *   <a href="destino.html" sw-trans-style="fade">Ir</a>
+   *   <a href="destino.html" sw-trans-style="scoped" sw-trans-name="main-x">Ir</a>
+   * sw-trans-name nomeia (view-transition-name) o <main> desta MESMA pagina
+   * (a que esta' SAINDO) ANTES de navegar -- a pagina de destino so' precisa
+   * ter sw-morph="main-x" no elemento equivalente (SWTrans ja' cuida disso).
+   * "scoped" tambem desliga a animacao do root (ver 07-transitions.css), pra
+   * sidebar/cabecalho ficarem parados e so' o elemento nomeado se mover. */
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[sw-trans-style], [sw-trans-name]');
+    if (!trigger) return;
+    const style = trigger.getAttribute('sw-trans-style');
+    if (style) setStyle(style);
+    const name = trigger.getAttribute('sw-trans-name');
+    if (name) {
+      const target = document.querySelector(trigger.getAttribute('sw-trans-target') || 'main');
+      if (target) target.style.viewTransitionName = `sw-${name}`;
+    }
+  });
 
   const store = (direction) => {
     try { window.sessionStorage.setItem(storageKey, normalize(direction)); }

@@ -47,7 +47,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
   await page.evaluate(() => ['sw-test-pageswap', 'sw-test-pagereveal', 'sw-test-pageswap-animations', 'sw-test-pagereveal-animations']
     .forEach((key) => sessionStorage.removeItem(key)));
 
-  await page.getByRole('link', { name: 'Explorar documentação' }).click();
+  await page.getByRole('link', { name: 'Explorar Componentes' }).click();
   await expect(page.getByRole('heading', { level: 1, name: /Todos os Componentes/ })).toBeVisible();
   const forwardSwap = await page.evaluate(() => sessionStorage.getItem('sw-test-pageswap'));
   if (capabilities.optedIn) expect(forwardSwap).toBe('transition');
@@ -87,7 +87,7 @@ test('MPA classifica link, voltar, avançar e recarregar conforme a capacidade d
     page.waitForNavigation({ waitUntil: 'load' }),
     page.evaluate(() => window.location.reload())
   ]);
-  await expect(page.getByRole('link', { name: 'Explorar documentação' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Explorar Componentes' })).toBeVisible();
   const reloadSwap = await page.evaluate(() => sessionStorage.getItem('sw-test-pageswap'));
   await expect.poll(() => page.evaluate(() => performance.getEntriesByType('navigation')[0]?.type)).toBe('reload');
   expect([null, 'event']).toContain(reloadSwap);

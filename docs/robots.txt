@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sw.sanweb.com.br/sitemap.xml

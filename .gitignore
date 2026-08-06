@@ -3,3 +3,6 @@ test-results/
 playwright-report/
 tests/artifacts/
 *.tmp
+
+# Config local do Nill (sem segredo real, mas nao deveria ser versionada)
+.env
