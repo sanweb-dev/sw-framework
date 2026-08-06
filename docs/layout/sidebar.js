@@ -82,7 +82,7 @@
           <img src="${root}images/logo.png" alt="SW Framework" class="sidebar-brand-mark">
           <span class="sidebar-brand-title">
             Framework
-            <small>v1.0.0</small>
+            <small>v1.1.0</small>
           </span>
         </a>
       </div>

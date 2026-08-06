@@ -1,0 +1,38 @@
+# ── SW Framework — Proteção de produção ──────────────────────────────────────
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── CORS pra fontes (obrigatório mesmo com Allow: * geral) ──────────────────
+# Navegadores exigem Access-Control-Allow-Origin em fontes carregadas de
+# outro domínio (CDN cross-origin) mesmo quando o request é um GET simples —
+# diferente de CSS/JS/imagem, fonte é sempre bloqueada sem esse header, sem
+# erro visível no console além de "falha ao carregar" silenciosa. Sem isso,
+# o link direto tipo CDN (https://sw.sanweb.com.br/dist/fonts/...) só
+# funciona quando o site que consome o SW hospeda a fonte localmente —
+# exatamente o bug relatado.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(woff2?|ttf|eot|otf)$">
+        Header always set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/javascript text/html text/css
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    <FilesMatch "\.(png|jpg|jpeg|gif|webp|svg)$">
+        ExpiresDefault "access plus 30 days"
+    </FilesMatch>
+</IfModule>
+
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>
