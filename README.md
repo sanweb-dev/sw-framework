@@ -4,7 +4,7 @@
 
 **🔗 Documentação ao vivo e catálogo interativo: [sw.sanweb.com.br](https://sw.sanweb.com.br)**
 
-> ✅ **Status: `1.0.0`.** Testado (18 testes unitários + 65 testes de navegador em Chromium/Firefox/WebKit). Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
+> ✅ **Status: `1.1.0`.** Testado (18 testes unitários + 65 testes de navegador em Chromium/Firefox/WebKit). Este README descreve honestamente o que já funciona e o que está pendente — nada aqui promete mais do que o código realmente entrega.
 
 ---
 
