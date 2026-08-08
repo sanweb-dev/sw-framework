@@ -82,7 +82,7 @@
           <img src="${root}images/logo.png" alt="SW Framework" class="sidebar-brand-mark">
           <span class="sidebar-brand-title">
             Framework
-            <small>v1.1.0</small>
+            <small>v1.1.1</small>
           </span>
         </a>
       </div>
@@ -347,6 +347,9 @@
           </a>
           <a href="${root}pages/premium-video.html" class="nav-it ${currentPath === 'premium-video.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-video">
             <span sw-icon="${iconPaths.fx}"></span> <span>Vídeo Scrub</span>
+          </a>
+          <a href="${root}pages/premium-frames.html" class="nav-it ${currentPath === 'premium-frames.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-frames">
+            <span sw-icon="${iconPaths.fx}"></span> <span>Frames Scrub (WebMotion)</span>
           </a>
           <a href="${root}pages/premium-texto.html" class="nav-it ${currentPath === 'premium-texto.html' ? 'is-active is-act' : ''}" data-doc-link data-page="premium-texto">
             <span sw-icon="${iconPaths.fx}"></span> <span>Texto Animado</span>

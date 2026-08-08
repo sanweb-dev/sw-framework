@@ -22,13 +22,30 @@ class SWPremiumCore {
       [sw-premium-animate="reveal-left"],
       [sw-premium-animate="reveal-right"],
       [sw-premium-animate="reveal-center"] { overflow: hidden; }
+      [sw-premium-frames-scrub] {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      [sw-premium-frames-track] { will-change: transform; }
+      [sw-premium-frames-step] {
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+      [sw-premium-frames-step].is-active {
+        pointer-events: auto;
+      }
     `;
     document.head.appendChild(style);
   }
 
   refresh() {
     const sel = [
-      "[sw-premium-animate]", "[sw-premium-trigger]", "[sw-premium-video-scrub]", "[sw-premium-counter]",
+      "[sw-premium-animate]", "[sw-premium-trigger]", "[sw-premium-video-scrub]", "[sw-premium-frames-scrub]", "[sw-premium-counter]",
       "[sw-premium-scroll-class]", "[sw-premium-parallax]", "[sw-premium-progress-bar]", "[sw-premium-batch]",
       "[sw-premium-scroll-horizontal]", "[sw-premium-timeline]",
       "[sw-premium-split]", "[sw-premium-scramble]", "[sw-premium-typewriter]",
@@ -52,6 +69,11 @@ class SWPremiumCore {
 
     if (config.videoScrub && el.tagName === "VIDEO") {
       this.setupVideoScrub(el, config);
+      return;
+    }
+
+    if (config.framesScrub) {
+      this.setupFrameSequence(el, config);
       return;
     }
 
@@ -219,6 +241,14 @@ class SWPremiumCore {
       split:           el.getAttribute("sw-premium-split"),
       scrollOnce:      el.hasAttribute("sw-premium-scroll-once"),
       videoScrub:      el.getAttribute("sw-premium-video-scrub") === "true",
+      // Frame Sequence Scrub (WebMotion): sequência de imagens ligada ao scroll,
+      // mesmo espírito do video-scrub acima, pra quando o "vídeo" é uma sequência de
+      // quadros WebP (ex.: gerados pelo WebMotion Studio) em vez de um <video> real.
+      framesScrub:     el.getAttribute("sw-premium-frames-scrub") === "true",
+      framesSrc:       el.getAttribute("sw-premium-frames-src") || "",
+      framesCount:     parseInt(el.getAttribute("sw-premium-frames-count") || "0"),
+      framesPad:       parseInt(el.getAttribute("sw-premium-frames-pad") || "3"),
+      framesExt:       el.getAttribute("sw-premium-frames-ext") || "webp",
       // Counter
       counter:         el.getAttribute("sw-premium-counter") === "true",
       counterFrom:     parseFloat(el.getAttribute("sw-premium-counter-from") || "0"),
@@ -404,6 +434,169 @@ class SWPremiumCore {
     };
     if (video.readyState >= 1) createScrubTween();
     else video.addEventListener("loadedmetadata", createScrubTween);
+  }
+
+  // -- Frame Sequence Scrub --------------------------------------------------------
+  // Mesma mecânica do Video Scrub acima, mas pra sequência de imagens (WebP) em vez
+  // de um <video> real -- caso de uso típico: quadros exportados pelo WebMotion
+  // Studio (13_PRODUTOS/webmotion). Progresso do scroll troca o quadro exibido numa
+  // única <img> interna (não empilha as N imagens no DOM), pré-carregando todas.
+  setupFrameSequence(el, config) {
+    const total = config.framesCount;
+    if (!total || total < 1) {
+      console.warn("sw-premium-frames-scrub: defina sw-premium-frames-count com o total de quadros.");
+      return;
+    }
+    const pad = config.framesPad;
+    const urlFor = (i) => `${config.framesSrc}${String(i).padStart(pad, "0")}.${config.framesExt}`;
+
+    let img = el.querySelector(":scope > img.sw-premium-frames-img");
+    if (!img) {
+      img = document.createElement("img");
+      img.className = "sw-premium-frames-img";
+      img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;";
+      img.alt = "";
+      el.appendChild(img);
+    }
+
+    const urls = [];
+    for (let i = 1; i <= total; i++) {
+      const u = urlFor(i);
+      urls.push(u);
+      const preload = new Image();
+      preload.src = u; // aquece o cache do navegador pra não "piscar" na 1ª passada
+    }
+    img.src = urls[0];
+
+    // Onde procurar as legendas (sw-premium-frames-step) e o trilho de texto
+    // (sw-premium-frames-track): não fica restrito a ficar DENTRO da própria <div>
+    // da imagem -- procura em toda a seção travada (o alvo do sw-premium-scroll-pin,
+    // ou o elemento pai se não houver pin). Isso permite montar duas colunas de
+    // verdade lado a lado (imagem numa, texto na outra, como siblings reais no HTML)
+    // e não só texto flutuando por cima da imagem.
+    const secaoRaiz = (config.pin && document.querySelector(config.pin)) || el.parentElement || el;
+
+    // Legendas sincronizadas (opcional): sw-premium-frames-step="inicio-fim" (números
+    // de quadro, 1-based, inclusive nos dois lados) fica visível só enquanto o quadro
+    // atual estiver dentro dessa faixa -- não precisa calcular nada na mão, só dizer
+    // em quais quadros cada texto aparece.
+    const steps = Array.from(secaoRaiz.querySelectorAll("[sw-premium-frames-step]"));
+    const stepRanges = steps.map((stepEl) => {
+      const raw = (stepEl.getAttribute("sw-premium-frames-step") || "").split("-").map(Number);
+      const [ini, fim] = raw.length === 2 ? raw : [raw[0], raw[0]];
+      return { el: stepEl, ini: ini || 1, fim: fim || total };
+    });
+    // Cada legenda sobe suavemente enquanto está na tela (não é só um fade parado):
+    // entra vindo de baixo, sobe um pouco a mais durante toda a sua faixa de quadros
+    // (flutuação contínua, presa ao scroll -- não é uma transição de tempo fixo) e sai
+    // subindo e desaparecendo no fim da faixa. "lp" = progresso local (0 a 1) dentro
+    // da própria faixa do passo.
+    const SUBIDA_ENTRADA_PX = 28;
+    const SUBIDA_SAIDA_PX   = 28;
+    const FLUTUACAO_PX      = 10;
+    const FAIXA_TRANSICAO   = 0.18; // fração da faixa usada pra entrar/sair
+
+    const updateSteps = (i) => {
+      stepRanges.forEach(({ el: stepEl, ini, fim }) => {
+        const span = Math.max(1, fim - ini);
+        if (i < ini || i > fim) {
+          stepEl.style.opacity = "0";
+          stepEl.style.transform = `translateY(${i < ini ? SUBIDA_ENTRADA_PX : -SUBIDA_SAIDA_PX}px)`;
+          stepEl.classList.remove("is-active");
+          return;
+        }
+        const lp = (i - ini) / span;
+        const entrando = Math.min(1, lp / FAIXA_TRANSICAO);
+        const saindo = Math.min(1, Math.max(0, (lp - (1 - FAIXA_TRANSICAO)) / FAIXA_TRANSICAO));
+        const opacidade = Math.min(entrando, 1 - saindo);
+        const deslocaEntrada = (1 - entrando) * SUBIDA_ENTRADA_PX;
+        const deslocaSaida = saindo * -SUBIDA_SAIDA_PX;
+        const deslocaFlutuacao = -FLUTUACAO_PX * lp;
+        const y = deslocaEntrada + deslocaSaida + deslocaFlutuacao;
+        stepEl.style.opacity = String(opacidade);
+        stepEl.style.transform = `translateY(${y.toFixed(1)}px)`;
+        stepEl.classList.add("is-active");
+      });
+    };
+    updateSteps(1);
+
+    let lastIdx = 1;
+    const obj = { idx: 1 };
+    const shouldPin = config.pin && !this.isMobileViewport();
+    const triggerEl = shouldPin ? (el.closest(config.pin) || el.parentElement) : el;
+    const scrubVal = config.scrub !== null && config.scrub !== undefined ? config.scrub : 0.5;
+
+    // Trilho de texto contínuo (opcional): um elemento com sw-premium-frames-track vira
+    // um "letreiro" que sobe sem parar, com pausas configuráveis -- cada bloco de texto
+    // dentro dele tem sw-premium-frames-hold="<pixels>" dizendo EXATAMENTE quantos
+    // pixels de scroll ele fica parado, visível, antes de subir pro próximo (não é um
+    // "peso" relativo -- é a distância real que o usuário vai rolar com esse bloco
+    // parado na tela). sw-premium-frames-move="<pixels>" (opcional, padrão 120) controla
+    // quantos pixels dura a subida ATÉ aquele bloco.
+    // Fica dentro de uma "janela" (um contêiner do autor com altura fixa e
+    // overflow:hidden) que recorta só 1 bloco por vez -- o próprio sw-premium-frames-track
+    // é quem sobe/desce dentro dessa janela, então ele NÃO precisa ser filho direto do
+    // elemento principal, só estar em algum lugar dentro dele.
+    const track = secaoRaiz.querySelector("[sw-premium-frames-track]");
+    const blocos = track ? Array.from(track.children) : [];
+
+    // Se o autor não fixou sw-premium-scroll-end na mão, e existe um trilho de texto,
+    // calculamos o tamanho exato da rolagem somando os pixels pedidos -- assim "hold"
+    // vira pixel real de verdade, não uma fração aproximada de um total arbitrário.
+    // A imagem usa o MESMO valor de fim (ver scrollTrigger dela, logo abaixo), então as
+    // duas coisas -- quadro da imagem e posição do texto -- terminam sempre juntas.
+    let endValue = config.end;
+    if (!endValue && blocos.length) {
+      let totalPx = 0;
+      blocos.forEach((bloco, i) => {
+        if (i > 0) totalPx += parseFloat(bloco.getAttribute("sw-premium-frames-move") || "120");
+        totalPx += parseFloat(bloco.getAttribute("sw-premium-frames-hold") || "400");
+      });
+      endValue = `+=${totalPx}px`;
+    }
+    endValue = endValue || "+=300% bottom";
+
+    if (track && blocos.length) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: triggerEl,
+          start: config.start || "top top",
+          end: endValue,
+          scrub: scrubVal,
+          invalidateOnRefresh: true,
+        }
+      });
+      blocos.forEach((bloco, i) => {
+        const holdPx = parseFloat(bloco.getAttribute("sw-premium-frames-hold") || "400");
+        if (i > 0) {
+          const movePx = parseFloat(bloco.getAttribute("sw-premium-frames-move") || "120");
+          const alturaAnterior = blocos[i - 1].offsetHeight;
+          tl.to(track, { y: `-=${alturaAnterior}`, duration: movePx, ease: "power1.inOut" });
+        }
+        tl.to({}, { duration: holdPx }); // "segura" -- não move nada, só ocupa distância de scroll
+      });
+    }
+
+    gsap.to(obj, {
+      idx: total,
+      ease: "none",
+      onUpdate: () => {
+        const i = Math.round(obj.idx);
+        if (i !== lastIdx) {
+          lastIdx = i;
+          img.src = urls[i - 1];
+          updateSteps(i);
+        }
+      },
+      scrollTrigger: {
+        trigger: triggerEl,
+        start: config.start || "top top",
+        end: endValue,
+        scrub: scrubVal,
+        pin: shouldPin,
+        invalidateOnRefresh: true,
+      }
+    });
   }
 
   // -- Counter ---------------------------------------------------------------------
